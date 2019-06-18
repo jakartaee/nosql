@@ -14,7 +14,7 @@
 
     <groupId>jakarta.nosql</groupId>
     <artifactId>jakarta-nosql-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Jakarta NoSQL</name>
@@ -54,7 +54,7 @@
         <jakarta.enterprise.cdi.version>2.0.1</jakarta.enterprise.cdi.version>
         <jakarta.json.bind.version>1.0.1</jakarta.json.bind.version>
         <jakarta.json.version>1.1.5</jakarta.json.version>
-        <jakarta.nosql.version>0.0.1-SNAPSHOT</jakarta.nosql.version>
+        <jakarta.nosql.version>0.1.0-SNAPSHOT</jakarta.nosql.version>
         <jakarta.validation.version>2.0.1</jakarta.validation.version>
         <junit.version>5.5.0-M1</junit.version>
         <maven-javadoc-plugin.vesion>3.0.1</maven-javadoc-plugin.vesion>
