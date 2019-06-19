@@ -23,6 +23,7 @@ import jakarta.nosql.Value;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -129,6 +130,7 @@ public interface BucketManager extends AutoCloseable {
      * @throws QueryException when there is error in the syntax
      */
     default List<Value> query(String query) {
+        Objects.requireNonNull(query, "query is required");
         KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
         return parser.query(query, this);
     }
@@ -145,6 +147,7 @@ public interface BucketManager extends AutoCloseable {
      * @throws QueryException when there is error in the syntax
      */
     default KeyValuePreparedStatement prepare(String query) {
+        Objects.requireNonNull(query, "query is required");
         KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
         return parser.prepare(query, this);
     }
