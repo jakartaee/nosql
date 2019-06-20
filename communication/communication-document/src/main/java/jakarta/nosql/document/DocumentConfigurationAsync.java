@@ -55,7 +55,7 @@ public interface DocumentConfigurationAsync {
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
     static <T extends DocumentConfigurationAsync> T getConfiguration() {
-        return (T) ServiceLoaderProvider.getUnique(DocumentConfiguration.class);
+        return (T) ServiceLoaderProvider.getUnique(DocumentConfigurationAsync.class);
     }
 
     /**

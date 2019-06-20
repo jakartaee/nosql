@@ -24,6 +24,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -194,6 +195,8 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
      * @throws QueryException when there is error in the syntax
      */
     default void query(String query, Consumer<List<ColumnEntity>> callBack) {
+        Objects.requireNonNull(query, "query is required");
+        Objects.requireNonNull(callBack, "callBack is required");
         ColumnQueryParserAsync parser = ServiceLoaderProvider.get(ColumnQueryParserAsync.class);
         parser.query(query, this, callBack, ColumnObserverParser.EMPTY);
     }
@@ -209,6 +212,7 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
      * @throws QueryException when there is error in the syntax
      */
     default ColumnPreparedStatementAsync prepare(String query) {
+        Objects.requireNonNull(query, "query is required");
         ColumnQueryParserAsync parser = ServiceLoaderProvider.get(ColumnQueryParserAsync.class);
         return parser.prepare(query, this, ColumnObserverParser.EMPTY);
     }
