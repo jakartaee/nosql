@@ -21,7 +21,7 @@ To cover the three kinds of database, this API has three packages, one for each 
 
 * `jakarta.nosql.communication.column`
 * `jakarta.nosql.communication.document`
-* `jakarta.nosql.communication.key`
+* `jakarta.nosql.communication.kv`
 
 IMPORTANT: The package name might change on the Jakarta EE process.
 
