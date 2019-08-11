@@ -13,23 +13,18 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.key;
+package jakarta.nosql.mapping.kv;
 
 
-import jakarta.nosql.kv.BucketManager;
+import jakarta.nosql.kv.KeyValueEntity;
 
-/**
- * The producer of {@link KeyValueTemplate}
- */
-public interface KeyValueTemplateProducer {
+public interface KeyValueEntityPrePersist {
 
     /**
-     * creates a {@link KeyValueTemplate}
+     * The {@link jakarta.nosql.kv.KeyValueEntity}  after be saved
      *
-     * @param <T>     the KeyValueTemplate instance
-     * @param manager the manager
-     * @return a new instance
-     * @throws NullPointerException when manager is null
+     * @return the {@link KeyValueEntity} instance
      */
-    <T extends KeyValueTemplate> T get(BucketManager manager);
+    KeyValueEntity getEntity();
+
 }
