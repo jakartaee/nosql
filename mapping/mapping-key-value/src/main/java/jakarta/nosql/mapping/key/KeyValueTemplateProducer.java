@@ -16,7 +16,7 @@
 package jakarta.nosql.mapping.key;
 
 
-import jakarta.nosql.key.BucketManager;
+import jakarta.nosql.kv.BucketManager;
 
 /**
  * The producer of {@link KeyValueTemplate}

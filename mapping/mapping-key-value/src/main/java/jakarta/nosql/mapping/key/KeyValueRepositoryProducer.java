@@ -15,7 +15,7 @@
  */
 package jakarta.nosql.mapping.key;
 
-import jakarta.nosql.key.BucketManager;
+import jakarta.nosql.kv.BucketManager;
 import jakarta.nosql.mapping.Repository;
 
 /**
