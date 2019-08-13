@@ -19,9 +19,9 @@ With the strategy to divide and conquer on Jakarta NoSQL, the communication API 
 
 To cover the three kinds of database, this API has three packages, one for each database.
 
-* `jakarta.nosql.communication.column`
-* `jakarta.nosql.communication.document`
-* `jakarta.nosql.communication.kv`
+* `jakarta.nosql.column`
+* `jakarta.nosql.document`
+* `jakarta.nosql.keyvalue`
 
 IMPORTANT: The package name might change on the Jakarta EE process.
 
