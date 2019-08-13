@@ -23,7 +23,7 @@ To go straight and cover the four NoSQL types, this API has four domains:
 * `jakarta.nosql.mapping.column`
 * `jakarta.nosql.mapping.document`
 * `jakarta.nosql.mapping.graph`
-* `jakarta.nosql.mapping.kv`
+* `jakarta.nosql.mapping.keyvalue`
 
 IMPORTANT: The package name might change on the Jakarta EE process.
 
