@@ -13,10 +13,10 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.key;
+package jakarta.nosql.mapping.keyvalue;
 
 
-import jakarta.nosql.key.KeyValueEntity;
+import jakarta.nosql.keyvalue.KeyValueEntity;
 
 /**
  * This interface represent the manager of events. When an entity be either saved or updated an event will be fired. This order gonna be:

@@ -13,15 +13,15 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.key;
+package jakarta.nosql.mapping.keyvalue;
 
 
-import jakarta.nosql.key.KeyValueEntity;
+import jakarta.nosql.keyvalue.KeyValueEntity;
 
-public interface KeyValueEntityPrePersist {
+public interface KeyValueEntityPostPersist {
 
     /**
-     * The {@link jakarta.nosql.key.KeyValueEntity}  after be saved
+     * The {@link jakarta.nosql.keyvalue.KeyValueEntity}  after be saved
      *
      * @return the {@link KeyValueEntity} instance
      */

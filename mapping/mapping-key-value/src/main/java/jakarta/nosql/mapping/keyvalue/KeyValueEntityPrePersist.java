@@ -13,18 +13,18 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.key;
+package jakarta.nosql.mapping.keyvalue;
 
 
-/**
- * When an entity is either saved or updated it's the first event to fire
- */
-public interface EntityKeyValuePrePersist {
+import jakarta.nosql.keyvalue.KeyValueEntity;
+
+public interface KeyValueEntityPrePersist {
 
     /**
-     * Return the entity whose gonna be either saved or updated
+     * The {@link jakarta.nosql.keyvalue.KeyValueEntity}  after be saved
      *
-     * @return Return the entity whose gonna be either insert or update
+     * @return the {@link KeyValueEntity} instance
      */
-    Object getValue();
+    KeyValueEntity getEntity();
+
 }
