@@ -16,7 +16,7 @@
 package jakarta.nosql.mapping.kv;
 
 
-import jakarta.nosql.kv.KeyValueEntity;
+import jakarta.nosql.keyvalue.KeyValueEntity;
 
 /**
  * This interface represent the manager of events. When an entity be either saved or updated an event will be fired. This order gonna be:

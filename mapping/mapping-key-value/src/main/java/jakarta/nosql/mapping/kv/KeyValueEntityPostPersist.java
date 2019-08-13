@@ -16,12 +16,12 @@
 package jakarta.nosql.mapping.kv;
 
 
-import jakarta.nosql.kv.KeyValueEntity;
+import jakarta.nosql.keyvalue.KeyValueEntity;
 
 public interface KeyValueEntityPostPersist {
 
     /**
-     * The {@link jakarta.nosql.kv.KeyValueEntity}  after be saved
+     * The {@link jakarta.nosql.keyvalue.KeyValueEntity}  after be saved
      *
      * @return the {@link KeyValueEntity} instance
      */

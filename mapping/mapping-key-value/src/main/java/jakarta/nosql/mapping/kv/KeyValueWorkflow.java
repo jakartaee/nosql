@@ -16,7 +16,7 @@
 package jakarta.nosql.mapping.kv;
 
 
-import jakarta.nosql.kv.KeyValueEntity;
+import jakarta.nosql.keyvalue.KeyValueEntity;
 
 import java.util.function.UnaryOperator;
 
