@@ -8,16 +8,17 @@ test-output/
 *.iml
 *.idea
 *.log
+/.idea
+.checkstyle
+
+# Eclipse metadata
+.settings/
+.project
+.factorypath
 .classpath
 -project
 /.resourceCache
 /.project
-/.idea
-.settings/
-
-# Eclipse metadata
-.project
-.factorypath
 
 # Annotation processor metadata
 .apt_generated/
