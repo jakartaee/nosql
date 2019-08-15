@@ -1,4 +1,4 @@
-= Contributing to Eclipse Jakarta NoSQL
+= Contributing to Jakarta NoSQL
 
 Thanks for your interest in this project.
 
