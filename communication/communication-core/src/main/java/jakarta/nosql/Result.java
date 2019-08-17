@@ -17,6 +17,7 @@
 package jakarta.nosql;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -28,13 +29,14 @@ public interface Result<T> extends Iterable<T> {
         return StreamSupport.stream(this.spliterator(), false);
     }
 
-    static <E, T> Result<T> of(Function<E, T> converter) {
+    static <E, T> Result<T> of(Iterable<E> entities, Function<E, T> converter) {
         Objects.requireNonNull(converter, "converter is required");
+        Objects.requireNonNull(entities, "entities is required");
         final ResultSupplier<T, E> supplier = ServiceLoaderProvider.get(ResultSupplier.class);
-        return supplier.apply(converter);
+        return supplier.apply(converter, entities);
     }
 
-    interface ResultSupplier<T, E> extends Function<Function<E, T>, Result<T>> {
+    interface ResultSupplier<T, E> extends BiFunction<Function<E, T>, Iterable<E>, Result<T>> {
 
     }
 }
