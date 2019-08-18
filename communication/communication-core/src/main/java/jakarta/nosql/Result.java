@@ -23,14 +23,35 @@ import java.util.stream.Stream;
 
 /**
  * A pointer to the result set of a query. Vendors might implement lazily fetching from the database.
+ * <p>
+ * The implementation method might return a {@link java.util.Iterator} where the method
+ * {@link java.util.Iterator#remove} returns a {@link UnsupportedOperationException}
+ * once it is to read-only operation.
+ * </p>
  *
  * @param <T> the element type
  */
 public interface Result<T> extends Iterable<T> {
 
 
+    /**
+     * Converts the result into a {@link Stream}
+     *
+     * @return a {@link Stream} from the result
+     */
     Stream<T> toStream();
 
+    /**
+     * Creates a new instance from the entity database and the converters
+     *
+     * @param entities  the entities source
+     * @param converter the converter that translate the origin entity to the target entity
+     * @param <E>       the origin source
+     * @param <T>       the entity destination type
+     * @return a {@link Result} instance
+     * @throws NullPointerException      when there is null parameter
+     * @throws ProviderNotFoundException when the provider is not found
+     */
     static <E, T> Result<T> of(Iterable<E> entities, Function<E, T> converter) {
         Objects.requireNonNull(converter, "converter is required");
         Objects.requireNonNull(entities, "entities is required");
