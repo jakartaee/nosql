@@ -46,8 +46,8 @@ public interface Result<T> extends Iterable<T> {
      *
      * @param entities  the entities source
      * @param converter the converter that translate the origin entity to the target entity
-     * @param <E>       the origin source
-     * @param <T>       the entity destination type
+     * @param <E>       the origin source entity type
+     * @param <T>       the entity destination entity type
      * @return a {@link Result} instance
      * @throws NullPointerException      when there is null parameter
      * @throws ProviderNotFoundException when the provider is not found
@@ -56,10 +56,17 @@ public interface Result<T> extends Iterable<T> {
         Objects.requireNonNull(converter, "converter is required");
         Objects.requireNonNull(entities, "entities is required");
         final ResultSupplier<T, E> supplier = ServiceLoaderProvider.get(ResultSupplier.class);
-        return supplier.apply(converter, entities);
+        return supplier.apply(entities, converter);
     }
 
-    interface ResultSupplier<T, E> extends BiFunction<Function<E, T>, Iterable<E>, Result<T>> {
+    /**
+     * It returns a Supplier of {@link Result} where given a {@link Function} converter and the source iterable
+     * it will create a {@link Result} instance
+     *
+     * @param <E> the origin source type
+     * @param <T> the entity destination type
+     */
+    interface ResultSupplier<T, E> extends BiFunction<Iterable<E>, Function<E, T>, Result<T>> {
 
     }
 }
