@@ -20,14 +20,16 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
+/**
+ * A pointer to the result set of a query. Vendors might implement lazily fetching from the database.
+ *
+ * @param <T> the element type
+ */
 public interface Result<T> extends Iterable<T> {
 
 
-    default Stream<T> toStream() {
-        return StreamSupport.stream(this.spliterator(), false);
-    }
+    Stream<T> toStream();
 
     static <E, T> Result<T> of(Iterable<E> entities, Function<E, T> converter) {
         Objects.requireNonNull(converter, "converter is required");
