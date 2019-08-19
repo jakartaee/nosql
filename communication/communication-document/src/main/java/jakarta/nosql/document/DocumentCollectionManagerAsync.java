@@ -197,25 +197,6 @@ public interface DocumentCollectionManagerAsync extends AutoCloseable {
     }
 
     /**
-     * Executes a query and returns as a single result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
-     * command it will return the result of the operation when the command is <b>delete</b> it will return an empty collection.
-     *
-     * @param callBack the callback result
-     * @param query    the query as {@link String}
-     * @throws NullPointerException     when there is parameter null
-     * @throws IllegalArgumentException when the query has value parameters
-     * @throws IllegalStateException    when there is not {@link DocumentQueryParserAsync}
-     * @throws NonUniqueResultException when the result has more than one entity
-     * @throws QueryException           when there is error in the syntax
-     */
-    default void singleResult(String query, Consumer<Optional<DocumentEntity>> callBack) {
-        Objects.requireNonNull(query, "query is required");
-        Objects.requireNonNull(callBack, "callBack is required");
-        DocumentQueryParserAsync parser = ServiceLoaderProvider.get(DocumentQueryParserAsync.class);
-        parser.singleResult(query, this, callBack, DocumentObserverParser.EMPTY);
-    }
-
-    /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
      * command it will return the result of the operation when the command is <b>delete</b> it will return an empty collection.
      *
