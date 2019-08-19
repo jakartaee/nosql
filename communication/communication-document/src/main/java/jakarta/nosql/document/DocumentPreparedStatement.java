@@ -17,8 +17,8 @@ package jakarta.nosql.document;
 
 
 import jakarta.nosql.NonUniqueResultException;
+import jakarta.nosql.Result;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -42,7 +42,7 @@ public interface DocumentPreparedStatement {
      *
      * @return The result list, if delete it will return an empty list
      */
-    List<DocumentEntity> getResultList();
+    Result<DocumentEntity> getResultList();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}
