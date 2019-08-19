@@ -19,10 +19,11 @@ package jakarta.nosql.column;
 
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
+import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -115,7 +116,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    List<ColumnEntity> select(ColumnQuery query);
+    Result<ColumnEntity> select(ColumnQuery query);
 
     /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -128,7 +129,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws IllegalStateException           when there is not {@link ColumnQueryParser}
      * @throws QueryException when there is error in the syntax
      */
-    default List<ColumnEntity> query(String query) {
+    default Result<ColumnEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
         ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
         return parser.query(query, this, ColumnObserverParser.EMPTY);
@@ -160,12 +161,14 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
     default Optional<ColumnEntity> singleResult(ColumnQuery query) {
-        List<ColumnEntity> entities = select(query);
-        if (entities.isEmpty()) {
+        Result<ColumnEntity> entities = select(query);
+        final Iterator<ColumnEntity> iterator = entities.iterator();
+        if (!iterator.hasNext()) {
             return Optional.empty();
         }
-        if (entities.size() == 1) {
-            return Optional.of(entities.get(0));
+        final ColumnEntity entity = iterator.next();
+        if (!iterator.hasNext()) {
+            return Optional.of(entity);
         }
 
         throw new NonUniqueResultException("The select returns more than one entity, select: " + query);

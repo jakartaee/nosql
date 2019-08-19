@@ -17,6 +17,7 @@ package jakarta.nosql.column;
 
 
 import jakarta.nosql.QueryException;
+import jakarta.nosql.Result;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public interface ColumnQueryParser {
      * @throws IllegalArgumentException        when the query has value parameters
      * @throws QueryException when there is error in the syntax
      */
-    List<ColumnEntity> query(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
+    Result<ColumnEntity> query(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
 
     /**
      * Executes a query and returns a {@link ColumnPreparedStatement}, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
