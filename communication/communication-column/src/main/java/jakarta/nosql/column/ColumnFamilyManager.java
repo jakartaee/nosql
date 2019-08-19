@@ -95,7 +95,6 @@ public interface ColumnFamilyManager extends AutoCloseable {
      */
     Iterable<ColumnEntity> insert(Iterable<ColumnEntity> entities, Duration ttl);
 
-
     /**
      * Deletes an entity
      *
