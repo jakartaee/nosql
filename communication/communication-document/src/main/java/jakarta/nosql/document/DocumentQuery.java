@@ -18,6 +18,7 @@ package jakarta.nosql.document;
 
 
 import jakarta.nosql.Condition;
+import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Sort;
 
@@ -427,7 +428,7 @@ public interface DocumentQuery {
          * @return the result of {@link DocumentCollectionManager#select(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        List<DocumentEntity> execute(DocumentCollectionManager manager);
+        Result<DocumentEntity> execute(DocumentCollectionManager manager);
 
         /**
          * Executes {@link DocumentCollectionManager#singleResult(DocumentQuery)}
@@ -445,7 +446,7 @@ public interface DocumentQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(DocumentCollectionManagerAsync manager, Consumer<List<DocumentEntity>> callback);
+        void execute(DocumentCollectionManagerAsync manager, Consumer<Result<DocumentEntity>> callback);
 
         /**
          * Executes {@link DocumentCollectionManagerAsync#singleResult(DocumentQuery, Consumer)}

@@ -18,6 +18,7 @@ package jakarta.nosql.column;
 
 
 import jakarta.nosql.Condition;
+import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Sort;
 
@@ -236,7 +237,7 @@ public interface ColumnQuery {
          * @return the result of {@link ColumnFamilyManager#select(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        List<ColumnEntity> execute(ColumnFamilyManager manager);
+        Result<ColumnEntity> execute(ColumnFamilyManager manager);
 
         /**
          * Executes {@link ColumnFamilyManager#singleResult(ColumnQuery)}
@@ -254,7 +255,7 @@ public interface ColumnQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(ColumnFamilyManagerAsync manager, Consumer<List<ColumnEntity>> callback);
+        void execute(ColumnFamilyManagerAsync manager, Consumer<Result<ColumnEntity>> callback);
 
         /**
          * Executes {@link ColumnFamilyManagerAsync#singleResult(ColumnQuery, Consumer)}
