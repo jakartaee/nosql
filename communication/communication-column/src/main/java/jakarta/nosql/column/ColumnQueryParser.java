@@ -35,24 +35,24 @@ public interface ColumnQueryParser {
      * @param manager  the manager
      * @param observer the observer
      * @return the result of the operation if delete it will always return an empty list
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws QueryException           when there is error in the syntax
      */
     Result<ColumnEntity> query(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
 
     /**
-     * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
+     * Executes a query and returns as a single result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
      * command it will return the result of the operation when the command is <b>delete</b> it will return an {@link Optional#empty()}.
      *
      * @param query    the query as {@link String}
      * @param manager  the manager
      * @param observer the observer
      * @return the result of the operation as a single result if delete it will always return an {@link Optional#empty()}
-     * @throws NonUniqueResultException      when the result has more than 1 entity
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws QueryException when there is error in the syntax
+     * @throws NonUniqueResultException when the result has more than 1 entity
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws QueryException           when there is error in the syntax
      */
     Optional<ColumnEntity> singleResult(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
 
@@ -64,12 +64,11 @@ public interface ColumnQueryParser {
      * @param manager  the manager
      * @param observer the observer
      * @return a {@link ColumnPreparedStatement} instance
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws QueryException           when there is error in the syntax
      */
     ColumnPreparedStatement prepare(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
-
 
 
 }
