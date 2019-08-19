@@ -39,7 +39,7 @@ public interface Result<T> extends Iterable<T> {
      *
      * @return a {@link Stream} from the result
      */
-    Stream<T> toStream();
+    Stream<T> stream();
 
     /**
      * Creates a new instance from the entity database and the converters
