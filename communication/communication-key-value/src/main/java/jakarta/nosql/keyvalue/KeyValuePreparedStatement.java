@@ -16,9 +16,9 @@
 package jakarta.nosql.keyvalue;
 
 import jakarta.nosql.NonUniqueResultException;
+import jakarta.nosql.Result;
 import jakarta.nosql.Value;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface KeyValuePreparedStatement {
@@ -39,7 +39,7 @@ public interface KeyValuePreparedStatement {
      *
      * @return The result list, if either delete or put it will return an empty list
      */
-    List<Value> getResultList();
+    Result<Value> getResultList();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}

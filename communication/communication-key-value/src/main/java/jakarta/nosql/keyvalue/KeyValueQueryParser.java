@@ -16,9 +16,8 @@
 package jakarta.nosql.keyvalue;
 
 import jakarta.nosql.QueryException;
+import jakarta.nosql.Result;
 import jakarta.nosql.Value;
-
-import java.util.List;
 
 /**
  * A query parser to key-value database type, this class will convert a String to an operation in {@link BucketManager}.
@@ -36,7 +35,7 @@ public interface KeyValueQueryParser {
      * @throws IllegalArgumentException        when the query has value parameters
      * @throws QueryException when there is error in the syntax
      */
-    List<Value> query(String query, BucketManager manager);
+    Result<Value> query(String query, BucketManager manager);
 
     /**
      * Executes a query and returns a {@link KeyValuePreparedStatement}, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
