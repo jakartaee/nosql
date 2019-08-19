@@ -19,8 +19,6 @@ package jakarta.nosql.column;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Result;
 
-import java.util.List;
-
 /**
  * A query parser to column database type, this class will convert a String to an operation in {@link ColumnFamilyManager}.
  */

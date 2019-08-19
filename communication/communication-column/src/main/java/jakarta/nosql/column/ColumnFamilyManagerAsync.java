@@ -24,7 +24,6 @@ import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -228,22 +227,7 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    default void singleResult(ColumnQuery query, Consumer<Optional<ColumnEntity>> callBack) {
-        select(query, entities -> {
-            final Iterator<ColumnEntity> iterator = entities.iterator();
-            if (!iterator.hasNext()) {
-                callBack.accept(Optional.empty());
-                return;
-            }
-            final ColumnEntity entity = iterator.next();
-            if (!iterator.hasNext()) {
-                callBack.accept(Optional.of(entity));
-            } else {
-                throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
-            }
-        });
-
-    }
+    void singleResult(ColumnQuery query, Consumer<Optional<ColumnEntity>> callBack);
 
     /**
      * Returns the number of elements from column family

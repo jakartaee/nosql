@@ -23,7 +23,6 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Value;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 

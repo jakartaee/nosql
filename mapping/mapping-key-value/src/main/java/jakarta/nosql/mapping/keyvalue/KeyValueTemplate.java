@@ -16,10 +16,10 @@
 package jakarta.nosql.mapping.keyvalue;
 
 
+import jakarta.nosql.Result;
 import jakarta.nosql.mapping.PreparedStatement;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -104,7 +104,7 @@ public interface KeyValueTemplate {
      * @return the result list, if either <b>put</b> or <b>remove</b> it will return empty
      * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
      */
-    <T> List<T> query(String query, Class<T> entityClass);
+    <T> Result<T> query(String query, Class<T> entityClass);
 
     /**
      * Executes query in the database then returns as single result

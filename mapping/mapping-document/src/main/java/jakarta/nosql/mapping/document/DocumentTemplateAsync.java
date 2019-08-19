@@ -17,13 +17,13 @@ package jakarta.nosql.mapping.document;
 
 
 import jakarta.nosql.NonUniqueResultException;
+import jakarta.nosql.Result;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
 import jakarta.nosql.mapping.PreparedStatementAsync;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.StreamSupport;
@@ -196,17 +196,17 @@ public interface DocumentTemplateAsync {
      * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
      * @throws NullPointerException                            when either query or callback are null
      */
-    <T> void select(DocumentQuery query, Consumer<List<T>> callback);
+    <T> void select(DocumentQuery query, Consumer<Result<T>> callback);
 
     /**
-     * Executes a query then bring the result as a {@link List}
+     * Executes a query then bring the result as a {@link Result}
      *
      * @param callback the callback, when the process is finished will call this instance returning
      * @param query    the query
      * @param <T>      the entity type
      * @throws NullPointerException when the query is null
      */
-    <T> void query(String query, Consumer<List<T>> callback);
+    <T> void query(String query, Consumer<Result<T>> callback);
 
     /**
      * Executes a query then bring the result as a unique result
@@ -299,20 +299,5 @@ public interface DocumentTemplateAsync {
      * @throws NullPointerException                            when either query or callback are null
      * @throws NonUniqueResultException                        when it returns more than one result
      */
-    default <T> void singleResult(DocumentQuery query, Consumer<Optional<T>> callBack) {
-
-        requireNonNull(callBack, "callBack is required");
-
-        Consumer<List<T>> singleCallBack = entities -> {
-            if (entities.isEmpty()) {
-                callBack.accept(Optional.empty());
-            } else if (entities.size() == 1) {
-                callBack.accept(Optional.of(entities.get(0)));
-            } else {
-                throw new NonUniqueResultException("The query returns more than one entity, query: " + query);
-            }
-        };
-        select(query, singleCallBack);
-
-    }
+    <T> void singleResult(DocumentQuery query, Consumer<Optional<T>> callBack);
 }

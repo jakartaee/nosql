@@ -23,8 +23,6 @@ import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -160,19 +158,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    default Optional<DocumentEntity> singleResult(DocumentQuery query) {
-        Result<DocumentEntity> entities = select(query);
-        final Iterator<DocumentEntity> iterator = entities.iterator();
-        if (!iterator.hasNext()) {
-            return Optional.empty();
-        }
-        final DocumentEntity entity = iterator.next();
-        if (!iterator.hasNext()) {
-            return Optional.of(entity);
-        }
-
-        throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
-    }
+    Optional<DocumentEntity> singleResult(DocumentQuery query);
 
     /**
      * Returns the number of elements from document collection

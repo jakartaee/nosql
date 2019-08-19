@@ -24,13 +24,10 @@ import jakarta.nosql.mapping.IdNotFoundException;
 import jakarta.nosql.mapping.PreparedStatementAsync;
 
 import java.time.Duration;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.StreamSupport;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * This interface that represents the common operation between an entity
@@ -147,10 +144,7 @@ public interface ColumnTemplateAsync {
      * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
      * @throws NullPointerException                     when entities is null
      */
-    default <T> void update(Iterable<T> entities) {
-        Objects.requireNonNull(entities, "entities is required");
-        StreamSupport.stream(entities.spliterator(), false).forEach(this::update);
-    }
+    <T> void update(Iterable<T> entities);
 
     /**
      * Inserts an entity asynchronously
@@ -301,25 +295,5 @@ public interface ColumnTemplateAsync {
      * @throws NullPointerException                     when either query or callback are null
      * @throws NonUniqueResultException                 when it returns more than one result
      */
-    default <T> void singleResult(ColumnQuery query, Consumer<Optional<T>> callback) {
-
-        requireNonNull(callback, "callback is required");
-
-        Consumer<Result<T>> singleCallBack = entities -> {
-            final Iterator<T> iterator = entities.iterator();
-
-            if (!iterator.hasNext()) {
-                callback.accept(Optional.empty());
-            }
-
-            final T entity = iterator.next();
-            if (!iterator.hasNext()) {
-                callback.accept(Optional.of(entity));
-            } else {
-                throw new NonUniqueResultException("The query returns more than one entity, query: " + query);
-            }
-        };
-        select(query, singleCallBack);
-
-    }
+    <T> void singleResult(ColumnQuery query, Consumer<Optional<T>> callback);
 }

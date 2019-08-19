@@ -16,12 +16,12 @@
 package jakarta.nosql.mapping.column;
 
 
+import jakarta.nosql.Result;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
-import jakarta.nosql.mapping.Pagination;
 import jakarta.nosql.mapping.Page;
+import jakarta.nosql.mapping.Pagination;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -470,7 +470,7 @@ public interface ColumnQueryMapper {
          * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> List<T> execute(ColumnTemplate template);
+        <T> Result<T> execute(ColumnTemplate template);
     
         /**
          * Executes {@link ColumnTemplate#singleResult(ColumnQuery)}
@@ -491,7 +491,7 @@ public interface ColumnQueryMapper {
          * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
          * @throws NullPointerException when there are null parameters
          */
-        <T> List<T> execute(ColumnTemplate template, Pagination pagination);
+        <T> Result<T> execute(ColumnTemplate template, Pagination pagination);
     
         /**
          * Executes {@link ColumnTemplate#singleResult(ColumnQuery)} using {@link Pagination}
@@ -513,7 +513,7 @@ public interface ColumnQueryMapper {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        <T> void execute(ColumnTemplateAsync template, Consumer<List<T>> callback);
+        <T> void execute(ColumnTemplateAsync template, Consumer<Result<T>> callback);
     
         /**
          * Executes {@link ColumnTemplateAsync#singleResult(ColumnQuery, Consumer)}

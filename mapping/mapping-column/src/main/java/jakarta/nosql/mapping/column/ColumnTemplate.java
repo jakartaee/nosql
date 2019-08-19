@@ -25,7 +25,6 @@ import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
 
 import java.time.Duration;
-import java.util.Iterator;
 import java.util.Optional;
 
 /**
@@ -221,19 +220,6 @@ public interface ColumnTemplate {
      * @throws NonUniqueResultException when the result has more than 1 entity
      * @throws NullPointerException     when query is null
      */
-    default <T> Optional<T> singleResult(ColumnQuery query) {
-        Result<T> entities = select(query);
-        final Iterator<T> iterator = entities.iterator();
-
-        if (!iterator.hasNext()) {
-            return Optional.empty();
-        }
-        final T entity = iterator.next();
-        if (!iterator.hasNext()) {
-            return Optional.of(entity);
-        }
-
-        throw new NonUniqueResultException("The query returns more than one entity, query: " + query);
-    }
+    <T> Optional<T> singleResult(ColumnQuery query);
 
 }
