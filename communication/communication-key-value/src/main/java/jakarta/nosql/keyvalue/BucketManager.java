@@ -17,7 +17,6 @@
 package jakarta.nosql.keyvalue;
 
 
-import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
@@ -134,24 +133,6 @@ public interface BucketManager extends AutoCloseable {
         Objects.requireNonNull(query, "query is required");
         KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
         return parser.query(query, this);
-    }
-
-    /**
-     * Executes a query and returns as a single result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
-     * command it will return the result of the operation when the command is <b>delete</b> it will return an {@link Optional#empty()}.
-     *
-     * @param query the query as {@link String}
-     * @return the result of the operation if delete it will always return an empty list
-     * @throws NullPointerException     when there is parameter null
-     * @throws IllegalArgumentException when the query has value parameters
-     * @throws IllegalStateException    when there is not {@link KeyValueQueryParser}
-     * @throws QueryException           when there is error in the syntax
-     * @throws NonUniqueResultException when the result has more than one entity
-     */
-    default Optional<Value> singleResult(String query) {
-        Objects.requireNonNull(query, "query is required");
-        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
-        return parser.singleResult(query, this);
     }
 
     /**
