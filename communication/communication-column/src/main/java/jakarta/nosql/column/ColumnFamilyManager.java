@@ -20,10 +20,8 @@ package jakarta.nosql.column;
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Result;
-import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -128,11 +126,21 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws IllegalStateException           when there is not {@link ColumnQueryParser}
      * @throws QueryException when there is error in the syntax
      */
-    default Result<ColumnEntity> query(String query) {
-        Objects.requireNonNull(query, "query is required");
-        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
-        return parser.query(query, this, ColumnObserverParser.EMPTY);
-    }
+    Result<ColumnEntity> query(String query);
+
+    /**
+     * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
+     * command it will return the result of the operation when the command is <b>delete</b> it will return an {@link Optional#empty()}.
+     *
+     * @param query the query as {@link String}
+     * @return the result of the operation if delete it will always return an empty list
+     * @throws NullPointerException            when there is parameter null
+     * @throws NonUniqueResultException      when the result has more than 1 entity
+     * @throws IllegalArgumentException        when the query has value parameters
+     * @throws IllegalStateException           when there is not {@link ColumnQueryParser}
+     * @throws QueryException when there is error in the syntax
+     */
+    Optional<ColumnEntity> singleResult(String query);
 
     /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -144,11 +152,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws IllegalStateException           when there is not {@link ColumnQueryParser}
      * @throws QueryException when there is error in the syntax
      */
-    default ColumnPreparedStatement prepare(String query) {
-        Objects.requireNonNull(query, "query is required");
-        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
-        return parser.prepare(query, this, ColumnObserverParser.EMPTY);
-    }
+    ColumnPreparedStatement prepare(String query);
 
     /**
      * Returns a single entity from select
