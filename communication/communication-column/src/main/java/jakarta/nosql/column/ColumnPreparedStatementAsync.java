@@ -16,8 +16,8 @@
 package jakarta.nosql.column;
 
 import jakarta.nosql.NonUniqueResultException;
+import jakarta.nosql.Result;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -41,7 +41,7 @@ public interface ColumnPreparedStatementAsync {
      * Executes a query and return the result as List
      * @param callBack the callback
      */
-    void getResultList(Consumer<List<ColumnEntity>> callBack);
+    void getResultList(Consumer<Result<ColumnEntity>> callBack);
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}
