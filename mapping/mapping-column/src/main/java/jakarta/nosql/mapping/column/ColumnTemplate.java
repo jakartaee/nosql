@@ -17,6 +17,7 @@ package jakarta.nosql.mapping.column;
 
 
 import jakarta.nosql.NonUniqueResultException;
+import jakarta.nosql.Result;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
@@ -24,7 +25,7 @@ import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
 
 import java.time.Duration;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Optional;
 
 /**
@@ -123,7 +124,7 @@ public interface ColumnTemplate {
      * @return entities found by query
      * @throws NullPointerException when query is null
      */
-    <T> List<T> select(ColumnQuery query);
+    <T> Result<T> select(ColumnQuery query);
 
     /**
      * Finds entities from query using pagination
@@ -136,21 +137,21 @@ public interface ColumnTemplate {
     <T> Page<T> select(ColumnQueryPagination query);
 
     /**
-     * Executes a query then bring the result as a {@link List}
+     * Executes a query then bring the result as a {@link Result}
      *
      * @param query the query
      * @param <T>   the entity type
-     * @return the result as {@link List}
+     * @return the result as {@link Result}
      * @throws NullPointerException when the query is null
      */
-    <T> List<T> query(String query);
+    <T> Result<T> query(String query);
 
     /**
      * Executes a query then bring the result as a unique result
      *
      * @param query the query
      * @param <T>   the entity type
-     * @return the result as {@link List}
+     * @return the result as {@link Optional}
      * @throws NullPointerException     when the query is null
      * @throws jakarta.nosql.NonUniqueResultException if returns more than one result
      */
@@ -221,12 +222,15 @@ public interface ColumnTemplate {
      * @throws NullPointerException     when query is null
      */
     default <T> Optional<T> singleResult(ColumnQuery query) {
-        List<T> entities = select(query);
-        if (entities.isEmpty()) {
+        Result<T> entities = select(query);
+        final Iterator<T> iterator = entities.iterator();
+
+        if (!iterator.hasNext()) {
             return Optional.empty();
         }
-        if (entities.size() == 1) {
-            return Optional.of(entities.get(0));
+        final T entity = iterator.next();
+        if (!iterator.hasNext()) {
+            return Optional.of(entity);
         }
 
         throw new NonUniqueResultException("The query returns more than one entity, query: " + query);

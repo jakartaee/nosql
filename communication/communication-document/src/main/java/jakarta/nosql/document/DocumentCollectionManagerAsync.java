@@ -236,9 +236,9 @@ public interface DocumentCollectionManagerAsync extends AutoCloseable {
             final DocumentEntity entity = iterator.next();
             if (!iterator.hasNext()) {
                 callBack.accept(Optional.of(entity));
-                return;
+            } else {
+                throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
             }
-            throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
         });
 
     }

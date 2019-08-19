@@ -15,7 +15,8 @@
  */
 package jakarta.nosql.mapping;
 
-import java.util.List;
+import jakarta.nosql.Result;
+
 import java.util.Optional;
 
 /**
@@ -40,7 +41,7 @@ public interface PreparedStatement {
      * @param <T> the type
      * @return The result list, if delete it will return an empty list
      */
-    <T> List<T> getResultList();
+    <T> Result<T> getResultList();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}

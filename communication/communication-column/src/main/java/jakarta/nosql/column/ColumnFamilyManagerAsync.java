@@ -238,8 +238,9 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
             final ColumnEntity entity = iterator.next();
             if (!iterator.hasNext()) {
                 callBack.accept(Optional.of(entity));
+            } else {
+                throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
             }
-            throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
         });
 
     }
