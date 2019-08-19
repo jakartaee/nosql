@@ -240,7 +240,6 @@ public interface DocumentCollectionManagerAsync extends AutoCloseable {
             throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
         });
     }
-    }
 
     /**
      * Returns the number of elements from document collection
