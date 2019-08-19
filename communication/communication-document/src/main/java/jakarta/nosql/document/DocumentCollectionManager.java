@@ -23,6 +23,7 @@ import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -134,6 +135,25 @@ public interface DocumentCollectionManager extends AutoCloseable {
     }
 
     /**
+     * Executes a query and returns as a single result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
+     * command it will return the result of the operation when the command is <b>delete</b> it will return an {@link Optional#empty()}.
+     *
+     * @param query the query as {@link String}
+     * @return the result of the operation if delete it will always return an empty list
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws IllegalStateException    when there is not {@link DocumentQueryParser}
+     * @throws QueryException           when there is error in the syntax
+     * @throws NonUniqueResultException when the result has more than one entity
+     */
+    default Optional<DocumentEntity> singleResult(String query) {
+        Objects.requireNonNull(query, "query is required");
+        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class);
+        return parser.singleResult(query, this, DocumentObserverParser.EMPTY);
+    }
+
+
+    /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
      * command it will return the result of the operation when the command is <b>delete</b> it will return an empty collection.
      *
@@ -158,7 +178,18 @@ public interface DocumentCollectionManager extends AutoCloseable {
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    Optional<DocumentEntity> singleResult(DocumentQuery query);
+    default Optional<DocumentEntity> singleResult(DocumentQuery query) {
+        Result<DocumentEntity> entities = select(query);
+        final Iterator<DocumentEntity> iterator = entities.iterator();
+        if (!iterator.hasNext()) {
+            return Optional.empty();
+        }
+        final DocumentEntity entity = iterator.next();
+        if (!iterator.hasNext()) {
+            return Optional.of(entity);
+        }
+        throw new NonUniqueResultException("The select returns more than one entity, select: " + query);
+    }
 
     /**
      * Returns the number of elements from document collection
