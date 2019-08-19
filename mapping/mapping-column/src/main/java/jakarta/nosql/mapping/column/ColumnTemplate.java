@@ -17,7 +17,6 @@ package jakarta.nosql.mapping.column;
 
 
 import jakarta.nosql.NonUniqueResultException;
-import jakarta.nosql.Result;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
@@ -26,6 +25,7 @@ import jakarta.nosql.mapping.PreparedStatement;
 
 import java.time.Duration;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * This interface that represents the common operation between an entity
@@ -123,7 +123,7 @@ public interface ColumnTemplate {
      * @return entities found by query
      * @throws NullPointerException when query is null
      */
-    <T> Result<T> select(ColumnQuery query);
+    <T> Stream<T> select(ColumnQuery query);
 
     /**
      * Finds entities from query using pagination
@@ -136,14 +136,14 @@ public interface ColumnTemplate {
     <T> Page<T> select(ColumnQueryPagination query);
 
     /**
-     * Executes a query then bring the result as a {@link Result}
+     * Executes a query then bring the result as a {@link Stream}
      *
      * @param query the query
      * @param <T>   the entity type
-     * @return the result as {@link Result}
+     * @return the result as {@link Stream}
      * @throws NullPointerException when the query is null
      */
-    <T> Result<T> query(String query);
+    <T> Stream<T> query(String query);
 
     /**
      * Executes a query then bring the result as a unique result

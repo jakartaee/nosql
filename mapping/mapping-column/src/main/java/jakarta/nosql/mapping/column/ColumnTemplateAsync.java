@@ -17,7 +17,6 @@ package jakarta.nosql.mapping.column;
 
 
 import jakarta.nosql.NonUniqueResultException;
-import jakarta.nosql.Result;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
@@ -27,6 +26,7 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
@@ -192,17 +192,17 @@ public interface ColumnTemplateAsync {
      * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
      * @throws NullPointerException                     when either query or callback are null
      */
-    <T> void select(ColumnQuery query, Consumer<Result<T>> callback);
+    <T> void select(ColumnQuery query, Consumer<Stream<T>> callback);
 
     /**
-     * Executes a query then bring the result as a {@link Result}
+     * Executes a query then bring the result as a {@link Stream}
      *
      * @param callback the callback, when the process is finished will call this instance returning
      * @param query    the query
      * @param <T>      the entity type
      * @throws NullPointerException when the query is null
      */
-    <T> void query(String query, Consumer<Result<T>> callback);
+    <T> void query(String query, Consumer<Stream<T>> callback);
 
     /**
      * Executes a query then bring the result as a unique result
