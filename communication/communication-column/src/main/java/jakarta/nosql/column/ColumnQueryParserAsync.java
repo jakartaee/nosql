@@ -50,7 +50,7 @@ public interface ColumnQueryParserAsync {
      * @param callBack the callback
      * @throws NullPointerException     when there is parameter null
      * @throws IllegalArgumentException when the query has value parameters
-     * @throws NonUniqueResultException when the result has more than one entity
+     * @throws jakarta.nosql.NonUniqueResultException when the result has more than one entity
      * @throws QueryException           when there is error in the syntax
      */
     void singleResult(String query, ColumnFamilyManagerAsync manager, Consumer<Optional<ColumnEntity>> callBack, ColumnObserverParser observer);

@@ -211,6 +211,7 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
      * @throws NullPointerException     when there is parameter null
      * @throws IllegalArgumentException when the query has value parameters
      * @throws IllegalStateException    when there is not {@link ColumnQueryParserAsync}
+     * @throws NonUniqueResultException when the result has more than one entity
      * @throws QueryException           when there is error in the syntax
      */
     default void singleResult(String query, Consumer<Optional<ColumnEntity>> callBack) {

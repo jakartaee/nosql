@@ -144,6 +144,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws IllegalArgumentException when the query has value parameters
      * @throws IllegalStateException    when there is not {@link ColumnQueryParser}
      * @throws QueryException           when there is error in the syntax
+     * @throws NonUniqueResultException when the result has more than one entity
      */
     default Optional<ColumnEntity> singleResult(String query) {
         Objects.requireNonNull(query, "query is required");

@@ -52,6 +52,7 @@ public interface ColumnQueryParser {
      * @throws NonUniqueResultException when the result has more than 1 entity
      * @throws NullPointerException     when there is parameter null
      * @throws IllegalArgumentException when the query has value parameters
+     * @throws NonUniqueResultException when the result has more than one entity
      * @throws QueryException           when there is error in the syntax
      */
     Optional<ColumnEntity> singleResult(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
