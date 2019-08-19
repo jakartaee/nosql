@@ -17,9 +17,9 @@
 package jakarta.nosql.document;
 
 import jakarta.nosql.QueryException;
-import jakarta.nosql.Result;
 
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * A query parser to document database type, this class will convert a String to an operation
@@ -39,7 +39,7 @@ public interface DocumentQueryParserAsync {
      * @throws IllegalArgumentException        when the query has value parameters
      * @throws QueryException when there is error in the syntax
      */
-    void query(String query, DocumentCollectionManagerAsync collectionManager, Consumer<Result<DocumentEntity>> callBack,
+    void query(String query, DocumentCollectionManagerAsync collectionManager, Consumer<Stream<DocumentEntity>> callBack,
                DocumentObserverParser observer);
 
     /**

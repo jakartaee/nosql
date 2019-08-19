@@ -20,7 +20,6 @@ package jakarta.nosql.document;
 import jakarta.nosql.ExecuteAsyncQueryException;
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
-import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
@@ -28,6 +27,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * Interface used to interact with the persistence context to {@link DocumentEntity}
@@ -175,7 +175,7 @@ public interface DocumentCollectionManagerAsync extends AutoCloseable {
      * @throws NullPointerException          when either select or callback are null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    void select(DocumentQuery query, Consumer<Result<DocumentEntity>> callBack);
+    void select(DocumentQuery query, Consumer<Stream<DocumentEntity>> callBack);
 
 
     /**
@@ -189,7 +189,7 @@ public interface DocumentCollectionManagerAsync extends AutoCloseable {
      * @throws IllegalStateException    when there is not {@link DocumentQueryParserAsync}
      * @throws QueryException           when there is error in the syntax
      */
-    default void query(String query, Consumer<Result<DocumentEntity>> callBack) {
+    default void query(String query, Consumer<Stream<DocumentEntity>> callBack) {
         Objects.requireNonNull(query, "query is required");
         Objects.requireNonNull(callBack, "callBack is required");
         DocumentQueryParserAsync parser = ServiceLoaderProvider.get(DocumentQueryParserAsync.class);

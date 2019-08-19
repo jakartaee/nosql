@@ -19,13 +19,13 @@ package jakarta.nosql.document;
 
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
-import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Interface used to interact with the persistence context to {@link DocumentEntity}
@@ -115,7 +115,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    Result<DocumentEntity> select(DocumentQuery query);
+    Stream<DocumentEntity> select(DocumentQuery query);
 
     /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -128,7 +128,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
      * @throws IllegalStateException    when there is not {@link DocumentQueryParser}
      * @throws QueryException           when there is error in the syntax
      */
-    default Result<DocumentEntity> query(String query) {
+    default Stream<DocumentEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
         DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class);
         return parser.query(query, this, DocumentObserverParser.EMPTY);
@@ -160,7 +160,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
     default Optional<DocumentEntity> singleResult(DocumentQuery query) {
-        Result<DocumentEntity> entities = select(query);
+        Stream<DocumentEntity> entities = select(query);
         final Iterator<DocumentEntity> iterator = entities.iterator();
         if (!iterator.hasNext()) {
             return Optional.empty();

@@ -17,7 +17,8 @@
 package jakarta.nosql.document;
 
 import jakarta.nosql.QueryException;
-import jakarta.nosql.Result;
+
+import java.util.stream.Stream;
 
 /**
  * A query parser to document database type, this class will convert a String to an operation in {@link DocumentCollectionManager}.
@@ -36,7 +37,7 @@ public interface DocumentQueryParser {
      * @throws IllegalArgumentException        when the query has value parameters
      * @throws QueryException when there is error in the syntax
      */
-    Result<DocumentEntity> query(String query, DocumentCollectionManager collectionManager, DocumentObserverParser observer);
+    Stream<DocumentEntity> query(String query, DocumentCollectionManager collectionManager, DocumentObserverParser observer);
 
     /**
      * Executes a query and returns a {@link DocumentPreparedStatement}, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
