@@ -17,7 +17,8 @@ package jakarta.nosql.column;
 
 
 import jakarta.nosql.QueryException;
-import jakarta.nosql.Result;
+
+import java.util.stream.Stream;
 
 /**
  * A query parser to column database type, this class will convert a String to an operation in {@link ColumnFamilyManager}.
@@ -36,7 +37,7 @@ public interface ColumnQueryParser {
      * @throws IllegalArgumentException when the query has value parameters
      * @throws QueryException           when there is error in the syntax
      */
-    Result<ColumnEntity> query(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
+    Stream<ColumnEntity> query(String query, ColumnFamilyManager manager, ColumnObserverParser observer);
 
     /**
      * Executes a query and returns a {@link ColumnPreparedStatement}, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>

@@ -19,13 +19,13 @@ package jakarta.nosql.column;
 
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
-import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Interface used to interact with the persistence context to {@link ColumnEntity}
@@ -115,7 +115,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    Result<ColumnEntity> select(ColumnQuery query);
+    Stream<ColumnEntity> select(ColumnQuery query);
 
     /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -128,7 +128,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws IllegalStateException    when there is not {@link ColumnQueryParser}
      * @throws QueryException           when there is error in the syntax
      */
-    default Result<ColumnEntity> query(String query) {
+    default Stream<ColumnEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
         ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
         return parser.query(query, this, ColumnObserverParser.EMPTY);
@@ -160,7 +160,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
     default Optional<ColumnEntity> singleResult(ColumnQuery query) {
-        Result<ColumnEntity> entities = select(query);
+        Stream<ColumnEntity> entities = select(query);
         final Iterator<ColumnEntity> iterator = entities.iterator();
         if (!iterator.hasNext()) {
             return Optional.empty();

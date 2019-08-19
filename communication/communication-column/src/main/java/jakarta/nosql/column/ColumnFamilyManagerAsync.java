@@ -20,7 +20,6 @@ package jakarta.nosql.column;
 import jakarta.nosql.ExecuteAsyncQueryException;
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
-import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.time.Duration;
@@ -28,6 +27,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * Interface used to interact with the persistence context to {@link ColumnEntity}
@@ -182,7 +182,7 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
      * @throws NullPointerException          when either select or callback are null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    void select(ColumnQuery query, Consumer<Result<ColumnEntity>> callBack);
+    void select(ColumnQuery query, Consumer<Stream<ColumnEntity>> callBack);
 
     /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -195,7 +195,7 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
      * @throws IllegalStateException    when there is not {@link ColumnQueryParserAsync}
      * @throws QueryException           when there is error in the syntax
      */
-    default void query(String query, Consumer<Result<ColumnEntity>> callBack) {
+    default void query(String query, Consumer<Stream<ColumnEntity>> callBack) {
         Objects.requireNonNull(query, "query is required");
         Objects.requireNonNull(callBack, "callBack is required");
         ColumnQueryParserAsync parser = ServiceLoaderProvider.get(ColumnQueryParserAsync.class);
