@@ -16,11 +16,9 @@
 
 package jakarta.nosql.document;
 
-import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Result;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**

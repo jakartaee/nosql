@@ -35,7 +35,7 @@ public interface Result<T> extends Iterable<T> {
 
 
     /**
-     * Converts the result into a {@link Stream}
+     * Returns a sequential {@link Stream} with this result as its source.
      *
      * @return a {@link Stream} from the result
      */
