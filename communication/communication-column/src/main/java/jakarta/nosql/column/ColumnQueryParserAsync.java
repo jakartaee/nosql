@@ -18,6 +18,7 @@ package jakarta.nosql.column;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Result;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -33,11 +34,26 @@ public interface ColumnQueryParserAsync {
      * @param manager  the manager
      * @param observer the observer
      * @param callBack the callback
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws QueryException           when there is error in the syntax
      */
     void query(String query, ColumnFamilyManagerAsync manager, Consumer<Result<ColumnEntity>> callBack, ColumnObserverParser observer);
+
+    /**
+     * Executes a query and returns as a single result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
+     * command it will return the result of the operation when the command is <b>delete</b> it will return an empty collection.
+     *
+     * @param query    the query as {@link String}
+     * @param manager  the manager
+     * @param observer the observer
+     * @param callBack the callback
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws NonUniqueResultException when the result has more than one entity
+     * @throws QueryException           when there is error in the syntax
+     */
+    void singleResult(String query, ColumnFamilyManagerAsync manager, Consumer<Optional<ColumnEntity>> callBack, ColumnObserverParser observer);
 
     /**
      * Executes a query and returns a {@link ColumnPreparedStatementAsync}, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -47,9 +63,9 @@ public interface ColumnQueryParserAsync {
      * @param observer the observer
      * @param manager  the manager
      * @return a {@link ColumnPreparedStatementAsync} instance
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws QueryException           when there is error in the syntax
      */
     ColumnPreparedStatementAsync prepare(String query, ColumnFamilyManagerAsync manager, ColumnObserverParser observer);
 

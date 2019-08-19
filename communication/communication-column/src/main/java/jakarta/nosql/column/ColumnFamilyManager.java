@@ -171,7 +171,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      *
      * @param query - select to figure out entities
      * @return an entity on {@link Optional} or {@link Optional#empty()} when the result is not found.
-     * @throws NonUniqueResultException      when the result has more than 1 entity
+     * @throws NonUniqueResultException      when the result has more than one entity
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
