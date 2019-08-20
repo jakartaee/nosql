@@ -16,13 +16,12 @@
 package jakarta.nosql.keyvalue;
 
 import jakarta.nosql.NonUniqueResultException;
-import jakarta.nosql.Result;
 import jakarta.nosql.Value;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface KeyValuePreparedStatement {
-
 
     /**
      * Binds an argument to a positional parameter.
@@ -39,7 +38,7 @@ public interface KeyValuePreparedStatement {
      *
      * @return The result list, if either delete or put it will return an empty list
      */
-    Result<Value> getResultList();
+    Stream<Value> getResultList();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}

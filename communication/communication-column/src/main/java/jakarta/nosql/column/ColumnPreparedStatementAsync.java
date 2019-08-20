@@ -16,10 +16,10 @@
 package jakarta.nosql.column;
 
 import jakarta.nosql.NonUniqueResultException;
-import jakarta.nosql.Result;
 
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * An object that represents a precompiled Query statement.
@@ -41,7 +41,7 @@ public interface ColumnPreparedStatementAsync {
      * Executes a query and return the result as List
      * @param callBack the callback
      */
-    void getResultList(Consumer<Result<ColumnEntity>> callBack);
+    void getResultList(Consumer<Stream<ColumnEntity>> callBack);
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}
