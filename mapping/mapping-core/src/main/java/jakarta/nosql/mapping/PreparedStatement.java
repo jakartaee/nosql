@@ -15,9 +15,8 @@
  */
 package jakarta.nosql.mapping;
 
-import jakarta.nosql.Result;
-
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * An object that represents a precompiled Query statement.
@@ -41,7 +40,7 @@ public interface PreparedStatement {
      * @param <T> the type
      * @return The result list, if delete it will return an empty list
      */
-    <T> Result<T> getResultList();
+    <T> Stream<T> getResultList();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}
