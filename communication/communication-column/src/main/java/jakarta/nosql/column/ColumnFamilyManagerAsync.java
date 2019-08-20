@@ -230,6 +230,7 @@ public interface ColumnFamilyManagerAsync extends AutoCloseable {
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
     default void singleResult(ColumnQuery query, Consumer<Optional<ColumnEntity>> callBack) {
+        Objects.requireNonNull(query, "query is required");
         select(query, entities -> {
             final Iterator<ColumnEntity> iterator = entities.iterator();
             if (!iterator.hasNext()) {

@@ -65,7 +65,7 @@ class ColumnFamilyManagerTest {
     }
 
     @Test
-    public void shouldReturnErrorAtSingleResult() {
+    public void shouldReturnErrorWhenReturnMoreThanOneSingleResult() {
         ColumnEntity entity = Mockito.mock(ColumnEntity.class);
         ColumnQuery query = Mockito.mock(ColumnQuery.class);
         Mockito.when(manager.select(Mockito.any(ColumnQuery.class)))
