@@ -17,7 +17,6 @@ package jakarta.nosql.mapping.document;
 
 
 import jakarta.nosql.NonUniqueResultException;
-import jakarta.nosql.Result;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
@@ -26,6 +25,7 @@ import jakarta.nosql.mapping.PreparedStatement;
 
 import java.time.Duration;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * This interface that represents the common operation between an entity and DocumentCollectionEntity.
@@ -118,7 +118,7 @@ public interface DocumentTemplate {
      * @return entities found by query
      * @throws NullPointerException when query is null
      */
-    <T> Result<T> select(DocumentQuery query);
+    <T> Stream<T> select(DocumentQuery query);
 
     /**
      * Finds entities from query using pagination
@@ -131,21 +131,21 @@ public interface DocumentTemplate {
     <T> Page<T> select(DocumentQueryPagination query);
 
     /**
-     * Executes a query then bring the result as a {@link Result}
+     * Executes a query then bring the result as a {@link Stream}
      *
      * @param query the query
      * @param <T>   the entity type
-     * @return the result as {@link Result}
+     * @return the result as {@link Stream}
      * @throws NullPointerException when the query is null
      */
-    <T> Result<T> query(String query);
+    <T> Stream<T> query(String query);
 
     /**
      * Executes a query then bring the result as a unique result
      *
      * @param query the query
      * @param <T>   the entity type
-     * @return the result as {@link Result}
+     * @return the result as {@link Optional}
      * @throws NullPointerException     when the query is null
      * @throws NonUniqueResultException if returns more than one result
      */

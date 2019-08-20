@@ -16,7 +16,6 @@
 package jakarta.nosql.mapping.document;
 
 
-import jakarta.nosql.Result;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.Page;
@@ -24,6 +23,7 @@ import jakarta.nosql.mapping.Pagination;
 
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * The builder to either select and delete query using an object mapper API.
@@ -463,7 +463,7 @@ public interface DocumentQueryMapper {
          * @return the result of {@link DocumentTemplate#select(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> Result<T> execute(DocumentTemplate template);
+        <T> Stream<T> execute(DocumentTemplate template);
 
         /**
          * Executes {@link DocumentTemplate#singleResult(DocumentQuery)}
@@ -484,7 +484,7 @@ public interface DocumentQueryMapper {
          * @return the result of {@link DocumentTemplate#select(DocumentQuery)}
          * @throws NullPointerException when there are null parameters
          */
-        <T> Result<T> execute(DocumentTemplate template, Pagination pagination);
+        <T> Stream<T> execute(DocumentTemplate template, Pagination pagination);
 
         /**
          * Executes {@link DocumentTemplate#singleResult(DocumentQuery)} using {@link Pagination}
@@ -505,7 +505,7 @@ public interface DocumentQueryMapper {
          * @param callback      the callback
          * @throws NullPointerException when there is null parameter
          */
-        <T> void execute(DocumentTemplateAsync templateAsync, Consumer<Result<T>> callback);
+        <T> void execute(DocumentTemplateAsync templateAsync, Consumer<Stream<T>> callback);
 
         /**
          * Executes {@link DocumentTemplateAsync#singleResult(DocumentQuery, Consumer)}

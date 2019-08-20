@@ -17,7 +17,6 @@ package jakarta.nosql.mapping.document;
 
 
 import jakarta.nosql.NonUniqueResultException;
-import jakarta.nosql.Result;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
@@ -26,6 +25,7 @@ import jakarta.nosql.mapping.PreparedStatementAsync;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static java.util.Objects.requireNonNull;
@@ -196,17 +196,17 @@ public interface DocumentTemplateAsync {
      * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
      * @throws NullPointerException                            when either query or callback are null
      */
-    <T> void select(DocumentQuery query, Consumer<Result<T>> callback);
+    <T> void select(DocumentQuery query, Consumer<Stream<T>> callback);
 
     /**
-     * Executes a query then bring the result as a {@link Result}
+     * Executes a query then bring the result as a {@link Stream}
      *
      * @param callback the callback, when the process is finished will call this instance returning
      * @param query    the query
      * @param <T>      the entity type
      * @throws NullPointerException when the query is null
      */
-    <T> void query(String query, Consumer<Result<T>> callback);
+    <T> void query(String query, Consumer<Stream<T>> callback);
 
     /**
      * Executes a query then bring the result as a unique result
