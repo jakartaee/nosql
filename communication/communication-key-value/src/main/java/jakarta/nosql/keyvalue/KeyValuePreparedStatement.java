@@ -34,11 +34,11 @@ public interface KeyValuePreparedStatement {
     KeyValuePreparedStatement bind(String name, Object value);
 
     /**
-     * Executes a query and return the result as List
+     * Executes a query and return the result as {@link Stream}
      *
-     * @return The result list, if either delete or put it will return an empty list
+     * @return The result as Stream, if either delete or put it will return an empty stream
      */
-    Stream<Value> getResultList();
+    Stream<Value> getResult();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}

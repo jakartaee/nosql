@@ -38,11 +38,11 @@ public interface DocumentPreparedStatement {
     DocumentPreparedStatement bind(String name, Object value);
 
     /**
-     * Executes a query and return the result as List
+     * Executes a query and return the result as {@link Stream}
      *
-     * @return The result list, if delete it will return an empty list
+     * @return The result stream, if delete it will return an empty list
      */
-    Stream<DocumentEntity> getResultList();
+    Stream<DocumentEntity> getResult();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}

@@ -38,10 +38,10 @@ public interface ColumnPreparedStatementAsync {
     ColumnPreparedStatementAsync bind(String name, Object value);
 
     /**
-     * Executes a query and return the result as List
+     * Executes a query and return the result as {@link Stream}
      * @param callBack the callback
      */
-    void getResultList(Consumer<Stream<ColumnEntity>> callBack);
+    void getResult(Consumer<Stream<ColumnEntity>> callBack);
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}

@@ -18,6 +18,7 @@ package jakarta.nosql.mapping;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * An object that represents a precompiled Query statement.
@@ -36,13 +37,13 @@ public interface PreparedStatementAsync {
     PreparedStatementAsync bind(String name, Object value);
 
     /**
-     * Executes a query and return the result as List
+     * Executes a query and return the result as {@link java.util.stream.Stream}
      *
      * @param callback the callback observer
      * @param <T>      the type
      * @throws NullPointerException when the callback is null
      */
-    <T> void getResultList(Consumer<List<T>> callback);
+    <T> void getResult(Consumer<Stream<T>> callback);
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}
