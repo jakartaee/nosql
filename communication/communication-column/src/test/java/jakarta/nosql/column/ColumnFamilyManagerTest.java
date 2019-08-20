@@ -55,7 +55,6 @@ class ColumnFamilyManagerTest {
 
     @Test
     public void shouldReturnEmptyOptionalAtSingleResult() {
-        ColumnEntity entity = Mockito.mock(ColumnEntity.class);
         ColumnQuery query = Mockito.mock(ColumnQuery.class);
         Mockito.when(manager.select(Mockito.any(ColumnQuery.class)))
                 .thenReturn(Stream.empty());
