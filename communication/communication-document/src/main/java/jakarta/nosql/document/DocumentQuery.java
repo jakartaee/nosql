@@ -18,7 +18,6 @@ package jakarta.nosql.document;
 
 
 import jakarta.nosql.Condition;
-import jakarta.nosql.Result;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Sort;
 
@@ -27,6 +26,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * Class that contains information to do a select to {@link DocumentCollectionManager}
@@ -428,7 +428,7 @@ public interface DocumentQuery {
          * @return the result of {@link DocumentCollectionManager#select(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        Result<DocumentEntity> execute(DocumentCollectionManager manager);
+        Stream<DocumentEntity> execute(DocumentCollectionManager manager);
 
         /**
          * Executes {@link DocumentCollectionManager#singleResult(DocumentQuery)}
@@ -446,7 +446,7 @@ public interface DocumentQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(DocumentCollectionManagerAsync manager, Consumer<Result<DocumentEntity>> callback);
+        void execute(DocumentCollectionManagerAsync manager, Consumer<Stream<DocumentEntity>> callback);
 
         /**
          * Executes {@link DocumentCollectionManagerAsync#singleResult(DocumentQuery, Consumer)}
