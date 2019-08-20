@@ -160,6 +160,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
     default Optional<ColumnEntity> singleResult(ColumnQuery query) {
+        Objects.requireNonNull(query, "query is required");
         Stream<ColumnEntity> entities = select(query);
         final Iterator<ColumnEntity> iterator = entities.iterator();
         if (!iterator.hasNext()) {
