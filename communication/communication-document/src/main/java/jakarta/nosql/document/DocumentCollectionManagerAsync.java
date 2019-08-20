@@ -221,7 +221,8 @@ public interface DocumentCollectionManagerAsync extends AutoCloseable {
      * @throws NullPointerException          when select is null
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
-    default void singleResult(DocumentQuery query, Consumer<Optional<DocumentEntity>> callBack){
+    default void singleResult(DocumentQuery query, Consumer<Optional<DocumentEntity>> callBack) {
+        Objects.requireNonNull(query, "query is required");
         select(query, entities -> {
             final Iterator<DocumentEntity> iterator = entities.iterator();
             if (!iterator.hasNext()) {

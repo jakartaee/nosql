@@ -160,6 +160,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
     default Optional<DocumentEntity> singleResult(DocumentQuery query) {
+        Objects.requireNonNull(query, "query is required");
         Stream<DocumentEntity> entities = select(query);
         final Iterator<DocumentEntity> iterator = entities.iterator();
         if (!iterator.hasNext()) {
