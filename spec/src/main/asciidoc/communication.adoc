@@ -416,9 +416,9 @@ If there isn’t a condition in the query, that means the query will try to retr
 DocumentCollectionManager manager = //instance;
 DocumentCollectionManagerAsync managerAsync = //instance;
 DocumentQuery query = DocumentQueryBuilder.select().from("collection").where("age").lt(10).and("name").eq("Ada").orderBy("name").asc().limit(10).skip(2).build();
-List<DocumentEntity> entities = manager.select(query);
+Stream<DocumentEntity> entities = manager.select(query);
 Optional<DocumentEntity> entity = manager.singleResult(query);
-Consumer<List<DocumentEntity>> callback = e -> {};
+Consumer<Stream<DocumentEntity>> callback = e -> {};
 managerAsync.select(query, callback);
 ----
 
@@ -528,10 +528,10 @@ ColumnFamilyManager manager = //instance;
 ColumnFamilyManagerAsync managerAsync = //instance;
 ColumnQuery query = ColumnQuery query = ColumnQueryBuilder.select().from("collection").where("age").lt(10).and("name").eq("Ada").orderBy("name").asc().limit(10).skip(2).build();
 
-List<ColumnEntity> entities = manager.select(query);
+Stream<ColumnEntity> entities = manager.select(query);
 Optional<ColumnEntity> entity = manager.singleResult(query);
 
-Consumer<List<ColumnEntity>> callback = e -> {};
+Consumer<Stream<ColumnEntity>> callback = e -> {};
 managerAsync.select(query, callback);
 ----
 
@@ -802,7 +802,7 @@ try(CassandraDocumentEntityManagerFactory managerFactory = condition.get()) {
     Optional<ColumnEntity> result = columnEntityManager.singleResult(query);
     //cassandra implementation
     columnEntityManager.save(entity, ConsistencyLevel.THREE);
-    List<ColumnEntity> entities = columnEntityManager.cql("select * from newKeySpace.newColumnFamily");
+    Stream<ColumnEntity> entities = columnEntityManager.cql("select * from newKeySpace.newColumnFamily");
     System.out.println(entities);
 }
 ----

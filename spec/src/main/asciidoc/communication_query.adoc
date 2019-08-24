@@ -209,7 +209,7 @@ Stream<DocumentEntity> adas = preparedStatement.getResult();
 ----
 PreparedStatementAsync preparedStatement = documetManagerAsync.prepare("select * from Person where name = @name");
 preparedStatement.bind("name", "Ada");
-Consumer<List<DocumentEntity>> callback = ...;
+Consumer<Stream<DocumentEntity>> callback = ...;
 preparedStatement.getResult(callback);
 
 ----

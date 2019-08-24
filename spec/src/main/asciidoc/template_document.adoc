@@ -51,7 +51,7 @@ To both remove and retrieve information from document collection, there are *Doc
 ----
 DocumentQuery query = select().from("Person").where("address").eq("Olympus").build();
 
-List<Person> peopleWhoLiveOnOlympus = template.find(query);
+Stream<Person> peopleWhoLiveOnOlympus = template.find(query);
 Optional<Person> artemis = template.singleResult(select().from("Person")
                 .where("nickname").eq("artemis").build());
 
@@ -190,7 +190,7 @@ templateAsync.update(people);
 For information removal and retrieval, there are *DocumentQuery* and *DocumentDeleteQuery* respectively; also, the callback method can be used.
 [source,java]
 ----
-Consumer<List<Person>> callBackPeople = p -> {};
+Consumer<Stream<Person>> callBackPeople = p -> {};
 Consumer<Void> voidCallBack = v ->{};
 templateAsync.find(query, callBackPeople);
 templateAsync.delete(deleteQuery);

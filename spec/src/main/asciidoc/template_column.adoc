@@ -50,7 +50,7 @@ For information removal and retrieval, there are *ColumnQuery* and *ColumnDelete
 ----
 ColumnQuery query = select().from("Person").where("address").eq("Olympus").build();
 
-List<Person> peopleWhoLiveOnOlympus = template.select(query);
+Stream<Person> peopleWhoLiveOnOlympus = template.select(query);
 Optional<Person> artemis = template.singleResult(select().from("Person").where("nickname").eq("artemis").build());
 
 ColumnDeleteQuery deleteQuery = delete().from("Person").where("address").eq("Olympus").build()
@@ -191,7 +191,7 @@ For information removal and retrieval, there are *ColumnQuery* and *ColumnDelete
 
 [source,java]
 ----
-Consumer<List<Person>> callBackPeople = p -> {};
+Consumer<Stream<Person>> callBackPeople = p -> {};
 Consumer<Void> voidCallBack = v ->{};
 templateAsync.select(query, callBackPeople);
 templateAsync.delete(deleteQuery);

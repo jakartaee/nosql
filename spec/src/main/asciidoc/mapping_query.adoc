@@ -22,7 +22,7 @@ In the Key-value database, there is a `KeyValueTemplate` in this NoSQL storage t
 [source,java]
 ----
 KeyValueTemplate template = ...;
-List<User> users = template.query("get \"Diana\"");
+Stream<User> users = template.query("get \"Diana\"");
 template.query("remove \"Diana\"");
 ----
 
@@ -35,7 +35,7 @@ The column family has a little more complex structure; however, the search from 
 [source,java]
 ----
 ColumnTemplate template = ...;
-List<Person> result = template.query("select * from Person where id = 1");
+Stream<Person> result = template.query("select * from Person where id = 1");
 ----
 
 TIP: The main difference to run using a template instead of in a manager instance is the template will do a mapper as *ColumnQueryMapperBuilder* does.
@@ -47,7 +47,7 @@ The document types allow more complex queries, so with more complex entities wit
 [source,java]
 ----
 DocumentTemplate template = ...;
-List<Person> result = template.query("select * from Person where age > 10");
+Stream<Person> result = template.query("select * from Person where age > 10");
 ----
 
 TIP: The main difference to run using a template instead of in a manager instance is the template will do a mapper as *DocumentQueryMapperBuilder* does.
@@ -59,7 +59,7 @@ If an application needs a recommendation engine or a full detail about the relat
 [source,java]
 ----
 GraphTemplate template =...;
-List<City> cities = template.query("g.V().hasLabel('City')");
+Stream<City> cities = template.query("g.V().hasLabel('City')");
 ----
 
 [source,java]
