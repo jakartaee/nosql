@@ -699,15 +699,6 @@ DocumentCollectionManagerFactory managerFactory = configuration.get();
 DocumentCollectionManagerAsyncFactory managerAsyncFactory = configurationAsync.getAsync();
 ----
 
-If a database has support for both synchronous and asynchronous, it may use `UnaryDocumentConfiguration` that implements both document configurations.
-
-[source,java]
-----
-UnaryDocumentConfiguration unaryDocumentConfiguration = //instance
-DocumentCollectionManagerFactory managerFactory = unaryDocumentConfiguration.get();
-DocumentCollectionManagerAsyncFactory managerAsyncFactory = unaryDocumentConfiguration.getAsync();
-----
-
 ==== Column Configuration
 
 On the column family configuration, there are two classes, `ColumnConfiguration` and `ColumnConfigurationAsync` to `ColumnFamilyManagerFactory` and `ColumnFamilyManagerAsyncFactory` respectively.
@@ -718,15 +709,6 @@ ColumnConfiguration configuration = //instance
 ColumnConfigurationAsync configurationAsync = //instance
 ColumnFamilyManagerFactory managerFactory = configuration.get();
 ColumnFamilyManagerAsyncFactory managerAsyncFactory = configurationAsync.getAsync();
-----
-
-If a database has support for both synchronous and asynchronous, it may use `UnaryColumnConfiguration` that implements both document configurations.
-
-[source,java]
-----
-UnaryColumnConfiguration unaryDocumentConfiguration = //instance
-ColumnFamilyManagerFactory managerFactory = unaryDocumentConfiguration.get();
-ColumnFamilyManagerAsyncFactory managerAsyncFactory = unaryDocumentConfiguration.getAsync();
 ----
 
 ==== Key Value Configuration
