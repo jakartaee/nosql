@@ -95,12 +95,13 @@ template.insert(diana, Duration.ofSeconds(1));
 
 Eclipse Jakarta NoSQL is a fluent API that makes it easier for Java developers create queries that either retrieve or delete information in a Document type, for example.
 
-
+```java
+DocumentQuery query = DocumentQuery.select().from("God")
+                .where("name").eq("Diana").orderBy("name").desc().build();
+```
 === Let's not reinvent the wheel: Graph
 
 The Communication Layer defines three new APIs: Key-Value, Document and Column Family. It does not have new Graph API, because a very good one already exists. Apache TinkerPop is a graph computing framework for both graph databases (OLTP) and graph analytic systems (OLAP). Using Apache TinkerPop as Communication API for Graph databases, the Mapping API has a tight integration with it.
-
-
 
 === Particular behavior matters in NoSQL database
 
