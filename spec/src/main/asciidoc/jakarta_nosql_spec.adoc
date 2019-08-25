@@ -30,7 +30,18 @@ include::license-alv2.asciidoc[]
 
 == One Mapping API, multiples databases
 
-Eclipse NoSQL has one API for each NoSQL database type. However, it uses the same annotations to map Java objects. Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
+Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low coupling with the underlying NoSQL technologies used in applications.
+
+The project has two layers:
+
+1. *Communication Layer*: A set of APIs that defines communication with NoSQL databases. Compared with traditional the RDBMS world, they are like the JDBC API. It contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document, and Graph.
+
+1. *Mapping Layer*: These APIs help developers to integrate their Java application with the NoSQL database.
+This layer is annotation-driven and uses technologies like CDI and Bean Validation, making it simple for developers to use.
+In the traditional RDBMS world, this layer can be compared to the Java Persistence API or object-relational mapping frameworks such as Hibernate.
+
+Jakarta NoSQL has one API for each NoSQL database type. However, it uses the same annotations to map Java objects.
+Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
 
 ```java
 @Entity
@@ -47,11 +58,7 @@ public class God {
 
 ```
 
-
-Another example can be found in an article that demonstrates the same annotated entity used across different NoSQL databases: Redis, Cassandra, Couchbase, and Neo4J. The approach is "stick to the API": the developer can replace Redis with Hazelcast, as both implement the Key-Value API, thus avoiding vendor lock-in with one of these databases.
-
-Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there's a need for a switch, other considerations include: time spent on the change, the learning curve of a new API to use with this database, the code that will be lost, the persistence layer that needs to be replaced, etc. Eclipse JNoSQL avoids most of these issues through the Communication APIs. It also has template classes that apply the design pattern 'template method’ to databases operations. And the Repository interface allows Java developers to create and extend interfaces, with implementation automatically provided by Eclipse JNoSQL: support method queries built by developers will automatically be implemented for them.
-
+Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there's a need for a switch, other considerations include: time spent on the change, the learning curve of a new API to use with this database, the code that will be lost, the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the Communication APIs. It also has template classes that apply the design pattern 'template method’ to databases operations. And the Repository interface allows Java developers to create and extend interfaces, with implementation automatically provided by a Jakarta NoSQL implementation: support method queries built by developers will automatically be implemented for them.
 
 ```java
 public interface GodRepository extends Repository<God, String> {
@@ -97,7 +104,7 @@ The Communication Layer defines three new APIs: Key-Value, Document and Column F
 
 === Particular behavior matters in NoSQL database
 
-Particular behavior matters. Even within the same type, each NoSQL database has a unique feature that is a considerable factor when choosing a database over another. This ‘’feature’’ might make it easier to develop, make it more scaleable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples are Cassandra and its Cassandra Query Language and consistency level, OrientDB with live queries, ArangoDB and its Arango Query Language, Couchbase with N1QL - the list goes on. Each NoSQL has a specific behavior and this behavior matters, so JNoSQL is extensible enough to capture this substantiality different feature elements.
+Particular behavior matters. Even within the same type, each NoSQL database has a unique feature that is a considerable factor when choosing a database over another. This ‘’feature’’ might make it easier to develop, make it more scaleable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples are Cassandra and its Cassandra Query Language and consistency level, OrientDB with live queries, ArangoDB and its Arango Query Language, Couchbase with N1QL - the list goes on. Each NoSQL has a specific behavior and this behavior matters, so Jakarta NoSQL is extensible enough to capture this substantiality different feature elements.
 
 
 === Key features
@@ -107,15 +114,7 @@ Particular behavior matters. Even within the same type, each NoSQL database has 
 * Support for Asynchronous Queries
 * Support for Asynchronous Write operations
 * Easy-to-implement API Specification and Test Compatibility Kit (TCK) for NoSQL Vendors
-* The API’s focus is on simplicity and ease of use. Developers should only have to know a minimal set of artifacts to work with JNoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
-* Find out more information and get involved!
-
-
-* Website: http://www.jnosql.org/
-* Twitter: https://twitter.com/jnosql
-* GitHub Repo: https://github.com/eclipse?q=Jnosql
-* Mailing List: https://accounts.eclipse.org/mailing-list/jnosql-dev
-
+* The API’s focus is on simplicity and ease of use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
 
 
 :imagesdir: images
