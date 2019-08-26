@@ -18,11 +18,11 @@ The divide-and-conquer strategy decreases the complexity of systems within modul
 
 In software, there are structures: tiers, physical structures, and layers. The multi-tier application has three levels:
 
-* **Presentation** tier: Has a primary duty to translate results so the user can understand.
+* **Presentation tier**: Has a primary duty to translate results so the user can understand.
 * **Logic tier**: Has all business rules, processes, conditions, saved information, etc. This level moves and processes information between other levels.
 * **Data tier**: Retrieves and stores information in either a database or a system file.
 
-image::tiers.png[Tiers from a classic application structure]
+image::tiers.png[alt=Tiers from a classic application structure, width=90%]
 
 Talking more precisely about the physical layer and the logic to separate responsibilities, there are other layers.
 
@@ -33,7 +33,7 @@ The logic tier, where the application and the business rules stay, has additiona
 * **Business Layer**: This is the part of the program that encodes the real-world business or domain rules that determine how data will be created, stored, and changed.
 * **Persistence Layer**: This is a layer that provides simplified access to data stored in persistent storage of some kind.
 
-image::logic_tier.png[Logic tier on details]
+image::logic_tier.png[alt=Logic tier on details, width=300%]
 
 Within a persistence layer, it has its layers: A Data Access Object, DAO. This structure connects business layer and persistence layer. Inside it has an API that does database. Currently, there is a difference between SQL and NoSQL database:
 
@@ -46,7 +46,7 @@ In the relational database, there are two mechanisms under DAO, JDBC, and JPA:
 A considerable advantage of this strategy is that one change, either JDBC or JPA, can happen quickly. When you change a database, you need to supersede to a respective driver by a database, and then you're done! The code is ready for a new database change.
 
 .A usual Java application with JPA layer architecture
-image::jpa.png[A usual Java application with JPA layer architecture]
+image::jpa.png[alt=A usual Java application with JPA layer architecture, width=320%]
 
 In a NoSQL database, there isn't a strategy to save code, and there is little impact for change. All APIs are different and don't follow any one standard, so one change to a new database can result in a lot of work.
 
@@ -56,7 +56,7 @@ In a NoSQL database, there isn't a strategy to save code, and there is little im
 
 
 .A NoSQL Java application that has lock-in to each NoSQL provider
-image::nosql_issue.png[A NoSQL Java application that has locking to each NoSQL provider]
+image::nosql_issue.png[alt=A NoSQL Java application that has locking to each NoSQL provider, width=300%]
 
 A wise recommendation might be to use the JPA because once the developer already knows this standard SQL API, they can use the same API for a relational database and apply it to a NoSQL database. Using an API with SQL concepts in NoSQL is the same as using a knife as a spoon; the result is a disaster! Furthermore, the NoSQL world has diversity with several data structures and particular behavior to each provider, and both matter in a software solution. Indeed, the merge strategy to use just one API is still a discussion nowadays.
 

@@ -432,7 +432,8 @@ It is smoother than `DocumentQuery` because there isn’t pagination and sort fe
 ----
 DocumentCollectionManager manager = //instance;
 DocumentCollectionManagerAsync managerAsync = //instance;
-DocumentDeleteQuery query = DocumentQueryBuilder.delete().from("collection").where("age").gt(10).build();
+DocumentDeleteQuery query = DocumentQueryBuilder.delete().from("collection")
+                      .where("age").gt(10).build();
 manager.delete(query);
 managerAsync.delete(query);
 managerAsync.delete(query, v -> {});
