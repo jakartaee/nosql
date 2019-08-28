@@ -237,7 +237,7 @@ public interface ColumnQuery {
          * @return the result of {@link ColumnFamilyManager#select(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        Stream<ColumnEntity> execute(ColumnFamilyManager manager);
+        Stream<ColumnEntity> getResult(ColumnFamilyManager manager);
 
         /**
          * Executes {@link ColumnFamilyManager#singleResult(ColumnQuery)}
@@ -246,7 +246,7 @@ public interface ColumnQuery {
          * @return the result of {@link ColumnFamilyManager#singleResult(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        Optional<ColumnEntity> executeSingle(ColumnFamilyManager manager);
+        Optional<ColumnEntity> getSingleResult(ColumnFamilyManager manager);
 
         /**
          * Executes {@link ColumnFamilyManagerAsync#select(ColumnQuery, Consumer)}
@@ -255,7 +255,7 @@ public interface ColumnQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(ColumnFamilyManagerAsync manager, Consumer<Stream<ColumnEntity>> callback);
+        void getResult(ColumnFamilyManagerAsync manager, Consumer<Stream<ColumnEntity>> callback);
 
         /**
          * Executes {@link ColumnFamilyManagerAsync#singleResult(ColumnQuery, Consumer)}
@@ -264,7 +264,7 @@ public interface ColumnQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void executeSingle(ColumnFamilyManagerAsync manager, Consumer<Optional<ColumnEntity>> callback);
+        void getSingleResult(ColumnFamilyManagerAsync manager, Consumer<Optional<ColumnEntity>> callback);
     }
 
     /**

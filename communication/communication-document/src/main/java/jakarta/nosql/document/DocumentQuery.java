@@ -428,7 +428,7 @@ public interface DocumentQuery {
          * @return the result of {@link DocumentCollectionManager#select(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        Stream<DocumentEntity> execute(DocumentCollectionManager manager);
+        Stream<DocumentEntity> getResult(DocumentCollectionManager manager);
 
         /**
          * Executes {@link DocumentCollectionManager#singleResult(DocumentQuery)}
@@ -437,7 +437,7 @@ public interface DocumentQuery {
          * @return the result of {@link DocumentCollectionManager#singleResult(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        Optional<DocumentEntity> executeSingle(DocumentCollectionManager manager);
+        Optional<DocumentEntity> getSingleResult(DocumentCollectionManager manager);
 
         /**
          * Executes {@link DocumentCollectionManagerAsync#select(DocumentQuery, Consumer)}
@@ -446,7 +446,7 @@ public interface DocumentQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(DocumentCollectionManagerAsync manager, Consumer<Stream<DocumentEntity>> callback);
+        void getResult(DocumentCollectionManagerAsync manager, Consumer<Stream<DocumentEntity>> callback);
 
         /**
          * Executes {@link DocumentCollectionManagerAsync#singleResult(DocumentQuery, Consumer)}
@@ -455,6 +455,6 @@ public interface DocumentQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void executeSingle(DocumentCollectionManagerAsync manager, Consumer<Optional<DocumentEntity>> callback);
+        void getSingleResult(DocumentCollectionManagerAsync manager, Consumer<Optional<DocumentEntity>> callback);
     }
 }

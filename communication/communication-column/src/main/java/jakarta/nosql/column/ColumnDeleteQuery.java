@@ -238,7 +238,7 @@ public interface ColumnDeleteQuery {
          * @param manager the entity manager
          * @throws NullPointerException when manager is null
          */
-        void execute(ColumnFamilyManager manager);
+        void delete(ColumnFamilyManager manager);
 
         /**
          * executes the {@link ColumnFamilyManagerAsync#delete(ColumnDeleteQuery)}
@@ -246,7 +246,7 @@ public interface ColumnDeleteQuery {
          * @param manager the entity manager
          * @throws NullPointerException when manager is null
          */
-        void execute(ColumnFamilyManagerAsync manager);
+        void delete(ColumnFamilyManagerAsync manager);
 
         /**
          * executes the {@link ColumnFamilyManagerAsync#delete(ColumnDeleteQuery, Consumer)}
@@ -255,7 +255,7 @@ public interface ColumnDeleteQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(ColumnFamilyManagerAsync manager, Consumer<Void> callback);
+        void delete(ColumnFamilyManagerAsync manager, Consumer<Void> callback);
     }
 
     /**

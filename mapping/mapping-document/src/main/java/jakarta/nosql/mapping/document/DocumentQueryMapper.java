@@ -183,7 +183,7 @@ public interface DocumentQueryMapper {
          * @param template the document template
          * @throws NullPointerException when manager is null
          */
-        void execute(DocumentTemplate template);
+        void delete(DocumentTemplate template);
 
         /**
          * executes the {@link DocumentTemplateAsync#delete(DocumentDeleteQuery)}
@@ -191,7 +191,7 @@ public interface DocumentQueryMapper {
          * @param template the document template
          * @throws NullPointerException when manager is null
          */
-        void execute(DocumentTemplateAsync template);
+        void delete(DocumentTemplateAsync template);
 
         /**
          * executes the {@link DocumentTemplateAsync#delete(DocumentDeleteQuery, Consumer)}
@@ -200,7 +200,7 @@ public interface DocumentQueryMapper {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(DocumentTemplateAsync template, Consumer<Void> callback);
+        void delete(DocumentTemplateAsync template, Consumer<Void> callback);
     }
 
     /**
