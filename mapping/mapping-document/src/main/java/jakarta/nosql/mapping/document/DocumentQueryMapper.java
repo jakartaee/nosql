@@ -463,7 +463,7 @@ public interface DocumentQueryMapper {
          * @return the result of {@link DocumentTemplate#select(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> Stream<T> execute(DocumentTemplate template);
+        <T> Stream<T> getResult(DocumentTemplate template);
 
         /**
          * Executes {@link DocumentTemplate#singleResult(DocumentQuery)}
@@ -473,7 +473,7 @@ public interface DocumentQueryMapper {
          * @return the result of {@link DocumentTemplate#singleResult(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> Optional<T> executeSingle(DocumentTemplate template);
+        <T> Optional<T> getSingleResult(DocumentTemplate template);
 
         /**
          * Executes {@link DocumentTemplate#select(DocumentQuery)} using {@link Pagination}
@@ -484,7 +484,7 @@ public interface DocumentQueryMapper {
          * @return the result of {@link DocumentTemplate#select(DocumentQuery)}
          * @throws NullPointerException when there are null parameters
          */
-        <T> Stream<T> execute(DocumentTemplate template, Pagination pagination);
+        <T> Stream<T> getResult(DocumentTemplate template, Pagination pagination);
 
         /**
          * Executes {@link DocumentTemplate#singleResult(DocumentQuery)} using {@link Pagination}
@@ -495,7 +495,7 @@ public interface DocumentQueryMapper {
          * @return the result of {@link DocumentTemplate#singleResult(DocumentQuery)}
          * @throws NullPointerException when there are null parameters
          */
-        <T> Optional<T> executeSingle(DocumentTemplate template, Pagination pagination);
+        <T> Optional<T> getSingleResult(DocumentTemplate template, Pagination pagination);
 
         /**
          * Executes {@link DocumentTemplateAsync#select(DocumentQuery, Consumer)}
@@ -505,7 +505,7 @@ public interface DocumentQueryMapper {
          * @param callback      the callback
          * @throws NullPointerException when there is null parameter
          */
-        <T> void execute(DocumentTemplateAsync templateAsync, Consumer<Stream<T>> callback);
+        <T> void getResult(DocumentTemplateAsync templateAsync, Consumer<Stream<T>> callback);
 
         /**
          * Executes {@link DocumentTemplateAsync#singleResult(DocumentQuery, Consumer)}
@@ -515,7 +515,7 @@ public interface DocumentQueryMapper {
          * @param callback      the callback
          * @throws NullPointerException when there is null parameter
          */
-        <T> void executeSingle(DocumentTemplateAsync templateAsync, Consumer<Optional<T>> callback);
+        <T> void getSingleResult(DocumentTemplateAsync templateAsync, Consumer<Optional<T>> callback);
 
         /**
          * Creates a {@link Page} from pagination

@@ -237,7 +237,7 @@ public interface DocumentDeleteQuery {
          * @param manager the entity manager
          * @throws NullPointerException when manager is null
          */
-        void execute(DocumentCollectionManager manager);
+        void delete(DocumentCollectionManager manager);
 
         /**
          * executes the {@link DocumentCollectionManagerAsync#delete(DocumentDeleteQuery)}
@@ -245,7 +245,7 @@ public interface DocumentDeleteQuery {
          * @param manager the entity manager
          * @throws NullPointerException when manager is null
          */
-        void execute(DocumentCollectionManagerAsync manager);
+        void delete(DocumentCollectionManagerAsync manager);
 
         /**
          * executes the {@link DocumentCollectionManagerAsync#delete(DocumentDeleteQuery, Consumer)}
@@ -254,7 +254,7 @@ public interface DocumentDeleteQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(DocumentCollectionManagerAsync manager, Consumer<Void> callback);
+        void delete(DocumentCollectionManagerAsync manager, Consumer<Void> callback);
     }
 
     /**
