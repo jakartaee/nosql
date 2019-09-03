@@ -16,6 +16,7 @@
 package jakarta.nosql;
 
 import javax.annotation.Priority;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -45,6 +46,22 @@ final class ServiceLoaderSort<T> implements Comparable<ServiceLoaderSort<T>>, Su
         return Integer.compare(other.priority, priority);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ServiceLoaderSort<?> that = (ServiceLoaderSort<?>) o;
+        return priority == that.priority;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(priority);
+    }
 
     static <T> ServiceLoaderSort of(T instance) {
         int priority = Optional.ofNullable(instance.getClass().getAnnotation(Priority.class))
