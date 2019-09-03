@@ -186,7 +186,7 @@ public interface ColumnQueryMapper {
          * @param template the column template
          * @throws NullPointerException when manager is null
          */
-        void execute(ColumnTemplate template);
+        void delete(ColumnTemplate template);
     
         /**
          * executes the {@link ColumnTemplateAsync#delete(ColumnDeleteQuery)}
@@ -194,7 +194,7 @@ public interface ColumnQueryMapper {
          * @param template the column template
          * @throws NullPointerException when manager is null
          */
-        void execute(ColumnTemplateAsync template);
+        void delete(ColumnTemplateAsync template);
     
         /**
          * executes the {@link ColumnTemplateAsync#delete(ColumnDeleteQuery, Consumer)}
@@ -203,7 +203,7 @@ public interface ColumnQueryMapper {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(ColumnTemplateAsync template, Consumer<Void> callback);
+        void delete(ColumnTemplateAsync template, Consumer<Void> callback);
     
     }
 
@@ -470,7 +470,7 @@ public interface ColumnQueryMapper {
          * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> Stream<T> execute(ColumnTemplate template);
+        <T> Stream<T> getResult(ColumnTemplate template);
     
         /**
          * Executes {@link ColumnTemplate#singleResult(ColumnQuery)}
@@ -480,7 +480,7 @@ public interface ColumnQueryMapper {
          * @return the result of {@link ColumnTemplate#singleResult(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> Optional<T> executeSingle(ColumnTemplate template);
+        <T> Optional<T> getSingleResult(ColumnTemplate template);
     
         /**
          * Executes {@link ColumnTemplate#select(ColumnQuery)} using {@link Pagination}
@@ -491,7 +491,7 @@ public interface ColumnQueryMapper {
          * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
          * @throws NullPointerException when there are null parameters
          */
-        <T> Stream<T> execute(ColumnTemplate template, Pagination pagination);
+        <T> Stream<T> getResult(ColumnTemplate template, Pagination pagination);
     
         /**
          * Executes {@link ColumnTemplate#singleResult(ColumnQuery)} using {@link Pagination}
@@ -502,7 +502,7 @@ public interface ColumnQueryMapper {
          * @return the result of {@link ColumnTemplate#singleResult(ColumnQuery)}
          * @throws NullPointerException when there are null parameters
          */
-        <T> Optional<T> executeSingle(ColumnTemplate template, Pagination pagination);
+        <T> Optional<T> getSingleResult(ColumnTemplate template, Pagination pagination);
     
     
         /**
@@ -513,7 +513,7 @@ public interface ColumnQueryMapper {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        <T> void execute(ColumnTemplateAsync template, Consumer<Stream<T>> callback);
+        <T> void getResult(ColumnTemplateAsync template, Consumer<Stream<T>> callback);
     
         /**
          * Executes {@link ColumnTemplateAsync#singleResult(ColumnQuery, Consumer)}
@@ -523,7 +523,7 @@ public interface ColumnQueryMapper {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        <T> void executeSingle(ColumnTemplateAsync template, Consumer<Optional<T>> callback);
+        <T> void getSingleResult(ColumnTemplateAsync template, Consumer<Optional<T>> callback);
     
         /**
          * Creates a {@link Page} from pagination

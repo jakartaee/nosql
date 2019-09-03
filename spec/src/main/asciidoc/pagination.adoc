@@ -88,7 +88,7 @@ ColumnQueryMapperBuilder mapperBuilder = ...;
 Pagination pagination = Pagination.page(2).size(2);
 ColumnQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
 Page<Person> page = mapperBuilder.selectFrom(Person.class).page(template, pagination);
-Stream<Person> people = mapperBuilder.selectFrom(Person.class).execute(template, pagination);
+Stream<Person> people = mapperBuilder.selectFrom(Person.class).getResult(template, pagination);
 ----
 
 
@@ -163,7 +163,7 @@ DocumentQueryMapperBuilder mapperBuilder = ...;
 Pagination pagination = Pagination.page(2).size(2);
 DocumentQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
 Page<Person> page = mapperBuilder.selectFrom(Person.class).page(template, pagination);
-Stream<Person> people = mapperBuilder.selectFrom(Person.class).execute(template, pagination);
+Stream<Person> people = mapperBuilder.selectFrom(Person.class).getResult(template, pagination);
 ----
 
 
