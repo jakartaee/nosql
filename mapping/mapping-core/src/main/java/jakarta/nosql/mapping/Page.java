@@ -16,7 +16,6 @@
 package jakarta.nosql.mapping;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -42,11 +41,11 @@ public interface Page<T> extends Supplier<Stream<T>> {
     Page<T> next();
 
     /**
-     * Returns the page content as {@link List}
+     * Returns the page content as {@link Stream}
      *
-     * @return the content as {@link List}
+     * @return the content as {@link Stream}
      */
-    List<T> getContent();
+    Stream<T> getContent();
 
     /**
      * Returns the page content as from collection Factory

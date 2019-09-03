@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * Class that contains information to do a select to {@link ColumnEntity}
@@ -236,7 +237,7 @@ public interface ColumnQuery {
          * @return the result of {@link ColumnFamilyManager#select(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        List<ColumnEntity> execute(ColumnFamilyManager manager);
+        Stream<ColumnEntity> execute(ColumnFamilyManager manager);
 
         /**
          * Executes {@link ColumnFamilyManager#singleResult(ColumnQuery)}
@@ -254,7 +255,7 @@ public interface ColumnQuery {
          * @param callback the callback
          * @throws NullPointerException when there is null parameter
          */
-        void execute(ColumnFamilyManagerAsync manager, Consumer<List<ColumnEntity>> callback);
+        void execute(ColumnFamilyManagerAsync manager, Consumer<Stream<ColumnEntity>> callback);
 
         /**
          * Executes {@link ColumnFamilyManagerAsync#singleResult(ColumnQuery, Consumer)}

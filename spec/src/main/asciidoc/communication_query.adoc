@@ -201,7 +201,7 @@ To run a query dynamically, use the `prepare` method in the manager for instance
 ----
 PreparedStatement preparedStatement = documetManager.prepare("select * from Person where name = @name");
 preparedStatement.bind("name", "Ada");
-List<DocumentEntity> adas = preparedStatement.getResultList();
+Stream<DocumentEntity> adas = preparedStatement.getResult();
 
 ----
 
@@ -209,8 +209,8 @@ List<DocumentEntity> adas = preparedStatement.getResultList();
 ----
 PreparedStatementAsync preparedStatement = documetManagerAsync.prepare("select * from Person where name = @name");
 preparedStatement.bind("name", "Ada");
-Consumer<List<DocumentEntity>> callback = ...;
-preparedStatement.getResultList(callback);
+Consumer<Stream<DocumentEntity>> callback = ...;
+preparedStatement.getResult(callback);
 
 ----
 

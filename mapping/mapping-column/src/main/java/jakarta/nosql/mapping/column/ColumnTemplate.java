@@ -24,8 +24,8 @@ import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * This interface that represents the common operation between an entity
@@ -123,7 +123,7 @@ public interface ColumnTemplate {
      * @return entities found by query
      * @throws NullPointerException when query is null
      */
-    <T> List<T> select(ColumnQuery query);
+    <T> Stream<T> select(ColumnQuery query);
 
     /**
      * Finds entities from query using pagination
@@ -136,21 +136,21 @@ public interface ColumnTemplate {
     <T> Page<T> select(ColumnQueryPagination query);
 
     /**
-     * Executes a query then bring the result as a {@link List}
+     * Executes a query then bring the result as a {@link Stream}
      *
      * @param query the query
      * @param <T>   the entity type
-     * @return the result as {@link List}
+     * @return the result as {@link Stream}
      * @throws NullPointerException when the query is null
      */
-    <T> List<T> query(String query);
+    <T> Stream<T> query(String query);
 
     /**
      * Executes a query then bring the result as a unique result
      *
      * @param query the query
      * @param <T>   the entity type
-     * @return the result as {@link List}
+     * @return the result as {@link Optional}
      * @throws NullPointerException     when the query is null
      * @throws jakarta.nosql.NonUniqueResultException if returns more than one result
      */
@@ -220,16 +220,6 @@ public interface ColumnTemplate {
      * @throws NonUniqueResultException when the result has more than 1 entity
      * @throws NullPointerException     when query is null
      */
-    default <T> Optional<T> singleResult(ColumnQuery query) {
-        List<T> entities = select(query);
-        if (entities.isEmpty()) {
-            return Optional.empty();
-        }
-        if (entities.size() == 1) {
-            return Optional.of(entities.get(0));
-        }
-
-        throw new NonUniqueResultException("The query returns more than one entity, query: " + query);
-    }
+    <T> Optional<T> singleResult(ColumnQuery query);
 
 }

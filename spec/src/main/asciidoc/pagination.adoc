@@ -59,7 +59,7 @@ Through the `Template` there are two ways to use the pagination resource. The fi
 ColumnTemplate template =...;
 Pagination pagination = Pagination.page(1).size(1);
 ColumnQuery query = ColumnQueryPagination.of(select().from("person").build(), pagination);
-List<Person> people = template.select(query);
+Stream<Person> people = template.select(query);
 ----
 
 The second one is representing the page with the `Page` instance. A page is a fixed-length contiguous block of entities from the database, it has the feature to generate the next page.
@@ -70,7 +70,7 @@ ColumnTemplate template =...;
 Pagination pagination = Pagination.page(1).size(1);
 ColumnQueryPagination query = ColumnQueryPagination.of(select().from("person").build(), pagination);
 Page<Person> firstPage = template.select(query);
-List<Person> firstPageContents = page.getContent();
+Stream<Person> firstPageContents = page.getContent();
 Page<Person> secondPage = firstPage.next();
 ----
 
@@ -88,7 +88,7 @@ ColumnQueryMapperBuilder mapperBuilder = ...;
 Pagination pagination = Pagination.page(2).size(2);
 ColumnQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
 Page<Person> page = mapperBuilder.selectFrom(Person.class).page(template, pagination);
-List<Person> people = mapperBuilder.selectFrom(Person.class).execute(template, pagination);
+Stream<Person> people = mapperBuilder.selectFrom(Person.class).execute(template, pagination);
 ----
 
 
@@ -134,7 +134,7 @@ Through the `Template` there are two ways to use the pagination resource. The fi
 DocumentTemplate template =...;
 Pagination pagination = Pagination.page(1).size(1);
 DocumentQuery query = DocumentQueryPagination.of(select().from("person").build(), pagination);
-List<Person> people = template.select(query);
+Stream<Person> people = template.select(query);
 ----
 
 The second one is representing the page with the `Page` instance. A page is a fixed-length contiguous block of entities from the database, it has the feature to generate the next page.
@@ -145,7 +145,7 @@ DocumentTemplate template =...;
 Pagination pagination = Pagination.page(1).size(1);
 DocumentQueryPagination query = DocumentQueryPagination.of(select().from("person").build(), pagination);
 Page<Person> firstPage = template.select(query);
-List<Person> firstPageContents = page.getContent();
+Stream<Person> firstPageContents = page.getContent();
 Page<Person> secondPage = firstPage.next();
 ----
 
@@ -163,7 +163,7 @@ DocumentQueryMapperBuilder mapperBuilder = ...;
 Pagination pagination = Pagination.page(2).size(2);
 DocumentQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
 Page<Person> page = mapperBuilder.selectFrom(Person.class).page(template, pagination);
-List<Person> people = mapperBuilder.selectFrom(Person.class).execute(template, pagination);
+Stream<Person> people = mapperBuilder.selectFrom(Person.class).execute(template, pagination);
 ----
 
 

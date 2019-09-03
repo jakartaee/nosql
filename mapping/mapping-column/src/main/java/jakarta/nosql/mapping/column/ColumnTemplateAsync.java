@@ -23,13 +23,11 @@ import jakarta.nosql.mapping.IdNotFoundException;
 import jakarta.nosql.mapping.PreparedStatementAsync;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * This interface that represents the common operation between an entity
@@ -45,8 +43,8 @@ public interface ColumnTemplateAsync {
      * @param entity entity to be saved
      * @param <T>    the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when entity is null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when entity is null
      */
     <T> void insert(T entity);
 
@@ -57,8 +55,8 @@ public interface ColumnTemplateAsync {
      * @param ttl    the time to live
      * @param <T>    the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when either entity or ttl are null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when either entity or ttl are null
      */
     <T> void insert(T entity, Duration ttl);
 
@@ -70,8 +68,8 @@ public interface ColumnTemplateAsync {
      * @param entities entities to be saved
      * @param <T>      the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when entities is null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when entities is null
      */
     default <T> void insert(Iterable<T> entities) {
         Objects.requireNonNull(entities, "entities is required");
@@ -87,8 +85,8 @@ public interface ColumnTemplateAsync {
      * @param ttl      time to live
      * @param <T>      the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when either entities or ttl are null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when either entities or ttl are null
      */
     default <T> void insert(Iterable<T> entities, Duration ttl) {
         Objects.requireNonNull(entities, "entities is required");
@@ -104,8 +102,8 @@ public interface ColumnTemplateAsync {
      *                 the saved entity within parameters
      * @param <T>      the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when either entity or callback are null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when either entity or callback are null
      */
     <T> void insert(T entity, Consumer<T> callback);
 
@@ -119,8 +117,8 @@ public interface ColumnTemplateAsync {
      *                 the saved entity within parameters
      * @param <T>      the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when either entity or ttl or callback are null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when either entity or ttl or callback are null
      */
     <T> void insert(T entity, Duration ttl, Consumer<T> callback);
 
@@ -130,8 +128,8 @@ public interface ColumnTemplateAsync {
      * @param entity entity to be updated
      * @param <T>    the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when entity is null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when entity is null
      */
     <T> void update(T entity);
 
@@ -143,13 +141,10 @@ public interface ColumnTemplateAsync {
      * @param entities entities to be saved
      * @param <T>      the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when entities is null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when entities is null
      */
-    default <T> void update(Iterable<T> entities) {
-        Objects.requireNonNull(entities, "entities is required");
-        StreamSupport.stream(entities.spliterator(), false).forEach(this::update);
-    }
+    <T> void update(Iterable<T> entities);
 
     /**
      * Inserts an entity asynchronously
@@ -159,8 +154,8 @@ public interface ColumnTemplateAsync {
      *                 the updated entity within parametersa
      * @param <T>      the instance type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when either entity or callback are null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when either entity or callback are null
      */
     <T> void update(T entity, Consumer<T> callback);
 
@@ -169,8 +164,8 @@ public interface ColumnTemplateAsync {
      *
      * @param query query to delete an entity
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when query are null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when query are null
      */
     void delete(ColumnDeleteQuery query);
 
@@ -181,8 +176,8 @@ public interface ColumnTemplateAsync {
      * @param callback the callback, when the process is finished will call this instance returning
      *                 the null within parameters
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to delete asynchronous
-     * @throws NullPointerException                            when either query or callback are null
+     * @throws UnsupportedOperationException            when the database does not have support to delete asynchronous
+     * @throws NullPointerException                     when either query or callback are null
      */
     void delete(ColumnDeleteQuery query, Consumer<Void> callback);
 
@@ -194,20 +189,20 @@ public interface ColumnTemplateAsync {
      * @param callback the callback, when the process is finished will call this instance returning
      *                 the result of query within parameters
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when either query or callback are null
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when either query or callback are null
      */
-    <T> void select(ColumnQuery query, Consumer<List<T>> callback);
+    <T> void select(ColumnQuery query, Consumer<Stream<T>> callback);
 
     /**
-     * Executes a query then bring the result as a {@link List}
+     * Executes a query then bring the result as a {@link Stream}
      *
      * @param callback the callback, when the process is finished will call this instance returning
      * @param query    the query
      * @param <T>      the entity type
      * @throws NullPointerException when the query is null
      */
-    <T> void query(String query, Consumer<List<T>> callback);
+    <T> void query(String query, Consumer<Stream<T>> callback);
 
     /**
      * Executes a query then bring the result as a unique result
@@ -235,10 +230,10 @@ public interface ColumnTemplateAsync {
      * @param entityClass the entity class
      * @param id          the id value
      * @param <T>         the entity class type
-     * @param <K>        the id type
+     * @param <K>         the id type
      * @param callback    the callback observer
-     * @throws NullPointerException                   when either the entityClass or id are null
-     * @throws IdNotFoundException when the entityClass does not have the Id annotation
+     * @throws NullPointerException when either the entityClass or id are null
+     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
      */
     <T, K> void find(Class<T> entityClass, K id, Consumer<Optional<T>> callback);
 
@@ -248,10 +243,10 @@ public interface ColumnTemplateAsync {
      * @param entityClass the entity class
      * @param id          the id value
      * @param <T>         the entity class type
-     * @param <K>        the id type
+     * @param <K>         the id type
      * @param callback    the callback
-     * @throws NullPointerException                   when either the entityClass or id are null
-     * @throws IdNotFoundException when the entityClass does not have the Id annotation
+     * @throws NullPointerException when either the entityClass or id are null
+     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
      */
     <T, K> void delete(Class<T> entityClass, K id, Consumer<Void> callback);
 
@@ -262,9 +257,9 @@ public interface ColumnTemplateAsync {
      * @param entityClass the entity class
      * @param id          the id value
      * @param <T>         the entity class type
-     * @param <K>        the id type
-     * @throws NullPointerException                   when either the entityClass or id are null
-     * @throws IdNotFoundException when the entityClass does not have the Id annotation
+     * @param <K>         the id type
+     * @throws NullPointerException when either the entityClass or id are null
+     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
      */
     <T, K> void delete(Class<T> entityClass, K id);
 
@@ -281,9 +276,9 @@ public interface ColumnTemplateAsync {
     /**
      * Returns the number of elements from column family
      *
-     * @param <T> the entity type
+     * @param <T>         the entity type
      * @param entityClass the entity class
-     * @param callback     the callback with the response
+     * @param callback    the callback with the response
      * @throws NullPointerException          when there is null parameter
      * @throws UnsupportedOperationException when the database dot not have support
      */
@@ -296,24 +291,9 @@ public interface ColumnTemplateAsync {
      * @param callback the callback
      * @param <T>      the type
      * @throws jakarta.nosql.ExecuteAsyncQueryException when there is a async error
-     * @throws UnsupportedOperationException                   when the database does not have support to insert asynchronous
-     * @throws NullPointerException                            when either query or callback are null
-     * @throws NonUniqueResultException                        when it returns more than one result
+     * @throws UnsupportedOperationException            when the database does not have support to insert asynchronous
+     * @throws NullPointerException                     when either query or callback are null
+     * @throws NonUniqueResultException                 when it returns more than one result
      */
-    default <T> void singleResult(ColumnQuery query, Consumer<Optional<T>> callback) {
-
-        requireNonNull(callback, "callback is required");
-
-        Consumer<List<T>> singleCallBack = entities -> {
-            if (entities.isEmpty()) {
-                callback.accept(Optional.empty());
-            } else if (entities.size() == 1) {
-                callback.accept(Optional.of(entities.get(0)));
-            } else {
-                throw new NonUniqueResultException("The query returns more than one entity, query: " + query);
-            }
-        };
-        select(query, singleCallBack);
-
-    }
+    <T> void singleResult(ColumnQuery query, Consumer<Optional<T>> callback);
 }

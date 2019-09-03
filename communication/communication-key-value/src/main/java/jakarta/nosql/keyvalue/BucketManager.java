@@ -22,9 +22,9 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Value;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Interface used to interact with the persistence context to {@link KeyValueEntity}
@@ -129,7 +129,7 @@ public interface BucketManager extends AutoCloseable {
      * @throws IllegalStateException           when there is not {@link KeyValueQueryParser}
      * @throws QueryException when there is error in the syntax
      */
-    default List<Value> query(String query) {
+    default Stream<Value> query(String query) {
         Objects.requireNonNull(query, "query is required");
         KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
         return parser.query(query, this);

@@ -296,7 +296,7 @@ Also, delete and retrieve information with a callback.
 ----
 interface PersonRepositoryAsync extends RepositoryAsync<Person, Long> {
 
-    void findByNickname(String nickname, Consumer<List<Person>> callback);
+    void findByNickname(String nickname, Consumer<Stream<Person>> callback);
 
     void deleteByNickName(String nickname);
 

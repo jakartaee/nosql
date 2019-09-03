@@ -18,9 +18,9 @@ package jakarta.nosql.document;
 
 import jakarta.nosql.NonUniqueResultException;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * An object that represents a precompiled Query statement.
@@ -39,10 +39,10 @@ public interface DocumentPreparedStatementAsync {
     DocumentPreparedStatementAsync bind(String name, Object value);
 
     /**
-     * Executes a query and return the result as List
+     * Executes a query and return the result as {@link Stream}
      * @param callBack the callback
      */
-    void getResultList(Consumer<List<DocumentEntity>> callBack);
+    void getResult(Consumer<Stream<DocumentEntity>> callBack);
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}

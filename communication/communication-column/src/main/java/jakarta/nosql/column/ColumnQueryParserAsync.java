@@ -17,8 +17,8 @@ package jakarta.nosql.column;
 
 import jakarta.nosql.QueryException;
 
-import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * A query parser to column database type, this class will convert a String to an operation in {@link ColumnFamilyManagerAsync}.
@@ -33,11 +33,11 @@ public interface ColumnQueryParserAsync {
      * @param manager  the manager
      * @param observer the observer
      * @param callBack the callback
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws QueryException           when there is error in the syntax
      */
-    void query(String query, ColumnFamilyManagerAsync manager, Consumer<List<ColumnEntity>> callBack, ColumnObserverParser observer);
+    void query(String query, ColumnFamilyManagerAsync manager, Consumer<Stream<ColumnEntity>> callBack, ColumnObserverParser observer);
 
     /**
      * Executes a query and returns a {@link ColumnPreparedStatementAsync}, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -47,9 +47,9 @@ public interface ColumnQueryParserAsync {
      * @param observer the observer
      * @param manager  the manager
      * @return a {@link ColumnPreparedStatementAsync} instance
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws QueryException           when there is error in the syntax
      */
     ColumnPreparedStatementAsync prepare(String query, ColumnFamilyManagerAsync manager, ColumnObserverParser observer);
 
