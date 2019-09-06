@@ -22,7 +22,7 @@ In software, there are structures: tiers, physical structures, and layers. The m
 * **Logic tier**: Has all business rules, processes, conditions, saved information, etc. This level moves and processes information between other levels.
 * **Data tier**: Retrieves and stores information in either a database or a system file.
 
-image::tiers.png[alt=Tiers from a classic application structure, width=90%]
+image::tiers.png[alt=Tiers from a classic application structure, width=180%]
 
 Talking more precisely about the physical layer and the logic to separate responsibilities, there are other layers.
 
@@ -56,7 +56,7 @@ In a NoSQL database, there isn't a strategy to save code, and there is little im
 
 
 .A NoSQL Java application that has lock-in to each NoSQL provider
-image::nosql_issue.png[alt=A NoSQL Java application that has locking to each NoSQL provider, width=300%]
+image::nosql_issue.png[alt=A NoSQL Java application that has locking to each NoSQL provider, width=280%]
 
 A wise recommendation might be to use the JPA because once the developer already knows this standard SQL API, they can use the same API for a relational database and apply it to a NoSQL database. Using an API with SQL concepts in NoSQL is the same as using a knife as a spoon; the result is a disaster! Furthermore, the NoSQL world has diversity with several data structures and particular behavior to each provider, and both matter in a software solution. Indeed, the merge strategy to use just one API is still a discussion nowadays.
 

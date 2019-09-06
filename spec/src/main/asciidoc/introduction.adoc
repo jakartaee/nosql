@@ -21,7 +21,7 @@ The NoSQL database is defined basically by its model of storage, and there are f
 === Key-value
 
 .Key-value structure
-image::key-value.png[alt=key-value structure, width=240%]
+image::key-value.png[alt=key-value structure, width=300%]
 
 This database has a structure that looks like a java.util.Map API, where we can store any value from a key.
 
@@ -69,7 +69,7 @@ This model can store any document without the need to predefine a structure. Thi
 === Column Family
 
 .Column Family structure
-image::column.png[alt=column family structure, width=240%]
+image::column.png[alt=column family structure, width=300%]
 
 This model became popular with the Bigtable's paper by Google, with the goal of being a distributed system storage, projected to have either high scalability or volume.
 
@@ -94,7 +94,7 @@ This model became popular with the Bigtable's paper by Google, with the goal of 
 === Graph
 
 .Graph structure
-image::graph.png[alt=Graph structure, width=240%]
+image::graph.png[alt=Graph structure, width=300%]
 
 In computing, a graph database is a database that uses graph structures for semantic queries with nodes, edges, and properties, to represent and store data.
 
@@ -103,7 +103,7 @@ In computing, a graph database is a database that uses graph structures for sema
 * *Edge*: The element that represents the relationship between vertices; it has a small similarity with a relationship in SQL. However, the edge has properties — so, a connection deeper than relational technology.
 
 .Graph with vertex, edge and properties
-image::graph_deep.png[alt=Graph structure, width=320%]
+image::graph_deep.png[alt=Graph structure, width=460%]
 
 The graph direction is another concept pretty important in a graph structure, i.e., you can know a person despite this person not knowing you.
 
@@ -144,11 +144,11 @@ Some databases have support for more than one kind of model storage. This is the
 Every kind with specific persistence structures to solve particular problems. As the graph below shows, there is a balance regarding model complexity; more complicated models are less scalable. E.g., a key-value NoSQL database is more scalable, but it has smooth complexity once all queries and operations are key-based.
 
 .Scalability vs Complexity
-image::scalability_vs_complexity.png[alt=Scalability vs Complexity, width=240%]
+image::scalability_vs_complexity.png[alt=Scalability vs Complexity, width=300%]
 
 === BASE vs ACID
 .BASE vs ACID
-image::acid_vs_base.png[alt=BASE vs ACID, width=240%]
+image::acid_vs_base.png[alt=BASE vs ACID, width=300%]
 
 While in the relational persistence technology, they use the ACID, that is an acronym for Atomicity, Consistency, Isolation, Durability.
 
@@ -167,7 +167,7 @@ In the NoSQL world, they usually focus on the BASE. As ACID the BASE is an acron
 
 === CAP Theorem
 .CAP Theorem
-image::cap.png[alt=CAP Theorem, width=240%]
+image::cap.png[alt=CAP Theorem, width=300%]
 
 The CAP theorem applies to distributed systems that store state. Eric Brewer, at the 2000 Symposium on Principles of Distributed Computing (PODC), conjectured that in any networked shared-data system, there is a fundamental trade-off between consistency, availability, and partition.
 Tolerance: In 2002, Seth Gilbert and Nancy Lynch of MIT published a formal proof of Brewer's conjecture. The theorem states that networked shared-data systems can only guarantee/strongly support two of the following three properties:
