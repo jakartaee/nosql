@@ -156,7 +156,7 @@ public interface KeyValueTemplate {
      * @param <K> the key type
      * @throws NullPointerException when the key is null
      */
-    <K> void remove(K key);
+    <K> void delete(K key);
 
     /**
      * Removes entities from keys
@@ -165,6 +165,6 @@ public interface KeyValueTemplate {
      * @param <K>  the key type
      * @throws NullPointerException when the key is null
      */
-    <K> void remove(Iterable<K> keys);
+    <K> void delete(Iterable<K> keys);
 
 }
