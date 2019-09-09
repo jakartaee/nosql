@@ -40,16 +40,16 @@ get_statement ::=  GET ID (',' ID)*
 get "Apollo" //to return an element where the id is 'Apollo'
 get "Diana" "Artemis" //to return a list of values from the ids
 ----
-====== Remove
+====== Del
 
 To delete one or more entities, use the remove statement
 
 [source,sql]
 ----
-del_statement ::=  GET ID (',' ID)*
+del_statement ::=  DEl ID (',' ID)*
 //sample
-remove "Apollo"
-remove "Diana" "Artemis"
+del "Apollo"
+del "Diana" "Artemis"
 ----
 
 ====== Put
