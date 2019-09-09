@@ -26,7 +26,7 @@ import java.util.function.Function;
  * To delete one or more entities use the <b>DEL</b> statement.
  * This query is particular to a key-value database.
  */
-public interface RemoveQuery extends Query {
+public interface DelQuery extends Query {
 
     /**
      * The keys to being removed from the query
@@ -35,24 +35,24 @@ public interface RemoveQuery extends Query {
     List<QueryValue<?>> getKeys();
 
     /**
-     * Obtains an instance of {@link RemoveQuery} from a text string.
+     * Obtains an instance of {@link DelQuery} from a text string.
      *
      * @param query the query
-     * @return {@link RemoveQuery} instance
+     * @return {@link DelQuery} instance
      * @throws NullPointerException                    when the query is null
      * @throws QuerySyntaxException                    if the text cannot be parsed
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
-    static RemoveQuery parse(String query) {
+    static DelQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(RemoveQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(DelQueryProvider.class).apply(query);
     }
 
 
     /**
-     * A provider to {@link RemoveQuery}
+     * A provider to {@link DelQuery}
      */
-    interface RemoveQueryProvider extends Function<String, RemoveQuery> {
+    interface DelQueryProvider extends Function<String, DelQuery> {
 
 
     }
