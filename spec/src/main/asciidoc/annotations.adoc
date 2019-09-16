@@ -362,7 +362,7 @@ With the configuration file, the next step is to inject the dependency into the 
 
 @Inject
 @ConfigurationUnit(fileName = "column.xml", name = "name")
-private ColumnFamilyManagerFactor factoryA;
+private ColumnFamilyManagerFactory factoryA;
 
 @Inject
 @ConfigurationUnit(fileName = "document.json", name = "name-2")
