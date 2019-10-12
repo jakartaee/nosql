@@ -55,7 +55,7 @@
     <properties>
         <apache.rat.version>0.12</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
-        <jacoco.maven.version>0.7.9</jacoco.maven.version>
+        <jacoco.maven.version>0.8.4</jacoco.maven.version>
         <jakarta.annotation.version>1.3.5</jakarta.annotation.version>
         <jakarta.enterprise.cdi.version>2.0.1</jakarta.enterprise.cdi.version>
         <jakarta.json.bind.version>1.0.2</jakarta.json.bind.version>
@@ -73,7 +73,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.3.0.603</sonar.maven.version>
-        <mockito.verson>3.0.0</mockito.verson>
+        <mockito.verson>3.1.0</mockito.verson>
     </properties>
 
     <dependencies>
