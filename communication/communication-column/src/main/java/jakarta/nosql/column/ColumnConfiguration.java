@@ -21,7 +21,7 @@ import jakarta.nosql.Settings;
 
 
 /**
- * The diana configuration to create a {@link ColumnFamilyManagerFactory}
+ * The Jakarta NoSQL communication configuration to create a {@link ColumnFamilyManagerFactory}
  */
 public interface ColumnConfiguration {
 

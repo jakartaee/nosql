@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 /**
- * Decorators of all {@link TypeReferenceReader} supported by Diana
+ * Decorators of all {@link TypeReferenceReader} supported by Jakarta NoSQL
  *
  * @see ValueReader
  */
