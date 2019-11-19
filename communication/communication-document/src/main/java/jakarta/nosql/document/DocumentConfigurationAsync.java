@@ -19,7 +19,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
 /**
- * The diana configuration to create a {@link DocumentCollectionManagerFactory}
+ * The Jakarta NoSQL communication configuration to create a {@link DocumentCollectionManagerFactory}
  *
  */
 public interface DocumentConfigurationAsync {

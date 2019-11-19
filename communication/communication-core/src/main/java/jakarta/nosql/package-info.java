@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 /**
- * Diana is a flexible and extensible API to connect NoSQL databases.
+ * Jakarta NoSQL communication is a flexible and extensible API to connect NoSQL databases.
  * It brings an easy interface to support key-value, column family,
  * document oriented and graph databases as JDBC does for SQL databases.
  */

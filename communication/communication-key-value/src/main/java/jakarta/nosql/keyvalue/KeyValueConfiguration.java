@@ -20,7 +20,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
 /**
- * The diana configuration to create a {@link BucketManagerFactory}
+ * The Jakarta NoSQL communication configuration to create a {@link BucketManagerFactory}
  */
 public interface KeyValueConfiguration {
 

@@ -1,6 +1,6 @@
 image::https://github.com/JNOSQL/jnosql.github.io/blob/master/images/duke-diana.png[Eclipse JNoSQL Diana column,align="center"]
 
-= Eclipse JNoSQL Diana Column
+= Eclipse JNoSQL Communication Column
 
 
 The JNoSQL communication API layer to column database.
