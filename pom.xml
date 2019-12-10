@@ -205,7 +205,7 @@
                     <consoleOutput>true</consoleOutput>
                     <checkstyleRules>
                         <module name="Checker">
-                            <module name="SuppressionCommentFilter"/>
+                           
 
                             <module name="FileLength">
                                 <property name="max" value="3500"/>
@@ -214,9 +214,8 @@
 
                             <module name="FileTabCharacter"/>
 
-                            <module name="SuppressionCommentFilter"/>
-
                             <module name="TreeWalker">
+                                <module name="SuppressionCommentFilter"/>
                                 <module name="FileContentsHolder"/>
 
                                 <module name="ConstantName">
