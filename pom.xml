@@ -216,7 +216,6 @@
 
                             <module name="TreeWalker">
                                 <module name="SuppressionCommentFilter"/>
-                                <module name="FileContentsHolder"/>
                                 <module name="ConstantName">
                                     <property name="format" value="^(_?[a-z][a-zA-Z0-9]*|([A-Z](_?[A-Z0-9]+)*))$"/>
                                 </module>
