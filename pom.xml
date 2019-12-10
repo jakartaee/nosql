@@ -213,9 +213,8 @@
                             </module>
 
                             <module name="FileTabCharacter"/>
-
+                            <module name="SuppressionCommentFilter"/>
                             <module name="TreeWalker">
-                                <module name="SuppressionCommentFilter"/>
                                 <module name="FileContentsHolder"/>
 
                                 <module name="ConstantName">
