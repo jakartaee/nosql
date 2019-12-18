@@ -141,9 +141,9 @@ public interface DocumentEntity  {
     int size();
 
     /**
-     * Returns <tt>true</tt> if this list contains no elements.
+     * Returns true if this list contains no elements.
      *
-     * @return <tt>true</tt> if this list contains no elements
+     * @return true if this list contains no elements
      */
     boolean isEmpty();
 
