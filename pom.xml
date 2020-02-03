@@ -406,8 +406,8 @@
     </distributionManagement>
 
   <modules>
-        <module>communication</module>
-        <module>mapping</module>
+        <module>api</module>
+        <module>tck</module>
         <module>spec</module>
    </modules>
 </project>
