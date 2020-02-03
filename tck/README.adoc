@@ -1,0 +1,46 @@
+= Running the Jakarta NoSQL TCK
+
+Any Jakarta NoSQL module must pass this test suite.
+The TCK uses `JUnit Jupiter 5`
+
+It is essential to point out that Jakarta NoSQL has modules, and each module works individually. Therefore, if a database provider wishes to implement a column driver, it does need to apply neither the mapping layer or anything else.
+
+== Dependencies
+
+To enable the tests, you need to add the own TCK module dependency that you want to test in your build file, E.g.:
+
+[source, xml]
+----
+<properties>
+	<jakarta.nosql.version>1.0.0</jakarta.nosql.version>
+</properties>
+
+<dependency>
+	<groupId>jakarta.nosql.tck.mapping</groupId>
+	<artifactId>mapping-tck-core</artifactId>
+	<version>${jakarta.nosql.version}</version>
+	<scope>test</scope>
+</dependency>
+----
+
+== Configuration in Apache Maven pom.xml
+
+The tests are run by the `maven-surefire-plugin`
+
+[source, xml]
+----
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <dependenciesToScan>
+                        <dependency>jakarta.nosql.tck.mapping:mapping-tck-core</dependency>
+                    </dependenciesToScan>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+----
