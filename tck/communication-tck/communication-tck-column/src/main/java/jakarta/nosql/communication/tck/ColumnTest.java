@@ -33,16 +33,12 @@ public class ColumnTest {
 
     @Test
     public void shouldReturnNameWhenNameIsNull() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            Column column = Column.of(null, DEFAULT_VALUE);
-        });
+        Assertions.assertThrows(NullPointerException.class, () -> Column.of(null, DEFAULT_VALUE));
     }
 
     @Test
     public void shouldReturnNameWhenValueIsNull() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            Column column = Column.of("Name", null);
-        });
+        Assertions.assertThrows(NullPointerException.class, () -> Column.of("Name", null));
     }
 
     @Test
