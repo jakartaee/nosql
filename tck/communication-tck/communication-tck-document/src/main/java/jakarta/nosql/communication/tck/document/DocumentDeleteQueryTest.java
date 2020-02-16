@@ -13,9 +13,10 @@
  *
  *  SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.communication.tck;
+package jakarta.nosql.communication.tck.document;
 
-import jakarta.nosql.column.ColumnDeleteQuery;
+
+import jakarta.nosql.document.DocumentDeleteQuery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,21 +25,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ColumnDeleteQueryTest {
+public class DocumentDeleteQueryTest {
 
-    private ColumnDeleteQuery query;
+
+    private DocumentDeleteQuery query;
+
 
     @BeforeEach
     public void setUp() {
-        query = ColumnDeleteQuery.delete().from("columnFamily").build();
+        query = DocumentDeleteQuery.delete().from("columnFamily").build();
     }
 
     @Test
     public void shouldNotEditColumns() {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> {
-            List<String> columns = query.getColumns();
-            assertTrue(columns.isEmpty());
-            columns.clear();
+            List<String> documents = query.getDocuments();
+            assertTrue(documents.isEmpty());
+            documents.clear();
         });
     }
 }

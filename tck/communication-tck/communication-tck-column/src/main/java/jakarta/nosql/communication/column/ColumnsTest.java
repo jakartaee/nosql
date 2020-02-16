@@ -14,7 +14,7 @@
  *  SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package jakarta.nosql.communication.tck;
+package jakarta.nosql.communication.column;
 
 import jakarta.nosql.column.Column;
 import jakarta.nosql.column.Columns;

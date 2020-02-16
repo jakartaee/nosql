@@ -13,12 +13,11 @@
  *
  *  SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.communication.tck;
-
+package jakarta.nosql.communication.tck.document;
 
 import jakarta.nosql.TypeReference;
 import jakarta.nosql.Value;
-import jakarta.nosql.column.Column;
+import jakarta.nosql.document.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,54 +26,61 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ColumnTest {
+
+public class DocumentTest {
+
 
     private static final Value DEFAULT_VALUE = Value.of(12);
 
     @Test
     public void shouldReturnNameWhenNameIsNull() {
-        Assertions.assertThrows(NullPointerException.class, () -> Column.of(null, DEFAULT_VALUE));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            Document document = Document.of(null, DEFAULT_VALUE);
+        });
     }
 
     @Test
     public void shouldReturnNameWhenValueIsNull() {
-        Assertions.assertThrows(NullPointerException.class, () -> Column.of("Name", null));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            Document document = Document.of("Name", null);
+        });
     }
 
     @Test
-    public void shouldCreateAnColumnInstance() {
+    public void shouldCreateAnDocumentInstance() {
         String name = "name";
-        Column column = Column.of(name, DEFAULT_VALUE);
-        assertNotNull(column);
-        assertEquals(name, column.getName());
-        assertEquals(DEFAULT_VALUE, column.getValue());
+        Document document = Document.of(name, DEFAULT_VALUE);
+        assertNotNull(document);
+        assertEquals(name, document.getName());
+        assertEquals(DEFAULT_VALUE, document.getValue());
     }
 
     @Test
     public void shouldBeEquals() {
-        assertEquals(Column.of("name", DEFAULT_VALUE), Column.of("name", DEFAULT_VALUE));
+        assertEquals(Document.of("name", DEFAULT_VALUE), Document.of("name", DEFAULT_VALUE));
     }
 
     @Test
     public void shouldReturnGetObject() {
         Value value = Value.of("text");
-        Column column = Column.of("name", value);
-        assertEquals(value.get(), column.get());
+        Document document = Document.of("name", value);
+        assertEquals(value.get(), document.get());
     }
 
     @Test
     public void shouldReturnGetClass() {
         Value value = Value.of("text");
-        Column column = Column.of("name", value);
-        assertEquals(value.get(String.class), column.get(String.class));
+        Document document = Document.of("name", value);
+        assertEquals(value.get(String.class), document.get(String.class));
     }
 
 
     @Test
     public void shouldReturnGetType() {
         Value value = Value.of("text");
-        Column column = Column.of("name", value);
-        TypeReference<List<String>> typeReference = new TypeReference<List<String>>(){};
-        assertEquals(value.get(typeReference), column.get(typeReference));
+        Document document = Document.of("name", value);
+        TypeReference<List<String>> typeReference = new TypeReference<List<String>>() {
+        };
+        assertEquals(value.get(typeReference), document.get(typeReference));
     }
 }

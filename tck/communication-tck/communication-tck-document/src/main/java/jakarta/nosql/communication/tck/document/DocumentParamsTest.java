@@ -13,12 +13,12 @@
  *
  *  SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.communication.tck;
+package jakarta.nosql.communication.tck.document;
 
 import jakarta.nosql.Params;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Value;
-import jakarta.nosql.column.Column;
+import jakarta.nosql.document.Document;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ColumnParamsTest {
+public class DocumentParamsTest {
 
     @Test
-    public void shouldAddParameter() {
+    public void shouldAddParamter() {
         Params params = Params.newParams();
         Value name = params.add("name");
         assertNotNull(name);
@@ -52,13 +52,13 @@ public class ColumnParamsTest {
     public void shouldSetParameter() {
         Params params = Params.newParams();
         Value name = params.add("name");
-        Column column = Column.of("name", name);
+        Document document = Document.of("name", name);
         params.bind("name", "Ada Lovelace");
 
-        assertEquals("Ada Lovelace", column.get());
+        assertEquals("Ada Lovelace", document.get());
 
         params.bind("name", "Diana");
-        assertEquals("Diana", column.get());
+        assertEquals("Diana", document.get());
     }
 
 }
