@@ -44,9 +44,7 @@ public class ValueReaderDecoratorTest {
 
     @Test
     public void shouldReturnErrorWhenTypeIsNotSupported() {
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
-            serviceLoader.read(Bean.class, "name");
-        });
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> serviceLoader.read(Bean.class, "name"));
     }
 
     @Test
