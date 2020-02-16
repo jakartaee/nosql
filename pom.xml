@@ -151,7 +151,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <target>${maven.compiler.target}</target>
                     <source>${maven.compiler.source}</source>
                 </configuration>
             </plugin>
