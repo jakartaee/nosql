@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -60,6 +61,7 @@ public class SettingsBuilderTest {
     public void shouldCreateSettingsBuilder() {
         Settings settings = Settings.builder().put("key", "value").build();
         assertNotNull(settings);
-        assertEquals("value", settings.get("key").get());
+        assertEquals("value", settings.get("key")
+                .orElseThrow(() -> new NoSuchElementException("There is not 'key' element in the settings")));
     }
 }

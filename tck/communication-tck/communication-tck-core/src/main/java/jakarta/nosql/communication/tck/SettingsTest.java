@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -57,7 +58,8 @@ public class SettingsTest {
         Settings settings = Settings.of(singletonMap("key", "value"));
         assertFalse(settings.isEmpty());
         assertEquals(1, settings.size());
-        assertEquals("value", settings.get("key").get());
+        assertEquals("value", settings.get("key")
+                .orElseThrow(() -> new NoSuchElementException("There is not key element in the settings")));
     }
 
     @Test
@@ -77,7 +79,9 @@ public class SettingsTest {
     @Test
     public void shouldGetEntrySet() {
         Settings settings = Settings.of(singletonMap("key", "value"));
-        assertEquals(settings.entrySet().stream().findFirst().get().getKey(), "key");
+        assertEquals(settings.entrySet().stream().findFirst()
+                .orElseThrow(() -> new NoSuchElementException("The first element was not found"))
+                .getKey(), "key");
     }
 
     @Test
@@ -100,7 +104,8 @@ public class SettingsTest {
     public void shouldGetValueClass() {
         Settings settings = Settings.of(singletonMap("key", "12"));
 
-        Integer value = settings.get("key", Integer.class).get();
+        Integer value = settings.get("key", Integer.class)
+                .orElseThrow(() -> new NoSuchElementException("There is not 'key' element in the settings"));
         assertEquals(Integer.valueOf(12), value);
         assertFalse(settings.get("key2", Integer.class).isPresent());
     }
@@ -132,7 +137,8 @@ public class SettingsTest {
     public void shouldComputeIAbsent() {
         Settings settings = Settings.of(singletonMap("key", "12"));
         settings.computeIfAbsent("non", (k) -> "no key");
-        assertEquals("no key", settings.get("non").get());
+        assertEquals("no key", settings.get("non")
+                .orElseThrow(() -> new NoSuchElementException("There is not 'non' element in the settings")));
     }
 
     @Test
