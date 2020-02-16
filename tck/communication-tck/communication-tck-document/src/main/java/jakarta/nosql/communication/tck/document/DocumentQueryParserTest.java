@@ -81,9 +81,8 @@ public class DocumentQueryParserTest {
 
     }
 
-
     @ParameterizedTest(name = "Should parser the query {0}")
-        @ValueSource(strings = {"delete from God"})
+    @ValueSource(strings = {"delete from God"})
     public void shouldReturnParserQuery1(String query) {
         ArgumentCaptor<DocumentDeleteQuery> captor = ArgumentCaptor.forClass(DocumentDeleteQuery.class);
         parser.query(query, manager, DocumentObserverParser.EMPTY);
