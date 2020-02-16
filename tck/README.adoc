@@ -5,6 +5,14 @@ The TCK uses `JUnit Jupiter 5`
 
 It is essential to point out that Jakarta NoSQL has modules, and each module works individually. Therefore, if a database provider wishes to implement a column driver, it does need to apply neither the mapping layer or anything else.
 
+The TCK has three parts:
+
+* communication-tck: The TCK to communication API that does not include the communication with the database. 
+* mapping-tck: The TCK to mapping API.
+* drivers-tck: It includes the database communication layer.
+
+
+
 == Dependencies
 
 To enable the tests, you need to add the own TCK module dependency that you want to test in your build file, E.g.:
