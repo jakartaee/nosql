@@ -29,7 +29,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 public class KeyValueEntityTest {
 
 
@@ -105,5 +104,4 @@ public class KeyValueEntityTest {
         assertNotNull(entity);
         Assertions.assertThrows(NullPointerException.class, () -> entity.getKey((TypeReference<Object>) null));
     }
-
 }

@@ -28,6 +28,12 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>jakarta.nosql.communication</groupId>
+            <artifactId>communication-column</artifactId>
+            <version>${jakarta.nosql.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>
