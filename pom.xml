@@ -151,7 +151,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <target>${maven.compiler.target}</target>
                     <source>${maven.compiler.source}</source>
                 </configuration>
             </plugin>
@@ -406,8 +405,8 @@
     </distributionManagement>
 
   <modules>
-        <module>communication</module>
-        <module>mapping</module>
+        <module>api</module>
+        <module>tck</module>
         <module>spec</module>
    </modules>
 </project>
