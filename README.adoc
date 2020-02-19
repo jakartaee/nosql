@@ -59,7 +59,7 @@ Optional nameResult = repository.findByName("Diana");
 
 == Beyond JPA
 
-JPA is a good API for object-relationship mapping and it's already a Jakarta EE standard. It would be great to use the same API for both SQL and NoSQL, but there are behaviors in NoSQL that SQL does not cover, such as time to live and asynchronous operations. JPA was simply not made to handle most of those features.
+Jakarta Persistence (JPA) is a good API for object-relationship mapping and it's already a Jakarta EE standard. It would be great to use the same API for both SQL and NoSQL, but there are behaviors in NoSQL that SQL does not cover, such as time to live and asynchronous operations. JPA was simply not made to handle most of those features.
 
 
 [source,java]
