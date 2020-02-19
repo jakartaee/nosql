@@ -2,7 +2,7 @@
 
 ifndef::imagesdir[:imagesdir: src/site/resources/images]
 
-image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align="center", width=50%, height=50%]
+image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align=center, width=50%, height=50%]
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low coupling with the underlying NoSQL technologies used in applications. The project has two layers:
 
@@ -95,4 +95,4 @@ Find out more information and get involved!
 * Website: http://www.jnosql.org/
 * Twitter: https://twitter.com/jnosql
 * GitHub Repo: https://github.com/eclipse-ee4j/nosql
-* Mailing List: https://accounts.eclipse.org/mailing-list/jnosql-dev
+* Mailing List: https://accounts.eclipse.org/mailing-list/nosql-dev
