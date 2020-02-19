@@ -1,5 +1,7 @@
 = Jakarta NoSQL
 
+ifndef::imagesdir[:imagesdir: src/site/resources/images]
+
 image::http://www.jnosql.org/images/home_logo.png[Jakarta NoSQL logo,align="center"]
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low coupling with the underlying NoSQL technologies used in applications. The project has two layers:
@@ -83,7 +85,7 @@ The Communication Layer defines three new APIs: Key-Value, Document and Column F
 
 
 
-== Particular behavior matters in NoSQL database
+== Particular behavior matters in NoSQL databases
 
 Particular behavior matters. Even within the same type, each NoSQL database has a unique feature that is a considerable factor when choosing a database over another. This ‘’feature’’ might make it easier to develop, make it more scaleable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples are Cassandra and its Cassandra Query Language and consistency level, OrientDB with live queries, ArangoDB and its Arango Query Language, Couchbase with N1QL - the list goes on. Each NoSQL has a specific behavior and this behavior matters, so NoSQL is extensible enough to capture this substantiality different feature elements.
 
@@ -92,5 +94,5 @@ Find out more information and get involved!
 
 * Website: http://www.jnosql.org/
 * Twitter: https://twitter.com/jnosql
-* GitHub Repo: https://github.com/eclipse?q=Jnosql
+* GitHub Repo: https://github.com/eclipse-ee4j/nosql
 * Mailing List: https://accounts.eclipse.org/mailing-list/jnosql-dev
