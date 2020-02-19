@@ -2,7 +2,7 @@
 
 ifndef::imagesdir[:imagesdir: src/site/resources/images]
 
-image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align="center"]
+image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align="center", width=50%, height=50%]
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low coupling with the underlying NoSQL technologies used in applications. The project has two layers:
 
