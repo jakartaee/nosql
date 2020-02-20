@@ -1,6 +1,8 @@
 = Jakarta NoSQL
 
-image::http://www.jnosql.org/images/home_logo.png[Jakarta NoSQL logo,align="center"]
+ifndef::imagesdir[:imagesdir: src/site/resources/images]
+
+image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align=center, width=50%, height=50%]
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low coupling with the underlying NoSQL technologies used in applications. The project has two layers:
 
@@ -36,7 +38,7 @@ public class God {
 
 Another example can be found in an article that demonstrates the same annotated entity used across different NoSQL databases: Redis, Cassandra, Couchbase, and Neo4J. The approach is "stick to the API": the developer can replace Redis with Hazelcast, as both implement the Key-Value API, thus avoiding vendor lock-in with one of these databases.
 
-Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there's a need for a switch, other considerations include: time spent on the change, the learning curve of a new API to use with this database, the code that will be lost, the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the Communication APIs. It also has template classes that apply the design pattern 'template method’ to databases operations. And the Repository interface allows Java developers to create and extend interfaces, with implementation automatically provided by Jakarta NoSQL: support method queries built by developers will automatically be implemented for them.
+Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there's a need to switch, other considerations include: time spent on the change, the learning curve of a new API to use with this database, the code that will be lost, the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the Communication APIs. It also has template classes that apply the design pattern 'template method’ to databases operations. And the Repository interface allows Java developers to create and extend interfaces, with implementation automatically provided by Jakarta NoSQL: support method queries built by developers will automatically be implemented for them.
 
 
 [source,java]
@@ -57,7 +59,7 @@ Optional nameResult = repository.findByName("Diana");
 
 == Beyond JPA
 
-JPA is a good API for object-relationship mapping and it's already a standard in the Java world defined in JSRs. It would be great to use the same API for both SQL and NoSQL, but there are behaviors in NoSQL that SQL does not cover, such as time to live and asynchronous operations. JPA was simply not made to handle those features.
+Jakarta Persistence (JPA) is a good API for object-relationship mapping and it's already a Jakarta EE standard. It would be great to use the same API for both SQL and NoSQL, but there are behaviors in NoSQL that SQL does not cover, such as time to live and asynchronous operations. JPA was simply not made to handle most of those features.
 
 
 [source,java]
@@ -83,7 +85,7 @@ The Communication Layer defines three new APIs: Key-Value, Document and Column F
 
 
 
-== Particular behavior matters in NoSQL database
+== Particular behavior matters in NoSQL databases
 
 Particular behavior matters. Even within the same type, each NoSQL database has a unique feature that is a considerable factor when choosing a database over another. This ‘’feature’’ might make it easier to develop, make it more scaleable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples are Cassandra and its Cassandra Query Language and consistency level, OrientDB with live queries, ArangoDB and its Arango Query Language, Couchbase with N1QL - the list goes on. Each NoSQL has a specific behavior and this behavior matters, so NoSQL is extensible enough to capture this substantiality different feature elements.
 
@@ -92,5 +94,5 @@ Find out more information and get involved!
 
 * Website: http://www.jnosql.org/
 * Twitter: https://twitter.com/jnosql
-* GitHub Repo: https://github.com/eclipse?q=Jnosql
-* Mailing List: https://accounts.eclipse.org/mailing-list/jnosql-dev
+* GitHub Repo: https://github.com/eclipse-ee4j/nosql
+* Mailing List: https://accounts.eclipse.org/mailing-list/nosql-dev
