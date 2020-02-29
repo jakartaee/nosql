@@ -27,6 +27,16 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>jakarta.nosql.tck.mapping</groupId>
+            <artifactId>mapping-tck-entities</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.nosql.tck.mapping</groupId>
+            <artifactId>mapping-tck-test</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
