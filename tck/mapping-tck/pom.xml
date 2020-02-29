@@ -31,6 +31,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>mapping-tck-test</module>
         <module>mapping-tck-core</module>
         <module>mapping-tck-key-value</module>
         <module>mapping-tck-column</module>
