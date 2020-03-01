@@ -1,16 +1,16 @@
 /*
- *  Copyright (c) 2017 Otávio Santana and others
- *   All rights reserved. This program and the accompanying materials
- *   are made available under the terms of the Eclipse Public License v1.0
- *   and Apache License v2.0 which accompanies this distribution.
- *   The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- *   and the Apache License v2.0 is available at http://www.opensource.org/licenses/apache2.0.php.
+ * Copyright (c) 2020 Otavio Santana and others
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
  *
- *   You may elect to redistribute this code under either of these licenses.
+ * This Source Code may also be made available under the following Secondary
+ * Licenses when the conditions for such availability set forth in the Eclipse
+ * Public License v. 2.0 are satisfied: GNU General Public License v2.0
+ * w/Classpath exception which is available at
+ * https://www.gnu.org/software/classpath/license.html.
  *
- *   Contributors:
- *
- *   Otavio Santana
+ * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 package jakarta.nosql.mapping.tck.column;
 
@@ -18,21 +18,22 @@ import jakarta.nosql.TypeReference;
 import jakarta.nosql.Value;
 import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnEntity;
-import org.eclipse.jnosql.artemis.model.Actor;
-import org.eclipse.jnosql.artemis.model.Address;
-import org.eclipse.jnosql.artemis.model.AppointmentBook;
-import org.eclipse.jnosql.artemis.model.Contact;
-import org.eclipse.jnosql.artemis.model.ContactType;
-import org.eclipse.jnosql.artemis.model.Director;
-import org.eclipse.jnosql.artemis.model.Download;
-import org.eclipse.jnosql.artemis.model.Job;
-import org.eclipse.jnosql.artemis.model.Money;
-import org.eclipse.jnosql.artemis.model.Movie;
-import org.eclipse.jnosql.artemis.model.Person;
-import org.eclipse.jnosql.artemis.model.Vendor;
-import org.eclipse.jnosql.artemis.model.Worker;
-import org.eclipse.jnosql.artemis.model.ZipCode;
-import org.eclipse.jnosql.artemis.test.CDIExtension;
+import jakarta.nosql.mapping.column.ColumnEntityConverter;
+import jakarta.nosql.tck.entities.Actor;
+import jakarta.nosql.tck.entities.Address;
+import jakarta.nosql.tck.entities.AppointmentBook;
+import jakarta.nosql.tck.entities.Contact;
+import jakarta.nosql.tck.entities.ContactType;
+import jakarta.nosql.tck.entities.Director;
+import jakarta.nosql.tck.entities.Download;
+import jakarta.nosql.tck.entities.Job;
+import jakarta.nosql.tck.entities.Money;
+import jakarta.nosql.tck.entities.Movie;
+import jakarta.nosql.tck.entities.Person;
+import jakarta.nosql.tck.entities.Vendor;
+import jakarta.nosql.tck.entities.Worker;
+import jakarta.nosql.tck.entities.ZipCode;
+import jakarta.nosql.tck.test.CDIExtension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,11 +60,10 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @CDIExtension
-public class DefaultColumnEntityConverterTest {
-
+public class ColumnEntityConverterTest {
 
     @Inject
-    private DefaultColumnEntityConverter converter;
+    private ColumnEntityConverter converter;
 
     private Column[] columns;
 
@@ -291,7 +291,6 @@ public class DefaultColumnEntityConverterTest {
         assertEquals(job.getCity(), worker1.getJob().getCity());
         assertEquals(job.getDescription(), worker1.getJob().getDescription());
     }
-
 
     @Test
     public void shouldConvertToListEmbeddable() {
