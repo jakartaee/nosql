@@ -27,7 +27,7 @@ import javax.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@CDIExtension(classes = Person.class)
+@CDIExtension(classes = Person.class, disableDiscovery = true)
 public class KeyValueTemplateProducerTest {
 
     @Inject

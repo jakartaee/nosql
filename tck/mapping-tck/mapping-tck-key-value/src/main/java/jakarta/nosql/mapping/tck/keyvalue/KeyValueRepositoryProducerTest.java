@@ -27,7 +27,7 @@ import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@CDIExtension(classes = {Person.class, PersonRepository.class})
+@CDIExtension(classes = {Person.class, PersonRepository.class}, disableDiscovery = true)
 class KeyValueRepositoryProducerTest {
 
     @Inject
