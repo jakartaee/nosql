@@ -31,7 +31,7 @@ import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@CDIExtension(classes = {User.class, Person.class}, disableDiscovery = true)
+@CDIExtension(classes = {User.class, Person.class})
 public class KeyValueEntityConverterTest {
 
     @Inject
