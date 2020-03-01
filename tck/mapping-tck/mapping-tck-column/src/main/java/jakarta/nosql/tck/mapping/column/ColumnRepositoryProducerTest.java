@@ -12,13 +12,13 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.tck.column;
+package jakarta.nosql.tck.mapping.column;
 
-import jakarta.nosql.column.ColumnFamilyManagerAsync;
-import jakarta.nosql.mapping.column.ColumnTemplateAsync;
-import jakarta.nosql.mapping.column.ColumnTemplateAsyncProducer;
+import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.mapping.column.ColumnRepositoryProducer;
+import jakarta.nosql.mapping.column.ColumnTemplate;
+import jakarta.nosql.tck.entities.PersonRepository;
 import jakarta.nosql.tck.test.CDIExtension;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -27,22 +27,25 @@ import javax.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @CDIExtension
-public class ColumnTemplateAsyncProducerTest {
-
+class ColumnRepositoryProducerTest {
 
     @Inject
-    private ColumnTemplateAsyncProducer producer;
+    private ColumnRepositoryProducer producer;
 
     @Test
-    public void shouldReturnErrorWhenColumnFamilyManagerNull() {
-        Assertions.assertThrows(NullPointerException.class, () -> producer.get(null));
+    public void shouldCreateFromManager() {
+        ColumnFamilyManager manager= Mockito.mock(ColumnFamilyManager.class);
+        PersonRepository personRepository = producer.get(PersonRepository.class, manager);
+        assertNotNull(personRepository);
     }
 
+
     @Test
-    public void shouldReturn() {
-        ColumnFamilyManagerAsync manager = Mockito.mock(ColumnFamilyManagerAsync.class);
-        ColumnTemplateAsync columnRepository = producer.get(manager);
-        assertNotNull(columnRepository);
+    public void shouldCreateFromTemplate() {
+        ColumnTemplate template= Mockito.mock(ColumnTemplate.class);
+        PersonRepository personRepository = producer.get(PersonRepository.class, template);
+        assertNotNull(personRepository);
     }
+
 
 }

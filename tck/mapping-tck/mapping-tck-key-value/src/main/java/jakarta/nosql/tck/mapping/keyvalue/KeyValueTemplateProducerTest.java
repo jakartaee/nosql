@@ -12,12 +12,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.tck.column;
+package jakarta.nosql.tck.mapping.keyvalue;
 
-import jakarta.nosql.column.ColumnFamilyManager;
-import jakarta.nosql.mapping.column.ColumnRepositoryProducer;
-import jakarta.nosql.mapping.column.ColumnTemplate;
-import jakarta.nosql.tck.entities.PersonRepository;
+import jakarta.nosql.keyvalue.BucketManager;
+import jakarta.nosql.mapping.keyvalue.KeyValueTemplate;
+import jakarta.nosql.mapping.keyvalue.KeyValueTemplateProducer;
+import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.test.CDIExtension;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,27 +25,24 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@CDIExtension
-class ColumnRepositoryProducerTest {
+@CDIExtension(classes = Person.class)
+public class KeyValueTemplateProducerTest {
 
     @Inject
-    private ColumnRepositoryProducer producer;
-
-    @Test
-    public void shouldCreateFromManager() {
-        ColumnFamilyManager manager= Mockito.mock(ColumnFamilyManager.class);
-        PersonRepository personRepository = producer.get(PersonRepository.class, manager);
-        assertNotNull(personRepository);
-    }
+    private KeyValueTemplateProducer producer;
 
 
     @Test
-    public void shouldCreateFromTemplate() {
-        ColumnTemplate template= Mockito.mock(ColumnTemplate.class);
-        PersonRepository personRepository = producer.get(PersonRepository.class, template);
-        assertNotNull(personRepository);
+    public void shouldReturnErrorWhenManagerNull() {
+        assertThrows(NullPointerException.class, () -> producer.get(null));
     }
 
-
+    @Test
+    public void shouldReturn() {
+        BucketManager manager = Mockito.mock(BucketManager.class);
+        KeyValueTemplate repository = producer.get(manager);
+        assertNotNull(repository);
+    }
 }

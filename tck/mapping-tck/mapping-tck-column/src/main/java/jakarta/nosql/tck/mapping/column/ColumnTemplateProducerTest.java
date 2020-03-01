@@ -12,37 +12,35 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.tck.keyvalue;
+package jakarta.nosql.tck.mapping.column;
 
-import jakarta.nosql.keyvalue.BucketManager;
-import jakarta.nosql.mapping.keyvalue.KeyValueTemplate;
-import jakarta.nosql.mapping.keyvalue.KeyValueTemplateProducer;
-import jakarta.nosql.tck.entities.Person;
+import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.mapping.column.ColumnTemplate;
+import jakarta.nosql.mapping.column.ColumnTemplateProducer;
 import jakarta.nosql.tck.test.CDIExtension;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@CDIExtension(classes = Person.class)
-public class KeyValueTemplateProducerTest {
+@CDIExtension
+public class ColumnTemplateProducerTest {
 
     @Inject
-    private KeyValueTemplateProducer producer;
-
+    private ColumnTemplateProducer producer;
 
     @Test
-    public void shouldReturnErrorWhenManagerNull() {
-        assertThrows(NullPointerException.class, () -> producer.get(null));
+    public void shouldReturnErrorWhenColumnFamilyManagerNull() {
+        Assertions.assertThrows(NullPointerException.class, () -> producer.get(null));
     }
 
     @Test
     public void shouldReturn() {
-        BucketManager manager = Mockito.mock(BucketManager.class);
-        KeyValueTemplate repository = producer.get(manager);
-        assertNotNull(repository);
+        ColumnFamilyManager manager = Mockito.mock(ColumnFamilyManager.class);
+        ColumnTemplate columnTemplate = producer.get(manager);
+        assertNotNull(columnTemplate);
     }
 }

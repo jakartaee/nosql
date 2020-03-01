@@ -12,7 +12,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.tck;
+package jakarta.nosql.tck.mapping;
 
 import jakarta.nosql.mapping.Pagination;
 import org.junit.jupiter.api.Test;

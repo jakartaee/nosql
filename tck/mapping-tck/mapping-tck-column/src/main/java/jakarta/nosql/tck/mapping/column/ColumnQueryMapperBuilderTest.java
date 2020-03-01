@@ -12,7 +12,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.tck.column;
+package jakarta.nosql.tck.mapping.column;
 
 import jakarta.nosql.mapping.column.ColumnQueryMapper;
 import jakarta.nosql.mapping.column.ColumnQueryMapper.ColumnMapperDeleteFrom;

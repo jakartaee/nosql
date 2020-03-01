@@ -12,7 +12,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.tck.reflection;
+package jakarta.nosql.tck.mapping.reflection;
 
 import jakarta.nosql.mapping.InstanceProducer;
 import jakarta.nosql.tck.entities.ZipCode;
