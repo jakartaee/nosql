@@ -28,7 +28,7 @@ import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@CDIExtension(classes = {Person.class, PersonRepository.class, BucketManagerMockProducer.class, User.class, UserRepository.class})
+@CDIExtension(classes = {Person.class, PersonRepository.class, User.class, UserRepository.class})
 public class BucketManagerProducerExtensionTest {
 
     @Inject
