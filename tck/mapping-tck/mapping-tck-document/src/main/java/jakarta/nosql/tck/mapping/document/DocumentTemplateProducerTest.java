@@ -12,13 +12,13 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck.mappingdocument;
+package jakarta.nosql.tck.mapping.document;
 
 import jakarta.nosql.document.DocumentCollectionManager;
-import jakarta.nosql.mapping.document.DocumentRepositoryProducer;
 import jakarta.nosql.mapping.document.DocumentTemplate;
-import jakarta.nosql.tck.entities.PersonRepository;
+import jakarta.nosql.mapping.document.DocumentTemplateProducer;
 import jakarta.nosql.tck.test.CDIExtension;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -26,25 +26,23 @@ import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
 @CDIExtension
-class DocumentRepositoryProducerTest {
+public class DocumentTemplateProducerTest {
 
     @Inject
-    private DocumentRepositoryProducer producer;
+    private DocumentTemplateProducer producer;
 
 
     @Test
-    public void shouldCreateFromManager() {
-        DocumentCollectionManager manager= Mockito.mock(DocumentCollectionManager.class);
-        PersonRepository personRepository = producer.get(PersonRepository.class, manager);
-        assertNotNull(personRepository);
+    public void shouldReturnErrorWhenManagerNull() {
+        Assertions.assertThrows(NullPointerException.class, () -> producer.get(null));
     }
 
-
     @Test
-    public void shouldCreateFromTemplate() {
-        DocumentTemplate template= Mockito.mock(DocumentTemplate.class);
-        PersonRepository personRepository = producer.get(PersonRepository.class, template);
-        assertNotNull(personRepository);
+    public void shouldReturn() {
+        DocumentCollectionManager manager = Mockito.mock(DocumentCollectionManager.class);
+        DocumentTemplate documentTemplate = producer.get(manager);
+        assertNotNull(documentTemplate);
     }
 }

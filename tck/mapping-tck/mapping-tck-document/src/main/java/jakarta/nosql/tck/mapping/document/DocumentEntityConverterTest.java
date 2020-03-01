@@ -12,7 +12,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck.mappingdocument;
+package jakarta.nosql.tck.mapping.document;
 
 import jakarta.nosql.TypeReference;
 import jakarta.nosql.Value;
@@ -309,7 +309,7 @@ public class DocumentEntityConverterTest {
         List<List<Document>> documents = (List<List<Document>>) contacts.get();
 
         assertEquals(3L, documents.stream().flatMap(Collection::stream)
-                .filter(c -> c.getName().equals("name"))
+                .filter(c -> c.getName().equals("contact_name"))
                 .count());
     }
 
@@ -319,13 +319,13 @@ public class DocumentEntityConverterTest {
         entity.add(Document.of("_id", "ids"));
         List<List<Document>> documents = new ArrayList<>();
 
-        documents.add(asList(Document.of("name", "Ada"), Document.of("type", ContactType.EMAIL),
+        documents.add(asList(Document.of("contact_name", "Ada"), Document.of("type", ContactType.EMAIL),
                 Document.of("information", "ada@lovelace.com")));
 
-        documents.add(asList(Document.of("name", "Ada"), Document.of("type", ContactType.MOBILE),
+        documents.add(asList(Document.of("contact_name", "Ada"), Document.of("type", ContactType.MOBILE),
                 Document.of("information", "11 1231231 123")));
 
-        documents.add(asList(Document.of("name", "Ada"), Document.of("type", ContactType.PHONE),
+        documents.add(asList(Document.of("contact_name", "Ada"), Document.of("type", ContactType.PHONE),
                 Document.of("information", "phone")));
 
         entity.add(Document.of("contacts", documents));

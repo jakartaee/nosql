@@ -12,12 +12,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck.mappingdocument;
+package jakarta.nosql.tck.mapping.document;
 
-import jakarta.nosql.document.DocumentCollectionManagerAsync;
-import jakarta.nosql.mapping.document.DocumentRepositoryAsyncProducer;
-import jakarta.nosql.mapping.document.DocumentTemplateAsync;
-import jakarta.nosql.tck.entities.PersonRepositoryAsync;
+import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.mapping.document.DocumentRepositoryProducer;
+import jakarta.nosql.mapping.document.DocumentTemplate;
+import jakarta.nosql.tck.entities.PersonRepository;
 import jakarta.nosql.tck.test.CDIExtension;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,23 +27,24 @@ import javax.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @CDIExtension
-class DocumentRepositoryAsyncProducerTest {
+class DocumentRepositoryProducerTest {
 
     @Inject
-    private DocumentRepositoryAsyncProducer producer;
+    private DocumentRepositoryProducer producer;
 
 
     @Test
     public void shouldCreateFromManager() {
-        DocumentCollectionManagerAsync manager= Mockito.mock(DocumentCollectionManagerAsync.class);
-        PersonRepositoryAsync personRepository = producer.get(PersonRepositoryAsync.class, manager);
+        DocumentCollectionManager manager= Mockito.mock(DocumentCollectionManager.class);
+        PersonRepository personRepository = producer.get(PersonRepository.class, manager);
         assertNotNull(personRepository);
     }
 
+
     @Test
     public void shouldCreateFromTemplate() {
-        DocumentTemplateAsync template= Mockito.mock(DocumentTemplateAsync.class);
-        PersonRepositoryAsync personRepository = producer.get(PersonRepositoryAsync.class, template);
+        DocumentTemplate template= Mockito.mock(DocumentTemplate.class);
+        PersonRepository personRepository = producer.get(PersonRepository.class, template);
         assertNotNull(personRepository);
     }
 }
