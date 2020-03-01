@@ -15,10 +15,9 @@
 package jakarta.nosql.mapping.tck.keyvalue;
 
 import jakarta.nosql.keyvalue.BucketManager;
-import jakarta.nosql.mapping.keyvalue.KeyValueRepositoryProducer;
 import jakarta.nosql.mapping.keyvalue.KeyValueTemplate;
+import jakarta.nosql.mapping.keyvalue.KeyValueTemplateProducer;
 import jakarta.nosql.tck.entities.Person;
-import jakarta.nosql.tck.entities.PersonRepository;
 import jakarta.nosql.tck.test.CDIExtension;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,25 +25,24 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@CDIExtension(classes = {Person.class, PersonRepository.class, BucketManagerMockProducer.class})
-class KeyValueRepositoryProducerTest {
+@CDIExtension(classes = Person.class)
+public class KeyValueTemplateProducerTest {
 
     @Inject
-    private KeyValueRepositoryProducer producer;
+    private KeyValueTemplateProducer producer;
+
 
     @Test
-    public void shouldCreateFromManager() {
+    public void shouldReturnErrorWhenManagerNull() {
+        assertThrows(NullPointerException.class, () -> producer.get(null));
+    }
+
+    @Test
+    public void shouldReturn() {
         BucketManager manager = Mockito.mock(BucketManager.class);
-        PersonRepository personRepository = producer.get(PersonRepository.class, manager);
-        assertNotNull(personRepository);
+        KeyValueTemplate repository = producer.get(manager);
+        assertNotNull(repository);
     }
-
-    @Test
-    public void shouldCreateFromTemplate() {
-        KeyValueTemplate template = Mockito.mock(KeyValueTemplate.class);
-        PersonRepository personRepository = producer.get(PersonRepository.class, template);
-        assertNotNull(personRepository);
-    }
-
 }
