@@ -16,7 +16,6 @@ package jakarta.nosql.tck.entities;
 
 
 import jakarta.nosql.mapping.Repository;
-import org.eclipse.jnosql.artemis.graph.model.Book;
 
 public interface BookRepository extends Repository<Book, String> {
 }
