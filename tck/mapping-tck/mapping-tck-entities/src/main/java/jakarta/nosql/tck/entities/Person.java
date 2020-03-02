@@ -62,6 +62,10 @@ public class Person {
         return ignore;
     }
 
+    public boolean isAdult() {
+        return age > 21;
+    }
+
     Person() {
     }
 
