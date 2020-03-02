@@ -14,14 +14,30 @@
  */
 package jakarta.nosql.tck.entities;
 
+import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
+import jakarta.nosql.mapping.Id;
+
 import java.util.Objects;
 
+@Entity
 public class Animal {
 
+    @Id
+    private Long id;
+
+    @Column
     private String name;
+
+    Animal() {
+    }
 
     public Animal(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -33,16 +49,17 @@ public class Animal {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Animal)) {
             return false;
         }
         Animal animal = (Animal) o;
-        return Objects.equals(name, animal.name);
+        return Objects.equals(id, animal.id) &&
+                Objects.equals(name, animal.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(id, name);
     }
 
     @Override
