@@ -23,7 +23,6 @@ import jakarta.nosql.Sort;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -410,7 +409,6 @@ public interface DocumentQuery {
      * The last step to the build of {@link DocumentQuery}.
      * It either can return a new {@link DocumentQuery} instance or execute a query with
      * {@link DocumentCollectionManager}
-     * and {@link DocumentCollectionManagerAsync}
      */
     interface DocumentQueryBuild {
 
@@ -439,22 +437,5 @@ public interface DocumentQuery {
          */
         Optional<DocumentEntity> getSingleResult(DocumentCollectionManager manager);
 
-        /**
-         * Executes {@link DocumentCollectionManagerAsync#select(DocumentQuery, Consumer)}
-         *
-         * @param manager  the entity manager
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void getResult(DocumentCollectionManagerAsync manager, Consumer<Stream<DocumentEntity>> callback);
-
-        /**
-         * Executes {@link DocumentCollectionManagerAsync#singleResult(DocumentQuery, Consumer)}
-         *
-         * @param manager  the entity manager
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void getSingleResult(DocumentCollectionManagerAsync manager, Consumer<Optional<DocumentEntity>> callback);
     }
 }

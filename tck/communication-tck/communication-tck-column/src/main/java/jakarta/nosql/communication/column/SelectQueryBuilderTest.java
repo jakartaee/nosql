@@ -32,7 +32,6 @@ import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -324,28 +323,6 @@ public class SelectQueryBuilderTest {
         String columnFamily = "columnFamily";
         Optional<ColumnEntity> entities = select().from(columnFamily).getSingleResult(manager);
         Mockito.verify(manager).singleResult(queryCaptor.capture());
-        checkQuery(queryCaptor, columnFamily);
-    }
-
-    @Test
-    public void shouldExecuteManagerAsync() {
-        ColumnFamilyManagerAsync manager = Mockito.mock(ColumnFamilyManagerAsync.class);
-        ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
-        String columnFamily = "columnFamily";
-        Consumer<Stream<ColumnEntity>> callback = System.out::println;
-        select().from(columnFamily).getResult(manager, callback);
-        Mockito.verify(manager).select(queryCaptor.capture(), Mockito.eq(callback));
-        checkQuery(queryCaptor, columnFamily);
-    }
-
-    @Test
-    public void shouldExecuteSingleResultManagerAsync() {
-        ColumnFamilyManagerAsync manager = Mockito.mock(ColumnFamilyManagerAsync.class);
-        ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
-        String columnFamily = "columnFamily";
-        Consumer<Optional<ColumnEntity>> callback = System.out::println;
-        select().from(columnFamily).getSingleResult(manager, callback);
-        Mockito.verify(manager).singleResult(queryCaptor.capture(), Mockito.eq(callback));
         checkQuery(queryCaptor, columnFamily);
     }
 

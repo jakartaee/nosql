@@ -22,7 +22,6 @@ import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.Pagination;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -188,23 +187,7 @@ public interface ColumnQueryMapper {
          */
         void delete(ColumnTemplate template);
     
-        /**
-         * executes the {@link ColumnTemplateAsync#delete(ColumnDeleteQuery)}
-         *
-         * @param template the column template
-         * @throws NullPointerException when manager is null
-         */
-        void delete(ColumnTemplateAsync template);
-    
-        /**
-         * executes the {@link ColumnTemplateAsync#delete(ColumnDeleteQuery, Consumer)}
-         *
-         * @param template the column template
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void delete(ColumnTemplateAsync template, Consumer<Void> callback);
-    
+
     }
 
     /**
@@ -443,7 +426,7 @@ public interface ColumnQueryMapper {
     /**
      * The last step to the build of {@link ColumnQuery}.
      * It either can return a new {@link ColumnQuery} instance or execute a query with
-     * {@link ColumnTemplate} and {@link ColumnTemplateAsync}
+     * {@link ColumnTemplate}
      */
     interface ColumnMapperQueryBuild {
     
@@ -504,26 +487,6 @@ public interface ColumnQueryMapper {
          */
         <T> Optional<T> getSingleResult(ColumnTemplate template, Pagination pagination);
     
-    
-        /**
-         * Executes {@link ColumnTemplateAsync#select(ColumnQuery, Consumer)}
-         *
-         * @param <T>      the entity type
-         * @param template the column template
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        <T> void getResult(ColumnTemplateAsync template, Consumer<Stream<T>> callback);
-    
-        /**
-         * Executes {@link ColumnTemplateAsync#singleResult(ColumnQuery, Consumer)}
-         *
-         * @param <T>      the entity type
-         * @param template the column template
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        <T> void getSingleResult(ColumnTemplateAsync template, Consumer<Optional<T>> callback);
     
         /**
          * Creates a {@link Page} from pagination

@@ -34,12 +34,10 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static jakarta.nosql.document.DocumentQuery.select;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
 
 @CDIExtension
 public class DocumentMapperSelectBuilderTest {
@@ -227,30 +225,6 @@ public class DocumentMapperSelectBuilderTest {
         ArgumentCaptor<DocumentQuery> queryCaptor = ArgumentCaptor.forClass(DocumentQuery.class);
         Optional<Person> person = mapperBuilder.selectFrom(Person.class).getSingleResult(template);
         Mockito.verify(template).singleResult(queryCaptor.capture());
-        DocumentQuery query = queryCaptor.getValue();
-        DocumentQuery queryExpected = select().from("Person").build();
-        assertEquals(queryExpected, query);
-    }
-
-    @Test
-    public void shouldExecuteAsyncQuery() {
-        DocumentTemplateAsync template = Mockito.mock(DocumentTemplateAsync.class);
-        ArgumentCaptor<DocumentQuery> queryCaptor = ArgumentCaptor.forClass(DocumentQuery.class);
-        Consumer<Stream<Person>> callback = System.out::println;
-        mapperBuilder.selectFrom(Person.class).getResult(template, callback);
-        Mockito.verify(template).select(queryCaptor.capture(), eq(callback));
-        DocumentQuery query = queryCaptor.getValue();
-        DocumentQuery queryExpected = select().from("Person").build();
-        assertEquals(queryExpected, query);
-    }
-
-    @Test
-    public void shouldExecuteAsyncSingleQuery() {
-        DocumentTemplateAsync template = Mockito.mock(DocumentTemplateAsync.class);
-        ArgumentCaptor<DocumentQuery> queryCaptor = ArgumentCaptor.forClass(DocumentQuery.class);
-        Consumer<Optional<Person>> callback = System.out::println;
-         mapperBuilder.selectFrom(Person.class).getSingleResult(template, callback);
-        Mockito.verify(template).singleResult(queryCaptor.capture(), eq(callback));
         DocumentQuery query = queryCaptor.getValue();
         DocumentQuery queryExpected = select().from("Person").build();
         assertEquals(queryExpected, query);

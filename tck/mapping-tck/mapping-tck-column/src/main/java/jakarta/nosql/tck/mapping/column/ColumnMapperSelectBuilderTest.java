@@ -33,13 +33,9 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 import static jakarta.nosql.column.ColumnQuery.select;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
 
 @CDIExtension
 public class ColumnMapperSelectBuilderTest {
@@ -228,30 +224,6 @@ public class ColumnMapperSelectBuilderTest {
         ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
         mapperBuilder.selectFrom(Person.class).getSingleResult(template);
         Mockito.verify(template).singleResult(queryCaptor.capture());
-        ColumnQuery query = queryCaptor.getValue();
-        ColumnQuery queryExpected = select().from("Person").build();
-        assertEquals(queryExpected, query);
-    }
-
-    @Test
-    public void shouldExecuteAsyncQuery() {
-        ColumnTemplateAsync template = Mockito.mock(ColumnTemplateAsync.class);
-        ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
-        Consumer<Stream<Person>> consumer = System.out::println;
-        mapperBuilder.selectFrom(Person.class).getResult(template, consumer);
-        Mockito.verify(template).select(queryCaptor.capture(), eq(consumer));
-        ColumnQuery query = queryCaptor.getValue();
-        ColumnQuery queryExpected = select().from("Person").build();
-        assertEquals(queryExpected, query);
-    }
-
-    @Test
-    public void shouldExecuteSingleAsyncQuery() {
-        ColumnTemplateAsync template = Mockito.mock(ColumnTemplateAsync.class);
-        ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
-        Consumer<Optional<Person>> consumer = System.out::println;
-        mapperBuilder.selectFrom(Person.class).getSingleResult(template, consumer);
-        Mockito.verify(template).singleResult(queryCaptor.capture(), eq(consumer));
         ColumnQuery query = queryCaptor.getValue();
         ColumnQuery queryExpected = select().from("Person").build();
         assertEquals(queryExpected, query);
