@@ -219,7 +219,7 @@ public interface ColumnQuery {
     /**
      * The last step to the build of {@link ColumnQuery}.
      * It either can return a new {@link ColumnQuery} instance or execute a query with
-     * {@link ColumnFamilyManager} and {@link ColumnFamilyManagerAsync}
+     * {@link ColumnFamilyManager}
      */
     interface ColumnQueryBuild {
 
@@ -248,23 +248,6 @@ public interface ColumnQuery {
          */
         Optional<ColumnEntity> getSingleResult(ColumnFamilyManager manager);
 
-        /**
-         * Executes {@link ColumnFamilyManagerAsync#select(ColumnQuery, Consumer)}
-         *
-         * @param manager  the entity manager
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void getResult(ColumnFamilyManagerAsync manager, Consumer<Stream<ColumnEntity>> callback);
-
-        /**
-         * Executes {@link ColumnFamilyManagerAsync#singleResult(ColumnQuery, Consumer)}
-         *
-         * @param manager  the entity manager
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void getSingleResult(ColumnFamilyManagerAsync manager, Consumer<Optional<ColumnEntity>> callback);
     }
 
     /**

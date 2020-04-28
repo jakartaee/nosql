@@ -22,7 +22,6 @@ import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.Pagination;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -167,7 +166,7 @@ public interface DocumentQueryMapper {
     /**
      * The last step to the build of {@link DocumentDeleteQuery}.
      * It either can return a new {@link DocumentDeleteQuery} instance or execute a query with
-     * {@link DocumentTemplate} and {@link DocumentTemplateAsync}
+     * {@link DocumentTemplate}
      */
     interface DocumentMapperDeleteQueryBuild {
         /**
@@ -184,23 +183,6 @@ public interface DocumentQueryMapper {
          * @throws NullPointerException when manager is null
          */
         void delete(DocumentTemplate template);
-
-        /**
-         * executes the {@link DocumentTemplateAsync#delete(DocumentDeleteQuery)}
-         *
-         * @param template the document template
-         * @throws NullPointerException when manager is null
-         */
-        void delete(DocumentTemplateAsync template);
-
-        /**
-         * executes the {@link DocumentTemplateAsync#delete(DocumentDeleteQuery, Consumer)}
-         *
-         * @param template the document template
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void delete(DocumentTemplateAsync template, Consumer<Void> callback);
     }
 
     /**
@@ -436,7 +418,6 @@ public interface DocumentQueryMapper {
      * The last step to the build of {@link jakarta.nosql.document.DocumentQuery}.
      * It either can return a new {@link jakarta.nosql.document.DocumentQuery} instance or execute a query with
      * {@link DocumentTemplate}
-     * and {@link DocumentTemplateAsync}
      */
     interface DocumentMapperQueryBuild {
 
@@ -496,26 +477,6 @@ public interface DocumentQueryMapper {
          * @throws NullPointerException when there are null parameters
          */
         <T> Optional<T> getSingleResult(DocumentTemplate template, Pagination pagination);
-
-        /**
-         * Executes {@link DocumentTemplateAsync#select(DocumentQuery, Consumer)}
-         *
-         * @param <T>           the entity type
-         * @param templateAsync the templateAsync
-         * @param callback      the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        <T> void getResult(DocumentTemplateAsync templateAsync, Consumer<Stream<T>> callback);
-
-        /**
-         * Executes {@link DocumentTemplateAsync#singleResult(DocumentQuery, Consumer)}
-         *
-         * @param <T>           the entity type
-         * @param templateAsync the templateAsync
-         * @param callback      the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        <T> void getSingleResult(DocumentTemplateAsync templateAsync, Consumer<Optional<T>> callback);
 
         /**
          * Creates a {@link Page} from pagination

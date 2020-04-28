@@ -18,7 +18,6 @@ import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.mapping.document.DocumentQueryMapper;
 import jakarta.nosql.mapping.document.DocumentQueryMapper.DocumentMapperDeleteFrom;
 import jakarta.nosql.mapping.document.DocumentTemplate;
-import jakarta.nosql.mapping.document.DocumentTemplateAsync;
 import jakarta.nosql.tck.entities.Address;
 import jakarta.nosql.tck.entities.Money;
 import jakarta.nosql.tck.entities.Person;

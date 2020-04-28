@@ -28,8 +28,6 @@ import java.util.function.Supplier;
  * A unit that has the columnFamily and condition to delete from conditions.
  * This instance will be used on:
  * <p>{@link ColumnFamilyManager#delete(ColumnDeleteQuery)}</p>
- * <p>{@link ColumnFamilyManagerAsync#delete(ColumnDeleteQuery)}</p>
- * <p>{@link ColumnFamilyManagerAsync#delete(ColumnDeleteQuery, java.util.function.Consumer)}</p>
  */
 public interface ColumnDeleteQuery {
 
@@ -221,7 +219,7 @@ public interface ColumnDeleteQuery {
     /**
      * The last step to the build of {@link ColumnDeleteQuery}.
      * It either can return a new {@link ColumnDeleteQuery} instance or execute a query with
-     * {@link ColumnFamilyManager} and {@link ColumnFamilyManagerAsync}
+     * {@link ColumnFamilyManager}
      */
     interface ColumnDeleteQueryBuild {
 
@@ -240,22 +238,6 @@ public interface ColumnDeleteQuery {
          */
         void delete(ColumnFamilyManager manager);
 
-        /**
-         * executes the {@link ColumnFamilyManagerAsync#delete(ColumnDeleteQuery)}
-         *
-         * @param manager the entity manager
-         * @throws NullPointerException when manager is null
-         */
-        void delete(ColumnFamilyManagerAsync manager);
-
-        /**
-         * executes the {@link ColumnFamilyManagerAsync#delete(ColumnDeleteQuery, Consumer)}
-         *
-         * @param manager  the entity manager
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void delete(ColumnFamilyManagerAsync manager, Consumer<Void> callback);
     }
 
     /**

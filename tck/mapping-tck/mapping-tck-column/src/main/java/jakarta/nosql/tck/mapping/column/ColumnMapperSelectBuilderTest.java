@@ -21,7 +21,6 @@ import jakarta.nosql.mapping.column.ColumnQueryMapper;
 import jakarta.nosql.mapping.column.ColumnQueryMapper.ColumnMapperFrom;
 import jakarta.nosql.mapping.column.ColumnQueryPagination;
 import jakarta.nosql.mapping.column.ColumnTemplate;
-import jakarta.nosql.mapping.column.ColumnTemplateAsync;
 import jakarta.nosql.tck.entities.Address;
 import jakarta.nosql.tck.entities.Money;
 import jakarta.nosql.tck.entities.Person;
