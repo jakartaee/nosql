@@ -15,10 +15,10 @@
  */
 package jakarta.nosql;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.WeakHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,7 +34,7 @@ public final class ServiceLoaderProvider {
     private ServiceLoaderProvider() {
     }
 
-    private static final Map<Class<?>, Object> CACHE = new HashMap<>();
+    private static final Map<Class<?>, Object> CACHE = new WeakHashMap<>();
 
     private static <T> T getSupplier(Class<T> supplier) {
         requireNonNull(supplier, "supplier is required");
@@ -110,6 +110,19 @@ public final class ServiceLoaderProvider {
         return (I) getUniqueSupplier(supplier, predicate);
     }
 
+    /**
+     * Returns a ordered Stream of the supplier
+     * @param supplier the supplier
+     * @param <T> the supplier type
+     * @return the Stream of supplier
+     */
+    public static <T> Stream<Object> getSupplierStream(Class<T> supplier) {
+        return stream(ServiceLoader.load(supplier).spliterator(), false)
+                .map(ServiceLoaderSort::of)
+                .sorted()
+                .map(ServiceLoaderSort::get);
+    }
+
     private static <T> T getUniqueSupplier(Class<T> supplier, Predicate<Object> predicate) {
         Stream<Object> stream = getSupplierStream(requireNonNull(supplier, "supplier is required"));
         if (predicate != null) {
@@ -134,10 +147,4 @@ public final class ServiceLoaderProvider {
         }
     }
 
-    private static <T> Stream<Object> getSupplierStream(Class<T> supplier) {
-        return stream(ServiceLoader.load(supplier).spliterator(), false)
-                .map(ServiceLoaderSort::of)
-                .sorted()
-                .map(ServiceLoaderSort::get);
-    }
 }

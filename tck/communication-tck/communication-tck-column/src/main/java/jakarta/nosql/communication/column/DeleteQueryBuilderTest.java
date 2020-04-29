@@ -22,14 +22,12 @@ import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnCondition;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnFamilyManager;
-import jakarta.nosql.column.ColumnFamilyManagerAsync;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import static jakarta.nosql.column.ColumnDeleteQuery.delete;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,7 +35,6 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -268,34 +265,4 @@ public class DeleteQueryBuilderTest {
         assertFalse(query.getCondition().isPresent());
         assertEquals(columnFamily, query.getColumnFamily());
     }
-
-    @Test
-    public void shouldExecuteAsyncDelete() {
-        String columnFamily = "columnFamily";
-        ColumnFamilyManagerAsync manager = mock(ColumnFamilyManagerAsync.class);
-        ArgumentCaptor<ColumnDeleteQuery> queryCaptor = ArgumentCaptor.forClass(ColumnDeleteQuery.class);
-        delete().from(columnFamily).delete(manager);
-        verify(manager).delete(queryCaptor.capture());
-
-        ColumnDeleteQuery query = queryCaptor.getValue();
-        assertTrue(query.getColumns().isEmpty());
-        assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
-    }
-
-    @Test
-    public void shouldExecuteAsync2Delete() {
-        String columnFamily = "columnFamily";
-        ColumnFamilyManagerAsync manager = mock(ColumnFamilyManagerAsync.class);
-        ArgumentCaptor<ColumnDeleteQuery> queryCaptor = ArgumentCaptor.forClass(ColumnDeleteQuery.class);
-        Consumer<Void> callback = (v) ->{};
-        delete().from(columnFamily).delete(manager, callback);
-        verify(manager).delete(queryCaptor.capture(), eq(callback));
-
-        ColumnDeleteQuery query = queryCaptor.getValue();
-        assertTrue(query.getColumns().isEmpty());
-        assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
-    }
-
 }

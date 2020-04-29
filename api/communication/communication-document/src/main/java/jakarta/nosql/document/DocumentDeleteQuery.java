@@ -21,7 +21,6 @@ import jakarta.nosql.ServiceLoaderProvider;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -30,8 +29,6 @@ import java.util.function.Supplier;
  *
  * This instance will be used on:
  * <p>{@link DocumentCollectionManager#delete(DocumentDeleteQuery)}</p>
- * <p>{@link DocumentCollectionManagerAsync#delete(DocumentDeleteQuery)}</p>
- * <p>{@link DocumentCollectionManagerAsync#delete(DocumentDeleteQuery, java.util.function.Consumer)}</p>
  */
 public interface DocumentDeleteQuery {
 
@@ -220,7 +217,7 @@ public interface DocumentDeleteQuery {
     /**
      * The last step to the build of {@link DocumentDeleteQuery}.
      * It either can return a new {@link DocumentDeleteQuery} instance or execute a query with
-     * {@link DocumentCollectionManager} and {@link DocumentCollectionManagerAsync}
+     * {@link DocumentCollectionManager}
      */
     interface DocumentDeleteQueryBuild {
 
@@ -239,22 +236,6 @@ public interface DocumentDeleteQuery {
          */
         void delete(DocumentCollectionManager manager);
 
-        /**
-         * executes the {@link DocumentCollectionManagerAsync#delete(DocumentDeleteQuery)}
-         *
-         * @param manager the entity manager
-         * @throws NullPointerException when manager is null
-         */
-        void delete(DocumentCollectionManagerAsync manager);
-
-        /**
-         * executes the {@link DocumentCollectionManagerAsync#delete(DocumentDeleteQuery, Consumer)}
-         *
-         * @param manager  the entity manager
-         * @param callback the callback
-         * @throws NullPointerException when there is null parameter
-         */
-        void delete(DocumentCollectionManagerAsync manager, Consumer<Void> callback);
     }
 
     /**

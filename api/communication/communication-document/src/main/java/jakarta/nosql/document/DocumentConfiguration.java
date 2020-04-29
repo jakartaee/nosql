@@ -21,7 +21,7 @@ import jakarta.nosql.Settings;
 
 /**
  * The Jakarta NoSQL communication configuration to create a {@link DocumentCollectionManagerFactory}
- * and {@link DocumentCollectionManagerAsyncFactory}
+ *
  */
 public interface DocumentConfiguration {
 
