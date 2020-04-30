@@ -33,7 +33,6 @@
 
     <properties>
         <hamcrest-all.version>1.3</hamcrest-all.version>
-        <org.awaitility.version>4.0.1</org.awaitility.version>
     </properties>
 
 
@@ -62,11 +61,6 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest-all.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility</artifactId>
-            <version>${org.awaitility.version}</version>
         </dependency>
     </dependencies>
 
