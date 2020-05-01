@@ -50,6 +50,4 @@ public class Actor extends Person {
     public static ActorBuilder actorBuilder() {
         return new ActorBuilder();
     }
-
-
 }

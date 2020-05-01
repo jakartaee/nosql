@@ -36,10 +36,19 @@ public class Download {
     }
 
     public byte[] getContents() {
-        return contents;
+        if(contents != null) {
+            byte[] copiedArray = new byte[contents.length];
+            System.arraycopy(contents, 0, copiedArray, 0, contents.length);
+
+        }
+        return new byte[0];
     }
 
     public void setContents(byte[] contents) {
-        this.contents = contents;
+        if(contents != null) {
+            this.contents = new byte[contents.length];
+            System.arraycopy(contents, 0, contents, 0, contents.length);
+
+        }
     }
 }

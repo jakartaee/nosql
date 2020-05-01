@@ -17,5 +17,5 @@ package jakarta.nosql.tck.entities;
 
 import jakarta.nosql.mapping.Repository;
 
-public interface IgnoreRepository<T, ID> extends Repository<T, ID> {
+public interface IgnoreRepository<T, K> extends Repository<T, K> {
 }
