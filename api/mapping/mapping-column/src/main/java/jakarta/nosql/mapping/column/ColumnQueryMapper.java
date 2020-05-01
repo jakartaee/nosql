@@ -168,7 +168,7 @@ public interface ColumnQueryMapper {
     /**
      * The last step to the build of {@link ColumnDeleteQuery}.
      * It either can return a new {@link ColumnDeleteQuery} instance or execute a query with
-     * {@link ColumnTemplate} and {@link ColumnTemplateAsync}
+     * {@link ColumnTemplate}
      */
     interface ColumnMapperDeleteQueryBuild {
     
