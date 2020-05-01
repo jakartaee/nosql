@@ -186,7 +186,6 @@ public interface ColumnQueryMapper {
          * @throws NullPointerException when manager is null
          */
         void delete(ColumnTemplate template);
-    
 
     }
 
