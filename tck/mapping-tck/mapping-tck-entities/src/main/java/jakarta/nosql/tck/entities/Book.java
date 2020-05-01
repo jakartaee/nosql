@@ -21,7 +21,7 @@ import jakarta.nosql.mapping.Id;
 import java.util.Objects;
 
 @Entity
-public class Book {
+public final class Book {
 
     @Id
     private Long id;

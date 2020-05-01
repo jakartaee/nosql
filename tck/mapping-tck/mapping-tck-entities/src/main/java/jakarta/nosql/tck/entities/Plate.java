@@ -16,7 +16,7 @@ package jakarta.nosql.tck.entities;
 
 import java.util.Objects;
 
-public class Plate {
+public final class Plate {
 
     private final int prefix;
 

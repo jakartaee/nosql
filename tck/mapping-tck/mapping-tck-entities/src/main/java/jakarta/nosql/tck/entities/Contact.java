@@ -20,7 +20,7 @@ import jakarta.nosql.mapping.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-public class Contact {
+public final class Contact {
 
     @Column
     private ContactType type;
