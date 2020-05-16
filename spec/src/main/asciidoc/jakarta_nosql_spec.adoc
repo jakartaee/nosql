@@ -9,7 +9,7 @@
 :doctype: book
 :license: Apache License v2.0
 :source-highlighter: coderay
-:authors: Otávio Santana
+:authors: Otávio Santana, Leonardo de Moura Rocha Lima
 :email: otaviojava@apache.org
 ifdef::backend-pdf[]
 :pagenums:
@@ -30,7 +30,7 @@ include::license-alv2.asciidoc[]
 
 == One Mapping API, multiples databases
 
-Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low coupling with the underlying NoSQL technologies used in applications.
+Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low application coupling with the underlying NoSQL technologies used in applications.
 
 The project has two layers:
 
@@ -83,12 +83,9 @@ JPA is a good API for object-relationship mapping and it's already a standard in
 
 [source,java]
 ----
-ColumnTemplateAsync templateAsync = …;
 ColumnTemplate template = …;
 God diana = God.builder().withId("diana").withName("Diana")
                 .withPower("hunt").builder();
-Consumer<God> callback = g -> System.out.println("Insert completed to: " + g);
-templateAsync.insert(diana, callback);
 Duration ttl = Duration.ofSeconds(1);
 template.insert(diana, Duration.ofSeconds(1));
 ----
@@ -141,8 +138,6 @@ template.save(person, level);
 
 * Simple APIs supporting all well-known NoSQL storage types - Column Family, Key-Value Pair, Graph and Document databases.
 * Use of Convention Over Configuration
-* Support for Asynchronous Queries
-* Support for Asynchronous Write operations
 * Easy-to-implement API Specification and Test Compatibility Kit (TCK) for NoSQL Vendors
 * The API’s focus is on simplicity and ease of use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
 
