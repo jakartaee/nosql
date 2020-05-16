@@ -352,21 +352,16 @@ Integer integer = entity.get(Integer.class);
 
 === Manager
 
-The Manager is the class that pushes information to a database and retrieves it. The manager might have a synchronous and asynchronous implementation.
+The Manager is the class that pushes information to a database and retrieves it. 
 
 
 * *DocumentCollectionManager*
-* *DocumentCollectionManagerAsync*
 * *ColumnConfiguration*
-* *ColumnConfigurationAsync*
 * *BucketManager*
 
 ==== Document Manager
 
-The manager class to a document type can be synchronous or asynchronous:
-
 * *DocumentCollectionManager*: To do synchronous operations.
-* *DocumentCollectionManagerAsync*: To do asynchronous operations.
 
 ===== DocumentCollectionManager
 
@@ -389,40 +384,9 @@ manager.update(entity);
 manager.update(entities);
 ----
 
-===== DocumentCollectionManagerAsync
-
-The `DocumentCollectionManagerAsync` is the class that manages the persistence on an asynchronous way to document collection.
-
-[source,java]
-----
-DocumentEntity entity = DocumentEntity.of("collection");
-Document diana = Document.of("name", "Diana");
-entity.add(diana);
-
-List<DocumentEntity> entities = Collections.singletonList(entity);
-DocumentCollectionManagerAsync managerAsync = //instance
-
-//insert operations
-managerAsync.insert(entity);
-managerAsync.insert(entity, Duration.ofHours(2L));//inserts with 2 hours of TTL
-managerAsync.insert(entities, Duration.ofHours(2L));//inserts with 2 hours of TTL
-//updates operations
-managerAsync.update(entity);
-managerAsync.update(entities);
-----
-
-Sometimes on an asynchronous process, it's important to know when this process is over, so the `DocumentCollectionManagerAsync` also has callback support.
-
-[source,java]
-----
-Consumer<DocumentEntity> callBack = e -> {};
-managerAsync.insert(entity, callBack);
-managerAsync.update(entity, callBack);
-----
-
 ===== Search information on a document collection
 
-The Document Communication API has support to retrieve information from both ways; synchronous and asynchronous, from the `DocumentQuery` class. The `DocumentQuery` has information such as sort type, document, and also the condition to retrieve information.
+The Document Communication API has support to retrieve information from the `DocumentQuery` class. The `DocumentQuery` has information such as sort type, document, and also the condition to retrieve information.
 
 The condition on `DocumentQuery` is given from `DocumentCondition`, which has the status and the document. E.g. The condition behind is to find a name equal "**Ada**".
 [source,java]
@@ -446,12 +410,9 @@ If there isn’t a condition in the query, that means the query will try to retr
 [source,java]
 ----
 DocumentCollectionManager manager = //instance;
-DocumentCollectionManagerAsync managerAsync = //instance;
 DocumentQuery query = DocumentQueryBuilder.select().from("collection").where("age").lt(10).and("name").eq("Ada").orderBy("name").asc().limit(10).skip(2).build();
 Stream<DocumentEntity> entities = manager.select(query);
 Optional<DocumentEntity> entity = manager.singleResult(query);
-Consumer<Stream<DocumentEntity>> callback = e -> {};
-managerAsync.select(query, callback);
 ----
 
 ===== Removing information from Document Collection
@@ -463,20 +424,14 @@ It is smoother than `DocumentQuery` because there isn’t pagination and sort fe
 [source,java]
 ----
 DocumentCollectionManager manager = //instance;
-DocumentCollectionManagerAsync managerAsync = //instance;
 DocumentDeleteQuery query = DocumentQueryBuilder.delete().from("collection")
                       .where("age").gt(10).build();
 manager.delete(query);
-managerAsync.delete(query);
-managerAsync.delete(query, v -> {});
 ----
 
 ==== Column Manager
 
-The Manager class for the column family type can be synchronous or asynchronous:
-
 * *ColumnFamilyManager*: To do synchronous operations.
-* *ColumnFamilyManagerAsync*: To do asynchronous operations.
 
 ===== ColumnFamilyManager
 
@@ -500,40 +455,10 @@ manager.update(entity);
 manager.update(entities);
 ----
 
-===== ColumnFamilyManagerAsync
-
-The `ColumnFamilyManagerAsync` is the class that manages the persistence on the asynchronous way to column family.
-
-[source,java]
-----
-Column diana = Column.of("name", "Diana");
-entity.add(diana);
-
-List<ColumnEntity> entities = Collections.singletonList(entity);
-ColumnFamilyManagerAsync managerAsync = null;
-
-//inserts operations
-managerAsync.insert(entity);
-managerAsync.insert(entity, Duration.ofHours(2L));//inserts with 2 hours of TTL
-managerAsync.insert(entities, Duration.ofHours(2L));//inserts with 2 hours of TTL
-//updates operations
-managerAsync.update(entity);
-managerAsync.update(entities);
-----
-
-Sometimes on an asynchronous process, is important to know when this process is over, so the `ColumnFamilyManagerAsync` also has callback support.
-
-[source,java]
-----
-Consumer<ColumnEntity> callBack = e -> {};
-managerAsync.insert(entity, callBack);
-managerAsync.update(entity, callBack);
-----
-
 ===== Search information on a column family
 
 
-The Column communication API has support to retrieve information from both ways synchronous and asynchronous from the `ColumnQuery` class. The `ColumnQuery`  has information such as sort type, document and also the condition to retrieve information.
+The Column communication API has support to retrieve information from the `ColumnQuery` class. The `ColumnQuery`  has information such as sort type, document and also the condition to retrieve information.
 
 The condition on `ColumnQuery` is given from ColumnCondition, which has the status and the column. E.g. The condition behind is to find a name equal "**Ada**".
 [source,java]
@@ -558,14 +483,11 @@ If there isn’t condition at the query, that means the query will try to retrie
 [source,java]
 ----
 ColumnFamilyManager manager = //instance;
-ColumnFamilyManagerAsync managerAsync = //instance;
 ColumnQuery query = ColumnQuery query = ColumnQueryBuilder.select().from("collection").where("age").lt(10).and("name").eq("Ada").orderBy("name").asc().limit(10).skip(2).build();
 
 Stream<ColumnEntity> entities = manager.select(query);
 Optional<ColumnEntity> entity = manager.singleResult(query);
 
-Consumer<Stream<ColumnEntity>> callback = e -> {};
-managerAsync.select(query, callback);
 ----
 
 ===== Removing information from Column Family
@@ -577,15 +499,10 @@ It is smoother than `ColumnQuery` because there isn’t pagination and sort feat
 [source,java]
 ----
 ColumnFamilyManager manager = //instance;
-ColumnFamilyManagerAsync managerAsync = //instance;
-
 ColumnDeleteQuery query = ColumnQueryBuilder.delete()
                 .from("collection").where("age").gt(10).build();
-
 manager.delete(query);
 
-managerAsync.delete(query);
-managerAsync.delete(query, v -> {});
 ----
 
 
@@ -623,50 +540,34 @@ include::communication_query.adoc[]
 
 The factory class creates the *Managers*.
 
-* *ColumnFamilyManagerAsyncFactory*
 * *ColumnFamilyManagerFactory*
 * *BucketManagerFactory*
 * *DocumentCollectionManagerFactory*
-* *DocumentCollectionManagerAsyncFactory*
 
 
 ==== Column Family Manager Factory
 
 The factory classes have the duty to create the column family manager.
 
-* *ColumnFamilyManagerAsyncFactory*
 * *ColumnFamilyManagerFactory*
-
-The `ColumnFamilyManagerAsyncFactory` and `ColumnFamilyManagerFactory` create the manager synchronously and asynchronously respectively.
 
 [source,java]
 ----
 ColumnFamilyManagerFactory factory = //instance
-ColumnFamilyManagerAsyncFactory asyncFactory = //instance
 ColumnFamilyManager manager = factory.get("database");
-ColumnFamilyManagerAsync managerAsync = asyncFactory.getAsync("database");
 ----
-
-The factories were separated intentionally, as not all databases support synchronous and asynchronous operations.
 
 ==== Document Collection Factory
 
 The factory classes have the duty to create the document collection manager.
 
 * *DocumentCollectionManagerFactory*
-* *DocumentCollectionManagerAsyncFactory*
-
-The `DocumentCollectionManagerAsyncFactory` and `DocumentCollectionManagerFactory` create the manager synchronously and asynchronously respectively.
 
 [source,java]
 ----
 DocumentCollectionManagerFactory factory = //instance
-DocumentCollectionManagerAsyncFactory asyncFactory = //instance
 DocumentCollectionManager manager = factory.get("database");
-DocumentCollectionManagerAsync managerAsync = asyncFactory.getAsync("database");
 ----
-
-The factories were separated intentionally, as not all databases support synchronous and asynchronous operations.
 
 ==== Bucket Manager Factory
 
@@ -722,26 +623,22 @@ WARNING: To read the property information, it will follow the same principal and
 
 ==== Document Configuration
 
-On the document collection configuration, there are two classes, `DocumentConfiguration` and `DocumentConfigurationAsync` to `DocumentCollectionManagerFactory` and `DocumentCollectionManagerAsyncFactory` respectively.
+On the document collection configuration, `DocumentConfiguration` configures and creates `DocumentCollectionManagerFactory`
 
 [source,java]
 ----
 DocumentConfiguration configuration = //instance
-DocumentConfigurationAsync configurationAsync = //instance
 DocumentCollectionManagerFactory managerFactory = configuration.get();
-DocumentCollectionManagerAsyncFactory managerAsyncFactory = configurationAsync.getAsync();
 ----
 
 ==== Column Configuration
 
-On the column family configuration, there are two classes, `ColumnConfiguration` and `ColumnConfigurationAsync` to `ColumnFamilyManagerFactory` and `ColumnFamilyManagerAsyncFactory` respectively.
+On the column family configuration, `ColumnConfiguration` creates and configures `ColumnFamilyManagerFactory`
 
 [source,java]
 ----
 ColumnConfiguration configuration = //instance
-ColumnConfigurationAsync configurationAsync = //instance
 ColumnFamilyManagerFactory managerFactory = configuration.get();
-ColumnFamilyManagerAsyncFactory managerAsyncFactory = configurationAsync.getAsync();
 ----
 
 ==== Key Value Configuration
