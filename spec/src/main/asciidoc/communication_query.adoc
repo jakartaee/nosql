@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Otavio Santana and others
+// Copyright (c) 2019-2020 Otavio Santana, Leonardo de Moura Rocha Lima and others
 //
 // This program and the accompanying materials are made available under the
 // terms of the Eclipse Public License v. 2.0 which is available at
@@ -12,132 +12,145 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-==== Querying by text at Communication API
+==== Querying by text with the Communication API
 
+The Communication API allows queries to be text. These queries are converted to an operation that already exists in the Manager interface from the `query` method. An `UnsupportedOperationException` is thrown if a NoSQL database doesn't have support for that procedure.
 
-The communication API also has a query as text. These queries will convert to an operation that already exists in the Manager interface from the `query` method, thereby, these operations might return an `UnsupportedOperationException` if a NoSQL has no support for that procedure.
+Queries follow these rules:
 
-This query has basic principles:
-
-* All instructions end with a break like `\n`
+* All instructions end with a like break `\n`
 * It is case-sensitive
 * All keywords must be in lowercase
 * The goal is to look like SQL, however simpler
-* Even passing in the syntax and parsing the query, a specific implementation may not support an operation. E.g., Column family may not support query in a different field that is not the ID field.
+* Even if a query has valid sintax a specific implementation may not support an operation. For example, a Column family database may not support queries in a different field that is not the ID field.
 
+===== Key-Value databases
 
-===== Key-Value
+Key-Value databases support three operations: `get`, `del` and `put`.
 
-The key-value has three operations: *put*, *remove* and *get*.
-====== Get
+====== `get`
 
-Retrieving data for an entity is done using a GET statement:
+Use the `get` statement to retrie data related to a key
 
 [source,sql]
 ----
-get_statement ::=  GET ID (',' ID)*
-//sample
+get_statement ::=  get ID (',' ID)*
+
+//examples
 get "Apollo" //to return an element where the id is 'Apollo'
-get "Diana" "Artemis" //to return a list of values from the ids
+get "Diana" "Artemis" //to return a list of values from the keys 
 ----
-====== Del
+====== `del`
 
-To delete one or more entities, use the remove statement
+Use the `del` statement to delete one or more entities
 
 [source,sql]
 ----
-del_statement ::=  DEl ID (',' ID)*
-//sample
+del_statement ::=  del ID (',' ID)*
+
+//examples
 del "Apollo"
 del "Diana" "Artemis"
 ----
 
-====== Put
+====== `put`
 
-To either insert or override values from a key-value database, use the put statement.
-
-[source,sql]
-----
-put_statement ::=  PUT {KEY, VALUE, [TTL]}
-//sample
-put {"Diana" ,  "The goddess of hunt"}//adds key -diana and value ->"The goddess of hunt"
-put {"Diana" ,  "The goddess of hunt", 10 second}//also defines a TTL of 10 seconds
-----
-
-===== Column and Document
-
-Both have sample syntax that looks like an SQL query, however, remember it has a limitation and does not support joins. Document types are usually more queriable than a column type. They have four operations: insert, update, delete, and select.
-
-====== Insert
-Inserting data for an entity is done using an INSERT statement:
+Use the `put` statement to either insert or override values
 
 [source,sql]
 ----
-insert_statement ::=  INSERT entity_name (name = value, (`,` name = value) *) || JSON [ TTL ]
-//sample
+put_statement ::=  put {KEY, VALUE [, TTL]}
+
+//examples
+put {"Diana" , "The goddess of hunt"} //adds key 'diana' and value 'The goddess of hunt'
+put {"Diana" , "The goddess of hunt", 10 second} //also defines a TTL of 10 seconds
+----
+
+===== Column and Document databases
+
+The queries have syntax similar to SQL queries. But keep in mind that it has a limitation: joins are not supported. 
+
+They have four operations: `insert`, `update`, `delete`, and `select`.
+
+====== `insert`
+
+Use the `insert` statement to store data for an entity
+
+[source,sql]
+----
+insert_statement ::=  insert ENTITY_NAME (NAME = VALUE, (`,` NAME = VALUE) *) || JSON [ TTL ]
+
+//examples
 insert God (name = "Diana", age = 10)
-insert God (name = "Diana", age = 10, power = {"sun", "god"})
-insert God (name = "Diana", age = 10, power = {"sun", "god"}) 1 day
-insert God {"name": "Diana", "age": 10, "power": ["hunt", "moon"]}
-insert God {"name": "Diana", "age": 10, "power": ["hunt", "moon"]} 1 day
+insert God (name = "Diana", age = 10, powers = {"sun", "god"})
+insert God (name = "Diana", age = 10, powers = {"sun", "god"}) 1 day
+insert God {"name": "Diana", "age": 10, "powers": ["hunt", "moon"]}
+insert God {"name": "Diana", "age": 10, "powers": ["hunt", "moon"]} 1 day
 
 ----
 
-====== Update
+====== `update`
 
-Updating an entity is done using an update statement:
+Use the `update` statement to update the values of an entity
 
 [source,sql]
 ----
-update_statement ::=  UPDATE entity_name (name = value, (`,` name = value) *) || JSON
- //sample
+update_statement ::= update ENTITY_NAME (NAME = VALUE, (`,` NAME = VALUE) *) || JSON
+
+ //examples
 update God (name = "Diana", age = 10)
 update God (name = "Diana", age = 10, power = {"hunt", "moon"})
 update God {"name": "Diana", "age": 10, "power": ["hunt", "moon"]}
 ----
 
-====== Delete
-Deleting either an entity or fields uses the delete statement
+====== `delete`
+
+Use the `delete` statement to remove fields or entities
 
 [source,sql]
 ----
-delete_statement ::=  DELETE [ simple_selection ( ',' simple_selection ) ]
-                      FROM entity_name
-                      WHERE where_clause
-//sample
+delete_statement ::=  delete [ simple_selection ( ',' simple_selection ) ]
+                      from ENTITY_NAME
+                      [ where WHERE_CLAUSE ]
+//examples
 delete from God
-delete  name, age ,adress.age from God where id = "Diana"
+delete power, age from God where name = "Diana"
 ----
 
-====== Select
+====== `select`
 
-The select statement reads one or more fields for one or more entities. It returns a result-set of the entities matching the request, where each entity contains the fields for corresponding to the query.
+The `select` statement reads one or more fields for one or more entities. It returns a result-set of the entities matching the request, where each entity contains the fields corresponding to the query.
 
 [source,sql]
 ----
-select_statement ::=  SELECT ( select_clause | '*' )
-                      FROM entity_name
-                      [ WHERE where_clause ]
-                      [ SKIP (integer) ]
-                      [ LIMIT (integer) ]
-                      [ ORDER BY ordering_clause ]
-//sample
+select_statement ::=  select ( SELECT_CLAUSE | '*' )
+                      from ENTITY_NAME
+                      [ where WHERE_CLAUSE ]
+                      [ skip (INTEGER) ]
+                      [ limit (INTEGER) ]
+                      [ order by ORDERING_CLAUSE ]
+//examples
 select * from God
 select name, age, adress.age from God order by name desc age desc
 select * from God where birthday between "01-09-1988" and "01-09-1988" and salary = 12
 select name, age, adress.age from God skip 20 limit 10 order by name desc age desc
 ----
 
-===== WHERE
+===== `where`
 
-The *WHERE* clause specifies a filter to the result. These filters are boolean operations that are composed of one or more conditions appended with the and (*AND*) and or (*OR*) operators.
+The `where` keyword specifies a filter (`WHERE_CLAUSE`) to the query. A filter is composed of boolean statements called `conditions` that are combined using `and` or `or` operators.
+
+[source,sql]
+----
+WHERE_CLAUSE ::= CONDITION ([and | or] CONDITION)*
+----
 
 ===== Conditions
 
-Conditions perform different computations or actions depending on whether a boolean query condition evaluates to **true** or **false**. The conditions are composed of three elements:
+Conditions are boolean statements that operate on data being queried. They are composed of three elements:
 
-1. *Name*, the data source or target, to apply the operator
-2. *Operator*, that defines comparing process between the name and the value.
+1. *Name*: the data source, or target, to apply the operator
+2. *Operator*, defines comparing process between the name and the value.
 3. *Value*, that data that receives the operation.
 
 ===== Operators
@@ -177,17 +190,22 @@ There are six types:
 
 
 
-===== SKIP
+===== `skip`
 
-The *SKIP* option to a *SELECT* statement defines where the query should start.
+The `skip` option in a `select` statement defines where the query results should start.
 
-===== LIMIT
+===== `limit`
 
-The *LIMIT* option to a *SELECT* statement limits the number of rows returned by a query.
+The `limit` option in a `select` statement limits the number of rows returned by a query.
 
-===== ORDER BY
+===== `order by`
 
-The ORDER BY clause allows selecting the order of the returned results. It takes as argument a list of column names along with the order for the column (**ASC** for ascendant and **DESC** for the descendant, omitting the order being equivalent to **ASC**).
+The `order by` option allows defining the order of the returned results. It takes as argument (ORDERING_CLAUSE) a list of column names along with the ordering for the column (`asc` for ascendant, which is the default, and `desc` for the descendant).
+
+[source,sql]
+----
+ORDERING_CLAUSE ::= NAME [asc | desc] ( NAME [asc | desc])*
+----
 
 ===== TTL
 
