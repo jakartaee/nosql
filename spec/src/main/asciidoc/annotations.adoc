@@ -98,7 +98,7 @@ public class Address {
 ----
 ===== Column
 
-This annotation is to define which fields on an Entity will be persisted. It also has a unique attribute name to specify that name on Database, and the default value is the field name.
+This annotation defines which fields that belong an Entity will be persisted. There is an unique attribute name that specifies the name on Database, and the default value is the field name.
 
 [source,java]
 ----
@@ -117,7 +117,7 @@ public class Person {
 
 ===== MappedSuperclass
 
-If this annotation is on the parent class, it will persist its information as well. So, beyond the son class, it will store any field that is in Parent class with Column annotation.
+The class with the annotation MapperSuperclass will have all attributes considered as an extension of his subclass with Entity annotation. In this case, all attributes are going to be stored, even the attributes inside the Super Class.
 
 
 [source,java]
@@ -143,12 +143,12 @@ public class Animal {
 }
 ----
 
-On this sample above, when saving a Dog instance, it saves the Animal case too; explicitly, will save the field's `name`, `race`, and `age`.
+In this sample above, when saving a Dog instance, it saves the Animal case too; explicitly, will save the fields `name`, `race`, and `age`.
 
 
 ===== Id
 
-It shows which attribute is the id, or the key in key-value types. Thus, the value will be the remaining information. It has an attribute as the Column to define the native name. However, the default value of this annotation is `_id`. The way of storing the class will depend on the database driver.
+The example below shows which attribute is the id, or the key in key-value types. Thus, the value will be the remaining information. It has an attribute as the Column to define the native name. However, the default value of this annotation is `_id`. The way of storing the class will depend on the database driver.
 
 [source,java]
 ----
