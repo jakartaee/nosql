@@ -258,54 +258,6 @@ List<Person> byAgeGreaterThan = personRepository.findByAgeGreaterThan(22, sorts)
 WARNING: All these special instances must be at the end, thus after the parameters that will be used at a query.
 
 
-==== Using Repository as an asynchronous way
-
-The RepositoryAsync interface works similarly as Repository but with asynchronous work.
-
-[source,java]
-----
-@Inject
-@Database(DatabaseType.DOCUMENT)
-private PersonRepositoryAsync documentRepositoryAsync;
-
-@Inject
-@Database(DatabaseType.COLUMN)
-private PersonRepositoryAsync columnRepositoryAsync;
-----
-
-In other words, just inject and then create an Entity Manager async with producers method.
-
-[source,java]
-----
-PersonRepositoryAsync repositoryAsync = //instance
-
-Person person = new Person();
-person.setNickname("diana");
-person.setName("Diana Goodness");
-
-List<Person> people = Collections.singletonList(person);
-
-
-repositoryAsync.save(person);
-repositoryAsync.save(people);
-----
-
-Also, delete and retrieve information with a callback.
-
-[source,java]
-----
-interface PersonRepositoryAsync extends RepositoryAsync<Person, Long> {
-
-    void findByNickname(String nickname, Consumer<Stream<Person>> callback);
-
-    void deleteByNickName(String nickname);
-
-    void deleteByNickName(String nickname, Consumer<Void> callback);
-}
-----
-
-TIP: In the key-value resource, the *Repository* does not support method query resource; this database type has key oriented operations.
-
 ==== Using Query annotation
 
 The Repository interface contains all the trivial methods shared among the NoSQL implementations that a developer does not need to care. Also, there is a query method that does query based on the method name. Equally important, there are two new annotations: The Query and param, that defines the statement and set the values in the query respectively.
@@ -323,10 +275,10 @@ public interface PersonRepository extends Repository<Person, Long> {
 
 IMPORTANT: Remember, when a developer defines who that repository will be implemented from the CDI qualifier, the query will be executed to that defined type, given that, gremlin to Graph, Jakarta NoSQL key to key-value and so on.
 
-==== How to Create Repository and RepositoryAsync implementation programmatically
+==== How to Create Repository implementation programmatically
 
 The Mapping API has support to create Repository programmatically to each NoSQL type, so there are *ColumnRepositoryProducer*, *DocumentRepositoryProducer*, *KeyValueRepositoryProducer*, *GraphRepositoryProducer* to column, document, key-value, graph repository implementation respectively. Each producer needs both the repository class and the manager instance to return a repository instance.
-The *ColumnRepositoryAsyncProducer* and *DocumentRepositoryAsyncProducer* have a method to create a RepositoryAsync instance that needs both an interface that extends RepositoryAsync and the manager async.
+
 
 .Graph repository producer
 [source,java]
@@ -358,30 +310,21 @@ public void anyMethod() {
 @Inject
 private ColumnRepositoryProducer producer;
 
-@Inject
-private ColumnRepositoryAsyncProducer producerAsync;
-
 public void anyMethod() {
     DocumentCollectionManager manager = ...;//instance
-    DocumentCollectionManagerAsync managerAsync = ...;//instance
     PersonRepository personRepository = producer.get(PersonRepository.class, graph);
-    PersonRepositoryAsync personRepositoryAsync = producerAsync.get(PersonRepositoryAsync.class, graph);
 }
 ----
 
 .Document repository producer
+[source,java]
 ----
 @Inject
 private DocumentRepositoryProducer producer;
 
-@Inject
-private DocumentRepositoryAsyncProducer producerAsync;
-
 public void anyMethod() {
     DocumentCollectionManager manager = ...;//instance
-    DocumentCollectionManagerAsync managerAsync = ...;//instance
     PersonRepository personRepository = producer.get(PersonRepository.class, graph);
-    PersonRepositoryAsync personRepositoryAsync = producerAsync.get(PersonRepositoryAsync.class, graph);
 }
 ----
 
@@ -391,14 +334,9 @@ public void anyMethod() {
 @Inject
 private ColumnRepositoryProducer producer;
 
-@Inject
-private ColumnRepositoryAsyncProducer producerAsync;
-
 public void anyMethod() {
     ColumnFamilyManager manager = ...;//instance
-    ColumnFamilyManagerAsync managerAsync = ...;//instance
     PersonRepository personRepository = producer.get(PersonRepository.class, manager);
-    PersonRepositoryAsync personRepositoryAsync = producerAsync.get(PersonRepositoryAsync.class, managerAsync);
 }
 ----
 
@@ -407,13 +345,8 @@ public void anyMethod() {
 @Inject
 private DocumentRepositoryProducer producer;
 
-@Inject
-private DocumentRepositoryAsyncProducer producerAsync;
-
 public void anyMethod() {
     DocumentCollectionManager manager = ...;//instance
-    DocumentCollectionManagerAsync managerAsync = ...;//instance
     PersonRepository personRepository = producer.get(PersonRepository.class, manager);
-    PersonRepositoryAsync personRepositoryAsync = producerAsync.get(PersonRepositoryAsync.class, managerAsync);
 }
 ----

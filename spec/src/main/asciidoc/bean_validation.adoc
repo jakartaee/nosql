@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Otavio Santana and others
+// Copyright (c) 2019-2020 Otavio Santana, Leonardo de Moura Rocha Lima and others
 //
 // This program and the accompanying materials are made available under the
 // terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,8 +14,7 @@
 
 === Bean Validation
 
-The Mapping has support to use http://beanvalidation.org/[Bean Validation] (BV), which supports a plugin that, basically, listens to an event from *preEntity* and executes the BV.
-
+Mapping API supports http://beanvalidation.org/[Bean Validation]. This is implemented as a plugin that listens to *preEntity* events and performs bean validation on the entity.
 
 [source,java]
 ----
@@ -44,17 +43,18 @@ public class Person {
 }
 ----
 
-In case of a validation problem in the project, a `ConstraintViolationException` will be thrown.
+In case of validation failure, a `ConstraintViolationException` will be thrown.
 
 [source,java]
 ----
- Person person = Person.builder()
-                .withAge(10)
+Person person = Person.builder()
+                .withAge(10) //this is lower than @Min(21) defines
                 .withName("Ada")
                 .withSalary(BigDecimal.ONE)
                 .withPhones(singletonList("123131231"))
                 .build();
-repository.save(person);//throws a ConstraintViolationException
+
+repository.save(person); //throws a ConstraintViolationException
 ----
 
 
