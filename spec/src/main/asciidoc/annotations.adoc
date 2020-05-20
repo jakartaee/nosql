@@ -117,7 +117,7 @@ public class Person {
 
 ===== MappedSuperclass
 
-The class with MapperSuperclass annotation will have all attributes considered as an extension of his subclass with Entity annotation. In this case, all attributes are going to be stored, even the attributes inside the Super Class.
+The class with the annotation MapperSuperclass will have all attributes considered as an extension of his subclass with Entity annotation. In this case, all attributes are going to be stored, even the attributes inside the Super Class.
 
 
 [source,java]
