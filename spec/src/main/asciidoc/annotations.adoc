@@ -36,7 +36,7 @@ Jakarta NoSQL Mapping does not require getter and setter methods to fields. Howe
 
 ===== @Entity
 
-This annotation maps the class to Eclipse Jakarta NoSQL. It has a single value attribute. This attribute specifies the column family name, or the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
+This annotation maps the class to Eclipse Jakarta NoSQL. There is a single value attribute. This attribute specifies the column family name, or the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
 
 [source,java]
 ----
@@ -98,7 +98,7 @@ public class Address {
 ----
 ===== @Column
 
-This annotation is defines which fields on an Entity will be persisted. It also has a single attribute that specifies that name on Database. Its default value is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with `@Key` - all other fields are stored as a single blob. 
+This annotation defines which fields that belong an Entity will be persisted. There is a single attribute that specifies that name in Database. It is default value that is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with `@Key` - all other fields are stored as a single blob. 
 
 [source,java]
 ----
@@ -120,7 +120,9 @@ public class Person {
 
 ===== @MappedSuperclass
 
-This annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields. 
+The class with the MapperSuperclass annotation will have all attributes considered as an extension of his subclass with Entity annotation. In this case, all attributes are going to be stored, even the attributes inside the Super Class.
+
+This means, that This annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields. 
 
 
 [source,java]
