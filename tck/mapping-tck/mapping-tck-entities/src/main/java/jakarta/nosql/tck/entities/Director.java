@@ -42,12 +42,8 @@ public final class Director extends Person {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Director director = (Director) o;
         return Objects.equals(movie, director.movie);
     }
