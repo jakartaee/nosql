@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import static jakarta.nosql.column.ColumnDeleteQuery.delete;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -96,6 +97,15 @@ public class ColumnMapperDeleteBuilderTest {
                 .between(10, 20).build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id")
                 .between(10L, 20L).build();
+        assertEquals(queryExpected, query);
+    }
+
+    @Test
+    public void shouldSelectWhereNameIn() {
+        ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id")
+                .in(Arrays.asList("Ada", "Poliana")).build();
+        ColumnDeleteQuery queryExpected = delete().from("Person").where("_id")
+                .in(Arrays.asList("Ada", "Poliana")).build();
         assertEquals(queryExpected, query);
     }
 
