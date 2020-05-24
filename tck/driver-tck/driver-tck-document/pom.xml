@@ -19,7 +19,7 @@
 
 
     <parent>
-       <groupId>jakarta.nosql.tck.communication</groupId>
+        <groupId>jakarta.nosql.tck.communication.driver</groupId>
         <artifactId>driver-tck</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
