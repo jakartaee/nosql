@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Otavio Santana and others
+// Copyright (c) 2019-2020 Otavio Santana, Roan Brasil Monteiro and others
 //
 // This program and the accompanying materials are made available under the
 // terms of the Eclipse Public License v. 2.0 which is available at
@@ -9,7 +9,7 @@
 :doctype: book
 :license: Apache License v2.0
 :source-highlighter: coderay
-:authors: Otávio Santana, Leonardo de Moura Rocha Lima
+:authors: Otávio Santana, Leonardo de Moura Rocha Lima, Roan Brasil Monteiro
 :email: otaviojava@apache.org
 ifdef::backend-pdf[]
 :pagenums:
@@ -36,7 +36,7 @@ The project has two layers:
 
 1. *Communication Layer*: A set of APIs that defines communication with NoSQL databases. Compared with traditional the RDBMS world, they are like the JDBC API. It contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document, and Graph.
 
-1. *Mapping Layer*: These APIs help developers to integrate their Java application with the NoSQL database.
+2. *Mapping Layer*: These APIs help developers to integrate their Java application with the NoSQL database.
 This layer is annotation-driven and uses technologies like CDI and Bean Validation, making it simple for developers to use.
 In the traditional RDBMS world, this layer can be compared to the Java Persistence API or object-relational mapping frameworks such as Hibernate.
 
