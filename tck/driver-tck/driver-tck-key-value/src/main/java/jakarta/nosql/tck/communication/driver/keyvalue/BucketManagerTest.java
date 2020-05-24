@@ -13,7 +13,7 @@
  *
  *  SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.communication.tck.driver.keyvalue;
+package jakarta.nosql.tck.communication.driver.keyvalue;
 
 
 import jakarta.nosql.ServiceLoaderProvider;
