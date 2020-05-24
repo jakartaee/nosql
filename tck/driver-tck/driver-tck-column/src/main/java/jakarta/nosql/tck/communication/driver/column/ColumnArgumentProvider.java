@@ -39,8 +39,6 @@ public class ColumnArgumentProvider implements ArgumentsProvider, AnnotationCons
 
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-        LOGGER.info("Reading in the resource the file: " + value);
-
         final Map<String, String> map = get();
         if (map.isEmpty()) {
             return Stream.of(Arguments.of(ColumnArgument.EMPTY));
@@ -69,7 +67,7 @@ public class ColumnArgumentProvider implements ArgumentsProvider, AnnotationCons
             }
 
         } catch (IOException e) {
-            LOGGER.fine("The file was not found: " + value);
+            LOGGER.fine("There is an issue when read the file: " + value);
             return Collections.emptyMap();
         }
     }
