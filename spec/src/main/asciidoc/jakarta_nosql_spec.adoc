@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Otavio Santana and others
+// Copyright (c) 2019-2020 Otavio Santana, Roan Brasil Monteiro and others
 //
 // This program and the accompanying materials are made available under the
 // terms of the Eclipse Public License v. 2.0 which is available at
@@ -9,7 +9,7 @@
 :doctype: book
 :license: Apache License v2.0
 :source-highlighter: coderay
-:authors: Otávio Santana, Leonardo de Moura Rocha Lima
+:authors: Otávio Santana, Leonardo de Moura Rocha Lima, Roan Brasil Monteiro
 :email: otaviojava@apache.org
 ifdef::backend-pdf[]
 :pagenums:

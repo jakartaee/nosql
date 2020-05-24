@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Otavio Santana and others
+// Copyright (c) 2019-2020 Otavio Santana, Roan Brasil Monteiro and others
 //
 // This program and the accompanying materials are made available under the
 // terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,9 +14,9 @@
 
 == Let's talk about standard to NoSQL database in Java
 
-NoSQL DB are databases that provide mechanisms for storage and retrieval of unstructured data, in stark contrast of the tabular relations used in relational databases. NoSQL databases, comparing to relational databases, have better performance and high scalability. They are becoming more popular in several industry verticals, such as finance and streaming. As a result of this increased usage, the number of users and database vendors are increasing too.
+NoSQL DB are databases that provide mechanisms for storage and retrieval of unstructured data (non-relational), in stark contrast of the tabular relations used in relational databases. NoSQL databases, comparing to relational databases, have better performance and high scalability. They are becoming more popular in several industry verticals, such as finance and streaming. As a result of this increased usage, the number of users and database vendors are increasing too.
 
-A NoSQL database is defined basically by its model of storage. There are four types:
+A NoSQL database is defined basically by a model of storage. There are four types:
 
 === Key-value
 
@@ -134,7 +134,7 @@ Some databases have support for more than one kind of model storage. This is the
 
 === Scalability vs Complexity
 
-Every database type has specific persistence structures to solve particular problems. There is a balance regarding model complexity; more complicated models are less scalable. E.g., a key-value NoSQL database is more scalable and it has simple complexity because all queries and operations are key-based.
+Every database type has specific persistence structures to solve particular problems. There is a balance regarding model complexity; more complicated models are less scalable. E.g., a key-value NoSQL database is more scalable and there is a simple complexity because all queries and operations are key-based.
 
 .Scalability vs Complexity
 image::scalability_vs_complexity.png[alt=Scalability vs Complexity, width=300%]
@@ -172,18 +172,18 @@ There are around two hundred and twenty-five NoSQL databases (at time of writing
 
 === Standard in SQL
 
-Java applications that use relational databases have as good practice a layer between business logic and data. This is known as DAO - Data Access Object. There are also APIs such as JPA and JDBC that have offer advantages to developers:
+Java applications that use relational databases have as good practice a layer between business logic and data. This is known as DAO - Data Access Object. There are also APIs, such as JPA and JDBC providing advantages to developers:
 
 
 * Avoid vendor lock-in. Using a standard (such as JDBC), a database has less impact and is easier to implement - because we just need to change a simple driver.
-* There is no need to learn a new API to work with a new database - that's implemented in the driver.
+* There is no need to learn a new API to work with a new database - that's implemented into the driver.
 * There is less code change when changing to a new vendor. There may be some code changes, but not all code that talks to the database is lost.
 
-Currently there are no NoSQL standards for Java. That causes a Java developer to: 
+Currently, there are no NoSQL standards for Java. This causes a Java developer to: 
 
 * Be locked-in to a vendor
 * Learn a new API every time it needs to use a new database. Every database vendor change has a high impact, because a rewrite of the communication layer is needed. This happens even when changing to a new database that is the same kind of NoSQL database. 
 
 There are initiatives to create NoSQL APIs, such as Spring Data, Hibernate ORM, and TopLink. JPA is a popular API in the Java world, which is why all these initiatives try to use it. However, this API is created for SQL and not for NoSQL and, as such, doesn't support all behaviors in NoSQL databases. Many NoSQL databases have no transaction concecpt, and many NoSQL database don't support to asynchronous insertion either.
 
-The solution in this case is the creation of a specification that covers the four kinds of NoSQL database; as described, each kind has specific structures that must be recognized. This new API should resemble JPA because of its popularity amongst Java developers. It should also be extensible, to support cases when a database has more than one particular behavior. 
+The solution, in this case, is the creation of a specification that covers the four kinds of NoSQL database; as described, each kind has specific structures that must be recognized. This new API should resemble JPA because of its popularity amongst Java developers. It should also be extensible, to support cases when a database has more than one particular behavior. 
