@@ -47,7 +47,7 @@ public class ColumnFamilyManagerTest {
     public void shouldInsert(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -72,7 +72,7 @@ public class ColumnFamilyManagerTest {
     public void shouldInsertTTL(ColumnArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -99,7 +99,7 @@ public class ColumnFamilyManagerTest {
     }
 
     @ParameterizedTest
-    @ColumnSource("column_iterable.properties")
+    @ColumnSource("column.properties")
     public void shouldInsertIterable(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
@@ -121,7 +121,7 @@ public class ColumnFamilyManagerTest {
     }
 
     @ParameterizedTest
-    @ColumnSource("column_iterable.properties")
+    @ColumnSource("column.properties")
     public void shouldReturnErrorWhenInsertIterableIsNull(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
@@ -129,7 +129,7 @@ public class ColumnFamilyManagerTest {
     }
 
     @ParameterizedTest
-    @ColumnSource("column_iterable_ttl.properties")
+    @ColumnSource("column_ttl.properties")
     public void shouldInsertIterableTTL(ColumnArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
@@ -149,7 +149,7 @@ public class ColumnFamilyManagerTest {
     }
 
     @ParameterizedTest
-    @ColumnSource("column_iterable_ttl.properties")
+    @ColumnSource("column_ttl.properties")
     public void shouldReturnErrorWhenInsertIterableTTL(ColumnArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
@@ -169,7 +169,7 @@ public class ColumnFamilyManagerTest {
     public void shouldUpdate(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -190,7 +190,7 @@ public class ColumnFamilyManagerTest {
     }
 
     @ParameterizedTest
-    @ColumnSource("column_iterable.properties")
+    @ColumnSource("column.properties")
     public void shouldUpdateIterable(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
@@ -213,7 +213,7 @@ public class ColumnFamilyManagerTest {
     }
 
     @ParameterizedTest
-    @ColumnSource("column_iterable.properties")
+    @ColumnSource("column.properties")
     public void shouldReturnErrorWhenUpdateIterableIsNull(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
@@ -225,7 +225,7 @@ public class ColumnFamilyManagerTest {
     public void shouldDelete(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -253,7 +253,7 @@ public class ColumnFamilyManagerTest {
     public void shouldSelect(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -281,7 +281,7 @@ public class ColumnFamilyManagerTest {
     public void shouldSingleResult(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -298,7 +298,7 @@ public class ColumnFamilyManagerTest {
     }
 
     @ParameterizedTest
-    @ColumnSource("column_iterable.properties")
+    @ColumnSource("column.properties")
     public void shouldAnEmptySingleResult(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
