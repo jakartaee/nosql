@@ -47,7 +47,7 @@ public class DocumentCollectionManagerTest {
     public void shouldInsert(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -72,7 +72,7 @@ public class DocumentCollectionManagerTest {
     public void shouldInsertTTL(DocumentArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -99,7 +99,7 @@ public class DocumentCollectionManagerTest {
     }
 
     @ParameterizedTest
-    @DocumentSource("document_iterable.properties")
+    @DocumentSource("document.properties")
     public void shouldInsertIterable(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
@@ -121,7 +121,7 @@ public class DocumentCollectionManagerTest {
     }
 
     @ParameterizedTest
-    @DocumentSource("document_iterable.properties")
+    @DocumentSource("document.properties")
     public void shouldReturnErrorWhenInsertIterableIsNull(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
@@ -129,7 +129,7 @@ public class DocumentCollectionManagerTest {
     }
 
     @ParameterizedTest
-    @DocumentSource("document_iterable_ttl.properties")
+    @DocumentSource("document_ttl.properties")
     public void shouldInsertIterableTTL(DocumentArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
@@ -149,7 +149,7 @@ public class DocumentCollectionManagerTest {
     }
 
     @ParameterizedTest
-    @DocumentSource("document_iterable_ttl.properties")
+    @DocumentSource("document_ttl.properties")
     public void shouldReturnErrorWhenInsertIterableTTL(DocumentArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
@@ -169,7 +169,7 @@ public class DocumentCollectionManagerTest {
     public void shouldUpdate(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -190,7 +190,7 @@ public class DocumentCollectionManagerTest {
     }
 
     @ParameterizedTest
-    @DocumentSource("document_iterable.properties")
+    @DocumentSource("document.properties")
     public void shouldUpdateIterable(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
@@ -213,7 +213,7 @@ public class DocumentCollectionManagerTest {
     }
 
     @ParameterizedTest
-    @DocumentSource("document_iterable.properties")
+    @DocumentSource("document.properties")
     public void shouldReturnErrorWhenUpdateIterableIsNull(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
@@ -225,7 +225,7 @@ public class DocumentCollectionManagerTest {
     public void shouldDelete(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -253,7 +253,7 @@ public class DocumentCollectionManagerTest {
     public void shouldSelect(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -281,7 +281,7 @@ public class DocumentCollectionManagerTest {
     public void shouldSingleResult(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().flatMap(manager::query)
+        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -298,7 +298,7 @@ public class DocumentCollectionManagerTest {
     }
 
     @ParameterizedTest
-    @DocumentSource("document_iterable.properties")
+    @DocumentSource("document.properties")
     public void shouldAnEmptySingleResult(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
