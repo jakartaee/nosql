@@ -47,8 +47,7 @@ public class DocumentCollectionManagerTest {
     public void shouldInsert(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
                 .orElseThrow(() -> new DocumentDriverException("Should return an entity when the entity is saved"));
@@ -72,8 +71,7 @@ public class DocumentCollectionManagerTest {
     public void shouldInsertTTL(DocumentArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
                 .orElseThrow(() -> new DocumentDriverException("Should return an entity when the entity is saved"));
@@ -133,8 +131,7 @@ public class DocumentCollectionManagerTest {
     public void shouldInsertIterableTTL(DocumentArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        List<DocumentEntity> entities = argument.getQuery().stream().flatMap(manager::query)
-                .collect(Collectors.toList());
+        List<DocumentEntity> entities = argument.insertAll(manager);
         Assertions.assertEquals(argument.getQuery().size(), entities.size());
 
         final List<Object> ids = entities.stream().map(c -> c.find(argument.getIdName()))
@@ -169,8 +166,7 @@ public class DocumentCollectionManagerTest {
     public void shouldUpdate(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
                 .orElseThrow(() -> new DocumentDriverException("Should return an entity when the entity is saved"));
@@ -194,8 +190,7 @@ public class DocumentCollectionManagerTest {
     public void shouldUpdateIterable(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        List<DocumentEntity> entities = argument.getQuery().stream().flatMap(manager::query)
-                .collect(Collectors.toList());
+        List<DocumentEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
         final List<Object> ids = entities.stream()
@@ -225,8 +220,7 @@ public class DocumentCollectionManagerTest {
     public void shouldDelete(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
                 .orElseThrow(() -> new DocumentDriverException("Should return an entity when the entity is saved"));
@@ -253,8 +247,7 @@ public class DocumentCollectionManagerTest {
     public void shouldSelect(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
                 .orElseThrow(() -> new DocumentDriverException("Should return an entity when the entity is saved"));
@@ -281,8 +274,7 @@ public class DocumentCollectionManagerTest {
     public void shouldSingleResult(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        Optional<DocumentEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
                 .orElseThrow(() -> new DocumentDriverException("Should return an entity when the entity is saved"));
@@ -302,8 +294,7 @@ public class DocumentCollectionManagerTest {
     public void shouldReturnAnErrorEmptySingleResult(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
-        List<DocumentEntity> entities = argument.getQuery().stream().flatMap(manager::query)
-                .collect(Collectors.toList());
+        List<DocumentEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
         final List<Object> ids = entities.stream()

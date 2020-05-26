@@ -15,8 +15,14 @@
  */
 package jakarta.nosql.tck.communication.driver.document;
 
+import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentEntity;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public final class DocumentArgument {
 
@@ -54,6 +60,18 @@ public final class DocumentArgument {
 
     public boolean isEmpty() {
         return empty;
+    }
+
+    public Optional<DocumentEntity> insertOne(DocumentCollectionManager manager) {
+        Objects.requireNonNull(manager, "manager is required");
+        return getQuery().stream().limit(1L).flatMap(manager::query)
+                .findFirst();
+    }
+
+    public List<DocumentEntity> insertAll(DocumentCollectionManager manager) {
+        Objects.requireNonNull(manager, "manager is required");
+        return getQuery().stream().flatMap(manager::query)
+                .collect(Collectors.toList());
     }
 
     @Override
