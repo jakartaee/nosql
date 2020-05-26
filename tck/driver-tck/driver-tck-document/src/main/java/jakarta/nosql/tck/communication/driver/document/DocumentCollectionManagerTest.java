@@ -45,8 +45,7 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldInsert(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -61,16 +60,14 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnErrorWhenInsertIsNull(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.insert((DocumentEntity) null));
     }
 
     @ParameterizedTest
     @DocumentSource("document_ttl.properties")
     public void shouldInsertTTL(DocumentArgument argument) throws InterruptedException {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -88,8 +85,7 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document_ttl.properties")
     public void shouldReturnErrorWhenInsertTTLHasNullParameter(DocumentArgument argument) throws InterruptedException {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class,
                 () -> manager.insert((DocumentEntity) null, Duration.ZERO));
         assertThrows(NullPointerException.class,
@@ -99,8 +95,7 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldInsertIterable(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         List<DocumentEntity> entities = argument.getQuery().stream().flatMap(manager::query)
                 .collect(Collectors.toList());
 
@@ -121,16 +116,14 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnErrorWhenInsertIterableIsNull(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.insert((Iterable<DocumentEntity>) null));
     }
 
     @ParameterizedTest
     @DocumentSource("document_ttl.properties")
     public void shouldInsertIterableTTL(DocumentArgument argument) throws InterruptedException {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         List<DocumentEntity> entities = argument.insertAll(manager);
         Assertions.assertEquals(argument.getQuery().size(), entities.size());
 
@@ -148,8 +141,7 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document_ttl.properties")
     public void shouldReturnErrorWhenInsertIterableTTL(DocumentArgument argument) throws InterruptedException {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
 
         assertThrows(NullPointerException.class, () -> manager.insert((Iterable<DocumentEntity>) null,
                 null));
@@ -164,8 +156,7 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldUpdate(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -180,16 +171,14 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnErrorWhenUpdateIsNull(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.update((DocumentEntity) null));
     }
 
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldUpdateIterable(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         List<DocumentEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
@@ -210,16 +199,14 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnErrorWhenUpdateIterableIsNull(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.update((Iterable<DocumentEntity>) null));
     }
 
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldDelete(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -237,16 +224,14 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnErrorWhenDelete(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.delete(null));
     }
 
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldSelect(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -264,16 +249,14 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnErrorWhenSelect(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.select(null));
     }
 
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldSingleResult(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         Optional<DocumentEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final DocumentEntity entity = entityOptional
@@ -292,8 +275,7 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnAnErrorEmptySingleResult(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         List<DocumentEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
@@ -316,9 +298,13 @@ public class DocumentCollectionManagerTest {
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldReturnErrorWhenSingleResult(DocumentArgument argument) {
-        assumeTrue(argument.isEmpty());
-        DocumentCollectionManager manager = getManager();
+        DocumentCollectionManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.singleResult(null));
+    }
+
+    private DocumentCollectionManager getManager(DocumentArgument argument) {
+        assumeTrue(argument.isEmpty());
+        return getManager();
     }
 
     private DocumentCollectionManager getManager() {
