@@ -15,8 +15,14 @@
  */
 package jakarta.nosql.tck.communication.driver.column;
 
+import jakarta.nosql.column.ColumnEntity;
+import jakarta.nosql.column.ColumnFamilyManager;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public final class ColumnArgument {
 
@@ -54,6 +60,16 @@ public final class ColumnArgument {
 
     public boolean isEmpty() {
         return empty;
+    }
+
+    public Optional<ColumnEntity> insertOne(ColumnFamilyManager manager) {
+        Objects.requireNonNull(manager, "manager is required");
+        return getQuery().stream().limit(1L).flatMap(manager::query).findFirst();
+    }
+
+    public List<ColumnEntity> insertAll(ColumnFamilyManager manager) {
+        Objects.requireNonNull(manager, "manager is required");
+        return getQuery().stream().flatMap(manager::query).collect(Collectors.toList());
     }
 
     @Override

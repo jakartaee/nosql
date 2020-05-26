@@ -47,8 +47,8 @@ public class ColumnFamilyManagerTest {
     public void shouldInsert(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
+
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
                 .orElseThrow(() -> new ColumnDriverException("Should return an entity when the entity is saved"));
@@ -72,8 +72,7 @@ public class ColumnFamilyManagerTest {
     public void shouldInsertTTL(ColumnArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
                 .orElseThrow(() -> new ColumnDriverException("Should return an entity when the entity is saved"));
@@ -103,8 +102,7 @@ public class ColumnFamilyManagerTest {
     public void shouldInsertIterable(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        List<ColumnEntity> entities = argument.getQuery().stream().flatMap(manager::query)
-                .collect(Collectors.toList());
+        List<ColumnEntity> entities = argument.insertAll(manager);
 
         final List<Object> ids = entities.stream()
                 .map(c -> c.find(argument.getIdName()))
@@ -133,8 +131,7 @@ public class ColumnFamilyManagerTest {
     public void shouldInsertIterableTTL(ColumnArgument argument) throws InterruptedException {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        List<ColumnEntity> entities = argument.getQuery().stream().flatMap(manager::query)
-                .collect(Collectors.toList());
+        List<ColumnEntity> entities = argument.insertAll(manager);
         Assertions.assertEquals(argument.getQuery().size(), entities.size());
 
         final List<Object> ids = entities.stream().map(c -> c.find(argument.getIdName()))
@@ -163,14 +160,12 @@ public class ColumnFamilyManagerTest {
                         null));
     }
 
-
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldUpdate(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
                 .orElseThrow(() -> new ColumnDriverException("Should return an entity when the entity is saved"));
@@ -194,8 +189,7 @@ public class ColumnFamilyManagerTest {
     public void shouldUpdateIterable(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        List<ColumnEntity> entities = argument.getQuery().stream().flatMap(manager::query)
-                .collect(Collectors.toList());
+        List<ColumnEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
         final List<Object> ids = entities.stream()
@@ -225,8 +219,7 @@ public class ColumnFamilyManagerTest {
     public void shouldDelete(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
                 .orElseThrow(() -> new ColumnDriverException("Should return an entity when the entity is saved"));
@@ -253,8 +246,7 @@ public class ColumnFamilyManagerTest {
     public void shouldSelect(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
                 .orElseThrow(() -> new ColumnDriverException("Should return an entity when the entity is saved"));
@@ -281,8 +273,7 @@ public class ColumnFamilyManagerTest {
     public void shouldSingleResult(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        Optional<ColumnEntity> entityOptional = argument.getQuery().stream().limit(1L).flatMap(manager::query)
-                .findFirst();
+        Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
                 .orElseThrow(() -> new ColumnDriverException("Should return an entity when the entity is saved"));
@@ -302,8 +293,7 @@ public class ColumnFamilyManagerTest {
     public void shouldReturnAnErrorEmptySingleResult(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
-        List<ColumnEntity> entities = argument.getQuery().stream().flatMap(manager::query)
-                .collect(Collectors.toList());
+        List<ColumnEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
         final List<Object> ids = entities.stream()
@@ -329,7 +319,6 @@ public class ColumnFamilyManagerTest {
         ColumnFamilyManager manager = getManager();
         assertThrows(NullPointerException.class, () -> manager.singleResult(null));
     }
-
 
     private ColumnFamilyManager getManager() {
         final ColumnFamilyManagerSupplier supplier = ServiceLoaderProvider.get(ColumnFamilyManagerSupplier.class);
