@@ -299,7 +299,7 @@ public class ColumnFamilyManagerTest {
 
     @ParameterizedTest
     @ColumnSource("column.properties")
-    public void shouldAnEmptySingleResult(ColumnArgument argument) {
+    public void shouldReturnAnErrorEmptySingleResult(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         ColumnFamilyManager manager = getManager();
         List<ColumnEntity> entities = argument.getQuery().stream().flatMap(manager::query)

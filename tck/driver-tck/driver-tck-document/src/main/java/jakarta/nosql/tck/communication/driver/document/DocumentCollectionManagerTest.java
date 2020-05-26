@@ -299,7 +299,7 @@ public class DocumentCollectionManagerTest {
 
     @ParameterizedTest
     @DocumentSource("document.properties")
-    public void shouldAnEmptySingleResult(DocumentArgument argument) {
+    public void shouldReturnAnErrorEmptySingleResult(DocumentArgument argument) {
         assumeTrue(argument.isEmpty());
         DocumentCollectionManager manager = getManager();
         List<DocumentEntity> entities = argument.getQuery().stream().flatMap(manager::query)
