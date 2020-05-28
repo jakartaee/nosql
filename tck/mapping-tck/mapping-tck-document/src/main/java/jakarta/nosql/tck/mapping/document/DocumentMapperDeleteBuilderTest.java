@@ -50,49 +50,49 @@ public class DocumentMapperDeleteBuilderTest {
 
 
     @Test
-    public void shouldSelectWhereNameEq() {
+    public void shouldDeleteWhereNameEq() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name").eq("Ada").build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("name").eq("Ada").build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameLike() {
+    public void shouldDeleteWhereNameLike() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name").like("Ada").build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("name").like("Ada").build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameGt() {
+    public void shouldDeleteWhereNameGt() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").gt(10).build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("_id").gt(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameGte() {
+    public void shouldDeleteWhereNameGte() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").gte(10).build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("_id").gte(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameLt() {
+    public void shouldDeleteWhereNameLt() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").lt(10).build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("_id").lt(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameLte() {
+    public void shouldDeleteWhereNameLte() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").lte(10).build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("_id").lte(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameBetween() {
+    public void shouldDeleteWhereNameBetween() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id")
                 .between(10, 20).build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("_id")
@@ -110,7 +110,7 @@ public class DocumentMapperDeleteBuilderTest {
     }
 
     @Test
-    public void shouldSelectWhereNameNot() {
+    public void shouldDeleteWhereNameNot() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name").not().like("Ada").build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("name").not().like("Ada").build();
         assertEquals(queryExpected, query);
@@ -118,7 +118,7 @@ public class DocumentMapperDeleteBuilderTest {
 
 
     @Test
-    public void shouldSelectWhereNameAnd() {
+    public void shouldDeleteWhereNameAnd() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("age").between(10, 20)
                 .and("name").eq("Ada").build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("age")
@@ -129,7 +129,7 @@ public class DocumentMapperDeleteBuilderTest {
     }
 
     @Test
-    public void shouldSelectWhereNameOr() {
+    public void shouldDeleteWhereNameOr() {
         DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").between(10, 20)
                 .or("name").eq("Ada").build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("_id")

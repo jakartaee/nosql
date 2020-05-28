@@ -50,49 +50,49 @@ public class ColumnMapperDeleteBuilderTest {
 
 
     @Test
-    public void shouldSelectWhereNameEq() {
+    public void shouldDeleteWhereNameEq() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name").eq("Ada").build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("name").eq("Ada").build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameLike() {
+    public void shouldDeleteWhereNameLike() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name").like("Ada").build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("name").like("Ada").build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameGt() {
+    public void shouldDeleteWhereNameGt() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").gt(10).build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id").gt(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameGte() {
+    public void shouldDeleteWhereNameGte() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").gte(10).build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id").gte(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameLt() {
+    public void shouldDeleteWhereNameLt() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").lt(10).build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id").lt(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameLte() {
+    public void shouldDeleteWhereNameLte() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").lte(10).build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id").lte(10L).build();
         assertEquals(queryExpected, query);
     }
 
     @Test
-    public void shouldSelectWhereNameBetween() {
+    public void shouldDeleteWhereNameBetween() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id")
                 .between(10, 20).build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id")
@@ -101,8 +101,8 @@ public class ColumnMapperDeleteBuilderTest {
     }
 
     @Test
-    public void shouldSelectWhereNameIn() {
-        ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id")
+    public void shouldDeleteWhereNameIn() {
+        ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name")
                 .in(Arrays.asList("Ada", "Poliana")).build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id")
                 .in(Arrays.asList("Ada", "Poliana")).build();
@@ -110,7 +110,7 @@ public class ColumnMapperDeleteBuilderTest {
     }
 
     @Test
-    public void shouldSelectWhereNameNot() {
+    public void shouldDeleteWhereNameNot() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name").not().like("Ada").build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("name").not().like("Ada").build();
         assertEquals(queryExpected, query);
@@ -118,7 +118,7 @@ public class ColumnMapperDeleteBuilderTest {
 
 
     @Test
-    public void shouldSelectWhereNameAnd() {
+    public void shouldDeleteWhereNameAnd() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("age").between(10, 20)
                 .and("name").eq("Ada").build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("age")
@@ -129,7 +129,7 @@ public class ColumnMapperDeleteBuilderTest {
     }
 
     @Test
-    public void shouldSelectWhereNameOr() {
+    public void shouldDeleteWhereNameOr() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id").between(10, 20)
                 .or("name").eq("Ada").build();
         ColumnDeleteQuery queryExpected = delete().from("Person").where("_id")
