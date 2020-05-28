@@ -424,7 +424,7 @@ public class DocumentEntityConverterTest {
 
 
         Assertions.assertEquals(1L, entity.find("_id").get().get());
-        final byte[] bytes = entity.find("contents").get().get(byte[].class);
+        final byte[] bytes = entity.find("contents").map(v -> v.get(byte[].class)).orElse(new byte[0]);
         Assertions.assertArrayEquals(contents, bytes);
     }
 
