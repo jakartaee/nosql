@@ -141,7 +141,7 @@ public class DocumentMapperSelectBuilderTest {
 
     @Test
     public void shouldSelectWhereNameIn() {
-        DocumentQuery query = mapperBuilder.selectFrom(Person.class).where("id")
+        DocumentQuery query = mapperBuilder.selectFrom(Person.class).where("name")
                 .in(Arrays.asList("Ada", "Poliana")).build();
         DocumentQuery queryExpected = select().from("Person").where("_id")
                 .in(Arrays.asList("Ada", "Poliana")).build();

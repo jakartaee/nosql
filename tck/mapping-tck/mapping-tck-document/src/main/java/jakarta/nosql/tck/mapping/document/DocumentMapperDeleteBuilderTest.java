@@ -101,8 +101,8 @@ public class DocumentMapperDeleteBuilderTest {
     }
 
     @Test
-    public void shouldSelectWhereNameIn() {
-        DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("id")
+    public void shouldDeleteWhereNameIn() {
+        DocumentDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name")
                 .in(Arrays.asList("Ada", "Poliana")).build();
         DocumentDeleteQuery queryExpected = delete().from("Person").where("_id")
                 .in(Arrays.asList("Ada", "Poliana")).build();
