@@ -142,7 +142,7 @@ public class ColumnMapperSelectBuilderTest {
     public void shouldSelectWhereNameIn() {
         ColumnQuery query = mapperBuilder.selectFrom(Person.class).where("name")
                 .in(Arrays.asList("Ada", "Poliana")).build();
-        ColumnQuery queryExpected = select().from("Person").where("_id")
+        ColumnQuery queryExpected = select().from("Person").where("name")
                 .in(Arrays.asList("Ada", "Poliana")).build();
         assertEquals(queryExpected, query);
     }

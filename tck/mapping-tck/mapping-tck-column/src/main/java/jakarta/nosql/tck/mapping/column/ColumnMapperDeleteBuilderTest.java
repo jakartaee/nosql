@@ -104,7 +104,7 @@ public class ColumnMapperDeleteBuilderTest {
     public void shouldDeleteWhereNameIn() {
         ColumnDeleteQuery query = mapperBuilder.deleteFrom(Person.class).where("name")
                 .in(Arrays.asList("Ada", "Poliana")).build();
-        ColumnDeleteQuery queryExpected = delete().from("Person").where("_id")
+        ColumnDeleteQuery queryExpected = delete().from("Person").where("name")
                 .in(Arrays.asList("Ada", "Poliana")).build();
         assertEquals(queryExpected, query);
     }
