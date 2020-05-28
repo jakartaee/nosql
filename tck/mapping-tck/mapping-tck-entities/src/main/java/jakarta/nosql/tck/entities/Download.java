@@ -39,7 +39,7 @@ public class Download {
         if(contents != null) {
             byte[] copiedArray = new byte[contents.length];
             System.arraycopy(contents, 0, copiedArray, 0, contents.length);
-
+            return copiedArray;
         }
         return new byte[0];
     }
@@ -47,7 +47,7 @@ public class Download {
     public void setContents(byte[] contents) {
         if(contents != null) {
             this.contents = new byte[contents.length];
-            System.arraycopy(contents, 0, contents, 0, contents.length);
+            System.arraycopy(contents, 0, this.contents, 0, contents.length);
 
         }
     }
