@@ -152,7 +152,6 @@
                 </executions>
                 <configuration>
                     <source>${maven.compiler.source}</source>
-                    <additionalJOption>--no-module-directories</additionalJOption>
                 </configuration>
             </plugin>
             <plugin>
