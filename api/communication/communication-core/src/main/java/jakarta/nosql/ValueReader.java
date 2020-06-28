@@ -17,25 +17,17 @@
 package jakarta.nosql;
 
 
+import java.util.function.Predicate;
+
 /**
  * This interface represents the converters to be used in Value method,
  * so if there's a new type that the current API doesn't support just creates a new implementation and
  * load it by service load process.
- *
+ * The {@link Predicate} verifies if the reader has the support of instance from this class.
  * @see Value
  * @see Value#get(Class)
  */
-public interface ValueReader {
-
-    /**
-     * verifies if the reader has support of instance from this class.
-     *
-     * @param <T>   the type
-     * @param clazz - {@link Class} to be verified
-     * @return true if the implementation is can support this class, otherwise false
-     */
-
-    <T> boolean isCompatible(Class<T> clazz);
+public interface ValueReader extends Predicate<Class<?>> {
 
     /**
      * Once this implementation is compatible with the class type, the next step it converts  an
