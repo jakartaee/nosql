@@ -23,7 +23,7 @@ import java.util.function.Predicate;
  *
  * @see Value#get(TypeSupplier)
  */
-public interface TypeReferenceReader extends Predicate<Class<?>> {
+public interface TypeReferenceReader extends Predicate<TypeSupplier> {
 
     /**
      * converts to defined type on {@link TypeReference}
@@ -34,4 +34,5 @@ public interface TypeReferenceReader extends Predicate<Class<?>> {
      * @return the instance converted
      */
     <T> T convert(TypeSupplier<T> typeReference, Object value);
+
 }
