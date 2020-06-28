@@ -16,24 +16,18 @@
 
 package jakarta.nosql;
 
+import java.util.function.Predicate;
+
 /**
  * To put your own Java Structure in NoSQL database is necessary convert it to a supported one.
  * So, the ValueWriter has the goal to convert to any specific structure type that a database might support.
  * These implementation will loaded by ServiceLoad and a NoSQL implementation will may use it.
+ * The {@link Predicate} verifies if the reader has the support of instance from this class.
  *
  * @param <T> current type
  * @param <S> the converted type
  */
-public interface ValueWriter<T, S> {
-
-    /**
-     * verifies if the writer has support of instance from this class.
-     *
-     * @param <C>   the class type
-     * @param clazz - {@link Class} to be verified
-     * @return true if the implementation is can support this class, otherwise false
-     */
-    <C> boolean isCompatible(Class<C> clazz);
+public interface ValueWriter<T, S> extends Predicate<Class<?>> {
 
     /**
      * Converts a specific structure to a new one.
@@ -41,6 +35,5 @@ public interface ValueWriter<T, S> {
      * @param object the instance to be converted
      * @return a new instance with the new class
      */
-
     S write(T object);
 }
