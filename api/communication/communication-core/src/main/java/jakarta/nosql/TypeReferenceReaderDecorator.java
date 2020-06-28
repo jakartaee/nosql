@@ -41,14 +41,14 @@ public final class TypeReferenceReaderDecorator implements TypeReferenceReader {
     }
 
     @Override
-    public <T> boolean isCompatible(TypeSupplier<T> type) {
-        return readers.stream().anyMatch(r -> r.isCompatible(type));
+    public boolean test(TypeSupplier type) {
+        return readers.stream().anyMatch(r -> r.test(type));
     }
 
     @Override
     public <T> T convert(TypeSupplier<T> typeReference, Object value) {
 
-        TypeReferenceReader valueReader = readers.stream().filter(r -> r.isCompatible(typeReference)).findFirst().
+        TypeReferenceReader valueReader = readers.stream().filter(r -> r.test(typeReference)).findFirst().
                 orElseThrow(() -> new UnsupportedOperationException("The type " + typeReference + " is not supported yet"));
         return valueReader.convert(typeReference, value);
     }
