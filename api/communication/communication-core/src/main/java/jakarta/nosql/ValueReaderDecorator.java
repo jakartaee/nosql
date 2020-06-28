@@ -40,8 +40,8 @@ public final class ValueReaderDecorator implements ValueReader {
     }
 
     @Override
-    public boolean isCompatible(Class clazz) {
-        return readers.stream().anyMatch(r -> r.isCompatible(clazz));
+    public boolean test(Class clazz) {
+        return readers.stream().anyMatch(r -> r.test(clazz));
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class ValueReaderDecorator implements ValueReader {
         if (clazz.isInstance(value)) {
             return clazz.cast(value);
         }
-        ValueReader valueReader = readers.stream().filter(r -> r.isCompatible(clazz)).findFirst().orElseThrow(
+        ValueReader valueReader = readers.stream().filter(r -> r.test(clazz)).findFirst().orElseThrow(
             () -> new UnsupportedOperationException("The type " + clazz + " is not supported yet"));
         return valueReader.read(clazz, value);
     }
