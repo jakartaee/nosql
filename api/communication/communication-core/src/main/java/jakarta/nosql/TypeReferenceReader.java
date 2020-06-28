@@ -15,22 +15,15 @@
  */
 package jakarta.nosql;
 
+import java.util.function.Predicate;
+
 /**
  * The reader to {@link TypeReference}
+ * The {@link Predicate} verifies if the TypeReferenceReader has the support of instance from this class.
  *
  * @see Value#get(TypeSupplier)
  */
-public interface TypeReferenceReader {
-
-
-    /**
-     * verifies if the reader has support of instance from this class.
-     *
-     * @param <T>  the type
-     * @param type the type
-     * @return true if is compatible otherwise false
-     */
-    <T> boolean isCompatible(TypeSupplier<T> type);
+public interface TypeReferenceReader extends Predicate<Class<?>> {
 
     /**
      * converts to defined type on {@link TypeReference}
