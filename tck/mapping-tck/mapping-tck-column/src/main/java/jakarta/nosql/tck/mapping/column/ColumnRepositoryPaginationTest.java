@@ -80,7 +80,6 @@ public class ColumnRepositoryPaginationTest {
 
     private VendorRepository vendorRepository;
 
-
     @BeforeEach
     public void setUp() {
         this.template = Mockito.mock(ColumnTemplate.class);
