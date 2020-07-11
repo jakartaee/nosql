@@ -28,7 +28,6 @@ import jakarta.nosql.mapping.Query;
 import jakarta.nosql.mapping.Repository;
 import jakarta.nosql.mapping.document.DocumentRepositoryProducer;
 import jakarta.nosql.mapping.document.DocumentTemplate;
-import jakarta.nosql.mapping.reflection.ClassMappings;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Vendor;
 import jakarta.nosql.tck.test.CDIExtension;
@@ -74,9 +73,6 @@ import static org.mockito.Mockito.when;
 public class DocumentRepositoryTest {
 
     private DocumentTemplate template;
-
-    @Inject
-    private ClassMappings classMappings;
 
     @Inject
     private Converters converters;
