@@ -25,7 +25,6 @@ import jakarta.nosql.mapping.Pagination;
 import jakarta.nosql.mapping.Repository;
 import jakarta.nosql.mapping.column.ColumnRepositoryProducer;
 import jakarta.nosql.mapping.column.ColumnTemplate;
-import jakarta.nosql.mapping.reflection.ClassMappings;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Vendor;
 import jakarta.nosql.tck.test.CDIExtension;
@@ -72,9 +71,6 @@ public class ColumnRepositoryPaginationTest {
     private ColumnTemplate template;
 
     @Inject
-    private ClassMappings classMappings;
-
-    @Inject
     private Converters converters;
 
     @Inject
@@ -83,7 +79,6 @@ public class ColumnRepositoryPaginationTest {
     private PersonRepository personRepository;
 
     private VendorRepository vendorRepository;
-
 
     @BeforeEach
     public void setUp() {

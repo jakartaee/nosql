@@ -63,7 +63,7 @@
         <jakarta.nosql.version>${project.version}</jakarta.nosql.version>
         <jakarta.validation.version>2.0.1</jakarta.validation.version>
         <junit.version>5.6.0</junit.version>
-        <maven-javadoc-plugin.vesion>3.1.1</maven-javadoc-plugin.vesion>
+        <maven-javadoc-plugin.vesion>3.2.0</maven-javadoc-plugin.vesion>
         <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
         <maven.checkstyle.plugin.version>3.1.0</maven.checkstyle.plugin.version>
         <maven.compile.version>3.8.1</maven.compile.version>

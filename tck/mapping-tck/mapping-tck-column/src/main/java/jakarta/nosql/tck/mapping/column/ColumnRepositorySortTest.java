@@ -25,7 +25,6 @@ import jakarta.nosql.mapping.Repository;
 import jakarta.nosql.mapping.Sorts;
 import jakarta.nosql.mapping.column.ColumnRepositoryProducer;
 import jakarta.nosql.mapping.column.ColumnTemplate;
-import jakarta.nosql.mapping.reflection.ClassMappings;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.test.CDIExtension;
 import org.hamcrest.Matchers;
@@ -55,9 +54,6 @@ import static org.mockito.Mockito.when;
 public class ColumnRepositorySortTest {
 
     private ColumnTemplate template;
-
-    @Inject
-    private ClassMappings classMappings;
 
     @Inject
     private Converters converters;
