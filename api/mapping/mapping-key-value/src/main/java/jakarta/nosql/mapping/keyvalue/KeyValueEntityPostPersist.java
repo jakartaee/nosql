@@ -18,6 +18,9 @@ package jakarta.nosql.mapping.keyvalue;
 
 import jakarta.nosql.keyvalue.KeyValueEntity;
 
+/**
+ * The interface represents the model when the KeyValueEntity be saved that event will fired.
+ */
 public interface KeyValueEntityPostPersist {
 
     /**
