@@ -60,20 +60,20 @@ class ServiceLoaderSortTest {
 
 
     @Priority(10)
-    class Person implements Serializable {
+    static class Person implements Serializable {
 
     }
 
     @Priority(11)
-    class Animal implements Serializable {
+    static class Animal implements Serializable {
 
     }
 
-    class Machine implements Serializable {
+    static class Machine implements Serializable {
 
     }
 
-    class Computer implements Serializable {
+    static class Computer implements Serializable {
 
     }
 }
