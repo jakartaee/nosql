@@ -66,14 +66,14 @@ public final class Columns {
 
     private static Object getValue(Object value) {
 
-        if (value instanceof Map) {
-            List list = Columns.of((Map.class.cast(value)));
-            if(list.size() == 1) {
+        if (value instanceof Map<?, ?>) {
+            List<?> list = Columns.of((Map.class.cast(value)));
+            if (list.size() == 1) {
                 return list.get(0);
             }
             return list;
         }
-        if (value instanceof Iterable) {
+        if (value instanceof Iterable<?>) {
             return stream(Iterable.class.cast(value).spliterator(), false)
                     .map(Columns::getValue).collect(toList());
         }

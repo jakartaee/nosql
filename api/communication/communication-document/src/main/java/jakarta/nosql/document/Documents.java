@@ -67,9 +67,9 @@ public final class Documents {
 
     private static Object getValue(Object value) {
 
-        if (value instanceof Map) {
+        if (value instanceof Map<?, ?>) {
             List<?> list = Documents.of((Map.class.cast(value)));
-            if(list.size() == 1) {
+            if (list.size() == 1) {
                 return list.get(0);
             }
             return list;
