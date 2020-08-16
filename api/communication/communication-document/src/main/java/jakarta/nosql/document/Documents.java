@@ -68,13 +68,13 @@ public final class Documents {
     private static Object getValue(Object value) {
 
         if (value instanceof Map) {
-            List list = Documents.of((Map.class.cast(value)));
+            List<?> list = Documents.of((Map.class.cast(value)));
             if(list.size() == 1) {
                 return list.get(0);
             }
             return list;
         }
-        if (value instanceof Iterable) {
+        if (value instanceof Iterable<?>) {
             return stream(Iterable.class.cast(value).spliterator(), false)
                     .map(Documents::getValue).collect(toList());
         }
