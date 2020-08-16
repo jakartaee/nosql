@@ -49,7 +49,7 @@ class ServiceLoaderSortTest {
         List<Serializable> things = of(new Computer(), new Animal(), new Machine(), new Person())
                 .map(ServiceLoaderSort::of)
                 .sorted()
-                .map(s -> (Serializable) s.get())
+                .map(s -> s.get())
                 .collect(Collectors.toList());
 
         Assertions.assertTrue(things.get(0) instanceof Animal);
@@ -60,20 +60,20 @@ class ServiceLoaderSortTest {
 
 
     @Priority(10)
-    class Person implements Serializable {
+    static class Person implements Serializable {
 
     }
 
     @Priority(11)
-    class Animal implements Serializable {
+    static class Animal implements Serializable {
 
     }
 
-    class Machine implements Serializable {
+    static class Machine implements Serializable {
 
     }
 
-    class Computer implements Serializable {
+    static class Computer implements Serializable {
 
     }
 }

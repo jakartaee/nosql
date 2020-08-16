@@ -33,5 +33,5 @@ public @interface Convert {
      *
      * @return the converter type
      */
-    Class<? extends AttributeConverter> value();
+    Class<? extends AttributeConverter<?, ?>> value();
 }

@@ -63,10 +63,10 @@ final class ServiceLoaderSort<T> implements Comparable<ServiceLoaderSort<T>>, Su
         return Objects.hashCode(priority);
     }
 
-    static <T> ServiceLoaderSort of(T instance) {
+    static <T> ServiceLoaderSort<T> of(T instance) {
         int priority = Optional.ofNullable(instance.getClass().getAnnotation(Priority.class))
                 .map(Priority::value)
                 .orElse(0);
-        return new ServiceLoaderSort(priority, instance);
+        return new ServiceLoaderSort<>(priority, instance);
     }
 }
