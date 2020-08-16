@@ -24,8 +24,10 @@ public interface Converters {
      * Return a new instance from the converter
      *
      * @param converterClass the converter class
+     * @param <X> the type of the entity attribute
+     * @param <Y> the type of the database column
      * @return a converter instance
      * @throws NullPointerException when converter is null
      */
-    AttributeConverter<?, ?> get(Class<? extends AttributeConverter<?, ?>> converterClass);
+    <X, Y> AttributeConverter<X, Y> get(Class<? extends AttributeConverter<X, Y>> converterClass);
 }
