@@ -15,7 +15,7 @@
  */
 
 /**
- * This package contains all objects to use a Column Family API in communication level.
+ * Defines the API to Column Family API in communication level.
  * This API gonna focus in domain, in other words,
  * ubiquitous language. A column family is a NoSQL object that contains columns of related data. It is a tuple (pair)
  * that consists of a key-value pair, where the key is mapped to a value that is a set of columns.

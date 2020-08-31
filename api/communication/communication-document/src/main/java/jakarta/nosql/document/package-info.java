@@ -15,7 +15,7 @@
  */
 
 /**
- *This package contains all objects to use a Document Collection  in communication level.
+ * Defines the API to Document Collection API in communication level.
  * This API gonna focus in domain, in other words, ubiquitous language.
  *  A document-oriented database, or document store,
  * is a computer program designed for storing, retrieving, and managing document-oriented information,
