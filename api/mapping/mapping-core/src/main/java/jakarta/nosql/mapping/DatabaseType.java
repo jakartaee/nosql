@@ -17,7 +17,7 @@ package jakarta.nosql.mapping;
 
 
 /**
- * Defines the database type supported on Artemis.
+ * Defines the database type supported on Jakarta NoSQL Mapping.
  */
 public enum DatabaseType {
     /**

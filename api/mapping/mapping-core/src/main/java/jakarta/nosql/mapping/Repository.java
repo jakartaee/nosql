@@ -23,11 +23,11 @@ import java.util.Optional;
  * <p>The interface that extends need to be recovered by CDI, so either the bean-discovery-mode="all" be set in bean.xml
  * or define a scope in the interface.</p>
  * <p><a href="https://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#default_bean_discovery">https://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#default_bean_discovery</a></p>
- * The query builder mechanism built into Artemis repository infrastructure is useful for building constraining queries
+ * The query builder mechanism built into Jakarta NoSQL Mapping repository infrastructure is useful for building constraining queries
  * over entities of the repository. The mechanism strips the prefixes is defined by:
  * <p>findBy: to select any information T</p>
  * <p>deleteBy: To delete any information T</p>
- * Artemis has some keywords on method:
+ * Jakarta NoSQL Mapping has some keywords on method:
  * <p><b>And</b></p>
  * <p><b>Or</b></p>
  * <p><b>Between</b></p>
