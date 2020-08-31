@@ -15,7 +15,7 @@
  */
 
 /**
- * This package contains all Key-value domain API.
+ * This package contains all Key-value domain API in communication level.
  * <p>
  * Key-value (KV) stores use the associative array (also known as a map or dictionary) as their fundamental data model.
  * In this model, data is represented as a collection of key-value pairs, such that each possible key appears at most
