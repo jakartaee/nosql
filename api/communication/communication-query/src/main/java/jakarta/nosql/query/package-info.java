@@ -15,6 +15,6 @@
  */
 
 /**
- * This package domain has the representation of the query String in Classes.
+ * Defines the API to representation of the query {@link java.lang.String} in Classes.
  */
 package jakarta.nosql.query;
