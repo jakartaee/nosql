@@ -15,8 +15,8 @@
  */
 
 /**
- *This package contains all objects to use a Document Collection. This API gonna focus in domain, in other words,
- * ubiquitous language.
+ *This package contains all objects to use a Document Collection  in communication level.
+ * This API gonna focus in domain, in other words, ubiquitous language.
  *  A document-oriented database, or document store,
  * is a computer program designed for storing, retrieving, and managing document-oriented information,
  * also known as semi-structured data. Document-oriented databases are one of the main categories of NoSQL databases,
