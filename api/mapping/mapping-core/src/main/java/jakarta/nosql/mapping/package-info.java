@@ -15,7 +15,7 @@
  */
 
 /**
- * Defines the core API in mapping level
+ * Defines the core API in mapping level.
  * It brings an easy interface to support key-value, column family, document oriented and graph
  * databases using as base Jakarta NoSQL in CDI based.
  * The API's focus is on simplicity and ease of use.
@@ -24,7 +24,7 @@
  * <li>Jakarta NoSQL Communication Based</li>
  * <li>Events to insert, delete, update</li>
  * <li>Supports to Bean Validation</li>
- * <li>ORM Annotation Based</li>
+ * <li>Annotation Driven Based</li>
  * <li>Configurable and extensible</li>
  </ul>
  * Developers should only have to know a minimal set of
