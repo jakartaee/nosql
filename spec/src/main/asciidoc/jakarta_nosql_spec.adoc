@@ -32,12 +32,12 @@ include::license-alv2.asciidoc[]
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low application coupling with the underlying NoSQL technologies used in applications.
 
-The project has two layers:
+The project has two layers that define communication with NOSQL databases through API's. There are:
 
-1. *Communication Layer*: A set of APIs that defines communication with NoSQL databases. Compared with traditional the RDBMS world, they are like the JDBC API. It contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document, and Graph.
+1. *Communication Layer*: Contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document and Graph.
+Compared with traditional the RDBMS world, they are like the JDBC API.
 
-2. *Mapping Layer*: These APIs help developers to integrate their Java application with the NoSQL database.
-This layer is annotation-driven and uses technologies like CDI and Bean Validation, making it simple for developers to use.
+2. *Mapping Layer*: This layer is annotation-driven and uses technologies like CDI and Bean Validation, making it simple for developers to use.
 In the traditional RDBMS world, this layer can be compared to the Java Persistence API or object-relational mapping frameworks such as Hibernate.
 
 Jakarta NoSQL has one API for each NoSQL database type. However, it uses the same annotations to map Java objects.
