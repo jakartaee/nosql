@@ -13,7 +13,6 @@
 :email: otaviojava@apache.org
 ifdef::backend-pdf[]
 :pagenums:
-:title-logo-image: images/title_image.png
 endif::[]
 :doctype: book
 :toc: left
