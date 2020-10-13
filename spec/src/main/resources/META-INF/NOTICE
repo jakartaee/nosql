@@ -6,7 +6,7 @@
 
 SPDXVersion: SPDX-2.1
 PackageName: Eclipse Jakarta NoSQL
-PackageHomePage: http://www.jnosql.org/
+PackageHomePage: https://jakarta.ee/specifications/nosql/
 PackageLicenseDeclared: Apache-2.0
 
 PackageCopyrightText: <text>
