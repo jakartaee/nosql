@@ -42,7 +42,7 @@ TIP: The main difference to run using a template instead of in a manager instanc
 
 ===== Document Collection
 
-The document types allow more complex queries, so with more complex entities with a document type, a developer can find from different fields more easily and naturally. Also, there are NoSQL document types that support aggregations query, however, Eclipse Jakarta NoSQL does not support this yet. At the Eclipse Jakarta NoSQL API perspective, the document and column type is pretty similar, but with the document, a Java developer might do a query from a field that isn't a key and neither returns an unsupported operation exception or adds a secondary index for this. So, given the same Person entity with document NoSQL type, a developer can do more with queries, such as "person" between "age".
+The document types allow more complex queries, so with more complex entities with a document type, a developer can find from different fields more easily and naturally. Also, there are NoSQL document types that support aggregations query, however, Jakarta NoSQL does not support this yet. At the Jakarta NoSQL API perspective, the document and column type is pretty similar, but with the document, a Java developer might do a query from a field that isn't a key and neither returns an unsupported operation exception or adds a secondary index for this. So, given the same Person entity with document NoSQL type, a developer can do more with queries, such as "person" between "age".
 
 [source,java]
 ----
@@ -54,7 +54,7 @@ TIP: The main difference to run using a template instead of in a manager instanc
 
 ===== Graph
 
-If an application needs a recommendation engine or a full detail about the relationship between two entities in your system, it requires a graph database. A graph database has the vertex and the edge. The edge is an object that holds the relationship information about the edges and has direction and properties that make it perfect for maps or human relationship. To the Graph API, Eclipse Jakarta NoSQL uses the Apache Tinkerpop. Likewise, the GraphTemplate is a wrapper to convert a Java entity to Vertex in TinkerPop.
+If an application needs a recommendation engine or a full detail about the relationship between two entities in your system, it requires a graph database. A graph database has the vertex and the edge. The edge is an object that holds the relationship information about the edges and has direction and properties that make it perfect for maps or human relationship. To the Graph API, Jakarta NoSQL uses the Apache Tinkerpop. Likewise, the GraphTemplate is a wrapper to convert a Java entity to Vertex in TinkerPop.
 
 [source,java]
 ----

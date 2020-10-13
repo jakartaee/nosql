@@ -161,7 +161,7 @@ public Graph getGraphB() {
 }
 ----
 
-So, Eclipse Jakarta NoSQL will inject automatically.
+So, Jakarta NoSQL will inject automatically.
 
 [source,java]
 ----

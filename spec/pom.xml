@@ -96,7 +96,7 @@
                     <revnumber>${project.version}</revnumber>
                     <revremark>${revremark}</revremark>
                     <revdate>${revisiondate}</revdate>
-                    <doctitle>Eclipse Jakarta NoSQL</doctitle>
+                    <doctitle>Jakarta NoSQL</doctitle>
                 </attributes>
             </configuration>
         </plugin>

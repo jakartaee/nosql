@@ -25,7 +25,7 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 
 include::license-alv2.asciidoc[]
 
-= Eclipse Jakarta NoSQL
+= Jakarta NoSQL
 
 == One Mapping API, multiples databases
 
@@ -92,7 +92,7 @@ template.insert(diana, Duration.ofSeconds(1));
 
 === A Fluent API
 
-Eclipse Jakarta NoSQL is a fluent API that makes it easier for Java developers create queries that either retrieve or delete information in a Document type, for example.
+Jakarta NoSQL is a fluent API that makes it easier for Java developers create queries that either retrieve or delete information in a Document type, for example.
 
 [source,java]
 ----

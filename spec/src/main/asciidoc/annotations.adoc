@@ -36,7 +36,7 @@ Jakarta NoSQL Mapping does not require getter and setter methods to fields. Howe
 
 ===== @Entity
 
-This annotation maps the class to Eclipse Jakarta NoSQL. There is a single value attribute. This attribute specifies the column family name, or the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
+This annotation maps the class to Jakarta NoSQL. There is a single value attribute. This attribute specifies the column family name, or the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
 
 [source,java]
 ----
