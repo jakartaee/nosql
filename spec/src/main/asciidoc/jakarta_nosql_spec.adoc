@@ -9,7 +9,7 @@
 :doctype: book
 :license: Apache License v2.0
 :source-highlighter: coderay
-:authors: Otávio Santana, Leonardo de Moura Rocha Lima, Roan Brasil Monteiro
+:authors: Eclipse Foundation, Otavio Santana, Leonardo de Moura Rocha Lima, Roan Brasil Monteiro
 :email: otaviojava@apache.org
 ifdef::backend-pdf[]
 :pagenums:
