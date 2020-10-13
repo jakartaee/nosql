@@ -87,7 +87,7 @@ This model became popular with the Bigtable paper by Google, with the goal of be
 | Table | Column Family
 | Row | Column
 | Column | Key/value pair
-| Relationship | not supported
+| Relationship | ----
 |===
 
 === Graph
