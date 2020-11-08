@@ -45,7 +45,7 @@ Therefore, with just these annotations that look like JPA, there is support for 
 [source,java]
 ----
 @Entity
-public class God {
+public class Hero {
 
     @Id
     private String id;
@@ -61,17 +61,17 @@ Vendor lock-in is one of the things any Java project needs to consider when choo
 
 [source,java]
 ----
-public interface GodRepository extends Repository<God, String> {
+public interface HeroRepository extends Repository<Hero, String> {
 
-    Optional<God> findByName(String name);
+    Optional<Hero> findByName(String name);
 
 }
 
-GodRepository repository = ...;
-God diana = God.builder().withId("diana").withName("Diana").withPower("hunt").builder();
+HeroRepository repository = ...;
+Hero diana = Hero.builder().withId("diana").withName("Diana").withPower("hunt").builder();
 repository.save(diana);
-Optional idResult = repository.findById("diana");
-Optional nameResult = repository.findByName("Diana");
+Optional<Hero> idResult = repository.findById("diana");
+Optional<Hero> nameResult = repository.findByName("Diana");
 ----
 
 
@@ -83,7 +83,7 @@ JPA is a good API for object-relationship mapping and it's already a standard in
 [source,java]
 ----
 ColumnTemplate template = …;
-God diana = God.builder().withId("diana").withName("Diana")
+Hero diana = Hero.builder().withId("diana").withName("Diana")
                 .withPower("hunt").builder();
 Duration ttl = Duration.ofSeconds(1);
 template.insert(diana, Duration.ofSeconds(1));
@@ -97,13 +97,13 @@ Jakarta NoSQL is a fluent API that makes it easier for Java developers create qu
 [source,java]
 ----
 DocumentTemplate template = //;//a template to document nosql operations
-God diana = God.builder().withId("diana").withName("Diana")
+Hero diana = Hero.builder().withId("diana").withName("Diana")
                 .withPower("hunt").builder();
 template.insert(diana);//insert an entity
-DocumentQuery query = select().from(God.class).where("name")
-                .eq("Diana").build();//select god where name equals “Diana”
-List<God> gods = template.select(query);//execute query
-DocumentDeleteQuery delete = delete().from("god").where("name")
+DocumentQuery query = select().from(Hero.class).where("name")
+                .eq("Diana").build();//select hero where name equals “Diana”
+List<Hero> heroes = template.select(query);//execute query
+DocumentDeleteQuery delete = delete().from("hero").where("name")
                 .eq("Diana").build();//delete query
 template.delete(delete);
 ----
