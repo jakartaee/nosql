@@ -81,11 +81,11 @@ Use the `insert` statement to store data for an entity
 insert_statement ::=  insert ENTITY_NAME (NAME = VALUE, (`,` NAME = VALUE) *) || JSON [ TTL ]
 
 //examples
-insert God (name = "Diana", age = 10)
-insert God (name = "Diana", age = 10, powers = {"sun", "god"})
-insert God (name = "Diana", age = 10, powers = {"sun", "god"}) 1 day
-insert God {"name": "Diana", "age": 10, "powers": ["hunt", "moon"]}
-insert God {"name": "Diana", "age": 10, "powers": ["hunt", "moon"]} 1 day
+insert Deity (name = "Diana", age = 10)
+insert Deity (name = "Diana", age = 10, powers = {"sun", "moon"})
+insert Deity (name = "Diana", age = 10, powers = {"sun", "moon"}) 1 day
+insert Deity {"name": "Diana", "age": 10, "powers": ["hunt", "moon"]}
+insert Deity {"name": "Diana", "age": 10, "powers": ["hunt", "moon"]} 1 day
 
 ----
 
@@ -98,9 +98,9 @@ Use the `update` statement to update the values of an entity
 update_statement ::= update ENTITY_NAME (NAME = VALUE, (`,` NAME = VALUE) *) || JSON
 
  //examples
-update God (name = "Diana", age = 10)
-update God (name = "Diana", age = 10, power = {"hunt", "moon"})
-update God {"name": "Diana", "age": 10, "power": ["hunt", "moon"]}
+update Deity (name = "Diana", age = 10)
+update Deity (name = "Diana", age = 10, power = {"hunt", "moon"})
+update Deity {"name": "Diana", "age": 10, "power": ["hunt", "moon"]}
 ----
 
 ====== `delete`
@@ -113,8 +113,8 @@ delete_statement ::=  delete [ simple_selection ( ',' simple_selection ) ]
                       from ENTITY_NAME
                       [ where WHERE_CLAUSE ]
 //examples
-delete from God
-delete power, age from God where name = "Diana"
+delete from Deity
+delete power, age from Deity where name = "Diana"
 ----
 
 ====== `select`
@@ -130,10 +130,10 @@ select_statement ::=  select ( SELECT_CLAUSE | '*' )
                       [ limit (INTEGER) ]
                       [ order by ORDERING_CLAUSE ]
 //examples
-select * from God
-select name, age, adress.age from God order by name desc age desc
-select * from God where birthday between "01-09-1988" and "01-09-1988" and salary = 12
-select name, age, adress.age from God skip 20 limit 10 order by name desc age desc
+select * from Deity
+select name, age, adress.age from Deity order by name desc age desc
+select * from Deity where birthday between "01-09-1988" and "01-09-1988" and salary = 12
+select name, age, adress.age from Deity skip 20 limit 10 order by name desc age desc
 ----
 
 ===== `where`
