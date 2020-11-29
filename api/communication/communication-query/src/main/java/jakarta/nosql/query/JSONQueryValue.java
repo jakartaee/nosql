@@ -16,7 +16,7 @@
 
 package jakarta.nosql.query;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 
 /**
  * JavaScript Object Notation is a lightweight data-interchange format.

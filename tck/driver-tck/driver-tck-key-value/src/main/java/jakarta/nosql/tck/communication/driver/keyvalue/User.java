@@ -15,8 +15,8 @@
  */
 package jakarta.nosql.tck.communication.driver.keyvalue;
 
-import javax.json.bind.annotation.JsonbCreator;
-import javax.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
 import java.io.Serializable;
 import java.util.Objects;
 
