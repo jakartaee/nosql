@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
