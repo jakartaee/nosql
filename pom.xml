@@ -237,7 +237,7 @@
 
                                 <module name="AvoidStarImport">
                                     <property name="excludes"
-                                              value="java.io,java.net,java.util,javax.enterprise.inject.spi,javax.enterprise.context"/>
+                                              value="java.io,java.net,java.util,jakarta.enterprise.inject.spi,jakarta.enterprise.context"/>
                                 </module>
                                 <module name="IllegalImport"/>
                                 <module name="RedundantImport"/>
