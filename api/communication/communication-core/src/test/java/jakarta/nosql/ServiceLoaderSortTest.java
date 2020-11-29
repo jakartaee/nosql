@@ -18,7 +18,7 @@ package jakarta.nosql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;

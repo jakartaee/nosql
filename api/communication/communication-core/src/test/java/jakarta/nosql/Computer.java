@@ -15,7 +15,7 @@
  */
 package jakarta.nosql;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
 @Priority(10)
 public class Computer implements Machine {
