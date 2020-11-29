@@ -73,7 +73,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.3.0.603</sonar.maven.version>
-        <mockito.verson>3.5.13</mockito.verson>
+        <mockito.verson>3.6.28</mockito.verson>
     </properties>
 
     <dependencies>
