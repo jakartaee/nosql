@@ -126,7 +126,7 @@ public interface DocumentEntity {
     void addAll(Iterable<Document> documents);
 
     /**
-     * Find document a document from document name
+     * Find document from document name
      *
      * @param documentName a name of a document
      * @return an {@link Optional} instance with the result
@@ -135,7 +135,7 @@ public interface DocumentEntity {
     Optional<Document> find(String documentName);
 
     /**
-     * Find document a document and converts to value.
+     * Find a document and converts to value.
      * It is a alias to {@link Value#get(Class)}
      *
      * @param documentName a name of a document
@@ -146,7 +146,7 @@ public interface DocumentEntity {
     <T> Optional<T> find(String documentName, Class<T> type);
 
     /**
-     * Find document a document and converts to value.
+     * Find a document and converts to value.
      * It is a alias to {@link Value#get(TypeSupplier)}
      *
      * @param documentName a name of a document
