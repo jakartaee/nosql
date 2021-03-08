@@ -18,6 +18,7 @@ package jakarta.nosql.document;
 
 
 import jakarta.nosql.ServiceLoaderProvider;
+import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
 import java.util.Collection;
@@ -36,7 +37,7 @@ import java.util.function.Function;
  * Graph databases are similar, but add another layer, the relationship,
  * which allows them to link documents for rapid traversal.
  */
-public interface DocumentEntity  {
+public interface DocumentEntity {
 
     /**
      * Creates a {@link DocumentEntity} instance
@@ -98,8 +99,8 @@ public interface DocumentEntity  {
     /**
      * add a document within {@link DocumentEntity}
      *
-     * @param documentName  a name of the document
-     * @param value the information of the document
+     * @param documentName a name of the document
+     * @param value        the information of the document
      * @throws UnsupportedOperationException when this method is not supported
      * @throws NullPointerException          when either name or value are null
      */
@@ -108,8 +109,8 @@ public interface DocumentEntity  {
     /**
      * add a document within {@link DocumentEntity}
      *
-     * @param documentName  a name of the document
-     * @param value the information of the document
+     * @param documentName a name of the document
+     * @param value        the information of the document
      * @throws UnsupportedOperationException when this method is not supported
      * @throws NullPointerException          when either name or value are null
      */
@@ -127,22 +128,33 @@ public interface DocumentEntity  {
     /**
      * Find document a document from document name
      *
-     * @param name a name of a document
+     * @param documentName a name of a document
      * @return an {@link Optional} instance with the result
      * @throws NullPointerException when documentName is null
      */
-    Optional<Document> find(String name);
+    Optional<Document> find(String documentName);
 
     /**
      * Find document a document and converts to value.
      * It is a alias to {@link Value#get(Class)}
      *
-     * @param name a name of a document
+     * @param documentName a name of a document
      * @param type the type to convert the value
      * @return an {@link Optional} instance with the result
-     * @throws NullPointerException when the
+     * @throws NullPointerException when there are null parameters
      */
-    <T> Optional<T> find(String name, Class<T> type);
+    <T> Optional<T> find(String documentName, Class<T> type);
+
+    /**
+     * Find document a document and converts to value.
+     * It is a alias to {@link Value#get(TypeSupplier)}
+     *
+     * @param documentName a name of a document
+     * @param type the type to convert the value
+     * @return an {@link Optional} instance with the result
+     * @throws NullPointerException when there are null parameters
+     */
+    <T> Optional<T> find(String documentName, TypeSupplier<T> type);
 
     /**
      * Returns the number of elements in this list.
