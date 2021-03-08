@@ -127,11 +127,22 @@ public interface DocumentEntity  {
     /**
      * Find document a document from document name
      *
-     * @param documentName a name of a document
+     * @param name a name of a document
      * @return an {@link Optional} instance with the result
      * @throws NullPointerException when documentName is null
      */
-    Optional<Document> find(String documentName);
+    Optional<Document> find(String name);
+
+    /**
+     * Find document a document and converts to value.
+     * It is a alias to {@link Value#get(Class)}
+     *
+     * @param name a name of a document
+     * @param type the type to convert the value
+     * @return an {@link Optional} instance with the result
+     * @throws NullPointerException when the
+     */
+    <T> Optional<T> find(String name, Class<T> type);
 
     /**
      * Returns the number of elements in this list.
