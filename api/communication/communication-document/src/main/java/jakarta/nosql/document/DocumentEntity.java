@@ -135,7 +135,7 @@ public interface DocumentEntity {
     Optional<Document> find(String documentName);
 
     /**
-     * Find a document and converts to value.
+     * Find a document and converts to specific type from {@link Class}.
      * It is a alias to {@link Value#get(Class)}
      *
      * @param documentName a name of a document
@@ -146,7 +146,7 @@ public interface DocumentEntity {
     <T> Optional<T> find(String documentName, Class<T> type);
 
     /**
-     * Find a document and converts to value.
+     * Find a document and converts to specific type from {@link TypeSupplier}.
      * It is a alias to {@link Value#get(TypeSupplier)}
      *
      * @param documentName a name of a document
