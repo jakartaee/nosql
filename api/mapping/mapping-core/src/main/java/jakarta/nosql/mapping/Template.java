@@ -17,7 +17,6 @@ package jakarta.nosql.mapping;
 
 import java.time.Duration;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Templates are a helper class that increases productivity when performing common NoSQL operations.
