@@ -143,7 +143,7 @@ public interface ColumnEntity {
      * It is a alias to {@link Value#get(Class)}
      *
      * @param columnName a name of a column
-     * @param type the type to convert the value
+     * @param type       the type to convert the value
      * @return an {@link Optional} instance with the result
      * @throws NullPointerException when there are null parameters
      */
@@ -154,11 +154,11 @@ public interface ColumnEntity {
      * It is a alias to {@link Value#get(TypeSupplier)}
      *
      * @param columnName a name of a column
-     * @param type the type to convert the value
-     * @return a new instance converted to informed class
+     * @param type       the type to convert the value
+     * @return an {@link Optional} instance with the result
      * @throws NullPointerException when there are null parameters
      */
-    <T> T find(String columnName, TypeSupplier<T> type);
+    <T> Optional<T> find(String columnName, TypeSupplier<T> type);
 
     /**
      * Returns the number of elements in this list.

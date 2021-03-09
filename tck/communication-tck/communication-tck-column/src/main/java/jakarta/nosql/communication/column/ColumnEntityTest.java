@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -118,7 +119,9 @@ public class ColumnEntityTest {
     public void shouldFindTypeSupplier() {
         Column column = Column.of("name", "name");
         ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
-        List<String> names = entity.find("name", new TypeReference<List<String>>() {});
+        List<String> names = entity.find("name", new TypeReference<List<String>>() {
+        })
+                .orElse(Collections.emptyList());
         Assertions.assertNotNull(names);
         Assertions.assertFalse(names.isEmpty());
     }
@@ -127,7 +130,9 @@ public class ColumnEntityTest {
     public void shouldNotFindTypeSupplier() {
         Column column = Column.of("name", "name");
         ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
-        List<String> names = entity.find("not_found", new TypeReference<List<String>>() {});
+        List<String> names = entity.find("not_found", new TypeReference<List<String>>() {
+        })
+                .orElse(Collections.emptyList());
         Assertions.assertNotNull(names);
         Assertions.assertTrue(names.isEmpty());
     }
