@@ -16,6 +16,7 @@
 
 package jakarta.nosql.communication.column;
 
+import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnEntity;
@@ -74,6 +75,15 @@ public class ColumnEntityTest {
     }
 
     @Test
+    public void shouldReturnErrorWhenFindHasNullParameter() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Assertions.assertThrows(NullPointerException.class, () -> entity.find(null));
+        Assertions.assertThrows(NullPointerException.class, () -> entity.find("name", (Class<Object>) null));
+        Assertions.assertThrows(NullPointerException.class, () -> entity.find("name", (TypeSupplier<Object>) null));
+    }
+
+    @Test
     public void shouldFindColumn() {
         Column column = Column.of("name", "name");
         ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
@@ -82,6 +92,44 @@ public class ColumnEntityTest {
         assertTrue(name.isPresent());
         assertFalse(notfound.isPresent());
         assertEquals(column, name.get());
+    }
+
+    @Test
+    public void shouldFindValue() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Optional<String> name = entity.find("name", String.class);
+        Assertions.assertNotNull(name);
+        Assertions.assertTrue(name.isPresent());
+        Assertions.assertEquals("name", name.orElse(""));
+    }
+
+    @Test
+    public void shouldNotFindValue() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Optional<String> notFound = entity.find("not_found", String.class);
+        Assertions.assertNotNull(notFound);
+        Assertions.assertFalse(notFound.isPresent());
+    }
+
+    @Test
+    public void shouldFindTypeSupplier() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Optional<String> name = entity.find("name", String.class);
+        Assertions.assertNotNull(name);
+        Assertions.assertTrue(name.isPresent());
+        Assertions.assertEquals("name", name.orElse(""));
+    }
+
+    @Test
+    public void shouldNotFindTypeSupplier() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Optional<String> notFound = entity.find("not_found", String.class);
+        Assertions.assertNotNull(notFound);
+        Assertions.assertFalse(notFound.isPresent());
     }
 
     @Test
