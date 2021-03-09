@@ -16,6 +16,7 @@
 
 package jakarta.nosql.communication.column;
 
+import jakarta.nosql.TypeReference;
 import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 import jakarta.nosql.column.Column;
@@ -117,19 +118,18 @@ public class ColumnEntityTest {
     public void shouldFindTypeSupplier() {
         Column column = Column.of("name", "name");
         ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
-        Optional<String> name = entity.find("name", String.class);
-        Assertions.assertNotNull(name);
-        Assertions.assertTrue(name.isPresent());
-        Assertions.assertEquals("name", name.orElse(""));
+        List<String> names = entity.find("name", new TypeReference<List<String>>() {});
+        Assertions.assertNotNull(names);
+        Assertions.assertFalse(names.isEmpty());
     }
 
     @Test
     public void shouldNotFindTypeSupplier() {
         Column column = Column.of("name", "name");
         ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
-        Optional<String> notFound = entity.find("not_found", String.class);
-        Assertions.assertNotNull(notFound);
-        Assertions.assertFalse(notFound.isPresent());
+        List<String> names = entity.find("not_found", new TypeReference<List<String>>() {});
+        Assertions.assertNotNull(names);
+        Assertions.assertTrue(names.isEmpty());
     }
 
     @Test
