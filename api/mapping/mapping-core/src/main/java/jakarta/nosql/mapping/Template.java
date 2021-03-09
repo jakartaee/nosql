@@ -80,7 +80,6 @@ public interface Template {
      */
     <T> T update(T entity);
 
-
     /**
      * Saves entity, by default it's just run for each saving using
      * {@link Template#update(Object)}},
