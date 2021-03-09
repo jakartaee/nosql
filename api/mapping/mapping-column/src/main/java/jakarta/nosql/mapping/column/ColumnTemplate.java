@@ -22,6 +22,7 @@ import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
 import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
+import jakarta.nosql.mapping.Template;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -34,7 +35,7 @@ import java.util.stream.Stream;
  *
  * @see jakarta.nosql.column.ColumnFamilyManager
  */
-public interface ColumnTemplate {
+public interface ColumnTemplate extends Template {
 
     /**
      * Returns the number of elements from column family

@@ -71,7 +71,6 @@ public interface Template {
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
-
     /**
      * Updates a entity
      *
@@ -101,7 +100,8 @@ public interface Template {
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Stream}
-     * @throws NullPointerException when the query is null
+     * @throws NullPointerException          when the query is null
+     * @throws UnsupportedOperationException if the specified template does not support this operation
      */
     <T> Stream<T> query(String query);
 
@@ -111,8 +111,9 @@ public interface Template {
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Optional}
-     * @throws NullPointerException     when the query is null
+     * @throws NullPointerException                   when the query is null
      * @throws jakarta.nosql.NonUniqueResultException if returns more than one result
+     * @throws UnsupportedOperationException          if the specified template does not support this operation
      */
     <T> Optional<T> singleResult(String query);
 
@@ -121,7 +122,8 @@ public interface Template {
      *
      * @param query the query
      * @return a {@link PreparedStatement} instance
-     * @throws NullPointerException when the query is null
+     * @throws NullPointerException          when the query is null
+     * @throws UnsupportedOperationException if the specified template does not support this operation
      */
     PreparedStatement prepare(String query);
 
@@ -131,10 +133,10 @@ public interface Template {
      * @param entityClass the entity class
      * @param id          the id value
      * @param <T>         the entity class type
-     * @param <K>        the id type
+     * @param <K>         the id type
      * @return the entity instance otherwise {@link Optional#empty()}
-     * @throws NullPointerException                   when either the entityClass or id are null
-     * @throws IdNotFoundException when the entityClass does not have the Id annotation
+     * @throws NullPointerException when either the entityClass or id are null
+     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
      */
     <T, K> Optional<T> find(Class<T> entityClass, K id);
 
@@ -144,9 +146,9 @@ public interface Template {
      * @param entityClass the entity class
      * @param id          the id value
      * @param <T>         the entity class type
-     * @param <K>        the id type
-     * @throws NullPointerException                   when either the entityClass or id are null
-     * @throws IdNotFoundException when the entityClass does not have the Id annotation
+     * @param <K>         the id type
+     * @throws NullPointerException when either the entityClass or id are null
+     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
      */
     <T, K> void delete(Class<T> entityClass, K id);
 }
