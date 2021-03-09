@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -126,7 +127,8 @@ public class DocumentEntityTest {
     public void shouldFindTypeSupplier() {
         Document column = Document.of("name", "name");
         DocumentEntity entity = DocumentEntity.of("entity", singletonList(column));
-        List<String> names = entity.find("name", new TypeReference<List<String>>() {});
+        List<String> names = entity.find("name", new TypeReference<List<String>>() {})
+                .orElse(Collections.emptyList());
         Assertions.assertNotNull(names);
         Assertions.assertFalse(names.isEmpty());
     }
@@ -135,7 +137,8 @@ public class DocumentEntityTest {
     public void shouldNotFindTypeSupplier() {
         Document column = Document.of("name", "name");
         DocumentEntity entity = DocumentEntity.of("entity", singletonList(column));
-        List<String> names = entity.find("not_found", new TypeReference<List<String>>() {});
+        List<String> names = entity.find("not_found", new TypeReference<List<String>>() {})
+                .orElse(Collections.emptyList());
         Assertions.assertNotNull(names);
         Assertions.assertTrue(names.isEmpty());
     }

@@ -154,7 +154,7 @@ public interface DocumentEntity {
      * @return a new instance converted to informed class
      * @throws NullPointerException when there are null parameters
      */
-    <T> T find(String documentName, TypeSupplier<T> type);
+    <T> Optional<T> find(String documentName, TypeSupplier<T> type);
 
     /**
      * Returns the number of elements in this list.
