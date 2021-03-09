@@ -19,12 +19,10 @@ package jakarta.nosql.mapping.column;
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
-import jakarta.nosql.mapping.IdNotFoundException;
 import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
 import jakarta.nosql.mapping.Template;
 
-import java.time.Duration;
 import java.util.Optional;
 import java.util.stream.Stream;
 
