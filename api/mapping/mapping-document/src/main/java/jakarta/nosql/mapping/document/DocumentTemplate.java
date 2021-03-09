@@ -22,85 +22,21 @@ import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.IdNotFoundException;
 import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
+import jakarta.nosql.mapping.Template;
 
 import java.time.Duration;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * This interface that represents the common operation between an entity and DocumentCollectionEntity.
+ * DocumentTemplate is a helper class that increases productivity when performing common DocumentEntity operations.
+ * Includes integrated object mapping between documents and POJOs.
+ * It represents the common operation between an entity and {@link jakarta.nosql.document.DocumentEntity}
  *
  * @see jakarta.nosql.document.DocumentCollectionManager
  */
-public interface DocumentTemplate {
+public interface DocumentTemplate extends Template {
 
-    /**
-     * Saves entity
-     *
-     * @param entity entity to be saved
-     * @param <T>    the instance type
-     * @return the entity saved
-     * @throws NullPointerException when document is null
-     */
-    <T> T insert(T entity);
-
-    /**
-     * Saves entity with time to live
-     *
-     * @param entity entity to be saved
-     * @param <T>    the instance type
-     * @param ttl    the time to live
-     * @return the entity saved
-     * @throws NullPointerException when either entity or ttl are null
-     */
-    <T> T insert(T entity, Duration ttl);
-
-    /**
-     * Saves entity, by default it's just run for each saving using
-     * {@link DocumentTemplate#insert(Object)},
-     * each NoSQL vendor might replace to a more appropriate one.
-     *
-     * @param entities entities to be saved
-     * @param <T>      the instance type
-     * @return the entity saved
-     * @throws NullPointerException when entities is null
-     */
-    <T> Iterable<T> insert(Iterable<T> entities);
-
-    /**
-     * Saves documents collection entity with time to live, by default it's just run for each saving using
-     * {@link DocumentTemplate#insert(Object, Duration)},
-     * each NoSQL vendor might replace to a more appropriate one.
-     *
-     * @param entities entities to be saved
-     * @param <T>      the instance type
-     * @param ttl      time to live
-     * @return the entity saved
-     * @throws NullPointerException when entities is null
-     */
-    <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
-
-    /**
-     * Updates a entity
-     *
-     * @param entity entity to be updated
-     * @param <T>    the instance type
-     * @return the entity updated
-     * @throws NullPointerException when entity is null
-     */
-    <T> T update(T entity);
-
-    /**
-     * Updates entity, by default it's just run for each saving using
-     * {@link DocumentTemplate#update(Object)},
-     * each NoSQL vendor might replace to a more appropriate one.
-     *
-     * @param entities entities to be saved
-     * @param <T>      the instance type
-     * @return the entity saved
-     * @throws NullPointerException when entities is null
-     */
-    <T> Iterable<T> update(Iterable<T> entities);
 
     /**
      * Deletes an entity
@@ -129,61 +65,6 @@ public interface DocumentTemplate {
      * @throws NullPointerException when query is null
      */
     <T> Page<T> select(DocumentQueryPagination query);
-
-    /**
-     * Executes a query then bring the result as a {@link Stream}
-     *
-     * @param query the query
-     * @param <T>   the entity type
-     * @return the result as {@link Stream}
-     * @throws NullPointerException when the query is null
-     */
-    <T> Stream<T> query(String query);
-
-    /**
-     * Executes a query then bring the result as a unique result
-     *
-     * @param query the query
-     * @param <T>   the entity type
-     * @return the result as {@link Optional}
-     * @throws NullPointerException     when the query is null
-     * @throws NonUniqueResultException if returns more than one result
-     */
-    <T> Optional<T> singleResult(String query);
-
-    /**
-     * Creates a {@link PreparedStatement} from the query
-     *
-     * @param query the query
-     * @return a {@link PreparedStatement} instance
-     * @throws NullPointerException when the query is null
-     */
-    PreparedStatement prepare(String query);
-
-    /**
-     * Finds by Id.
-     *
-     * @param entityClass the entity class
-     * @param id          the id value
-     * @param <T>         the entity class type
-     * @param <K>         the id type
-     * @return the entity instance otherwise {@link Optional#empty()}
-     * @throws NullPointerException when either the entityClass or id are null
-     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
-     */
-    <T, K> Optional<T> find(Class<T> entityClass, K id);
-
-    /**
-     * Deletes by Id.
-     *
-     * @param entityClass the entity class
-     * @param id          the id value
-     * @param <T>         the entity class type
-     * @param <K>         the id type
-     * @throws NullPointerException when either the entityClass or id are null
-     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
-     */
-    <T, K> void delete(Class<T> entityClass, K id);
 
     /**
      * Returns the number of elements from document collection
