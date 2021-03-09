@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 /**
  * DocumentTemplate is a helper class that increases productivity when performing common DocumentEntity operations.
  * Includes integrated object mapping between documents and POJOs.
- * It represents the common operation between an entity and {@link jakarta.nosql.document.DocumentEntity}
+ * It represents the common operation between an entity and {@link jakarta.nosql.document.DocumentCollectionManager}
  *
  * @see jakarta.nosql.document.DocumentCollectionManager
  */

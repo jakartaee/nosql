@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 /**
  * ColumnTemplate is a helper class that increases productivity when performing common Column Family operations.
  * Includes integrated object mapping between documents and POJOs.
- * It represents the common operation between an entity and {@link jakarta.nosql.column.ColumnEntity}
+ * It represents the common operation between an entity and {@link jakarta.nosql.column.ColumnFamilyManager}
  *
  * @see jakarta.nosql.column.ColumnFamilyManager
  */
