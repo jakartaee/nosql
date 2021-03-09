@@ -155,10 +155,10 @@ public interface ColumnEntity {
      *
      * @param columnName a name of a column
      * @param type the type to convert the value
-     * @return an {@link Optional} instance with the result
+     * @return a new instance converted to informed class
      * @throws NullPointerException when there are null parameters
      */
-    <T> Optional<T> find(String columnName, TypeSupplier<T> type);
+    <T> T find(String columnName, TypeSupplier<T> type);
 
     /**
      * Returns the number of elements in this list.
