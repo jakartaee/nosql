@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Generato da Microsoft Visio 11.0, SVG Export, v1.0 document.svg Pagina 1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="3.34526in"
+		height="4.78378in" viewBox="0 0 240.859 344.432" xml:space="preserve" color-interpolation-filters="sRGB" class="st5">
+	<v:documentProperties v:langID="1040" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="MBSAAddinOutlineVisible" v:prompt="" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st2 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st3 {fill:#000000;font-family:Arial;font-size:1.5em}
+		.st4 {fill:#772f28;font-size:1em}
+		.st5 {fill:none;fill-rule:evenodd;font-size:12;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Pagina 1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<g id="shape139-1" v:mID="139" v:groupContext="shape" transform="translate(9.22394,-0.72)">
+			<title>Foglio.139</title>
+			<rect x="0" y="1.44" width="226.772" height="342.992" class="st1"/>
+		</g>
+		<g id="shape1-3" v:mID="1" v:groupContext="shape" transform="translate(201.871,-322.462) scale(-1,1)">
+			<title>Foglio.1</title>
+			<desc>{</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-177.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>{</text>		</g>
+		<g id="shape2-6" v:mID="2" v:groupContext="shape" transform="translate(201.871,-305.454) scale(-1,1)">
+			<title>Foglio.2</title>
+			<desc>“name”: “Diama”,</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-157.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“name”: “Diama”,</text>		</g>
+		<g id="shape3-9" v:mID="3" v:groupContext="shape" transform="translate(201.871,-278.506) scale(-1,1)">
+			<title>Foglio.3</title>
+			<desc>“duty”: [</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-157.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“duty”: [</text>		</g>
+		<g id="shape4-12" v:mID="4" v:groupContext="shape" transform="translate(201.871,-247.353) scale(-1,1)">
+			<title>Foglio.4</title>
+			<desc>“Hunt”,</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-137.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“Hunt”,</text>		</g>
+		<g id="shape5-15" v:mID="5" v:groupContext="shape" transform="translate(201.871,-219.73) scale(-1,1)">
+			<title>Foglio.5</title>
+			<desc>“Moon”,</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-137.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“Moon”,</text>		</g>
+		<g id="shape6-18" v:mID="6" v:groupContext="shape" transform="translate(201.871,-192.059) scale(-1,1)">
+			<title>Foglio.6</title>
+			<desc>“Nature”</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-137.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“Nature”</text>		</g>
+		<g id="shape7-21" v:mID="7" v:groupContext="shape" transform="translate(224.703,-171.541) scale(-1,1)">
+			<title>Foglio.7</title>
+			<desc>],</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-177.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>],</text>		</g>
+		<g id="shape8-24" v:mID="8" v:groupContext="shape" transform="translate(185.543,-142.823) scale(-1,1)">
+			<title>Foglio.8</title>
+			<desc>“age”: 1000,</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-137.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“age”: <tspan
+						class="st4">1000</tspan>,</text>		</g>
+		<g id="shape9-28" v:mID="9" v:groupContext="shape" transform="translate(185.543,-113.402) scale(-1,1)">
+			<title>Foglio.9</title>
+			<desc>“siblings”: {</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-137.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“siblings”:  {</text>		</g>
+		<g id="shape10-31" v:mID="10" v:groupContext="shape" transform="translate(182.183,-54.5972) scale(-1,1)">
+			<title>Foglio.10</title>
+			<desc>}</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-132.45" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>}</text>		</g>
+		<g id="shape11-34" v:mID="11" v:groupContext="shape" transform="translate(240.139,-84.3326) scale(-1,1)">
+			<title>Foglio.11</title>
+			<desc>“Apollo”: “brother”</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="106.954" cy="337.355" width="213.91" height="14.1543"/>
+			<rect x="0" y="330.278" width="213.907" height="14.1543" class="st2"/>
+			<text x="-169.9" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>“Apollo”: “brother”</text>		</g>
+		<g id="shape12-37" v:mID="12" v:groupContext="shape" transform="translate(202.003,-31.9201) scale(-1,1)">
+			<title>Foglio.12</title>
+			<desc>}</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.7315" cy="337.355" width="181.47" height="14.1543"/>
+			<rect x="0" y="330.278" width="181.463" height="14.1543" class="st2"/>
+			<text x="-177.46" y="342.76" transform="scale(-1,1)" class="st3" v:langID="1040"><v:paragraph/><v:tabList/>}</text>		</g>
+	</g>
+</svg>
