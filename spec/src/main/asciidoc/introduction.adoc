@@ -21,7 +21,7 @@ A NoSQL database is defined basically by a model of storage. There are four type
 === Key-value
 
 .Key-value structure
-image::key-value.png[alt=key-value structure, width=300%]
+image::key-value.svg[alt=key-value structure, width=300%]
 
 This database has a structure that looks like a java.util.Map API, values are mapped to keys.
 
@@ -45,7 +45,7 @@ This database has a structure that looks like a java.util.Map API, values are ma
 === Document collection
 
 .Document structure
-image::document.png[alt=document structure,width=160%]
+image::document.svg[alt=document structure,width=160%]
 
 This model can store documents without a predefined structure. This document may be composed of numerous fields with many different kinds of data, including a document inside another document. This model works either with XML or JSON file.
 
@@ -68,7 +68,7 @@ This model can store documents without a predefined structure. This document may
 === Column Family
 
 .Column Family structure
-image::column.png[alt=column family structure, width=300%]
+image::column.svg[alt=column family structure, width=300%]
 
 This model became popular with the Bigtable paper by Google, with the goal of being a distributed storage system for structured data, projected to have either high scalability or volume.
 
@@ -93,7 +93,7 @@ This model became popular with the Bigtable paper by Google, with the goal of be
 === Graph
 
 .Graph structure
-image::graph.png[alt=Graph structure, width=300%]
+image::graph.svg[alt=Graph structure, width=300%]
 
 A graph database uses graph structures for semantic queries with nodes, edges and properties to represent and store data.
 
@@ -102,7 +102,7 @@ A graph database uses graph structures for semantic queries with nodes, edges an
 * *Property*: A key-value pair that can be at
 
 .Graph with vertex, edge and properties
-image::graph_deep.png[alt=Graph structure, width=460%]
+image::graph_deep.svg[alt=Graph structure, width=460%]
 
 The graph direction is an important concept in a graph structure. For example, you can know a person despite this person not knowing you. This is stored in the relationship (edge) direction of the graph.
 
@@ -137,7 +137,7 @@ Some databases have support for more than one kind of model storage. This is the
 Every database type has specific persistence structures to solve particular problems. There is a balance regarding model complexity; more complicated models are less scalable. E.g., a key-value NoSQL database is more scalable and there is a simple complexity because all queries and operations are key-based.
 
 .Scalability vs Complexity
-image::scalability_vs_complexity.png[alt=Scalability vs Complexity, width=300%]
+image::scalability_vs_complexity.svg[alt=Scalability vs Complexity, width=300%]
 
 === BASE vs ACID
 .BASE vs ACID
@@ -158,7 +158,7 @@ In the NoSQL world, the key characteristics are Basic Availability, Soft-state a
 
 === CAP Theorem
 .CAP Theorem
-image::cap.png[alt=CAP Theorem, width=300%]
+image::cap.svg[alt=CAP Theorem, width=300%]
 
 The CAP theorem is applied to distributed systems that store state. Eric Brewer, at the 2000 Symposium on Principles of Distributed Computing (PODC), conjectured that in any networked shared-data system, there is a fundamental trade-off between Consistency, Availability, and Partition Tolerance. In 2002, Seth Gilbert and Nancy Lynch of MIT published a formal proof of Brewer's conjecture. The theorem states that networked shared-data systems can only guarantee/strongly support two of the following three properties at the same time:
 
