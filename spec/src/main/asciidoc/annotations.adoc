@@ -350,4 +350,4 @@ private DocumentRepository repositoryA;
 private DocumentRepository repositoryB;
 ----
 
-A producer method annotaded with the same `@Database` values must exist as well.
+A producer method annotated with the same `@Database` values must exist as well.
