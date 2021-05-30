@@ -35,7 +35,7 @@ This database has a structure that looks like a java.util.Map API, values are ma
 
 .Key-Value vs Relational structure
 |===
-| Relational structure | Key-value structure
+| *Relational structure* | *Key-value structure*
 | Table | Bucket
 | Row | Key/value pair
 | Column | ----
@@ -58,7 +58,7 @@ This model can store documents without a predefined structure. This document may
 
 .Document vs Relational structure
 |===
-| Relational structure | Document Collection structure
+| *Relational structure* | *Document Collection structure*
 | Table | Collection
 | Row | Document
 | Column | Key/value pair
@@ -83,7 +83,7 @@ This model became popular with the Bigtable paper by Google, with the goal of be
 
 .Column Family vs Relational structure
 |===
-| Relational structure | Column Family structure
+| *Relational structure* | *Column Family structure*
 | Table | Column Family
 | Row | Column
 | Column | Key/value pair
@@ -115,7 +115,7 @@ The graph direction is an important concept in a graph structure. For example, y
 
 .Graph vs Relational structure
 |===
-| Relational Structure | Graph structure
+| *Relational Structure* | *Graph structure*
 | Table | Vertex and Edge
 | Row | Vertex
 | Column | Vertex and Edge property
