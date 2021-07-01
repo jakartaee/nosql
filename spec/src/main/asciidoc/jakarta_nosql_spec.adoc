@@ -124,8 +124,7 @@ The Communication Layer defines three new APIs: Key-Value, Document and Column F
 
 === Particular behavior matters in NoSQL database
 
-Particular behavior matters. Even within the same type, each NoSQL database has a unique feature that is a considerable factor when choosing a database over another. This ‘’feature’’ might make it easier to develop, make it more scalable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples are Cassandra and its Cassandra Query Language and consistency level, OrientDB with live queries, ArangoDB and its Arango Query Language, Couchbase with N1QL - the list goes on. Each NoSQL has a specific behavior and this behavior matters, so Jakarta NoSQL is extensible enough to capture this substantiality different feature elements.
-
+Particular behavior matters. Even within the same type, each NoSQL database has a unique feature that may be a considerable factor when choosing one database over another. This ‘’feature’’ might make it easier to develop, make it more scaleable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples include: Cassandra and its Cassandra Query Language and consistency level; OrientDB with live queries; ArangoDB and its Arango Query Language; Couchbase with N1QL; etc. Each NoSQL database has a specific behavior and this behavior matters, so Jakarta NoSQL was designed to be extensible enough to capture these substantially different feature elements. 
 [source,java]
 ----
 public interface PersonRepository extends CouchbaseRepository {
