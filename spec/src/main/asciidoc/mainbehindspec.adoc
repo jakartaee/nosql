@@ -12,81 +12,81 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-== The main idea behind the API
+== The Strategy Behind Jakarta NoSQL
 
-The divide-and-conquer strategy decreases the complexity of systems within modules or structures. These structure levels split responsibility and make maintenance and replaceability more clear. The new Jakarta NoSQL API proposal is going to be a bridge between the logic tier and the data tier. To do this, we need to create two APIs: one to communicate to a database and another one to be a high abstraction to the Java application.
+The divide-and-conquer strategy decreases the complexity of systems within modules or structures. These structure levels split responsibility and make maintenance and replaceability more clear. The new Jakarta NoSQL API proposal will serve as a bridge between the logic tier and the data tier. To do this, we need to create two APIs: one to communicate to a database and another one to be a high abstraction to the Java application.
 
 In software, there are structures: tiers, physical structures, and layers. The multi-tier application has three levels:
 
-* **Presentation tier**: Has a primary duty to translate results so the user can understand.
-* **Logic tier**: Has all business rules, processes, conditions, saved information, etc. This level moves and processes information between other levels.
+* **Presentation tier**: Has a primary responsibility to translate results so the user may understand.
+* **Logic tier**: Has all business rules, processes, conditions, saved information, etc. This level moves and processes information among other levels.
 * **Data tier**: Retrieves and stores information in either a database or a system file.
 
 image::tiers.svg[alt=Tiers from a classic application structure, width=180%]
 
 Talking more precisely about the physical layer and the logic to separate responsibilities, there are other layers.
 
-The logic tier, where the application and the business rules stay, has additional layers:
+The logic tier, where the application and the business rules reside, has additional layers:
 
-* **Application layer**: The bridge between the view tier and logic tier, e.g. convert an object into either JSON or HTML.
-* **Service layer**: The service layer; this can be either a Controller or a Resource.
-* **Business Layer**: This is the part of the program that encodes the real-world business or domain rules that determine how data will be created, stored, and changed.
-* **Persistence Layer**: This is a layer that provides simplified access to data stored in persistent storage of some kind.
+* **Application layer**: The bridge between the view tier and logic tier, e.g., convert an object into either JSON or HTML.
+* **Service layer**: May be either a Controller or a Resource.
+* **Business Layer**: The part of the program that encodes the real-world business or domain rules that determine how data will be created, stored, and changed.
+* **Persistence Layer**: Provides simplified access to data stored in some kind of persistent storage.
 
 image::logic_tier.svg[alt=Logic tier on details, width=300%]
 
-Within a persistence layer, it has its layers: A Data Access Object, DAO. This structure connects business layer and persistence layer. Inside it has an API that does database. Currently, there is a difference between SQL and NoSQL database:
+A persistence layer has its own layer: A Data Access Object (DAO). This structure connects the business layer and persistence layer. The DAO contains an API that supports databases. Currently, there is a difference between SQL and NoSQL databases:
 
-In the relational database, there are two mechanisms under DAO, JDBC, and JPA:
+In a relational database, there are two mechanisms under DAO:
 
 
-* **JDBC**: a deep layer with a database that has communications, underlying transactions, and is basically a driver to a particular database.
-* **JPA**: A high layer that has communication with either JDBC or JPA. This layer has a high mapping to Java; this place has annotations and an EntityManager. In general, a JPA has integrations with other specifications, such as CDI and Bean Validation.
+* **Java Database Connectivity (JDBC)**: a deep layer with a database that has communications, underlying transactions, and is basically a driver to a particular database.
+* **Java Persistence API (JPA)**: A higher layer that has communication with either JDBC or JPA. This layer has a high mapping to Java containing annotations and an EntityManager. In general, JPA has integrations with other specifications such as Jakarta Contexts and Dependency Injection (CDI) and Jakarta Bean Validation.
 
-A considerable advantage of this strategy is that one change, either JDBC or JPA, can happen quickly. When you change a database, you need to supersede to a respective driver by a database, and then you're done! The code is ready for a new database change.
+A considerable advantage of this strategy is that one change, either through JDBC or JPA, may happen quickly. When you change a database, you need to supersede to the respective database driver, and you're done! The code is ready for the new database.
 
-.A usual Java application with JPA layer architecture
+.A SQL Java application with JPA layer architecture
 image::jpa.svg[alt=A usual Java application with JPA layer architecture, width=320%]
 
-In a NoSQL database, there isn't a strategy to save code, and there is little impact for change. All APIs are different and don't follow any one standard, so one change to a new database can result in a lot of work.
+In a NoSQL database, there isn't a strategy to save code and there is little impact for change. All APIs are different and don't follow any kind of standard, so a change to a new database may result in a significant amount of work.
 
-* The database vendor needs to be worried about the high-level mapping to Java world, and the solution provider needs to be concerned about the low level of communication with a particular database.
+* The database vendor needs to be concerned about the high-level mapping to Java world, and the solution provider needs to be concerned about the low level of communication with a particular database.
 * The database vendor needs to “copy” these communication solutions to all Java vendors.
-* To a Java developer, there are two lock-in types: If a developer uses an API directly for a change, it loses code. If a developer uses high-level mapping, they lock-in a Java solution because if this high level doesn't have the support to a particular NoSQL database, the developer needs to change to either a Java solution or use a NoSQL API directly.
+* To a Java developer, there are two lock-in types: If a developer uses an API directly for a change, it loses code. If a developer uses high-level mapping, they lock-in a Java solution because if this high level doesn't have the support to a particular NoSQL database, the developer needs to change to either a Java solution or directly use a NoSQL API.
 
 
 .A NoSQL Java application that has lock-in to each NoSQL provider
 image::nosql_issue.svg[alt=A NoSQL Java application that has locking to each NoSQL provider, width=280%]
 
-A wise recommendation might be to use the JPA because once the developer already knows this standard SQL API, they can use the same API for a relational database and apply it to a NoSQL database. Using an API with SQL concepts in NoSQL is the same as using a knife as a spoon; the result is a disaster! Furthermore, the NoSQL world has diversity with several data structures and particular behavior to each provider, and both matter in a software solution. Indeed, the merge strategy to use just one API is still a discussion nowadays.
+A wise recommendation might be to use JPA because once the developer already knows this standard SQL API, they can use the same API for a relational database and apply it to a NoSQL database. However, using an API with SQL concepts in NoSQL world is the same as using a knife as a spoon. The result would be a disaster! Furthermore, the NoSQL world has diversity with several data structures and particular behavior to each provider, and both matter in a software solution. Indeed, the merge strategy to use just one API is still a topic of discussion.
 
-A good point about using NoSQL as a consequence polyglot persistence is that data storage is about choice. When a database offers gains, it sacrifices other aspects; it is the CAP theorem slamming the door. Hence, an API generic enough to encapsulate all kinds of databases might be useless.
+A good point about using NoSQL as a consequence polyglot persistence is that data storage is about choice. When a database offers gains, it sacrifices other aspects that would violate the CAP theorem. Hence, an API generic enough to encapsulate all kinds of databases might be useless.
 
-The history between Java and NoSQL has several solutions that can be split by two:
+The history between Java and NoSQL has several solutions that may be separated into two categories:
 
 1. NoSQL Drivers
 2. Mapper
    * Mapper Agnostic
    * Mapper Specific
 
-The first one is the driver API; this API has a low communication level, such as JDBC to NoSQL. It guarantees full power over the NoSQL database, a semantic closer to a database. However, it requires more code to move it forward to the entity domain the portability is pretty down; therefore, the learning curve.
+The first one is the driver API that has a low communication level such as JDBC to NoSQL. It guarantees full power over the NoSQL database, a semantic closer to a database. However, it requires more code to move it forward to the entity domain and limits portability. Therefore, there is a learning curve.
 
-The Object Mapper lets the developer work in terms of domains, thus it can help a developer follow ethical practices. A mapper may be specific, which means that a mapper is made for a particular database, so the mapper will support all the database features but with the price of a lock-in API. On the other hand, there is the agnostic mapper that uses a generic API to encapsulate the database API, which allows a developer with an API to connect several databases; however, it tends to either not cover numerous features in a database or many databases.
+The Object Mapper allows the developer work in terms of domains, thus it can help a developer follow ethical practices. A mapper may be **specific** which means that a mapper is designed for a particular database. This mapper will support all database features but with the price of vendor lock-in. On the other hand, a mapper may be **agnostic** such that it uses a generic API to encapsulate the database API. This allows a developer to connect several databases. However, it tends to either not cover numerous features in a database or many other databases.
 
-The rapid adoption of NoSQL combined with the vast assortment of implementations has driven a desire to create a set of standardized APIs. In the Java world, this was initially proposed in an effort by Oracle to define a NoSQL API for Java EE 9. The justification for the definition of a new API, separate form JDBC and JPA, was the following:
+The rapid adoption of NoSQL combined with the vast assortment of implementations has driven a desire to create a set of standardized APIs. In the Java world, this was initially proposed in an effort by Oracle to define a NoSQL API for Java EE 9. The justification for the definition of a new API, separate from JDBC and JPA, was the following:
 
 * JPA was not designed with NoSQL in mind
 * A single set of APIs or annotations isn’t adequate for all database types
 * JPA over NoSQL implies the inconsistent use of annotations
 * The diversity in the NoSQL world matters
 
-Unfortunately, what Oracle proposed for Java EE 9 was not completed when Java EE was donated to the Eclipse Foundation.
+Unfortunately, what Oracle proposed for Java EE 9 never came to fruition after Java EE was donated to the Eclipse Foundation.
 
-To bring innovation under the Jakarta EE umbrella, Jakarta NoSQL was born. The goal of this specification is to ease integration between Java applications and NoSQL databases, with a standard API to work with different types and vendors of NoSQL databases. To achieve this, the spec has two APIs that work like layers, and each layer has a specific goal that can integrate between each and use in isolation:
+To bring innovation under the Jakarta EE umbrella, Jakarta NoSQL was born. The goal of this specification is to ease integration between Java applications and NoSQL databases with a standard API to work with different types and vendors of NoSQL databases. To achieve this, the specification has two APIs that work like layers and each layer has a specific goal that can integrate between each and use in isolation:
 
-* **Communication API**: Exactly what JDBC is to SQL. This API has four specializations, one for each type of database (column, document, key-value and graph). The specialties are independent of each other, optional from the point of the database vendor and have their specific TCKs.
-* **Mapping API**: This layer is based on Annotations, analogous to JPA and CDI, and preserves integration with other Jakarta EE technologies like Bean Validation and so on.
+* **Communication API**: This is layer is analogous to JDBC and SQL. This API has four specializations, one for each database type (column family, document, key-value and graph). The specialties are independent of each other, optional from the point of the database vendor and have their specific TCKs.
+* **Mapping API**: This layer is analogous to JPA and CDI. It is based on Jakarta Annotations and preserves integration with other Jakarta EE technologies such as Jakarta Bean Validation and others.
 
-Jakarta EE NoSQL is the first specification in the Java enterprise. As any Java specification, it analyzes solutions that already exist, checks the history with both success and failure cases, and then goes in a direction that has a lesser number of trade-offs in an API architecture. The divide and conquer method fits well in the layer, communication, mapping, and NoSQL types. Thus, it will provide a straightforward specification, light maintenance; it will define the scope of each API; and it will work better in extensibility once the particular features matter to a NoSQL database.ut CDI events is how easy it creates and add new functionalities without changing the core code that is easy to use bean validation just to listen to an event.
+Jakarta NoSQL is the first specification in the Java enterprise. As with any Java specification, it analyzes solutions that already exist, checks the history with both success and failure cases, and then goes in a direction that has a lesser number of trade-offs within an API architecture. The divide-and-conquer method fits well with the layer, communication, mapping, and NoSQL types. Thus, it will provide a straightforward specification with light maintenance. It will define the scope of each API, and will work better in extensibility once the particular features matter to a NoSQL database. CDI create and add new functionality without changing the core code in conjunction with bean validation that listen for those events.
 
-Jakarta EE has a bright future with a significant integration with the community and open source. More transparency, after all, is the most meaningful power of Jakarta. It's not the technology itself, but the heart of the community, therefore, the success is in the hand of each developer.
+Jakarta EE has a bright future with a significant integration within the Java community and open source. More transparency, after all, is the most meaningful power of Jakarta EE. It's not the technology itself, but the heart of the community, therefore, the success is in the hand of every developer.
