@@ -160,7 +160,7 @@ The Operators are:
 
 .Operators in a query
 |===
-| Operator | Description
+| *Operator* | *Description*
 | *=*         | Equal to
 | *>*         | Greater than
 | *<*         | Less than
