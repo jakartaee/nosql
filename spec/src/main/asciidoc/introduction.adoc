@@ -12,18 +12,18 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-== Let's talk about standard to NoSQL database in Java
+== Let's Talk About Standard to NoSQL Databases in Java
 
-NoSQL DB are databases that provide mechanisms for storage and retrieval of unstructured data (non-relational), in stark contrast of the tabular relations used in relational databases. NoSQL databases, comparing to relational databases, have better performance and high scalability. They are becoming more popular in several industry verticals, such as finance and streaming. As a result of this increased usage, the number of users and database vendors are increasing too.
+NoSQL databases provide mechanisms for storage and retrieval of unstructured data (non-relational) in stark contrast of the tabular relations used in relational databases. NoSQL databases, compared to relational databases, have better performance and high scalability. They are becoming more popular in several industry verticals, such as finance and streaming. As a result of this increased usage, the number of users and database vendors are increasing.
 
-A NoSQL database is defined basically by a model of storage. There are four types:
+A NoSQL database is basically defined by a model of storage. There are four types:
 
-=== Key-value
+=== Key-Value
 
-.Key-value structure
+.Key-Value structure
 image::key-value.svg[alt=key-value structure, width=300%]
 
-This database has a structure that looks like a java.util.Map API, values are mapped to keys.
+This database type has a structure that looks like a java.util.Map API, values are mapped to keys.
 
 *Examples:*
 
@@ -33,7 +33,7 @@ This database has a structure that looks like a java.util.Map API, values are ma
 • Voldemort
 
 
-.Key-Value vs Relational structure
+.Key-Value vs. Relational Structure
 |===
 | *Relational structure* | *Key-value structure*
 | Table | Bucket
@@ -42,12 +42,12 @@ This database has a structure that looks like a java.util.Map API, values are ma
 | Relationship | ----
 |===
 
-=== Document collection
+=== Document
 
-.Document structure
+.Document Structure
 image::document.svg[alt=document structure,width=160%]
 
-This model can store documents without a predefined structure. This document may be composed of numerous fields with many different kinds of data, including a document inside another document. This model works either with XML or JSON file.
+This model can store documents without a predefined structure. A document may be composed of numerous fields with different kinds of data, including a document inside another document. This model works either with XML or JSON file.
 
 *Examples:*
 
@@ -56,7 +56,7 @@ This model can store documents without a predefined structure. This document may
 * MongoDB
 
 
-.Document vs Relational structure
+.Document vs Relational Structure
 |===
 | *Relational structure* | *Document Collection structure*
 | Table | Collection
@@ -67,7 +67,7 @@ This model can store documents without a predefined structure. This document may
 
 === Column Family
 
-.Column Family structure
+.Column Family Structure
 image::column.svg[alt=column family structure, width=300%]
 
 This model became popular with the Bigtable paper by Google, with the goal of being a distributed storage system for structured data, projected to have either high scalability or volume.
@@ -81,7 +81,7 @@ This model became popular with the Bigtable paper by Google, with the goal of be
 * SimpleDB
 
 
-.Column Family vs Relational structure
+.Column Family vs Relational Structure
 |===
 | *Relational structure* | *Column Family structure*
 | Table | Column Family
@@ -92,16 +92,16 @@ This model became popular with the Bigtable paper by Google, with the goal of be
 
 === Graph
 
-.Graph structure
+.Graph Structure
 image::graph.svg[alt=Graph structure, width=300%]
 
 A graph database uses graph structures for semantic queries with nodes, edges and properties to represent and store data.
 
-* *Vertex*: A node in the graph, it stores data like the table in SQL or a Document in a Document database;
-* *Edge*: The element that establishes the relationship between vertices;
-* *Property*: A key-value pair that can be at
+* *Vertex*: A node in the graph. It stores data like the table in SQL or a Document in a Document database;
+* *Edge*: An element that establishes the relationship between vertices;
+* *Property*: A key-value pair that defines an edge's properties.
 
-.Graph with vertex, edge and properties
+.Graph with Vertex, Edge and Properties
 image::graph_deep.svg[alt=Graph structure, width=460%]
 
 The graph direction is an important concept in a graph structure. For example, you can know a person despite this person not knowing you. This is stored in the relationship (edge) direction of the graph.
@@ -123,7 +123,7 @@ The graph direction is an important concept in a graph structure. For example, y
 |===
 
 
-=== Multi-model database
+=== Multi-Model Database
 
 Some databases have support for more than one kind of model storage. This is the multi-model database.
 
@@ -134,27 +134,27 @@ Some databases have support for more than one kind of model storage. This is the
 
 === Scalability vs Complexity
 
-Every database type has specific persistence structures to solve particular problems. There is a balance regarding model complexity; more complicated models are less scalable. E.g., a key-value NoSQL database is more scalable and there is a simple complexity because all queries and operations are key-based.
+Every database type has specific persistence structures to solve particular problems. There is a balance regarding model complexity; more complicated models are less scalable. For example, as shown in Figure 6, a key-value NoSQL database is more scalable simple complexity because all queries and operations are key-based.
 
-.Scalability vs Complexity
+.Scalability vs. Complexity
 image::scalability_vs_complexity.svg[alt=Scalability vs Complexity, width=300%]
 
 === BASE vs ACID
-.BASE vs ACID
+.BASE vs. ACID
 image::acid_vs_base.png[alt=BASE vs ACID, width=300%]
 
-Relational persistence technologies have as key characteristics: Atomicity, Consistency, Isolation, Durability (ACID):
+Key characteristics of relational persistence technologies are defined as: Atomicity, Consistency, Isolation, Durability (ACID):
 
 * *Atomicity*: Either all transaction operations complete, or none will.
 * *Consistency*: The database is in a consistent state when a transaction begins and ends.
-* *Isolation*: A transaction will behave as if it is the only operation being performed upon the database.
+* *Isolation*: A transaction will behave as if it is the only operation being performed on the database.
 * *Durability*: Upon completion of a transaction, a operation will not be reversed.
 
-In the NoSQL world, the key characteristics are Basic Availability, Soft-state and Eventual consistency (BASE):
+In the NoSQL world, the key characteristics are defined as: Basic Availability, Soft-State and Eventual consistency (BASE):
 
 * *Basic Availability*: The database appears to work most of the time.
-* *Soft-state*: Stores don’t have to be write-consistent, nor do different replicas have to be mutually consistent all the time.
-* *Eventual consistency*: Stores exhibit consistency at some later point (e.g., lazily at read time).
+* *Soft-state*: Data stores don't have to be write-consistent, nor do different replicas have to be mutually consistent all the time.
+* *Eventual consistency*: Data stores exhibit consistency at some point later (e.g., lazily at read time).
 
 === CAP Theorem
 .CAP Theorem
@@ -166,24 +166,24 @@ The CAP theorem is applied to distributed systems that store state. Eric Brewer,
 * *Availability*: Every non-failing node returns a response for all read and write requests in a reasonable amount of time. The key word here is "every". To be available, every node (on either side of a network partition) must be able to respond in a reasonable amount of time.
 * *Partition Tolerance*: The system continues to function and uphold its consistency guarantees in spite of network partitions. Network partitions are a fact of life. Distributed systems guaranteeing partition tolerance can gracefully recover from partitions once the partition heals.
 
-=== The diversity in NoSQL
+=== The Diversity in NoSQL
 
-There are around two hundred and twenty-five NoSQL databases (at time of writing). These databases usually support one or more types of structures. They also have specific behavior. Particular features make developer’s life more comfortable in different ways, such as Cassandra Query language in Cassandra databases, a search engine in Elasticsearch, live query in OrientDB, N1QL in Couchbase, and so on. Such aspects matter when the topic is NoSQL databases.
+There are approximately 225 NoSQL databases (at time of writing). These databases usually support one or more types of structures. They also have specific behavior. Particular features make developer's experience more comfortable in different ways, such as Cassandra Query language in Cassandra databases, a search engine in Elasticsearch, live query in OrientDB, N1QL in Couchbase, and so on. Such aspects matter with NoSQL databases.
 
 === Standard in SQL
 
-Java applications that use relational databases have as good practice a layer between business logic and data. This is known as DAO - Data Access Object. There are also APIs, such as JPA and JDBC providing advantages to developers:
+Java applications that use relational databases have, as a good practice, a layer between business logic and data. This is known as Data Access Object (DAO). There are also APIs, such as JPA and JDBC providing advantages to developers:
 
 
 * Avoid vendor lock-in. Using a standard (such as JDBC), a database has less impact and is easier to implement - because we just need to change a simple driver.
-* There is no need to learn a new API to work with a new database - that's implemented into the driver.
-* There is less code change when changing to a new vendor. There may be some code changes, but not all code that talks to the database is lost.
+* There is no need to learn a new API to work with a new database - that's implemented in to the driver.
+* There is less code change when changing to a new vendor. There may be some code changes, but not all code that communicates with the database is lost.
 
 Currently, there are no NoSQL standards for Java. This causes a Java developer to: 
 
 * Be locked-in to a vendor
-* Learn a new API every time it needs to use a new database. Every database vendor change has a high impact, because a rewrite of the communication layer is needed. This happens even when changing to a new database that is the same kind of NoSQL database. 
+* Learn a new API every time an application needs to use a new database. Every database vendor change has a high impact because a rewrite of the communication layer is required. This happens even when changing to a new database that is the same kind of NoSQL database.
 
-There are initiatives to create NoSQL APIs, such as Spring Data, Hibernate ORM, and TopLink. JPA is a popular API in the Java world, which is why all these initiatives try to use it. However, this API is created for SQL and not for NoSQL and, as such, doesn't support all behaviors in NoSQL databases. Many NoSQL databases have no transaction concecpt, and many NoSQL database don't support to asynchronous insertion either.
+There are initiatives to create NoSQL APIs, such as Spring Data, Hibernate ORM, and TopLink. JPA is a popular API in the Java world, which is why all these initiatives try to use it. However, this API is created for SQL and not for NoSQL and, as such, doesn't support all behaviors in NoSQL databases. Many NoSQL databases have no transaction concept, and many NoSQL database also don't support to asynchronous insertion.
 
-The solution, in this case, is the creation of a specification that covers the four kinds of NoSQL database; as described, each kind has specific structures that must be recognized. This new API should resemble JPA because of its popularity amongst Java developers. It should also be extensible, to support cases when a database has more than one particular behavior. 
+The solution, in this case, is to create a specification that covers the four types of NoSQL database as described earlier in this chapter Each database type has specific structures that must be recognized. This new API should resemble JPA because of its popularity amongst Java developers. It should also be extensible, to support cases when a database has more than one particular behavior.
