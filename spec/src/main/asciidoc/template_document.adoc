@@ -27,7 +27,7 @@ The `DocumentTemplate` is the document template for the synchronous tasks. It ha
 
 [source,java]
 ----
-DocumentTemplate template = //instance
+DocumentTemplate template = //instance;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -105,7 +105,7 @@ The next step is to produce a **DocumentCollectionManager:**
 ----
 @Produces
 public DocumentCollectionManager getManager() {
-    DocumentCollectionManager manager = //instance
+    DocumentCollectionManager manager = //instance;
     return manager;
 }
 ----
@@ -124,19 +124,18 @@ private DocumentTemplate templateA;
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 private DocumentTemplate templateB;
 
-
 //producers methods
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
 public DocumentCollectionManager getManagerA() {
-    DocumentCollectionManager manager = //instance
+    DocumentCollectionManager manager = //instance;
     return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 public DocumentCollectionManager getManagerB() {
-    DocumentCollectionManager manager = //instance
+    DocumentCollectionManager manager = //instance;
     return manager;
 }
 ----
@@ -150,7 +149,7 @@ private DocumentTemplateProducer producer;
 
 public void sample() {
    DocumentCollectionManager managerA = //instance;
-   DocumentCollectionManager managerB = //instance
+   DocumentCollectionManager managerB = //instance;
    DocumentTemplate templateA = producer.get(managerA);
    DocumentTemplate templateB = producer.get(managerB);
 }
@@ -166,7 +165,7 @@ The `DocumentTemplateAsync` is the document template for the asynchronous tasks.
 
 [source,java]
 ----
-DocumentTemplateAsync templateAsync = //instance
+DocumentTemplateAsync templateAsync = //instance;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -211,7 +210,7 @@ The next step is to produce a **DocumentCollectionManagerAsync:**
 ----
 @Produces
 public DocumentCollectionManagerAsync getManager() {
-    DocumentCollectionManagerAsync managerAsync = //instance
+    DocumentCollectionManagerAsync managerAsync = //instance;
     return manager;
 }
 ----
@@ -229,7 +228,6 @@ private DocumentTemplateAsync templateA;
 @Inject
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 private DocumentTemplateAsync templateB;
-
 
 //producers methods
 @Produces
@@ -256,7 +254,7 @@ private DocumentTemplateAsyncProducer producer;
 
 public void sample() {
    DocumentCollectionManagerAsync managerA = //instance;
-   DocumentCollectionManagerAsync managerB = //instance
+   DocumentCollectionManagerAsync managerB = //instance;
    DocumentTemplateAsync templateA = producer.get(managerA);
    DocumentTemplateAsync templateB = producer.get(managerB);
 }

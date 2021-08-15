@@ -158,6 +158,7 @@ Conditions are boolean statements that operate on data being queried. They are c
 The Operators are:
 
 
+[cols=2, options=header]
 .Operators in a query
 |===
 | *Operator* | *Description*
@@ -227,7 +228,7 @@ Stream<DocumentEntity> adas = preparedStatement.getResult();
 ----
 PreparedStatementAsync preparedStatement = documetManagerAsync.prepare("select * from Person where name = @name");
 preparedStatement.bind("name", "Ada");
-Consumer<Stream<DocumentEntity>> callback = ...;
+Consumer<Stream<DocumentEntity>> callback = //instance;
 preparedStatement.getResult(callback);
 
 ----

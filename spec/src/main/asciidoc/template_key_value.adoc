@@ -22,7 +22,7 @@ The `KeyValueTemplate` is the template for synchronous tasks. It has three compo
 
 [source,java]
 ----
-KeyValueTemplate template = null;
+KeyValueTemplate template = //instance;
 User user = new User();
 user.setNickname("ada");
 user.setAge(10);
@@ -52,7 +52,7 @@ The next step is to produce a *BucketManager*:
 ----
 @Produces
 public BucketManager getManager() {
-    BucketManager manager = //instance
+    BucketManager manager = //instance;
     return manager;
 }
 ----
@@ -69,19 +69,18 @@ private KeyValueTemplate templateA;
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseB")
 private KeyValueTemplate templateB;
 
-
 //producers methods
 @Produces
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseA")
 public BucketManager getManagerA() {
-    DocumentCollectionManager manager =//instance
+    DocumentCollectionManager manager = //instance;
     return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseB")
 public DocumentCollectionManager getManagerB() {
-    BucketManager manager = //instance
+    BucketManager manager = //instance;
     return manager;
 }
 ----
@@ -97,7 +96,7 @@ private KeyValueTemplateProducer producer;
 
 public void sample() {
     BucketManager managerA = //instance;
-    BucketManager managerB = //instance
+    BucketManager managerB = //instance;
     KeyValueTemplate templateA = producer.get(managerA);
     KeyValueTemplate templateB = producer.get(managerB);
 }

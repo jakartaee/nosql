@@ -197,8 +197,9 @@ public class Author {
     private Integer age;
 }
 
-In this example, there is a single Instance in the database with columns `title`, `author` and `age`.
 ----
+
+In this example, there is a single Instance in the database with columns `title`, `author` and `age`.
 
 ===== @Convert
 
@@ -245,7 +246,6 @@ public class MonetaryAmmount {
     public static MonetaryAmmount parse(String string) {
         //specific implementation
     }
-
 }
 ----
 
@@ -290,7 +290,6 @@ public class Address {
 
     @Column
     private String city;
-
 }
 ----
 

@@ -26,7 +26,7 @@ The `ColumnTemplate` is the column template for the synchronous tasks. It has th
 
 [source,java]
 ----
-ColumnTemplate template = //instance
+ColumnTemplate template = //instance;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -104,7 +104,7 @@ The next step is to produce a **ColumnFamilyManager**:
 ----
 @Produces
 public ColumnFamilyManager getManager() {
-    ColumnFamilyManager manager = //instance
+    ColumnFamilyManager manager = //instance;
     return manager;
 }
 ----
@@ -123,19 +123,18 @@ private ColumnTemplate templateA;
 @Database(value = DatabaseType.COLUMN, provider = "databaseB")
 private ColumnTemplate templateB;
 
-
 //producers methods
 @Produces
 @Database(value = DatabaseType.COLUMN, provider = "databaseA")
 public ColumnFamilyManager getManagerA() {
-    ColumnFamilyManager manager =//instance
+    ColumnFamilyManager manager =//instance;
     return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.COLUMN, provider = "databaseB")
 public ColumnFamilyManager getManagerB() {
-    ColumnFamilyManager manager = //instance
+    ColumnFamilyManager manager = //instance;
     return manager;
 }
 ----
@@ -148,7 +147,7 @@ private ColumnTemplateProducer producer;
 
 public void sample() {
    ColumnFamilyManager managerA = //instance;
-   ColumnFamilyManager managerB = //instance
+   ColumnFamilyManager managerB = //instance;
    ColumnTemplate templateA = producer.get(managerA);
    ColumnTemplate templateB = producer.get(managerB);
 }

@@ -47,25 +47,25 @@ And then, make any manager class (*ColumnFamilyManager*, *DocumentCollectionMana
 ----
 @Produces
 public DocumentCollectionManager getManager() {
-  DocumentCollectionManager manager = //instance
+  DocumentCollectionManager manager = //instance;
   return manager;
 }
 
 @Produces
 public ColumnFamilyManager getManager() {
-  ColumnFamilyManager manager = //instance
+  ColumnFamilyManager manager = //instance;
   return manager;
 }
 
 @Produces
 public BucketManager getManager() {
-  BucketManager manager = //instance
+  BucketManager manager = //instance;
   return manager;
 }
 
 @Produces
 public Graph getGraph() {
-  Graph graph = //instance
+  Graph graph = //instance;
   return graph;
 }
 ----
@@ -109,54 +109,54 @@ private PersonRepository graphRepositoryB;
 @Produces
 @Database(value = DatabaseType.COLUMN, provider = "databaseA")
 public ColumnFamilyManager getColumnFamilyManagerA() {
-  ColumnFamilyManager manager =//instance
+  ColumnFamilyManager manager = //instance;
   return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.COLUMN, provider = "databaseB")
 public ColumnFamilyManager getColumnFamilyManagerB() {
-  ColumnFamilyManager manager = //instance
+  ColumnFamilyManager manager = //instance;
   return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
 public DocumentCollectionManager getDocumentCollectionManagerA() {
-  DocumentCollectionManager manager = //instance
+  DocumentCollectionManager manager = //instance;
   return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 public DocumentCollectionManager DocumentCollectionManagerB() {
-  DocumentCollectionManager manager = //instance
+  DocumentCollectionManager manager = //instance;
   return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseA")
 public BucketManager getBucket() {
-    BucketManager manager =//instance
+    BucketManager manager = //instance;
     return manager;
 }
 @Produces
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseB")
 public BucketManager getBucketB() {
-    BucketManager manager = //instance
+    BucketManager manager = //instance;
     return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseA")
 public Graph getGraph() {
-    Graph graph =//instance
+    Graph graph = //instance;
     return graph;
 }
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseB")
 public Graph getGraphB() {
-    Graph graph = //instance
+    Graph graph = //instance;
     return graph;
 }
 ----
@@ -165,7 +165,7 @@ So, Jakarta NoSQL will inject automatically.
 
 [source,java]
 ----
-PersonRepository repository = //instance
+PersonRepository repository = //instance;
 
 Person person = new Person();
 person.setNickname("diana");
@@ -245,7 +245,7 @@ This resource allows pagination and a dynamical sort in a smooth way.
 
 [source,java]
 ----
-PersonRepository personRepository = ...;
+PersonRepository personRepository = //instance;
 Sort sort = Sort.asc("name");
 Sorts sorts = Sorts.sorts().asc("name").desc("age");
 Pagination pagination = Pagination.page(1).size(10);
@@ -287,7 +287,7 @@ The Mapping API has support to create Repository programmatically to each NoSQL 
 private GraphRepositoryProducer producer;
 
 public void anyMethod() {
-    Graph graph = ...;//instance
+    Graph graph = //instance;
     PersonRepository personRepository = producer.get(PersonRepository.class, graph);
 }
 ----
@@ -299,7 +299,7 @@ public void anyMethod() {
 private KeyValueRepositoryProducer producer;
 
 public void anyMethod() {
-    BucketManager manager = ...;//instance
+    BucketManager manager = //instance;
     PersonRepository personRepository = producer.get(PersonRepository.class, manager);
 }
 ----
@@ -311,7 +311,7 @@ public void anyMethod() {
 private ColumnRepositoryProducer producer;
 
 public void anyMethod() {
-    DocumentCollectionManager manager = ...;//instance
+    DocumentCollectionManager manager = //instance;
     PersonRepository personRepository = producer.get(PersonRepository.class, graph);
 }
 ----
@@ -323,7 +323,7 @@ public void anyMethod() {
 private DocumentRepositoryProducer producer;
 
 public void anyMethod() {
-    DocumentCollectionManager manager = ...;//instance
+    DocumentCollectionManager manager = //instance;
     PersonRepository personRepository = producer.get(PersonRepository.class, graph);
 }
 ----
@@ -335,7 +335,7 @@ public void anyMethod() {
 private ColumnRepositoryProducer producer;
 
 public void anyMethod() {
-    ColumnFamilyManager manager = ...;//instance
+    ColumnFamilyManager manager = //instance;
     PersonRepository personRepository = producer.get(PersonRepository.class, manager);
 }
 ----
@@ -346,7 +346,7 @@ public void anyMethod() {
 private DocumentRepositoryProducer producer;
 
 public void anyMethod() {
-    DocumentCollectionManager manager = ...;//instance
+    DocumentCollectionManager manager = //instance;
     PersonRepository personRepository = producer.get(PersonRepository.class, manager);
 }
 ----
