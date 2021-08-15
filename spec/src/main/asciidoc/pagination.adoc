@@ -39,8 +39,8 @@ A `ColumnQueryPagination` is a specialization of `ColumnQuery` that allows the p
 
 [source,java]
 ----
-Pagination pagination = ...;
-ColumnQuery query =...;
+Pagination pagination = //instance;
+ColumnQuery query = //instance;
 
 ColumnQueryPagination queryPagination = ColumnQueryPagination.of(query, pagination);
 
@@ -56,7 +56,7 @@ Through the `Template` there are two ways to use the pagination resource. The fi
 
 [source,java]
 ----
-ColumnTemplate template =...;
+ColumnTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
 ColumnQuery query = ColumnQueryPagination.of(select().from("person").build(), pagination);
 Stream<Person> people = template.select(query);
@@ -66,7 +66,7 @@ The second one is representing the page with the `Page` instance. A page is a fi
 
 [source,java]
 ----
-ColumnTemplate template =...;
+ColumnTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
 ColumnQueryPagination query = ColumnQueryPagination.of(select().from("person").build(), pagination);
 Page<Person> firstPage = template.select(query);
@@ -83,7 +83,7 @@ From a mapper query is possible either creates a query that executes using the p
 
 [source,java]
 ----
-ColumnQueryMapperBuilder mapperBuilder = ...;
+ColumnQueryMapperBuilder mapperBuilder = //instance;
 
 Pagination pagination = Pagination.page(2).size(2);
 ColumnQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
@@ -114,8 +114,8 @@ A `DocumentQueryPagination` is a specialization of `DocumentQuery` that allows t
 
 [source,java]
 ----
-Pagination pagination = ...;
-DocumentQuery query =...;
+Pagination pagination = //instance;
+DocumentQuery query = //instance;
 
 DocumentQueryPagination queryPagination = DocumentQueryPagination.of(query, pagination);
 
@@ -131,7 +131,7 @@ Through the `Template` there are two ways to use the pagination resource. The fi
 
 [source,java]
 ----
-DocumentTemplate template =...;
+DocumentTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
 DocumentQuery query = DocumentQueryPagination.of(select().from("person").build(), pagination);
 Stream<Person> people = template.select(query);
@@ -141,7 +141,7 @@ The second one is representing the page with the `Page` instance. A page is a fi
 
 [source,java]
 ----
-DocumentTemplate template =...;
+DocumentTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
 DocumentQueryPagination query = DocumentQueryPagination.of(select().from("person").build(), pagination);
 Page<Person> firstPage = template.select(query);
@@ -158,7 +158,7 @@ From a mapper query is possible either creates a query that executes using the p
 
 [source,java]
 ----
-DocumentQueryMapperBuilder mapperBuilder = ...;
+DocumentQueryMapperBuilder mapperBuilder = //instance;
 
 Pagination pagination = Pagination.page(2).size(2);
 DocumentQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
@@ -209,7 +209,6 @@ A Repository interface also allows using the pagination feature at these interfa
     List<Person> findAll(Pagination pagination);
 
     Set<Person> findByName(String name, Pagination pagination);
-
 }
 ----
 
