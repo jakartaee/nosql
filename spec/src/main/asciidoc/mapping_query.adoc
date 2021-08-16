@@ -64,7 +64,8 @@ Stream<City> cities = template.query("g.V().hasLabel('City')");
 
 [source,java]
 ----
-PreparedStatement preparedStatement = documentTemplate.prepare("select * from Person where name = @name");
+PreparedStatement preparedStatement = documentTemplate
+        .prepare("select * from Person where name = @name");
 preparedStatement.bind("name", "Ada");
 Stream<Person> adas = preparedStatement.getResult();
 //to graph just keep using gremlin
