@@ -49,8 +49,10 @@ public class Deity {
 
     @Id
     private String id;
+	
     @Column
     private String name;
+    
     @Column
     private String power;
  //...
@@ -96,7 +98,7 @@ JPA is a good API for object-relational mapping and has established itself as a 
 
 [source,java]
 ----
-ColumnTemplate template = ...;
+ColumnTemplate template = //instance;
 Deity diana = Deity.builder()
         .withId("diana")
         .withName("Diana")
@@ -113,7 +115,7 @@ Jakarta NoSQL is a fluent API for Java developers to more easily create queries 
 
 [source,java]
 ----
-DocumentTemplate template = ...; // a template to document nosql operations
+DocumentTemplate template = //instance; // a template to document nosql operations
 Deity diana = Deity.builder()
         .withId("diana")
         .withName("Diana")
@@ -157,8 +159,8 @@ public interface PersonRepository extends CouchbaseRepository {
         List<Person> findByName(@Param("name") String name);
 }
 
-Person person = ...
-CassandraTemplate template = ...
+Person person = //instance;
+CassandraTemplate template = //instance;
 ConsistencyLevel level = ConsistencyLevel.THREE;
 template.save(person, level);
 ----

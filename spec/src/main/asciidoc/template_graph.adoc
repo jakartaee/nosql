@@ -24,7 +24,7 @@ The `GraphTemplate` is responsible for the persistence of an entity in a Graph d
 
 [source,java]
 ----
-GraphTemplate template = //instance
+GraphTemplate template = //instance;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -46,8 +46,8 @@ template.update(people);
 
 [source,java]
 ----
-Person poliana =...//instance;
-Book shack =...//instance;
+Person poliana = //instance;
+Book shack = //instance;
 EdgeEntity edge = graphTemplate.edge(poliana, "reads", shack);
 reads.add("where", "Brazil");
 Person out = edge.getOutgoing();
@@ -104,7 +104,7 @@ The next step: make a *Graph* instance eligible to CDI, applying the producers m
 ----
 @Produces
 public Graph getManager() {
-    Graph graph = //instance
+    Graph graph = //instance;
     return graph;
 }
 ----
@@ -123,19 +123,18 @@ private GraphTemplate templateA;
 @Database(value = DatabaseType.GRAPH, provider = "databaseB")
 private GraphTemplate templateB;
 
-
 //producers methods
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseA")
 public Graph getManagerA() {
-    Graph manager =//instance
+    Graph manager = //instance;
     return graph;
 }
 
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseB")
 public Graph getManagerB() {
-    Graph graph = //instance
+    Graph graph = //instance;
     return graph;
 }
 ----
@@ -149,7 +148,7 @@ private GraphTemplateProducer producer;
 
 public void sample() {
    Graph graphA = //instance;
-   Graph graphB = //instance
+   Graph graphB = //instance;
    GraphTemplate templateA = producer.get(graphA);
    GraphTemplate templateB = producer.get(graphB);
 }

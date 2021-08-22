@@ -600,8 +600,7 @@ The `BucketManager` is the class which saves the `KeyValueEntity` in a synchrono
 
 [source,java]
 ----
-BucketManager bucketManager= null;
-
+BucketManager bucketManager = //instance;
 KeyValueEntity<String> entity = KeyValueEntity.of("key", 1201);
 
 Set<KeyValueEntity<String>> entities = Collections.singleton(entity);
@@ -651,8 +650,7 @@ The factory classes have the duty to create the Column Family manager.
 
 [source,java]
 ----
-ColumnFamilyManagerFactory factory = // instance
-
+ColumnFamilyManagerFactory factory = //instance;
 ColumnFamilyManager manager = factory.get("database");
 ----
 
@@ -664,8 +662,7 @@ The factory classes have the duty to create the document collection manager.
 
 [source,java]
 ----
-DocumentCollectionManagerFactory factory = // instance
-
+DocumentCollectionManagerFactory factory = //instance;
 DocumentCollectionManager manager = factory.get("database");
 ----
 
@@ -675,8 +672,7 @@ The factory classes have the responsibility to create the `BucketManager`.
 
 [source,java]
 ----
-BucketManagerFactory bucketManager= // instance
-
+BucketManagerFactory bucketManager = //instance;
 BucketManager bucket = bucketManager.getBucketManager("bucket");
 ----
 
@@ -710,8 +706,7 @@ The `Settings` interface represents the settings used in a configuration. It ext
 Settings settings = Settings.builder()
     .put("key", "value")
     .build();
-
-Map<String, Object> map = // instance
+Map<String, Object> map = //instance;
 
 Settings settings = Settings.of(map);
 ----
@@ -731,8 +726,7 @@ For the Document collection configuration, `DocumentConfiguration` configures an
 
 [source,java]
 ----
-DocumentConfiguration configuration = // instance
-
+DocumentConfiguration configuration = //instance;
 DocumentCollectionManagerFactory managerFactory = configuration.get();
 ----
 
@@ -742,7 +736,7 @@ For the Column Family configuration, `ColumnConfiguration` creates and configure
 
 [source,java]
 ----
-ColumnConfiguration configuration = // instance
+ColumnConfiguration configuration = //instance;
 
 ColumnFamilyManagerFactory managerFactory = configuration.get();
 ----
@@ -753,7 +747,6 @@ For the key-value configuration, there is `KeyValueConfiguration` to `BucketMana
 
 [source,java]
 ----
-KeyValueConfiguration configuration = // instance
-
+KeyValueConfiguration configuration = //instance;
 BucketManagerFactory managerFactory = configuration.get();
 ----

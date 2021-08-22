@@ -33,7 +33,12 @@ This database type has a structure that looks like a java.util.Map API, values a
 • Voldemort
 
 
+<<<<<<< HEAD
+[cols=2, options=header]
+.Key-Value vs Relational structure
+=======
 .Key-Value vs. Relational Structure
+>>>>>>> 37b6b5b76b3030e1bd9a38c82cb6b953c650ca0f
 |===
 | *Relational structure* | *Key-value structure*
 | Table | Bucket
@@ -56,7 +61,12 @@ This model can store documents without a predefined structure. A document may be
 * MongoDB
 
 
+<<<<<<< HEAD
+[cols=2, options=header]
+.Document vs Relational structure
+=======
 .Document vs Relational Structure
+>>>>>>> 37b6b5b76b3030e1bd9a38c82cb6b953c650ca0f
 |===
 | *Relational structure* | *Document Collection structure*
 | Table | Collection
@@ -81,7 +91,12 @@ This model became popular with the Bigtable paper by Google, with the goal of be
 * SimpleDB
 
 
+<<<<<<< HEAD
+[cols=2, options=header]
+.Column Family vs Relational structure
+=======
 .Column Family vs Relational Structure
+>>>>>>> 37b6b5b76b3030e1bd9a38c82cb6b953c650ca0f
 |===
 | *Relational structure* | *Column Family structure*
 | Table | Column Family
@@ -113,6 +128,7 @@ The graph direction is an important concept in a graph structure. For example, y
 * Sones
 * HyperGraphDB
 
+[cols=2, options=header]
 .Graph vs Relational structure
 |===
 | *Relational Structure* | *Graph structure*
