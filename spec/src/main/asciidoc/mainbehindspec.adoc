@@ -22,7 +22,7 @@ In software, there are structures: tiers, physical structures, and layers. The m
 * **Logic tier**: Has all business rules, processes, conditions, saved information, etc. This level moves and processes information among other levels.
 * **Data tier**: Retrieves and stores information in either a database or a system file.
 
-image::tiers.svg[alt=Tiers from a classic application structure, width=180%]
+image::tiers.svg[alt=Tiers from a classic application structure, width=50%, height=50%]
 
 Talking more precisely about the physical layer and the logic to separate responsibilities, there are other layers.
 
@@ -33,7 +33,7 @@ The logic tier, where the application and the business rules reside, has additio
 * **Business Layer**: The part of the program that encodes the real-world business or domain rules that determine how data will be created, stored, and changed.
 * **Persistence Layer**: Provides simplified access to data stored in some kind of persistent storage.
 
-image::logic_tier.svg[alt=Logic tier on details, width=300%]
+image::logic_tier.svg[alt=Logic tier on details, width=50%, height=50%]
 
 A persistence layer has its own layer: A Data Access Object (DAO). This structure connects the business layer and persistence layer. The DAO contains an API that supports databases. Currently, there is a difference between SQL and NoSQL databases:
 
@@ -46,7 +46,7 @@ In a relational database, there are two mechanisms under DAO:
 A considerable advantage of this strategy is that one change, either through JDBC or JPA, may happen quickly. When you change a database, you need to supersede to the respective database driver, and you're done! The code is ready for the new database.
 
 .A SQL Java application with JPA layer architecture
-image::jpa.svg[alt=A usual Java application with JPA layer architecture, width=320%]
+image::jpa.svg[alt=A usual Java application with JPA layer architecture, width=50%, height=50%]
 
 In a NoSQL database, there isn't a strategy to save code and there is little impact for change. All APIs are different and don't follow any kind of standard, so a change to a new database may result in a significant amount of work.
 
@@ -56,7 +56,7 @@ In a NoSQL database, there isn't a strategy to save code and there is little imp
 
 
 .A NoSQL Java application that has lock-in to each NoSQL provider
-image::nosql_issue.svg[alt=A NoSQL Java application that has locking to each NoSQL provider, width=280%]
+image::nosql_issue.svg[alt=A NoSQL Java application that has locking to each NoSQL provider, width=50%, height=50%]
 
 A wise recommendation might be to use JPA because once the developer already knows this standard SQL API, they can use the same API for a relational database and apply it to a NoSQL database. However, using an API with SQL concepts in NoSQL world is the same as using a knife as a spoon. The result would be a disaster! Furthermore, the NoSQL world has diversity with several data structures and particular behavior to each provider, and both matter in a software solution. Indeed, the merge strategy to use just one API is still a topic of discussion.
 

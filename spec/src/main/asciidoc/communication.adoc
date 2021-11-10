@@ -453,20 +453,11 @@ If there isn’t a condition in the query, that means the query will try to retr
 
 [source,java]
 ----
-DocumentCollectionManager manager = // instance;
-
+DocumentCollectionManager manager = //instance;
 DocumentQuery query = DocumentQueryBuilder.select()
-    .from("collection")
-    .where("age")
-    .lt(10)
-    .and("name")
-    .eq("Ada")
-    .orderBy("name")
-    .asc()
-    .limit(10)
-    .skip(2)
-    .build();
-
+                                          .from("collection").where("age").lt(10)
+                                          .and("name").eq("Ada").orderBy("name")
+                                          .asc().limit(10).skip(2).build();
 Stream<DocumentEntity> entities = manager.select(query);
 
 Optional<DocumentEntity> entity = manager.singleResult(query);
@@ -482,8 +473,7 @@ It is more efficient than `DocumentQuery` because there is no pagination and sor
 ----
 DocumentCollectionManager manager = // instance;
 DocumentDeleteQuery query = DocumentQueryBuilder.delete().from("collection")
-                      .where("age").gt(10).build();
-
+                                                .where("age").gt(10).build();
 manager.delete(query);
 ----
 

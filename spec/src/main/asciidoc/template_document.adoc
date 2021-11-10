@@ -53,9 +53,10 @@ DocumentQuery query = select().from("Person").where("address").eq("Olympus").bui
 
 Stream<Person> peopleWhoLiveOnOlympus = template.find(query);
 Optional<Person> artemis = template.singleResult(select().from("Person")
-                .where("nickname").eq("artemis").build());
+                                   .where("nickname").eq("artemis").build());
 
-DocumentDeleteQuery deleteQuery = delete().from("Person").where("address").eq("Olympus").build();
+DocumentDeleteQuery deleteQuery = delete().from("Person").where("address")
+                                          .eq("Olympus").build();
 template.delete(deleteQuery);
 ----
 
@@ -83,9 +84,11 @@ public class Person {
 private DocumentQueryMapperBuilder mapperBuilder;
 
 public void mapper() {
-  DocumentQuery query = mapperBuilder.selectFrom(Person.class).where("id").gte(10).build();
+  DocumentQuery query = mapperBuilder.selectFrom(Person.class).where("id")
+                                     .gte(10).build();
   //translating: select().from("Person").where("native_id").gte(10L).build();
-  DocumentDeleteQuery deleteQuery = mapperBuilder.deleteFrom(Person.class).where("id").eq("20").build();
+  DocumentDeleteQuery deleteQuery = mapperBuilder.deleteFrom(Person.class)
+                                                 .where("id").eq("20").build();
   //translating: delete().from("Person").where("native_id").gte(10L).build();
 }
 ----

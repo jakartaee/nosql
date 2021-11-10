@@ -67,7 +67,6 @@ public interface DeityRepository extends Repository<Deity, String> {
 
     Optional<Deity> findById(String id);
     Optional<Deity> findByName(String name);
-
 }
 ----
 [source,java]
@@ -152,11 +151,11 @@ Particular behavior matters. Even within the same type, each NoSQL database has 
 ----
 public interface PersonRepository extends CouchbaseRepository {
 
-        @N1QL("select * from Person")
-        List<Person> findAll();
+    @N1QL("select * from Person")
+    List<Person> findAll();
 
-        @N1QL("select * from Person where name = $name")
-        List<Person> findByName(@Param("name") String name);
+    @N1QL("select * from Person where name = $name")
+    List<Person> findByName(@Param("name") String name);
 }
 
 Person person = //instance;

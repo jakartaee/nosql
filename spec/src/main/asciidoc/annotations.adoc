@@ -68,7 +68,6 @@ public class Person {
 
     @Column
     private Address address;
-
 }
 
 
@@ -80,7 +79,6 @@ public class Address {
 
     @Column
     private String city;
-
 }
 ----
 
@@ -132,7 +130,6 @@ public class Dog extends Animal {
 
     @Column
     private String name;
-
 }
 
 @MappedSuperclass
@@ -143,7 +140,6 @@ public class Animal {
 
     @Column
     private Integer age;
-
 }
 ----
 

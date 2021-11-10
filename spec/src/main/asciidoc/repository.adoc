@@ -30,12 +30,15 @@ The qualifier is mandatory to define the database type that will be used at the 
 @Inject
 @Database(DatabaseType.DOCUMENT)
 private PersonRepository documentRepository;
+
 @Inject
 @Database(DatabaseType.COLUMN)
 private PersonRepository columnRepository;
+
 @Inject
 @Database(DatabaseType.KEY_VALUE)
 private PersonRepository keyValueRepository;
+
 @Inject
 @Database(DatabaseType.GRAPH)
 private PersonRepository graphRepository;
@@ -93,6 +96,7 @@ private PersonRepository columnRepositoryB;
 @Inject
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseA")
 private UserRepository userRepositoryA;
+
 @Inject
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseB")
 private UserRepository userRepositoryB;
@@ -140,6 +144,7 @@ public BucketManager getBucket() {
     BucketManager manager = //instance;
     return manager;
 }
+
 @Produces
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseB")
 public BucketManager getBucketB() {
@@ -153,6 +158,7 @@ public Graph getGraph() {
     Graph graph = //instance;
     return graph;
 }
+
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseB")
 public Graph getGraphB() {
@@ -237,7 +243,6 @@ In addition to the use of use the query method, the repository has support to a 
         List<Person> findByName(String name, Sort sort);
 
         List<Person> findByAgeGreaterThan(Integer age, Sorts sorts);
-
     }
 ----
 
