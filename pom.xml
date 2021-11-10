@@ -62,7 +62,7 @@
         <jakarta.json.version>1.1.6</jakarta.json.version>
         <jakarta.nosql.version>${project.version}</jakarta.nosql.version>
         <jakarta.validation.version>2.0.1</jakarta.validation.version>
-        <junit.version>5.7.2</junit.version>
+        <junit.version>5.8.1</junit.version>
         <maven-javadoc-plugin.vesion>3.3.0</maven-javadoc-plugin.vesion>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.checkstyle.plugin.version>3.1.0</maven.checkstyle.plugin.version>
@@ -73,7 +73,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.3.0.603</sonar.maven.version>
-        <mockito.verson>3.10.0</mockito.verson>
+        <mockito.verson>3.12.4</mockito.verson>
     </properties>
 
     <dependencies>
