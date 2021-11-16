@@ -27,17 +27,19 @@ include::license-alv2.asciidoc[]
 
 = Jakarta NoSQL
 
-== One Mapping API, multiples databases
+== One Mapping API, multiple databases
 
-Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low application coupling with the underlying NoSQL technologies used in applications.
+Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. 
 
 The project has two layers that define communication with NoSQL databases through APIs. These are:
 
-1. *Communication Layer*: This layer contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document and Graph.
+1. *Mapping Layer*: This layer is annotation-driven and uses technologies such as Jakarta Contexts and Dependency Injection and Jakarta Bean Validation, making it simple for developers to use.
+In the traditional RDBMS world, this layer may be compared to the Java Persistence API or object-relational mapping frameworks such as Hibernate.
+
+2. *Communication Layer*: This layer contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document and Graph.
 In the traditional the RDBMS world, this layer may be compared to the JDBC API.
 
-2. *Mapping Layer*: This layer is annotation-driven and uses technologies such as Jakarta Contexts and Dependency Injection and Jakarta Bean Validation, making it simple for developers to use.
-In the traditional RDBMS world, this layer may be compared to the Java Persistence API or object-relational mapping frameworks such as Hibernate.
+This clearly helps to achieve very low application coupling with the underlying NoSQL technologies used in applications.
 
 Jakarta NoSQL defines an API for each NoSQL database type. However, it uses the same annotations to map Java objects.
 Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
@@ -59,7 +61,9 @@ public class Deity {
 }
 ----
 
-Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there is a need to switch out a database, other considerations include: time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the Communication APIs. It also has template classes that apply the design pattern 'template method’ to databases operations. And the `Repository` interface allows Java developers to create and extend interfaces, with implementation automatically provided by a Jakarta NoSQL implementation: support method queries built by developers will automatically be implemented for them.
+Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there is a need to switch out a database, other considerations include: time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the APIs of *Communication* and *Mapping* Layers. 
+
+Jakarta NoSQL also has template classes that apply the design pattern 'template method’ to databases operations. And the `Repository` interface allows Java developers to create and extend interfaces, with implementation automatically provided by a Jakarta NoSQL implementation: support method queries built by developers will automatically be implemented for them.
 
 [source,java]
 ----
@@ -169,7 +173,7 @@ template.save(person, level);
 * Simple APIs supporting all well-known NoSQL storage types - Column Family, Key-Value Pair, Graph and Document databases.
 * Use of Convention Over Configuration
 * Easy-to-implement API Specification and Technology Compatibility Kit (TCK) for NoSQL Vendors
-* The API’s focus is on simplicity and ease of use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
+* The APIs focus is on simplicity and ease of use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
 
 
 :imagesdir: images
