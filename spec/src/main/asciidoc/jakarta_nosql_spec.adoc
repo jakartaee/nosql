@@ -85,7 +85,7 @@ Deity diana = Deity.builder()
         .withId("diana")
         .withName("Diana")
         .withPower("hunt")
-        .builder();
+        .build();
 
 repository.save(diana);
 
@@ -106,7 +106,7 @@ Deity diana = Deity.builder()
         .withId("diana")
         .withName("Diana")
         .withPower("hunt")
-        .builder();
+        .build();
 *Duration ttl = Duration.ofSeconds(1);*
 template.insert(diana, *ttl*);
 ----
@@ -114,7 +114,7 @@ template.insert(diana, *ttl*);
 
 === A Fluent API
 
-Jakarta NoSQL is a fluent API for Java developers to more easily create queries that either retrieve or delete information in a Document database type, for example.
+Jakarta NoSQL is a fluent API for Java developers to more easily create queries that either retrieve or delete information in a `Document` database type, for example.
 
 [source,java]
 ----
@@ -123,7 +123,7 @@ Deity diana = Deity.builder()
         .withId("diana")
         .withName("Diana")
         .withPower("hunt")
-        .builder();
+        .build();
 
 template.insert(diana);//insert an entity
 
