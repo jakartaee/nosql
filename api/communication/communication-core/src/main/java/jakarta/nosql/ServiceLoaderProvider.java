@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.WeakHashMap;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,6 +36,7 @@ public final class ServiceLoaderProvider {
     }
 
     private static final Map<Class<?>, Object> CACHE = new WeakHashMap<>();
+    private static Function<Class<?>, Stream<?>> loader;
 
     private static <T> T getSupplier(Class<T> supplier) {
         requireNonNull(supplier, "supplier is required");
@@ -58,6 +60,18 @@ public final class ServiceLoaderProvider {
      */
     public static <T> T get(Class<T> supplier) {
         return getSupplier(requireNonNull(supplier, "supplier is required"));
+    }
+
+    /**
+     * Specified a custom service loader mechanism to replace the normal {@link ServiceLoader}-based
+     * behavior. This is intended for environments like OSGi where service loading may have
+     * specialized requirements.
+     * 
+     * @param loader a {@link Function} to produce a stream of service implementations for
+     *               a given class, or {@code null} to un-set an existing custom loader
+     */
+    public static void setLoader(Function<Class<?>, Stream<?>> loader) {
+        ServiceLoaderProvider.loader = loader;
     }
 
     /**
@@ -117,7 +131,13 @@ public final class ServiceLoaderProvider {
      * @return the Stream of supplier
      */
     public static <T> Stream<Object> getSupplierStream(Class<T> supplier) {
-        return stream(ServiceLoader.load(supplier).spliterator(), false)
+        Stream<?> s;
+        if(loader == null) {
+            s = stream(ServiceLoader.load(supplier).spliterator(), false);
+        } else {
+            s = loader.apply(supplier);
+        }
+        return s
                 .map(ServiceLoaderSort::of)
                 .sorted()
                 .map(ServiceLoaderSort::get);
