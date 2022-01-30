@@ -36,7 +36,7 @@ public final class ServiceLoaderProvider {
     }
 
     private static final Map<Class<?>, Object> CACHE = new WeakHashMap<>();
-    private static Function<Class<?>, Stream<?>> loader;
+    private static volatile Function<Class<?>, Stream<?>> loader;
 
     private static <T> T getSupplier(Class<T> supplier) {
         requireNonNull(supplier, "supplier is required");
