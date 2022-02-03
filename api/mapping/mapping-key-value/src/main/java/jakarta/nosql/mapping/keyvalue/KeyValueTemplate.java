@@ -17,6 +17,7 @@ package jakarta.nosql.mapping.keyvalue;
 
 
 import jakarta.nosql.mapping.PreparedStatement;
+import jakarta.nosql.mapping.Template;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -31,7 +32,17 @@ import static java.util.stream.Collectors.toList;
 /**
  * This interface that represents the common operation between an entity and KeyValueEntity
  */
-public interface KeyValueTemplate {
+
+/**
+ * KeyValueTemplate is a helper class that increases productivity when performing common Bucket operations.
+ * Includes integrated object mapping between documents and POJOs.
+ * It represents the common operation between an entity and {@link jakarta.nosql.keyvalue.BucketManager}
+ * In the Template, the methods {@link Template#update(Object)} and {@link Template#insert(Object)}
+ * might work as an alias to put operation.
+ *
+ * @see jakarta.nosql.keyvalue.BucketManager
+ */
+public interface KeyValueTemplate extends Template {
     /**
      * Saves the entity
      *

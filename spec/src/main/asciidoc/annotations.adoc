@@ -68,7 +68,6 @@ public class Person {
 
     @Column
     private Address address;
-
 }
 
 
@@ -80,7 +79,6 @@ public class Address {
 
     @Column
     private String city;
-
 }
 ----
 
@@ -132,7 +130,6 @@ public class Dog extends Animal {
 
     @Column
     private String name;
-
 }
 
 @MappedSuperclass
@@ -143,7 +140,6 @@ public class Animal {
 
     @Column
     private Integer age;
-
 }
 ----
 
@@ -197,8 +193,9 @@ public class Author {
     private Integer age;
 }
 
-In this example, there is a single Instance in the database with columns `title`, `author` and `age`.
 ----
+
+In this example, there is a single Instance in the database with columns `title`, `author` and `age`.
 
 ===== @Convert
 
@@ -245,7 +242,6 @@ public class MonetaryAmmount {
     public static MonetaryAmmount parse(String string) {
         //specific implementation
     }
-
 }
 ----
 
@@ -290,7 +286,6 @@ public class Address {
 
     @Column
     private String city;
-
 }
 ----
 
@@ -350,4 +345,4 @@ private DocumentRepository repositoryA;
 private DocumentRepository repositoryB;
 ----
 
-A producer method annotaded with the same `@Database` values must exist as well.
+A producer method annotated with the same `@Database` values must exist as well.

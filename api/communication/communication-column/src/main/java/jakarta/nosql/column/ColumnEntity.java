@@ -17,6 +17,7 @@ package jakarta.nosql.column;
 
 
 import jakarta.nosql.ServiceLoaderProvider;
+import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
 import java.util.Collection;
@@ -136,6 +137,28 @@ public interface ColumnEntity {
      * @throws NullPointerException when columnName is null
      */
     Optional<Column> find(String columnName);
+
+    /**
+     * Find a column and converts to specific value from {@link Class}
+     * It is a alias to {@link Value#get(Class)}
+     *
+     * @param columnName a name of a column
+     * @param type       the type to convert the value
+     * @return an {@link Optional} instance with the result
+     * @throws NullPointerException when there are null parameters
+     */
+    <T> Optional<T> find(String columnName, Class<T> type);
+
+    /**
+     * Find a column and converts to specific value from {@link TypeSupplier}
+     * It is a alias to {@link Value#get(TypeSupplier)}
+     *
+     * @param columnName a name of a column
+     * @param type       the type to convert the value
+     * @return an {@link Optional} instance with the result
+     * @throws NullPointerException when there are null parameters
+     */
+    <T> Optional<T> find(String columnName, TypeSupplier<T> type);
 
     /**
      * Returns the number of elements in this list.

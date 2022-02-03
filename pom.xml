@@ -55,16 +55,16 @@
     <properties>
         <apache.rat.version>0.12</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
-        <jacoco.maven.version>0.8.4</jacoco.maven.version>
+        <jacoco.maven.version>0.8.7</jacoco.maven.version>
         <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
         <jakarta.enterprise.cdi.version>3.0.0</jakarta.enterprise.cdi.version>
         <jakarta.json.bind.version>2.0.0</jakarta.json.bind.version>
         <jakarta.json.version>2.0.0</jakarta.json.version>
         <jakarta.nosql.version>${project.version}</jakarta.nosql.version>
         <jakarta.validation.version>2.0.1</jakarta.validation.version>
-        <junit.version>5.7.0</junit.version>
-        <maven-javadoc-plugin.vesion>3.2.0</maven-javadoc-plugin.vesion>
-        <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+        <junit.version>5.8.1</junit.version>
+        <maven-javadoc-plugin.vesion>3.3.0</maven-javadoc-plugin.vesion>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.checkstyle.plugin.version>3.1.0</maven.checkstyle.plugin.version>
         <maven.compile.version>3.8.1</maven.compile.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -73,7 +73,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.3.0.603</sonar.maven.version>
-        <mockito.verson>3.6.28</mockito.verson>
+        <mockito.verson>3.12.4</mockito.verson>
     </properties>
 
     <dependencies>
