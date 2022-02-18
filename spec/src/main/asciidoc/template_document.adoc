@@ -14,7 +14,7 @@
 
 ==== DocumentTemplate
 
-This template has the duty to be a bridge between the entity model and communication API to document collection. It has two classes; `DocumentTemplate` and `DocumentTemplateAsync` - one for the synchronous and the other for the asynchronous work.
+This template has the responsibility to serve as a bridge between the entity model and communication API to a document collection. It has two classes; `DocumentTemplate` and `DocumentTemplateAsync` - one for the synchronous and the other for the asynchronous tasks.
 
 
 The `DocumentTemplate` is the document template for the synchronous tasks. It has three components:
@@ -27,7 +27,7 @@ The `DocumentTemplate` is the document template for the synchronous tasks. It ha
 
 [source,java]
 ----
-DocumentTemplate template = //instance;
+DocumentTemplate template = // instance;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -45,7 +45,7 @@ template.update(person);
 template.update(people);
 ----
 
-To both remove and retrieve information from document collection, there are *DocumentQuery* and *DocumentDeleteQuery*.
+To remove and retrieve information from document collection, there are `DocumentQuery` and `DocumentDeleteQuery` classes.
 
 [source,java]
 ----
@@ -60,7 +60,7 @@ DocumentDeleteQuery deleteQuery = delete().from("Person").where("address")
 template.delete(deleteQuery);
 ----
 
-Both *DocumentQuery* and *DocumentDeleteQuery* query won't convert the Object to native fields. However, there is *DocumentQueryMapperBuilder* that creates both queries types reading the Class then switching to the native fields through annotations.
+Both `DocumentQuery` and `DocumentDeleteQuery` query won't convert the Object to native fields. However, `DocumentQueryMapperBuilder` creates both query types, reads the class, then switches to the native fields through annotations.
 
 [source,java]
 ----
@@ -86,15 +86,15 @@ private DocumentQueryMapperBuilder mapperBuilder;
 public void mapper() {
   DocumentQuery query = mapperBuilder.selectFrom(Person.class).where("id")
                                      .gte(10).build();
-  //translating: select().from("Person").where("native_id").gte(10L).build();
+  // translating: select().from("Person").where("native_id").gte(10L).build();
   DocumentDeleteQuery deleteQuery = mapperBuilder.deleteFrom(Person.class)
                                                  .where("id").eq("20").build();
-  //translating: delete().from("Person").where("native_id").gte(10L).build();
+  // translating: delete().from("Person").where("native_id").gte(10L).build();
 }
 ----
 
 
-To use a document template, just follow the CDI style and put an `@Inject` on the field.
+To use a document template, just follow the CDI style and place an `@Inject` annotation on the field.
 
 [source,java]
 ----
@@ -102,20 +102,20 @@ To use a document template, just follow the CDI style and put an `@Inject` on th
 private DocumentTemplate template;
 ----
 
-The next step is to produce a **DocumentCollectionManager:**
+The next step is to produce a `DocumentCollectionManager`:
 
 [source,java]
 ----
 @Produces
 public DocumentCollectionManager getManager() {
-    DocumentCollectionManager manager = //instance;
+    DocumentCollectionManager manager = // instance;
     return manager;
 }
 ----
 
-To work with more than one Document Template, there are two approaches:
+To work with more than one document template, there are two approaches:
 
-1) Using qualifiers:
+1) Use qualifiers:
 
 [source,java]
 ----
@@ -127,11 +127,11 @@ private DocumentTemplate templateA;
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 private DocumentTemplate templateB;
 
-//producers methods
+// producers methods
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
 public DocumentCollectionManager getManagerA() {
-    DocumentCollectionManager manager = //instance;
+    DocumentCollectionManager manager = // instance;
     return manager;
 }
 
@@ -143,7 +143,7 @@ public DocumentCollectionManager getManagerB() {
 }
 ----
 
-2) Using the *DocumentTemplateProducer* class:
+2) Use the `DocumentTemplateProducer` class:
 
 [source,java]
 ----
@@ -151,8 +151,8 @@ public DocumentCollectionManager getManagerB() {
 private DocumentTemplateProducer producer;
 
 public void sample() {
-   DocumentCollectionManager managerA = //instance;
-   DocumentCollectionManager managerB = //instance;
+   DocumentCollectionManager managerA = // instance;
+   DocumentCollectionManager managerB = // instance;
    DocumentTemplate templateA = producer.get(managerA);
    DocumentTemplate templateB = producer.get(managerB);
 }
@@ -162,13 +162,13 @@ public void sample() {
 
 The `DocumentTemplateAsync` is the document template for the asynchronous tasks. It has two components:
 
-* *DocumentEntityConverter:* That converts an entity to communication API, e.g., The Person to DocumentEntity.
+* *DocumentEntityConverter:* Converts an entity to communication API, e.g., the `Person` to `DocumentEntity`.
 
 * *DocumentCollectionManagerAsync:* The asynchronous document collection entity manager.
 
 [source,java]
 ----
-DocumentTemplateAsync templateAsync = //instance;
+DocumentTemplateAsync templateAsync = // instance;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -189,7 +189,7 @@ templateAsync.update(person, callback);
 templateAsync.update(people);
 ----
 
-For information removal and retrieval, there are *DocumentQuery* and *DocumentDeleteQuery* respectively; also, the callback method can be used.
+For information removal and retrieval, there are `DocumentQuery` and `DocumentDeleteQuery`, respectively. Also, the callback method may be used.
 [source,java]
 ----
 Consumer<Stream<Person>> callBackPeople = p -> {};
@@ -199,7 +199,7 @@ templateAsync.delete(deleteQuery);
 templateAsync.delete(deleteQuery, voidCallBack);
 ----
 
-To use a document template, just follow the CDI style and put an `@Inject` on the field.
+To use a document template, just follow the CDI style and precede the field with the `@Inject` annotation.
 
 [source,java]
 ----
@@ -207,20 +207,20 @@ To use a document template, just follow the CDI style and put an `@Inject` on th
 private DocumentTemplateAsync template;
 ----
 
-The next step is to produce a **DocumentCollectionManagerAsync:**
+The next step is to produce a `DocumentCollectionManagerAsync`:
 
 [source,java]
 ----
 @Produces
 public DocumentCollectionManagerAsync getManager() {
-    DocumentCollectionManagerAsync managerAsync = //instance;
+    DocumentCollectionManagerAsync managerAsync = // instance;
     return manager;
 }
 ----
 
-To work with more than one Document Template, there are two approaches:
+To work with more than one document template, there are two approaches:
 
-1) Using qualifiers:
+1) Use qualifiers:
 
 [source,java]
 ----
@@ -232,23 +232,23 @@ private DocumentTemplateAsync templateA;
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 private DocumentTemplateAsync templateB;
 
-//producers methods
+// producers methods
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
 public DocumentCollectionManagerAsync getManagerA() {
-   DocumentCollectionManager manager = //instance
+   DocumentCollectionManager manager = // instance
    return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 public DocumentCollectionManagerAsync getManagerB() {
-    DocumentCollectionManager manager = //instance
+    DocumentCollectionManager manager = // instance
     return manager;
 }
 ----
 
-2) Using the *DocumentTemplateAsyncProducer*:
+2) Use the `DocumentTemplateAsyncProducer`:
 
 [source,java]
 ----
@@ -256,8 +256,8 @@ public DocumentCollectionManagerAsync getManagerB() {
 private DocumentTemplateAsyncProducer producer;
 
 public void sample() {
-   DocumentCollectionManagerAsync managerA = //instance;
-   DocumentCollectionManagerAsync managerB = //instance;
+   DocumentCollectionManagerAsync managerA = // instance;
+   DocumentCollectionManagerAsync managerB = // instance;
    DocumentTemplateAsync templateA = producer.get(managerA);
    DocumentTemplateAsync templateB = producer.get(managerB);
 }

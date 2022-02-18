@@ -14,9 +14,9 @@
 
 ==== Graph template
 
+This template has the responsibility to serve as the persistence of an entity in a Graph database using http://tinkerpop.apache.org/[Apache Tinkerpop].
 
 The `GraphTemplate` is the column template for synchronous tasks. It has three components:
-The `GraphTemplate` is responsible for the persistence of an entity in a Graph database using http://tinkerpop.apache.org/[Apache Tinkerpop]. It is composed basically of three components.
 
 * *GraphConverter*: That converts an entity to communication API, e.g., The Person to Vertex.
 * *Graph*: A Graph is a container object for a collection of Vertex, Edge, VertexProperty, and Property objects.
@@ -24,7 +24,7 @@ The `GraphTemplate` is responsible for the persistence of an entity in a Graph d
 
 [source,java]
 ----
-GraphTemplate template = //instance;
+GraphTemplate template = // instance;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -46,23 +46,21 @@ template.update(people);
 
 [source,java]
 ----
-Person poliana = //instance;
-Book shack = //instance;
+Person poliana = // instance;
+Book shack = // instance;
 EdgeEntity edge = graphTemplate.edge(poliana, "reads", shack);
 reads.add("where", "Brazil");
 Person out = edge.getOutgoing();
 Book in = edge.getIncoming();
 ----
 
-===== Querying with traversal
+===== Querying with Traversal
 
-Traversals in Gremlin are spawned from a TraversalSource. The GraphTraversalSource is the typical "graph-oriented" DSL used throughout the documentation and will most likely be the most used DSL in a TinkerPop application.
+Traversals in Gremlin are spawned from a `TraversalSource`. The `GraphTraversalSource` is the typical "graph-oriented" DSL used throughout the documentation and will most likely be the most used DSL in a TinkerPop application.
 
 To run a query in Graph with Gremlin, there are traversal interfaces. These interfaces are lazy; in other words, they just run after any finalizing method.
 
-E.g.:
-
-In the scenario, there is a marketing campaign, and the target is:
+For example, In this scenario, there is a marketing campaign, and the target is:
 
 * An engineer
 * The salary is higher than $3,000
@@ -90,7 +88,7 @@ List<Person> developers = graph.getTraversalVertex()
 ----
 
 
-To use a graph template, just follow the CDI style and put an `@Inject` on the field.
+To use a graph template, just follow the CDI style and precede the field with the `@Inject` annotation.
 
 [source,java]
 ----
@@ -98,20 +96,20 @@ To use a graph template, just follow the CDI style and put an `@Inject` on the f
 private GraphTemplate template;
 ----
 
-The next step: make a *Graph* instance eligible to CDI, applying the producers method:
+The next step: make a `Graph` instance eligible to CDI, applying the producers method:
 
 [source,java]
 ----
 @Produces
 public Graph getManager() {
-    Graph graph = //instance;
+    Graph graph = // instance;
     return graph;
 }
 ----
 
-To work with more than one Graph Template, there are two approaches:
+To work with more than one graph template, there are two approaches:
 
-1) Using qualifiers:
+1) Use qualifiers:
 
 [source,java]
 ----
@@ -123,23 +121,23 @@ private GraphTemplate templateA;
 @Database(value = DatabaseType.GRAPH, provider = "databaseB")
 private GraphTemplate templateB;
 
-//producers methods
+// producers methods
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseA")
 public Graph getManagerA() {
-    Graph manager = //instance;
+    Graph manager = // instance;
     return graph;
 }
 
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseB")
 public Graph getManagerB() {
-    Graph graph = //instance;
+    Graph graph = // instance;
     return graph;
 }
 ----
 
-2)  Using the *GraphTemplateProducer* class:
+2) Use the `GraphTemplateProducer` class:
 
 [source,java]
 ----
@@ -147,8 +145,8 @@ public Graph getManagerB() {
 private GraphTemplateProducer producer;
 
 public void sample() {
-   Graph graphA = //instance;
-   Graph graphB = //instance;
+   Graph graphA = // instance;
+   Graph graphB = // instance;
    GraphTemplate templateA = producer.get(graphA);
    GraphTemplate templateB = producer.get(graphB);
 }
