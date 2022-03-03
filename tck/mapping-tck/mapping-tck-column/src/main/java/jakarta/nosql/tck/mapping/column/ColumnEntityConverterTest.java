@@ -224,9 +224,9 @@ public class ColumnEntityConverterTest {
 
         ColumnEntity entity = converter.toColumn(director);
         entity.remove("movie");
-        entity.add(Column.of("title", "Matrix"));
-        entity.add(Column.of("year", 2012));
-        entity.add(Column.of("actors", singleton("Actor")));
+        entity.remove("movie");
+        entity.add(Column.of("movie", Arrays.asList(Column.of("title", "Matrix"),
+                Column.of("year", 2012), Column.of("actors", singleton("Actor")))));
         Director director1 = converter.toEntity(entity);
 
         assertEquals(movie, director1.getMovie());
