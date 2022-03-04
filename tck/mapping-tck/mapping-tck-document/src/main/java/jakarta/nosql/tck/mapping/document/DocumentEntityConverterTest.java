@@ -56,6 +56,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -226,9 +227,9 @@ public class DocumentEntityConverterTest {
 
         DocumentEntity entity = converter.toDocument(director);
         entity.remove("movie");
-        entity.add(Document.of("title", "Matrix"));
-        entity.add(Document.of("year", 2012));
-        entity.add(Document.of("actors", singleton("Actor")));
+        entity.add(Document.of("movie", Arrays.asList(Document.of("title", "Matrix"),
+                Document.of("year", 2012), Document.of("actors", singleton("Actor")))));
+
         Director director1 = converter.toEntity(entity);
 
         assertEquals(movie, director1.getMovie());
@@ -372,8 +373,9 @@ public class DocumentEntityConverterTest {
         entity.add(Document.of("street", "Rua Engenheiro Jose Anasoh"));
         entity.add(Document.of("city", "Salvador"));
         entity.add(Document.of("state", "Bahia"));
-        entity.add(Document.of("zip", "12321"));
-        entity.add(Document.of("plusFour", "1234"));
+        entity.add(Document.of("zipCode", Arrays.asList(
+                Document.of("zip", "12321"),
+                Document.of("plusFour", "1234"))));
 
         Address address = converter.toEntity(entity);
 
@@ -382,6 +384,26 @@ public class DocumentEntityConverterTest {
         assertEquals("Bahia", address.getState());
         assertEquals("12321", address.getZipCode().getZip());
         assertEquals("1234",  address.getZipCode().getPlusFour());
+
+    }
+
+    @Test
+    public void shouldReturnNullWhenThereIsNotSubEntity() {
+
+        DocumentEntity entity = DocumentEntity.of("Address");
+
+        entity.add(Document.of("street", "Rua Engenheiro Jose Anasoh"));
+        entity.add(Document.of("city", "Salvador"));
+        entity.add(Document.of("state", "Bahia"));
+        entity.add(Document.of("zip", "12321"));
+        entity.add(Document.of("plusFour", "1234"));
+
+        Address address = converter.toEntity(entity);
+
+        assertEquals("Rua Engenheiro Jose Anasoh", address.getStreet());
+        assertEquals("Salvador", address.getCity());
+        assertEquals("Bahia", address.getState());
+        assertNull(address.getZipCode());
 
     }
 

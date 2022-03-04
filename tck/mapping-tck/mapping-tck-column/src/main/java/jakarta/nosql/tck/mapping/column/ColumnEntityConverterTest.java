@@ -56,6 +56,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -224,9 +225,9 @@ public class ColumnEntityConverterTest {
 
         ColumnEntity entity = converter.toColumn(director);
         entity.remove("movie");
-        entity.add(Column.of("title", "Matrix"));
-        entity.add(Column.of("year", 2012));
-        entity.add(Column.of("actors", singleton("Actor")));
+        entity.remove("movie");
+        entity.add(Column.of("movie", Arrays.asList(Column.of("title", "Matrix"),
+                Column.of("year", 2012), Column.of("actors", singleton("Actor")))));
         Director director1 = converter.toEntity(entity);
 
         assertEquals(movie, director1.getMovie());
@@ -369,8 +370,9 @@ public class ColumnEntityConverterTest {
         entity.add(Column.of("street", "Rua Engenheiro Jose Anasoh"));
         entity.add(Column.of("city", "Salvador"));
         entity.add(Column.of("state", "Bahia"));
-        entity.add(Column.of("zip", "12321"));
-        entity.add(Column.of("plusFour", "1234"));
+        entity.add(Column.of("zipCode", Arrays.asList(
+                Column.of("zip", "12321"),
+                Column.of("plusFour", "1234"))));
 
         Address address = converter.toEntity(entity);
 
@@ -380,6 +382,24 @@ public class ColumnEntityConverterTest {
         assertEquals("12321", address.getZipCode().getZip());
         assertEquals("1234", address.getZipCode().getPlusFour());
 
+    }
+
+    @Test
+    public void shouldReturnNullWhenThereIsNotSubEntity() {
+        ColumnEntity entity = ColumnEntity.of("Address");
+
+        entity.add(Column.of("street", "Rua Engenheiro Jose Anasoh"));
+        entity.add(Column.of("city", "Salvador"));
+        entity.add(Column.of("state", "Bahia"));
+        entity.add(Column.of("zip", "12321"));
+        entity.add(Column.of("plusFour", "1234"));
+
+        Address address = converter.toEntity(entity);
+
+        assertEquals("Rua Engenheiro Jose Anasoh", address.getStreet());
+        assertEquals("Salvador", address.getCity());
+        assertEquals("Bahia", address.getState());
+        assertNull(address.getZipCode());
     }
 
     @Test

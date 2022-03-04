@@ -14,7 +14,7 @@
 
 === Models Annotation
 
-As mentioned previously, the Mapping API has annotations that make the Java developer's life easier; these annotations have two categories:
+As previously mentioned, the Mapping API has annotations that make the Java developer's life easier; these annotations have two categories:
 
 * Annotation Models
 * Qualifier annotation
@@ -52,7 +52,7 @@ public class Person {
 }
 ----
 
-An entity that is a field be will incorporated as a sub-entity. For example, in a Document, the entity field will be converted to a subdocument.
+An entity that is a field will be incorporated as a sub-entity. For example, in a Document, the entity field will be converted to a sub-document.
 
 
 [source,java]
@@ -96,7 +96,7 @@ public class Address {
 ----
 ===== @Column
 
-This annotation defines which fields that belong an Entity will be persisted. There is a single attribute that specifies that name in Database. It is default value that is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with `@Key` - all other fields are stored as a single blob. 
+This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database. It is default value that is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with `@Key` - all other fields are stored as a single blob.
 
 [source,java]
 ----
@@ -111,16 +111,16 @@ public class Person {
     @Column
     private List<String> phones;
 
-    //ignored
+    // ignored
     private String address;
 }
 ----
 
 ===== @MappedSuperclass
 
-The class with the MapperSuperclass annotation will have all attributes considered as an extension of his subclass with Entity annotation. In this case, all attributes are going to be stored, even the attributes inside the Super Class.
+The class with the `@MapperSuperclass` annotation will have all attributes considered as an extension of this subclass with an `@Entity` annotation. In this case, all attributes are going to be stored, even the attributes inside the super class.
 
-This means, that This annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields. 
+This means, that this annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields.
 
 
 [source,java]
@@ -148,7 +148,7 @@ On the example above, when saving a Dog instance, Animal class' fields are saved
 
 ===== @Id
 
-Defines which attribute is the entity's id, or the Key in Key-Value databases. In such case, the Value is the remaining information. It has a single attribute (like `@Column`) to define the native name. Unlike `@Column`, the default value is `_id`. 
+This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. In such a case, the Value is the remaining information. It has a single attribute (like `@Column`) to define the native name. Unlike `@Column`, the default value is `_id`.
 
 [source,java]
 ----
@@ -169,7 +169,7 @@ public class User implements Serializable {
 
 ===== @Embeddable
 
-Defines a class whose instances are stored as an intrinsic part of an owning entity and share the identity of that object. The behaviour is similar to `@MappedSuperclass`, but this is used on composition instead of inheritance.
+This annotation defines a class whose instances are stored as an intrinsic part of an owning entity and share the identity of that object. The behaviour is similar to `@MappedSuperclass`, but this is used on composition instead of inheritance.
 
 [source,java]
 ----
@@ -195,11 +195,11 @@ public class Author {
 
 ----
 
-In this example, there is a single Instance in the database with columns `title`, `author` and `age`.
+In this example, there is a single instance in the database with columns `title`, `author` and `age`.
 
 ===== @Convert
 
-This annotation allows value convertions when mapping the value that came from the Communication API. This is useful for cases such as to cipher a field (String to String conversion), or to convert to a custom type. The Converter annotation has a single, mandatory parameter: a Class that inherits from AttributeConverter that will be used to perform the convertion. The example below shows how to create a converter to a custom Money class.
+This annotation allows value conversions when mapping the value that came from the Communication API. This is useful for cases such as to cipher a field (String to String conversion), or to convert to a custom type. The Converter annotation has a single, mandatory parameter: a class that inherits from `AttributeConverter` that will be used to perform the conversion. The example below shows how to create a converter to a custom `Money` class.
 
 [source,java]
 ----
@@ -214,40 +214,40 @@ public class Employee {
 
     @Column("money")
     @Convert(MoneyConverter.class)
-    private MonetaryAmmount salary;
+    private MonetaryAmount salary;
 }
 
-public class MoneyConverter implements AttributeConverter<MonetaryAmmount, String> {
+public class MoneyConverter implements AttributeConverter<MonetaryAmount, String> {
     
     @Override
-    public String convertToDatabaseColumn(MonetaryAmmount appValue) {
+    public String convertToDatabaseColumn(MonetaryAmount appValue) {
         return appValue.toString();
     }
     
     @Override
-    public MonetaryAmmount convertToEntityAttribute(String dbValue) {
-        return MonetaryAmmount.parse(dbValue);
+    public MonetaryAmount convertToEntityAttribute(String dbValue) {
+        return MonetaryAmount.parse(dbValue);
     }
 }
 
-public class MonetaryAmmount {
+public class MonetaryAmount {
     private final String currency;
 
     private final BigDecimal value;
 
     public String toString() {
-        //specific implementation
+        // specific implementation
     }
 
-    public static MonetaryAmmount parse(String string) {
-        //specific implementation
+    public static MonetaryAmount parse(String string) {
+        // specific implementation
     }
 }
 ----
 
 ===== Collections
 
-The Mapping layer supports `java.util.Collection` (and subclasses, as defined below) mapping to simple elements such as `String` and `Integer` (that will be sent to the communication API as-is), and mapping to `Entity` or `Embedded` entities. 
+The Mapping layer supports `java.util.Collection` (and subclasses as defined below) mapping to simple elements such as `String` and `Integer` (that will be sent to the communication API as-is), and mapping to `Entity` or `Embedded` entities.
 
 The following collections are supported:
 
@@ -316,7 +316,7 @@ The above classes are mapped to:
 
 This annotation allows programmers to specialize `@Inject` annotations to choose which specific resource should be injected.
 
-For example, when working with multiple DocumentRepositories, the following is ambiguous:
+For example, when working with multiple `DocumentRepositories`, the following statement are ambiguous:
 
 [source,java]
 ----
@@ -337,11 +337,11 @@ Applying the annotation to the example above, the result is:
 [source,java]
 ----
 @Inject
-@Database(value = DatabaseType.DOCUMENT, provider = “databaseA”)
+@Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
 private DocumentRepository repositoryA;
 
 @Inject
-@Database(value = DatabaseType.DOCUMENT, provider = “databaseB”)
+@Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
 private DocumentRepository repositoryB;
 ----
 
