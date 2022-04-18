@@ -17,13 +17,15 @@
  *     Alessandro Moscatelli
  *
  */
-package jakarta.nosql.metamodel;
+package jakarta.nosql.criteria;
 
 /**
- * Represents a comparable value attribute of a JNoSql Entity type
- * @param <X> The Entity type the comparable attribute belongs to
- * @param <Y> The attribute type
-*/
-public interface ComparableAttribute<X extends Object, Y extends Comparable> extends ValueAttribute<X, Y> {
+ * A function to be used in a function query
+ *
+ * @param <X> the root entity type
+ * @param <T> the type the function is applied to
+ * @param <R> the return type of the function
+ */
+public interface CriteriaFunction<X extends Object, T extends Object, R extends Object> {
     
 }

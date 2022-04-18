@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -22,6 +22,7 @@ package jakarta.nosql.mapping.document;
 
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.criteria.CriteriaQuery;
+import jakarta.nosql.criteria.CriteriaQueryResult;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.Page;
@@ -45,10 +46,11 @@ public interface DocumentTemplate extends Template {
      * type.
      *
      * @param <T> type of the query result
+     * @param <R> the type of the query result
      * @param type type of the query result
      * @return criteria query object
      */
-    public <T extends Object> CriteriaQuery<T> createQuery(Class<T> type);
+    public <T extends Object, R extends CriteriaQueryResult<T>> CriteriaQuery<T, R> createQuery(Class<T> type);
 
 
     /**
@@ -68,16 +70,6 @@ public interface DocumentTemplate extends Template {
      * @throws NullPointerException when query is null
      */
     <T> Stream<T> select(DocumentQuery query);
-
-    /**
-     * Finds entities from criteriaquery
-     *
-     * @param criteriaQuery - query to figure out entities
-     * @param <T>   the instance type
-     * @return entities found by query
-     * @throws NullPointerException when criteriaQuery is null
-     */
-    <T> Stream<T> select(CriteriaQuery criteriaQuery);
 
     /**
      * Finds entities from query using pagination
@@ -111,17 +103,6 @@ public interface DocumentTemplate extends Template {
     <T> long count(Class<T> entityType);
 
     /**
-     * Returns the number of elements from column family using a
-     * {@link CriteriaQuery}
-     *
-     * @param criteriaQuery - query to figure out entities
-     * @param <T> the instance type
-     * @return the number of elements
-     * @throws NullPointerException when criteriaQuery is null
-     */
-    <T> long count(CriteriaQuery criteriaQuery);
-
-    /**
      * Returns a single entity from query
      *
      * @param query - query to figure out entities
@@ -142,6 +123,17 @@ public interface DocumentTemplate extends Template {
      * @throws UnsupportedOperationException if the specified template does not support this operation
      */
     <T> Stream<T> query(String query);
+    
+    /**
+     * Executes a {@link CriteriaQuery}
+     *
+     * @param criteriaQuery - the query
+     * @param <T>   the instance type of the query {@link jakarta.nosql.criteria.Root}
+     * @param <R>   the result type of the query
+     * @return query result
+     * @throws NullPointerException when criteriaQuery is null
+     */
+    <T extends Object, R extends CriteriaQueryResult<T>> R query(CriteriaQuery<T, R> criteriaQuery);
 
     /**
      * Executes a query then bring the result as a unique result

@@ -20,10 +20,10 @@
 package jakarta.nosql.metamodel;
 
 /**
- * Represents a comparable value attribute of a JNoSql Entity type
- * @param <X> The Entity type the comparable attribute belongs to
- * @param <Y> The attribute type
+ * Represents a singular entity attribute of a JNoSql Entity type
+ * @param <X> The Entity type the string attribute belongs to
+ * @param <Y> The attribute Entity type
 */
-public interface ComparableAttribute<X extends Object, Y extends Comparable> extends ValueAttribute<X, Y> {
+public interface EntityAttribute<X extends Object, Y extends Object> extends SingularAttribute<X, Y> {
     
 }

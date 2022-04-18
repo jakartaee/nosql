@@ -12,18 +12,18 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- *
+ 
  * Contributors:
  *     Alessandro Moscatelli
  *
  */
-package jakarta.nosql.metamodel;
+package jakarta.nosql.criteria;
 
 /**
- * Represents a comparable value attribute of a JNoSql Entity type
- * @param <X> The Entity type the comparable attribute belongs to
- * @param <Y> The attribute type
-*/
-public interface ComparableAttribute<X extends Object, Y extends Comparable> extends ValueAttribute<X, Y> {
+ * Allows retrieving of select query results
+ *
+ * @param <T> the type of the root entity
+ */
+public interface SelectQueryResult<T extends Object> extends RestrictedQueryResult<T> {
     
 }

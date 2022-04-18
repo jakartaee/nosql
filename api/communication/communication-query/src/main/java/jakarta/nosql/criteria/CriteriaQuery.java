@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,61 +19,36 @@
  */
 package jakarta.nosql.criteria;
 
-import java.util.Collection;
-import java.util.List;
-
 /**
  * The <code>CriteriaQuery</code> interface defines functionality that is
  * specific to top-level queries.
  *
- * @param <T> the type of the defined result
+ * @param <T> the type of the root entity
+ * @param <R> the type of the query result
  */
-public interface CriteriaQuery<T extends Object> {
+public interface CriteriaQuery<T extends Object, R extends CriteriaQueryResult<T>> {
 
     /**
-     * Returns the from clause to be restricted
+     * Returns the query root
      *
      * @return from clause
      */
-    public Root<T> getRoot();
+    public Root<T> from();
 
     /**
-     * Modify the query to restrict the query result according to the
-     * conjunction of the specified restriction predicates. Replaces the
-     * previously added restriction(s), if any.
+     * Creates a function query
      *
-     * @param restrictions zero or more restriction predicates
-     * @return the modified query
-     */
-    public CriteriaQuery<T> where(Collection<Predicate<T>> restrictions);
+     * @param functions to be computed
+     * @return function query
+     */    
+    public FunctionQuery<T> select(CriteriaFunction<T, ?, ?>... functions);
 
     /**
-     * Specify the ordering expressions that are used to order the query
-     * results. Replaces the previous ordering expressions, if any. The
-     * left-to-right sequence of the ordering expressions determines the
-     * precedence, whereby the leftmost has highest precedence.
+     * Creates a select query
      *
-     * @param o zero or more ordering expressions
-     * @return the modified query
-     */
-    public CriteriaQuery<T> orderBy(List<Order<T>> o);
-
-    /**
-     * Set the maximum number of results to retrieve.
-     *
-     * @param maxResult maximum number of results to retrieve
-     * @return the same query instance
-     * @throws IllegalArgumentException if the argument is negative
-     */
-    public CriteriaQuery<T> setMaxResults(int maxResult);
-
-    /**
-     * Set the position of the first result to retrieve.
-     *
-     * @param startPosition position of the first result, numbered from 0
-     * @return the same query instance
-     * @throws IllegalArgumentException if the argument is negative
-     */
-    public CriteriaQuery<T> setFirstResult(int startPosition);
-
+     * @param expressions to retrieve
+     * @return select query
+     */    
+    public SelectQuery<T> select(Expression<T, ?>... expressions);
+    
 }

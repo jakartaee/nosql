@@ -19,11 +19,25 @@
  */
 package jakarta.nosql.criteria;
 
+import java.util.Collection;
+
 /**
- * Conjunction of {@link Predicate}s
+ * The <code>RestrictedQuery</code> interface defines functionality that is
+ * specific to restricted queries.
  *
- * @param <T> The Entity type whose fetching is to be be restricted
+ * @param <T> the type of the root entity
+ * @param <R> the type of the restricted query result
  */
-public interface ConjunctionPredicate<T extends Object> extends CompositionPredicate<T> {
+public interface RestrictedQuery<T extends Object, R extends RestrictedQueryResult<T>> extends CriteriaQuery<T, R> {
+
+    /**
+     * Modify the query to restrict the query result according to the
+     * conjunction of the specified restriction predicates. Replaces the
+     * previously added restriction(s), if any.
+     *
+     * @param restrictions zero or more restriction predicates
+     * @return the modified query
+     */
+    public RestrictedQuery<T, R> where(Collection<Predicate<T>> restrictions);
     
 }

@@ -20,10 +20,22 @@
 package jakarta.nosql.criteria;
 
 /**
- * Conjunction of {@link Predicate}s
+ * The <code>CriteriaQuery</code> interface defines functionality that is
+ * specific to top-level queries.
  *
- * @param <T> The Entity type whose fetching is to be be restricted
+ * @param <T> the type of the root entity
  */
-public interface ConjunctionPredicate<T extends Object> extends CompositionPredicate<T> {
-    
+public interface FunctionQuery<T extends Object> extends RestrictedQuery<T, FunctionQueryResult<T>> {
+
+    /**
+     * Specify the expressions that are used to form groups over
+     * the query results.
+     * Replaces the previous specified grouping expressions, if any.
+     * If no grouping expressions are specified, any previously 
+     * added grouping expressions are simply removed.
+     * @param grouping  zero or more grouping expressions
+     * @return the aggregated query
+     */
+    AggregatedQuery<T> groupBy(Expression<T, ?>... grouping);
+
 }

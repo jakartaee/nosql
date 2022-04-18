@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Otavio Santana and others
+ * Copyright (c) 2019 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,13 +17,16 @@
  *     Alessandro Moscatelli
  *
  */
-package jakarta.nosql.metamodel;
+package jakarta.nosql.criteria;
 
 /**
- * Represents a comparable value attribute of a JNoSql Entity type
- * @param <X> The Entity type the comparable attribute belongs to
- * @param <Y> The attribute type
-*/
-public interface ComparableAttribute<X extends Object, Y extends Comparable> extends ValueAttribute<X, Y> {
+ * Type for query expressions representing a number attribute
+ *
+ * @param <X> the entity type
+ * @param <T> the number type of the expression
+ */
+public interface NumberExpression<X extends Object, T extends Number & Comparable> extends ComparableExpression<X, T> {
+
+    public CriteriaFunction<X, T, T> sum();
     
 }

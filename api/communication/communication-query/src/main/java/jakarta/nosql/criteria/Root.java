@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,46 +19,14 @@
  */
 package jakarta.nosql.criteria;
 
-import jakarta.nosql.metamodel.ComparableAttribute;
-import jakarta.nosql.metamodel.SingularAttribute;
-import jakarta.nosql.metamodel.StringAttribute;
-
 /**
- * The Entity type representing the from clause of a {@link CriteriaQuery}
+ * A root type in the from clause.
+ * Query roots always reference entities.
  *
- * @param <X> the entity type referenced by the root
+ * @param <T> the entity type referenced by the root
  */
-public interface Root<X extends Object> {
-
-    /**
-     * Create an expression corresponding to the referenced single-valued
-     * attribute
-     *
-     * @param <Y> the type of the attribute
-     * @param attribute single-valued attribute
-     * @return expression corresponding to the referenced attribute
-     */
-    public <Y extends Object> Expression<X, Y> get(SingularAttribute<? super X, Y> attribute);
-
-    /**
-     * Create an expression corresponding to the referenced single-valued string
-     * attribute
-     *
-     * @param attribute single-valued string attribute
-     * @return string expression corresponding to the referenced string
-     * attribute
-     */
-    public StringExpression<X> get(StringAttribute<? extends X> attribute);
-
-    /**
-     * Create an expression corresponding to the referenced single-valued
-     * comparable attribute
-     *
-     * @param <Y> the type of the comparable attribute
-     * @param attribute single-valued comparable attribute
-     * @return comparable expression corresponding to the referenced comparable
-     * attribute
-     */
-    public <Y extends Comparable> ComparableExpression<X, Y> get(ComparableAttribute<? super X, Y> attribute);
-
+public interface Root<T> extends Path<T, T> {
+  
+    public CriteriaFunction<T, T, Number> count();
+    
 }

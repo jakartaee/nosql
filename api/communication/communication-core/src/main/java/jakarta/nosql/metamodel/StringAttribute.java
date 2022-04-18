@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,9 +20,9 @@
 package jakarta.nosql.metamodel;
 
 /**
- * Represents a singular string attribute of a JNoSql Entity type
+ * Represents a string value attribute of a JNoSql Entity type
  * @param <X> The Entity type the string attribute belongs to
 */
-public interface StringAttribute<X extends Object> extends SingularAttribute<X, String> {
+public interface StringAttribute<X extends Object> extends ValueAttribute<X, String> {
     
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -26,12 +26,5 @@ package jakarta.nosql.metamodel;
  * @param <T> The attribute type
  */
 public interface SingularAttribute<X extends Object, T extends Object> extends Attribute<X, T> {
-
-    /**
-     * Return the type that represents the type of the attribute
-     * 
-     * @return type of attribute
-     */
-    public Class<T> getType();
 
 }
