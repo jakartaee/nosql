@@ -19,12 +19,6 @@
  */
 package jakarta.nosql.criteria;
 
-/**
- * The <code>AggregatedQuery</code> interface defines functionality that is
- * specific to aggregated queries.
- *
- * @param <T> the type of the root entity
- */
-public interface AggregatedQuery<T extends Object> extends ExecutableQuery<T, AggregatedQueryResult<T>> {
+public interface ExecutableQuery<T, R extends CriteriaQueryResult<T>> {
     
 }

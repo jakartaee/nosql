@@ -23,6 +23,7 @@ package jakarta.nosql.mapping.document;
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.criteria.CriteriaQuery;
 import jakarta.nosql.criteria.CriteriaQueryResult;
+import jakarta.nosql.criteria.ExecutableQuery;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.Page;
@@ -46,11 +47,10 @@ public interface DocumentTemplate extends Template {
      * type.
      *
      * @param <T> type of the query result
-     * @param <R> the type of the query result
      * @param type type of the query result
      * @return criteria query object
      */
-    public <T extends Object, R extends CriteriaQueryResult<T>> CriteriaQuery<T, R> createQuery(Class<T> type);
+    public <T extends Object> CriteriaQuery<T> createQuery(Class<T> type);
 
 
     /**
@@ -133,7 +133,7 @@ public interface DocumentTemplate extends Template {
      * @return query result
      * @throws NullPointerException when criteriaQuery is null
      */
-    <T extends Object, R extends CriteriaQueryResult<T>> R query(CriteriaQuery<T, R> criteriaQuery);
+    <T extends Object, R extends CriteriaQueryResult<T>> R query(ExecutableQuery<T, R> criteriaQuery);
 
     /**
      * Executes a query then bring the result as a unique result

@@ -21,6 +21,7 @@ package jakarta.nosql.criteria;
 
 import jakarta.nosql.metamodel.ComparableAttribute;
 import jakarta.nosql.metamodel.EntityAttribute;
+import jakarta.nosql.metamodel.NumberAttribute;
 import jakarta.nosql.metamodel.StringAttribute;
 import jakarta.nosql.metamodel.ValueAttribute;
 
@@ -71,5 +72,16 @@ public interface Path<X extends Object, Y extends Object> {
      * attribute
      */
     public <Z extends Comparable> ComparableExpression<X, Z> get(ComparableAttribute<? super Y, Z> attribute);
+
+    /**
+     * Create an expression corresponding to the referenced single-valued
+     * number attribute
+     *
+     * @param <Z> the type of the number attribute
+     * @param attribute single-valued number attribute
+     * @return comparable expression corresponding to the referenced comparable
+     * attribute
+     */
+    public <Z extends Number & Comparable> NumberExpression<X, Z> get(NumberAttribute<? super Y, Z> attribute);
 
 }

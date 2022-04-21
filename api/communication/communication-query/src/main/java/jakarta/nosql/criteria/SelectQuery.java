@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @param <T> the type of the root entity
  */
-public interface SelectQuery<T extends Object> extends RestrictedQuery<T, SelectQueryResult<T>> {
+public interface SelectQuery<T extends Object> extends RestrictedQuery<T, SelectQueryResult<T>, SelectQuery<T>> {
 
     /**
      * Specify the ordering expressions that are used to order the query
@@ -35,27 +35,27 @@ public interface SelectQuery<T extends Object> extends RestrictedQuery<T, Select
      * left-to-right sequence of the ordering expressions determines the
      * precedence, whereby the leftmost has highest precedence.
      *
-     * @param o zero or more ordering expressions
+     * @param sortings zero or more ordering expressions
      * @return the modified query
      */
-    public SelectQuery<T> orderBy(List<Order<T>> o);
+    public SelectQuery<T> orderBy(List<Order<T>> sortings);
 
     /**
      * Set the maximum number of results to retrieve.
      *
-     * @param maxResult maximum number of results to retrieve
+     * @param maxResults maximum number of results to retrieve
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    public SelectQuery<T> setMaxResults(int maxResult);
+    public SelectQuery<T> setMaxResults(int maxResults);
 
     /**
      * Set the position of the first result to retrieve.
      *
-     * @param startPosition position of the first result, numbered from 0
+     * @param firstResult position of the first result, numbered from 0
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    public SelectQuery<T> setFirstResult(int startPosition);
+    public SelectQuery<T> setFirstResult(int firstResult);
 
 }

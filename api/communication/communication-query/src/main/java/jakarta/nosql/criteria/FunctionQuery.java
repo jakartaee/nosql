@@ -20,12 +20,12 @@
 package jakarta.nosql.criteria;
 
 /**
- * The <code>CriteriaQuery</code> interface defines functionality that is
- * specific to top-level queries.
+ * The <code>FunctionQuery</code> interface defines functionality that is
+ * specific to function queries.
  *
  * @param <T> the type of the root entity
  */
-public interface FunctionQuery<T extends Object> extends RestrictedQuery<T, FunctionQueryResult<T>> {
+public interface FunctionQuery<T extends Object> extends RestrictedQuery<T, FunctionQueryResult<T>, FunctionQuery<T>> {
 
     /**
      * Specify the expressions that are used to form groups over
