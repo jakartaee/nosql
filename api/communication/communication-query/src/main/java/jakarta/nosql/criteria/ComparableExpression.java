@@ -35,7 +35,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param expression expression
      * @return greater-than predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> greaterThan(Expression<X, ? extends Y> expression);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Expression<X, Y>> greaterThan(Expression<X, ? extends Y> expression);
 
     /**
      * Create a predicate for testing whether this expression is greater than
@@ -45,7 +45,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param y value
      * @return greater-than predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> greaterThan(Y y);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Y> greaterThan(Y y);
 
     /**
      * Create a predicate for testing whether this expression is greater than or
@@ -55,7 +55,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param expression expression
      * @return greater-than-or-equal predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> greaterThanOrEqualTo(Expression<X, ? extends Y> expression);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Expression<X, Y>> greaterThanOrEqualTo(Expression<X, ? extends Y> expression);
 
     /**
      * Create a predicate for testing whether this expression is greater than or
@@ -65,7 +65,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param y value
      * @return greater-than-or-equal predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> greaterThanOrEqualTo(Y y);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Y> greaterThanOrEqualTo(Y y);
 
     /**
      * Create a predicate for testing whether this expression is less than the
@@ -75,7 +75,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param expression expression
      * @return greater-than-or-equal predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> lessThan(Expression<X, ? extends Y> expression);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Expression<X, Y>> lessThan(Expression<X, ? extends Y> expression);
 
     /**
      * Create a predicate for testing whether this expression is less than the
@@ -85,7 +85,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param y value
      * @return greater-than-or-equal predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> lessThan(Y y);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Y> lessThan(Y y);
 
     /**
      * Create a predicate for testing whether this expression is less than or
@@ -95,7 +95,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param expression expression
      * @return greater-than-or-equal predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> lessThanOrEqualTo(Expression<X, ? extends Y> expression);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Expression<X, Y>> lessThanOrEqualTo(Expression<X, ? extends Y> expression);
 
     /**
      * Create a predicate for testing whether this expression is less than or
@@ -105,7 +105,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param y value
      * @return greater-than-or-equal predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> lessThanOrEqualTo(Y y);
+    public <Y extends Comparable<? super Y>> BinaryPredicate<X, Y, Y> lessThanOrEqualTo(Y y);
 
     /**
      * Create a predicate for testing whether the this expression is between the
@@ -116,7 +116,7 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param exprsn2 expression
      * @return between predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> between(Expression<X, ? extends Y> exprsn1, Expression<X, ? extends Y> exprsn2);
+    public <Y extends Comparable<? super Y>> RangePredicate<X, Y, Expression<X, Y>> exclusiveBetween(Expression<X, ? extends Y> exprsn1, Expression<X, ? extends Y> exprsn2);
 
     /**
      * Create a predicate for testing whether the this expression value is
@@ -127,7 +127,29 @@ public interface ComparableExpression<X extends Object, T extends Comparable> ex
      * @param y value
      * @return between predicate
      */
-    public <Y extends Comparable<? super Y>> Predicate<X> between(Y x, Y y);
+    public <Y extends Comparable<? super Y>> RangePredicate<X, Y, Y> exclusiveBetween(Y x, Y y);
+
+    /**
+     * Create a predicate for testing whether the this expression is between the
+     * first and second argument expressions in value
+     *
+     * @param <Y> the comparable type or subtype
+     * @param exprsn1 expression
+     * @param exprsn2 expression
+     * @return between predicate
+     */
+    public <Y extends Comparable<? super Y>> RangePredicate<X, Y, Expression<X, Y>> inclusiveBetween(Expression<X, ? extends Y> exprsn1, Expression<X, ? extends Y> exprsn2);
+
+    /**
+     * Create a predicate for testing whether the this expression value is
+     * between the first and second argument values
+     *
+     * @param <Y> the comparable type or subtype
+     * @param x value
+     * @param y value
+     * @return between predicate
+     */
+    public <Y extends Comparable<? super Y>> RangePredicate<X, Y, Y> inclusiveBetween(Y x, Y y);
 
     /**
      * Create an ordering by the ascending value of this expression

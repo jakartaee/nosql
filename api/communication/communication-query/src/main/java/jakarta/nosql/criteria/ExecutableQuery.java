@@ -19,6 +19,20 @@
  */
 package jakarta.nosql.criteria;
 
+/**
+ * The <code>ExecutableQuery</code> interface defines functionality that is
+ * specific to executable queries.
+ *
+ * @param <T> the type of the root entity
+ * @param <R> the type of the query result
+ */
 public interface ExecutableQuery<T, R extends CriteriaQueryResult<T>> {
+    
+    /**
+     * Retrieves the root type. 
+     *
+     * @return root type
+     */
+    public Class<T> getType();
     
 }

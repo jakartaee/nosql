@@ -27,6 +27,11 @@ package jakarta.nosql.criteria;
  */
 public interface NumberExpression<X extends Object, T extends Number & Comparable> extends ComparableExpression<X, T> {
 
+    /**
+     * Return the {@link CriteriaFunction} to sum this {@link NumberExpression}.
+     *
+     * @return operator
+     */
     public CriteriaFunction<X, T, T> sum();
     
 }

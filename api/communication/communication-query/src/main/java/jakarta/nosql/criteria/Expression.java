@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -36,7 +36,7 @@ public interface Expression<X extends Object, T extends Object> {
      * @param expression the expression to check the equality against
      * @return equality predicate
      */
-    public Predicate<X> equal(Expression<X, T> expression);
+    public BinaryPredicate<X, T, Expression<X, T>> equal(Expression<X, T> expression);
 
     /**
      * Create a predicate for testing if the expression is equal to the argument
@@ -45,7 +45,7 @@ public interface Expression<X extends Object, T extends Object> {
      * @param value the value to check the equality against
      * @return equality predicate
      */
-    public Predicate<X> equal(T value);
+    public BinaryPredicate<X, T, T> equal(T value);
 
     /**
      * Create a predicate to test whether the expression is a member of the
@@ -54,6 +54,6 @@ public interface Expression<X extends Object, T extends Object> {
      * @param values values to be tested against
      * @return predicate testing for membership
      */
-    public Predicate<X> in(Collection<T> values);
+    public BinaryPredicate<X, T, Collection<T>> in(Collection<T> values);
 
 }

@@ -19,6 +19,8 @@
  */
 package jakarta.nosql.criteria;
 
+import java.util.Collection;
+
 /**
  * The <code>RestrictedQuery</code> interface defines functionality that is
  * specific to restricted queries.
@@ -38,5 +40,12 @@ public interface RestrictedQuery<T extends Object, R extends RestrictedQueryResu
      * @return the modified query
      */
     public Q where(Predicate<T>... restrictions);
-    
+
+    /**
+     * Retrieves the restriction collection. 
+     *
+     * @return the restrictions
+     */
+    public Collection<Predicate<T>> getRestrictions();
+
 }
