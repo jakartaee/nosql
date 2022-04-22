@@ -35,7 +35,14 @@ public interface CriteriaQuery<T extends Object> {
     public Root<T> from();
 
     /**
-     * Creates a function query
+     * Creates a select query
+     *
+     * @return select query
+     */    
+    public SelectQuery<T> select();
+    
+    /**
+     * Creates a select function query
      *
      * @param functions to be computed
      * @return function query
@@ -43,11 +50,11 @@ public interface CriteriaQuery<T extends Object> {
     public FunctionQuery<T> select(CriteriaFunction<T, ?, ?>... functions);
 
     /**
-     * Creates a select query
+     * Creates a select expression query
      *
      * @param expressions to retrieve
      * @return select query
      */    
-    public SelectQuery<T> select(Expression<T, ?>... expressions);
+    public ExpressionQuery<T> select(Expression<T, ?>... expressions);
     
 }
