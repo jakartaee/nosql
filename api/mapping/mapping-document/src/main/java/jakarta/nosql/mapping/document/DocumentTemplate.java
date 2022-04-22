@@ -133,7 +133,7 @@ public interface DocumentTemplate extends Template {
      * @return query result
      * @throws NullPointerException when criteriaQuery is null
      */
-    <T extends Object, R extends CriteriaQueryResult<T>> R query(ExecutableQuery<T, R> criteriaQuery);
+    <T extends Object, R extends CriteriaQueryResult<T>> R executeQuery(ExecutableQuery<T, R> criteriaQuery);
 
     /**
      * Executes a query then bring the result as a unique result

@@ -20,6 +20,7 @@ package jakarta.nosql.document;
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.ServiceLoaderProvider;
+import jakarta.nosql.criteria.ExecutableQuery;
 
 import java.time.Duration;
 import java.util.Iterator;
@@ -116,6 +117,16 @@ public interface DocumentCollectionManager extends AutoCloseable {
      * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
      */
     Stream<DocumentEntity> select(DocumentQuery query);
+    
+    /**
+     * Finds {@link DocumentEntity} from select
+     *
+     * @param query - select to figure out entities
+     * @return entities found by select
+     * @throws NullPointerException          when select is null
+     * @throws UnsupportedOperationException if the implementation does not support any operation that a query has.
+     */
+    Stream<DocumentEntity> executeQuery(ExecutableQuery query);
 
     /**
      * Executes a query and returns the result, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
