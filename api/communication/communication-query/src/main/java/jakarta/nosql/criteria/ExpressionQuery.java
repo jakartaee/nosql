@@ -19,6 +19,6 @@
  */
 package jakarta.nosql.criteria;
 
-public interface ExpressionQuery<T extends Object> extends RestrictedQuery<T, ExpressionQueryResult<T>, ExpressionQuery<T>> {
+public interface ExpressionQuery<T extends Object> extends SelectQuery<T> {
     
 }
