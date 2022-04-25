@@ -19,7 +19,7 @@ Pagination is the process of separating the contents into discrete pages. Each p
 At this project, there an interface that represents the pagination there is the `Pagination` interface.
 
 .The pagination, instead of query a bunch of elements. The pagination process allows retrieving a small fixed block of entities in a database.
-image::pagination.png[Pagination]
+image::pagination.svg[Pagination]
 
 [source,java]
 ----
@@ -39,8 +39,8 @@ A `ColumnQueryPagination` is a specialization of `ColumnQuery` that allows the p
 
 [source,java]
 ----
-Pagination pagination = ...;
-ColumnQuery query =...;
+Pagination pagination = //instance;
+ColumnQuery query = //instance;
 
 ColumnQueryPagination queryPagination = ColumnQueryPagination.of(query, pagination);
 
@@ -56,7 +56,7 @@ Through the `Template` there are two ways to use the pagination resource. The fi
 
 [source,java]
 ----
-ColumnTemplate template =...;
+ColumnTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
 ColumnQuery query = ColumnQueryPagination.of(select().from("person").build(), pagination);
 Stream<Person> people = template.select(query);
@@ -66,9 +66,10 @@ The second one is representing the page with the `Page` instance. A page is a fi
 
 [source,java]
 ----
-ColumnTemplate template =...;
+ColumnTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
-ColumnQueryPagination query = ColumnQueryPagination.of(select().from("person").build(), pagination);
+ColumnQueryPagination query = ColumnQueryPagination.of(
+        select().from("person").build(), pagination);
 Page<Person> firstPage = template.select(query);
 Stream<Person> firstPageContents = page.getContent();
 Page<Person> secondPage = firstPage.next();
@@ -83,7 +84,7 @@ From a mapper query is possible either creates a query that executes using the p
 
 [source,java]
 ----
-ColumnQueryMapperBuilder mapperBuilder = ...;
+ColumnQueryMapperBuilder mapperBuilder = //instance;
 
 Pagination pagination = Pagination.page(2).size(2);
 ColumnQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
@@ -114,13 +115,12 @@ A `DocumentQueryPagination` is a specialization of `DocumentQuery` that allows t
 
 [source,java]
 ----
-Pagination pagination = ...;
-DocumentQuery query =...;
+Pagination pagination = //instance;
+DocumentQuery query = //instance;
 
 DocumentQueryPagination queryPagination = DocumentQueryPagination.of(query, pagination);
 
-DocumentQueryPagination nextQueryPagination =
- queryPagination.next();
+DocumentQueryPagination nextQueryPagination = queryPagination.next();
 ----
 
 
@@ -131,9 +131,10 @@ Through the `Template` there are two ways to use the pagination resource. The fi
 
 [source,java]
 ----
-DocumentTemplate template =...;
+DocumentTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
-DocumentQuery query = DocumentQueryPagination.of(select().from("person").build(), pagination);
+DocumentQuery query = DocumentQueryPagination.of(
+        select().from("person").build(), pagination);
 Stream<Person> people = template.select(query);
 ----
 
@@ -141,9 +142,10 @@ The second one is representing the page with the `Page` instance. A page is a fi
 
 [source,java]
 ----
-DocumentTemplate template =...;
+DocumentTemplate template = //instance;
 Pagination pagination = Pagination.page(1).size(1);
-DocumentQueryPagination query = DocumentQueryPagination.of(select().from("person").build(), pagination);
+DocumentQueryPagination query = DocumentQueryPagination.of(
+        select().from("person").build(), pagination);
 Page<Person> firstPage = template.select(query);
 Stream<Person> firstPageContents = page.getContent();
 Page<Person> secondPage = firstPage.next();
@@ -158,12 +160,13 @@ From a mapper query is possible either creates a query that executes using the p
 
 [source,java]
 ----
-DocumentQueryMapperBuilder mapperBuilder = ...;
+DocumentQueryMapperBuilder mapperBuilder = //instance;
 
 Pagination pagination = Pagination.page(2).size(2);
 DocumentQuery query = mapperBuilder.selectFrom(Person.class).build(pagination);
 Page<Person> page = mapperBuilder.selectFrom(Person.class).page(template, pagination);
-Stream<Person> people = mapperBuilder.selectFrom(Person.class).getResult(template, pagination);
+Stream<Person> people = mapperBuilder.selectFrom(Person.class)
+        .getResult(template, pagination);
 ----
 
 
@@ -193,9 +196,9 @@ At the Graph database, the `Pagination` implementation works within a `GraphTrav
 ----
 Pagination pagination = Pagination.page(1).size(1);
 Page<Person> page = template.getTraversalVertex()
-    .orderBy("name")
-    .desc()
-    .page(pagination);
+        .orderBy("name")
+        .desc()
+        .page(pagination);
 ----
 
 ===== Repository
@@ -209,7 +212,6 @@ A Repository interface also allows using the pagination feature at these interfa
     List<Person> findAll(Pagination pagination);
 
     Set<Person> findByName(String name, Pagination pagination);
-
 }
 ----
 

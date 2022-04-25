@@ -19,7 +19,6 @@ package jakarta.nosql;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ServiceLoader;
 
 /**
  * Decorators of all {@link ValueReader} supported by Jakarta NoSQL
@@ -32,7 +31,9 @@ public final class ValueReaderDecorator implements ValueReader {
     private final List<ValueReader> readers = new ArrayList<>();
 
     {
-        ServiceLoader.load(ValueReader.class).forEach(readers::add);
+        ServiceLoaderProvider.getSupplierStream(ValueReader.class)
+            .map(ValueReader.class::cast)
+            .forEach(readers::add);
     }
 
     public static ValueReaderDecorator getInstance() {

@@ -12,9 +12,11 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-==== Key-Value template
+==== Key-Value Template
 
-The `KeyValueTemplate` is the template for synchronous tasks. It has three components: The `KeyValueTemplate` is responsible for the persistence of an entity in a key-value database. It is composed basically of three components.
+This template has the responsibility to serve as the persistence of an entity in a key-value database.
+
+The `KeyValueTemplate` is the template for synchronous tasks. It has three components:
 
 * *KeyValueEntityConverter*: That converts an entity to communication API, e.g., The Person to KeyValueEntity.
 * *BucketManager*: The key-value entity manager.
@@ -22,7 +24,7 @@ The `KeyValueTemplate` is the template for synchronous tasks. It has three compo
 
 [source,java]
 ----
-KeyValueTemplate template = null;
+KeyValueTemplate template = // instance;
 User user = new User();
 user.setNickname("ada");
 user.setAge(10);
@@ -36,9 +38,9 @@ Optional<Person> ada = template.get("ada", Person.class);
 Iterable<Person> usersFound = template.get(Collections.singletonList("ada"), Person.class);
 ----
 
-WARNING: To key-value templates, both Entity and @Id, are required. The @Id identifies the key, and the whole entity will be the value. The API won't cover how this value persists this entity at NoSQL database.
+WARNING: In key-value templates, both the `@Entity` and `@Id` annotations are required. The `@Id` identifies the key, and the whole entity will be the value. The API won't cover how the value persists this entity.
 
-To use a key-value template, just follow the CDI style and put an `@Inject` on the field.
+To use a key-value template, just follow the CDI style and precede the field with the `@Inject` annotation.
 
 [source,java]
 ----
@@ -46,18 +48,19 @@ To use a key-value template, just follow the CDI style and put an `@Inject` on t
 private KeyValueTemplate template;
 ----
 
-The next step is to produce a *BucketManager*:
+The next step is to produce a `BucketManager`:
 
 [source,java]
 ----
 @Produces
 public BucketManager getManager() {
-    BucketManager manager = //instance
+    BucketManager manager = // instance;
     return manager;
 }
 ----
-To work with more than one key-value Template, there are two approaches:
-1) Using qualifiers:
+To work with more than one key-value template, there are two approaches:
+
+1) Use qualifiers:
 
 [source,java]
 ----
@@ -69,26 +72,25 @@ private KeyValueTemplate templateA;
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseB")
 private KeyValueTemplate templateB;
 
-
-//producers methods
+// producers methods
 @Produces
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseA")
 public BucketManager getManagerA() {
-    DocumentCollectionManager manager =//instance
+    DocumentCollectionManager manager = // instance;
     return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.KEY_VALUE, provider = "databaseB")
 public DocumentCollectionManager getManagerB() {
-    BucketManager manager = //instance
+    BucketManager manager = // instance;
     return manager;
 }
 ----
 
 
 
-2)  Using the *KeyValueTemplateProducer* class:
+2) Use the `KeyValueTemplateProducer` class:
 
 [source,java]
 ----
@@ -96,8 +98,8 @@ public DocumentCollectionManager getManagerB() {
 private KeyValueTemplateProducer producer;
 
 public void sample() {
-    BucketManager managerA = //instance;
-    BucketManager managerB = //instance
+    BucketManager managerA = // instance;
+    BucketManager managerB = // instance;
     KeyValueTemplate templateA = producer.get(managerA);
     KeyValueTemplate templateB = producer.get(managerB);
 }

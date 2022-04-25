@@ -23,7 +23,6 @@ Jdbc-json:: https://github.com/jdbc-json/jdbc-cb
 Simba:: http://www.simba.com/drivers/
 Apache Tinkerpop:: http://tinkerpop.apache.org/
 Apache Gora:: http://gora.apache.org/about.html
-Spring Data:: http://projects.spring.io/spring-data/
 
 === Databases
 

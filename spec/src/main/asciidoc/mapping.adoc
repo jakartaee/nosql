@@ -12,11 +12,11 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-== Mapping API Introduction
+== Introduction to the Mapping API
 
-The mapping level, to put it differently, has the same goals as either the JPA or ORM. In NoSQL world, the *OxM* then converts the entity object to a communication model.
+The mapping level, to put it differently, has the same goals as either the JPA or ORM. In the NoSQL world, the *OxM* then converts the entity object to a communication model.
 
-This level is in charge to do integration among technologies such as Bean Validation. The Mapping API has annotations that make the Java developer’s life easier. As a communication project, it must be extensible and configurable to keep the diversity of NoSQL database.
+This level is in charge to perform integration among technologies such as Bean Validation. The Mapping API has annotations that make the Java developer’s life easier. As a communication project, it must be extensible and configurable to keep the diversity of NoSQL database.
 
 To go straight and cover the four NoSQL types, this API has four domains:
 
@@ -39,14 +39,14 @@ The mapping API has five parts:
 
 TIP: Each module works separately as a Communication API.
 
-IMPORTANT: Like communication API, there is a support for database diversity. This project has extensions for each database types on the database mapping level.
+IMPORTANT: Similar to the communication API, there is a support for database diversity. This project has extensions for each database types on the database mapping level.
 
 include::annotations.adoc[]
 
 
 === Template classes
 
-The template offers convenient operations to create, update, delete, query, and provides a mapping between your domain objects and communication API. The templates classes have the goal to persist an Entity Model through a communication API. It has three components:
+The template offers convenient operations to create, update, delete, query, and provides a mapping among your domain objects and communication API. The templates classes have a goal to persist an Entity Model through a communication API. It has three components:
 
 * *Converter*: That converts the Entity to a communication level API.
 * *EntityManager*: The EntityManager for communication.

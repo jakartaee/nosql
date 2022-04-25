@@ -21,7 +21,7 @@ As in communication layer, the Mapping has a query by text. Both communication a
 In the Key-value database, there is a `KeyValueTemplate` in this NoSQL storage technology. Usually, all the operations are defined by the ID. Therefore, it has a smooth query.
 [source,java]
 ----
-KeyValueTemplate template = ...;
+KeyValueTemplate template = //instance;
 Stream<User> users = template.query("get \"Diana\"");
 template.query("remove \"Diana\"");
 ----
@@ -34,7 +34,7 @@ The column family has a little more complex structure; however, the search from 
 
 [source,java]
 ----
-ColumnTemplate template = ...;
+ColumnTemplate template = //instance;
 Stream<Person> result = template.query("select * from Person where id = 1");
 ----
 
@@ -46,7 +46,7 @@ The document types allow more complex queries, so with more complex entities wit
 
 [source,java]
 ----
-DocumentTemplate template = ...;
+DocumentTemplate template = //instance;
 Stream<Person> result = template.query("select * from Person where age > 10");
 ----
 
@@ -58,13 +58,14 @@ If an application needs a recommendation engine or a full detail about the relat
 
 [source,java]
 ----
-GraphTemplate template =...;
+GraphTemplate template = //instance;
 Stream<City> cities = template.query("g.V().hasLabel('City')");
 ----
 
 [source,java]
 ----
-PreparedStatement preparedStatement = documentTemplate.prepare("select * from Person where name = @name");
+PreparedStatement preparedStatement = documentTemplate
+        .prepare("select * from Person where name = @name");
 preparedStatement.bind("name", "Ada");
 Stream<Person> adas = preparedStatement.getResult();
 //to graph just keep using gremlin
