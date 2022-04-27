@@ -22,8 +22,8 @@ package jakarta.nosql.metamodel;
 /**
  * Represents a singular entity attribute of a JNoSql Entity type
  * @param <X> The Entity type the string attribute belongs to
- * @param <Y> The attribute Entity type
+ * @param <T> The attribute Entity type
 */
-public interface EntityAttribute<X extends Object, Y extends Object> extends SingularAttribute<X, Y> {
+public interface EntityAttribute<X, T> extends SingularAttribute<X, T> {
     
 }

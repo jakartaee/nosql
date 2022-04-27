@@ -19,6 +19,6 @@
  */
 package jakarta.nosql.metamodel;
 
-public interface NumberAttribute<X extends Object, Y extends Number & Comparable> extends ComparableAttribute<X, Y> {
+public interface NumberAttribute<X, Y extends Number & Comparable> extends ComparableAttribute<X, Y> {
     
 }

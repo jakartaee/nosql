@@ -22,9 +22,21 @@ package jakarta.nosql.metamodel;
 /**
  * Represents an attribute of a JNoSql Entity type
  * @param <X> The Entity type the attribute belongs to
- * @param <Y> The attribute type
+ * @param <T> The attribute type
  */
-public interface Attribute<X extends Object, Y extends Object> {
+public interface Attribute<X, T> {
+    
+    /**
+     * Return the class type
+     * @return class type
+    */
+    public Class<X> getType();
+    
+    /**
+     * Return the attribute type
+     * @return attribute type
+    */
+    public Class<T> getAttributeType();
     
     /**
      * Return the name of the attribute

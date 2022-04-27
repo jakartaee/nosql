@@ -25,6 +25,6 @@ package jakarta.nosql.metamodel;
  * @param <X> The Entity type the singular attribute belongs to
  * @param <T> The attribute type
  */
-public interface SingularAttribute<X extends Object, T extends Object> extends Attribute<X, T> {
+public interface SingularAttribute<X, T> extends Attribute<X, T> {
 
 }

@@ -24,6 +24,6 @@ package jakarta.nosql.metamodel;
  * @param <X> The Entity type the plural attribute belongs to
  * @param <T> The attribute type
 */
-public interface PluralAttribute<X extends Object, T extends Object> extends Attribute<X, T> {
+public interface PluralAttribute<X, T> extends Attribute<X, T> {
     
 }

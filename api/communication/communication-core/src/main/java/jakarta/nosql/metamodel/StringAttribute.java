@@ -23,6 +23,6 @@ package jakarta.nosql.metamodel;
  * Represents a string value attribute of a JNoSql Entity type
  * @param <X> The Entity type the string attribute belongs to
 */
-public interface StringAttribute<X extends Object> extends ValueAttribute<X, String> {
+public interface StringAttribute<X> extends ValueAttribute<X, String> {
     
 }
