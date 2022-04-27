@@ -22,16 +22,17 @@ package jakarta.nosql.criteria;
 /**
  * Type for query expressions representing a number attribute
  *
- * @param <X> the entity type
+ * @param <X> the root type
+ * @param <Y> the entity type
  * @param <T> the number type of the expression
  */
-public interface NumberExpression<X extends Object, T extends Number & Comparable> extends ComparableExpression<X, T> {
+public interface NumberExpression<X, Y, T extends Number & Comparable> extends ComparableExpression<X, Y, T> {
 
     /**
      * Return the {@link CriteriaFunction} to sum this {@link NumberExpression}.
      *
      * @return operator
      */
-    public CriteriaFunction<X, T, T> sum();
+    public ExpressionFunction<X, Y, T, T> sum();
     
 }

@@ -25,6 +25,6 @@ package jakarta.nosql.criteria;
  *
  * @param <T> the type of the root entity
  */
-public interface AggregatedQuery<T extends Object> extends ExecutableQuery<T, AggregatedQueryResult<T>> {
+public interface AggregatedQuery<T> extends ExecutableQuery<T, AggregatedQueryResult<T>> {
     
 }

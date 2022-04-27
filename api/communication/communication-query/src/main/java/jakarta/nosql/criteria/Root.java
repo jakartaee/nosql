@@ -23,10 +23,10 @@ package jakarta.nosql.criteria;
  * A root type in the from clause.
  * Query roots always reference entities.
  *
- * @param <T> the entity type referenced by the root
+ * @param <X> the entity type referenced by the root
  */
-public interface Root<T> extends Path<T, T> {
-  
-    public CriteriaFunction<T, T, Number> count();
+public interface Root<X> extends Path<X, X> {
+    
+    public PathFunction<X, X, X, Number> count();
     
 }

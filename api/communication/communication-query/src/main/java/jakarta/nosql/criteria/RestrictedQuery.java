@@ -29,7 +29,7 @@ import java.util.Collection;
  * @param <R> the type of the query result
  * @param <Q> the type of the restricted query
  */
-public interface RestrictedQuery<T extends Object, R extends RestrictedQueryResult<T>, Q extends RestrictedQuery<T, R, Q>> extends ExecutableQuery<T, R> {
+public interface RestrictedQuery<T, R extends RestrictedQueryResult<T>, Q extends RestrictedQuery<T, R, Q>> extends ExecutableQuery<T, R> {
 
     /**
      * Modify the query to restrict the query result according to the

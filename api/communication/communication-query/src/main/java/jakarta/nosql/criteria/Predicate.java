@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -24,7 +24,7 @@ package jakarta.nosql.criteria;
  *
  * @param <T> The Entity type whose fetching is to be be restricted
  */
-public interface Predicate<T extends Object> {
+public interface Predicate<T> {
 
     /**
      * Create a negation of this restriction.

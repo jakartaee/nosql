@@ -26,7 +26,7 @@ package jakarta.nosql.criteria;
  * @param <L> The left hand side type
  * @param <R> The right hand side type
  */
-public interface BinaryPredicate<X extends Object, L extends Object, R extends Object> {
+public interface BinaryPredicate<X, L, R> extends Predicate<X> {
     
     public enum Operator {
         EQUAL,
@@ -34,7 +34,8 @@ public interface BinaryPredicate<X extends Object, L extends Object, R extends O
         GREATER_THAN,
         GREATER_THAN_OR_EQUAL,
         LESS_THAN,
-        LESS_THAN_OR_EQUAL
+        LESS_THAN_OR_EQUAL,
+        LIKE
     }
     
     /**
@@ -49,7 +50,7 @@ public interface BinaryPredicate<X extends Object, L extends Object, R extends O
      *
      * @return negated predicate
      */
-    public Expression<X, L> getLeft();
+    public Expression<X, ?, L> getLeft();
 
     /**
      * Return the right hand side for this {@link Predicate}.

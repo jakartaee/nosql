@@ -24,6 +24,6 @@ package jakarta.nosql.criteria;
  *
  * @param <T> the type of the root entity
  */
-public interface FunctionQueryResult<T extends Object> extends RestrictedQueryResult<T> {
+public interface FunctionQueryResult<T> extends RestrictedQueryResult<T> {
 
 }

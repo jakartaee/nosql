@@ -19,14 +19,13 @@
  */
 package jakarta.nosql.criteria;
 
-import jakarta.nosql.metamodel.ComparableAttribute;
-
 /**
  * An object that defines an ordering over the query results
  *
+ * @param <X> the root type
  * @param <T> the type of the defined result
  */
-public interface Order<T> {
+public interface Order<X, T extends Comparable> {
 
     /**
      * Whether ascending ordering is in effect
@@ -40,6 +39,6 @@ public interface Order<T> {
      *
      * @return expression used for ordering
      */
-    public ComparableAttribute<T, ?> getAttribute();
+    public ComparableExpression<X, ?, T> getExpression();
 
 }

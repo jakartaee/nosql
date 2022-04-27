@@ -26,7 +26,7 @@ import java.util.Collection;
  *
  * @param <T> The Entity type whose fetching is to be be restricted
  */
-public interface CompositionPredicate<T extends Object> extends Predicate<T> {
+public interface CompositionPredicate<T> extends Predicate<T> {
 
     /**
      * Return the composed {@link Predicate}s.

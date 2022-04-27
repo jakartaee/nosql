@@ -19,14 +19,23 @@
  */
 package jakarta.nosql.criteria;
 
+import java.util.Collection;
+
 /**
  * The <code>FunctionQuery</code> interface defines functionality that is
  * specific to function queries.
  *
- * @param <T> the type of the root entity
+ * @param <X> the type of the root entity
  */
-public interface FunctionQuery<T extends Object> extends RestrictedQuery<T, FunctionQueryResult<T>, FunctionQuery<T>> {
-
+public interface FunctionQuery<X> extends RestrictedQuery<X, FunctionQueryResult<X>, FunctionQuery<X>> {
+    
+    /**
+     * Return the collection of {@link CriteriaFunction}s to retrieve.
+     *
+     * @return collection of functions
+     */
+    public Collection<CriteriaFunction<X, ?, ?, ?>> getFunctions();
+    
     /**
      * Specify the expressions that are used to form groups over
      * the query results.
@@ -36,6 +45,6 @@ public interface FunctionQuery<T extends Object> extends RestrictedQuery<T, Func
      * @param grouping  zero or more grouping expressions
      * @return the aggregated query
      */
-    AggregatedQuery<T> groupBy(Expression<T, ?>... grouping);
+    AggregatedQuery<X> groupBy(Expression<X, ?, ?>... grouping);
 
 }

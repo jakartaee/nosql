@@ -19,15 +19,31 @@
  */
 package jakarta.nosql.criteria;
 
+import jakarta.nosql.metamodel.Attribute;
 import java.util.Collection;
 
 /**
  * Type for query expressions representing an Entity attribute
  *
- * @param <X> the entity type
+ * @param <X> the root type
+ * @param <Y> the entity type
  * @param <T> the type of the expression
  */
-public interface Expression<X extends Object, T extends Object> {
+public interface Expression<X, Y, T> {
+
+    /**
+     * Retrieves the path of this expression
+     *
+     * @return path
+     */    
+    public Path<X, Y> getPath();
+
+    /**
+     * Retrieves the attribute of this expression
+     *
+     * @return attribute
+     */        
+    public Attribute<Y, T> getAttribute();
 
     /**
      * Create a predicate for testing if the expression is equal to the argument
@@ -36,7 +52,7 @@ public interface Expression<X extends Object, T extends Object> {
      * @param expression the expression to check the equality against
      * @return equality predicate
      */
-    public BinaryPredicate<X, T, Expression<X, T>> equal(Expression<X, T> expression);
+    public BinaryPredicate<X, T, Expression<X, Y, T>> equal(Expression<X, Y, T> expression);
 
     /**
      * Create a predicate for testing if the expression is equal to the argument

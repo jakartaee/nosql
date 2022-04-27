@@ -19,6 +19,10 @@
  */
 package jakarta.nosql.criteria;
 
-public interface ExpressionQuery<T extends Object> extends SelectQuery<T> {
+import java.util.Collection;
+
+public interface ExpressionQuery<T> extends SelectQuery<T> {
+    
+    public Collection<Expression<T, ?, ?>> getExpressions();
     
 }

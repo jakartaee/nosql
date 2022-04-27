@@ -23,9 +23,10 @@ package jakarta.nosql.criteria;
  * A function to be used in a function query
  *
  * @param <X> the root entity type
- * @param <T> the type the function is applied to
+ * @param <Y> the entity type
+ * @param <T> the type of the attribute the function is applied to
  * @param <R> the return type of the function
  */
-public interface CriteriaFunction<X extends Object, T extends Object, R extends Object> {
-    
+public interface CriteriaFunction<X, Y, T, R> {
+
 }

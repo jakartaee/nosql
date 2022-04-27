@@ -24,6 +24,6 @@ package jakarta.nosql.criteria;
  *
  * @param <T> The Entity type whose fetching is to be be restricted
  */
-public interface DisjunctionPredicate<T extends Object> extends CompositionPredicate<T> {
+public interface DisjunctionPredicate<T> extends CompositionPredicate<T> {
     
 }

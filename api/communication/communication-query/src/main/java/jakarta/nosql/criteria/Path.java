@@ -19,6 +19,7 @@
  */
 package jakarta.nosql.criteria;
 
+import jakarta.nosql.metamodel.Attribute;
 import jakarta.nosql.metamodel.ComparableAttribute;
 import jakarta.nosql.metamodel.EntityAttribute;
 import jakarta.nosql.metamodel.NumberAttribute;
@@ -31,7 +32,22 @@ import jakarta.nosql.metamodel.ValueAttribute;
  * @param <X> the entity type referenced by the root
  * @param <Y> the destination type
  */
-public interface Path<X extends Object, Y extends Object> {
+public interface Path<X, Y> {
+    
+    /**
+     * Returns the parent path
+     *
+     * @return parent path
+     */
+    public Path<X, ?> getParent();
+    
+    /**
+     * Returns the attribute that binds parent {@link Path} to this
+     *
+     * @return parent path
+     */
+    public Attribute<?, Y> getAttribute();
+
 
     /**
      * Create a path corresponding to the referenced entity attribute
@@ -40,7 +56,7 @@ public interface Path<X extends Object, Y extends Object> {
      * @param attribute entity attribute
      * @return path corresponding to the entity attribute
      */
-    public <Z extends Object> Path<X, Z> get(EntityAttribute<? super Y, Z> attribute);
+    public <Z> Path<X, Z> get(EntityAttribute<Y, Z> attribute);
     
     /**
      * Create an expression corresponding to the referenced single-valued
@@ -50,7 +66,7 @@ public interface Path<X extends Object, Y extends Object> {
      * @param attribute single-valued attribute
      * @return expression corresponding to the referenced attribute
      */
-    public <Z extends Object> Expression<X, Z> get(ValueAttribute<? super Y, Z> attribute);
+    public <Z> Expression<X, Y, Z> get(ValueAttribute<Y, Z> attribute);
 
     /**
      * Create an expression corresponding to the referenced single-valued string
@@ -60,7 +76,7 @@ public interface Path<X extends Object, Y extends Object> {
      * @return string expression corresponding to the referenced string
      * attribute
      */
-    public StringExpression<X> get(StringAttribute<? extends Y> attribute);
+    public StringExpression<X, Y> get(StringAttribute<Y> attribute);
 
     /**
      * Create an expression corresponding to the referenced single-valued
@@ -71,7 +87,7 @@ public interface Path<X extends Object, Y extends Object> {
      * @return comparable expression corresponding to the referenced comparable
      * attribute
      */
-    public <Z extends Comparable> ComparableExpression<X, Z> get(ComparableAttribute<? super Y, Z> attribute);
+    public <Z extends Comparable> ComparableExpression<X, Y, Z> get(ComparableAttribute<Y, Z> attribute);
 
     /**
      * Create an expression corresponding to the referenced single-valued
@@ -82,6 +98,6 @@ public interface Path<X extends Object, Y extends Object> {
      * @return comparable expression corresponding to the referenced comparable
      * attribute
      */
-    public <Z extends Number & Comparable> NumberExpression<X, Z> get(NumberAttribute<? super Y, Z> attribute);
+    public <Z extends Number & Comparable> NumberExpression<X, Y, Z> get(NumberAttribute<Y, Z> attribute);
 
 }

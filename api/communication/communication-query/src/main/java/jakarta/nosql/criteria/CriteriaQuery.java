@@ -25,7 +25,7 @@ package jakarta.nosql.criteria;
  *
  * @param <T> the type of the root entity
  */
-public interface CriteriaQuery<T extends Object> {
+public interface CriteriaQuery<T> {
 
     /**
      * Returns the query root
@@ -47,7 +47,7 @@ public interface CriteriaQuery<T extends Object> {
      * @param functions to be computed
      * @return function query
      */    
-    public FunctionQuery<T> select(CriteriaFunction<T, ?, ?>... functions);
+    public FunctionQuery<T> select(CriteriaFunction<T, ?, ?, ?>... functions);
 
     /**
      * Creates a select expression query
@@ -55,6 +55,6 @@ public interface CriteriaQuery<T extends Object> {
      * @param expressions to retrieve
      * @return select query
      */    
-    public ExpressionQuery<T> select(Expression<T, ?>... expressions);
+    public ExpressionQuery<T> select(Expression<T, ?, ?>... expressions);
     
 }

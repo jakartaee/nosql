@@ -22,9 +22,10 @@ package jakarta.nosql.criteria;
 /**
  * Type for query expressions representing a string Entity attribute
  *
- * @param <X> the entity type
+ * @param <X> the root type
+ * @param <Y> the entity type
  */
-public interface StringExpression<X extends Object> extends Expression<X, String> {
+public interface StringExpression<X, Y> extends Expression<X, Y, String> {
 
     /**
      * Create a predicate for testing whether this expression satisfies the

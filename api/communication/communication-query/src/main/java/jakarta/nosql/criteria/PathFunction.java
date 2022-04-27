@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Otavio Santana and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,17 +20,21 @@
 package jakarta.nosql.criteria;
 
 /**
- * Negation of a {@link Predicate}
+ * A function to be applied to a path
  *
- * @param <T> The Entity type whose fetching is to be be restricted
+ * @param <X> the root entity type
+ * @param <Y> the entity type
+ * @param <T> the type of the attribute the function is applied to
+ * @param <R> the return type of the function
  */
-public interface NegationPredicate<T> extends Predicate<T> {
+public interface PathFunction<X, Y, T, R> extends CriteriaFunction<X, Y, T, R> {
 
-    /**
-     * Return the negated {@link Predicate}.
-     *
-     * @return negated predicate
-     */
-    Predicate<T> getPredicate();
+    public enum Function {
+        COUNT
+    }
+
+    public Path<X, Y> getPath();
+
+    public Function getFunction();
 
 }

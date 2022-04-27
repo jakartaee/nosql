@@ -25,9 +25,9 @@ import java.util.List;
  * The <code>SelectQuery</code> interface defines functionality that is
  * specific to select queries.
  *
- * @param <T> the type of the root entity
+ * @param <X> the type of the root entity
  */
-public interface SelectQuery<T extends Object> extends RestrictedQuery<T, SelectQueryResult<T>, SelectQuery<T>> {
+public interface SelectQuery<X> extends RestrictedQuery<X, SelectQueryResult<X>, SelectQuery<X>> {
 
     /**
      * Specify the ordering expressions that are used to order the query
@@ -38,7 +38,7 @@ public interface SelectQuery<T extends Object> extends RestrictedQuery<T, Select
      * @param sortings zero or more ordering expressions
      * @return the modified query
      */
-    public SelectQuery<T> orderBy(List<Order<T>> sortings);
+    public SelectQuery<X> orderBy(List<Order<X, ?>> sortings);
 
     /**
      * Set the maximum number of results to retrieve.
@@ -47,7 +47,7 @@ public interface SelectQuery<T extends Object> extends RestrictedQuery<T, Select
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    public SelectQuery<T> setMaxResults(int maxResults);
+    public SelectQuery<X> setMaxResults(int maxResults);
 
     /**
      * Set the position of the first result to retrieve.
@@ -56,6 +56,6 @@ public interface SelectQuery<T extends Object> extends RestrictedQuery<T, Select
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    public SelectQuery<T> setFirstResult(int firstResult);
+    public SelectQuery<X> setFirstResult(int firstResult);
 
 }
