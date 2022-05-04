@@ -35,7 +35,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param expression expression
      * @return greater-than predicate
      */
-    public BinaryPredicate<X, T, Expression<X, ? ,T>> greaterThan(Expression<X, ?, T> expression);
+    BinaryPredicate<X, T, Expression<X, ? ,T>> greaterThan(Expression<X, ?, T> expression);
 
     /**
      * Create a predicate for testing whether this expression is greater than
@@ -44,7 +44,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param y value
      * @return greater-than predicate
      */
-    public BinaryPredicate<X, T, T> greaterThan(T y);
+    BinaryPredicate<X, T, T> greaterThan(T y);
 
     /**
      * Create a predicate for testing whether this expression is greater than or
@@ -53,7 +53,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param expression expression
      * @return greater-than-or-equal predicate
      */
-    public BinaryPredicate<X, T, Expression<X, ?, T>> greaterThanOrEqualTo(Expression<X, ?, T> expression);
+    BinaryPredicate<X, T, Expression<X, ?, T>> greaterThanOrEqualTo(Expression<X, ?, T> expression);
 
     /**
      * Create a predicate for testing whether this expression is greater than or
@@ -62,7 +62,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param y value
      * @return greater-than-or-equal predicate
      */
-    public BinaryPredicate<X, T, T> greaterThanOrEqualTo(T y);
+    BinaryPredicate<X, T, T> greaterThanOrEqualTo(T y);
 
     /**
      * Create a predicate for testing whether this expression is less than the
@@ -71,7 +71,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param expression expression
      * @return greater-than-or-equal predicate
      */
-    public BinaryPredicate<X, T, Expression<X, ?, T>> lessThan(Expression<X, ?, T> expression);
+    BinaryPredicate<X, T, Expression<X, ?, T>> lessThan(Expression<X, ?, T> expression);
 
     /**
      * Create a predicate for testing whether this expression is less than the
@@ -80,7 +80,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param y value
      * @return greater-than-or-equal predicate
      */
-    public BinaryPredicate<X, T, T> lessThan(T y);
+    BinaryPredicate<X, T, T> lessThan(T y);
 
     /**
      * Create a predicate for testing whether this expression is less than or
@@ -89,7 +89,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param expression expression
      * @return greater-than-or-equal predicate
      */
-    public BinaryPredicate<X, T, Expression<X, ?, T>> lessThanOrEqualTo(Expression<X, ?, T> expression);
+    BinaryPredicate<X, T, Expression<X, ?, T>> lessThanOrEqualTo(Expression<X, ?, T> expression);
 
     /**
      * Create a predicate for testing whether this expression is less than or
@@ -98,7 +98,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param y value
      * @return greater-than-or-equal predicate
      */
-    public BinaryPredicate<X, T, T> lessThanOrEqualTo(T y);
+    BinaryPredicate<X, T, T> lessThanOrEqualTo(T y);
 
     /**
      * Create a predicate for testing whether the this expression is between the
@@ -108,7 +108,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param exprsn2 expression
      * @return between predicate
      */
-    public RangePredicate<X, T, Expression<X, ?, T>> exclusiveBetween(Expression<X, ?, T> exprsn1, Expression<X, ?, T> exprsn2);
+    RangePredicate<X, T, Expression<X, ?, T>> exclusiveBetween(Expression<X, ?, T> exprsn1, Expression<X, ?, T> exprsn2);
 
     /**
      * Create a predicate for testing whether the this expression value is
@@ -118,7 +118,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param y value
      * @return between predicate
      */
-    public RangePredicate<X, T, T> exclusiveBetween(T x, T y);
+    RangePredicate<X, T, T> exclusiveBetween(T x, T y);
 
     /**
      * Create a predicate for testing whether the this expression is between the
@@ -128,7 +128,7 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param exprsn2 expression
      * @return between predicate
      */
-    public RangePredicate<X, T, Expression<X, ?, T>> inclusiveBetween(Expression<X, ?, T> exprsn1, Expression<X, ?, T> exprsn2);
+    RangePredicate<X, T, Expression<X, ?, T>> inclusiveBetween(Expression<X, ?, T> exprsn1, Expression<X, ?, T> exprsn2);
 
     /**
      * Create a predicate for testing whether the this expression value is
@@ -138,20 +138,20 @@ public interface ComparableExpression<X, Y, T extends Comparable> extends Expres
      * @param y value
      * @return between predicate
      */
-    public RangePredicate<X, T, T> inclusiveBetween(T x, T y);
+    RangePredicate<X, T, T> inclusiveBetween(T x, T y);
 
     /**
      * Create an ordering by the ascending value of this expression
      *
      * @return ascending ordering corresponding to the expression
      */
-    public Order<X, T> asc();
+    Order<X, T> asc();
 
     /**
      * Create an ordering by the descending value of the expression
      *
      * @return descending ordering corresponding to the expression
      */
-    public Order<X, T> desc();
+    Order<X, T> desc();
 
 }

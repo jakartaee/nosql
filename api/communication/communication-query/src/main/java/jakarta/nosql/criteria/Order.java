@@ -32,13 +32,13 @@ public interface Order<X, T extends Comparable> {
      *
      * @return boolean indicating whether ordering is ascending
      */
-    public boolean isAscending();
+    boolean isAscending();
 
     /**
      * Return the expression that is used for ordering
      *
      * @return expression used for ordering
      */
-    public ComparableExpression<X, ?, T> getExpression();
+    ComparableExpression<X, ?, T> getExpression();
 
 }

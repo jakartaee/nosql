@@ -29,12 +29,12 @@ package jakarta.nosql.criteria;
  */
 public interface PathFunction<X, Y, T, R> extends CriteriaFunction<X, Y, T, R> {
 
-    public enum Function {
+    enum Function {
         COUNT
     }
 
-    public Path<X, Y> getPath();
+    Path<X, Y> getPath();
 
-    public Function getFunction();
+    Function getFunction();
 
 }

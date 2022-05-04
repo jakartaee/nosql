@@ -36,14 +36,14 @@ public interface Expression<X, Y, T> {
      *
      * @return path
      */    
-    public Path<X, Y> getPath();
+    Path<X, Y> getPath();
 
     /**
      * Retrieves the attribute of this expression
      *
      * @return attribute
      */        
-    public Attribute<Y, T> getAttribute();
+    Attribute<Y, T> getAttribute();
 
     /**
      * Create a predicate for testing if the expression is equal to the argument
@@ -52,7 +52,7 @@ public interface Expression<X, Y, T> {
      * @param expression the expression to check the equality against
      * @return equality predicate
      */
-    public BinaryPredicate<X, T, Expression<X, Y, T>> equal(Expression<X, Y, T> expression);
+    BinaryPredicate<X, T, Expression<X, Y, T>> equal(Expression<X, Y, T> expression);
 
     /**
      * Create a predicate for testing if the expression is equal to the argument
@@ -61,7 +61,7 @@ public interface Expression<X, Y, T> {
      * @param value the value to check the equality against
      * @return equality predicate
      */
-    public BinaryPredicate<X, T, T> equal(T value);
+    BinaryPredicate<X, T, T> equal(T value);
 
     /**
      * Create a predicate to test whether the expression is a member of the
@@ -70,6 +70,6 @@ public interface Expression<X, Y, T> {
      * @param values values to be tested against
      * @return predicate testing for membership
      */
-    public BinaryPredicate<X, T, Collection<T>> in(Collection<T> values);
+    BinaryPredicate<X, T, Collection<T>> in(Collection<T> values);
 
 }

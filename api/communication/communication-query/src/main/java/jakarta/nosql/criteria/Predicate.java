@@ -31,7 +31,7 @@ public interface Predicate<T> {
      *
      * @return not predicate
      */
-    public NegationPredicate<T> not();
+    NegationPredicate<T> not();
 
     /**
      * Create a conjunction of this with the argument restriction
@@ -39,7 +39,7 @@ public interface Predicate<T> {
      * @param restriction restriction
      * @return and predicate
      */
-    public ConjunctionPredicate<T> and(Predicate<T> restriction);
+    ConjunctionPredicate<T> and(Predicate<T> restriction);
 
     /**
      * Create a disjunction of this with the argument restriction
@@ -47,6 +47,6 @@ public interface Predicate<T> {
      * @param restriction restriction
      * @return or predicate
      */
-    public DisjunctionPredicate<T> or(Predicate<T> restriction);
+    DisjunctionPredicate<T> or(Predicate<T> restriction);
 
 }

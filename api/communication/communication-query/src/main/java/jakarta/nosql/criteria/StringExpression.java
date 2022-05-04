@@ -34,6 +34,6 @@ public interface StringExpression<X, Y> extends Expression<X, Y, String> {
      * @param pattern string
      * @return like predicate
      */
-    public Predicate<X> like(String pattern);
+    Predicate<X> like(String pattern);
 
 }

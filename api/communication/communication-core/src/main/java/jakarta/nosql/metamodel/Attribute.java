@@ -30,18 +30,18 @@ public interface Attribute<X, T> {
      * Return the class type
      * @return class type
     */
-    public Class<X> getType();
+    Class<X> getType();
     
     /**
      * Return the attribute type
      * @return attribute type
     */
-    public Class<T> getAttributeType();
+    Class<T> getAttributeType();
     
     /**
      * Return the name of the attribute
      * @return the name of the attribute
     */
-    public String getName();
+    String getName();
     
 }

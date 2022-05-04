@@ -28,7 +28,7 @@ package jakarta.nosql.criteria;
  */
 public interface RangePredicate<X, L, R> extends Predicate<X> {
     
-    public enum Operator {
+    enum Operator {
         INCLUSIVE_BETWEEN,
         EXCLUSIVE_BETWEEN
     }
@@ -38,27 +38,27 @@ public interface RangePredicate<X, L, R> extends Predicate<X> {
      *
      * @return negated predicate
      */
-    public Operator getOperator();
+    Operator getOperator();
 
     /**
      * Return the left hand side for this {@link Predicate}.
      *
      * @return negated predicate
      */
-    public Expression<X, ?, L> getLeft();
+    Expression<X, ?, L> getLeft();
 
     /**
      * Return the from value for this {@link Predicate}.
      *
      * @return negated predicate
      */
-    public R getFrom();
+    R getFrom();
     
     /**
      * Return the to value for this {@link Predicate}.
      *
      * @return negated predicate
      */
-    public R getTo();
+    R getTo();
 
 }

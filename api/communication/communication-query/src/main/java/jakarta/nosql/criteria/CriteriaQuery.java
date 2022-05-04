@@ -32,14 +32,14 @@ public interface CriteriaQuery<T> {
      *
      * @return from clause
      */
-    public Root<T> from();
+    Root<T> from();
 
     /**
      * Creates a select query
      *
      * @return select query
      */    
-    public SelectQuery<T> select();
+    SelectQuery<T> select();
     
     /**
      * Creates a select function query
@@ -47,7 +47,7 @@ public interface CriteriaQuery<T> {
      * @param functions to be computed
      * @return function query
      */    
-    public FunctionQuery<T> select(CriteriaFunction<T, ?, ?, ?>... functions);
+    FunctionQuery<T> select(CriteriaFunction<T, ?, ?, ?>... functions);
 
     /**
      * Creates a select expression query
@@ -55,6 +55,6 @@ public interface CriteriaQuery<T> {
      * @param expressions to retrieve
      * @return select query
      */    
-    public ExpressionQuery<T> select(Expression<T, ?, ?>... expressions);
+    ExpressionQuery<T> select(Expression<T, ?, ?>... expressions);
     
 }

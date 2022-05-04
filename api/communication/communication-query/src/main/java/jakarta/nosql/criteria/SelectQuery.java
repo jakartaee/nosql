@@ -38,7 +38,7 @@ public interface SelectQuery<X> extends RestrictedQuery<X, SelectQueryResult<X>,
      * @param sortings zero or more ordering expressions
      * @return the modified query
      */
-    public SelectQuery<X> orderBy(List<Order<X, ?>> sortings);
+    SelectQuery<X> orderBy(List<Order<X, ?>> sortings);
 
     /**
      * Set the maximum number of results to retrieve.
@@ -47,7 +47,7 @@ public interface SelectQuery<X> extends RestrictedQuery<X, SelectQueryResult<X>,
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    public SelectQuery<X> setMaxResults(int maxResults);
+    SelectQuery<X> setMaxResults(int maxResults);
 
     /**
      * Set the position of the first result to retrieve.
@@ -56,6 +56,6 @@ public interface SelectQuery<X> extends RestrictedQuery<X, SelectQueryResult<X>,
      * @return the same query instance
      * @throws IllegalArgumentException if the argument is negative
      */
-    public SelectQuery<X> setFirstResult(int firstResult);
+    SelectQuery<X> setFirstResult(int firstResult);
 
 }

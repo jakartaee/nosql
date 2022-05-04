@@ -34,7 +34,7 @@ public interface FunctionQuery<X> extends RestrictedQuery<X, FunctionQueryResult
      *
      * @return collection of functions
      */
-    public Collection<CriteriaFunction<X, ?, ?, ?>> getFunctions();
+    Collection<CriteriaFunction<X, ?, ?, ?>> getFunctions();
     
     /**
      * Specify the expressions that are used to form groups over

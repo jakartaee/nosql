@@ -33,6 +33,6 @@ public interface ExecutableQuery<T, R extends CriteriaQueryResult<T>> {
      *
      * @return root type
      */
-    public Class<T> getType();
+    Class<T> getType();
     
 }

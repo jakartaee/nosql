@@ -23,6 +23,6 @@ import java.util.Collection;
 
 public interface ExpressionQuery<T> extends SelectQuery<T> {
     
-    public Collection<Expression<T, ?, ?>> getExpressions();
+    Collection<Expression<T, ?, ?>> getExpressions();
     
 }

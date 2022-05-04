@@ -33,6 +33,6 @@ public interface NumberExpression<X, Y, T extends Number & Comparable> extends C
      *
      * @return operator
      */
-    public ExpressionFunction<X, Y, T, T> sum();
+    ExpressionFunction<X, Y, T, T> sum();
     
 }

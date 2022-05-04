@@ -39,13 +39,13 @@ public interface RestrictedQuery<T, R extends RestrictedQueryResult<T>, Q extend
      * @param restrictions zero or more restriction predicates
      * @return the modified query
      */
-    public Q where(Predicate<T>... restrictions);
+    Q where(Predicate<T>... restrictions);
 
     /**
      * Retrieves the restriction collection. 
      *
      * @return the restrictions
      */
-    public Collection<Predicate<T>> getRestrictions();
+    Collection<Predicate<T>> getRestrictions();
 
 }

@@ -39,14 +39,14 @@ public interface Path<X, Y> {
      *
      * @return parent path
      */
-    public Path<X, ?> getParent();
+    Path<X, ?> getParent();
     
     /**
      * Returns the attribute that binds parent {@link Path} to this
      *
      * @return parent path
      */
-    public Attribute<?, Y> getAttribute();
+    Attribute<?, Y> getAttribute();
 
 
     /**
@@ -56,7 +56,7 @@ public interface Path<X, Y> {
      * @param attribute entity attribute
      * @return path corresponding to the entity attribute
      */
-    public <Z> Path<X, Z> get(EntityAttribute<Y, Z> attribute);
+    <Z> Path<X, Z> get(EntityAttribute<Y, Z> attribute);
     
     /**
      * Create an expression corresponding to the referenced single-valued
@@ -66,7 +66,7 @@ public interface Path<X, Y> {
      * @param attribute single-valued attribute
      * @return expression corresponding to the referenced attribute
      */
-    public <Z> Expression<X, Y, Z> get(ValueAttribute<Y, Z> attribute);
+    <Z> Expression<X, Y, Z> get(ValueAttribute<Y, Z> attribute);
 
     /**
      * Create an expression corresponding to the referenced single-valued string
@@ -76,7 +76,7 @@ public interface Path<X, Y> {
      * @return string expression corresponding to the referenced string
      * attribute
      */
-    public StringExpression<X, Y> get(StringAttribute<Y> attribute);
+    StringExpression<X, Y> get(StringAttribute<Y> attribute);
 
     /**
      * Create an expression corresponding to the referenced single-valued
@@ -87,7 +87,7 @@ public interface Path<X, Y> {
      * @return comparable expression corresponding to the referenced comparable
      * attribute
      */
-    public <Z extends Comparable> ComparableExpression<X, Y, Z> get(ComparableAttribute<Y, Z> attribute);
+    <Z extends Comparable> ComparableExpression<X, Y, Z> get(ComparableAttribute<Y, Z> attribute);
 
     /**
      * Create an expression corresponding to the referenced single-valued
@@ -98,6 +98,6 @@ public interface Path<X, Y> {
      * @return comparable expression corresponding to the referenced comparable
      * attribute
      */
-    public <Z extends Number & Comparable> NumberExpression<X, Y, Z> get(NumberAttribute<Y, Z> attribute);
+    <Z extends Number & Comparable> NumberExpression<X, Y, Z> get(NumberAttribute<Y, Z> attribute);
 
 }

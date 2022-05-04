@@ -49,8 +49,9 @@ public interface DocumentTemplate extends Template {
      * @param <T> type of the query result
      * @param type type of the query result
      * @return criteria query object
+     * @throws NullPointerException query is null
      */
-    public <T extends Object> CriteriaQuery<T> createQuery(Class<T> type);
+    <T> CriteriaQuery<T> createQuery(Class<T> type);
 
 
     /**
@@ -133,7 +134,7 @@ public interface DocumentTemplate extends Template {
      * @return query result
      * @throws NullPointerException when criteriaQuery is null
      */
-    <T extends Object, R extends CriteriaQueryResult<T>> R executeQuery(ExecutableQuery<T, R> criteriaQuery);
+    <T, R extends CriteriaQueryResult<T>> R executeQuery(ExecutableQuery<T, R> criteriaQuery);
 
     /**
      * Executes a query then bring the result as a unique result

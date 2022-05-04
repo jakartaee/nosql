@@ -29,12 +29,12 @@ package jakarta.nosql.criteria;
  */
 public interface ExpressionFunction<X, Y, T, R> extends CriteriaFunction<X, Y, T, R> {
     
-    public enum Function {
+    enum Function {
         SUM
     }
 
-    public Expression<X, Y, T> getExpression();
+    Expression<X, Y, T> getExpression();
 
-    public Function getFunction();
+    Function getFunction();
     
 }

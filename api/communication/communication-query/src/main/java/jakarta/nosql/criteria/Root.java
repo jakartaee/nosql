@@ -27,6 +27,6 @@ package jakarta.nosql.criteria;
  */
 public interface Root<X> extends Path<X, X> {
     
-    public PathFunction<X, X, X, Number> count();
+    PathFunction<X, X, X, Number> count();
     
 }
