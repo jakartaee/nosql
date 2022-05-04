@@ -430,7 +430,7 @@ The Document Communication API supports retrieving information from a `DocumentQ
 * **documents**: The fields to return in a query.
 * **limit**: the maximum number of results in a query.
 * **skip**: the position of the first result.
-* **documentCollection**: the document collection name looks like a table in a NoSQL database document.
+* **documentCollection**: the document collection name looks like a table in a document NoSQL database.
 * **condition**: the filter in the query.
 * **sorts**: the way to order the information, where the first element will have more precedence than the next ones.
 
@@ -636,6 +636,15 @@ DocumentQuery query = DocumentQuery.select("name", "age")
             .orderBy("desc").desc()
             .build();
 
+//static imports
+
+DocumentQuery query = select("name", "age")
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .or("age").gt(20)
+            .orderBy("name").asc()
+            .orderBy("desc").desc()
+            .build();
 ----
 Using the builder method:
 [source,java]
@@ -651,11 +660,10 @@ Using the builder method:
 
 DocumentQuery query = builder("name", "age")
          .from("Person")
-         .where(or(DocumentCondition.eq("name", "Ada Lovelace"),
-                DocumentCondition.gt("age", 20)))
-         .sort(Sort.asc("name"), Sort.desc("age"))
+         .where(or(eq("name", "Ada Lovelace"),
+                gt("age", 20)))
+         .sort(asc("name"), desc("age"))
          .build();
-
 ----
 
 ===== Removing information from Document Collection
@@ -676,6 +684,12 @@ manager.delete(query);
 DocumentDeleteQuery query = DocumentQueryBuilder.builder().from("collection")
                                                 .where(DocumentCondition.gt("age", 10).build();
 ----
+
+The `DocumentCondition` has support for both `DocumentQuery` and `DocumentDeleteQuery` on fluent and builder patterns.
+
+The main difference is that you'll combine all the options manually on the builder instead of being transparent as the fluent way does.
+
+Thus, it is worth checking the DocumentCondition to see all the filter options.
 
 ==== Column Manager
 
