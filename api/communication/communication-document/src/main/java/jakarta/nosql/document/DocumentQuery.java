@@ -453,6 +453,7 @@ public interface DocumentQuery {
         DocumentQueryBuilder select(String... documents);
         DocumentQueryBuilder sort(Sort sort);
         DocumentQueryBuilder sort(Sort... sorts);
+        DocumentQueryBuilder from(String documentCollection);
         DocumentQueryBuilder where(DocumentCondition condition);
         DocumentQueryBuilder skip(long skip);
         DocumentQueryBuilder limit(long limit);
