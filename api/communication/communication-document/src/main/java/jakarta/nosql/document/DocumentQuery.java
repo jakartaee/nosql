@@ -477,10 +477,6 @@ public interface DocumentQuery {
     }
 
     /**
-     * Besides the fluent-API with the select {@link DocumentQuery#select()}, the API also has support for creating
-     * a {@link DocumentQuery} instance using a builder pattern.
-     * The goal is the same; however, it provides more possibilities, such as more complex queries.
-     * <p>
      * Besides, the fluent-API with the select method, the API also has support for creating a {@link DocumentQuery} instance using a builder pattern.
      * The goal is the same; however, it provides more possibilities, such as more complex queries.
      * The DocumentQueryBuilder is not brighter than a fluent-API; it has the same validation in the creation method.
