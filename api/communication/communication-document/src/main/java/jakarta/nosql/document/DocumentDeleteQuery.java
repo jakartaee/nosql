@@ -72,7 +72,6 @@ public interface DocumentDeleteQuery {
      * Once there is no field, it will remove the whole record instead of some fields on the database.
      *
      * @return a new {@link DocumentDelete} instance
-     * @throws NullPointerException when there is a null element
      */
     static DocumentDelete delete() {
         return ServiceLoaderProvider.get(DocumentDeleteProvider.class).get();
