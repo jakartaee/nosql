@@ -80,7 +80,8 @@ public interface ColumnDeleteQuery {
     /**
      * It starts the first step of {@link ColumnDeleteQuery} creation using a builder pattern.
      * This first step will inform the fields to delete in the query instead of the whole record.
-     * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
+     * This behavior might be different for each NoSQL database provider; therefore,
+     * it might be ignored for some implementations.
      *
      * @param documents the column fields to delete query
      * @return a {@link ColumnDeleteQueryBuilder} instance
