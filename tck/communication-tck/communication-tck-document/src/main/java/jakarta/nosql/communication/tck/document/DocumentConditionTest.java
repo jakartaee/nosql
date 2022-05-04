@@ -194,7 +194,7 @@ public class DocumentConditionTest {
     @Test
     public void shouldCreateInFromNameValue() {
         Document document = Document.of("name", Collections.singleton("Ada Lovelace"));
-        DocumentCondition condition = DocumentCondition.in("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.in("name", Collections.singleton("Ada Lovelace"));
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.IN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
@@ -252,7 +252,7 @@ public class DocumentConditionTest {
     @Test
     public void shouldCreateBetweenFromNameValue() {
         Document document = Document.of("age", Arrays.asList(10, 20));
-        DocumentCondition condition = DocumentCondition.between("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.between(document);
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.BETWEEN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
