@@ -99,6 +99,7 @@ public interface DocumentQuery {
      * It starts the first step of {@link DocumentQuery} creation using a fluent-API way.
      * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
      * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
+     *
      * @return a new {@link DocumentSelect} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
@@ -109,6 +110,7 @@ public interface DocumentQuery {
     /**
      * It starts the first step of {@link DocumentQuery} creation using a builder pattern.
      * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
+     *
      * @return {@link DocumentQueryBuilder} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
@@ -120,6 +122,7 @@ public interface DocumentQuery {
      * It starts the first step of {@link DocumentQuery} creation using a builder pattern.
      * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
      * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
+     *
      * @param documents The document fields to query, optional.
      * @return {@link DocumentQueryBuilder} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
@@ -569,5 +572,27 @@ public interface DocumentQuery {
          *                               such as the {@link DocumentQueryBuilder#from(String)} method was not called.
          */
         DocumentQuery build();
+
+        /**
+         * Executes {@link DocumentCollectionManager#select(DocumentQuery)}
+         *
+         * @param manager the entity manager
+         * @return the result of {@link DocumentCollectionManager#select(DocumentQuery)}
+         * @throws NullPointerException  when manager is null
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link DocumentQueryBuilder#from(String)} method was not called.
+         */
+        Stream<DocumentEntity> getResult(DocumentCollectionManager manager);
+
+        /**
+         * Executes {@link DocumentCollectionManager#singleResult(DocumentQuery)}
+         *
+         * @param manager the entity manager
+         * @return the result of {@link DocumentCollectionManager#singleResult(DocumentQuery)}
+         * @throws NullPointerException  when manager is null
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link DocumentQueryBuilder#from(String)} method was not called.
+         */
+        Optional<DocumentEntity> getSingleResult(DocumentCollectionManager manager);
     }
 }

@@ -15,5 +15,5 @@
  */
 package jakarta.nosql.communication.tck.document;
 
-public class DocumentQueryConditionTest {
+public class DocumentConditionTest {
 }
