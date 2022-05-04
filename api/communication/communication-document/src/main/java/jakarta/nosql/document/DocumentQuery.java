@@ -82,7 +82,7 @@ public interface DocumentQuery {
     List<String> getDocuments();
 
     /**
-     * It starts the first step of {@link DocumentQuery} API using a fluent-API way.
+     * It starts the first step of {@link DocumentQuery} creation using a fluent-API way.
      * This first step will inform the fields to return in the query, such as a "select field, fieldB from database"
      * in a database query.
      *
@@ -96,10 +96,9 @@ public interface DocumentQuery {
     }
 
     /**
-     * It starts the first step of {@link DocumentQuery} API using a fluent-API way.
-     * It starts the first step of DocumentQuery API using a fluent-API way.
-     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
-     * Once there is empty, it will return all elements in the query, pretty similar to "select * from database" in a database query.
+     * It starts the first step of {@link DocumentQuery} creation using a fluent-API way.
+     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database" in a database query.
+     * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
      * @return a new {@link DocumentSelect} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
@@ -107,8 +106,26 @@ public interface DocumentQuery {
         return ServiceLoaderProvider.get(DocumentSelectProvider.class).get();
     }
 
-    static DocumentQueryBuilder build() {
+    /**
+     * It starts the first step of {@link DocumentQuery} creation using a builder pattern.
+     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database" in a database query.
+     * @return {@link DocumentQueryBuilder} instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static DocumentQueryBuilder builder() {
         return ServiceLoaderProvider.get(DocumentQueryBuilderProvider.class).get();
+    }
+
+    /**
+     * It starts the first step of {@link DocumentQuery} creation using a builder pattern.
+     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database" in a database query.
+     * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
+     * @param documents The document fields to query, optional.
+     * @return {@link DocumentQueryBuilder} instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static DocumentQueryBuilder builder(String... documents) {
+        return ServiceLoaderProvider.get(DocumentQueryBuilderProvider.class).apply(documents);
     }
 
     /**
