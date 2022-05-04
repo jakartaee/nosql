@@ -107,6 +107,10 @@ public interface DocumentQuery {
         return ServiceLoaderProvider.get(DocumentSelectProvider.class).get();
     }
 
+    static DocumentQueryBuilder build() {
+        return ServiceLoaderProvider.get(DocumentQueryBuilderProvider.class).get();
+    }
+
     /**
      * The DocumentFrom Query
      */
@@ -159,6 +163,13 @@ public interface DocumentQuery {
      * A provider class of {@link DocumentSelect}
      */
     interface DocumentSelectProvider extends Function<String[], DocumentSelect>, Supplier<DocumentSelect> {
+    }
+
+    /**
+     * A provider class of {@link DocumentQueryBuilder}
+     */
+    interface DocumentQueryBuilderProvider extends Function<String[], DocumentQueryBuilder>, Supplier<DocumentQueryBuilder> {
+
     }
 
 
