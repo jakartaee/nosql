@@ -118,18 +118,24 @@ public interface ColumnQuery {
 
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
+         * The default value is zero, and it will replace the current property.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnSkip skip(long skip);
 
 
         /**
          * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
+         * The default value is zero, and it will replace the current property.
          *
          * @param limit the limit
-         * @return a query with the limit defined
+         * @return the {@link ColumnQueryBuilder}
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnLimit limit(long limit);
 
@@ -152,9 +158,12 @@ public interface ColumnQuery {
 
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
+         * The default value is zero, and it will replace the current property.
          *
-         * @param skip the number of elements to skip
+         * @param skip the first result to retrieve
          * @return a query with first result defined
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnSkip skip(long skip);
 
@@ -175,21 +184,26 @@ public interface ColumnQuery {
          */
         ColumnOrder orderBy(String name);
 
-
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
+         * The default value is zero, and it will replace the current property.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnSkip skip(long skip);
 
 
         /**
          * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
+         * The default value is zero, and it will replace the current property.
          *
          * @param limit the limit
-         * @return a query with the limit defined
+         * @return the {@link ColumnQueryBuilder}
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnLimit limit(long limit);
 
@@ -279,9 +293,12 @@ public interface ColumnQuery {
 
         /**
          * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
+         * The default value is zero, and it will replace the current property.
          *
          * @param limit the limit
-         * @return a query with the limit defined
+         * @return the {@link ColumnQueryBuilder}
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnLimit limit(long limit);
 
@@ -315,18 +332,23 @@ public interface ColumnQuery {
 
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
+         * The default value is zero, and it will replace the current property.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnSkip skip(long skip);
 
-
         /**
          * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
+         * The default value is zero, and it will replace the current property.
          *
          * @param limit the limit
-         * @return a query with the limit defined
+         * @return the {@link ColumnQueryBuilder}
+         * @throws IllegalArgumentException if limit is negative
          */
         ColumnLimit limit(long limit);
 
@@ -440,5 +462,123 @@ public interface ColumnQuery {
      * The column not condition
      */
     interface ColumnNotCondition extends ColumnNameCondition {
+    }
+
+    /**
+     * Besides, the fluent-API with the select method, the API also has support for creating a {@link ColumnQuery} instance using a builder pattern.
+     * The goal is the same; however, it provides more possibilities, such as more complex queries.
+     * The ColumnQueryBuilder is not brighter than a fluent-API; it has the same validation in the creation method.
+     * It is a mutable and non-thread-safe class.
+     */
+    interface ColumnQueryBuilder {
+        /**
+         * Append a new column in the search result. The query will return the result by elements declared such as "select column from database"
+         * If it remains empty, it will return all the possible fields, similar to "select * from database"
+         *
+         * @param column a field to return to the search
+         * @return the {@link ColumnQueryBuilder}
+         * @throws NullPointerException when the document is null
+         */
+        ColumnQueryBuilder select(String column);
+
+        /**
+         * Append new columns in the search result. The query will return the result by elements declared such as "select column from database"
+         * If it remains empty, it will return all the possible fields, similar to "select * from database"
+         *
+         * @param columns a field to return to the search
+         * @return the {@link ColumnQueryBuilder}
+         * @throws NullPointerException when there is a null element
+         */
+        ColumnQueryBuilder select(String... columns);
+
+        /**
+         * Append a new sort in the query. The first one has more precedence than the next one.
+         *
+         * @param sort the {@link Sort}
+         * @return the {@link ColumnQueryBuilder}
+         * @throws NullPointerException when the sort is null
+         */
+        ColumnQueryBuilder sort(Sort sort);
+
+        /**
+         * Append sorts in the query. The first one has more precedence than the next one.
+         *
+         * @param sorts the array of {@link Sort}
+         * @return the {@link ColumnQueryBuilder}
+         * @throws NullPointerException when there is a null sort
+         */
+        ColumnQueryBuilder sort(Sort... sorts);
+
+        /**
+         * Define the document collection in the query, this element is mandatory to build the {@link ColumnQuery}
+         *
+         * @param documentCollection the document collection to query
+         * @return the {@link ColumnQueryBuilder}
+         * @throws NullPointerException when documentCollection is null
+         */
+        ColumnQueryBuilder from(String documentCollection);
+
+        /**
+         * Either add or replace the condition in the query. It has a different behavior than the previous method
+         * because it won't append it. Therefore, it will create when it is the first time or replace when it was executed once.
+         *
+         * @param condition the {@link ColumnCondition} in the query
+         * @return the {@link ColumnQueryBuilder}
+         * @throws NullPointerException when condition is null
+         */
+        ColumnQueryBuilder where(ColumnCondition condition);
+
+        /**
+         * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
+         * The default value is zero, and it will replace the current property.
+         *
+         * @param skip the first result to retrieve
+         * @return a query with first result defined
+         * @throws IllegalArgumentException if limit is negative
+         */
+        ColumnQueryBuilder skip(long skip);
+
+        /**
+         * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
+         * The default value is zero, and it will replace the current property.
+         *
+         * @param limit the limit
+         * @return the {@link ColumnQueryBuilder}
+         * @throws IllegalArgumentException if limit is negative
+         */
+        ColumnQueryBuilder limit(long limit);
+
+        /**
+         * It will validate and then create a {@link ColumnQuery} instance.
+         *
+         * @return {@link ColumnQuery}
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link ColumnQueryBuilder#from(String)} method was not called.
+         */
+        ColumnQuery build();
+
+        /**
+         * Executes {@link ColumnFamilyManager#select(ColumnQuery)}
+         *
+         * @param manager the entity manager
+         * @return the result of {@link ColumnFamilyManager#select(ColumnQuery)}
+         * @throws NullPointerException  when manager is null
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link ColumnQueryBuilder#from(String)} method was not called.
+         */
+        Stream<ColumnEntity> getResult(ColumnFamilyManager manager);
+
+        /**
+         * Executes {@link ColumnFamilyManager#singleResult(ColumnQuery)}
+         *
+         * @param manager the entity manager
+         * @return the result of {@link ColumnFamilyManager#singleResult(ColumnQuery)}
+         * @throws NullPointerException  when manager is null
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link ColumnQueryBuilder#from(String)} method was not called.
+         */
+        Optional<ColumnEntity> getSingleResult(ColumnFamilyManager manager);
     }
 }
