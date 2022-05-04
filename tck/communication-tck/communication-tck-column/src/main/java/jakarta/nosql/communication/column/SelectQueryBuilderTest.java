@@ -49,25 +49,25 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldReturnErrorWhenHasNullElementInSelect() {
-        assertThrows(NullPointerException.class, () -> builder("", "'", null));
+        assertThrows(NullPointerException.class, () -> builder("document", "document'", null));
     }
 
     @Test
     public void shouldBuilder() {
-        String columnFamily = "columnFamily";
-        ColumnQuery query = builder().from(columnFamily).build();
+        String documentCollection = "documentCollection";
+        ColumnQuery query = builder().from(documentCollection).build();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
     }
 
     @Test
-    public void shouldSelectColumn() {
-        String columnFamily = "columnFamily";
-        ColumnQuery query = builder("column", "column2").from(columnFamily).build();
-        assertThat(query.getColumns(), containsInAnyOrder("column", "column2"));
+    public void shouldSelectDocument() {
+        String documentCollection = "documentCollection";
+        ColumnQuery query = builder("document", "document2").from(documentCollection).build();
+        assertThat(query.getColumns(), containsInAnyOrder("document", "document2"));
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
     }
 
     @Test
@@ -78,21 +78,21 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectOrderAsc() {
-        String columnFamily = "columnFamily";
-        ColumnQuery query = builder().from(columnFamily).sort(Sort.asc("name")).build();
+        String documentCollection = "documentCollection";
+        ColumnQuery query = builder().from(documentCollection).sort(Sort.asc("name")).build();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertThat(query.getSorts(), Matchers.contains(Sort.of("name", SortType.ASC)));
     }
 
     @Test
     public void shouldSelectOrderDesc() {
-        String columnFamily = "columnFamily";
-        ColumnQuery query = builder().from(columnFamily).sort(Sort.desc("name")).build();
+        String documentCollection = "documentCollection";
+        ColumnQuery query = builder().from(documentCollection).sort(Sort.desc("name")).build();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertThat(query.getSorts(), contains(Sort.of("name", SortType.DESC)));
     }
 
@@ -100,61 +100,61 @@ public class SelectQueryBuilderTest {
     @Test
     public void shouldReturnErrorSelectWhenOrderIsNull() {
         assertThrows(NullPointerException.class,() -> {
-            String columnFamily = "columnFamily";
-            builder().from(columnFamily).sort((Sort) null);
+            String documentCollection = "documentCollection";
+            builder().from(documentCollection).sort((Sort) null);
         });
     }
 
     @Test
     public void shouldSelectLimit() {
-        String columnFamily = "columnFamily";
-        ColumnQuery query = builder().from(columnFamily).limit(10).build();
+        String documentCollection = "documentCollection";
+        ColumnQuery query = builder().from(documentCollection).limit(10).build();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(10L, query.getLimit());
     }
 
     @Test
     public void shouldReturnErrorWhenLimitIsNegative() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            builder().from(columnFamily).limit(-1);
+            builder().from(documentCollection).limit(-1);
         });
     }
 
     @Test
     public void shouldSelectSkip() {
-        String columnFamily = "columnFamily";
-        ColumnQuery query = builder().from(columnFamily).skip(10).build();
+        String documentCollection = "documentCollection";
+        ColumnQuery query = builder().from(documentCollection).skip(10).build();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(10L, query.getSkip());
     }
 
     @Test
     public void shouldReturnErrorWhenSkipIsNegative() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            builder().from(columnFamily).skip(-1);
+            builder().from(documentCollection).skip(-1);
         });
     }
 
     @Test
     public void shouldSelectWhereNameEq() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
 
-        ColumnQuery query = builder().from(columnFamily)
-                .where(ColumnCondition.eq("name", name))
+        ColumnQuery query = builder().from(documentCollection)
+                .where(eq("name", name))
                 .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.EQUALS, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(name, column.get());
@@ -163,9 +163,9 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameLike() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-        ColumnQuery query = builder().from(columnFamily)
+        ColumnQuery query = builder().from(documentCollection)
                 .where(ColumnCondition.like("name", name))
                 .build();
         ColumnCondition condition = query.getCondition().get();
@@ -173,7 +173,7 @@ public class SelectQueryBuilderTest {
         Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.LIKE, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(name, column.get());
@@ -181,10 +181,10 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameGt() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         Number value = 10;
 
-        ColumnQuery query = builder().from(columnFamily).where(ColumnCondition.gt("name", 10))
+        ColumnQuery query = builder().from(documentCollection).where(ColumnCondition.gt("name", 10))
                 .build();
 
         ColumnCondition condition = query.getCondition().get();
@@ -192,7 +192,7 @@ public class SelectQueryBuilderTest {
         Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.GREATER_THAN, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(value, column.get());
@@ -200,16 +200,16 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameGte() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         Number value = 10;
         ColumnCondition gteName = ColumnCondition.gte("name", value);
-        ColumnQuery query = builder().from(columnFamily).where(gteName).build();
+        ColumnQuery query = builder().from(documentCollection).where(gteName).build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.GREATER_EQUALS_THAN, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(value, column.get());
@@ -217,17 +217,17 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameLt() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         Number value = 10;
 
-        ColumnQuery query = builder().from(columnFamily).where(ColumnCondition.lt("name", value))
+        ColumnQuery query = builder().from(documentCollection).where(ColumnCondition.lt("name", value))
                 .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.LESSER_THAN, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(value, column.get());
@@ -235,16 +235,16 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameLte() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         Number value = 10;
-        ColumnQuery query = builder().from(columnFamily).where(ColumnCondition.lte("name", value))
+        ColumnQuery query = builder().from(documentCollection).where(ColumnCondition.lte("name", value))
                 .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.LESSER_EQUALS_THAN, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(value, column.get());
@@ -252,11 +252,11 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameBetween() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         Number valueA = 10;
         Number valueB = 20;
 
-        ColumnQuery query = builder().from(columnFamily)
+        ColumnQuery query = builder().from(documentCollection)
                 .where(ColumnCondition.between("name", Arrays.asList(valueA, valueB)))
                 .build();
         ColumnCondition condition = query.getCondition().get();
@@ -264,7 +264,7 @@ public class SelectQueryBuilderTest {
         Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.BETWEEN, condition.getCondition());
         assertEquals("name", column.getName());
         assertThat(column.get(new TypeReference<List<Number>>() {
@@ -273,17 +273,17 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameNot() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
 
-        ColumnQuery query = builder().from(columnFamily).where(ColumnCondition.eq("name", name).negate())
+        ColumnQuery query = builder().from(documentCollection).where(eq("name", name).negate())
                 .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
         ColumnCondition negate = column.get(ColumnCondition.class);
         assertTrue(query.getColumns().isEmpty());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(documentCollection, query.getColumnFamily());
         assertEquals(Condition.NOT, condition.getCondition());
         assertEquals(Condition.EQUALS, negate.getCondition());
         assertEquals("name", negate.getColumn().getName());
@@ -293,11 +293,11 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameAnd() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-        ColumnCondition nameEqualsAda = ColumnCondition.eq("name", name);
+        ColumnCondition nameEqualsAda = eq("name", name);
         ColumnCondition ageOlderTen = ColumnCondition.gt("age", 10);
-        ColumnQuery query = builder().from(columnFamily)
+        ColumnQuery query = builder().from(documentCollection)
                 .where(ColumnCondition.and(nameEqualsAda, ageOlderTen))
                 .build();
         ColumnCondition condition = query.getCondition().get();
@@ -312,11 +312,11 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameOr() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-        ColumnCondition nameEqualsAda = ColumnCondition.eq("name", name);
+        ColumnCondition nameEqualsAda = eq("name", name);
         ColumnCondition ageOlderTen = ColumnCondition.gt("age", 10);
-        ColumnQuery query = builder().from(columnFamily).where(ColumnCondition.or(nameEqualsAda, ageOlderTen))
+        ColumnQuery query = builder().from(documentCollection).where(ColumnCondition.or(nameEqualsAda, ageOlderTen))
                 .build();
         ColumnCondition condition = query.getCondition().get();
 
@@ -332,11 +332,9 @@ public class SelectQueryBuilderTest {
     @Test
     public void shouldSelectNegate() {
         String columnFamily = "columnFamily";
-        ColumnCondition cityEqualsAssis = ColumnCondition.eq("city", "Assis");
-        ColumnCondition nameNotEqualsLucas = ColumnCondition.eq("name", "Lucas").negate();
+        ColumnCondition nameNotEqualsLucas = eq("name", "Lucas").negate();
         ColumnQuery query = builder().from(columnFamily)
-                .where(ColumnCondition.and(cityEqualsAssis, nameNotEqualsLucas))
-                .build();
+                .where(nameNotEqualsLucas).build();
 
         ColumnCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
         assertEquals(columnFamily, query.getColumnFamily());
@@ -344,36 +342,36 @@ public class SelectQueryBuilderTest {
         List<ColumnCondition> conditions = column.get(new TypeReference<List<ColumnCondition>>() {
         });
 
-        assertEquals(Condition.AND, condition.getCondition());
-        assertThat(conditions, containsInAnyOrder(eq(Column.of("city", "Assis")).negate(),
-                eq(Column.of("name", "Lucas")).negate()));
+        assertEquals(Condition.NOT, condition.getCondition());
+        assertThat(conditions, containsInAnyOrder(eq(Column.of("name", "Lucas"))));
 
     }
+
 
     @Test
     public void shouldExecuteManager() {
         ColumnFamilyManager manager = Mockito.mock(ColumnFamilyManager.class);
         ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
-        String columnFamily = "column family";
-        Stream<ColumnEntity> entities = builder().from(columnFamily).getResult(manager);
+        String collection = "collection";
+        Stream<ColumnEntity> entities = builder().from(collection).getResult(manager);
         Mockito.verify(manager).select(queryCaptor.capture());
-        checkQuery(queryCaptor, columnFamily);
+        checkQuery(queryCaptor, collection);
     }
 
     @Test
     public void shouldExecuteSingleResultManager() {
         ColumnFamilyManager manager = Mockito.mock(ColumnFamilyManager.class);
         ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
-        String columnFamily = "column family";
-        Optional<ColumnEntity> entities = builder().from(columnFamily).getSingleResult(manager);
+        String collection = "collection";
+        Optional<ColumnEntity> entities = builder().from(collection).getSingleResult(manager);
         Mockito.verify(manager).singleResult(queryCaptor.capture());
-        checkQuery(queryCaptor, columnFamily);
+        checkQuery(queryCaptor, collection);
     }
 
-    private void checkQuery(ArgumentCaptor<ColumnQuery> queryCaptor, String columnFamily) {
+    private void checkQuery(ArgumentCaptor<ColumnQuery> queryCaptor, String collection) {
         ColumnQuery query = queryCaptor.getValue();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(collection, query.getColumnFamily());
     }
 }

@@ -98,7 +98,7 @@ public class ColumnConditionTest {
     @Test
     public void shouldCreateGteFromDocument() {
         Column column = Column.of("name", "Ada Lovelace");
-        ColumnCondition condition = ColumnCondition.eq(column);
+        ColumnCondition condition = ColumnCondition.gte(column);
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.GREATER_EQUALS_THAN, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
@@ -107,7 +107,7 @@ public class ColumnConditionTest {
     @Test
     public void shouldCreateGetFromNameValue() {
         Column column = Column.of("name", "Ada Lovelace");
-        ColumnCondition condition = ColumnCondition.eq("name", "Ada Lovelace");
+        ColumnCondition condition = ColumnCondition.gte("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.GREATER_EQUALS_THAN, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
@@ -136,7 +136,7 @@ public class ColumnConditionTest {
     @Test
     public void shouldCreateLtFromNameValue() {
         Column column = Column.of("name", "Ada Lovelace");
-        ColumnCondition condition = ColumnCondition.eq("name", "Ada Lovelace");
+        ColumnCondition condition = ColumnCondition.lt("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.LESSER_THAN, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
@@ -165,7 +165,7 @@ public class ColumnConditionTest {
     @Test
     public void shouldCreateLteFromNameValue() {
         Column column = Column.of("name", "Ada Lovelace");
-        ColumnCondition condition = ColumnCondition.eq("name", "Ada Lovelace");
+        ColumnCondition condition = ColumnCondition.lte("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.LESSER_EQUALS_THAN, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
@@ -194,7 +194,7 @@ public class ColumnConditionTest {
     @Test
     public void shouldCreateInFromNameValue() {
         Column column = Column.of("name", Collections.singleton("Ada Lovelace"));
-        ColumnCondition condition = ColumnCondition.eq("name", "Ada Lovelace");
+        ColumnCondition condition = ColumnCondition.in("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.IN, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
@@ -252,7 +252,7 @@ public class ColumnConditionTest {
     @Test
     public void shouldCreateBetweenFromNameValue() {
         Column column = Column.of("age", Arrays.asList(10, 20));
-        ColumnCondition condition = ColumnCondition.between("name", "Ada Lovelace");
+        ColumnCondition condition = ColumnCondition.between(column);
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.BETWEEN, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
