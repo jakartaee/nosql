@@ -440,6 +440,225 @@ By default, there are two ways to create a `DocumentQuery` instance that are ava
 1. **The select methods** follow the fluent-API principle; thus, it is a safe way to create a query using a DSL code. Therefore, each action will only show the reliability option as a menu.
 2. **The builder methods** follow the builder pattern; it is not more intelligent and safer than the previous one. However, it allows for running more complex queries and combinations.
 
+Both methods should guarantee the validity and consistency`DocumentQuery` instance.
+
+In the next step, there are a couple of query creation samples using both select and builder methods.
+
+* Select all fields from the document collection Person.
+
+Using the select method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.select().from("Person").build();
+//static imports
+DocumentQuery query = select().from("Person").build();
+----
+Using the builder method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.builder().from("Person").build();
+//static imports
+DocumentQuery query = builder().from("Person").build();
+----
+
+* Select all fields where the "name" equals "Ada Lovelace" from the document collection Person.
+
+Using the select method:
+[source,java]
+----
+ DocumentQuery query = DocumentQuery.select()
+                .from("Person").where("name").eq("Ada Lovelace")
+                .build();
+//static imports
+ DocumentQuery query = select()
+                .from("Person").where("name").eq("Ada Lovelace")
+                .build();
+----
+Using the builder method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.builder()
+                .from("Person").where(DocumentCondition.eq("name", "Ada Lovelace"))
+                .build();
+//static imports
+DocumentQuery query = builder().from("Person")
+                               .where(eq("name", "Ada Lovelace"))
+                               .build();
+----
+
+* Select the field name where the "name" equals "Ada Lovelace" from the document collection Person.
+
+Using the select method:
+[source,java]
+----
+  DocumentQuery query = DocumentQuery.select("name")
+                .from("Person").where("name").eq("Ada Lovelace")
+                .build();
+//static imports
+  DocumentQuery query = select("name")
+                .from("Person")
+                .where("name").eq("Ada Lovelace")
+                .build();
+----
+Using the builder method:
+[source,java]
+----
+  DocumentQuery query = DocumentQuery.builder("name")
+                .from("Person").where(DocumentCondition.eq("name", "Ada Lovelace"))
+                .build();
+//static imports
+
+  DocumentQuery query = builder("name")
+                .from("Person").where(eq("name", "Ada Lovelace"))
+                .build();
+----
+
+* Select the fields name and age where the "name" is "Ada Lovelace" and the "age" is greater than twenty from the document collection Person.
+
+Using the select method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.select("name", "age")
+                .from("Person")
+                .where("name").eq("Ada Lovelace")
+                .and("age").gt(20)
+                .build();
+//static imports
+DocumentQuery query = select("name", "age")
+                .from("Person")
+                .where("name").eq("Ada Lovelace")
+                .and("age").gt(20)
+                .build();
+----
+Using the builder method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.builder("name", "age")
+             .from("Person")
+             .where(DocumentCondition.and(DocumentCondition.eq("name", "Ada Lovelace"),
+             DocumentCondition.gt("age", 20)))
+             .build();
+
+//static imports
+
+DocumentQuery query = builder("name", "age")
+             .from("Person")
+             .where(and(eq("name", "Ada Lovelace"),
+             gt("age", 20)))
+             .build();
+----
+* Select the fields name and age where the "name" is "Ada Lovelace" or the "age" is greater than twenty from the document collection Person.
+
+Using the select method:
+[source,java]
+----
+  DocumentQuery query = DocumentQuery.select("name", "age")
+                .from("Person")
+                .where("name").eq("Ada Lovelace")
+                .or("age").gt(20)
+                .build();
+//static imports
+  DocumentQuery query = select("name", "age")
+                .from("Person")
+                .where("name").eq("Ada Lovelace")
+                .or("age").gt(20)
+                .build();
+----
+Using the builder method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.builder("name", "age")
+             .from("Person")
+             .where(DocumentCondition.or(DocumentCondition.eq("name", "Ada Lovelace"),
+             DocumentCondition.gt("age", 20)))
+             .build();
+
+//static imports
+
+DocumentQuery query = builder("name", "age")
+             .from("Person")
+             .where(or(eq("name", "Ada Lovelace"),
+             gt("age", 20)))
+             .build();
+----
+
+* Select the fields name and age where the "name" is "Ada Lovelace" or the "age" is greater than twenty; skip the first element, and the max return is two from the document collection Person.
+
+Using the select method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.select("name", "age")
+                .from("Person")
+                .where("name").eq("Ada Lovelace")
+                .or("age").gt(20)
+                .skip(1)
+                .limit(2)
+                .build();
+//static imports
+DocumentQuery query = select("name", "age")
+                .from("Person")
+                .where("name").eq("Ada Lovelace")
+                .or("age").gt(20)
+                .skip(1)
+                .limit(2)
+                .build();
+----
+Using the builder method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.builder("name", "age")
+                .from("Person")
+                .where(DocumentCondition.or(DocumentCondition.eq("name", "Ada Lovelace"),
+                        DocumentCondition.gt("age", 20)))
+                .skip(1).limit(2)
+                .build();
+
+//static imports
+
+DocumentQuery query = builder("name", "age")
+                .from("Person")
+                .where(or(eq("name", "Ada Lovelace"),
+                        gt("age", 20)))
+                .skip(1).limit(2)
+                .build();
+----
+
+* Select the fields name and age where the "name" is "Ada Lovelace" or the "age" is greater than twenty; skip the first element, and the max return is two sorts ascending by name and descending by age from the document collection Person.
+
+Using the select method:
+[source,java]
+----
+DocumentQuery query = DocumentQuery.select("name", "age")
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .or("age").gt(20)
+            .orderBy("name").asc()
+            .orderBy("desc").desc()
+            .build();
+
+----
+Using the builder method:
+[source,java]
+----
+ DocumentQuery query = DocumentQuery.builder("name", "age")
+         .from("Person")
+         .where(DocumentCondition.or(DocumentCondition.eq("name", "Ada Lovelace"),
+                DocumentCondition.gt("age", 20)))
+         .sort(Sort.asc("name"), Sort.desc("age"))
+         .build();
+
+//static imports
+
+DocumentQuery query = builder("name", "age")
+         .from("Person")
+         .where(or(DocumentCondition.eq("name", "Ada Lovelace"),
+                DocumentCondition.gt("age", 20)))
+         .sort(Sort.asc("name"), Sort.desc("age"))
+         .build();
+
+----
+
+
 
 The condition on `DocumentQuery` is given from `DocumentCondition`, which has the status and the document. For example, the condition is to find a name equal "**Ada**".
 
