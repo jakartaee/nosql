@@ -332,11 +332,9 @@ public class SelectQueryBuilderTest {
     @Test
     public void shouldSelectNegate() {
         String columnFamily = "columnFamily";
-        DocumentCondition cityEqualsAssis = DocumentCondition.eq("city", "Assis");
         DocumentCondition nameNotEqualsLucas = DocumentCondition.eq("name", "Lucas").negate();
         DocumentQuery query = builder().from(columnFamily)
-                .where(DocumentCondition.and(cityEqualsAssis, nameNotEqualsLucas))
-                .build();
+                .where(nameNotEqualsLucas).build();
 
         DocumentCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
         assertEquals(columnFamily, query.getDocumentCollection());
@@ -344,9 +342,8 @@ public class SelectQueryBuilderTest {
         List<DocumentCondition> conditions = column.get(new TypeReference<List<DocumentCondition>>() {
         });
 
-        assertEquals(Condition.AND, condition.getCondition());
-        assertThat(conditions, containsInAnyOrder(eq(Document.of("city", "Assis")).negate(),
-                eq(Document.of("name", "Lucas")).negate()));
+        assertEquals(Condition.NOT, condition.getCondition());
+        assertThat(conditions, containsInAnyOrder(eq(Document.of("name", "Lucas"))));
 
     }
 
