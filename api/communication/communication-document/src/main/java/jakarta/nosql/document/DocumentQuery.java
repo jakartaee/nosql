@@ -200,9 +200,11 @@ public interface DocumentQuery {
 
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
+         * @throws IllegalArgumentException if skip is negative
          */
         DocumentSkip skip(long skip);
 
@@ -319,18 +321,22 @@ public interface DocumentQuery {
 
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
+         * @throws IllegalArgumentException if skip is negative
          */
         DocumentSkip skip(long skip);
 
 
         /**
          * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
          *
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException if limit is negative
          */
         DocumentLimit limit(long limit);
 
@@ -365,9 +371,11 @@ public interface DocumentQuery {
 
         /**
          * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
          *
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException if limit is negative
          */
         DocumentLimit limit(long limit);
 
@@ -399,18 +407,22 @@ public interface DocumentQuery {
 
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will discard or skip the search result.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
+         * @throws IllegalArgumentException if skip is negative
          */
         DocumentSkip skip(long skip);
 
 
         /**
          * Defines the maximum number of results to retrieve.
+         * It will truncate to be no longer than limit.
          *
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException if limit is negative
          */
         DocumentLimit limit(long limit);
 
@@ -549,7 +561,8 @@ public interface DocumentQuery {
          * The default value is zero, and it will replace the current property.
          *
          * @param skip the first result to retrieve
-         * @return the {@link DocumentQueryBuilder}
+         * @return a query with first result defined
+         * @throws IllegalArgumentException if limit is negative
          */
         DocumentQueryBuilder skip(long skip);
 
