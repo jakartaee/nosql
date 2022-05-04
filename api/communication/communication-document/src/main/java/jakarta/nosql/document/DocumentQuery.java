@@ -82,21 +82,26 @@ public interface DocumentQuery {
     List<String> getDocuments();
 
     /**
-     * Creates a query to Document
+     * It starts the first step of {@link DocumentQuery} API using a fluent-API way.
+     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database"
+     * in a database query.
      *
      * @param documents - The document fields to query, optional.
      * @return a new {@link DocumentSelect} instance
-     * @throws NullPointerException when there is a null element
+     * @throws NullPointerException                    when there is a null element
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static DocumentSelect select(String... documents) {
         return ServiceLoaderProvider.get(DocumentSelectProvider.class).apply(documents);
     }
 
     /**
-     * Creates a query to Document
-     *
+     * It starts the first step of {@link DocumentQuery} API using a fluent-API way.
+     * It starts the first step of DocumentQuery API using a fluent-API way.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
+     * Once there is empty, it will return all elements in the query, pretty similar to "select * from database" in a database query.
      * @return a new {@link DocumentSelect} instance
-     * @throws NullPointerException when there is a null element
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static DocumentSelect select() {
         return ServiceLoaderProvider.get(DocumentSelectProvider.class).get();
@@ -536,8 +541,8 @@ public interface DocumentQuery {
          * It will validate and then create a {@link DocumentQuery} instance.
          *
          * @return {@link DocumentQuery}
-         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up, 
-         * such as the {@link DocumentQueryBuilder#from(String)} method was not called.
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link DocumentQueryBuilder#from(String)} method was not called.
          */
         DocumentQuery build();
     }
