@@ -208,8 +208,8 @@ public class DeleteQueryBuilderTest {
                 .where(DocumentCondition.eq("name", name).negate()).build();
         DocumentCondition condition = query.getCondition().get();
 
-        Document column = condition.getDocument();
-        DocumentCondition negate = column.get(DocumentCondition.class);
+        Document document = condition.getDocument();
+        DocumentCondition negate = document.get(DocumentCondition.class);
         assertTrue(query.getDocuments().isEmpty());
         assertEquals(documentCollection, query.getDocumentCollection());
         assertEquals(Condition.NOT, condition.getCondition());
@@ -260,17 +260,17 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldDeleteNegate() {
-        String columnFamily = "columnFamily";
+        String documentCollection = "documentCollection";
         DocumentCondition cityNotEqualsAssis = DocumentCondition.eq("city", "Assis").negate();
         DocumentCondition nameNotEqualsLucas = DocumentCondition.eq("name", "Lucas").negate();
 
-        DocumentDeleteQuery query = builder().from(columnFamily)
+        DocumentDeleteQuery query = builder().from(documentCollection)
                 .where(DocumentCondition.and(cityNotEqualsAssis, nameNotEqualsLucas)).build();
 
         DocumentCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
-        assertEquals(columnFamily, query.getDocumentCollection());
-        Document column = condition.getDocument();
-        List<DocumentCondition> conditions = column.get(new TypeReference<List<DocumentCondition>>() {
+        assertEquals(documentCollection, query.getDocumentCollection());
+        Document document = condition.getDocument();
+        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
         });
 
         assertEquals(Condition.AND, condition.getCondition());

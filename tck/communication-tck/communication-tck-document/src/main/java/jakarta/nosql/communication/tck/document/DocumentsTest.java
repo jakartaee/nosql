@@ -34,13 +34,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class DocumentsTest {
     @Test
     public void shouldCreateDocument() {
-        Document column = Documents.of("name", "Ada");
-        assertEquals("name", column.getName());
-        assertEquals("Ada", column.get());
+        Document document = Documents.of("name", "Ada");
+        assertEquals("name", document.getName());
+        assertEquals("Ada", document.get());
     }
 
     @Test
-    public void shouldCreateColumnsFromMap() {
+    public void shouldCreateDocumentsFromMap() {
         Map<String, String> map = singletonMap("name", "Ada");
         List<Document> documents = Documents.of(map);
         assertFalse(documents.isEmpty());

@@ -33,11 +33,11 @@ public class DocumentDeleteQueryTest {
 
     @BeforeEach
     public void setUp() {
-        query = DocumentDeleteQuery.delete().from("columnFamily").build();
+        query = DocumentDeleteQuery.delete().from("documentCollection").build();
     }
 
     @Test
-    public void shouldNotEditColumns() {
+    public void shouldNotEditDocuments() {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> {
             List<String> documents = query.getDocuments();
             assertTrue(documents.isEmpty());

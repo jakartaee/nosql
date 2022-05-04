@@ -264,8 +264,8 @@ public class SelectQueryFluentBuilderTest {
         DocumentQuery query = select().from(documentCollection).where("name").not().eq(name).build();
         DocumentCondition condition = query.getCondition().get();
 
-        Document column = condition.getDocument();
-        DocumentCondition negate = column.get(DocumentCondition.class);
+        Document document = condition.getDocument();
+        DocumentCondition negate = document.get(DocumentCondition.class);
         assertTrue(query.getDocuments().isEmpty());
         assertEquals(documentCollection, query.getDocumentCollection());
         assertEquals(Condition.NOT, condition.getCondition());
@@ -309,14 +309,14 @@ public class SelectQueryFluentBuilderTest {
 
     @Test
     public void shouldSelectNegate() {
-        String columnFamily = "columnFamily";
-        DocumentQuery query = select().from(columnFamily).where("city").not().eq("Assis")
+        String documentCollection = "documentCollection";
+        DocumentQuery query = select().from(documentCollection).where("city").not().eq("Assis")
                 .and("name").not().eq("Lucas").build();
 
         DocumentCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
-        assertEquals(columnFamily, query.getDocumentCollection());
-        Document column = condition.getDocument();
-        List<DocumentCondition> conditions = column.get(new TypeReference<List<DocumentCondition>>() {
+        assertEquals(documentCollection, query.getDocumentCollection());
+        Document document = condition.getDocument();
+        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
         });
 
         assertEquals(Condition.AND, condition.getCondition());
