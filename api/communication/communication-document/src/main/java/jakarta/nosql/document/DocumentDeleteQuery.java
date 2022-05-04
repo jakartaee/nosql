@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 
 /**
  * A unit that has the columnFamily and condition to delete from conditions
- *
+ * <p>
  * This instance will be used on:
  * <p>{@link DocumentCollectionManager#delete(DocumentDeleteQuery)}</p>
  */
@@ -55,7 +55,9 @@ public interface DocumentDeleteQuery {
     List<String> getDocuments();
 
     /**
-     * Creates a delete query to Document
+     * It starts the first step of {@link DocumentDelete} API using a fluent-API way.
+     * This first step will inform the fields to delete in the query instead of the whole record.
+     * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
      *
      * @param documents - The column fields to query, optional.
      * @return a new {@link DocumentDelete} instance
@@ -66,7 +68,9 @@ public interface DocumentDeleteQuery {
     }
 
     /**
-     * Creates a delete query to Column
+     * It starts the first step of {@link DocumentDelete} API using a fluent-API way.
+     * Once there is no field, it will remove the whole record instead of some fields on the database.
+     *
      * @return a new {@link DocumentDelete} instance
      * @throws NullPointerException when there is a null element
      */
