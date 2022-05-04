@@ -145,7 +145,10 @@ public class SelectQueryBuilderTest {
     public void shouldSelectWhereNameEq() {
         String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-        DocumentQuery query = builder().from(documentCollection).where("name").eq(name).build();
+
+        DocumentQuery query = builder().from(documentCollection)
+                .where(DocumentCondition.eq("name", name))
+                .build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -162,7 +165,9 @@ public class SelectQueryBuilderTest {
     public void shouldSelectWhereNameLike() {
         String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-        DocumentQuery query = builder().from(documentCollection).where("name").like(name).build();
+        DocumentQuery query = builder().from(documentCollection)
+                .where(DocumentCondition.like("name", name))
+                .build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
