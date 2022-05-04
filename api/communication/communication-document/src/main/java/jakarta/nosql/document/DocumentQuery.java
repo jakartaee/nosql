@@ -83,7 +83,7 @@ public interface DocumentQuery {
 
     /**
      * It starts the first step of {@link DocumentQuery} creation using a fluent-API way.
-     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database"
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database"
      * in a database query.
      *
      * @param documents - The document fields to query, optional.
@@ -97,7 +97,7 @@ public interface DocumentQuery {
 
     /**
      * It starts the first step of {@link DocumentQuery} creation using a fluent-API way.
-     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database" in a database query.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
      * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
      * @return a new {@link DocumentSelect} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
@@ -108,7 +108,7 @@ public interface DocumentQuery {
 
     /**
      * It starts the first step of {@link DocumentQuery} creation using a builder pattern.
-     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database" in a database query.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
      * @return {@link DocumentQueryBuilder} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
@@ -118,7 +118,7 @@ public interface DocumentQuery {
 
     /**
      * It starts the first step of {@link DocumentQuery} creation using a builder pattern.
-     * This first step will inform the fields to return in the query, such as a "select field, fieldB from database" in a database query.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
      * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
      * @param documents The document fields to query, optional.
      * @return {@link DocumentQueryBuilder} instance
