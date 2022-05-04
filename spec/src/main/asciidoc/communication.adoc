@@ -658,50 +658,13 @@ DocumentQuery query = builder("name", "age")
 
 ----
 
-
-
-The condition on `DocumentQuery` is given from `DocumentCondition`, which has the status and the document. For example, the condition is to find a name equal "**Ada**".
-
-[source,java]
-----
-DocumentCondition nameEqualsAda = DocumentCondition.eq(Document.of("name", “Ada”));
-DocumentCondition nameEqualsAda = DocumentCondition.eq("name", “Ada”);
-----
-
-Also, the developer can use the aggregators such as **AND**, **OR**, and **NOT**.
-
-[source,java]
-----
-DocumentCondition nameEqualsAda = DocumentCondition.eq(Document.of("name", "Ada"));
-
-DocumentCondition youngerThan2Years = DocumentCondition.lt(Document.of("age", 2));
-
-DocumentCondition condition = nameEqualsAda.and(youngerThan2Years);
-
-DocumentCondition nameNotEqualsAda = nameEqualsAda.negate();
-----
-
-If there isn’t a condition in the query, that means the query will try to retrieve all information from the database, similar to a “`SELECT * FROM database`” in a relational database. Keep in mind that the return depends on the driver. It is important to say that not all NoSQL databases have support for this resource.
-
-`DocumentQuery` also has a pagination feature to define where the data starts, and its limits.
-
-[source,java]
-----
-DocumentCollectionManager manager = //instance;
-DocumentQuery query = DocumentQueryBuilder.select()
-                                          .from("collection").where("age").lt(10)
-                                          .and("name").eq("Ada").orderBy("name")
-                                          .asc().limit(10).skip(2).build();
-Stream<DocumentEntity> entities = manager.select(query);
-
-Optional<DocumentEntity> entity = manager.singleResult(query);
-----
-
 ===== Removing information from Document Collection
 
 Similar to `DocumentQuery`, there is a class to remove information from the document database type: A `DocumentDeleteQuery` type.
 
 It is more efficient than `DocumentQuery` because there is no pagination and sort feature as this information is unnecessary to remove information from database.
+
+It follows the same principle of the query where it has the build and select methods.
 
 [source,java]
 ----
@@ -709,6 +672,9 @@ DocumentCollectionManager manager = // instance;
 DocumentDeleteQuery query = DocumentQueryBuilder.delete().from("collection")
                                                 .where("age").gt(10).build();
 manager.delete(query);
+//using builder
+DocumentDeleteQuery query = DocumentQueryBuilder.builder().from("collection")
+                                                .where(DocumentCondition.gt("age", 10).build();
 ----
 
 ==== Column Manager
