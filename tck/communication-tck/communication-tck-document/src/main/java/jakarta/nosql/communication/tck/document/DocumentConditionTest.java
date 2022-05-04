@@ -15,5 +15,246 @@
  */
 package jakarta.nosql.communication.tck.document;
 
+import jakarta.nosql.Condition;
+import jakarta.nosql.document.Document;
+import jakarta.nosql.document.DocumentCondition;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Collections;
+
 public class DocumentConditionTest {
+
+    @Test
+    public void shouldReturnNPEInEqWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.eq(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.eq("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.eq(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateEqFromDocument() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.eq(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.EQUALS, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateEqFromNameValue() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.EQUALS, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldReturnNPEInGtWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.gt(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.gt("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.gt(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateGtFromDocument() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.gt(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.GREATER_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateGtFromNameValue() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.gt("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.GREATER_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldReturnNPEInGetWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.gte(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.gte("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.gte(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateGteFromDocument() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.eq(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.GREATER_EQUALS_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateGetFromNameValue() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.GREATER_EQUALS_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldReturnNPEInLtWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.lt(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.lt("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.lt(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateLtFromDocument() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.lt(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.LESSER_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateLtFromNameValue() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.LESSER_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldReturnNPEInLteWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.lte(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.lte("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.eq(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateLteFromDocument() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.lte(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.LESSER_EQUALS_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateLteFromNameValue() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.LESSER_EQUALS_THAN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldReturnNPEInInWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.in(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.in("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.in(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateInFromDocument() {
+        Document document = Document.of("name", Collections.singleton("Ada Lovelace"));
+        DocumentCondition condition = DocumentCondition.in(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.IN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateInFromNameValue() {
+        Document document = Document.of("name", Collections.singleton("Ada Lovelace"));
+        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.IN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldReturnNPELikeInWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.like(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.like("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.like(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateLikeFromDocument() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.like(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.LIKE, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateLikeFromNameValue() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.like("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.LIKE, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+    //
+    @Test
+    public void shouldReturnNPEBetweenInWhenParameterIsNull() {
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.between(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.between("name", null));
+
+        Assertions.assertThrows(NullPointerException.class,
+                () -> DocumentCondition.between(null, "value"));
+    }
+
+    @Test
+    public void shouldCreateBetweenFromDocument() {
+        Document document = Document.of("age", Arrays.asList(10, 20));
+        DocumentCondition condition = DocumentCondition.between(document);
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.BETWEEN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
+
+    @Test
+    public void shouldCreateBetweenFromNameValue() {
+        Document document = Document.of("age", Arrays.asList(10, 20));
+        DocumentCondition condition = DocumentCondition.between("name", "Ada Lovelace");
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.BETWEEN, condition.getCondition());
+        Assertions.assertEquals(document, condition.getDocument());
+    }
 }
