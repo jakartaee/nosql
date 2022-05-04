@@ -81,25 +81,55 @@ public interface ColumnQuery {
     List<Sort> getSorts();
 
     /**
-     * Creates a query to Column
+     * It starts the first step of {@link ColumnSelect} creation using a fluent-API way.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database"
+     * in a database query.
      *
-     * @param columns - The column fields to query, optional.
+     * @param columns - The document fields to query, optional.
      * @return a new {@link ColumnSelect} instance
-     * @throws NullPointerException when there is a null element
+     * @throws NullPointerException                    when there is a null element
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static ColumnSelect select(String... columns) {
         return ServiceLoaderProvider.get(ColumnSelectProvider.class).apply(columns);
     }
 
     /**
-     * Creates a query to Column
+     * It starts the first step of {@link ColumnQuery} creation using a fluent-API way.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
+     * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
      *
      * @return a new {@link ColumnSelect} instance
-     * @throws NullPointerException when there is a null element
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static ColumnSelect select() {
         return ServiceLoaderProvider.get(ColumnSelectProvider.class).get();
     }
+
+    /**
+     * It starts the first step of {@link ColumnQuery} creation using a builder pattern.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
+     *
+     * @return {@link ColumnQueryBuilder} instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static ColumnQueryBuilder builder() {
+        return ServiceLoaderProvider.get(ColumnQueryBuilderProvider.class).get();
+    }
+
+    /**
+     * It starts the first step of {@link ColumnQuery} creation using a builder pattern.
+     * This first step will inform the fields to return to the query, such as a "select field, fieldB from database" in a database query.
+     * Once empty, it will return all elements in the query, similar to "select * from database" in a database query.
+     *
+     * @param documents The document fields to query, optional.
+     * @return {@link ColumnQueryBuilder} instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static ColumnQueryBuilder builder(String... documents) {
+        return ServiceLoaderProvider.get(ColumnQueryBuilderProvider.class).apply(documents);
+    }
+
 
     /**
      * The ColumnFrom Query
@@ -282,6 +312,12 @@ public interface ColumnQuery {
      * A provider class of {@link ColumnSelect}
      */
     interface ColumnSelectProvider extends Function<String[], ColumnSelect>, Supplier<ColumnSelect> {
+    }
+
+    /**
+     * A provider class of {@link ColumnQueryBuilder}
+     */
+    interface ColumnQueryBuilderProvider extends Function<String[], ColumnQueryBuilder>, Supplier<ColumnQueryBuilder> {
     }
 
 
