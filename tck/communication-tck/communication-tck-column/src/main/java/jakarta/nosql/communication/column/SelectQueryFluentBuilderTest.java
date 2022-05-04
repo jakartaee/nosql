@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SelectQueryBuilderTest {
+public class SelectQueryFluentBuilderTest {
 
     @Test
     public void shouldReturnErrorWhenHasNullElementInSelect() {
@@ -114,6 +114,15 @@ public class SelectQueryBuilderTest {
     }
 
     @Test
+    public void shouldReturnErrorWhenLimitIsNegative() {
+        String columnFamily = "columnFamily";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            select().from(columnFamily).limit(-1);
+        });
+    }
+
+
+    @Test
     public void shouldSelectSkip() {
         String columnFamily = "columnFamily";
         ColumnQuery query = select().from(columnFamily).skip(10).build();
@@ -121,6 +130,14 @@ public class SelectQueryBuilderTest {
         assertFalse(query.getCondition().isPresent());
         assertEquals(columnFamily, query.getColumnFamily());
         assertEquals(10L, query.getSkip());
+    }
+
+    @Test
+    public void shouldReturnErrorWhenSkipIsNegative() {
+        String columnFamily = "columnFamily";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            select().from(columnFamily).skip(-1);
+        });
     }
 
     @Test
