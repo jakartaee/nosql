@@ -49,7 +49,7 @@ public class SelectQueryBuilderTest {
 
     @Test
     public void shouldReturnErrorWhenHasNullElementInSelect() {
-        assertThrows(NullPointerException.class, () -> builder("document", "document'", null));
+        assertThrows(NullPointerException.class, () -> builder("", "'", null));
     }
 
     @Test
@@ -62,10 +62,10 @@ public class SelectQueryBuilderTest {
     }
 
     @Test
-    public void shouldSelectDocument() {
+    public void shouldSelectColumn() {
         String columnFamily = "columnFamily";
-        ColumnQuery query = builder("document", "document2").from(columnFamily).build();
-        assertThat(query.getColumns(), containsInAnyOrder("document", "document2"));
+        ColumnQuery query = builder("column", "column2").from(columnFamily).build();
+        assertThat(query.getColumns(), containsInAnyOrder("column", "column2"));
         assertFalse(query.getCondition().isPresent());
         assertEquals(columnFamily, query.getColumnFamily());
     }
@@ -364,16 +364,16 @@ public class SelectQueryBuilderTest {
     public void shouldExecuteSingleResultManager() {
         ColumnFamilyManager manager = Mockito.mock(ColumnFamilyManager.class);
         ArgumentCaptor<ColumnQuery> queryCaptor = ArgumentCaptor.forClass(ColumnQuery.class);
-        String collection = "collection";
-        Optional<ColumnEntity> entities = builder().from(collection).getSingleResult(manager);
+        String columnFamily = "column family";
+        Optional<ColumnEntity> entities = builder().from(columnFamily).getSingleResult(manager);
         Mockito.verify(manager).singleResult(queryCaptor.capture());
-        checkQuery(queryCaptor, collection);
+        checkQuery(queryCaptor, columnFamily);
     }
 
-    private void checkQuery(ArgumentCaptor<ColumnQuery> queryCaptor, String collection) {
+    private void checkQuery(ArgumentCaptor<ColumnQuery> queryCaptor, String columnFamily) {
         ColumnQuery query = queryCaptor.getValue();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(collection, query.getColumnFamily());
+        assertEquals(columnFamily, query.getColumnFamily());
     }
 }
