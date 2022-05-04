@@ -546,13 +546,13 @@ public interface ColumnQuery {
         ColumnQueryBuilder sort(Sort... sorts);
 
         /**
-         * Define the document collection in the query, this element is mandatory to build the {@link ColumnQuery}
+         * Define the column family in the query, this element is mandatory to build the {@link ColumnQuery}
          *
-         * @param documentCollection the document collection to query
+         * @param columnFamily the column family to query
          * @return the {@link ColumnQueryBuilder}
          * @throws NullPointerException when documentCollection is null
          */
-        ColumnQueryBuilder from(String documentCollection);
+        ColumnQueryBuilder from(String columnFamily);
 
         /**
          * Either add or replace the condition in the query. It has a different behavior than the previous method
