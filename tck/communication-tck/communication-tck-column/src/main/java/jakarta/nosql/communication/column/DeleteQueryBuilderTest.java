@@ -57,10 +57,10 @@ public class DeleteQueryBuilderTest {
     }
 
     @Test
-    public void shouldDeleteDocuments() {
+    public void shouldDeleteColumns() {
         String columnFamily = "column family";
-        ColumnDeleteQuery query = builder("document", "document2").from(columnFamily).build();
-        assertThat(query.getColumns(), containsInAnyOrder("document", "document2"));
+        ColumnDeleteQuery query = builder("column", "column2").from(columnFamily).build();
+        assertThat(query.getColumns(), containsInAnyOrder("column", "column2"));
         assertFalse(query.getCondition().isPresent());
         assertEquals(columnFamily, query.getColumnFamily());
     }
