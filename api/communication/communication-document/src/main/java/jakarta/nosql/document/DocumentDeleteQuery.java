@@ -359,5 +359,15 @@ public interface DocumentDeleteQuery {
          *                               such as the {@link DocumentDeleteQueryBuilder#from(String)} method was not called.
          */
         DocumentDeleteQuery build();
+
+        /**
+         * executes the {@link DocumentCollectionManager#delete(DocumentDeleteQuery)}
+         *
+         * @param manager the entity manager
+         * @throws NullPointerException when manager is null
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link DocumentDeleteQueryBuilder#from(String)} method was not called.
+         */
+        void delete(DocumentCollectionManager manager);
     }
 }
