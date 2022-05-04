@@ -194,7 +194,7 @@ public class ColumnConditionTest {
     @Test
     public void shouldCreateInFromNameValue() {
         Column column = Column.of("name", Collections.singleton("Ada Lovelace"));
-        ColumnCondition condition = ColumnCondition.in("name", "Ada Lovelace");
+        ColumnCondition condition = ColumnCondition.in("name", Collections.singleton("Ada Lovelace"));
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.IN, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
