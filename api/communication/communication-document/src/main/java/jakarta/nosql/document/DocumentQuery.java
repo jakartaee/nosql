@@ -438,4 +438,18 @@ public interface DocumentQuery {
         Optional<DocumentEntity> getSingleResult(DocumentCollectionManager manager);
 
     }
+
+    /**
+     *
+     */
+    interface DocumentQueryBuilder {
+        DocumentQueryBuilder select(String document);
+        DocumentQueryBuilder select(String... documents);
+        DocumentQueryBuilder sort(Sort sort);
+        DocumentQueryBuilder sort(Sort... sorts);
+        DocumentQueryBuilder where(DocumentCondition condition);
+        DocumentQueryBuilder skip(long skip);
+        DocumentQueryBuilder limit(long limit);
+        DocumentQuery build();
+    }
 }
