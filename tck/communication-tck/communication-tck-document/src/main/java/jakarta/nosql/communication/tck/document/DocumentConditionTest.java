@@ -98,16 +98,16 @@ public class DocumentConditionTest {
     @Test
     public void shouldCreateGteFromDocument() {
         Document document = Document.of("name", "Ada Lovelace");
-        DocumentCondition condition = DocumentCondition.eq(document);
+        DocumentCondition condition = DocumentCondition.gte(document);
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.GREATER_EQUALS_THAN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
     }
 
     @Test
-    public void shouldCreateGetFromNameValue() {
+    public void shouldCreateGteFromNameValue() {
         Document document = Document.of("name", "Ada Lovelace");
-        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.gte("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.GREATER_EQUALS_THAN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
@@ -136,7 +136,7 @@ public class DocumentConditionTest {
     @Test
     public void shouldCreateLtFromNameValue() {
         Document document = Document.of("name", "Ada Lovelace");
-        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.lt("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.LESSER_THAN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
@@ -165,7 +165,7 @@ public class DocumentConditionTest {
     @Test
     public void shouldCreateLteFromNameValue() {
         Document document = Document.of("name", "Ada Lovelace");
-        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.lte("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.LESSER_EQUALS_THAN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
@@ -194,7 +194,7 @@ public class DocumentConditionTest {
     @Test
     public void shouldCreateInFromNameValue() {
         Document document = Document.of("name", Collections.singleton("Ada Lovelace"));
-        DocumentCondition condition = DocumentCondition.eq("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.in("name", "Ada Lovelace");
         Assertions.assertNotNull(condition);
         Assertions.assertEquals(Condition.IN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
