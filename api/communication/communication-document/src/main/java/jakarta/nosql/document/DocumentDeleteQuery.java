@@ -59,7 +59,7 @@ public interface DocumentDeleteQuery {
      * This first step will inform the fields to delete in the query instead of the whole record.
      * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
      *
-     * @param documents - The column fields to delete query
+     * @param documents the column fields to delete query
      * @return a new {@link DocumentDelete} instance
      * @throws NullPointerException when there is a null element
      */
@@ -77,6 +77,30 @@ public interface DocumentDeleteQuery {
     static DocumentDelete delete() {
         return ServiceLoaderProvider.get(DocumentDeleteProvider.class).get();
     }
+
+    /**
+     * It starts the first step of {@link DocumentDeleteQuery} creation using a builder pattern.
+     * This first step will inform the fields to delete in the query instead of the whole record.
+     * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
+     *
+     * @param documents the column fields to delete query
+     * @return a {@link DocumentDeleteQueryBuilder} instance
+     * @throws NullPointerException when there is a null element
+     */
+    static DocumentDeleteQueryBuilder builder(String... documents) {
+        return ServiceLoaderProvider.get(DocumentDeleteQueryBuilderProvider.class).apply(documents);
+    }
+
+    /**
+     * It starts the first step of {@link DocumentDeleteQuery} creation using a builder pattern.
+     * Once there is no field, it will remove the whole record instead of some fields on the database.
+     *
+     * @return a {@link DocumentDeleteQueryBuilder} instance
+     */
+    static DocumentDeleteQueryBuilder builder() {
+        return ServiceLoaderProvider.get(DocumentDeleteQueryBuilderProvider.class).get();
+    }
+
 
     /**
      * The initial element in the Document delete query
@@ -98,6 +122,13 @@ public interface DocumentDeleteQuery {
      * A provider class of {@link DocumentDelete}
      */
     interface DocumentDeleteProvider extends Function<String[], DocumentDelete>, Supplier<DocumentDelete> {
+    }
+
+    /**
+     * A provider class of {@link DocumentDeleteQueryBuilder}
+     */
+    interface DocumentDeleteQueryBuilderProvider extends Function<String[], DocumentDeleteQueryBuilder>, Supplier<DocumentDeleteQueryBuilder> {
+
     }
 
 
