@@ -228,7 +228,7 @@ public class DocumentConditionTest {
         Assertions.assertEquals(Condition.LIKE, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
     }
-    //
+
     @Test
     public void shouldReturnNPEBetweenInWhenParameterIsNull() {
         Assertions.assertThrows(NullPointerException.class,
@@ -257,4 +257,13 @@ public class DocumentConditionTest {
         Assertions.assertEquals(Condition.BETWEEN, condition.getCondition());
         Assertions.assertEquals(document, condition.getDocument());
     }
+
+    @Test
+    public void shouldNegate() {
+        Document document = Document.of("name", "Ada Lovelace");
+        DocumentCondition condition = DocumentCondition.eq(document).negate();
+        Assertions.assertNotNull(condition);
+        Assertions.assertEquals(Condition.NOT, condition.getCondition());
+    }
+
 }
