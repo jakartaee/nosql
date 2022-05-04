@@ -57,10 +57,9 @@ public interface ColumnDeleteQuery {
     /**
      * It starts the first step of {@link ColumnDelete} API using a fluent-API way.
      * This first step will inform the fields to delete in the query instead of the whole record.
-     * This behavior might be different for each NoSQL database provider; therefore,
-     * it might be ignored for some implementations.
+     * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
      *
-     * @param columns the columns fields to delete query
+     * @param columns the column fields to delete query
      * @return a new {@link ColumnDelete} instance
      * @throws NullPointerException when there is a null element
      */
@@ -77,6 +76,30 @@ public interface ColumnDeleteQuery {
     static ColumnDelete delete() {
         return ServiceLoaderProvider.get(ColumnDeleteProvider.class).get();
     }
+
+    /**
+     * It starts the first step of {@link ColumnDeleteQuery} creation using a builder pattern.
+     * This first step will inform the fields to delete in the query instead of the whole record.
+     * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
+     *
+     * @param documents the column fields to delete query
+     * @return a {@link ColumnDeleteQueryBuilder} instance
+     * @throws NullPointerException when there is a null element
+     */
+    static ColumnDeleteQueryBuilder builder(String... documents) {
+        return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class).apply(documents);
+    }
+
+    /**
+     * It starts the first step of {@link ColumnDeleteQueryBuilder} creation using a builder pattern.
+     * Once there is no field, it will remove the whole record instead of some fields on the database.
+     *
+     * @return a {@link ColumnDeleteQueryBuilder} instance
+     */
+    static ColumnDeleteQueryBuilder builder() {
+        return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class).get();
+    }
+
 
     /**
      * The initial element in the Column delete query
@@ -99,6 +122,10 @@ public interface ColumnDeleteQuery {
     interface ColumnDeleteProvider extends Function<String[], ColumnDelete>, Supplier<ColumnDelete> {
     }
 
+    interface ColumnDeleteQueryBuilderProvider extends Function<String[], ColumnDeleteQueryBuilder>,
+            Supplier<ColumnDeleteQueryBuilder> {
+
+    }
 
     /**
      * The Column Delete Query
