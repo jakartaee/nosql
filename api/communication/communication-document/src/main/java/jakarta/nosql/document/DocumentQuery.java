@@ -119,8 +119,9 @@ public interface DocumentQuery {
 
         /**
          * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will either discard or skip the search result.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentSkip skip(long skip);
@@ -151,7 +152,6 @@ public interface DocumentQuery {
      */
     interface DocumentSelectProvider extends Function<String[], DocumentSelect>, Supplier<DocumentSelect> {
     }
-
 
 
     /**
@@ -296,7 +296,6 @@ public interface DocumentQuery {
         DocumentLimit limit(long limit);
 
 
-
     }
 
     /**
@@ -394,12 +393,14 @@ public interface DocumentQuery {
 
         /**
          * Defines the order as {@link jakarta.nosql.SortType#ASC}
+         *
          * @return the {@link DocumentNameOrder} instance
          */
         DocumentNameOrder asc();
 
         /**
          * Defines the order as {@link jakarta.nosql.SortType#DESC}
+         *
          * @return the {@link DocumentNameOrder} instance
          */
         DocumentNameOrder desc();
@@ -443,20 +444,81 @@ public interface DocumentQuery {
      * Besides the fluent-API with the select {@link DocumentQuery#select()}, the API also has support for creating
      * a {@link DocumentQuery} instance using a builder pattern.
      * The goal is the same; however, it provides more possibilities, such as more complex queries.
-     *
+     * <p>
      * Besides, the fluent-API with the select method, the API also has support for creating a {@link DocumentQuery} instance using a builder pattern.
      * The goal is the same; however, it provides more possibilities, such as more complex queries.
      * The DocumentQueryBuilder is not brighter than a fluent-API; it has the same validation in the creation method.
+     * It is a mutable and non-thread-safe class.
      */
     interface DocumentQueryBuilder {
+        /**
+         * Append a new document in the search result. The query will return the result by elements declared such as "select column from database"
+         * If it remains empty, it will return all the possible fields, similar to "select * from database"
+         *
+         * @param document a field to return to the search
+         * @return the {@link DocumentQueryBuilder}
+         * @throws NullPointerException when the document is null
+         */
         DocumentQueryBuilder select(String document);
+
+        /**
+         * Append new documents in the search result. The query will return the result by elements declared such as "select column from database"
+         * If it remains empty, it will return all the possible fields, similar to "select * from database"
+         *
+         * @param documents a field to return to the search
+         * @return the {@link DocumentQueryBuilder}
+         * @throws NullPointerException when there is a null element
+         */
         DocumentQueryBuilder select(String... documents);
+
+        /**
+         * Append a new sort in the query. The first one has more precedence than the next one.
+         *
+         * @param sort the {@link Sort}
+         * @return the {@link DocumentQueryBuilder}
+         * @throws NullPointerException when the sort is null
+         */
         DocumentQueryBuilder sort(Sort sort);
+
+        /**
+         * Append sorts in the query. The first one has more precedence than the next one.
+         *
+         * @param sorts the array of {@link Sort}
+         * @return the {@link DocumentQueryBuilder}
+         * @throws NullPointerException when there is a null sort
+         */
         DocumentQueryBuilder sort(Sort... sorts);
+
+        /**
+         * Define the document collection in the query, this element is mandatory to build the {@link DocumentQuery}
+         *
+         * @param documentCollection the document collection to query
+         * @return the {@link DocumentQueryBuilder}
+         * @throws NullPointerException when documentCollection is null
+         */
         DocumentQueryBuilder from(String documentCollection);
+
+        /**
+         * Either add or replace the condition in the query. It has a different behavior than the previous method
+         * because it won't append it. Therefore, it will create when it is the first time or replace when it was executed once.
+         *
+         * @param condition the {@link DocumentCondition} in the query
+         * @return the {@link DocumentQueryBuilder}
+         * @throws NullPointerException when condition is null
+         */
         DocumentQueryBuilder where(DocumentCondition condition);
+
+        /**
+         * Defines the position of the first result to retrieve.
+         * It will depend on the NoSQL vendor implementation, but it will either discard or skip the search result.
+         *
+         * @param skip the first result to retrieve
+         * @return the {@link DocumentQueryBuilder}
+         */
         DocumentQueryBuilder skip(long skip);
+
         DocumentQueryBuilder limit(long limit);
+
         DocumentQuery build();
     }
 }
