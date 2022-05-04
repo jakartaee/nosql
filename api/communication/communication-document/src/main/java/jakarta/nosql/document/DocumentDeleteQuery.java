@@ -331,8 +331,8 @@ public interface DocumentDeleteQuery {
         DocumentDeleteQueryBuilder delete(String... documents);
 
         /**
-         * Append documents in to delete query.
-         * Define the document collection in the query, this element is mandatory to build the {@link DocumentDeleteQuery}
+         * Define the document collection in the query, this element
+         * is mandatory to build the {@link DocumentDeleteQuery}
          *
          * @param documentCollection the document collection to query
          * @return the {@link DocumentDeleteQueryBuilder}
