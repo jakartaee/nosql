@@ -59,7 +59,7 @@ public interface DocumentDeleteQuery {
      * This first step will inform the fields to delete in the query instead of the whole record.
      * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
      *
-     * @param documents - The column fields to query, optional.
+     * @param documents - The column fields to delete query
      * @return a new {@link DocumentDelete} instance
      * @throws NullPointerException when there is a null element
      */
@@ -266,5 +266,67 @@ public interface DocumentDeleteQuery {
          */
         DocumentDeleteNameCondition or(String name);
 
+    }
+
+    /**
+     * Besides the fluent-API with the select {@link DocumentDeleteQuery#delete()} ()}, the API also has support for creating
+     * a {@link DocumentDeleteQuery} instance using a builder pattern.
+     * The goal is the same; however, it provides more possibilities, such as more complex queries.
+     * <p>
+     * The goal is the same; however, it provides more possibilities, such as more complex queries.
+     * The DocumentQueryBuilder is not brighter than a fluent-API; it has the same validation in the creation method.
+     * It is a mutable and non-thread-safe class.
+     */
+    interface DocumentDeleteQueryBuilder {
+        /**
+         * Append a new document in to delete query.
+         * It informs the fields to delete in the query instead of the whole record.
+         * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
+         *
+         * @param document a column field to delete query
+         * @return the {@link DocumentDeleteQueryBuilder}
+         * @throws NullPointerException when the document is null
+         */
+        DocumentDeleteQueryBuilder delete(String document);
+
+        /**
+         * Append a new document in to delete query.
+         * This first step will inform the fields to delete in the query instead of the whole record.
+         * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
+         *
+         * @param documents The column fields to delete query
+         * @return the {@link DocumentDeleteQueryBuilder}
+         * @throws NullPointerException when there is a null element
+         */
+        DocumentDeleteQueryBuilder delete(String... documents);
+
+        /**
+         * Append documents in to delete query.
+         * Define the document collection in the query, this element is mandatory to build the {@link DocumentDeleteQuery}
+         *
+         * @param documentCollection the document collection to query
+         * @return the {@link DocumentDeleteQueryBuilder}
+         * @throws NullPointerException when documentCollection is null
+         */
+        DocumentDeleteQueryBuilder from(String documentCollection);
+
+        /**
+         * Either add or replace the condition in the query. It has a different behavior than the previous method
+         * because it won't append it. Therefore, it will create when it is the first time or replace when it was executed once.
+         *
+         * @param condition the {@link DocumentCondition} in the query
+         * @return the {@link DocumentDeleteQueryBuilder}
+         * @throws NullPointerException when condition is null
+         */
+        DocumentDeleteQueryBuilder where(DocumentCondition condition);
+
+        /**
+         * It will validate and then create a {@link DocumentDeleteQuery} instance.
+         *
+         * @return {@link DocumentDeleteQuery}
+         * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
+         *                               such as the {@link DocumentDeleteQueryBuilder#from(String)} method was not called.
+         */
+        DocumentDeleteQuery build();
     }
 }
