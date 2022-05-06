@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2022 Otavio Santana and others
+ *  Copyright (c) 2020 Otavio Santana and others
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -27,11 +27,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static jakarta.nosql.document.DocumentCondition.eq;
-import static jakarta.nosql.document.DocumentDeleteQuery.builder;
+import static jakarta.nosql.document.DocumentDeleteQuery.delete;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,17 +39,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class DeleteQueryBuilderTest {
+public class DeleteQueryFluentBuilderTest {
 
     @Test
     public void shouldReturnErrorWhenHasNullElementInSelect() {
-        Assertions.assertThrows(NullPointerException.class,() -> builder("document", "document", null));
+        Assertions.assertThrows(NullPointerException.class,() -> delete("document", "document", null));
     }
 
     @Test
     public void shouldDelete() {
         String documentCollection = "documentCollection";
-        DocumentDeleteQuery query = builder().from(documentCollection).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).build();
         assertTrue(query.getDocuments().isEmpty());
         assertFalse(query.getCondition().isPresent());
         assertEquals(documentCollection, query.getDocumentCollection());
@@ -59,7 +58,7 @@ public class DeleteQueryBuilderTest {
     @Test
     public void shouldDeleteDocuments() {
         String documentCollection = "documentCollection";
-        DocumentDeleteQuery query = builder("document", "document2").from(documentCollection).build();
+        DocumentDeleteQuery query = delete("document", "document2").from(documentCollection).build();
         assertThat(query.getDocuments(), containsInAnyOrder("document", "document2"));
         assertFalse(query.getCondition().isPresent());
         assertEquals(documentCollection, query.getDocumentCollection());
@@ -68,17 +67,14 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldReturnErrorWhenFromIsNull() {
-        Assertions.assertThrows(NullPointerException.class,() -> builder().from(null));
+        Assertions.assertThrows(NullPointerException.class,() -> delete().from(null));
     }
 
     @Test
     public void shouldSelectWhereNameEq() {
         String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.eq("name", name))
-                .build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").eq(name).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -95,9 +91,7 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameLike() {
         String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.like("name", name))
-                .build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").like(name).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -113,9 +107,7 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameGt() {
         String documentCollection = "documentCollection";
         Number value = 10;
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.gt("name", value))
-                .build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").gt(value).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -131,9 +123,7 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameGte() {
         String documentCollection = "documentCollection";
         Number value = 10;
-        DocumentDeleteQuery query = builder()
-                .from(documentCollection)
-                .where(DocumentCondition.gte("name", value)).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").gte(value).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -149,8 +139,7 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameLt() {
         String documentCollection = "documentCollection";
         Number value = 10;
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.lt("name", value)).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").lt(value).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -166,8 +155,7 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameLte() {
         String documentCollection = "documentCollection";
         Number value = 10;
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.lte("name", value)).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").lte(value).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -184,10 +172,7 @@ public class DeleteQueryBuilderTest {
         String documentCollection = "documentCollection";
         Number valueA = 10;
         Number valueB = 20;
-
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.between("name", Arrays.asList(valueA, valueB)))
-                .build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").between(valueA, valueB).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -203,9 +188,7 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameNot() {
         String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.eq("name", name).negate()).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").not().eq(name).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -223,10 +206,8 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameAnd() {
         String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-        DocumentCondition nameEqualsAda = DocumentCondition.eq("name", name);
-        DocumentCondition olderThenTen = DocumentCondition.gt("age", 10);
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.and(nameEqualsAda, olderThenTen)).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").eq(name).and("age")
+                .gt(10).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -241,11 +222,8 @@ public class DeleteQueryBuilderTest {
     public void shouldSelectWhereNameOr() {
         String documentCollection = "documentCollection";
         String name = "Ada Lovelace";
-
-        DocumentCondition nameEqualsAda = DocumentCondition.eq("name", name);
-        DocumentCondition olderThenTen = DocumentCondition.gt("age", 10);
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.or(nameEqualsAda, olderThenTen)).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("name").eq(name)
+                .or("age").gt(10).build();
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
@@ -261,11 +239,8 @@ public class DeleteQueryBuilderTest {
     @Test
     public void shouldDeleteNegate() {
         String documentCollection = "documentCollection";
-        DocumentCondition cityNotEqualsAssis = DocumentCondition.eq("city", "Assis").negate();
-        DocumentCondition nameNotEqualsLucas = DocumentCondition.eq("name", "Lucas").negate();
-
-        DocumentDeleteQuery query = builder().from(documentCollection)
-                .where(DocumentCondition.and(cityNotEqualsAssis, nameNotEqualsLucas)).build();
+        DocumentDeleteQuery query = delete().from(documentCollection).where("city").not().eq("Assis")
+                .and("name").not().eq("Lucas").build();
 
         DocumentCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
         assertEquals(documentCollection, query.getDocumentCollection());
@@ -285,7 +260,7 @@ public class DeleteQueryBuilderTest {
         String collection = "collection";
         DocumentCollectionManager manager = mock(DocumentCollectionManager.class);
         ArgumentCaptor<DocumentDeleteQuery> queryCaptor = ArgumentCaptor.forClass(DocumentDeleteQuery.class);
-        builder().from(collection).delete(manager);
+        delete().from(collection).delete(manager);
         verify(manager).delete(queryCaptor.capture());
 
         DocumentDeleteQuery query = queryCaptor.getValue();

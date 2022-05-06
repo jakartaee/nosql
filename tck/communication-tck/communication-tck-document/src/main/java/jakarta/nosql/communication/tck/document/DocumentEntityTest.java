@@ -106,8 +106,8 @@ public class DocumentEntityTest {
 
     @Test
     public void shouldFindValue() {
-        Document column = Document.of("name", "name");
-        DocumentEntity entity = DocumentEntity.of("entity", singletonList(column));
+        Document document = Document.of("name", "name");
+        DocumentEntity entity = DocumentEntity.of("entity", singletonList(document));
         Optional<String> name = entity.find("name", String.class);
         Assertions.assertNotNull(name);
         Assertions.assertTrue(name.isPresent());
@@ -116,8 +116,8 @@ public class DocumentEntityTest {
 
     @Test
     public void shouldNotFindValue() {
-        Document column = Document.of("name", "name");
-        DocumentEntity entity = DocumentEntity.of("entity", singletonList(column));
+        Document document = Document.of("name", "name");
+        DocumentEntity entity = DocumentEntity.of("entity", singletonList(document));
         Optional<String> notFound = entity.find("not_found", String.class);
         Assertions.assertNotNull(notFound);
         Assertions.assertFalse(notFound.isPresent());
@@ -125,8 +125,8 @@ public class DocumentEntityTest {
 
     @Test
     public void shouldFindTypeSupplier() {
-        Document column = Document.of("name", "name");
-        DocumentEntity entity = DocumentEntity.of("entity", singletonList(column));
+        Document document = Document.of("name", "name");
+        DocumentEntity entity = DocumentEntity.of("entity", singletonList(document));
         List<String> names = entity.find("name", new TypeReference<List<String>>() {})
                 .orElse(Collections.emptyList());
         Assertions.assertNotNull(names);
@@ -135,8 +135,8 @@ public class DocumentEntityTest {
 
     @Test
     public void shouldNotFindTypeSupplier() {
-        Document column = Document.of("name", "name");
-        DocumentEntity entity = DocumentEntity.of("entity", singletonList(column));
+        Document document = Document.of("name", "name");
+        DocumentEntity entity = DocumentEntity.of("entity", singletonList(document));
         List<String> names = entity.find("not_found", new TypeReference<List<String>>() {})
                 .orElse(Collections.emptyList());
         Assertions.assertNotNull(names);
@@ -163,7 +163,7 @@ public class DocumentEntityTest {
     }
 
     @Test
-    public void shouldConvertSubColumnToMap() {
+    public void shouldConvertSubDocumentToMap() {
         Document document = Document.of("name", "name");
         DocumentEntity entity = DocumentEntity.of("entity", singletonList(Document.of("sub", document)));
         Map<String, Object> result = entity.toMap();
