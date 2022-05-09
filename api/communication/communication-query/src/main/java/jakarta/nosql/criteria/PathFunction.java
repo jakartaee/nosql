@@ -20,7 +20,7 @@
 package jakarta.nosql.criteria;
 
 /**
- * A function to be applied to a path
+ * A function to be applied to a path, to be retrieved in a function query
  *
  * @param <X> the root entity type
  * @param <Y> the entity type
@@ -29,12 +29,26 @@ package jakarta.nosql.criteria;
  */
 public interface PathFunction<X, Y, T, R> extends CriteriaFunction<X, Y, T, R> {
 
+    /**
+     * Supported path functions
+     *
+     */
     enum Function {
         COUNT
     }
 
+    /**
+     * Retrieves the path the function must be applied to
+     *
+     * @return the path
+     */
     Path<X, Y> getPath();
 
+    /**
+     * Retrieves the function to apply to the path
+     *
+     * @return attribute
+     */
     Function getFunction();
 
 }

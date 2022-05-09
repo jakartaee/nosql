@@ -21,8 +21,19 @@ package jakarta.nosql.criteria;
 
 import java.util.Collection;
 
-public interface ExpressionQuery<T> extends SelectQuery<T> {
-    
-    Collection<Expression<T, ?, ?>> getExpressions();
-    
+/**
+ * The <code>ExpressionQuery</code> interface defines functionality that is
+ * specific to select queries retrieving only a subset of the entity fields.
+ *
+ * @param <X> the type of the root entity
+ */
+public interface ExpressionQuery<X> extends SelectQuery<X> {
+
+    /**
+     * Retrieves the expressions of the fields to retrieve.
+     *
+     * @return the expressions
+     */
+    Collection<Expression<X, ?, ?>> getExpressions();
+
 }

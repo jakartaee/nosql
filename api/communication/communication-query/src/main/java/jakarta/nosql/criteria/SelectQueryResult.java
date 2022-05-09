@@ -19,11 +19,20 @@
  */
 package jakarta.nosql.criteria;
 
+import java.util.stream.Stream;
+
 /**
  * Allows retrieving of select query results
  *
  * @param <T> the type of the root entity
  */
 public interface SelectQueryResult<T> extends RestrictedQueryResult<T> {
+    
+    /**
+     * Retrieves the result stream.
+     *
+     * @return the result stream
+     */
+    Stream<T> getStream();
     
 }

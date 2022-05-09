@@ -20,6 +20,7 @@
 package jakarta.nosql.criteria;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * The <code>SelectQuery</code> interface defines functionality that is
@@ -37,8 +38,9 @@ public interface SelectQuery<X> extends RestrictedQuery<X, SelectQueryResult<X>,
      *
      * @param sortings zero or more ordering expressions
      * @return the modified query
+     * @throws NullPointerException if the argument is null
      */
-    SelectQuery<X> orderBy(List<Order<X, ?>> sortings);
+    SelectQuery<X> orderBy(Order<X, ?>... sortings);
     
     /**
      * Retrieves the ordering expressions that are used to order the query
@@ -83,5 +85,14 @@ public interface SelectQuery<X> extends RestrictedQuery<X, SelectQueryResult<X>,
      * @throws IllegalArgumentException if the argument is negative
      */
     int getFirstResult();
+    
+    /**
+     * feed the results stream specific for this kind of query.
+     *
+     * @param results
+     * @return the same query instance
+     * @throws NullPointerException if the argument is null
+     */
+    SelectQuery<X> feed(Stream<X> results);
 
 }

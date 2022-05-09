@@ -28,6 +28,10 @@ package jakarta.nosql.criteria;
  */
 public interface BinaryPredicate<X, L, R> extends Predicate<X> {
     
+    /**
+     * Supported binary operators
+     *
+     */
     enum Operator {
         EQUAL,
         IN,

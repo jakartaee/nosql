@@ -20,7 +20,7 @@
 package jakarta.nosql.criteria;
 
 /**
- * A function to be used in a function query
+ * A function applied to an expression, to be retrieved in a function query
  *
  * @param <X> the root entity type
  * @param <Y> the entity type
@@ -28,13 +28,27 @@ package jakarta.nosql.criteria;
  * @param <R> the return type of the function
  */
 public interface ExpressionFunction<X, Y, T, R> extends CriteriaFunction<X, Y, T, R> {
-    
+
+    /**
+     * Supported expression functions
+     *
+     */
     enum Function {
         SUM
     }
 
+    /**
+     * Retrieves the expression the function must be applied to
+     *
+     * @return the expression
+     */
     Expression<X, Y, T> getExpression();
 
+    /**
+     * Retrieves the function to apply to the expression
+     *
+     * @return attribute
+     */
     Function getFunction();
-    
+
 }

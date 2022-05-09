@@ -35,4 +35,11 @@ public interface ExecutableQuery<T, R extends CriteriaQueryResult<T>> {
      */
     Class<T> getType();
     
+    /**
+     * Retrieves the result. 
+     *
+     * @return result
+     */
+    R getResult();
+    
 }
