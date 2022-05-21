@@ -16,7 +16,7 @@
 package jakarta.nosql;
 
 /**
- * It is thrown by the ServiceLoaderProvider when there is not implementation.
+ * It is thrown by the ServiceLoaderProvider when there is no implementation.
  */
 public class ProviderNotFoundException extends NoSQLException {
 

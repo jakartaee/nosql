@@ -31,7 +31,7 @@ import java.util.function.Function;
 /**
  * A document-oriented database, or document store, is a computer program designed for storing, retrieving,
  * and managing document-oriented information, also known as semi-structured data. D
- * ocument-oriented databases are one of the main categories of NoSQL databases, and the
+ * document-oriented databases are one of the main categories of NoSQL databases, and the
  * popularity of the term "document-oriented database" has grown with the use of the term NoSQL itself.
  * XML databases are a subclass of document-oriented databases that are optimized to work with XML documents.
  * Graph databases are similar, but add another layer, the relationship,
@@ -54,7 +54,7 @@ public interface DocumentEntity {
      * Creates a {@link DocumentEntity} instance
      *
      * @param name      the collection name
-     * @param documents the intial document inside {@link DocumentEntity}
+     * @param documents the initial document inside {@link DocumentEntity}
      * @return a {@link DocumentEntity} instance
      * @throws NullPointerException when either name or documents are null
      */
@@ -136,7 +136,7 @@ public interface DocumentEntity {
 
     /**
      * Find a document and converts to specific type from {@link Class}.
-     * It is a alias to {@link Value#get(Class)}
+     * It is an alias to {@link Value#get(Class)}
      *
      * @param documentName a name of a document
      * @param type the type to convert the value
@@ -147,7 +147,7 @@ public interface DocumentEntity {
 
     /**
      * Find a document and converts to specific type from {@link TypeSupplier}.
-     * It is a alias to {@link Value#get(TypeSupplier)}
+     * It is an alias to {@link Value#get(TypeSupplier)}
      *
      * @param documentName a name of a document
      * @param type the type to convert the value

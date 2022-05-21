@@ -25,7 +25,7 @@ public interface DocumentEntityConverter {
     /**
      * Converts the instance entity to {@link DocumentEntity}
      *
-     * @param entityInstance the instnace
+     * @param entityInstance the instance
      * @return a {@link DocumentEntity} instance
      * @throws NullPointerException when entityInstance is null
      */

@@ -256,7 +256,7 @@ public interface ColumnQueryMapper {
     }
 
     /**
-     * The Column Order whose define the the maximum number of results to retrieve.
+     * The Column Order whose define the maximum number of results to retrieve.
      */
     interface ColumnMapperLimit extends ColumnMapperQueryBuild {
     
@@ -543,7 +543,7 @@ public interface ColumnQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         ColumnMapperSkip skip(long skip);

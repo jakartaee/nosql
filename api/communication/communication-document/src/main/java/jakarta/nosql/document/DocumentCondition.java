@@ -48,7 +48,7 @@ public interface DocumentCondition {
     /**
      * Creates a new {@link DocumentCondition} using the {@link Condition#AND}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -65,7 +65,7 @@ public interface DocumentCondition {
     /**
      * Creates a new {@link DocumentCondition} using the {@link Condition#OR}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -296,7 +296,7 @@ public interface DocumentCondition {
     }
 
     /**
-     * Returns a new {@link DocumentCondition} aggregating ,as ¨AND", all the conditions as just one condition.
+     * Returns a new {@link DocumentCondition} aggregating ,as "AND", all the conditions as just one condition.
      * The {@link Document} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
@@ -318,7 +318,7 @@ public interface DocumentCondition {
     }
 
     /**
-     * Returns a new {@link DocumentCondition} aggregating ,as ¨OR", all the conditions as just one condition.
+     * Returns a new {@link DocumentCondition} aggregating ,as "OR", all the conditions as just one condition.
      * The {@link Document} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
