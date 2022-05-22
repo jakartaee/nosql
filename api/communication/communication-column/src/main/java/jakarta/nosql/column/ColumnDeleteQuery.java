@@ -298,7 +298,7 @@ public interface ColumnDeleteQuery {
     }
 
     /**
-     * Besides the fluent-API with the select {@link ColumnDeleteQuery#delete()} ()}, the API also has support for creating
+     * Besides the fluent-API with the select {@link ColumnDeleteQuery#delete()}, the API also has support for creating
      * a {@link ColumnDeleteQuery} instance using a builder pattern.
      * The goal is the same; however, it provides more possibilities, such as more complex queries.
      * <p>

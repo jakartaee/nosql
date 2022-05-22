@@ -62,7 +62,7 @@ public interface ColumnEntity {
     }
 
     /**
-     * Appends all of the columns in the column family to the end of this list.
+     * Appends all the columns in the column family to the end of this list.
      *
      * @param columns - columns to be added
      * @throws NullPointerException when columns is null
@@ -140,7 +140,7 @@ public interface ColumnEntity {
 
     /**
      * Find a column and converts to specific value from {@link Class}
-     * It is a alias to {@link Value#get(Class)}
+     * It is an alias to {@link Value#get(Class)}
      *
      * @param columnName a name of a column
      * @param type       the type to convert the value
@@ -151,7 +151,7 @@ public interface ColumnEntity {
 
     /**
      * Find a column and converts to specific value from {@link TypeSupplier}
-     * It is a alias to {@link Value#get(TypeSupplier)}
+     * It is an alias to {@link Value#get(TypeSupplier)}
      *
      * @param columnName a name of a column
      * @param type       the type to convert the value

@@ -230,7 +230,7 @@ public interface Settings {
         /**
          * Creates a {@link Settings} from the builder
          *
-         * @return a a {@link Settings} instance
+         * @return a {@link Settings} instance
          */
         Settings build();
     }

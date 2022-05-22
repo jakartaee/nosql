@@ -182,7 +182,7 @@ public interface ColumnQuery {
     }
 
     /**
-     * The Column Order whose define the the maximum number of results to retrieve.
+     * The Column Order whose define the maximum number of results to retrieve.
      */
     interface ColumnLimit extends ColumnQueryBuild {
 

@@ -48,7 +48,7 @@ public interface ColumnCondition {
     /**
      * Creates a new {@link ColumnCondition} using the {@link Condition#AND}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -65,7 +65,7 @@ public interface ColumnCondition {
     /**
      * Creates a new {@link ColumnCondition} using the {@link Condition#OR}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -280,7 +280,7 @@ public interface ColumnCondition {
     }
 
     /**
-     * an alias method to {@link ColumnCondition#between(Column)} (Column)} where it will create a {@link Column}
+     * an alias method to {@link ColumnCondition#between(Column)} (Column) where it will create a {@link Column}
      * instance first and then apply te condition.
      * @param name the name of the column
      * @param value the column information
@@ -296,7 +296,7 @@ public interface ColumnCondition {
 
 
     /**
-     * Returns a new {@link ColumnCondition} aggregating ,as ¨AND", all the conditions as just one condition.
+     * Returns a new {@link ColumnCondition} aggregating ,as "AND", all the conditions as just one condition.
      * The {@link Column} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
@@ -316,7 +316,7 @@ public interface ColumnCondition {
     }
 
     /**
-     * Returns a new {@link ColumnCondition} aggregating ,as ¨OR", all the conditions as just one condition.
+     * Returns a new {@link ColumnCondition} aggregating ,as "OR", all the conditions as just one condition.
      * The {@link Column} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>

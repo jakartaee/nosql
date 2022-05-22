@@ -299,7 +299,7 @@ public interface DocumentDeleteQuery {
     }
 
     /**
-     * Besides the fluent-API with the select {@link DocumentDeleteQuery#delete()} ()}, the API also has support for creating
+     * Besides the fluent-API with the select {@link DocumentDeleteQuery#delete()}, the API also has support for creating
      * a {@link DocumentDeleteQuery} instance using a builder pattern.
      * The goal is the same; however, it provides more possibilities, such as more complex queries.
      * <p>
