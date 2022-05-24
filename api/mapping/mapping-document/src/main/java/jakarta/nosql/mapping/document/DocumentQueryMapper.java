@@ -226,7 +226,7 @@ public interface DocumentQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);
@@ -258,7 +258,7 @@ public interface DocumentQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);
@@ -375,7 +375,7 @@ public interface DocumentQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);
@@ -532,7 +532,7 @@ public interface DocumentQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);

@@ -40,7 +40,7 @@ public interface DocumentWorkflow {
      * @param entity the entity to be saved
      * @param action the alteration to be executed on database
      * @param <T>    the entity type
-     * @return after the workflow the the entity response
+     * @return after the workflow the entity response
      * @see DocumentTemplate#insert(Object, java.time.Duration) DocumentTemplate#insert(Object)
      * DocumentTemplate#update(Object)
      */

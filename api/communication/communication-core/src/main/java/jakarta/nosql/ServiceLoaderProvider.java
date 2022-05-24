@@ -111,7 +111,7 @@ public final class ServiceLoaderProvider {
     }
 
     /**
-     * Returns a ordered Stream of the supplier
+     * Returns an ordered Stream of the supplier
      * @param supplier the supplier
      * @param <T> the supplier type
      * @return the Stream of supplier
