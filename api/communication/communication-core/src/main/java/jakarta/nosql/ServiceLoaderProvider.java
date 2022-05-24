@@ -55,7 +55,7 @@ public final class ServiceLoaderProvider {
 
     /**
      * Searches implementation using {@link ServiceLoader}, and it will return the higher priority
-     * {@link jakarta.annotation.Priority}
+     * {@link javax.annotation.Priority}
      *
      * @param supplier the class
      * @param <T>      the type
