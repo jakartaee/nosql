@@ -18,13 +18,17 @@ package jakarta.nosql;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.Spliterator;
 import java.util.WeakHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.StreamSupport.stream;
+
+import java.lang.reflect.Method;
 
 /**
  * A class that loads class from {@link ServiceLoader}
@@ -33,8 +37,11 @@ public final class ServiceLoaderProvider {
 
     private ServiceLoaderProvider() {
     }
+    
+    private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader"; //$NON-NLS-1$
 
     private static final Map<Class<?>, Object> CACHE = new WeakHashMap<>();
+    private static Boolean isOsgi = null;
 
     private static <T> T getSupplier(Class<T> supplier) {
         requireNonNull(supplier, "supplier is required");
@@ -48,7 +55,7 @@ public final class ServiceLoaderProvider {
 
     /**
      * Searches implementation using {@link ServiceLoader}, and it will return the higher priority
-     * {@link javax.annotation.Priority}
+     * {@link jakarta.annotation.Priority}
      *
      * @param supplier the class
      * @param <T>      the type
@@ -117,6 +124,19 @@ public final class ServiceLoaderProvider {
      * @return the Stream of supplier
      */
     public static <T> Stream<Object> getSupplierStream(Class<T> supplier) {
+        if(isOsgi()) {
+            try {
+                // Use reflection to avoid having any dependency on HK2 ServiceLoader class
+                Class<?>[] args = new Class<?>[]{supplier};
+                Class<?> target = Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+                Method m = target.getMethod("lookupProviderInstances", Class.class); //$NON-NLS-1$
+                @SuppressWarnings("unchecked")
+                Spliterator<Object> iter = (Spliterator<Object>)((Iterable<?>) m.invoke(null, (Object[]) args)).spliterator();
+                return StreamSupport.stream(iter, false);
+            } catch (Exception ignored) {
+                // Fall through to non-OSGi behavior
+            }
+        }
         return stream(ServiceLoader.load(supplier).spliterator(), false)
                 .map(ServiceLoaderSort::of)
                 .sorted()
@@ -145,6 +165,18 @@ public final class ServiceLoaderProvider {
             CACHE.put(supplier, result);
             return (T) result;
         }
+    }
+    
+    private static synchronized boolean isOsgi() {
+        if(isOsgi == null) {
+            try {
+                Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+                isOsgi = true;
+            } catch (ClassNotFoundException ignored) {
+                isOsgi = false;
+            }
+        }
+        return isOsgi;
     }
 
 }
