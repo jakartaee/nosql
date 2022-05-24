@@ -79,7 +79,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
     Iterable<DocumentEntity> insert(Iterable<DocumentEntity> entities, Duration ttl);
 
     /**
-     * Updates a entity
+     * Updates an entity
      *
      * @param entity entity to be updated
      * @return the entity updated

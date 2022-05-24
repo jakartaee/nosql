@@ -35,16 +35,16 @@ public class DocumentQueryTest {
 
     @BeforeEach
     public void setUp() {
-        query = select().from("columnFamily").build();
+        query = select().from("documentCollection").build();
     }
 
 
     @Test
-    public void shouldNotRemoveColumns() {
+    public void shouldNotRemoveDocuments() {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> {
-            List<String> columns = query.getDocuments();
-            assertTrue(columns.isEmpty());
-            columns.clear();
+            List<String> documents = query.getDocuments();
+            assertTrue(documents.isEmpty());
+            documents.clear();
         });
     }
 

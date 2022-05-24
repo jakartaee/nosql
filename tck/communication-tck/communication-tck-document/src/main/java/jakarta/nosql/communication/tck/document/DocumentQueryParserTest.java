@@ -195,12 +195,12 @@ public class DocumentQueryParserTest {
         prepare.bind("age", 12);
         final Optional<DocumentEntity> result = prepare.getSingleResult();
         Mockito.verify(manager).select(captor.capture());
-        DocumentQuery columnQuery = captor.getValue();
-        DocumentCondition columnCondition = columnQuery.getCondition().get();
-        Document column = columnCondition.getDocument();
-        assertEquals(Condition.EQUALS, columnCondition.getCondition());
-        assertEquals("age", column.getName());
-        assertEquals(12, column.get());
+        DocumentQuery documentQuery = captor.getValue();
+        DocumentCondition documentCondition = documentQuery.getCondition().get();
+        Document document = documentCondition.getDocument();
+        assertEquals(Condition.EQUALS, documentCondition.getCondition());
+        assertEquals("age", document.getName());
+        assertEquals(12, document.get());
         assertTrue(result.isPresent());
     }
 
@@ -216,12 +216,12 @@ public class DocumentQueryParserTest {
         prepare.bind("age", 12);
         final Optional<DocumentEntity> result = prepare.getSingleResult();
         Mockito.verify(manager).select(captor.capture());
-        DocumentQuery columnQuery = captor.getValue();
-        DocumentCondition columnCondition = columnQuery.getCondition().get();
-        Document column = columnCondition.getDocument();
-        assertEquals(Condition.EQUALS, columnCondition.getCondition());
-        assertEquals("age", column.getName());
-        assertEquals(12, column.get());
+        DocumentQuery documentQuery = captor.getValue();
+        DocumentCondition documentCondition = documentQuery.getCondition().get();
+        Document document = documentCondition.getDocument();
+        assertEquals(Condition.EQUALS, documentCondition.getCondition());
+        assertEquals("age", document.getName());
+        assertEquals(12, document.get());
         assertFalse(result.isPresent());
     }
 

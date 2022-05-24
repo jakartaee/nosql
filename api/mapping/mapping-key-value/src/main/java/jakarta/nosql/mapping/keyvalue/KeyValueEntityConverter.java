@@ -28,7 +28,7 @@ public interface KeyValueEntityConverter {
     /**
      * Converts the instance entity to {@link KeyValueEntity}
      *
-     * @param entityInstance the instnace
+     * @param entityInstance the instance
      * @return a {@link KeyValueEntity} instance
      * @throws IdNotFoundException when the entityInstance hasn't a field with {@link Id}
      * @throws NullPointerException when the entityInstance is null

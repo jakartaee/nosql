@@ -21,7 +21,7 @@ import jakarta.nosql.document.DocumentEntity;
 import jakarta.nosql.document.DocumentQuery;
 
 /**
- * This interface represent the manager of events. When an entity be either saved or updated an event will be fired. This order gonna be:
+ * This interface represents the manager of events. When an entity be either saved or updated an event will be fired. This order gonna be:
  * 1) firePreEntity
  * 2) firePreDocumentEntity
  * 3) firePreDocument

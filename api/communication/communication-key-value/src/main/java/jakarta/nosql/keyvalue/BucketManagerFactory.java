@@ -43,7 +43,7 @@ public interface BucketManagerFactory extends AutoCloseable {
      * Creates a {@link List} from bucket name
      *
      * @param bucketName a bucket name
-     * @param clazz      the valeu class
+     * @param clazz      the value class
      * @param <T>        the value type
      * @return a {@link List} instance
      * @throws UnsupportedOperationException when the database does not have to it
@@ -55,7 +55,7 @@ public interface BucketManagerFactory extends AutoCloseable {
      * Creates a {@link Set} from bucket name
      *
      * @param bucketName a bucket name
-     * @param clazz      the valeu class
+     * @param clazz      the value class
      * @param <T>        the value type
      * @return a {@link Set} instance
      * @throws UnsupportedOperationException when the database does not have to it
@@ -67,7 +67,7 @@ public interface BucketManagerFactory extends AutoCloseable {
      * Creates a {@link Queue} from bucket name
      *
      * @param bucketName a bucket name
-     * @param clazz      the valeu class
+     * @param clazz      the value class
      * @param <T>        the value type
      * @return a {@link Queue} instance
      * @throws UnsupportedOperationException when the database does not have to it

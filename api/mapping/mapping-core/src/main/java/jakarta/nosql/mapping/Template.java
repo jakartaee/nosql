@@ -71,7 +71,7 @@ public interface Template {
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
     /**
-     * Updates a entity
+     * Updates an entity
      *
      * @param entity entity to update
      * @param <T>    the instance type

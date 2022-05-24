@@ -20,6 +20,7 @@ package jakarta.nosql.document;
 import jakarta.nosql.Condition;
 import jakarta.nosql.ServiceLoaderProvider;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 /**
@@ -47,7 +48,7 @@ public interface DocumentCondition {
     /**
      * Creates a new {@link DocumentCondition} using the {@link Condition#AND}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -64,7 +65,7 @@ public interface DocumentCondition {
     /**
      * Creates a new {@link DocumentCondition} using the {@link Condition#OR}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -83,6 +84,21 @@ public interface DocumentCondition {
     }
 
     /**
+     * an alias method to {@link DocumentCondition#eq(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#EQUALS}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition eq(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class)
+                .apply(Document.of(name, value), Condition.EQUALS);
+    }
+
+    /**
      * Creates a {@link DocumentCondition} that has a {@link Condition#GREATER_THAN},
      * it means a select will scanning to a document collection that has the same name and the value
      * greater than informed in this document.
@@ -93,6 +109,21 @@ public interface DocumentCondition {
      */
     static DocumentCondition gt(Document document) {
         return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.GREATER_THAN);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#gt(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#GREATER_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition gt(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+                , Condition.GREATER_THAN);
     }
 
     /**
@@ -109,6 +140,21 @@ public interface DocumentCondition {
     }
 
     /**
+     * an alias method to {@link DocumentCondition#gte(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#GREATER_EQUALS_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition gte(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+                , Condition.GREATER_EQUALS_THAN);
+    }
+
+    /**
      * Creates a {@link DocumentCondition} that has a {@link Condition#LESSER_THAN}, it means a select will scanning to a
      * document collection that has the same name and the value  lesser than informed in this document.
      *
@@ -118,6 +164,21 @@ public interface DocumentCondition {
      */
     static DocumentCondition lt(Document document) {
         return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LESSER_THAN);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#lt(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#LESSER_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition lt(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+                , Condition.LESSER_THAN);
     }
 
     /**
@@ -134,6 +195,21 @@ public interface DocumentCondition {
     }
 
     /**
+     * an alias method to {@link DocumentCondition#lte(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#LESSER_EQUALS_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition lte(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+                , Condition.LESSER_EQUALS_THAN);
+    }
+
+    /**
      * Creates a {@link DocumentCondition} that has a {@link Condition#IN}, it means a select will scanning to a
      * document collection that has the same name and the value is within informed in this document.
      *
@@ -146,6 +222,20 @@ public interface DocumentCondition {
     }
 
     /**
+     * an alias method to {@link DocumentCondition#in(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#IN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition in(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class).in(Document.of(name, value));
+    }
+
+    /**
      * Creates a {@link DocumentCondition} that has a {@link Condition#LIKE}, it means a select will scanning to a
      * document collection that has the same name and the value  is like than informed in this document.
      *
@@ -155,6 +245,22 @@ public interface DocumentCondition {
      */
     static DocumentCondition like(Document document) {
         return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LIKE);
+    }
+
+
+    /**
+     * an alias method to {@link DocumentCondition#like(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#LIKE}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition like(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+                , Condition.LIKE);
     }
 
     /**
@@ -175,7 +281,22 @@ public interface DocumentCondition {
     }
 
     /**
-     * Returns a new {@link DocumentCondition} aggregating ,as ¨AND", all the conditions as just one condition.
+     * an alias method to {@link DocumentCondition#between(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#BETWEEN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition between(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class)
+                .between(Document.of(name, value));
+    }
+
+    /**
+     * Returns a new {@link DocumentCondition} aggregating ,as "AND", all the conditions as just one condition.
      * The {@link Document} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
@@ -197,7 +318,7 @@ public interface DocumentCondition {
     }
 
     /**
-     * Returns a new {@link DocumentCondition} aggregating ,as ¨OR", all the conditions as just one condition.
+     * Returns a new {@link DocumentCondition} aggregating ,as "OR", all the conditions as just one condition.
      * The {@link Document} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
