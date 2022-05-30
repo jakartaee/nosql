@@ -19,7 +19,7 @@ package jakarta.nosql;
 import java.util.function.BiFunction;
 
 /**
- * This element represents a required order to be used in a query, it's has two attributes:
+ * This element represents a required order to be used in a query, it has two attributes:
  * -- The name - the field's name to be sorted
  * -- The type - the way to be sorted
  *

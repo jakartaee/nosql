@@ -60,7 +60,7 @@ public final class ServiceLoaderProvider {
     }
 
     /**
-     * Searches implementation using {@link ServiceLoader}, an it will return
+     * Searches implementation using {@link ServiceLoader}, it will return
      * an instance only if there is one implementation to it.
      *
      * @param supplier the class
@@ -75,7 +75,7 @@ public final class ServiceLoaderProvider {
     }
 
     /**
-     * Searches implementation using {@link ServiceLoader}, an it will return
+     * Searches implementation using {@link ServiceLoader}, it will return
      * an instance only if there is one implementation to it.
      *
      * @param supplier  the class
@@ -91,7 +91,7 @@ public final class ServiceLoaderProvider {
     }
 
     /**
-     * Searches implementation using {@link ServiceLoader}, an it will return
+     * Searches implementation using {@link ServiceLoader}, it will return
      * an instance only if there is one implementation to it.
      *
      * @param supplier               the class

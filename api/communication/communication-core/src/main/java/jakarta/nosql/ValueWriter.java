@@ -21,7 +21,7 @@ import java.util.function.Predicate;
 /**
  * To put your own Java Structure in NoSQL database is necessary convert it to a supported one.
  * So, the ValueWriter has the goal to convert to any specific structure type that a database might support.
- * These implementation will loaded by ServiceLoad and a NoSQL implementation will may use it.
+ * These implementations will loaded by ServiceLoad and a NoSQL implementation will may use it.
  * The {@link Predicate} verifies if the writer has the support of instance from this class.
  *
  * @param <T> current type

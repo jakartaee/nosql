@@ -37,7 +37,7 @@ public interface Params {
     Value add(String param);
 
     /**
-     * @return the parameters names at the params
+     * @return the parameters name at the params
      */
     List<String> getParametersNames();
 
