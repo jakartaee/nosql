@@ -19,32 +19,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.WeakHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.StreamSupport.stream;
-
-import java.lang.reflect.Method;
 
 /**
  * A class that loads class from {@link ServiceLoader}
  */
 public final class ServiceLoaderProvider {
-    private enum LoaderType {
-        UNIDENTIFIED, OSGI, SERVICE_LOADER
-    }
-    
     private ServiceLoaderProvider() {
     }
     
-    private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader"; //$NON-NLS-1$
-
     private static final Map<Class<?>, Object> CACHE = new WeakHashMap<>();
-    private static AtomicReference<LoaderType> loaderType = new AtomicReference<>(LoaderType.UNIDENTIFIED);
+    private static LoaderType LOADER_TYPE = LoaderType.getLoaderType();
 
     private static <T> T getSupplier(Class<T> supplier) {
         requireNonNull(supplier, "supplier is required");
@@ -127,28 +117,7 @@ public final class ServiceLoaderProvider {
      * @return the Stream of supplier
      */
     public static <T> Stream<Object> getSupplierStream(Class<T> supplier) {
-        if(getLoaderType() == LoaderType.OSGI) {
-            try {
-                // Use reflection to avoid having any dependency on HK2 ServiceLoader class
-                Class<?>[] args = new Class<?>[]{supplier};
-                Class<?> target = Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
-                Method m = target.getMethod("lookupProviderInstances", Class.class); //$NON-NLS-1$
-                @SuppressWarnings("unchecked")
-                Iterable<Object> instances = (Iterable<Object>)m.invoke(null, (Object[]) args);
-                if(instances != null) {
-                    return StreamSupport.stream(instances.spliterator(), false)
-                        .map(ServiceLoaderSort::of)
-                        .sorted()
-                        .map(ServiceLoaderSort::get);
-                }
-            } catch (Exception ignored) {
-                // Fall through to non-OSGi behavior
-            }
-        }
-        return stream(ServiceLoader.load(supplier).spliterator(), false)
-                .map(ServiceLoaderSort::of)
-                .sorted()
-                .map(ServiceLoaderSort::get);
+        return LOADER_TYPE.read(supplier);
     }
 
     private static <T> T getUniqueSupplier(Class<T> supplier, Predicate<Object> predicate) {
@@ -165,7 +134,6 @@ public final class ServiceLoaderProvider {
         throw new NonUniqueResultException("There is more than one supplier of the type: " + supplier);
     }
 
-
     private static <T> T load(Class<T> supplier) {
         synchronized (supplier) {
             Object result = getSupplierStream(supplier)
@@ -173,22 +141,6 @@ public final class ServiceLoaderProvider {
             CACHE.put(supplier, result);
             return (T) result;
         }
-    }
-    
-    private static LoaderType getLoaderType() {
-        LoaderType type = loaderType.get();
-        if(type == LoaderType.UNIDENTIFIED) {
-            // Try to see if we have the HK2 OSGi loader available
-            try {
-                Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
-                type = LoaderType.OSGI;
-            } catch (ClassNotFoundException ignored) {
-                type = LoaderType.SERVICE_LOADER;
-            }
-
-            loaderType.set(type);
-        }
-        return type;
     }
 
 }
