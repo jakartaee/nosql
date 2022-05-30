@@ -33,7 +33,7 @@ public final class ServiceLoaderProvider {
     }
     
     private static final Map<Class<?>, Object> CACHE = new WeakHashMap<>();
-    private static LoaderType LOADER_TYPE = LoaderType.getLoaderType();
+    private static final LoaderType LOADER_TYPE = LoaderType.getLoaderType();
 
     private static <T> T getSupplier(Class<T> supplier) {
         requireNonNull(supplier, "supplier is required");
