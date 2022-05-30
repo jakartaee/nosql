@@ -17,6 +17,8 @@ package jakarta.nosql;
 
 import java.lang.reflect.Method;
 import java.util.ServiceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -29,20 +31,20 @@ enum LoaderType {
                 // Use reflection to avoid having any dependency on HK2 ServiceLoader class
                 Class<?>[] args = new Class<?>[]{supplier};
                 Class<?> target = Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
-                Method m = target.getMethod("lookupProviderInstances", Class.class); //$NON-NLS-1$
+                Method method = target.getMethod("lookupProviderInstances", Class.class); //$NON-NLS-1$
                 @SuppressWarnings("unchecked")
-                Iterable<Object> instances = (Iterable<Object>) m.invoke(null, (Object[]) args);
+                Iterable<Object> instances = (Iterable<Object>) method.invoke(null, (Object[]) args);
                 if (instances != null) {
                     return StreamSupport.stream(instances.spliterator(), false)
                             .map(ServiceLoaderSort::of)
                             .sorted()
                             .map(ServiceLoaderSort::get);
                 }
-            } catch (Exception ignored) {
-                // Fall through to non-OSGi behavior
-                return SERVICE_LOADER.read(supplier);
+            } catch (Exception exception) {
+                LOGGER.log(Level.FINEST, "There is no support for OSGI, returning to Service Loader: "
+                        + exception.getMessage());
             }
-            return null;
+            return SERVICE_LOADER.read(supplier);
         }
     }, SERVICE_LOADER {
         <T> Stream<Object> read(Class<T> supplier) {
@@ -54,6 +56,18 @@ enum LoaderType {
     };
 
     abstract <T> Stream<Object> read(Class<T> supplier);
-    private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader"; //$NON-NLS-1$
 
+    private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader"; //$NON-NLS-1$
+    private static final Logger LOGGER = Logger.getLogger(LoaderType.class.getName());
+
+    static LoaderType getLoaderType() {
+
+        // Try to see if we have the HK2 OSGi loader available
+        try {
+            Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+            return LoaderType.OSGI;
+        } catch (ClassNotFoundException ignored) {
+            return SERVICE_LOADER;
+        }
+    }
 }
