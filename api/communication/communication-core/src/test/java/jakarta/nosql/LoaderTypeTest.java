@@ -15,8 +15,31 @@
  */
 package jakarta.nosql;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoaderTypeTest {
 
+    @Test
+    public void shouldReturnServiceLoader() {
+        LoaderType type = LoaderType.getLoaderType();
+        Assertions.assertNotNull(type);
+        Assertions.assertEquals(LoaderType.SERVICE_LOADER, type);
+    }
+
+    @Test
+    public void shouldReadServiceLoader() {
+        LoaderType type = LoaderType.SERVICE_LOADER;
+        Stream<Object> stream = type.read(Machine.class);
+        Assertions.assertNotNull(stream);
+        List<Machine> machines = stream.map(Machine.class::cast).collect(Collectors.toList());
+        Assertions.assertNotNull(machines);
+        Assertions.assertEquals(2, machines.size());
+    }
 }
