@@ -49,7 +49,7 @@ class ServiceLoaderSortTest {
         List<Serializable> things = of(new Computer(), new Animal(), new Machine(), new Person())
                 .map(ServiceLoaderSort::of)
                 .sorted()
-                .map(s -> s.get())
+                .map(ServiceLoaderSort::get)
                 .collect(Collectors.toList());
 
         Assertions.assertTrue(things.get(0) instanceof Animal);
