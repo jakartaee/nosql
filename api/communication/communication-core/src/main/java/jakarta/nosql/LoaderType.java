@@ -64,9 +64,11 @@ enum LoaderType {
 
         // Try to see if we have the HK2 OSGi loader available
         try {
+            LOGGER.log(Level.FINEST, "Loading from the ServiceLoaderProvider and checking if there is OSGI available");
             Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
             return LoaderType.OSGI;
-        } catch (ClassNotFoundException ignored) {
+        } catch (ClassNotFoundException exception) {
+            LOGGER.log(Level.FINEST,"The OSGI class not found: " + exception.getMessage());
             return SERVICE_LOADER;
         }
     }
