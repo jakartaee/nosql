@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.StreamSupport.stream;
 
 /**
  * A class that loads class from {@link ServiceLoader}
