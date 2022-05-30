@@ -15,7 +15,45 @@
  */
 package jakarta.nosql;
 
-public enum LoaderType {
-    OSGI, SERVICE_LOADER;
+import java.lang.reflect.Method;
+import java.util.ServiceLoader;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static java.util.stream.StreamSupport.stream;
+
+enum LoaderType {
+    OSGI {
+        <T> Stream<Object> read(Class<T> supplier) {
+            try {
+                // Use reflection to avoid having any dependency on HK2 ServiceLoader class
+                Class<?>[] args = new Class<?>[]{supplier};
+                Class<?> target = Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+                Method m = target.getMethod("lookupProviderInstances", Class.class); //$NON-NLS-1$
+                @SuppressWarnings("unchecked")
+                Iterable<Object> instances = (Iterable<Object>) m.invoke(null, (Object[]) args);
+                if (instances != null) {
+                    return StreamSupport.stream(instances.spliterator(), false)
+                            .map(ServiceLoaderSort::of)
+                            .sorted()
+                            .map(ServiceLoaderSort::get);
+                }
+            } catch (Exception ignored) {
+                // Fall through to non-OSGi behavior
+                return SERVICE_LOADER.read(supplier);
+            }
+            return null;
+        }
+    }, SERVICE_LOADER {
+        <T> Stream<Object> read(Class<T> supplier) {
+            return stream(ServiceLoader.load(supplier).spliterator(), false)
+                    .map(ServiceLoaderSort::of)
+                    .sorted()
+                    .map(ServiceLoaderSort::get);
+        }
+    };
+
+    abstract <T> Stream<Object> read(Class<T> supplier);
+    private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader"; //$NON-NLS-1$
 
 }
