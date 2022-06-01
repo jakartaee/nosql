@@ -14,9 +14,9 @@
 
 ===  Pagination
 
-Pagination is the process of separating the contents into discrete pages. Each page has a list of entities from the database. The pagination allows retrieving a considerable number of elements from datastore into small blocks, e.g., returns ten pages with one hundred elements instead of return one thousand in a big shot at the storage engine.
+Pagination is the process of separating the contents into discrete pages. Each page displays a list of entities from the database. The pagination allows retrieving a considerable number of elements from datastore into small blocks, e.g., returns ten pages with one hundred elements instead of return one thousand in a big shot at the storage engine.
 
-At this project, there an interface that represents the pagination there is the `Pagination` interface.
+At this project, there an interface that represents the pagination by using the `Pagination` interface.
 
 .The pagination, instead of query a bunch of elements. The pagination process allows retrieving a small fixed block of entities in a database.
 image::pagination.svg[Pagination]
@@ -24,8 +24,10 @@ image::pagination.svg[Pagination]
 [source,java]
 ----
 Pagination pagination = Pagination.page(1).size(2);
-//it creates a pagination instance where it is the first page and each page has the size of two each one.
+
+// this creates a pagination instance where it is the first page and each page has the size of two each one.
 long pageNumber = pagination.getPageNumber();
+
 Pagination next = pagination.next();
 ----
 
@@ -33,7 +35,7 @@ Pagination next = pagination.next();
 TIP: The Column-Family, Document and Graph API has method such as **skip** and **limit** to jump values into a query and to define a maximum size of elements to return in a query respectively.
 
 
-==== Column
+==== Column-Family
 
 A `ColumnQueryPagination` is a specialization of `ColumnQuery` that allows the pagination resource at the query. Thus it overwrites the **skip** and **limit** and use the values from a `Pagination` instance.
 

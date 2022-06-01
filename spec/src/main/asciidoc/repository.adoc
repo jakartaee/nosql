@@ -14,7 +14,7 @@
 
 === Repository
 
-In addition to a template class, the Mapping API has the Repository. This interface helps the Entity repository to save, update, delete and retrieve information. To use Repository, you just need to create a new interface that extends the *Repository*.
+In addition to the `Template` class, the Mapping API includes a Repository interface that helps the `Entity` repository to save, update, delete and retrieve information. To use `Repository`, you just need to create a new interface that extends the *Repository*.
 
 [source,java]
 ----
@@ -44,7 +44,7 @@ private PersonRepository keyValueRepository;
 private PersonRepository graphRepository;
 ----
 
-And then, make any manager class (*ColumnFamilyManager*, *DocumentCollectionManager*, *BucketManager*, and *Graph*) eligible to CDI defining a method with Produces annotation.
+And then, make any manager class (*ColumnFamilyManager*, *DocumentCollectionManager*, *BucketManager*, and *Graph*) eligible to CDI defining a method with the `@Produces` annotation.
 
 [source,java]
 ----
@@ -184,9 +184,9 @@ repository.save(people);
 ----
 
 
-==== Query by method
+==== Query by Method
 
-The Repository also has a method query from the method name. These are the keywords:
+The Repository interface also includes a method query from the method name. These are the keywords:
 
 * *findBy*: The prefix to find some information.
 * *deleteBy*: The prefix to delete some information.
@@ -251,19 +251,24 @@ This resource allows pagination and a dynamical sort in a smooth way.
 [source,java]
 ----
 PersonRepository personRepository = //instance;
+
 Sort sort = Sort.asc("name");
+
 Sorts sorts = Sorts.sorts().asc("name").desc("age");
+
 Pagination pagination = Pagination.page(1).size(10);
 
 List<Person> all = personRepository.findAll(pagination);//findAll by pagination
+
 List<Person> byName = personRepository.findByName("Ada", sort);//find by name order by name asc
+
 List<Person> byAgeGreaterThan = personRepository.findByAgeGreaterThan(22, sorts);//find age greater than 22 sort name asc then age desc
 ----
 
 WARNING: All these special instances must be at the end, thus after the parameters that will be used at a query.
 
 
-==== Using Query annotation
+==== Using the Query Annotation
 
 The Repository interface contains all the trivial methods shared among the NoSQL implementations that a developer does not need to care. Also, there is a query method that does query based on the method name. Equally important, there are two new annotations: The Query and param, that defines the statement and set the values in the query respectively.
 
@@ -280,7 +285,7 @@ public interface PersonRepository extends Repository<Person, Long> {
 
 IMPORTANT: Remember, when a developer defines who that repository will be implemented from the CDI qualifier, the query will be executed to that defined type, given that, gremlin to Graph, Jakarta NoSQL key to key-value and so on.
 
-==== How to Create Repository implementation programmatically
+==== How to Programmatically Create a Repository Implementation
 
 The Mapping API has support to create Repository programmatically to each NoSQL type, so there are *ColumnRepositoryProducer*, *DocumentRepositoryProducer*, *KeyValueRepositoryProducer*, *GraphRepositoryProducer* to column, document, key-value, graph repository implementation respectively. Each producer needs both the repository class and the manager instance to return a repository instance.
 
