@@ -12,7 +12,7 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-==== Querying by text with the Communication API
+==== Querying by Text with the Communication API
 
 The Communication API allows queries to be text. These queries are converted to an operation that already exists in the Manager interface from the `query` method. An `UnsupportedOperationException` is thrown if a NoSQL database doesn't have support for that procedure.
 
@@ -24,7 +24,7 @@ Queries follow these rules:
 * The goal is to look like SQL, however simpler
 * Even if a query has valid sintax a specific implementation may not support an operation. For example, a Column family database may not support queries in a different field that is not the ID field.
 
-===== Key-Value databases
+===== Key-Value Database Types
 
 Key-Value databases support three operations: `get`, `del` and `put`.
 
@@ -66,7 +66,7 @@ put {"Diana" , "The goddess of hunt"} //adds key 'diana' and value 'The goddess 
 put {"Diana" , "The goddess of hunt", 10 second} //also defines a TTL of 10 seconds
 ----
 
-===== Column and Document databases
+===== Column-Family and Document Database Types
 
 The queries have syntax similar to SQL queries. But keep in mind that it has a limitation: joins are not supported. 
 
@@ -176,7 +176,7 @@ The Operators are:
 |===
 
 
-===== The value
+===== The Value
 
 The value is the last element in a condition, and it defines what'll go to be used, with an operator, in a field target.
 
@@ -212,15 +212,17 @@ ORDERING_CLAUSE ::= NAME [asc | desc] ( NAME [asc | desc])*
 
 Both the *INSERT* and *PUT* commands support setting a time for data in an entity to expire. It defines the time to live of an object that is composed of the integer value and then the unit that might be `day`, `hour`, `minute`, `second`, `millisecond`, `nanosecond`. E.g.: `ttl 10 second`
 
-===== PreparedStatement and PreparedStatementAsync
+===== `PreparedStatement` and `PreparedStatementAsync`
 
-To run a query dynamically, use the `prepare` method in the manager for instance. It will return a `PreparedStatement` interface. To define a parameter to key-value, document, and column query, use the "@" in front of the name.
+To dynamically run a query, use the `prepare` method in the manager for instance. It will return a `PreparedStatement` interface. To define a parameter to key-value, document, and column query, use the "@" in front of the name.
 
 [source,java]
 ----
 PreparedStatement preparedStatement = documentManager
         .prepare("select * from Person where name = @name");
+
 preparedStatement.bind("name", "Ada");
+
 Stream<DocumentEntity> adas = preparedStatement.getResult();
 
 ----
@@ -229,11 +231,14 @@ Stream<DocumentEntity> adas = preparedStatement.getResult();
 ----
 PreparedStatementAsync preparedStatement = documentManagerAsync
         .prepare("select * from Person where name = @name");
+
 preparedStatement.bind("name", "Ada");
+
 Consumer<Stream<DocumentEntity>> callback = //instance;
+
 preparedStatement.getResult(callback);
 
 ----
 
 
-WARNING: For graph API, check https://tinkerpop.apache.org/gremlin.html[Gremlin]
+WARNING: For more information on Apache TinkerPop and the Gremlin API, please visit this https://tinkerpop.apache.org/gremlin.html[website].
