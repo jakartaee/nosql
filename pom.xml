@@ -74,6 +74,7 @@
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.3.0.603</sonar.maven.version>
         <mockito.verson>4.6.0</mockito.verson>
+        <commons.io.version>2.11.0</commons.io.version>
     </properties>
 
     <dependencies>
@@ -123,6 +124,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito.verson}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
