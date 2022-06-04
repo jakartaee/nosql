@@ -22,7 +22,7 @@
     <parent>
         <groupId>jakarta.nosql.tck</groupId>
         <artifactId>tck-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-b4</version>
     </parent>
 
 
