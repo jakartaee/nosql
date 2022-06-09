@@ -76,6 +76,30 @@ public class ColumnConditionTest {
         Assertions.assertEquals(condition, affirmative);
     }
 
+    @Test
+    public void shouldCreateNotCondition() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition negate = ColumnCondition.not(condition);
+        Column negateDocument = negate.getColumn();
+        assertEquals(Condition.NOT, negate.getCondition());
+        assertEquals(Condition.NOT.getNameField(), negateDocument.getName());
+        assertEquals(ColumnCondition.gt(age), negateDocument.getValue().get());
+    }
+
+    @Test
+    public void shouldReturnValidDoubleNot() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition affirmative = ColumnCondition.not(ColumnCondition.not(condition));
+        Assertions.assertEquals(condition, affirmative);
+    }
+
+    @Test
+    public void shouldShouldReturnErrorOnNot() {
+        Assertions.assertThrows(NullPointerException.class, ()-> ColumnCondition.not(null));
+    }
+
 
     @Test
     public void shouldReturnNPEInGtWhenParameterIsNull() {
