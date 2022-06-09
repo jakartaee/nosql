@@ -62,10 +62,10 @@ public class ColumnConditionTest {
         Column age = Column.of("age", 26);
         ColumnCondition condition = ColumnCondition.gt(age);
         ColumnCondition negate = condition.negate();
-        Column negateDocument = negate.getColumn();
+        Column negateColumn = negate.getColumn();
         assertEquals(Condition.NOT, negate.getCondition());
-        assertEquals(Condition.NOT.getNameField(), negateDocument.getName());
-        assertEquals(ColumnCondition.gt(age), negateDocument.getValue().get());
+        assertEquals(Condition.NOT.getNameField(), negateColumn.getName());
+        assertEquals(ColumnCondition.gt(age), negateColumn.getValue().get());
     }
 
     @Test
@@ -81,10 +81,10 @@ public class ColumnConditionTest {
         Column age = Column.of("age", 26);
         ColumnCondition condition = ColumnCondition.gt(age);
         ColumnCondition negate = ColumnCondition.not(condition);
-        Column negateDocument = negate.getColumn();
+        Column negateColumn = negate.getColumn();
         assertEquals(Condition.NOT, negate.getCondition());
-        assertEquals(Condition.NOT.getNameField(), negateDocument.getName());
-        assertEquals(ColumnCondition.gt(age), negateDocument.getValue().get());
+        assertEquals(Condition.NOT.getNameField(), negateColumn.getName());
+        assertEquals(ColumnCondition.gt(age), negateColumn.getValue().get());
     }
 
     @Test
