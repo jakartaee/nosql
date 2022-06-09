@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class DocumentConditionTest {
 
     @Test
@@ -46,6 +48,24 @@ public class DocumentConditionTest {
         Assertions.assertEquals(document, condition.getDocument());
     }
 
+    @Test
+    public void shouldCreateNegationCondition() {
+        Document age = Document.of("age", 26);
+        DocumentCondition condition = DocumentCondition.gt(age);
+        DocumentCondition negate = condition.negate();
+        Document negateDocument = negate.getDocument();
+        assertEquals(Condition.NOT, negate.getCondition());
+        assertEquals(Condition.NOT.getNameField(), negateDocument.getName());
+        assertEquals(DocumentCondition.gt(age), negateDocument.getValue().get());
+    }
+
+    @Test
+    public void shouldReturnValidDoubleNegation() {
+        Document age = Document.of("age", 26);
+        DocumentCondition condition = DocumentCondition.gt(age);
+        DocumentCondition affirmative = condition.negate().negate();
+        Assertions.assertEquals(condition, affirmative);
+    }
     @Test
     public void shouldCreateEqFromNameValue() {
         Document document = Document.of("name", "Ada Lovelace");
