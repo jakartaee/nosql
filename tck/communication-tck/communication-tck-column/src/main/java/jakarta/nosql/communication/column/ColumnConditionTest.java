@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class ColumnConditionTest {
 
     @Test
@@ -54,6 +56,26 @@ public class ColumnConditionTest {
         Assertions.assertEquals(Condition.EQUALS, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
     }
+
+    @Test
+    public void shouldCreateNegationCondition() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition negate = condition.negate();
+        Column negateDocument = negate.getColumn();
+        assertEquals(Condition.NOT, negate.getCondition());
+        assertEquals(Condition.NOT.getNameField(), negateDocument.getName());
+        assertEquals(ColumnCondition.gt(age), negateDocument.getValue().get());
+    }
+
+    @Test
+    public void shouldReturnValidDoubleNegation() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition affirmative = condition.negate().negate();
+        Assertions.assertEquals(condition, affirmative);
+    }
+
 
     @Test
     public void shouldReturnNPEInGtWhenParameterIsNull() {
