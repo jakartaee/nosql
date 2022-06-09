@@ -86,7 +86,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#eq(Column)} where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#EQUALS}
      * @throws NullPointerException when either name or value is null
@@ -113,7 +114,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#gt(Column)} where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#GREATER_THAN}
      * @throws NullPointerException when either name or value is null
@@ -124,6 +126,7 @@ public interface ColumnCondition {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class)
                 .apply(Column.of(name, value), Condition.GREATER_THAN);
     }
+
     /**
      * Creates a {@link ColumnCondition} that has a {@link Condition#GREATER_EQUALS_THAN},
      * it means a select will scanning to a column family that has the same name and the value
@@ -140,7 +143,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#gte(Column)} where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#GREATER_EQUALS_THAN}
      * @throws NullPointerException when either name or value is null
@@ -167,7 +171,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#lt(Column)} where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#LESSER_THAN}
      * @throws NullPointerException when either name or value is null
@@ -195,7 +200,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#lte(Column)} where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#LESSER_EQUALS_THAN}
      * @throws NullPointerException when either name or value is null
@@ -223,7 +229,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#in(Column)} where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#IN}
      * @throws NullPointerException when either name or value is null
@@ -250,7 +257,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#like(Column)} where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#LIKE}
      * @throws NullPointerException when either name or value is null
@@ -282,7 +290,8 @@ public interface ColumnCondition {
     /**
      * an alias method to {@link ColumnCondition#between(Column)} (Column) where it will create a {@link Column}
      * instance first and then apply te condition.
-     * @param name the name of the column
+     *
+     * @param name  the name of the column
      * @param value the column information
      * @return a {@link ColumnCondition} with {@link Condition#BETWEEN}
      * @throws NullPointerException when either name or value is null
@@ -294,6 +303,18 @@ public interface ColumnCondition {
                 .between(Column.of(name, value));
     }
 
+    /**
+     * Returns a predicate that is the negation of the supplied predicate.
+     * This is accomplished by returning result of the calling target.negate().
+     *
+     * @param condition
+     * @return a condition that negates the results of the supplied predicate
+     * @throws NullPointerException when condition is null
+     */
+    static ColumnCondition not(ColumnCondition condition) {
+        Objects.requireNonNull(condition, "condition is required");
+        return condition.negate();
+    }
 
     /**
      * Returns a new {@link ColumnCondition} aggregating ,as "AND", all the conditions as just one condition.
@@ -345,6 +366,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#BETWEEN} operation
+         *
          * @param column the column
          * @return a {@link ColumnCondition}
          */
@@ -352,6 +374,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#AND} operation
+         *
          * @param conditions the conditions
          * @return a {@link ColumnCondition}
          */
@@ -359,6 +382,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#OR} operation
+         *
          * @param conditions the conditions
          * @return a {@link ColumnCondition}
          */
@@ -366,6 +390,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#IN} operation
+         *
          * @param column the column
          * @return a {@link ColumnCondition}
          */
