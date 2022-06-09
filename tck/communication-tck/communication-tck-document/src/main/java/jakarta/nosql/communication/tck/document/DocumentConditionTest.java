@@ -67,6 +67,31 @@ public class DocumentConditionTest {
         Assertions.assertEquals(condition, affirmative);
     }
 
+
+    @Test
+    public void shouldCreateNotCondition() {
+        Document age = Document.of("age", 26);
+        DocumentCondition condition = DocumentCondition.gt(age);
+        DocumentCondition negate = DocumentCondition.not(condition);
+        Document negateDocument = negate.getDocument();
+        assertEquals(Condition.NOT, negate.getCondition());
+        assertEquals(Condition.NOT.getNameField(), negateDocument.getName());
+        assertEquals(DocumentCondition.gt(age), negateDocument.getValue().get());
+    }
+
+    @Test
+    public void shouldReturnValidDoubleNot() {
+        Document age = Document.of("age", 26);
+        DocumentCondition condition = DocumentCondition.gt(age);
+        DocumentCondition affirmative = DocumentCondition.not(DocumentCondition.not(condition));
+        Assertions.assertEquals(condition, affirmative);
+    }
+
+    @Test
+    public void shouldShouldReturnErrorOnNot() {
+        Assertions.assertThrows(NullPointerException.class, ()-> DocumentCondition.not(null));
+    }
+
     @Test
     public void shouldCreateEqFromNameValue() {
         Document document = Document.of("name", "Ada Lovelace");
