@@ -66,6 +66,7 @@ public class DocumentConditionTest {
         DocumentCondition affirmative = condition.negate().negate();
         Assertions.assertEquals(condition, affirmative);
     }
+
     @Test
     public void shouldCreateEqFromNameValue() {
         Document document = Document.of("name", "Ada Lovelace");
