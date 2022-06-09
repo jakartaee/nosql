@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class ColumnConditionTest {
 
     @Test
@@ -54,6 +56,50 @@ public class ColumnConditionTest {
         Assertions.assertEquals(Condition.EQUALS, condition.getCondition());
         Assertions.assertEquals(column, condition.getColumn());
     }
+
+    @Test
+    public void shouldCreateNegationCondition() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition negate = condition.negate();
+        Column negateColumn = negate.getColumn();
+        assertEquals(Condition.NOT, negate.getCondition());
+        assertEquals(Condition.NOT.getNameField(), negateColumn.getName());
+        assertEquals(ColumnCondition.gt(age), negateColumn.getValue().get());
+    }
+
+    @Test
+    public void shouldReturnValidDoubleNegation() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition affirmative = condition.negate().negate();
+        Assertions.assertEquals(condition, affirmative);
+    }
+
+    @Test
+    public void shouldCreateNotCondition() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition negate = ColumnCondition.not(condition);
+        Column negateColumn = negate.getColumn();
+        assertEquals(Condition.NOT, negate.getCondition());
+        assertEquals(Condition.NOT.getNameField(), negateColumn.getName());
+        assertEquals(ColumnCondition.gt(age), negateColumn.getValue().get());
+    }
+
+    @Test
+    public void shouldReturnValidDoubleNot() {
+        Column age = Column.of("age", 26);
+        ColumnCondition condition = ColumnCondition.gt(age);
+        ColumnCondition affirmative = ColumnCondition.not(ColumnCondition.not(condition));
+        Assertions.assertEquals(condition, affirmative);
+    }
+
+    @Test
+    public void shouldShouldReturnErrorOnNot() {
+        Assertions.assertThrows(NullPointerException.class, ()-> ColumnCondition.not(null));
+    }
+
 
     @Test
     public void shouldReturnNPEInGtWhenParameterIsNull() {
