@@ -15,7 +15,7 @@
 module jakarta.nosql.mapping.tck.document {
     requires jakarta.nosql.mapping.tck.test;
     requires javax.inject;
-    requires mapping.document;
+    requires jakarta.nosql.mapping.document;
     requires jakarta.nosql.communication.document;
     requires jakarta.nosql.mapping.tck.entities;
     requires org.junit.jupiter.api;
@@ -23,6 +23,7 @@ module jakarta.nosql.mapping.tck.document {
     requires hamcrest.all;
     requires org.mockito;
     requires jakarta.nosql.mapping.core;
+    requires static org.apiguardian.api;
 
     exports jakarta.nosql.tck.mapping.document;
 }

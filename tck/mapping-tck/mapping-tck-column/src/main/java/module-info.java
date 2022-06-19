@@ -14,7 +14,7 @@
  */
 module jakarta.nosql.mapping.tck.column {
     requires jakarta.nosql.mapping.tck.test;
-    requires mapping.column;
+    requires jakarta.nosql.mapping.column;
     requires javax.inject;
     requires jakarta.nosql.mapping.core;
     requires org.junit.jupiter.api;
@@ -23,5 +23,6 @@ module jakarta.nosql.mapping.tck.column {
     requires jakarta.nosql.communication.column;
     requires hamcrest.all;
     requires jakarta.nosql.communication.core;
+    requires static org.apiguardian.api;
     exports jakarta.nosql.tck.mapping.column;
 }
