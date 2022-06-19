@@ -18,6 +18,7 @@ module jakarta.nosql.communication.document {
     requires jakarta.nosql.communication.query;
 
     exports jakarta.nosql.document;
+    opens jakarta.nosql.document;
 
     uses jakarta.nosql.document.Document.DocumentProvider;
     uses jakarta.nosql.document.DocumentEntity.DocumentEntityProvider;
