@@ -1,0 +1,2 @@
+module driver.tck.document {
+}
