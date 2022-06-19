@@ -1,0 +1,2 @@
+module communication.tck.document {
+}
