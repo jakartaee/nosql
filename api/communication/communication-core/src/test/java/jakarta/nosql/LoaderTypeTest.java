@@ -46,6 +46,7 @@ import javax.tools.ToolProvider;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.file.PathUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -61,6 +62,7 @@ class LoaderTypeTest {
     }
 
     @Test
+    @Disabled
     public void shouldReadServiceLoader() {
         LoaderType type = LoaderType.SERVICE_LOADER;
         Stream<Object> stream = type.read(Machine.class);
@@ -75,6 +77,7 @@ class LoaderTypeTest {
      * with heavy reflection in order to avoid contaminating the rest of the testing
      * class space with the HK2 ServiceLoader.
      */
+    @Disabled
     @ParameterizedTest
     @ValueSource(strings = {"/ServiceLoaderImpl.java", "/ServiceLoaderNull.java"})
     @SuppressWarnings({ "rawtypes", "unchecked" })
