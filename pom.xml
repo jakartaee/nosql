@@ -222,6 +222,11 @@
                                 <property name="fileExtensions" value="java"/>
                             </module>
 
+                            <module name="LineLength">
+                                <property name="max" value="180"/>
+                                <property name="ignorePattern" value="@version|@see"/>
+                            </module>
+
                             <module name="FileTabCharacter"/>
 
                             <module name="TreeWalker">
@@ -251,10 +256,7 @@
                                 <module name="UnusedImports"/>
 
 
-                                <module name="LineLength">
-                                    <property name="max" value="180"/>
-                                    <property name="ignorePattern" value="@version|@see"/>
-                                </module>
+
                                 <module name="MethodLength">
                                     <property name="max" value="250"/>
                                 </module>
