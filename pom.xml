@@ -217,7 +217,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes>${checkstyle.excludes}</excludes>
+                    <excludes>**/module-info.java,${checkstyle.excludes}</excludes>
                     <logViolationsToConsole>true</logViolationsToConsole>
                     <consoleOutput>true</consoleOutput>
                     <configLocation>checkstyle.xml</configLocation>
