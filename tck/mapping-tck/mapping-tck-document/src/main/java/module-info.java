@@ -1,0 +1,2 @@
+module mapping.tck.document {
+}
