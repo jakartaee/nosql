@@ -19,5 +19,6 @@ module jakarta.nosql.communication.tck.document {
     requires hamcrest.all;
     requires org.junit.jupiter.api;
     requires org.mockito;
+    requires org.junit.jupiter.params;
     exports jakarta.nosql.communication.tck.document;
 }
