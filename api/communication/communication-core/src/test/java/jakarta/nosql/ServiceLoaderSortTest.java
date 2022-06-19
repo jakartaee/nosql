@@ -16,6 +16,7 @@
 package jakarta.nosql;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.annotation.Priority;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Stream.of;
 
+@Disabled
 class ServiceLoaderSortTest {
 
 
