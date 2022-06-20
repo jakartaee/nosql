@@ -1,10 +1,3 @@
-import jakarta.nosql.Settings;
-import jakarta.nosql.Params;
-import jakarta.nosql.Sort;
-import jakarta.nosql.TypeSupplier;
-import jakarta.nosql.Value;
-import jakarta.nosql.ValueReader;
-import jakarta.nosql.ValueWriter;
 
 /*
  * Copyright (c) 2020 Otavio Santana and others
@@ -27,12 +20,13 @@ module jakarta.nosql.communication.core {
     requires static java.compiler;
     exports jakarta.nosql;
 
-    uses Params.ParamsProvider;
-    uses Settings.SettingsBuilderProvider;
-    uses Sort.SortProvider;
-    uses TypeSupplier;
-    uses Value.ValueProvider;
-    uses ValueReader;
-    uses ValueWriter;
+    uses jakarta.nosql.Params.ParamsProvider;
+    uses jakarta.nosql.Settings.SettingsBuilderProvider;
+    uses jakarta.nosql.Sort.SortProvider;
+    uses jakarta.nosql.TypeSupplier;
+    uses jakarta.nosql.Value.ValueProvider;
+    uses jakarta.nosql.ValueReader;
+    uses jakarta.nosql.ValueWriter;
+    uses jakarta.nosql.TypeReferenceReader;
 
 }
