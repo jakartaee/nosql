@@ -17,6 +17,7 @@ package jakarta.nosql;
 
 import java.lang.reflect.Method;
 import java.util.ServiceLoader;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -26,10 +27,10 @@ import static java.util.stream.StreamSupport.stream;
 
 enum LoaderType {
     OSGI {
-        <T> Stream<Object> read(Class<T> supplier) {
+        <T> Stream<Object> read(Class<T> service, Supplier<ServiceLoader<T>> supplier) {
             try {
                 // Use reflection to avoid having any dependency on HK2 ServiceLoader class
-                Class<?>[] args = new Class<?>[]{supplier};
+                Class<?>[] args = new Class<?>[]{service};
                 Class<?> target = Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
                 Method method = target.getMethod("lookupProviderInstances", Class.class); //$NON-NLS-1$
                 @SuppressWarnings("unchecked")
@@ -44,18 +45,18 @@ enum LoaderType {
                 LOGGER.log(Level.FINEST, "There is no support for OSGI, returning to Service Loader: "
                         + exception.getMessage());
             }
-            return SERVICE_LOADER.read(supplier);
+            return SERVICE_LOADER.read(service, supplier);
         }
     }, SERVICE_LOADER {
-        <T> Stream<Object> read(Class<T> supplier) {
-            return stream(ServiceLoader.load(supplier).spliterator(), false)
+        <T> Stream<Object> read(Class<T> service, Supplier<ServiceLoader<T>> supplier) {
+            return stream(supplier.get().spliterator(), false)
                     .map(ServiceLoaderSort::of)
                     .sorted()
                     .map(ServiceLoaderSort::get);
         }
     };
 
-    abstract <T> Stream<Object> read(Class<T> supplier);
+    abstract <T> Stream<Object> read(Class<T> service, Supplier<ServiceLoader<T>> supplier);
 
     private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader"; //$NON-NLS-1$
     private static final Logger LOGGER = Logger.getLogger(LoaderType.class.getName());

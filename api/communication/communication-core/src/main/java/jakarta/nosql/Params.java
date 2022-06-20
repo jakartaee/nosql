@@ -16,6 +16,7 @@
 package jakarta.nosql;
 
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.function.Supplier;
 
 /**
@@ -55,7 +56,8 @@ public interface Params {
      * @return a new {@link Params} instance
      */
     static Params newParams() {
-        return ServiceLoaderProvider.get(ParamsProvider.class).get();
+        return ServiceLoaderProvider.get(ParamsProvider.class
+        , () -> ServiceLoader.load(ParamsProvider.class)).get();
     }
 
     /**

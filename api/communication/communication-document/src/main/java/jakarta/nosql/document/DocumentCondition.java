@@ -21,6 +21,7 @@ import jakarta.nosql.Condition;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
@@ -80,7 +81,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition eq(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.EQUALS);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.EQUALS);
     }
 
     /**
@@ -94,7 +97,8 @@ public interface DocumentCondition {
     static DocumentCondition eq(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class)
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                        ()-> ServiceLoader.load(DocumentConditionProvider.class))
                 .apply(Document.of(name, value), Condition.EQUALS);
     }
 
@@ -108,7 +112,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition gt(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.GREATER_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.GREATER_THAN);
     }
 
     /**
@@ -122,7 +128,9 @@ public interface DocumentCondition {
     static DocumentCondition gt(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
                 , Condition.GREATER_THAN);
     }
 
@@ -136,7 +144,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition gte(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.GREATER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.GREATER_EQUALS_THAN);
     }
 
     /**
@@ -150,7 +160,9 @@ public interface DocumentCondition {
     static DocumentCondition gte(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
                 , Condition.GREATER_EQUALS_THAN);
     }
 
@@ -163,7 +175,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition lt(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LESSER_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.LESSER_THAN);
     }
 
     /**
@@ -177,7 +191,9 @@ public interface DocumentCondition {
     static DocumentCondition lt(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
                 , Condition.LESSER_THAN);
     }
 
@@ -191,7 +207,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition lte(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LESSER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.LESSER_EQUALS_THAN);
     }
 
     /**
@@ -205,7 +223,9 @@ public interface DocumentCondition {
     static DocumentCondition lte(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
                 , Condition.LESSER_EQUALS_THAN);
     }
 
@@ -218,7 +238,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition in(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).in(document);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .in(document);
     }
 
     /**
@@ -232,7 +254,9 @@ public interface DocumentCondition {
     static DocumentCondition in(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).in(Document.of(name, value));
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .in(Document.of(name, value));
     }
 
     /**
@@ -244,7 +268,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition like(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LIKE);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.LIKE);
     }
 
 
@@ -259,7 +285,9 @@ public interface DocumentCondition {
     static DocumentCondition like(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(Document.of(name, value)
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
                 , Condition.LIKE);
     }
 
@@ -277,7 +305,9 @@ public interface DocumentCondition {
      *                                  an Iterable.
      */
     static DocumentCondition between(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).between(document);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .between(document);
     }
 
     /**
@@ -304,7 +334,8 @@ public interface DocumentCondition {
     static DocumentCondition between(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class)
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                        ()-> ServiceLoader.load(DocumentConditionProvider.class))
                 .between(Document.of(name, value));
     }
 
@@ -327,7 +358,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when the conditions is null
      */
     static DocumentCondition and(DocumentCondition... conditions) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).and(conditions);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .and(conditions);
     }
 
     /**
@@ -349,7 +382,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when the condition is null
      */
     static DocumentCondition or(DocumentCondition... conditions) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).or(conditions);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .or(conditions);
     }
 
     /**

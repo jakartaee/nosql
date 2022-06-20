@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -58,7 +59,8 @@ public interface PutQuery extends Query {
      */
     static PutQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(PutQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(PutQueryProvider.class,
+                ()-> ServiceLoader.load(PutQueryProvider.class)).apply(query);
     }
 
 

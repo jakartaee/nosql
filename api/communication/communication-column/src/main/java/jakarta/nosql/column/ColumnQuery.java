@@ -23,6 +23,7 @@ import jakarta.nosql.Sort;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -91,7 +92,8 @@ public interface ColumnQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static ColumnSelect select(String... columns) {
-        return ServiceLoaderProvider.get(ColumnSelectProvider.class).apply(columns);
+        return ServiceLoaderProvider.get(ColumnSelectProvider.class,
+                ()-> ServiceLoader.load(ColumnSelectProvider.class)).apply(columns);
     }
 
     /**
@@ -103,7 +105,8 @@ public interface ColumnQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static ColumnSelect select() {
-        return ServiceLoaderProvider.get(ColumnSelectProvider.class).get();
+        return ServiceLoaderProvider.get(ColumnSelectProvider.class,
+                ()-> ServiceLoader.load(ColumnSelectProvider.class)).get();
     }
 
     /**
@@ -114,7 +117,8 @@ public interface ColumnQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static ColumnQueryBuilder builder() {
-        return ServiceLoaderProvider.get(ColumnQueryBuilderProvider.class).get();
+        return ServiceLoaderProvider.get(ColumnQueryBuilderProvider.class
+        ,()-> ServiceLoader.load(ColumnQueryBuilderProvider.class)).get();
     }
 
     /**
@@ -127,7 +131,8 @@ public interface ColumnQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static ColumnQueryBuilder builder(String... documents) {
-        return ServiceLoaderProvider.get(ColumnQueryBuilderProvider.class).apply(documents);
+        return ServiceLoaderProvider.get(ColumnQueryBuilderProvider.class,
+                ()-> ServiceLoader.load(ColumnQueryBuilderProvider.class)).apply(documents);
     }
 
 

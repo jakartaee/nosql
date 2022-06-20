@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 
@@ -41,7 +42,8 @@ public interface KeyValueEntity {
      * @throws NullPointerException when either key or value are null
      */
     static <K, V> KeyValueEntity of(K key, V value) {
-        return ServiceLoaderProvider.get(KeyValueEntityProvider.class).apply(key, value);
+        return ServiceLoaderProvider.get(KeyValueEntityProvider.class,
+                ()-> ServiceLoader.load(KeyValueEntityProvider.class)).apply(key, value);
     }
 
     /**

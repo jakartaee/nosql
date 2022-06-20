@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -69,7 +70,8 @@ public interface InsertQuery extends Query {
      */
     static InsertQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(InsertQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(InsertQueryProvider.class, ()->
+                ServiceLoader.load(InsertQueryProvider.class)).apply(query);
     }
 
 

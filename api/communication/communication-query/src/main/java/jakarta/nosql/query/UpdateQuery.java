@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -61,7 +62,8 @@ public interface UpdateQuery extends Query {
      */
     static UpdateQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(UpdateQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(UpdateQueryProvider.class,
+                ()-> ServiceLoader.load(UpdateQueryProvider.class)).apply(query);
     }
 
 

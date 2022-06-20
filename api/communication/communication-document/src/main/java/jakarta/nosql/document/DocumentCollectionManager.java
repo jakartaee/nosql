@@ -25,6 +25,7 @@ import java.time.Duration;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
@@ -130,7 +131,8 @@ public interface DocumentCollectionManager extends AutoCloseable {
      */
     default Stream<DocumentEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
-        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class);
+        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
+                ()-> ServiceLoader.load(DocumentQueryParser.class));
         return parser.query(query, this, DocumentObserverParser.EMPTY);
     }
 
@@ -146,7 +148,8 @@ public interface DocumentCollectionManager extends AutoCloseable {
      */
     default DocumentPreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
-        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class);
+        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
+                ()-> ServiceLoader.load(DocumentQueryParser.class));
         return parser.prepare(query, this, DocumentObserverParser.EMPTY);
     }
 

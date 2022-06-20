@@ -22,6 +22,7 @@ import jakarta.nosql.Sort;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -84,7 +85,8 @@ public interface SelectQuery extends Query {
      */
     static SelectQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(SelectQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(SelectQueryProvider.class,
+                ()-> ServiceLoader.load(SelectQueryProvider.class)).apply(query);
     }
 
 

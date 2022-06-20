@@ -25,6 +25,7 @@ import java.time.Duration;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
@@ -130,7 +131,8 @@ public interface ColumnFamilyManager extends AutoCloseable {
      */
     default Stream<ColumnEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
-        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
+        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class,
+                ()-> ServiceLoader.load(ColumnQueryParser.class));
         return parser.query(query, this, ColumnObserverParser.EMPTY);
     }
 
@@ -146,7 +148,8 @@ public interface ColumnFamilyManager extends AutoCloseable {
      */
     default ColumnPreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
-        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
+        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class
+        ,()-> ServiceLoader.load(ColumnQueryParser.class));
         return parser.prepare(query, this, ColumnObserverParser.EMPTY);
     }
 

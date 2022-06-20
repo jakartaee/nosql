@@ -23,6 +23,7 @@ import jakarta.nosql.Sort;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -92,7 +93,9 @@ public interface DocumentQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static DocumentSelect select(String... documents) {
-        return ServiceLoaderProvider.get(DocumentSelectProvider.class).apply(documents);
+        return ServiceLoaderProvider.get(DocumentSelectProvider.class,
+                ()-> ServiceLoader.load(DocumentSelectProvider.class))
+                .apply(documents);
     }
 
     /**
@@ -104,7 +107,9 @@ public interface DocumentQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static DocumentSelect select() {
-        return ServiceLoaderProvider.get(DocumentSelectProvider.class).get();
+        return ServiceLoaderProvider.get(DocumentSelectProvider.class,
+                        ()-> ServiceLoader.load(DocumentSelectProvider.class))
+                .get();
     }
 
     /**
@@ -115,7 +120,9 @@ public interface DocumentQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static DocumentQueryBuilder builder() {
-        return ServiceLoaderProvider.get(DocumentQueryBuilderProvider.class).get();
+        return ServiceLoaderProvider.get(DocumentQueryBuilderProvider.class,
+                ()-> ServiceLoader.load(DocumentQueryBuilderProvider.class))
+                .get();
     }
 
     /**
@@ -128,7 +135,9 @@ public interface DocumentQuery {
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      */
     static DocumentQueryBuilder builder(String... documents) {
-        return ServiceLoaderProvider.get(DocumentQueryBuilderProvider.class).apply(documents);
+        return ServiceLoaderProvider.get(DocumentQueryBuilderProvider.class,
+                ()-> ServiceLoader.load(DocumentQueryBuilderProvider.class))
+                .apply(documents);
     }
 
     /**

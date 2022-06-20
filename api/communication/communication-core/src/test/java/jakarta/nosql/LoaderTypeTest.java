@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,7 +67,7 @@ class LoaderTypeTest {
     @Disabled
     public void shouldReadServiceLoader() {
         LoaderType type = LoaderType.SERVICE_LOADER;
-        Stream<Object> stream = type.read(Machine.class);
+        Stream<Object> stream = type.read(Machine.class, ()-> ServiceLoader.load(Machine.class));
         Assertions.assertNotNull(stream);
         List<Machine> machines = stream.map(Machine.class::cast).collect(Collectors.toList());
         Assertions.assertNotNull(machines);

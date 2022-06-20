@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -64,7 +65,9 @@ public interface DocumentDeleteQuery {
      * @throws NullPointerException when there is a null element
      */
     static DocumentDelete delete(String... documents) {
-        return ServiceLoaderProvider.get(DocumentDeleteProvider.class).apply(documents);
+        return ServiceLoaderProvider.get(DocumentDeleteProvider.class,
+                ()-> ServiceLoader.load(DocumentDeleteProvider.class))
+                .apply(documents);
     }
 
     /**
@@ -74,7 +77,9 @@ public interface DocumentDeleteQuery {
      * @return a new {@link DocumentDelete} instance
      */
     static DocumentDelete delete() {
-        return ServiceLoaderProvider.get(DocumentDeleteProvider.class).get();
+        return ServiceLoaderProvider.get(DocumentDeleteProvider.class,
+                ()-> ServiceLoader.load(DocumentDeleteProvider.class))
+                .get();
     }
 
     /**
@@ -87,7 +92,9 @@ public interface DocumentDeleteQuery {
      * @throws NullPointerException when there is a null element
      */
     static DocumentDeleteQueryBuilder builder(String... documents) {
-        return ServiceLoaderProvider.get(DocumentDeleteQueryBuilderProvider.class).apply(documents);
+        return ServiceLoaderProvider.get(DocumentDeleteQueryBuilderProvider.class,
+                ()-> ServiceLoader.load(DocumentDeleteQueryBuilderProvider.class))
+                .apply(documents);
     }
 
     /**
@@ -97,7 +104,9 @@ public interface DocumentDeleteQuery {
      * @return a {@link DocumentDeleteQueryBuilder} instance
      */
     static DocumentDeleteQueryBuilder builder() {
-        return ServiceLoaderProvider.get(DocumentDeleteQueryBuilderProvider.class).get();
+        return ServiceLoaderProvider.get(DocumentDeleteQueryBuilderProvider.class,
+                ()-> ServiceLoader.load(DocumentDeleteQueryBuilderProvider.class))
+                .get();
     }
 
 

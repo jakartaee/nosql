@@ -16,6 +16,7 @@
 package jakarta.nosql;
 
 
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -72,7 +73,8 @@ public interface Value {
      * @throws NullPointerException when the parameter is null
      */
     static Value of(Object value) {
-        return ServiceLoaderProvider.get(ValueProvider.class).apply(value);
+        return ServiceLoaderProvider.get(ValueProvider.class,
+                () -> ServiceLoader.load(ValueProvider.class)).apply(value);
     }
 
     /**

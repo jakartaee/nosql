@@ -16,6 +16,7 @@
 package jakarta.nosql;
 
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
@@ -51,7 +52,8 @@ public interface Sort {
      * @throws NullPointerException when there are null parameters
      */
     static Sort of(String name, SortType type) {
-        return ServiceLoaderProvider.get(SortProvider.class).apply(name, type);
+        return ServiceLoaderProvider.get(SortProvider.class,
+                        () -> ServiceLoader.load(SortProvider.class)).apply(name, type);
     }
 
     /**

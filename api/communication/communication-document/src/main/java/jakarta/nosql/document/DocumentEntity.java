@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -47,7 +48,8 @@ public interface DocumentEntity {
      * @throws NullPointerException when name is null
      */
     static DocumentEntity of(String name) {
-        return ServiceLoaderProvider.get(DocumentEntityProvider.class).apply(name);
+        return ServiceLoaderProvider.get(DocumentEntityProvider.class,
+                ()-> ServiceLoader.load(DocumentEntityProvider.class)).apply(name);
     }
 
     /**
@@ -59,7 +61,9 @@ public interface DocumentEntity {
      * @throws NullPointerException when either name or documents are null
      */
     static DocumentEntity of(String name, List<Document> documents) {
-        DocumentEntity entity = ServiceLoaderProvider.get(DocumentEntityProvider.class).apply(name);
+        DocumentEntity entity = ServiceLoaderProvider.get(DocumentEntityProvider.class,
+                ()-> ServiceLoader.load(DocumentEntityProvider.class))
+                .apply(name);
         entity.addAll(documents);
         return entity;
     }

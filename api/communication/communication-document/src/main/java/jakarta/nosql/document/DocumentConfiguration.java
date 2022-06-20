@@ -19,6 +19,8 @@ package jakarta.nosql.document;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
+import java.util.ServiceLoader;
+
 /**
  * The Jakarta NoSQL communication configuration to create a {@link DocumentCollectionManagerFactory}
  *
@@ -58,7 +60,9 @@ public interface DocumentConfiguration {
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
     static <T extends DocumentConfiguration> T getConfiguration() {
-        return (T) ServiceLoaderProvider.getUnique(DocumentConfiguration.class);
+        return (T) ServiceLoaderProvider.getUnique(DocumentConfiguration.class, () ->
+                ServiceLoader.load(DocumentConfiguration.class));
+
     }
 
     /**
@@ -66,12 +70,13 @@ public interface DocumentConfiguration {
      * for a particular provider implementation.
      *
      * @param <T>      the configuration type
-     * @param supplier the particular provider
+     * @param service the particular provider
      * @return {@link DocumentConfiguration} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
-    static <T extends DocumentConfiguration> T getConfiguration(Class<T> supplier) {
-        return ServiceLoaderProvider.getUnique(DocumentConfiguration.class, supplier);
+    static <T extends DocumentConfiguration> T getConfiguration(Class<T> service) {
+        return ServiceLoaderProvider.getUnique(DocumentConfiguration.class,
+                () -> ServiceLoader.load(DocumentConfiguration.class), service);
     }
 }
