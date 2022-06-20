@@ -20,6 +20,7 @@ module jakarta.nosql.communication.query {
 
     exports jakarta.nosql.query;
 
+    uses jakarta.nosql.query.DeleteQuery.DeleteQueryProvider;
     uses jakarta.nosql.query.DelQuery.DelQueryProvider;
     uses jakarta.nosql.query.GetQuery.GetQueryProvider;
     uses jakarta.nosql.query.InsertQuery.InsertQueryProvider;
