@@ -89,9 +89,18 @@ public interface SelectQuery extends Query {
                 ()-> ServiceLoader.load(SelectQueryProvider.class)).apply(query);
     }
 
+    /**
+     * Returns the {@link SelectQueryProvider} instance
+     * @return the SelectQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static SelectQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(SelectQueryProvider.class,
+                ()-> ServiceLoader.load(SelectQueryProvider.class));
+    }
 
     /**
-     * A provider to {@link SelectQuery}
+     * A provider to {@link SelectQuery}, this provider converts text into {@link SelectQuery}
      */
     interface SelectQueryProvider extends Function<String, SelectQuery> {
 
