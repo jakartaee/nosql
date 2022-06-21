@@ -16,7 +16,9 @@
 
 package jakarta.nosql;
 
+import java.util.ServiceLoader;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * To put your own Java Structure in NoSQL database is necessary convert it to a supported one.
@@ -36,4 +38,16 @@ public interface ValueWriter<T, S> extends Predicate<Class<?>> {
      * @return a new instance with the new class
      */
     S write(T object);
+
+    /**
+     * Returns the {@link Stream} of all {@link ValueWriter} available
+     * @return the stream of writers
+     * @param <T> current type
+     * @param <S> the converted type
+     */
+    static <T, S> Stream<ValueWriter<T, S>> getWriters() {
+        return ServiceLoaderProvider.getSupplierStream(ValueWriter.class,
+                ()-> ServiceLoader.load(ValueWriter.class))
+                .map(ValueWriter.class::cast);
+    }
 }
