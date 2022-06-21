@@ -33,7 +33,7 @@ import static java.util.Objects.requireNonNull;
 public final class ServiceLoaderProvider {
     private ServiceLoaderProvider() {
     }
-    
+
     private static final Map<Class<?>, Object> CACHE = new WeakHashMap<>();
     private static final LoaderType LOADER_TYPE = LoaderType.getLoaderType();
 
@@ -41,7 +41,7 @@ public final class ServiceLoaderProvider {
      * Searches implementation using {@link ServiceLoader}, and it will return the higher priority
      * {@link javax.annotation.Priority}
      *
-     * @param service the class
+     * @param service  the class
      * @param supplier the ServiceLoader supplier
      * @param <T>      the type
      * @return the instance from the class
@@ -58,7 +58,7 @@ public final class ServiceLoaderProvider {
      * Searches implementation using {@link ServiceLoader}, it will return
      * an instance only if there is one implementation to it.
      *
-     * @param service the class
+     * @param service  the class
      * @param <T>      the type
      * @param supplier the ServiceLoader supplier
      * @return the instance from the class
@@ -74,8 +74,8 @@ public final class ServiceLoaderProvider {
      * Searches implementation using {@link ServiceLoader}, it will return
      * an instance only if there is one implementation to it.
      *
-     * @param service  the class
-     * @param supplier a supplier to service loader
+     * @param service   the class
+     * @param supplier  a supplier to service loader
      * @param <T>       the type
      * @param predicate the predicate to set in the filter
      * @return the instance from the class
@@ -91,26 +91,29 @@ public final class ServiceLoaderProvider {
      * Searches implementation using {@link ServiceLoader}, it will return
      * an instance only if there is one implementation to it.
      *
-     * @param service               the class
-     * @param <T>                    the type
-     * @param <I>                    a specific implementation of service
-     * @param supplierImplementation to select a specific implementation
+     * @param service        the class
+     * @param supplier       the ServiceLoader supplier
+     * @param <T>            the type
+     * @param <I>            a specific implementation of service
+     * @param implementation to select a specific implementation
      * @return the instance from the class
      * @throws ProviderNotFoundException when the provider is not found
      * @throws NullPointerException      when service is null
      * @throws NonUniqueResultException  where there is more than one result
      */
     public static <T, I extends T> I getUnique(Class<T> service, Supplier<ServiceLoader<T>> supplier,
-                                               Class<I> supplierImplementation) {
-        requireNonNull(supplierImplementation, "supplierImplementation is required");
-        Predicate<Object> predicate = p -> p.getClass().equals(supplierImplementation);
+                                               Class<I> implementation) {
+        requireNonNull(implementation, "implementation is required");
+        Predicate<Object> predicate = p -> p.getClass().equals(implementation);
         return (I) getUniqueSupplier(service, supplier, predicate);
     }
 
     /**
      * Returns an ordered Stream of the service
-     * @param service the service
-     * @param <T> the service type
+     *
+     * @param service  the service
+     * @param supplier the ServiceLoader supplier
+     * @param <T>      the service type
      * @return the Stream of service
      * @throws NullPointerException when there is null parameter
      */
