@@ -50,9 +50,18 @@ public interface DelQuery extends Query {
                 ()-> ServiceLoader.load(DelQueryProvider.class)).apply(query);
     }
 
+    /**
+     * Returns the {@link DelQueryProvider} instance
+     * @return the DelQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static DelQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(DelQueryProvider.class,
+                ()-> ServiceLoader.load(DelQueryProvider.class));
+    }
 
     /**
-     * A provider to {@link DelQuery}
+     * A provider to {@link DelQuery}, this provider converts text into {@link DeleteQuery}
      */
     interface DelQueryProvider extends Function<String, DelQuery> {
 
