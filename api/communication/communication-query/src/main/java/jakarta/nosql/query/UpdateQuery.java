@@ -68,7 +68,16 @@ public interface UpdateQuery extends Query {
 
 
     /**
-     * A provider to {@link UpdateQuery}
+     * Returns the {@link UpdateQueryProvider} instance
+     * @return the UpdateQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static UpdateQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(UpdateQueryProvider.class,
+                ()-> ServiceLoader.load(UpdateQueryProvider.class));
+    }
+    /**
+     * A provider to {@link UpdateQuery}, this provider converts text into {@link UpdateQuery}
      */
     interface UpdateQueryProvider extends Function<String, UpdateQuery> {
 
