@@ -67,7 +67,18 @@ public interface DeleteQuery extends Query {
     }
 
     /**
-     * A provider to {@link DeleteQuery}
+     * Returns the {@link DeleteQueryProvider} instance
+     * @return the DeleteQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static DeleteQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(DeleteQueryProvider.class,
+                ()-> ServiceLoader.load(DeleteQueryProvider.class));
+    }
+
+
+    /**
+     * A provider to {@link DeleteQuery}, this provider converts query text in {@link DeleteQuery}
      */
     interface DeleteQueryProvider extends Function<String, DeleteQuery> {
 
