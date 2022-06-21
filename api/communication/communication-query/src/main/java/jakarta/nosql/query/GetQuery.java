@@ -52,7 +52,17 @@ public interface GetQuery extends Query {
     }
 
     /**
-     * A provider to {@link GetQuery}
+     * Returns the {@link GetQueryProvider} instance
+     * @return the GetQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static GetQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(GetQueryProvider.class,
+                () -> ServiceLoader.load(GetQueryProvider.class));
+    }
+
+    /**
+     * A provider to {@link GetQuery}, this provider converts text into {@link GetQuery}
      */
     interface GetQueryProvider extends Function<String, GetQuery> {
 
