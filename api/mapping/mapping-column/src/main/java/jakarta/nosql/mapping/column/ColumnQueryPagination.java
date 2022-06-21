@@ -20,6 +20,7 @@ import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.mapping.Pagination;
 import jakarta.nosql.mapping.Page;
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
@@ -52,7 +53,9 @@ public interface ColumnQueryPagination extends ColumnQuery {
      * @throws NullPointerException when there is null parameter
      */
     static ColumnQueryPagination of(ColumnQuery query, Pagination pagination) {
-        return ServiceLoaderProvider.get(ColumnQueryPaginationProvider.class).apply(query, pagination);
+        return ServiceLoaderProvider.get(ColumnQueryPaginationProvider.class,
+                ()-> ServiceLoader.load(ColumnQueryPaginationProvider.class))
+                .apply(query, pagination);
     }
 
     /**

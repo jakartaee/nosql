@@ -20,6 +20,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -64,7 +65,9 @@ public interface ColumnDeleteQuery {
      * @throws NullPointerException when there is a null element
      */
     static ColumnDelete delete(String... columns) {
-        return ServiceLoaderProvider.get(ColumnDeleteProvider.class).apply(columns);
+        return ServiceLoaderProvider.get(ColumnDeleteProvider.class,
+                ()-> ServiceLoader.load(ColumnDeleteProvider.class))
+                .apply(columns);
     }
 
     /**
@@ -74,7 +77,9 @@ public interface ColumnDeleteQuery {
      * @return a new {@link ColumnDelete} instance
      */
     static ColumnDelete delete() {
-        return ServiceLoaderProvider.get(ColumnDeleteProvider.class).get();
+        return ServiceLoaderProvider.get(ColumnDeleteProvider.class,
+                ()-> ServiceLoader.load(ColumnDeleteProvider.class))
+                .get();
     }
 
     /**
@@ -88,7 +93,9 @@ public interface ColumnDeleteQuery {
      * @throws NullPointerException when there is a null element
      */
     static ColumnDeleteQueryBuilder builder(String... documents) {
-        return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class).apply(documents);
+        return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class,
+                ()-> ServiceLoader.load(ColumnDeleteQueryBuilderProvider.class))
+                .apply(documents);
     }
 
     /**
@@ -98,7 +105,9 @@ public interface ColumnDeleteQuery {
      * @return a {@link ColumnDeleteQueryBuilder} instance
      */
     static ColumnDeleteQueryBuilder builder() {
-        return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class).get();
+        return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class,
+                ()-> ServiceLoader.load(ColumnDeleteQueryBuilderProvider.class))
+                .get();
     }
 
 

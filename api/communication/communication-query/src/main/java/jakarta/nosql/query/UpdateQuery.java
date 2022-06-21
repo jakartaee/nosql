@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -61,12 +62,22 @@ public interface UpdateQuery extends Query {
      */
     static UpdateQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(UpdateQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(UpdateQueryProvider.class,
+                ()-> ServiceLoader.load(UpdateQueryProvider.class)).apply(query);
     }
 
 
     /**
-     * A provider to {@link UpdateQuery}
+     * Returns the {@link UpdateQueryProvider} instance
+     * @return the UpdateQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static UpdateQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(UpdateQueryProvider.class,
+                ()-> ServiceLoader.load(UpdateQueryProvider.class));
+    }
+    /**
+     * A provider to {@link UpdateQuery}, this provider converts text into {@link UpdateQuery}
      */
     interface UpdateQueryProvider extends Function<String, UpdateQuery> {
 

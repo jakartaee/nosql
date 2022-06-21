@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -44,7 +45,9 @@ public interface ColumnEntity {
      * @return a ColumnEntity instance
      */
     static ColumnEntity of(String name) {
-        return ServiceLoaderProvider.get(ColumnEntityProvider.class).apply(name);
+        return ServiceLoaderProvider.get(ColumnEntityProvider.class,
+                ()-> ServiceLoader.load(ColumnEntityProvider.class))
+                .apply(name);
     }
 
     /**
@@ -56,7 +59,8 @@ public interface ColumnEntity {
      * @throws NullPointerException when either name or columns are null
      */
     static ColumnEntity of(String name, List<Column> columns) {
-        ColumnEntity entity = ServiceLoaderProvider.get(ColumnEntityProvider.class).apply(name);
+        ColumnEntity entity = ServiceLoaderProvider.get(ColumnEntityProvider.class,
+                ()-> ServiceLoader.load(ColumnEntityProvider.class)).apply(name);
         entity.addAll(columns);
         return entity;
     }

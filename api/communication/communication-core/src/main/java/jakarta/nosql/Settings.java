@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -169,7 +170,8 @@ public interface Settings {
      * @return a {@link SettingsBuilder} instance
      */
     static SettingsBuilder builder() {
-        return ServiceLoaderProvider.get(SettingsBuilderProvider.class).get();
+        return ServiceLoaderProvider.get(SettingsBuilderProvider.class,
+                () -> ServiceLoader.load(SettingsBuilderProvider.class)).get();
     }
 
     /**

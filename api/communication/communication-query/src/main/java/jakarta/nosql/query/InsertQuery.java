@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -69,12 +70,22 @@ public interface InsertQuery extends Query {
      */
     static InsertQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(InsertQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(InsertQueryProvider.class, ()->
+                ServiceLoader.load(InsertQueryProvider.class)).apply(query);
     }
 
+    /**
+     * Returns the {@link InsertQueryProvider} instance
+     * @return the InsertQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static InsertQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(InsertQueryProvider.class, ()->
+                ServiceLoader.load(InsertQueryProvider.class));
+    }
 
     /**
-     * A provider to {@link InsertQuery}
+     * A provider to {@link InsertQuery}, this provider converts text into {@link InsertQuery}
      */
     interface InsertQueryProvider extends Function<String, InsertQuery> {
 

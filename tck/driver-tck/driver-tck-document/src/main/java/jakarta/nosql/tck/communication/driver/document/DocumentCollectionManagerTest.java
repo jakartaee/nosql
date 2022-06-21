@@ -23,12 +23,14 @@ import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentEntity;
 import jakarta.nosql.document.DocumentQuery;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -42,6 +44,11 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class DocumentCollectionManagerTest {
 
+    @BeforeEach
+    public void setUp() {
+        Module module = DocumentCollectionManagerTest.class.getModule();
+        module.addUses(DocumentCollectionManagerSupplier.class);
+    }
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldInsert(DocumentArgument argument) {
@@ -308,7 +315,9 @@ public class DocumentCollectionManagerTest {
     }
 
     private DocumentCollectionManager getManager() {
-        final DocumentCollectionManagerSupplier supplier = ServiceLoaderProvider.get(DocumentCollectionManagerSupplier.class);
+        final DocumentCollectionManagerSupplier supplier = ServiceLoaderProvider
+                .get(DocumentCollectionManagerSupplier.class,
+                        ()-> ServiceLoader.load(DocumentCollectionManagerSupplier.class));
         return supplier.get();
     }
 

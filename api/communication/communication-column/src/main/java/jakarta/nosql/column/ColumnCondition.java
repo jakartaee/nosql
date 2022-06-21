@@ -21,6 +21,7 @@ import jakarta.nosql.Condition;
 import jakarta.nosql.ServiceLoaderProvider;
 
 import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
@@ -80,7 +81,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition eq(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.EQUALS);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.EQUALS);
     }
 
     /**
@@ -95,7 +98,8 @@ public interface ColumnCondition {
     static ColumnCondition eq(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.EQUALS);
     }
 
@@ -108,7 +112,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition gt(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.GREATER_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.GREATER_THAN);
     }
 
     /**
@@ -123,7 +129,8 @@ public interface ColumnCondition {
     static ColumnCondition gt(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.GREATER_THAN);
     }
 
@@ -137,7 +144,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition gte(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.GREATER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.GREATER_EQUALS_THAN);
     }
 
     /**
@@ -152,7 +161,8 @@ public interface ColumnCondition {
     static ColumnCondition gte(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.GREATER_EQUALS_THAN);
     }
 
@@ -165,7 +175,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition lt(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.LESSER_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.LESSER_THAN);
     }
 
     /**
@@ -180,7 +192,8 @@ public interface ColumnCondition {
     static ColumnCondition lt(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.LESSER_THAN);
     }
 
@@ -194,7 +207,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition lte(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.LESSER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.LESSER_EQUALS_THAN);
     }
 
     /**
@@ -209,7 +224,8 @@ public interface ColumnCondition {
     static ColumnCondition lte(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.LESSER_EQUALS_THAN);
     }
 
@@ -223,7 +239,9 @@ public interface ColumnCondition {
      * @throws IllegalArgumentException when the {@link Column#get()} in not an iterable implementation
      */
     static ColumnCondition in(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).in(column);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .in(column);
     }
 
     /**
@@ -238,7 +256,8 @@ public interface ColumnCondition {
     static ColumnCondition in(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .in(Column.of(name, value));
     }
 
@@ -251,7 +270,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition like(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.LIKE);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.LIKE);
     }
 
     /**
@@ -266,7 +287,8 @@ public interface ColumnCondition {
     static ColumnCondition like(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.LIKE);
     }
 
@@ -284,7 +306,9 @@ public interface ColumnCondition {
      *                                  an Iterable.
      */
     static ColumnCondition between(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).between(column);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .between(column);
     }
 
     /**
@@ -299,7 +323,8 @@ public interface ColumnCondition {
     static ColumnCondition between(String name, Object value) {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class)
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
                 .between(Column.of(name, value));
     }
 
@@ -333,7 +358,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when the conditions is null
      */
     static ColumnCondition and(ColumnCondition... conditions) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).and(conditions);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .and(conditions);
     }
 
     /**
@@ -353,7 +380,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when the condition is null
      */
     static ColumnCondition or(ColumnCondition... conditions) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).or(conditions);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                .or(conditions);
     }
 
 

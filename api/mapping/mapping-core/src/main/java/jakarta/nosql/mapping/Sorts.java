@@ -19,6 +19,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Sort;
 
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.function.Supplier;
 
 /**
@@ -77,7 +78,9 @@ public interface Sorts {
      * @return a {@link Sorts} instance
      */
     static Sorts sorts() {
-        return ServiceLoaderProvider.get(SortsProvider.class).get();
+        return ServiceLoaderProvider.get(SortsProvider.class,
+                ()-> ServiceLoader.load(SortsProvider.class))
+                .get();
     }
 
     /**

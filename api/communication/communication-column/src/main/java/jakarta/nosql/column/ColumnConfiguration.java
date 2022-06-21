@@ -19,6 +19,8 @@ package jakarta.nosql.column;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
+import java.util.ServiceLoader;
+
 
 /**
  * The Jakarta NoSQL communication configuration to create a {@link ColumnFamilyManagerFactory}
@@ -57,7 +59,8 @@ public interface ColumnConfiguration {
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
     static <T extends ColumnConfiguration> T getConfiguration() {
-        return (T) ServiceLoaderProvider.getUnique(ColumnConfiguration.class);
+        return (T) ServiceLoaderProvider.getUnique(ColumnConfiguration.class,
+                ()-> ServiceLoader.load(ColumnConfiguration.class));
     }
 
     /**
@@ -65,12 +68,13 @@ public interface ColumnConfiguration {
      * for a particular provider implementation.
      *
      * @param <T>      the configuration type
-     * @param supplier the particular provider
+     * @param service the particular provider
      * @return {@link ColumnConfiguration} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
-    static <T extends ColumnConfiguration> T getConfiguration(Class<T> supplier) {
-        return ServiceLoaderProvider.getUnique(ColumnConfiguration.class, supplier);
+    static <T extends ColumnConfiguration> T getConfiguration(Class<T> service) {
+        return ServiceLoaderProvider.getUnique(ColumnConfiguration.class,
+                ()-> ServiceLoader.load(ColumnConfiguration.class), service);
     }
 }

@@ -22,11 +22,13 @@ import jakarta.nosql.keyvalue.BucketManager;
 import jakarta.nosql.keyvalue.KeyValueEntity;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -47,6 +49,11 @@ public class BucketManagerTest {
     private KeyValueEntity keyValueSoro = KeyValueEntity.of("soro", Value.of(userSoro));
 
 
+    @BeforeEach
+    public void setUp() {
+        Module module = BucketManagerTest.class.getModule();
+        module.addUses(BucketManagerSupplier.class);
+    }
     @Test
     public void shouldPutValue() {
         final BucketManager manager = getBucketManager();
@@ -120,13 +127,16 @@ public class BucketManagerTest {
 
 
     private BucketManager getBucketManager() {
-        final BucketManagerSupplier bucketManagerSupplier = ServiceLoaderProvider.get(BucketManagerSupplier.class);
+        final BucketManagerSupplier bucketManagerSupplier = ServiceLoaderProvider
+                .get(BucketManagerSupplier.class,
+                        ()-> ServiceLoader.load(BucketManagerSupplier.class));
         return bucketManagerSupplier.get();
     }
 
     private Optional<BucketManagerSupplier> getSupplier() {
         return ServiceLoaderProvider
-                .getSupplierStream(BucketManagerSupplier.class)
+                .getSupplierStream(BucketManagerSupplier.class,
+                        ()-> ServiceLoader.load(BucketManagerSupplier.class))
                 .map(BucketManagerSupplier.class::cast)
                 .findFirst();
     }

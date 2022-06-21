@@ -65,10 +65,10 @@
         <junit.version>5.8.2</junit.version>
         <maven-javadoc-plugin.vesion>3.3.2</maven-javadoc-plugin.vesion>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven.checkstyle.plugin.version>3.1.0</maven.checkstyle.plugin.version>
+        <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
         <maven.compile.version>3.8.1</maven.compile.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
@@ -200,6 +200,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven.checkstyle.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.3</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>verify-style</id>
@@ -210,16 +217,20 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes>${checkstyle.excludes}</excludes>
+                    <excludes>**/module-info.java,${checkstyle.excludes}</excludes>
                     <logViolationsToConsole>true</logViolationsToConsole>
                     <consoleOutput>true</consoleOutput>
                     <checkstyleRules>
                         <module name="Checker">
-                           
 
                             <module name="FileLength">
                                 <property name="max" value="3500"/>
                                 <property name="fileExtensions" value="java"/>
+                            </module>
+
+                            <module name="LineLength">
+                                <property name="max" value="180"/>
+                                <property name="ignorePattern" value="@version|@see"/>
                             </module>
 
                             <module name="FileTabCharacter"/>
@@ -250,11 +261,6 @@
                                 <module name="RedundantImport"/>
                                 <module name="UnusedImports"/>
 
-
-                                <module name="LineLength">
-                                    <property name="max" value="180"/>
-                                    <property name="ignorePattern" value="@version|@see"/>
-                                </module>
                                 <module name="MethodLength">
                                     <property name="max" value="250"/>
                                 </module>

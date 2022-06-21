@@ -25,6 +25,7 @@ import jakarta.nosql.keyvalue.KeyValueQueryParser;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
@@ -33,6 +34,7 @@ import org.mockito.Mockito;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,10 +42,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class KeyValueQueryParserTest {
 
-    private KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);;
+    private KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class,
+            () -> ServiceLoader.load(KeyValueQueryParser.class));
 
     private BucketManager manager = Mockito.mock(BucketManager.class);
 
+    @BeforeEach
+    public void setUp() {
+        Module module = KeyValueQueryParserTest.class.getModule();
+        module.addUses(KeyValueQueryParser.class);
+    }
     @ParameterizedTest(name = "Should parser the query {0}")
     @ValueSource(strings = {"get \"Diana\""})
     public void shouldReturnParserQuery1(String query) {

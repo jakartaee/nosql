@@ -24,6 +24,7 @@ import jakarta.nosql.Value;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
@@ -131,7 +132,8 @@ public interface BucketManager extends AutoCloseable {
      */
     default Stream<Value> query(String query) {
         Objects.requireNonNull(query, "query is required");
-        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
+        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class,
+                ()-> ServiceLoader.load(KeyValueQueryParser.class));
         return parser.query(query, this);
     }
 
@@ -148,7 +150,8 @@ public interface BucketManager extends AutoCloseable {
      */
     default KeyValuePreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
-        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
+        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class
+        ,()-> ServiceLoader.load(KeyValueQueryParser.class));
         return parser.prepare(query, this);
     }
 

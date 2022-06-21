@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
@@ -40,7 +41,9 @@ public interface Document  {
      * @see Documents
      */
     static <V> Document of(String name, V value) {
-        return ServiceLoaderProvider.get(DocumentProvider.class).apply(name, value);
+        return ServiceLoaderProvider.get(DocumentProvider.class,
+                ()-> ServiceLoader.load(DocumentProvider.class))
+                .apply(name, value);
     }
 
     /**

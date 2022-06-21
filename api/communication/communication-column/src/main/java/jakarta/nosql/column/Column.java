@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
@@ -41,7 +42,9 @@ public interface Column {
      * @see Columns
      */
     static <V> Column of(String name, V value) {
-        return ServiceLoaderProvider.get(ColumnProvider.class).apply(name, value);
+        return ServiceLoaderProvider.get(ColumnProvider.class,
+                ()-> ServiceLoader.load(ColumnProvider.class))
+                .apply(name, value);
     }
 
 

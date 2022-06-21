@@ -19,6 +19,8 @@ package jakarta.nosql.keyvalue;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
+import java.util.ServiceLoader;
+
 /**
  * The Jakarta NoSQL communication configuration to create a {@link BucketManagerFactory}
  */
@@ -55,7 +57,8 @@ public interface KeyValueConfiguration {
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
     static <T extends KeyValueConfiguration> T getConfiguration() {
-        return (T) ServiceLoaderProvider.getUnique(KeyValueConfiguration.class);
+        return (T) ServiceLoaderProvider.getUnique(KeyValueConfiguration.class,
+                () -> ServiceLoader.load(KeyValueConfiguration.class));
     }
 
     /**
@@ -63,12 +66,13 @@ public interface KeyValueConfiguration {
      * for a particular provider implementation.
      *
      * @param <T>      the configuration type
-     * @param supplier the particular provider
+     * @param service the particular provider
      * @return {@link KeyValueConfiguration} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
-    static <T extends KeyValueConfiguration> T getConfiguration(Class<T> supplier) {
-        return ServiceLoaderProvider.getUnique(KeyValueConfiguration.class, supplier);
+    static <T extends KeyValueConfiguration> T getConfiguration(Class<T> service) {
+        return ServiceLoaderProvider.getUnique(KeyValueConfiguration.class, () ->
+                ServiceLoader.load(KeyValueConfiguration.class), service);
     }
 }
