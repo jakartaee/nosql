@@ -20,6 +20,7 @@ import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.Pagination;
 import jakarta.nosql.mapping.Page;
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
@@ -51,7 +52,9 @@ public interface DocumentQueryPagination extends DocumentQuery {
      * @throws NullPointerException when there is null parameter
      */
     static DocumentQueryPagination of(DocumentQuery query, Pagination pagination) {
-        return ServiceLoaderProvider.get(DocumentQueryPaginationProvider.class).apply(query, pagination);
+        return ServiceLoaderProvider.get(DocumentQueryPaginationProvider.class,
+                ()-> ServiceLoader.load(DocumentQueryPaginationProvider.class))
+                .apply(query, pagination);
     }
 
 

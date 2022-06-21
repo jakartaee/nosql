@@ -17,6 +17,7 @@ package jakarta.nosql.mapping;
 
 import jakarta.nosql.ServiceLoaderProvider;
 
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -74,7 +75,8 @@ public interface Pagination {
      * @throws IllegalArgumentException when page is lesser equals than zero
      */
     static PaginationBuilder page(long page) {
-        return ServiceLoaderProvider.get(PaginationBuilderProvider.class).apply(page);
+        return ServiceLoaderProvider.get(PaginationBuilderProvider.class,
+                ()-> ServiceLoader.load(PaginationBuilderProvider.class)).apply(page);
     }
 
     /**
