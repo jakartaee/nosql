@@ -20,7 +20,6 @@ import java.util.Optional;
 
 /**
  * Templates are a helper class that increases productivity when performing common NoSQL operations.
- * Includes integrated object mapping between documents and POJOs.
  */
 public interface Template {
 
