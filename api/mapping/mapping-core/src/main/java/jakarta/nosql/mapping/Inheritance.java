@@ -30,6 +30,17 @@ import java.lang.annotation.Target;
  * The table/column-family/document-collection will have a column for every attribute
  * of every class in the hierarchy.
  * The subclass will use the {@link Entity} name from that class with this annotation.
+ *
+ * <pre>
+ *
+ *   Example:
+ *   &#064;Entity
+ *   &#064;Inheritance
+ *   public class Notification { ... }
+ *
+ *   &#064;Entity
+ *   public class SMSNotification extends Notification { ... }
+ * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
