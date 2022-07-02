@@ -15,5 +15,7 @@
 module jakarta.nosql.mapping.tck.entities {
     requires jakarta.nosql.mapping.core;
     exports jakarta.nosql.tck.entities;
+    exports jakarta.nosql.tck.entities.inheritance;
     opens jakarta.nosql.tck.entities;
+    opens jakarta.nosql.tck.entities.inheritance;
 }
