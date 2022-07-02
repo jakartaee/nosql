@@ -26,11 +26,13 @@ The annotation model converts the entity model into the entity on communication,
 
 * Entity
 * Column
-* MappedSuperclass
 * Id
 * Embeddable
 * Convert
-
+* Inheritance
+* MappedSuperclass
+* DiscriminatorColumn
+* DiscriminatorValue
 
 Jakarta NoSQL Mapping does not require getter and setter methods to fields. However, the Entity class must have a non-private constructor with no parameters.
 
