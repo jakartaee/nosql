@@ -23,15 +23,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is an entity. This annotation is applied to the entity class.
+ * Specifies the discriminator column for the mapping strategy.
+ *
+ * If the <code>DiscriminatorColumn</code> annotation is missing,
+ * the name of the discriminator column defaults is <code>"type"</code>.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Stereotype
 public @interface DiscriminatorColumn {
     /**
-     * The name of an entity. Defaults to the unqualified name of the entity class.
-     * @return the entity name (Optional)
+     * (Optional) The name of column to be used for the discriminator.
      */
-    String value() default "";
+    String value() default "type";
 }
