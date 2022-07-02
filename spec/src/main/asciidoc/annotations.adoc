@@ -29,8 +29,8 @@ The annotation model converts the entity model into the entity on communication,
 * Id
 * Embeddable
 * Convert
-* Inheritance
 * MappedSuperclass
+* Inheritance
 * DiscriminatorColumn
 * DiscriminatorValue
 
@@ -117,36 +117,6 @@ public class Person {
     private String address;
 }
 ----
-
-===== @MappedSuperclass
-
-The class with the `@MapperSuperclass` annotation will have all attributes considered as an extension of this subclass with an `@Entity` annotation. In this case, all attributes are going to be stored, even the attributes inside the super class.
-
-This means, that this annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields.
-
-
-[source,java]
-----
-@Entity
-public class Dog extends Animal {
-
-    @Column
-    private String name;
-}
-
-@MappedSuperclass
-public class Animal {
-
-    @Column
-    private String race;
-
-    @Column
-    private Integer age;
-}
-----
-
-On the example above, when saving a Dog instance, Animal class' fields are saved too: `name`, `race`, and `age` are saved in a single instance.
-
 
 ===== @Id
 
@@ -314,6 +284,38 @@ The above classes are mapped to:
    ]
 }
 ----
+
+
+===== @MappedSuperclass
+
+The class with the `@MapperSuperclass` annotation will have all attributes considered as an extension of this subclass with an `@Entity` annotation. In this case, all attributes are going to be stored, even the attributes inside the super class.
+
+This means, that this annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields.
+
+
+[source,java]
+----
+@Entity
+public class Dog extends Animal {
+
+    @Column
+    private String name;
+}
+
+@MappedSuperclass
+public class Animal {
+
+    @Column
+    private String race;
+
+    @Column
+    private Integer age;
+}
+----
+
+On the example above, when saving a Dog instance, Animal class' fields are saved too: `name`, `race`, and `age` are saved in a single instance.
+
+
 ==== @Database
 
 This annotation allows programmers to specialize `@Inject` annotations to choose which specific resource should be injected.
