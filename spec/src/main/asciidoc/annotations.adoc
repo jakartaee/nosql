@@ -329,6 +329,106 @@ Notice that the `Animal` doest not have an @Entity annotation, as it won't be pe
 
 On the example above, when saving a Dog instance, Animal class' fields are saved too: `name`, `race`, and `age` are saved in a single instance.
 
+==== @Inheritance
+
+The strategy to work with inheritance with NoSQL, you can active it by adding the @Inheritance annotation to the superclass.
+
+[source,java]
+----
+@Entity
+@Inheritance
+public abstract class Notification {
+    @Id
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private LocalDate createdOn;
+
+    public abstract void send();
+}
+----
+
+==== @DiscriminatorColumn
+
+Specifies the discriminator column for the inheritance mapping strategy.
+The strategy and the discriminator column are only specified in the root of an entity class hierarchy.
+
+If the DiscriminatorColumn annotation is missing, and a discriminator column is required, the name of the discriminator column defaults is "type".
+
+[source,java]
+----
+@Entity
+@Inheritance
+@DiscriminatorColumn("type")
+public abstract class Notification {
+    @Id
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private LocalDate createdOn;
+
+    public abstract void send();
+}
+----
+
+==== @DiscriminatorValue
+
+Specifies the value of the discriminator column for entities of the given type.
+
+The DiscriminatorValue annotation can only be specified on a concrete entity class.
+
+If the DiscriminatorValue annotation is not specified a provider-specific function will be used to generate a value
+representing the entity type, the discriminator value default is the `Class.getSimpleName()`.
+
+[source,java]
+----
+
+@Entity
+@DiscriminatorValue("SMS")
+public class SmsNotification extends Notification {
+
+    @Column
+    private String phoneNumber;
+
+    @Override
+    public void send() {
+        System.out.println("Sending message to sms: " + phoneNumber);
+    }
+}
+
+
+
+@Entity
+@DiscriminatorValue("Email")
+public class EmailNotification extends Notification {
+
+    @Column
+    private String phoneNumber;
+
+    @Override
+    public void send() {
+        System.out.println("Sending message to sms: " + phoneNumber);
+    }
+}
+
+@Entity
+// the discriminator value is SocialMediaNotification
+public class SocialMediaNotification extends Notification {
+    @Column
+    private String username;
+
+    @Override
+    public void send() {
+        System.out.println("Sending a post to: " + username);
+    }
+}
+----
 
 ==== @Database
 
