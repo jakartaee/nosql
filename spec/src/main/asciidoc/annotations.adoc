@@ -33,6 +33,7 @@ The annotation model converts the entity model into the entity on communication,
 * Inheritance
 * DiscriminatorColumn
 * DiscriminatorValue
+* Database
 
 Jakarta NoSQL Mapping does not require getter and setter methods to fields. However, the Entity class must have a non-private constructor with no parameters.
 
@@ -169,6 +170,15 @@ public class Author {
 
 In this example, there is a single instance in the database with columns `title`, `author` and `age`.
 
+[source,json]
+----
+{
+   "title":"Effective Java",
+   "author":"Joshua Bloch",
+   "age": 2019
+}
+----
+
 ===== @Convert
 
 This annotation allows value conversions when mapping the value that came from the Communication API. This is useful for cases such as to cipher a field (String to String conversion), or to convert to a custom type. The Converter annotation has a single, mandatory parameter: a class that inherits from `AttributeConverter` that will be used to perform the conversion. The example below shows how to create a converter to a custom `Money` class.
@@ -290,6 +300,8 @@ The above classes are mapped to:
 
 The class with the `@MapperSuperclass` annotation will have all attributes considered as an extension of this subclass with an `@Entity` annotation. In this case, all attributes are going to be stored, even the attributes inside the super class.
 
+Using the MappedSuperclass strategy, inheritance is only evident in the class but not the entity model.
+
 This means, that this annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields.
 
 
@@ -312,6 +324,8 @@ public class Animal {
     private Integer age;
 }
 ----
+
+Notice that the `Animal` doest not have an @Entity annotation, as it won't be persisted in the database by itself.
 
 On the example above, when saving a Dog instance, Animal class' fields are saved too: `name`, `race`, and `age` are saved in a single instance.
 
