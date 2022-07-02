@@ -24,6 +24,10 @@ public class SocialMediaNotification extends Notification {
     @Column
     private String nickname;
 
+    public String getNickname() {
+        return nickname;
+    }
+
     @Override
     public String send() {
         return "Sending message to via social media to the nickname: " + nickname;

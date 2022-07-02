@@ -26,6 +26,10 @@ public class SmsNotification extends Notification {
     @Column
     private String phone;
 
+    public String getPhone() {
+        return phone;
+    }
+
     @Override
     public String send() {
         return "Sending message to via sms to the phone: " + phone;

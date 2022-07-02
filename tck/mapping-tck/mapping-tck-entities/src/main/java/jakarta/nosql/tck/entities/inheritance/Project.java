@@ -15,23 +15,5 @@
 
 package jakarta.nosql.tck.entities.inheritance;
 
-import jakarta.nosql.mapping.Column;
-import jakarta.nosql.mapping.DiscriminatorValue;
-import jakarta.nosql.mapping.Entity;
-
-@Entity
-@DiscriminatorValue("SMS")
-public class EmailNotification extends Notification {
-
-    @Column
-    private String email;
-
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String send() {
-        return "Sending message to email sms to the email: " + email;
-    }
+public class Project {
 }
