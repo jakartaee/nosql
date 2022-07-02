@@ -19,8 +19,6 @@ import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.DiscriminatorValue;
 import jakarta.nosql.mapping.Entity;
 
-import java.util.List;
-
 @Entity
 @DiscriminatorValue("Small")
 public class SmallProject extends Project {
