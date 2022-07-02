@@ -24,13 +24,23 @@ import java.lang.annotation.Target;
 
 /**
  *  Specifies the value of the discriminator column for entities of the given type.
+ *
+ * <p> The <code>DiscriminatorValue</code>
+ * annotation can only be specified on a concrete entity
+ * class.
+ *
+ * <p> If the <code>DiscriminatorValue</code> annotation is not
+ * specified and a discriminator column is used, a provider-specific
+ * function will be used to generate a value representing the
+ * entity type. So the discriminator value default is the {@link Class#getSimpleName()}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Stereotype
 public @interface DiscriminatorValue {
     /**
-     * (Optional) The name of column to be used for the discriminator.
+     * (Optional) The value that indicates that the
+     * row is an entity of the annotated entity type.
      */
-    String value() default "type";
+    String value();
 }
