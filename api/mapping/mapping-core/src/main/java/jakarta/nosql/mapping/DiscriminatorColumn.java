@@ -32,8 +32,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Stereotype
 public @interface DiscriminatorColumn {
+
+    String DEFAULT_DISCRIMINATOR_COLUMN = "type";
     /**
      * (Optional) The name of column to be used for the discriminator.
      */
-    String value() default "type";
+    String value() default DEFAULT_DISCRIMINATOR_COLUMN;
 }
