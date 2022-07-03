@@ -28,6 +28,10 @@ public class LargeProject extends Project {
     @Column
     private BigDecimal budget;
 
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
+    }
+
     public BigDecimal getBudget() {
         return budget;
     }

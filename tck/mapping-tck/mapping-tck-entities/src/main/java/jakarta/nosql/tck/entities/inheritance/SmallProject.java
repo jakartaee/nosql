@@ -29,4 +29,8 @@ public class SmallProject extends Project {
     public String getInvestor() {
         return investor;
     }
+
+    public void setInvestor(String investor) {
+        this.investor = investor;
+    }
 }

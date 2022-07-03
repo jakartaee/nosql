@@ -28,6 +28,10 @@ public class SocialMediaNotification extends Notification {
         return nickname;
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     @Override
     public String send() {
         return "Sending message to via social media to the nickname: " + nickname;

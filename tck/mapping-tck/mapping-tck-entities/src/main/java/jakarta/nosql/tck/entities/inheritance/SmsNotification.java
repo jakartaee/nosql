@@ -30,6 +30,10 @@ public class SmsNotification extends Notification {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String send() {
         return "Sending message to via sms to the phone: " + phone;
