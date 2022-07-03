@@ -27,6 +27,9 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @CDIExtension
 public class InheritanceDocumentEntityConverterTest {
 
@@ -40,10 +43,10 @@ public class InheritanceDocumentEntityConverterTest {
         entity.add("investor", "Otavio Santana");
         entity.add("size", "Small");
         Project project = this.converter.toEntity(entity);
-        Assertions.assertEquals("Small Project", project.getName());
-        Assertions.assertEquals(SmallProject.class, project.getClass());
+        assertEquals("Small Project", project.getName());
+        assertEquals(SmallProject.class, project.getClass());
         SmallProject smallProject = SmallProject.class.cast(project);
-        Assertions.assertEquals("Otavio Santana", smallProject.getInvestor());
+        assertEquals("Otavio Santana", smallProject.getInvestor());
     }
 
     @Test
@@ -53,10 +56,10 @@ public class InheritanceDocumentEntityConverterTest {
         entity.add("budget", BigDecimal.TEN);
         entity.add("size", "Large");
         Project project = this.converter.toEntity(entity);
-        Assertions.assertEquals("Large Project", project.getName());
-        Assertions.assertEquals(LargeProject.class, project.getClass());
+        assertEquals("Large Project", project.getName());
+        assertEquals(LargeProject.class, project.getClass());
         LargeProject smallProject = LargeProject.class.cast(project);
-        Assertions.assertEquals(BigDecimal.TEN, smallProject.getBudget());
+        assertEquals(BigDecimal.TEN, smallProject.getBudget());
     }
 
     @Test
@@ -65,11 +68,11 @@ public class InheritanceDocumentEntityConverterTest {
         project.setName("Large Project");
         project.setBudget(BigDecimal.TEN);
         DocumentEntity entity = this.converter.toDocument(project);
-        Assertions.assertNotNull(entity);
-        Assertions.assertEquals("Project", entity.getName());
-        Assertions.assertEquals(project.getName(), entity.find("name", String.class).get());
-        Assertions.assertEquals(project.getBudget(), entity.find("budget", BigDecimal.class).get());
-        Assertions.assertEquals("Large", entity.find("type", String.class).get());
+        assertNotNull(entity);
+        assertEquals("Project", entity.getName());
+        assertEquals(project.getName(), entity.find("name", String.class).get());
+        assertEquals(project.getBudget(), entity.find("budget", BigDecimal.class).get());
+        assertEquals("Large", entity.find("type", String.class).get());
     }
 
     @Test
@@ -78,11 +81,11 @@ public class InheritanceDocumentEntityConverterTest {
         project.setName("Small Project");
         project.setInvestor("Otavio Santana");
         DocumentEntity entity = this.converter.toDocument(project);
-        Assertions.assertNotNull(entity);
-        Assertions.assertEquals("Project", entity.getName());
-        Assertions.assertEquals(project.getName(), entity.find("name", String.class).get());
-        Assertions.assertEquals(project.getInvestor(), entity.find("investor", String.class).get());
-        Assertions.assertEquals("Small", entity.find("type", String.class).get());
+        assertNotNull(entity);
+        assertEquals("Project", entity.getName());
+        assertEquals(project.getName(), entity.find("name", String.class).get());
+        assertEquals(project.getInvestor(), entity.find("investor", String.class).get());
+        assertEquals("Small", entity.find("type", String.class).get());
     }
 
 }
