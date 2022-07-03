@@ -20,7 +20,7 @@ import jakarta.nosql.mapping.DiscriminatorValue;
 import jakarta.nosql.mapping.Entity;
 
 @Entity
-@DiscriminatorValue("SMS")
+@DiscriminatorValue("Email")
 public class EmailNotification extends Notification {
 
     @Column
