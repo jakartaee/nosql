@@ -16,6 +16,7 @@
 package jakarta.nosql.tck.mapping.document;
 
 import jakarta.nosql.document.DocumentEntity;
+import jakarta.nosql.mapping.MappingException;
 import jakarta.nosql.mapping.document.DocumentEntityConverter;
 import jakarta.nosql.tck.entities.inheritance.EmailNotification;
 import jakarta.nosql.tck.entities.inheritance.LargeProject;
@@ -43,7 +44,7 @@ public class InheritanceDocumentEntityConverterTest {
     @Test
     public void shouldConvertProjectToSmallProject() {
         DocumentEntity entity = DocumentEntity.of("Project");
-        entity.add("name", "Small Project");
+        entity.add("_id", "Small Project");
         entity.add("investor", "Otavio Santana");
         entity.add("size", "Small");
         Project project = this.converter.toEntity(entity);
@@ -56,7 +57,7 @@ public class InheritanceDocumentEntityConverterTest {
     @Test
     public void shouldConvertProjectToLargeProject() {
         DocumentEntity entity = DocumentEntity.of("Project");
-        entity.add("name", "Large Project");
+        entity.add("_id", "Large Project");
         entity.add("budget", BigDecimal.TEN);
         entity.add("size", "Large");
         Project project = this.converter.toEntity(entity);
@@ -74,9 +75,9 @@ public class InheritanceDocumentEntityConverterTest {
         DocumentEntity entity = this.converter.toDocument(project);
         assertNotNull(entity);
         assertEquals("Project", entity.getName());
-        assertEquals(project.getName(), entity.find("name", String.class).get());
+        assertEquals(project.getName(), entity.find("_id", String.class).get());
         assertEquals(project.getBudget(), entity.find("budget", BigDecimal.class).get());
-        assertEquals("Large", entity.find("type", String.class).get());
+        assertEquals("Large", entity.find("size", String.class).get());
     }
 
     @Test
@@ -87,9 +88,9 @@ public class InheritanceDocumentEntityConverterTest {
         DocumentEntity entity = this.converter.toDocument(project);
         assertNotNull(entity);
         assertEquals("Project", entity.getName());
-        assertEquals(project.getName(), entity.find("name", String.class).get());
+        assertEquals(project.getName(), entity.find("_id", String.class).get());
         assertEquals(project.getInvestor(), entity.find("investor", String.class).get());
-        assertEquals("Small", entity.find("type", String.class).get());
+        assertEquals("Small", entity.find("size", String.class).get());
     }
 
     @Test
@@ -106,8 +107,8 @@ public class InheritanceDocumentEntityConverterTest {
         assertEquals("Social Media", notification.getName());
         assertEquals("otaviojava", notification.getNickname());
         assertEquals(date, notification.getCreatedOn());
-
     }
+
     @Test
     public void shouldConvertDocumentEntityToSms(){
         LocalDate date = LocalDate.now();
@@ -120,25 +121,25 @@ public class InheritanceDocumentEntityConverterTest {
         SmsNotification notification = this.converter.toEntity(entity);
         Assertions.assertEquals(100L, notification.getId());
         Assertions.assertEquals("SMS Notification", notification.getName());
-        Assertions.assertEquals("351987654123", notification.getPhone());
+        Assertions.assertEquals("+351987654123", notification.getPhone());
         assertEquals(date, notification.getCreatedOn());
     }
+
     @Test
     public void shouldConvertDocumentEntityToEmail(){
         LocalDate date = LocalDate.now();
         DocumentEntity entity = DocumentEntity.of("Notification");
         entity.add("_id", 100L);
         entity.add("name", "Email Notification");
-        entity.add("phone", "otavio@otavio.test");
+        entity.add("email", "otavio@otavio.test");
         entity.add("createdOn", date);
         entity.add("type", "Email");
         EmailNotification notification = this.converter.toEntity(entity);
         Assertions.assertEquals(100L, notification.getId());
-        Assertions.assertEquals("SMS Notification", notification.getName());
+        Assertions.assertEquals("Email Notification", notification.getName());
         Assertions.assertEquals("otavio@otavio.test", notification.getEmail());
         assertEquals(date, notification.getCreatedOn());
     }
-
 
     @Test
     public void shouldConvertSocialMediaToDocumentEntity(){
@@ -155,6 +156,7 @@ public class InheritanceDocumentEntityConverterTest {
         assertEquals(notification.getNickname(), entity.find("nickname", String.class).get());
         assertEquals(notification.getCreatedOn(), entity.find("createdOn", LocalDate.class).get());
     }
+
     @Test
     public void shouldConvertSmsToDocumentEntity(){
         SmsNotification notification = new SmsNotification();
@@ -170,6 +172,7 @@ public class InheritanceDocumentEntityConverterTest {
         assertEquals(notification.getPhone(), entity.find("phone", String.class).get());
         assertEquals(notification.getCreatedOn(), entity.find("createdOn", LocalDate.class).get());
     }
+
     @Test
     public void shouldConvertEmailToDocumentEntity(){
         EmailNotification notification = new EmailNotification();
@@ -182,7 +185,30 @@ public class InheritanceDocumentEntityConverterTest {
         assertEquals("Notification", entity.getName());
         assertEquals(notification.getId(), entity.find("_id", Long.class).get());
         assertEquals(notification.getName(), entity.find("name", String.class).get());
-        assertEquals(notification.getEmail(), entity.find("phone", String.class).get());
+        assertEquals(notification.getEmail(), entity.find("email", String.class).get());
         assertEquals(notification.getCreatedOn(), entity.find("createdOn", LocalDate.class).get());
+    }
+
+    @Test
+    public void shouldReturnErrorWhenConvertMissingColumn(){
+        LocalDate date = LocalDate.now();
+        DocumentEntity entity = DocumentEntity.of("Notification");
+        entity.add("_id", 100L);
+        entity.add("name", "SMS Notification");
+        entity.add("phone", "+351987654123");
+        entity.add("createdOn", date);
+        Assertions.assertThrows(MappingException.class, ()-> this.converter.toEntity(entity));
+    }
+
+    @Test
+    public void shouldReturnErrorWhenMismatchField() {
+        LocalDate date = LocalDate.now();
+        DocumentEntity entity = DocumentEntity.of("Notification");
+        entity.add("_id", 100L);
+        entity.add("name", "Email Notification");
+        entity.add("email", "otavio@otavio.test");
+        entity.add("createdOn", date);
+        entity.add("type", "Wrong");
+        Assertions.assertThrows(MappingException.class, ()-> this.converter.toEntity(entity));
     }
 }
