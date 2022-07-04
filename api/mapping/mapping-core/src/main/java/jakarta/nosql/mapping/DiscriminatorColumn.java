@@ -26,14 +26,14 @@ import java.lang.annotation.Target;
  * Specifies the discriminator column for the mapping strategy.
  *
  * If the <code>DiscriminatorColumn</code> annotation is missing,
- * the name of the discriminator column defaults is <code>"type"</code>.
+ * the name of the discriminator column defaults is <code>"dtype"</code>.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Stereotype
 public @interface DiscriminatorColumn {
 
-    String DEFAULT_DISCRIMINATOR_COLUMN = "type";
+    String DEFAULT_DISCRIMINATOR_COLUMN = "dtype";
     /**
      * (Optional) The name of column to be used for the discriminator.
      */
