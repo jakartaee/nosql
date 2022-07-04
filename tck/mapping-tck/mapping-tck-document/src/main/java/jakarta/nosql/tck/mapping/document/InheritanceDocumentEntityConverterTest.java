@@ -68,7 +68,7 @@ public class InheritanceDocumentEntityConverterTest {
     }
 
     @Test
-    public void shouldConvertLargeProjectToDocumentEntity() {
+    public void shouldConvertLargeProjectToCommunicationEntity() {
         LargeProject project = new LargeProject();
         project.setName("Large Project");
         project.setBudget(BigDecimal.TEN);
@@ -81,7 +81,7 @@ public class InheritanceDocumentEntityConverterTest {
     }
 
     @Test
-    public void shouldConvertSmallProjectToDocumentEntity() {
+    public void shouldConvertSmallProjectToCommunicationEntity() {
         SmallProject project = new SmallProject();
         project.setName("Small Project");
         project.setInvestor("Otavio Santana");
@@ -142,7 +142,7 @@ public class InheritanceDocumentEntityConverterTest {
     }
 
     @Test
-    public void shouldConvertSocialMediaToDocumentEntity(){
+    public void shouldConvertSocialMediaToCommunicationEntity(){
         SocialMediaNotification notification = new SocialMediaNotification();
         notification.setId(100L);
         notification.setName("Social Media");
@@ -158,7 +158,7 @@ public class InheritanceDocumentEntityConverterTest {
     }
 
     @Test
-    public void shouldConvertSmsToDocumentEntity(){
+    public void shouldConvertSmsToCommunicationEntity(){
         SmsNotification notification = new SmsNotification();
         notification.setId(100L);
         notification.setName("SMS");
@@ -174,7 +174,7 @@ public class InheritanceDocumentEntityConverterTest {
     }
 
     @Test
-    public void shouldConvertEmailToDocumentEntity(){
+    public void shouldConvertEmailToCommunicationEntity(){
         EmailNotification notification = new EmailNotification();
         notification.setId(100L);
         notification.setName("Email Media");
