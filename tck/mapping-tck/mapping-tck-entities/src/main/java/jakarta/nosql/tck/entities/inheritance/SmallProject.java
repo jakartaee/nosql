@@ -12,10 +12,25 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-module jakarta.nosql.mapping.tck.entities {
-    requires jakarta.nosql.mapping.core;
-    exports jakarta.nosql.tck.entities;
-    exports jakarta.nosql.tck.entities.inheritance;
-    opens jakarta.nosql.tck.entities;
-    opens jakarta.nosql.tck.entities.inheritance;
+
+package jakarta.nosql.tck.entities.inheritance;
+
+import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.DiscriminatorValue;
+import jakarta.nosql.mapping.Entity;
+
+@Entity
+@DiscriminatorValue("Small")
+public class SmallProject extends Project {
+
+    @Column
+    private String investor;
+
+    public String getInvestor() {
+        return investor;
+    }
+
+    public void setInvestor(String investor) {
+        this.investor = investor;
+    }
 }

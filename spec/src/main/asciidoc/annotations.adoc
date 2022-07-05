@@ -26,11 +26,14 @@ The annotation model converts the entity model into the entity on communication,
 
 * Entity
 * Column
-* MappedSuperclass
 * Id
 * Embeddable
 * Convert
-
+* MappedSuperclass
+* Inheritance
+* DiscriminatorColumn
+* DiscriminatorValue
+* Database
 
 Jakarta NoSQL Mapping does not require getter and setter methods to fields. However, the Entity class must have a non-private constructor with no parameters.
 
@@ -116,36 +119,6 @@ public class Person {
 }
 ----
 
-===== @MappedSuperclass
-
-The class with the `@MapperSuperclass` annotation will have all attributes considered as an extension of this subclass with an `@Entity` annotation. In this case, all attributes are going to be stored, even the attributes inside the super class.
-
-This means, that this annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields.
-
-
-[source,java]
-----
-@Entity
-public class Dog extends Animal {
-
-    @Column
-    private String name;
-}
-
-@MappedSuperclass
-public class Animal {
-
-    @Column
-    private String race;
-
-    @Column
-    private Integer age;
-}
-----
-
-On the example above, when saving a Dog instance, Animal class' fields are saved too: `name`, `race`, and `age` are saved in a single instance.
-
-
 ===== @Id
 
 This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. In such a case, the Value is the remaining information. It has a single attribute (like `@Column`) to define the native name. Unlike `@Column`, the default value is `_id`.
@@ -196,6 +169,15 @@ public class Author {
 ----
 
 In this example, there is a single instance in the database with columns `title`, `author` and `age`.
+
+[source,json]
+----
+{
+   "title":"Effective Java",
+   "author":"Joshua Bloch",
+   "age": 2019
+}
+----
 
 ===== @Convert
 
@@ -312,6 +294,142 @@ The above classes are mapped to:
    ]
 }
 ----
+
+
+===== @MappedSuperclass
+
+The class with the `@MapperSuperclass` annotation will have all attributes considered as an extension of this subclass with an `@Entity` annotation. In this case, all attributes are going to be stored, even the attributes inside the super class.
+
+Using the MappedSuperclass strategy, inheritance is only evident in the class but not the entity model.
+
+This means, that this annotation causes fields annotated with `@Column` in a parent class to be persisted together with the child class' fields.
+
+
+[source,java]
+----
+@Entity
+public class Dog extends Animal {
+
+    @Column
+    private String name;
+}
+
+@MappedSuperclass
+public class Animal {
+
+    @Column
+    private String race;
+
+    @Column
+    private Integer age;
+}
+----
+
+Notice that the `Animal` doest not have an @Entity annotation, as it won't be persisted in the database by itself.
+
+On the example above, when saving a Dog instance, Animal class' fields are saved too: `name`, `race`, and `age` are saved in a single instance.
+
+==== @Inheritance
+
+The strategy to work with inheritance with NoSQL, you can active it by adding the @Inheritance annotation to the superclass.
+
+[source,java]
+----
+@Entity
+@Inheritance
+public abstract class Notification {
+    @Id
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private LocalDate createdOn;
+
+    public abstract void send();
+}
+----
+
+==== @DiscriminatorColumn
+
+Specifies the discriminator column for the inheritance mapping strategy.
+The strategy and the discriminator column are only specified in the root of an entity class hierarchy.
+
+If the DiscriminatorColumn annotation is missing, and a discriminator column is required, the name of the discriminator column defaults is "type".
+
+[source,java]
+----
+@Entity
+@Inheritance
+@DiscriminatorColumn("type")
+public abstract class Notification {
+    @Id
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private LocalDate createdOn;
+
+    public abstract void send();
+}
+----
+
+==== @DiscriminatorValue
+
+Specifies the value of the discriminator column for entities of the given type.
+
+The DiscriminatorValue annotation can only be specified on a concrete entity class.
+
+If the DiscriminatorValue annotation is not specified a provider-specific function will be used to generate a value
+representing the entity type, the discriminator value default is the `Class.getSimpleName()`.
+
+[source,java]
+----
+
+@Entity
+@DiscriminatorValue("SMS")
+public class SmsNotification extends Notification {
+
+    @Column
+    private String phoneNumber;
+
+    @Override
+    public void send() {
+        System.out.println("Sending message to sms: " + phoneNumber);
+    }
+}
+
+
+
+@Entity
+@DiscriminatorValue("Email")
+public class EmailNotification extends Notification {
+
+    @Column
+    private String phoneNumber;
+
+    @Override
+    public void send() {
+        System.out.println("Sending message to sms: " + phoneNumber);
+    }
+}
+
+@Entity
+// the discriminator value is SocialMediaNotification
+public class SocialMediaNotification extends Notification {
+    @Column
+    private String username;
+
+    @Override
+    public void send() {
+        System.out.println("Sending a post to: " + username);
+    }
+}
+----
+
 ==== @Database
 
 This annotation allows programmers to specialize `@Inject` annotations to choose which specific resource should be injected.

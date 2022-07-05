@@ -12,10 +12,30 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-module jakarta.nosql.mapping.tck.entities {
-    requires jakarta.nosql.mapping.core;
-    exports jakarta.nosql.tck.entities;
-    exports jakarta.nosql.tck.entities.inheritance;
-    opens jakarta.nosql.tck.entities;
-    opens jakarta.nosql.tck.entities.inheritance;
+
+package jakarta.nosql.tck.entities.inheritance;
+
+import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.DiscriminatorValue;
+import jakarta.nosql.mapping.Entity;
+
+@Entity
+@DiscriminatorValue("Email")
+public class EmailNotification extends Notification {
+
+    @Column
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String send() {
+        return "Sending message to email sms to the email: " + email;
+    }
 }
