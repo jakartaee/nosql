@@ -22,8 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *This isn't a mandatory field,  but when it define this field is a key.
- *  That gonna be used mainly for key-value operations.
+ *This isn't a mandatory field,  but when it defines this field is a key.
+ *  That going to be used mainly for key-value operations.
  *  @see Entity
  */
 @Retention(RetentionPolicy.RUNTIME)
