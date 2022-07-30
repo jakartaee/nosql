@@ -416,7 +416,6 @@
             <url>https://jakarta.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
   <modules>
         <module>api</module>
         <module>tck</module>
