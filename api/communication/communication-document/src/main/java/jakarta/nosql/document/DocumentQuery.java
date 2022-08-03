@@ -177,7 +177,7 @@ public interface DocumentQuery {
         DocumentLimit limit(long limit);
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the order
          * @return a query with the sort defined
@@ -203,7 +203,7 @@ public interface DocumentQuery {
 
 
     /**
-     * The Document Order whose define the the maximum number of results to retrieve.
+     * The Document Order whose define the maximum number of results to retrieve.
      */
     interface DocumentLimit extends DocumentQueryBuild {
 
@@ -319,7 +319,7 @@ public interface DocumentQuery {
     interface DocumentNameOrder extends DocumentQueryBuild {
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to be ordered
          * @return a query with the sort defined
@@ -436,7 +436,7 @@ public interface DocumentQuery {
         DocumentLimit limit(long limit);
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the order
          * @return a query with the sort defined

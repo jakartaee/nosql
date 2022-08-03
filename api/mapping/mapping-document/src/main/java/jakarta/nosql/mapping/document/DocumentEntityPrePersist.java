@@ -19,7 +19,7 @@ package jakarta.nosql.mapping.document;
 import jakarta.nosql.document.DocumentEntity;
 
 /**
- * The interface represents the model before the DocumentCollectionEntity be saved that  event will fired.
+ * The interface represents the model before the DocumentCollectionEntity be saved that  event will fire.
  */
 public interface DocumentEntityPrePersist {
 

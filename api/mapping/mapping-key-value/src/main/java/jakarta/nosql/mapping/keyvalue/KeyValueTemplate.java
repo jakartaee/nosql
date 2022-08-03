@@ -46,7 +46,7 @@ public interface KeyValueTemplate extends Template {
     /**
      * Saves the entity
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @param <T>    the entity type
      * @return the entity
      * @throws NullPointerException when entity is null
@@ -56,7 +56,7 @@ public interface KeyValueTemplate extends Template {
     /**
      * Saves the entity with time to live
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @param ttl    the defined time to live
      * @param <T>    the entity type
      * @return the entity
@@ -68,7 +68,7 @@ public interface KeyValueTemplate extends Template {
     /**
      * Saves the {@link Iterable} of entities
      *
-     * @param entities keys to be insert
+     * @param entities keys to be inserted
      * @param <T>      the entity type
      * @return the entities
      * @throws NullPointerException when the iterable is null

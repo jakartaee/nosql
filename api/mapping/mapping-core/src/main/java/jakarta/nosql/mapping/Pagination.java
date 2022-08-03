@@ -63,7 +63,7 @@ public interface Pagination {
     /**
      * Returns a pagination instance that is read-only, in other words, that is not allowed to use the {@link Pagination#next()}.
      *
-     * @return a read-onlye {@link Pagination} instance
+     * @return a read-only {@link Pagination} instance
      */
     Pagination unmodifiable();
 

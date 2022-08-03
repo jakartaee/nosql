@@ -47,7 +47,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link KeyValueEntity}
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @throws NullPointerException when entity is null
      */
     void put(KeyValueEntity entity);
@@ -55,7 +55,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link KeyValueEntity} with time to live
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @param ttl    the defined time to live
      * @throws NullPointerException          when entity is null
      * @throws UnsupportedOperationException when expired time is not supported
@@ -65,7 +65,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link Iterable} of keys
      *
-     * @param entities keys to be insert
+     * @param entities keys to be inserted
      * @throws NullPointerException when the iterable is null
      */
     void put(Iterable<KeyValueEntity> entities);
@@ -73,7 +73,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link Iterable} of keys with a defined time to live
      *
-     * @param entities keys to be insert
+     * @param entities keys to be inserted
      * @param ttl      the time to entity expire
      * @throws NullPointerException          when the iterable is null
      * @throws UnsupportedOperationException when expired time is not supported

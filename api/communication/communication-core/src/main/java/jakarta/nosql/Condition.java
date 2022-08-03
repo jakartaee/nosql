@@ -38,7 +38,7 @@ public enum Condition {
     }
 
     /**
-     * Retrieve the condition from {@link Condition#getNameField()} on case sentive
+     * Retrieve the condition from {@link Condition#getNameField()} on case-sensitive
      *
      * @param condition the condition converted to field
      * @return the condition instance

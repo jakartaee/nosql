@@ -175,7 +175,7 @@ public interface ColumnQuery {
         ColumnLimit limit(long limit);
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to be ordered
          * @return a query with the sort defined
@@ -211,7 +211,7 @@ public interface ColumnQuery {
 
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to be ordered
          * @return a query with the sort defined
@@ -394,7 +394,7 @@ public interface ColumnQuery {
         ColumnLimit limit(long limit);
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to order
          * @return a query with the sort defined

@@ -231,7 +231,7 @@ public interface ColumnQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         ColumnMapperSkip skip(long skip);
@@ -246,7 +246,7 @@ public interface ColumnQueryMapper {
         ColumnMapperLimit limit(long limit);
     
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to be ordered
          * @return a query with the sort defined
@@ -369,7 +369,7 @@ public interface ColumnQueryMapper {
     interface ColumnMapperNameOrder extends ColumnMapperQueryBuild {
     
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to be ordered
          * @return a query with the sort defined
@@ -381,7 +381,7 @@ public interface ColumnQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         ColumnMapperSkip skip(long skip);
@@ -558,7 +558,7 @@ public interface ColumnQueryMapper {
         ColumnMapperLimit limit(long limit);
     
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to order
          * @return a query with the sort defined
