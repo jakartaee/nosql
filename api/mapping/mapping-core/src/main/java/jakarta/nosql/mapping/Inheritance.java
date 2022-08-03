@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
 /**
  * Specifies the inheritance strategy to be used for an entity class hierarchy.
  * It is specified on the entity class that is the root of the entity class hierarchy.
- *
  * This class can be either a regular or an abstract;
  * The table/column-family/document-collection will have a column for every attribute
  * of every class in the hierarchy.

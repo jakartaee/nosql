@@ -24,7 +24,6 @@ import java.lang.annotation.Target;
 
 /**
  * Specifies the discriminator column for the mapping strategy.
- *
  * If the <code>DiscriminatorColumn</code> annotation is missing,
  * the name of the discriminator column defaults is <code>"dtype"</code>.
  */

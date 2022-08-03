@@ -40,7 +40,7 @@ public interface KeyValueWorkflow {
      * @param entity the entity to be saved
      * @param action the alteration to be executed on database
      * @param <T>    the entity type
-     * @return after the workflow the the entity response
+     * @return after the workflow the entity response
      * @see KeyValueTemplate#put(Object, java.time.Duration)  {@link KeyValueTemplate#put(Object)}
      * DocumentTemplate#update(Object)
      */

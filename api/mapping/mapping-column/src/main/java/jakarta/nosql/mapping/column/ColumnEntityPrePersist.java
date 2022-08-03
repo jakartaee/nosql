@@ -19,7 +19,7 @@ package jakarta.nosql.mapping.column;
 import jakarta.nosql.column.ColumnEntity;
 
 /**
- * The interface represents the model before the {@link ColumnEntity} be saved that  event will fired.
+ * The interface represents the model before the {@link ColumnEntity} be saved that  event will fire.
  */
 public interface ColumnEntityPrePersist {
 

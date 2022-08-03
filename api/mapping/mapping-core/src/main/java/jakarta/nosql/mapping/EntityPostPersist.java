@@ -19,7 +19,7 @@ package jakarta.nosql.mapping;
 /**
  * When an entity is either saved or updated it's the first event to fire after the database action.
  */
-public interface EntityPostPersit {
+public interface EntityPostPersist {
 
     /**
      * Return the entity whose was either saved or updated

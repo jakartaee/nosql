@@ -355,7 +355,7 @@ public interface DocumentCondition {
      *
      * @param conditions the conditions to be aggregated
      * @return the new {@link DocumentCondition} instance
-     * @throws NullPointerException when the conditions is null
+     * @throws NullPointerException when the conditions are null
      */
     static DocumentCondition and(DocumentCondition... conditions) {
         return ServiceLoaderProvider.get(DocumentConditionProvider.class,
