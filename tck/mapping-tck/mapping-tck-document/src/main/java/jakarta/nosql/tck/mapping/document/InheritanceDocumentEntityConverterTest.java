@@ -94,6 +94,26 @@ public class InheritanceDocumentEntityConverterTest {
     }
 
     @Test
+    public void shouldConvertProject() {
+        DocumentEntity entity = DocumentEntity.of("Project");
+        entity.add("_id", "Project");
+        entity.add("size", "Project");
+        Project project = this.converter.toEntity(entity);
+        assertEquals("Project", project.getName());
+    }
+
+    @Test
+    public void shouldConvertProjectToCommunicationEntity() {
+        Project project = new Project();
+        project.setName("Large Project");
+        DocumentEntity entity = this.converter.toDocument(project);
+        assertNotNull(entity);
+        assertEquals("Project", entity.getName());
+        assertEquals(project.getName(), entity.find("_id", String.class).get());
+        assertEquals("Project", entity.find("size", String.class).get());
+    }
+
+    @Test
     public void shouldConvertDocumentEntityToSocialMedia(){
         LocalDate date = LocalDate.now();
         DocumentEntity entity = DocumentEntity.of("Notification");
