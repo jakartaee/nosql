@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * On the field say the converted to be used, must implement AttributeConverter interface.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 public @interface Convert {
     /**
      * The converter
