@@ -12,11 +12,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-module jakarta.nosql.mapping.tck.entities {
-    requires jakarta.nosql.mapping.core;
-    exports jakarta.nosql.tck.entities;
-    exports jakarta.nosql.tck.entities.inheritance;
-    opens jakarta.nosql.tck.entities;
-    opens jakarta.nosql.tck.entities.inheritance;
-    exports jakarta.nosql.tck.entities.constructor;
+package jakarta.nosql.tck.mapping.document;
+
+public class DocumentEntityConverterConstructorTest {
 }
