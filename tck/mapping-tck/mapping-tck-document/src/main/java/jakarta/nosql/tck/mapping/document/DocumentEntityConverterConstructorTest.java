@@ -54,5 +54,7 @@ public class DocumentEntityConverterConstructorTest {
         DocumentEntity communication = this.converter.toDocument(computer);
         Assertions.assertNotNull(communication);
 
+        Assertions.assertEquals(communication.get);
+
     }
 }
