@@ -14,15 +14,25 @@
  */
 package jakarta.nosql.tck.mapping.document;
 
+import jakarta.nosql.TypeReference;
+import jakarta.nosql.document.Document;
 import jakarta.nosql.document.DocumentEntity;
 import jakarta.nosql.mapping.document.DocumentEntityConverter;
+import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.entities.Money;
 import jakarta.nosql.tck.entities.constructor.Computer;
+import jakarta.nosql.tck.entities.constructor.PetOwner;
 import jakarta.nosql.tck.test.CDIExtension;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -61,5 +71,35 @@ public class DocumentEntityConverterConstructorTest {
         assertEquals(computer.getAge(), communication.find("age", int.class).get());
         assertEquals(computer.getModel(), communication.find("model", String.class).get());
         assertEquals(computer.getPrice().toString(), communication.find("price", String.class).get());
+    }
+
+    @Test
+    public void shouldConvertPetOwner() {
+        DocumentEntity communication = DocumentEntity.of("Computer");
+        communication.add("_id", 10L);
+        communication.add("name", "Otavio");
+        communication.add("animal", Arrays.asList(Document.of("_id", 23)
+        , Document.of("name", "Ada")));
+
+        PetOwner petOwner = this.converter.toEntity(communication);
+        Assertions.assertNotNull(petOwner);
+        Assertions.assertEquals(10L, petOwner.getId());
+        Assertions.assertEquals("Otavio", petOwner.getName());
+        Animal animal = petOwner.getAnimal();
+        Assertions.assertEquals(23L, animal.getId());
+        Assertions.assertEquals("Ada", animal.getName());
+    }
+
+    @Test
+    public void shouldConvertPetOwnerCommunication() {
+        Animal ada = new Animal("Ada");
+        PetOwner petOwner = new PetOwner(10L, "Poliana", ada);
+        DocumentEntity communication = this.converter.toDocument(petOwner);
+        Assertions.assertNotNull(communication);
+        Assertions.assertEquals(10L, communication.find("_id", Long.class).get());
+        Assertions.assertEquals("Poliana", communication.find("name", String.class).get());
+        List<Document> documents = communication.find("animal", new TypeReference<List<Document>>() {})
+                .get();
+        MatcherAssert.assertThat(documents, Matchers.containsInAnyOrder(Document.of("name", "Ada")));
     }
 }
