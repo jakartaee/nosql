@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @CDIExtension
 public class DocumentEntityConverterConstructorTest {
 
@@ -40,11 +42,11 @@ public class DocumentEntityConverterConstructorTest {
         communication.add("price", "USD 20");
         Computer computer = this.converter.toEntity(communication);
         Assertions.assertNotNull(computer);
-        Assertions.assertEquals(10L, computer.getId());
-        Assertions.assertEquals("Dell", computer.getName());
-        Assertions.assertEquals(2020, computer.getAge());
-        Assertions.assertEquals("Dell 2020", computer.getModel());
-        Assertions.assertEquals(Money.parse("USD 20"), computer.getPrice());
+        assertEquals(10L, computer.getId());
+        assertEquals("Dell", computer.getName());
+        assertEquals(2020, computer.getAge());
+        assertEquals("Dell 2020", computer.getModel());
+        assertEquals(Money.parse("USD 20"), computer.getPrice());
     }
 
     @Test
@@ -54,7 +56,10 @@ public class DocumentEntityConverterConstructorTest {
         DocumentEntity communication = this.converter.toDocument(computer);
         Assertions.assertNotNull(communication);
 
-        Assertions.assertEquals(communication.get);
-
+        assertEquals(computer.getId(), communication.find("_id", Long.class).get());
+        assertEquals(computer.getName(), communication.find("name", String.class).get());
+        assertEquals(computer.getAge(), communication.find("age", int.class).get());
+        assertEquals(computer.getModel(), communication.find("model", String.class).get());
+        assertEquals(computer.getPrice().toString(), communication.find("price", String.class).get());
     }
 }
