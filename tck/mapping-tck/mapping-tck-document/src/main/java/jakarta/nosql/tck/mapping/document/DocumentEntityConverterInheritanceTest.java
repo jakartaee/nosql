@@ -25,6 +25,7 @@ import jakarta.nosql.tck.entities.inheritance.LargeProject;
 import jakarta.nosql.tck.entities.inheritance.Notification;
 import jakarta.nosql.tck.entities.inheritance.NotificationReader;
 import jakarta.nosql.tck.entities.inheritance.Project;
+import jakarta.nosql.tck.entities.inheritance.ProjectManager;
 import jakarta.nosql.tck.entities.inheritance.SmallProject;
 import jakarta.nosql.tck.entities.inheritance.SmsNotification;
 import jakarta.nosql.tck.entities.inheritance.SocialMediaNotification;
@@ -37,6 +38,7 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -122,13 +124,13 @@ public class DocumentEntityConverterInheritanceTest {
     }
 
     @Test
-    public void shouldConvertDocumentEntityToSocialMedia(){
+    public void shouldConvertDocumentEntityToSocialMedia() {
         LocalDate date = LocalDate.now();
         DocumentEntity entity = DocumentEntity.of("Notification");
         entity.add("_id", 100L);
         entity.add("name", "Social Media");
         entity.add("nickname", "otaviojava");
-        entity.add("createdOn",date);
+        entity.add("createdOn", date);
         entity.add("dtype", SocialMediaNotification.class.getSimpleName());
         SocialMediaNotification notification = this.converter.toEntity(entity);
         assertEquals(100L, notification.getId());
@@ -138,7 +140,7 @@ public class DocumentEntityConverterInheritanceTest {
     }
 
     @Test
-    public void shouldConvertDocumentEntityToSms(){
+    public void shouldConvertDocumentEntityToSms() {
         LocalDate date = LocalDate.now();
         DocumentEntity entity = DocumentEntity.of("Notification");
         entity.add("_id", 100L);
@@ -154,7 +156,7 @@ public class DocumentEntityConverterInheritanceTest {
     }
 
     @Test
-    public void shouldConvertDocumentEntityToEmail(){
+    public void shouldConvertDocumentEntityToEmail() {
         LocalDate date = LocalDate.now();
         DocumentEntity entity = DocumentEntity.of("Notification");
         entity.add("_id", 100L);
@@ -170,7 +172,7 @@ public class DocumentEntityConverterInheritanceTest {
     }
 
     @Test
-    public void shouldConvertSocialMediaToCommunicationEntity(){
+    public void shouldConvertSocialMediaToCommunicationEntity() {
         SocialMediaNotification notification = new SocialMediaNotification();
         notification.setId(100L);
         notification.setName("Social Media");
@@ -186,7 +188,7 @@ public class DocumentEntityConverterInheritanceTest {
     }
 
     @Test
-    public void shouldConvertSmsToCommunicationEntity(){
+    public void shouldConvertSmsToCommunicationEntity() {
         SmsNotification notification = new SmsNotification();
         notification.setId(100L);
         notification.setName("SMS");
@@ -202,7 +204,7 @@ public class DocumentEntityConverterInheritanceTest {
     }
 
     @Test
-    public void shouldConvertEmailToCommunicationEntity(){
+    public void shouldConvertEmailToCommunicationEntity() {
         EmailNotification notification = new EmailNotification();
         notification.setId(100L);
         notification.setName("Email Media");
@@ -218,14 +220,14 @@ public class DocumentEntityConverterInheritanceTest {
     }
 
     @Test
-    public void shouldReturnErrorWhenConvertMissingColumn(){
+    public void shouldReturnErrorWhenConvertMissingColumn() {
         LocalDate date = LocalDate.now();
         DocumentEntity entity = DocumentEntity.of("Notification");
         entity.add("_id", 100L);
         entity.add("name", "SMS Notification");
         entity.add("phone", "+351987654123");
         entity.add("createdOn", date);
-        Assertions.assertThrows(MappingException.class, ()-> this.converter.toEntity(entity));
+        Assertions.assertThrows(MappingException.class, () -> this.converter.toEntity(entity));
     }
 
     @Test
@@ -237,7 +239,7 @@ public class DocumentEntityConverterInheritanceTest {
         entity.add("email", "otavio@otavio.test");
         entity.add("createdOn", date);
         entity.add("dtype", "Wrong");
-        Assertions.assertThrows(MappingException.class, ()-> this.converter.toEntity(entity));
+        Assertions.assertThrows(MappingException.class, () -> this.converter.toEntity(entity));
     }
 
     @Test
@@ -344,5 +346,34 @@ public class DocumentEntityConverterInheritanceTest {
                         Document.of("nickname", "ada.lovelace")));
     }
 
+    @Test
+    public void shouldConvertConvertProjectManagerCommunication() {
+        LargeProject large = new LargeProject();
+        large.setBudget(BigDecimal.TEN);
+        large.setName("large");
 
+        SmallProject small = new SmallProject();
+        small.setInvestor("new investor");
+        small.setName("Start up");
+
+        List<Project> projects = new ArrayList<>();
+        projects.add(large);
+        projects.add(small);
+
+        ProjectManager manager = ProjectManager.of(10L, "manager", projects);
+        DocumentEntity entity = this.converter.toDocument(manager);
+        assertNotNull(entity);
+
+        assertEquals("ProjectManager", entity.getName());
+        assertEquals(10L, entity.find("_id", Long.class).get());
+        assertEquals("manager", entity.find("name", String.class).get());
+
+        List<List<Document>> documents = entity.find("projects", new TypeReference<List<List<Document>>>() {
+        }).get();
+    }
+
+    @Test
+    public void shouldConvertConvertCommunicationProjectManager() {
+
+    }
 }
