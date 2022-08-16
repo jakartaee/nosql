@@ -15,6 +15,7 @@
 
 package jakarta.nosql.tck.mapping.document;
 
+import jakarta.nosql.TypeReference;
 import jakarta.nosql.document.Document;
 import jakarta.nosql.document.DocumentEntity;
 import jakarta.nosql.mapping.MappingException;
@@ -28,6 +29,8 @@ import jakarta.nosql.tck.entities.inheritance.SmallProject;
 import jakarta.nosql.tck.entities.inheritance.SmsNotification;
 import jakarta.nosql.tck.entities.inheritance.SocialMediaNotification;
 import jakarta.nosql.tck.test.CDIExtension;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +38,7 @@ import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -314,6 +318,31 @@ public class DocumentEntityConverterInheritanceTest {
         Assertions.assertEquals("123456789", social.getNickname());
     }
 
+    @Test
+    public void shouldConvertSocialCommunication() {
+        SocialMediaNotification notification = new SocialMediaNotification();
+        notification.setId(10L);
+        notification.setName("Ada");
+        notification.setNickname("ada.lovelace");
+        notification.setCreatedOn(LocalDate.now());
+        NotificationReader reader = new NotificationReader("otavio", "Otavio", notification);
+
+        DocumentEntity entity = this.converter.toDocument(reader);
+        assertNotNull(entity);
+
+        assertEquals("NotificationReader", entity.getName());
+        assertEquals("otavio", entity.find("_id"));
+        assertEquals("Otavio", entity.find("name"));
+        List<Document> documents = entity.find("notification", new TypeReference<List<Document>>() {
+        }).get();
+
+        MatcherAssert.assertThat(documents,
+                Matchers.containsInAnyOrder(Document.of("_id", 10L),
+                        Document.of("_id", 10L),
+                        Document.of("name", "Ada"),
+                        Document.of("dtype", "SocialMediaNotification"),
+                        Document.of("nickname", "ada.lovelace")));
+    }
 
 
 }
