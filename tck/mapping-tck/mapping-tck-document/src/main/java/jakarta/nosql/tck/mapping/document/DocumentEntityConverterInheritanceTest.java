@@ -15,11 +15,14 @@
 
 package jakarta.nosql.tck.mapping.document;
 
+import jakarta.nosql.document.Document;
 import jakarta.nosql.document.DocumentEntity;
 import jakarta.nosql.mapping.MappingException;
 import jakarta.nosql.mapping.document.DocumentEntityConverter;
 import jakarta.nosql.tck.entities.inheritance.EmailNotification;
 import jakarta.nosql.tck.entities.inheritance.LargeProject;
+import jakarta.nosql.tck.entities.inheritance.Notification;
+import jakarta.nosql.tck.entities.inheritance.NotificationReader;
 import jakarta.nosql.tck.entities.inheritance.Project;
 import jakarta.nosql.tck.entities.inheritance.SmallProject;
 import jakarta.nosql.tck.entities.inheritance.SmsNotification;
@@ -31,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -231,4 +235,85 @@ public class DocumentEntityConverterInheritanceTest {
         entity.add("dtype", "Wrong");
         Assertions.assertThrows(MappingException.class, ()-> this.converter.toEntity(entity));
     }
+
+    @Test
+    public void shouldConvertCommunicationNotificationReaderEmail() {
+        DocumentEntity entity = DocumentEntity.of("NotificationReader");
+        entity.add("_id", "poli");
+        entity.add("name", "Poliana Santana");
+        entity.add("_id", Arrays.asList(
+                Document.of("_id", 10L),
+                Document.of("name", "News"),
+                Document.of("email", "otavio@email.com"),
+                Document.of("_id", LocalDate.now()),
+                Document.of("dtype", "Email")
+        ));
+
+        NotificationReader notificationReader = converter.toEntity(entity);
+        Assertions.assertNotNull(notificationReader);
+        Assertions.assertEquals("poli", notificationReader.getNickname());
+        Assertions.assertEquals("Poliana Santana", notificationReader.getName());
+        Notification notification = notificationReader.getNotification();
+        Assertions.assertNotNull(notification);
+        Assertions.assertEquals(EmailNotification.class, notification.getClass());
+        EmailNotification email = (EmailNotification) notification;
+        Assertions.assertEquals(10L, email.getId());
+        Assertions.assertEquals("News", email.getName());
+        Assertions.assertEquals("otavio@email.com", email.getEmail());
+    }
+
+    @Test
+    public void shouldConvertCommunicationNotificationReaderSms() {
+        DocumentEntity entity = DocumentEntity.of("NotificationReader");
+        entity.add("_id", "poli");
+        entity.add("name", "Poliana Santana");
+        entity.add("_id", Arrays.asList(
+                Document.of("_id", 10L),
+                Document.of("name", "News"),
+                Document.of("phone", "123456789"),
+                Document.of("_id", LocalDate.now()),
+                Document.of("dtype", "SMS")
+        ));
+
+        NotificationReader notificationReader = converter.toEntity(entity);
+        Assertions.assertNotNull(notificationReader);
+        Assertions.assertEquals("poli", notificationReader.getNickname());
+        Assertions.assertEquals("Poliana Santana", notificationReader.getName());
+        Notification notification = notificationReader.getNotification();
+        Assertions.assertNotNull(notification);
+        Assertions.assertEquals(SmsNotification.class, notification.getClass());
+        SmsNotification sms = (SmsNotification) notification;
+        Assertions.assertEquals(10L, sms.getId());
+        Assertions.assertEquals("News", sms.getName());
+        Assertions.assertEquals("123456789", sms.getPhone());
+    }
+
+    @Test
+    public void shouldConvertCommunicationNotificationReaderSocial() {
+        DocumentEntity entity = DocumentEntity.of("NotificationReader");
+        entity.add("_id", "poli");
+        entity.add("name", "Poliana Santana");
+        entity.add("_id", Arrays.asList(
+                Document.of("_id", 10L),
+                Document.of("name", "News"),
+                Document.of("nickname", "123456789"),
+                Document.of("_id", LocalDate.now()),
+                Document.of("dtype", "SocialMediaNotification")
+        ));
+
+        NotificationReader notificationReader = converter.toEntity(entity);
+        Assertions.assertNotNull(notificationReader);
+        Assertions.assertEquals("poli", notificationReader.getNickname());
+        Assertions.assertEquals("Poliana Santana", notificationReader.getName());
+        Notification notification = notificationReader.getNotification();
+        Assertions.assertNotNull(notification);
+        Assertions.assertEquals(SocialMediaNotification.class, notification.getClass());
+        SocialMediaNotification social = (SocialMediaNotification) notification;
+        Assertions.assertEquals(10L, social.getId());
+        Assertions.assertEquals("News", social.getName());
+        Assertions.assertEquals("123456789", social.getNickname());
+    }
+
+
+
 }
