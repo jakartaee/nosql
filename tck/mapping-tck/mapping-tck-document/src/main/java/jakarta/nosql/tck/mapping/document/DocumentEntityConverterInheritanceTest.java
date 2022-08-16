@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @CDIExtension
-public class InheritanceDocumentEntityConverterTest {
+public class DocumentEntityConverterInheritanceTest {
 
     @Inject
     private DocumentEntityConverter converter;
