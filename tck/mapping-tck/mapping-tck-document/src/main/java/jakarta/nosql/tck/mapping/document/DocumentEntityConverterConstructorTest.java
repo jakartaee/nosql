@@ -20,6 +20,7 @@ import jakarta.nosql.document.DocumentEntity;
 import jakarta.nosql.mapping.document.DocumentEntityConverter;
 import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.entities.Money;
+import jakarta.nosql.tck.entities.constructor.BookUser;
 import jakarta.nosql.tck.entities.constructor.Computer;
 import jakarta.nosql.tck.entities.constructor.PetOwner;
 import jakarta.nosql.tck.test.CDIExtension;
@@ -31,10 +32,13 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @CDIExtension
 public class DocumentEntityConverterConstructorTest {
@@ -51,7 +55,7 @@ public class DocumentEntityConverterConstructorTest {
         communication.add("model", "Dell 2020");
         communication.add("price", "USD 20");
         Computer computer = this.converter.toEntity(communication);
-        Assertions.assertNotNull(computer);
+        assertNotNull(computer);
         assertEquals(10L, computer.getId());
         assertEquals("Dell", computer.getName());
         assertEquals(2020, computer.getAge());
@@ -64,7 +68,7 @@ public class DocumentEntityConverterConstructorTest {
         Computer computer = new Computer(10L, "Dell", 2020, "Dell 2020",
                 Money.parse("USD 20"));
         DocumentEntity communication = this.converter.toDocument(computer);
-        Assertions.assertNotNull(communication);
+        assertNotNull(communication);
 
         assertEquals(computer.getId(), communication.find("_id", Long.class).get());
         assertEquals(computer.getName(), communication.find("name", String.class).get());
@@ -82,12 +86,12 @@ public class DocumentEntityConverterConstructorTest {
         , Document.of("name", "Ada")));
 
         PetOwner petOwner = this.converter.toEntity(communication);
-        Assertions.assertNotNull(petOwner);
-        Assertions.assertEquals(10L, petOwner.getId());
-        Assertions.assertEquals("Otavio", petOwner.getName());
+        assertNotNull(petOwner);
+        assertEquals(10L, petOwner.getId());
+        assertEquals("Otavio", petOwner.getName());
         Animal animal = petOwner.getAnimal();
-        Assertions.assertEquals(23L, animal.getId());
-        Assertions.assertEquals("Ada", animal.getName());
+        assertEquals(23L, animal.getId());
+        assertEquals("Ada", animal.getName());
     }
 
     @Test
@@ -95,11 +99,29 @@ public class DocumentEntityConverterConstructorTest {
         Animal ada = new Animal("Ada");
         PetOwner petOwner = new PetOwner(10L, "Poliana", ada);
         DocumentEntity communication = this.converter.toDocument(petOwner);
-        Assertions.assertNotNull(communication);
-        Assertions.assertEquals(10L, communication.find("_id", Long.class).get());
-        Assertions.assertEquals("Poliana", communication.find("name", String.class).get());
+        assertNotNull(communication);
+        assertEquals(10L, communication.find("_id", Long.class).get());
+        assertEquals("Poliana", communication.find("name", String.class).get());
         List<Document> documents = communication.find("animal", new TypeReference<List<Document>>() {})
                 .get();
-        MatcherAssert.assertThat(documents, Matchers.containsInAnyOrder(Document.of("name", "Ada")));
+        assertThat(documents, Matchers.containsInAnyOrder(Document.of("name", "Ada")));
+    }
+
+    @Test
+    public void shouldConvertBookUser() {
+        DocumentEntity communication = DocumentEntity.of("BookUser");
+        communication.add("nickname", "otaviojava");
+        communication.add("name", "Otavio Santana");
+        List<List<Document>> documents = new ArrayList<>();
+        documents.add(Arrays.asList(Document.of("_id", 10), Document.of("name", "Effective Java")));
+        documents.add(Arrays.asList(Document.of("_id", 12), Document.of("name", "Clean Code")));
+        communication.add("books", documents);
+
+        BookUser bookUser = this.converter.toEntity(communication);
+        assertNotNull(bookUser);
+        assertEquals("Otavio Santana", bookUser.getName());
+        assertEquals("otaviojava", bookUser.getNickname());
+        assertEquals(2, bookUser.getBooks().size());
+
     }
 }
