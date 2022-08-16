@@ -256,11 +256,11 @@ public class DocumentEntityConverterInheritanceTest {
         ));
 
         NotificationReader notificationReader = converter.toEntity(entity);
-        Assertions.assertNotNull(notificationReader);
+        assertNotNull(notificationReader);
         Assertions.assertEquals("poli", notificationReader.getNickname());
         Assertions.assertEquals("Poliana Santana", notificationReader.getName());
         Notification notification = notificationReader.getNotification();
-        Assertions.assertNotNull(notification);
+        assertNotNull(notification);
         Assertions.assertEquals(EmailNotification.class, notification.getClass());
         EmailNotification email = (EmailNotification) notification;
         Assertions.assertEquals(10L, email.getId());
@@ -282,11 +282,11 @@ public class DocumentEntityConverterInheritanceTest {
         ));
 
         NotificationReader notificationReader = converter.toEntity(entity);
-        Assertions.assertNotNull(notificationReader);
+        assertNotNull(notificationReader);
         Assertions.assertEquals("poli", notificationReader.getNickname());
         Assertions.assertEquals("Poliana Santana", notificationReader.getName());
         Notification notification = notificationReader.getNotification();
-        Assertions.assertNotNull(notification);
+        assertNotNull(notification);
         Assertions.assertEquals(SmsNotification.class, notification.getClass());
         SmsNotification sms = (SmsNotification) notification;
         Assertions.assertEquals(10L, sms.getId());
@@ -308,11 +308,11 @@ public class DocumentEntityConverterInheritanceTest {
         ));
 
         NotificationReader notificationReader = converter.toEntity(entity);
-        Assertions.assertNotNull(notificationReader);
+        assertNotNull(notificationReader);
         Assertions.assertEquals("poli", notificationReader.getNickname());
         Assertions.assertEquals("Poliana Santana", notificationReader.getName());
         Notification notification = notificationReader.getNotification();
-        Assertions.assertNotNull(notification);
+        assertNotNull(notification);
         Assertions.assertEquals(SocialMediaNotification.class, notification.getClass());
         SocialMediaNotification social = (SocialMediaNotification) notification;
         Assertions.assertEquals(10L, social.getId());
@@ -374,6 +374,29 @@ public class DocumentEntityConverterInheritanceTest {
 
     @Test
     public void shouldConvertConvertCommunicationProjectManager() {
+        DocumentEntity communication = DocumentEntity.of("ProjectManager");
+        communication.add("_id", 10L);
+        communication.add("name", "manager");
+        List<List<Document>> documents = new ArrayList<>();
+        documents.add(Arrays.asList(
+                Document.of("name","small-project"),
+                Document.of("size","Small"),
+                Document.of("investor","investor")
+                ));
+        documents.add(Arrays.asList(
+                Document.of("name","large-project"),
+                Document.of("size","Large"),
+                Document.of("budget",BigDecimal.TEN)
+        ));
+        communication.add("projects", documents);
+
+        ProjectManager manager = converter.toEntity(communication);
+        assertNotNull(manager);
+
+        assertEquals(10L, manager.getId());
+        assertEquals("manager", manager.getName());
+
+        List<Project> projects = manager.getProjects();
 
     }
 }
