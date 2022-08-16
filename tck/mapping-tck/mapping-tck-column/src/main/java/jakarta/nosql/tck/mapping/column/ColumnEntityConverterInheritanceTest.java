@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @CDIExtension
-public class InheritanceColumnEntityConverterTest {
+public class ColumnEntityConverterInheritanceTest {
 
 
     @Inject
