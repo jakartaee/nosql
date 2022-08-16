@@ -87,7 +87,7 @@ public class ProjectManager {
                 '}';
     }
 
-    public ProjectManager of(Long id, String name, List<Project> projects) {
+    public static ProjectManager of(Long id, String name, List<Project> projects) {
         Objects.requireNonNull(id, "id is required");
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(projects, "projects is required");
