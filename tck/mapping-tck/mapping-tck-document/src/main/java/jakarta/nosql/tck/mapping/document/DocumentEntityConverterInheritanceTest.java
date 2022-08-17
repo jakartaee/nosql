@@ -412,6 +412,16 @@ public class DocumentEntityConverterInheritanceTest {
         assertEquals("manager", manager.getName());
 
         List<Project> projects = manager.getProjects();
+        assertEquals(2, projects.size());
+        SmallProject small = (SmallProject) projects.get(0);
+        LargeProject large = (LargeProject) projects.get(1);
+        assertNotNull(small);
+        assertEquals("small-project", small.getName());
+        assertEquals("investor", small.getInvestor());
+
+        assertNotNull(large);
+        assertEquals("large-project", large.getName());
+        assertEquals(BigDecimal.TEN, large.getBudget());
 
     }
 }
