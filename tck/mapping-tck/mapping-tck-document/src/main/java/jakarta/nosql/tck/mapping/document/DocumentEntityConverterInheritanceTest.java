@@ -242,7 +242,6 @@ public class DocumentEntityConverterInheritanceTest {
         Assertions.assertThrows(MappingException.class, () -> this.converter.toEntity(entity));
     }
 
-
     @Test
     public void shouldConvertCommunicationNotificationReaderEmail() {
         DocumentEntity entity = DocumentEntity.of("NotificationReader");
