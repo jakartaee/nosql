@@ -370,6 +370,21 @@ public class DocumentEntityConverterInheritanceTest {
 
         List<List<Document>> documents = entity.find("projects", new TypeReference<List<List<Document>>>() {
         }).get();
+
+        List<Document> largeCommunication = documents.get(0);
+        List<Document> smallCommunication = documents.get(1);
+        MatcherAssert.assertThat(largeCommunication, Matchers.containsInAnyOrder(
+                Document.of("size", "Large"),
+                Document.of("budget", BigDecimal.TEN),
+                Document.of("name", "large")
+        ));
+
+        MatcherAssert.assertThat(smallCommunication, Matchers.containsInAnyOrder(
+                Document.of("size", "Small"),
+                Document.of("investor", "new investor"),
+                Document.of("name", "Start up")
+        ));
+
     }
 
     @Test
