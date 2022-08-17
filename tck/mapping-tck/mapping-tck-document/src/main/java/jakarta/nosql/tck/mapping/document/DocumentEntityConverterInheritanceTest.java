@@ -242,12 +242,13 @@ public class DocumentEntityConverterInheritanceTest {
         Assertions.assertThrows(MappingException.class, () -> this.converter.toEntity(entity));
     }
 
+
     @Test
     public void shouldConvertCommunicationNotificationReaderEmail() {
         DocumentEntity entity = DocumentEntity.of("NotificationReader");
         entity.add("_id", "poli");
         entity.add("name", "Poliana Santana");
-        entity.add("_id", Arrays.asList(
+        entity.add("notification", Arrays.asList(
                 Document.of("_id", 10L),
                 Document.of("name", "News"),
                 Document.of("email", "otavio@email.com"),
@@ -273,7 +274,7 @@ public class DocumentEntityConverterInheritanceTest {
         DocumentEntity entity = DocumentEntity.of("NotificationReader");
         entity.add("_id", "poli");
         entity.add("name", "Poliana Santana");
-        entity.add("_id", Arrays.asList(
+        entity.add("notification", Arrays.asList(
                 Document.of("_id", 10L),
                 Document.of("name", "News"),
                 Document.of("phone", "123456789"),
@@ -299,7 +300,7 @@ public class DocumentEntityConverterInheritanceTest {
         DocumentEntity entity = DocumentEntity.of("NotificationReader");
         entity.add("_id", "poli");
         entity.add("name", "Poliana Santana");
-        entity.add("_id", Arrays.asList(
+        entity.add("notification", Arrays.asList(
                 Document.of("_id", 10L),
                 Document.of("name", "News"),
                 Document.of("nickname", "123456789"),
@@ -326,21 +327,19 @@ public class DocumentEntityConverterInheritanceTest {
         notification.setId(10L);
         notification.setName("Ada");
         notification.setNickname("ada.lovelace");
-        notification.setCreatedOn(LocalDate.now());
         NotificationReader reader = new NotificationReader("otavio", "Otavio", notification);
 
         DocumentEntity entity = this.converter.toDocument(reader);
         assertNotNull(entity);
 
         assertEquals("NotificationReader", entity.getName());
-        assertEquals("otavio", entity.find("_id"));
-        assertEquals("Otavio", entity.find("name"));
+        assertEquals("otavio", entity.find("_id", String.class).get());
+        assertEquals("Otavio", entity.find("name", String.class).get());
         List<Document> documents = entity.find("notification", new TypeReference<List<Document>>() {
         }).get();
 
         MatcherAssert.assertThat(documents,
                 Matchers.containsInAnyOrder(Document.of("_id", 10L),
-                        Document.of("_id", 10L),
                         Document.of("name", "Ada"),
                         Document.of("dtype", "SocialMediaNotification"),
                         Document.of("nickname", "ada.lovelace")));
@@ -368,21 +367,20 @@ public class DocumentEntityConverterInheritanceTest {
         assertEquals(10L, entity.find("_id", Long.class).get());
         assertEquals("manager", entity.find("name", String.class).get());
 
-        List<List<Document>> documents = entity.find("projects", new TypeReference<List<List<Document>>>() {
-        }).get();
+        List<List<Document>> documents = (List<List<Document>>) entity.find("projects").get().get();
 
         List<Document> largeCommunication = documents.get(0);
         List<Document> smallCommunication = documents.get(1);
         MatcherAssert.assertThat(largeCommunication, Matchers.containsInAnyOrder(
+                Document.of("_id", "large"),
                 Document.of("size", "Large"),
-                Document.of("budget", BigDecimal.TEN),
-                Document.of("name", "large")
+                Document.of("budget", BigDecimal.TEN)
         ));
 
         MatcherAssert.assertThat(smallCommunication, Matchers.containsInAnyOrder(
                 Document.of("size", "Small"),
                 Document.of("investor", "new investor"),
-                Document.of("name", "Start up")
+                Document.of("_id", "Start up")
         ));
 
     }
@@ -394,12 +392,12 @@ public class DocumentEntityConverterInheritanceTest {
         communication.add("name", "manager");
         List<List<Document>> documents = new ArrayList<>();
         documents.add(Arrays.asList(
-                Document.of("name","small-project"),
+                Document.of("_id","small-project"),
                 Document.of("size","Small"),
                 Document.of("investor","investor")
-                ));
+        ));
         documents.add(Arrays.asList(
-                Document.of("name","large-project"),
+                Document.of("_id","large-project"),
                 Document.of("size","Large"),
                 Document.of("budget",BigDecimal.TEN)
         ));
