@@ -98,9 +98,9 @@ public class ColumnEntityConverterConstructorTest {
         assertNotNull(communication);
         assertEquals(10L, communication.find("_id", Long.class).get());
         assertEquals("Poliana", communication.find("name", String.class).get());
-        List<Column> Columns = communication.find("animal", new TypeReference<List<Column>>() {})
+        List<Column> columns = communication.find("animal", new TypeReference<List<Column>>() {})
                 .get();
-        assertThat(Columns, Matchers.containsInAnyOrder(Column.of("name", "Ada")));
+        assertThat(columns, Matchers.containsInAnyOrder(Column.of("name", "Ada")));
     }
 
     @Test
@@ -108,10 +108,10 @@ public class ColumnEntityConverterConstructorTest {
         ColumnEntity communication = ColumnEntity.of("BookUser");
         communication.add("nickname", "otaviojava");
         communication.add("name", "Otavio Santana");
-        List<List<Column>> Columns = new ArrayList<>();
-        Columns.add(Arrays.asList(Column.of("_id", 10), Column.of("name", "Effective Java")));
-        Columns.add(Arrays.asList(Column.of("_id", 12), Column.of("name", "Clean Code")));
-        communication.add("books", Columns);
+        List<List<Column>> columns = new ArrayList<>();
+        columns.add(Arrays.asList(Column.of("_id", 10), Column.of("name", "Effective Java")));
+        columns.add(Arrays.asList(Column.of("_id", 12), Column.of("name", "Clean Code")));
+        communication.add("books", columns);
 
         BookUser bookUser = this.converter.toEntity(communication);
         assertNotNull(bookUser);
