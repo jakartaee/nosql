@@ -249,7 +249,7 @@ public class ColumnEntityConverterInheritanceTest {
         ColumnEntity entity = ColumnEntity.of("NotificationReader");
         entity.add("_id", "poli");
         entity.add("name", "Poliana Santana");
-        entity.add("_id", Arrays.asList(
+        entity.add("notification", Arrays.asList(
                 Column.of("_id", 10L),
                 Column.of("name", "News"),
                 Column.of("email", "otavio@email.com"),
@@ -275,7 +275,7 @@ public class ColumnEntityConverterInheritanceTest {
         ColumnEntity entity = ColumnEntity.of("NotificationReader");
         entity.add("_id", "poli");
         entity.add("name", "Poliana Santana");
-        entity.add("_id", Arrays.asList(
+        entity.add("notification", Arrays.asList(
                 Column.of("_id", 10L),
                 Column.of("name", "News"),
                 Column.of("phone", "123456789"),
@@ -301,7 +301,7 @@ public class ColumnEntityConverterInheritanceTest {
         ColumnEntity entity = ColumnEntity.of("NotificationReader");
         entity.add("_id", "poli");
         entity.add("name", "Poliana Santana");
-        entity.add("_id", Arrays.asList(
+        entity.add("notification", Arrays.asList(
                 Column.of("_id", 10L),
                 Column.of("name", "News"),
                 Column.of("nickname", "123456789"),
@@ -328,21 +328,19 @@ public class ColumnEntityConverterInheritanceTest {
         notification.setId(10L);
         notification.setName("Ada");
         notification.setNickname("ada.lovelace");
-        notification.setCreatedOn(LocalDate.now());
         NotificationReader reader = new NotificationReader("otavio", "Otavio", notification);
 
         ColumnEntity entity = this.converter.toColumn(reader);
         assertNotNull(entity);
 
         assertEquals("NotificationReader", entity.getName());
-        assertEquals("otavio", entity.find("_id"));
-        assertEquals("Otavio", entity.find("name"));
+        assertEquals("otavio", entity.find("_id", String.class).get());
+        assertEquals("Otavio", entity.find("name", String.class).get());
         List<Column> columns = entity.find("notification", new TypeReference<List<Column>>() {
         }).get();
 
         MatcherAssert.assertThat(columns,
                 Matchers.containsInAnyOrder(Column.of("_id", 10L),
-                        Column.of("_id", 10L),
                         Column.of("name", "Ada"),
                         Column.of("dtype", "SocialMediaNotification"),
                         Column.of("nickname", "ada.lovelace")));
@@ -370,21 +368,20 @@ public class ColumnEntityConverterInheritanceTest {
         assertEquals(10L, entity.find("_id", Long.class).get());
         assertEquals("manager", entity.find("name", String.class).get());
 
-        List<List<Column>> columns = entity.find("projects", new TypeReference<List<List<Column>>>() {
-        }).get();
+        List<List<Column>> columns = (List<List<Column>>) entity.find("projects").get().get();
 
         List<Column> largeCommunication = columns.get(0);
         List<Column> smallCommunication = columns.get(1);
         MatcherAssert.assertThat(largeCommunication, Matchers.containsInAnyOrder(
+                Column.of("_id", "large"),
                 Column.of("size", "Large"),
-                Column.of("budget", BigDecimal.TEN),
-                Column.of("name", "large")
+                Column.of("budget", BigDecimal.TEN)
         ));
 
         MatcherAssert.assertThat(smallCommunication, Matchers.containsInAnyOrder(
                 Column.of("size", "Small"),
                 Column.of("investor", "new investor"),
-                Column.of("name", "Start up")
+                Column.of("_id", "Start up")
         ));
 
     }
@@ -396,12 +393,12 @@ public class ColumnEntityConverterInheritanceTest {
         communication.add("name", "manager");
         List<List<Column>> columns = new ArrayList<>();
         columns.add(Arrays.asList(
-                Column.of("name","small-project"),
+                Column.of("_id","small-project"),
                 Column.of("size","Small"),
                 Column.of("investor","investor")
         ));
         columns.add(Arrays.asList(
-                Column.of("name","large-project"),
+                Column.of("_id","large-project"),
                 Column.of("size","Large"),
                 Column.of("budget",BigDecimal.TEN)
         ));
@@ -426,4 +423,5 @@ public class ColumnEntityConverterInheritanceTest {
         assertEquals(BigDecimal.TEN, large.getBudget());
 
     }
+
 }
