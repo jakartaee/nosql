@@ -40,9 +40,9 @@ public class Computer {
     @Convert(MoneyConverter.class)
     private final Money price;
 
-    public Computer(@Id Long id,@Column String name,
-                    @Column int age,@Column String model,
-                    @Column @Convert(MoneyConverter.class) Money price) {
+    public Computer(@Id Long id, @Column("name") String name,
+                    @Column("age") int age, @Column("model") String model,
+                    @Column("price") @Convert(MoneyConverter.class) Money price) {
         this.id = id;
         this.name = name;
         this.age = age;

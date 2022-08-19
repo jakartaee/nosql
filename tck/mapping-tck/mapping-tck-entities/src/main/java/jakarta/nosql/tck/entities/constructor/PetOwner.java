@@ -33,7 +33,7 @@ public class PetOwner {
     @Column
     private final Animal animal;
 
-    public PetOwner(@Id Long id, @Column String name, @Column Animal animal) {
+    public PetOwner(@Id Long id, @Column("name") String name, @Column("animal") Animal animal) {
         this.id = id;
         this.name = name;
         this.animal = animal;

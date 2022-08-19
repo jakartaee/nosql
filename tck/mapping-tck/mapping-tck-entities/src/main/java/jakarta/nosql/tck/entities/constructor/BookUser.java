@@ -30,12 +30,14 @@ public class BookUser {
     private final String nickname;
 
     @Column
-    private final  String name;
+    private final String name;
 
     @Column
-    private final  List<Book> books;
+    private final List<Book> books;
 
-    BookUser(@Id String nickname, @Column("native_name") String name, @Column List<Book> books) {
+    BookUser(@Id String nickname,
+             @Column("native_name") String name,
+             @Column("books") List<Book> books) {
         this.nickname = nickname;
         this.name = name;
         this.books = books;
