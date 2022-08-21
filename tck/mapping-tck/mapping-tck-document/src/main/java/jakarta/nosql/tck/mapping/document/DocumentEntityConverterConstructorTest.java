@@ -75,7 +75,7 @@ public class DocumentEntityConverterConstructorTest {
 
     @Test
     public void shouldConvertPetOwner() {
-        DocumentEntity communication = DocumentEntity.of("Computer");
+        DocumentEntity communication = DocumentEntity.of("PetOwner");
         communication.add("_id", 10L);
         communication.add("name", "Otavio");
         communication.add("animal", Arrays.asList(Document.of("_id", 23)
