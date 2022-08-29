@@ -26,34 +26,34 @@ public interface ColumnEntityConverter {
     /**
      * Converts the instance entity to {@link ColumnEntity}
      *
-     * @param entityInstance the instnace
+     * @param entity the instance
      * @return a {@link ColumnEntity} instance
-     * @throws NullPointerException when entityInstance is null
+     * @throws NullPointerException when entity is null
      */
-    ColumnEntity toColumn(Object entityInstance);
+    ColumnEntity toColumn(Object entity);
 
     /**
      * Converts a {@link ColumnEntity} to entity
      *
-     * @param entityClass the entity class
+     * @param type the entity class
      * @param entity      the {@link ColumnEntity} to be converted
      * @param <T>         the entity type
      * @return the instance from {@link ColumnEntity}
-     * @throws NullPointerException when either entityClass or entity are null
+     * @throws NullPointerException when either type or entity are null
      */
-    <T> T toEntity(Class<T> entityClass, ColumnEntity entity);
+    <T> T toEntity(Class<T> type, ColumnEntity entity);
 
     /**
      * Converts a {@link ColumnEntity} to entity
      * Instead of creating a new object is uses the instance used in this parameters
      *
-     * @param entityInstance the instance
+     * @param type the instance
      * @param entity      the {@link ColumnEntity} to be converted
      * @param <T>         the entity type
      * @return the same instance with values set from {@link ColumnEntity}
-     * @throws NullPointerException when either entityInstance or entity are null
+     * @throws NullPointerException when either type or entity are null
      */
-    <T> T toEntity(T entityInstance, ColumnEntity entity);
+    <T> T toEntity(T type, ColumnEntity entity);
 
     /**
      * Similar to {@link ColumnEntityConverter#toEntity(Class, ColumnEntity)}, but
