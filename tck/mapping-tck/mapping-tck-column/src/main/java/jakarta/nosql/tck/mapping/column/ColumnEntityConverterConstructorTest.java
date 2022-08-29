@@ -106,8 +106,8 @@ public class ColumnEntityConverterConstructorTest {
     @Test
     public void shouldConvertBookUser() {
         ColumnEntity communication = ColumnEntity.of("BookUser");
-        communication.add("nickname", "otaviojava");
-        communication.add("name", "Otavio Santana");
+        communication.add("_id", "otaviojava");
+        communication.add("native_name", "Otavio Santana");
         List<List<Column>> columns = new ArrayList<>();
         columns.add(Arrays.asList(Column.of("_id", 10), Column.of("name", "Effective Java")));
         columns.add(Arrays.asList(Column.of("_id", 12), Column.of("name", "Clean Code")));
