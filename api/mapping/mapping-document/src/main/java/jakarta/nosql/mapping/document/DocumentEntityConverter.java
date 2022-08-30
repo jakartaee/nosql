@@ -25,34 +25,34 @@ public interface DocumentEntityConverter {
     /**
      * Converts the instance entity to {@link DocumentEntity}
      *
-     * @param entityInstance the instance
+     * @param entity the instance
      * @return a {@link DocumentEntity} instance
-     * @throws NullPointerException when entityInstance is null
+     * @throws NullPointerException when entity is null
      */
-    DocumentEntity toDocument(Object entityInstance);
+    DocumentEntity toDocument(Object entity);
 
     /**
      * Converts a {@link DocumentEntity} to entity
      *
-     * @param entityClass the entity class
+     * @param type the entity class
      * @param entity      the {@link DocumentEntity} to be converted
      * @param <T>         the entity type
      * @return the instance from {@link DocumentEntity}
-     * @throws NullPointerException when either entityClass or entity are null
+     * @throws NullPointerException when either type or entity are null
      */
-    <T> T toEntity(Class<T> entityClass, DocumentEntity entity);
+    <T> T toEntity(Class<T> type, DocumentEntity entity);
 
     /**
      * Converts a {@link DocumentEntity} to entity
      * Instead of creating a new object is uses the instance used in this parameters
      *
-     * @param entityInstance the entity class
+     * @param type the entity class
      * @param entity         the {@link DocumentEntity} to be converted
      * @param <T>            the entity type
      * @return the instance from {@link DocumentEntity}
-     * @throws NullPointerException when either entityInstance or entity are null
+     * @throws NullPointerException when either type or entity are null
      */
-    <T> T toEntity(T entityInstance, DocumentEntity entity);
+    <T> T toEntity(T type, DocumentEntity entity);
 
     /**
      * Similar to {@link DocumentEntityConverter#toEntity(Class, DocumentEntity)}, but

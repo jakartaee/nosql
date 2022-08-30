@@ -18,4 +18,5 @@ module jakarta.nosql.mapping.tck.entities {
     exports jakarta.nosql.tck.entities.inheritance;
     opens jakarta.nosql.tck.entities;
     opens jakarta.nosql.tck.entities.inheritance;
+    exports jakarta.nosql.tck.entities.constructor;
 }
