@@ -16,7 +16,7 @@ Status: {revremark}
 
 Release: {revdate}
 
-Copyright (c) 2020 Jakarta NoSQL Contributors:
+Copyright (c) 2020, 2022 Jakarta NoSQL Contributors:
 {authors}
 
 This program and the accompanying materials are made available under the
