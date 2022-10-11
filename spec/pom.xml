@@ -71,6 +71,7 @@
                 </execution>
             </executions>
             <configuration>
+                <sourceDirectory>src/main/asciidoc</sourceDirectory>
                 <sourceDocumentName>jakarta_nosql_spec.adoc</sourceDocumentName>
                 <sourceHighlighter>coderay</sourceHighlighter>
                 <embedAssets>true</embedAssets>
