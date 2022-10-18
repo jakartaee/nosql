@@ -9,7 +9,7 @@
 :doctype: book
 :license: Apache License v2.0
 :source-highlighter: coderay
-:authors: Contributors to Jakarta NoSQL Specification (https://github.com/jakartaee/data/graphs/contributors)
+:authors: https://github.com/eclipse-ee4j/nosql/graphs/contributors
 :email: nosql-dev@eclipse.org
 ifdef::backend-pdf[]
 :pagenums:
