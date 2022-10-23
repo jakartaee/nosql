@@ -281,7 +281,7 @@ public class SelectQueryFluentBuilderTest {
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
-        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
+        List<DocumentCondition> conditions = document.get(new TypeReference<>() {
         });
         assertEquals(Condition.AND, condition.getCondition());
         assertThat(conditions).contains(eq(Document.of("name", name)),
@@ -296,7 +296,7 @@ public class SelectQueryFluentBuilderTest {
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
-        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
+        List<DocumentCondition> conditions = document.get(new TypeReference<>() {
         });
         assertEquals(Condition.OR, condition.getCondition());
         assertThat(conditions).contains(eq(Document.of("name", name)),
@@ -313,7 +313,7 @@ public class SelectQueryFluentBuilderTest {
         DocumentCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
         assertEquals(documentCollection, query.getDocumentCollection());
         Document document = condition.getDocument();
-        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
+        List<DocumentCondition> conditions = document.get(new TypeReference<>() {
         });
 
         assertEquals(Condition.AND, condition.getCondition());
