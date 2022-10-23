@@ -16,14 +16,13 @@ module jakarta.nosql.mapping.tck.key.value {
     requires jakarta.nosql.mapping.tck.test;
     requires javax.inject;
     requires jakarta.nosql.mapping.tck.entities;
-    requires jakarta.nosql.mapping.key.value;
+    requires org.assertj.core;
     requires org.junit.jupiter.api;
     requires jakarta.nosql.mapping.core;
     requires jakarta.nosql.communication.key.value;
     requires jakarta.nosql.communication.core;
     requires org.mockito;
     requires org.mockito.junit.jupiter;
-    requires hamcrest.all;
     requires static org.apiguardian.api;
     exports jakarta.nosql.tck.mapping.keyvalue;
 }
