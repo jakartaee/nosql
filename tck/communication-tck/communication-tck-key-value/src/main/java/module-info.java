@@ -19,6 +19,6 @@ module jakarta.nosql.communication.tck.key.value {
     requires jakarta.nosql.communication.core;
     requires org.junit.jupiter.params;
     requires org.mockito;
-    requires hamcrest.all;
+    requires org.assertj.core;
     exports jakarta.nosql.communication.tck.keyvalue;
 }

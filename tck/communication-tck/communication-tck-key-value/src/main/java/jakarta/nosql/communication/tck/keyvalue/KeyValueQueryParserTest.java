@@ -22,8 +22,6 @@ import jakarta.nosql.keyvalue.BucketManager;
 import jakarta.nosql.keyvalue.KeyValueEntity;
 import jakarta.nosql.keyvalue.KeyValuePreparedStatement;
 import jakarta.nosql.keyvalue.KeyValueQueryParser;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,6 +35,7 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -64,7 +63,8 @@ public class KeyValueQueryParserTest {
         List<Object> value = captor.getAllValues();
 
         assertEquals(1, value.size());
-        MatcherAssert.assertThat(value, Matchers.contains("Diana"));
+
+        assertThat(value).contains("Diana");
     }
 
     @ParameterizedTest(name = "Should parser the query {0}")
@@ -94,7 +94,7 @@ public class KeyValueQueryParserTest {
         List<Object> value = captor.getValue();
 
         assertEquals(1, value.size());
-        MatcherAssert.assertThat(value, Matchers.contains("Diana"));
+        assertThat(value).contains("Diana");
     }
 
     @ParameterizedTest(name = "Should parser the query {0}")
@@ -111,7 +111,7 @@ public class KeyValueQueryParserTest {
 
         assertEquals(1, value.size());
 
-        MatcherAssert.assertThat(value, Matchers.contains(10));
+        assertThat(value).contains(10);
     }
 
     @ParameterizedTest(name = "Should parser the query {0}")
@@ -161,7 +161,7 @@ public class KeyValueQueryParserTest {
         List<Object> value = captor.getAllValues();
 
         assertEquals(1, value.size());
-        MatcherAssert.assertThat(value, Matchers.contains(10));
+        assertThat(value).contains(10);
         assertEquals(10L, result.get().get());
     }
 
@@ -179,7 +179,7 @@ public class KeyValueQueryParserTest {
         List<Object> value = captor.getAllValues();
 
         assertEquals(1, value.size());
-        MatcherAssert.assertThat(value, Matchers.contains(10));
+        assertThat(value).contains(10);
         assertFalse(result.isPresent());
     }
 
