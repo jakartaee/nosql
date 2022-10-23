@@ -247,7 +247,7 @@ public class DeleteQueryBuilderTest {
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
-        List<ColumnCondition> conditions = column.get(new TypeReference<List<ColumnCondition>>() {
+        List<ColumnCondition> conditions = column.get(new TypeReference<>() {
         });
         assertEquals(Condition.OR, condition.getCondition());
         assertThat(conditions).contains(eq(Column.of("name", name)),
@@ -268,7 +268,7 @@ public class DeleteQueryBuilderTest {
         ColumnCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
         assertEquals(columnFamily, query.getColumnFamily());
         Column column = condition.getColumn();
-        List<ColumnCondition> conditions = column.get(new TypeReference<List<ColumnCondition>>() {
+        List<ColumnCondition> conditions = column.get(new TypeReference<>() {
         });
 
         assertEquals(Condition.AND, condition.getCondition());
