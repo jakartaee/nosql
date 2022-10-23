@@ -16,7 +16,6 @@ package jakarta.nosql.tck.mapping;
 
 import jakarta.nosql.Sort;
 import jakarta.nosql.mapping.Sorts;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
