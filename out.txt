@@ -1,0 +1,261 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Jakarta NoSQL                                                      [pom]
+[INFO] api-parent                                                         [pom]
+[INFO] communication-api                                                  [pom]
+[INFO] communication-core                                                 [jar]
+[INFO] communication-query                                                [jar]
+[INFO] communication-key-value                                            [jar]
+[INFO] communication-column                                               [jar]
+[INFO] communication-document                                             [jar]
+[INFO] mapping-api                                                        [pom]
+[INFO] mapping-core                                                       [jar]
+[INFO] mapping-key-value                                                  [jar]
+[INFO] mapping-column                                                     [jar]
+[INFO] mapping-document                                                   [jar]
+[INFO] tck-parent                                                         [pom]
+[INFO] communication-tck                                                  [pom]
+[INFO] communication-tck-core                                             [jar]
+[INFO] communication-tck-key-value                                        [jar]
+[INFO] communication-tck-column                                           [jar]
+[INFO] communication-tck-document                                         [jar]
+[INFO] mapping-tck                                                        [pom]
+[INFO] mapping-tck-test                                                   [jar]
+[INFO] mapping-tck-entities                                               [jar]
+[INFO] mapping-tck-core                                                   [jar]
+[INFO] mapping-tck-key-value                                              [jar]
+[INFO] mapping-tck-column                                                 [jar]
+[INFO] mapping-tck-document                                               [jar]
+[INFO] driver-tck                                                         [pom]
+[INFO] driver-tck-key-value                                               [jar]
+[INFO] driver-tck-column                                                  [jar]
+[INFO] driver-tck-document                                                [jar]
+[INFO] spec                                                               [jar]
+[INFO] 
+[INFO] -----------------< jakarta.nosql:jakarta-nosql-parent >-----------------
+[INFO] Building Jakarta NoSQL 1.0.0-SNAPSHOT                             [1/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ jakarta-nosql-parent ---
+[INFO] 
+[INFO] ----------------------< jakarta.nosql:api-parent >----------------------
+[INFO] Building api-parent 1.0.0-SNAPSHOT                                [2/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ api-parent ---
+[INFO] 
+[INFO] -----------< jakarta.nosql.communication:communication-api >------------
+[INFO] Building communication-api 1.0.0-SNAPSHOT                         [3/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-api ---
+[INFO] 
+[INFO] -----------< jakarta.nosql.communication:communication-core >-----------
+[INFO] Building communication-core 1.0.0-SNAPSHOT                        [4/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-core ---
+[INFO] 
+[INFO] ----------< jakarta.nosql.communication:communication-query >-----------
+[INFO] Building communication-query 1.0.0-SNAPSHOT                       [5/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-query ---
+[INFO] 
+[INFO] --------< jakarta.nosql.communication:communication-key-value >---------
+[INFO] Building communication-key-value 1.0.0-SNAPSHOT                   [6/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-key-value ---
+[INFO] 
+[INFO] ----------< jakarta.nosql.communication:communication-column >----------
+[INFO] Building communication-column 1.0.0-SNAPSHOT                      [7/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-column ---
+[INFO] 
+[INFO] ---------< jakarta.nosql.communication:communication-document >---------
+[INFO] Building communication-document 1.0.0-SNAPSHOT                    [8/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-document ---
+[INFO] 
+[INFO] -----------------< jakarta.nosql.mapping:mapping-api >------------------
+[INFO] Building mapping-api 1.0.0-SNAPSHOT                               [9/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-api ---
+[INFO] 
+[INFO] -----------------< jakarta.nosql.mapping:mapping-core >-----------------
+[INFO] Building mapping-core 1.0.0-SNAPSHOT                             [10/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-core ---
+[INFO] 
+[INFO] --------------< jakarta.nosql.mapping:mapping-key-value >---------------
+[INFO] Building mapping-key-value 1.0.0-SNAPSHOT                        [11/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-key-value ---
+[INFO] 
+[INFO] ----------------< jakarta.nosql.mapping:mapping-column >----------------
+[INFO] Building mapping-column 1.0.0-SNAPSHOT                           [12/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-column ---
+[INFO] 
+[INFO] ---------------< jakarta.nosql.mapping:mapping-document >---------------
+[INFO] Building mapping-document 1.0.0-SNAPSHOT                         [13/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-document ---
+[INFO] 
+[INFO] --------------------< jakarta.nosql.tck:tck-parent >--------------------
+[INFO] Building tck-parent 1.0.0-SNAPSHOT                               [14/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ tck-parent ---
+[INFO] 
+[INFO] ---------< jakarta.nosql.tck.communication:communication-tck >----------
+[INFO] Building communication-tck 1.0.0-SNAPSHOT                        [15/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-tck ---
+[INFO] 
+[INFO] -------< jakarta.nosql.tck.communication:communication-tck-core >-------
+[INFO] Building communication-tck-core 1.0.0-SNAPSHOT                   [16/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-tck-core ---
+[INFO] 
+[INFO] ----< jakarta.nosql.tck.communication:communication-tck-key-value >-----
+[INFO] Building communication-tck-key-value 1.0.0-SNAPSHOT              [17/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-tck-key-value ---
+[INFO] 
+[INFO] ------< jakarta.nosql.tck.communication:communication-tck-column >------
+[INFO] Building communication-tck-column 1.0.0-SNAPSHOT                 [18/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-tck-column ---
+[INFO] 
+[INFO] -----< jakarta.nosql.tck.communication:communication-tck-document >-----
+[INFO] Building communication-tck-document 1.0.0-SNAPSHOT               [19/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ communication-tck-document ---
+[INFO] 
+[INFO] ---------------< jakarta.nosql.tck.mapping:mapping-tck >----------------
+[INFO] Building mapping-tck 1.0.0-SNAPSHOT                              [20/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-tck ---
+[INFO] 
+[INFO] -------------< jakarta.nosql.tck.mapping:mapping-tck-test >-------------
+[INFO] Building mapping-tck-test 1.0.0-SNAPSHOT                         [21/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-tck-test ---
+[INFO] 
+[INFO] -----------< jakarta.nosql.tck.mapping:mapping-tck-entities >-----------
+[INFO] Building mapping-tck-entities 1.0.0-SNAPSHOT                     [22/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-tck-entities ---
+[INFO] 
+[INFO] -------------< jakarta.nosql.tck.mapping:mapping-tck-core >-------------
+[INFO] Building mapping-tck-core 1.0.0-SNAPSHOT                         [23/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-tck-core ---
+[INFO] 
+[INFO] ----------< jakarta.nosql.tck.mapping:mapping-tck-key-value >-----------
+[INFO] Building mapping-tck-key-value 1.0.0-SNAPSHOT                    [24/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-tck-key-value ---
+[INFO] 
+[INFO] ------------< jakarta.nosql.tck.mapping:mapping-tck-column >------------
+[INFO] Building mapping-tck-column 1.0.0-SNAPSHOT                       [25/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-tck-column ---
+[INFO] 
+[INFO] -----------< jakarta.nosql.tck.mapping:mapping-tck-document >-----------
+[INFO] Building mapping-tck-document 1.0.0-SNAPSHOT                     [26/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mapping-tck-document ---
+[INFO] 
+[INFO] ---------< jakarta.nosql.tck.communication.driver:driver-tck >----------
+[INFO] Building driver-tck 1.0.0-SNAPSHOT                               [27/31]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ driver-tck ---
+[INFO] 
+[INFO] ----< jakarta.nosql.tck.communication.driver:driver-tck-key-value >-----
+[INFO] Building driver-tck-key-value 1.0.0-SNAPSHOT                     [28/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ driver-tck-key-value ---
+[INFO] 
+[INFO] ------< jakarta.nosql.tck.communication.driver:driver-tck-column >------
+[INFO] Building driver-tck-column 1.0.0-SNAPSHOT                        [29/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ driver-tck-column ---
+[INFO] 
+[INFO] -----< jakarta.nosql.tck.communication.driver:driver-tck-document >-----
+[INFO] Building driver-tck-document 1.0.0-SNAPSHOT                      [30/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ driver-tck-document ---
+[INFO] 
+[INFO] -------------------------< jakarta.nosql:spec >-------------------------
+[INFO] Building spec 1.0.0-SNAPSHOT                                     [31/31]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ spec ---
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Jakarta NoSQL 1.0.0-SNAPSHOT:
+[INFO] 
+[INFO] Jakarta NoSQL ...................................... SUCCESS [  0.208 s]
+[INFO] api-parent ......................................... SUCCESS [  0.002 s]
+[INFO] communication-api .................................. SUCCESS [  0.003 s]
+[INFO] communication-core ................................. SUCCESS [  0.002 s]
+[INFO] communication-query ................................ SUCCESS [  0.002 s]
+[INFO] communication-key-value ............................ SUCCESS [  0.002 s]
+[INFO] communication-column ............................... SUCCESS [  0.002 s]
+[INFO] communication-document ............................. SUCCESS [  0.002 s]
+[INFO] mapping-api ........................................ SUCCESS [  0.002 s]
+[INFO] mapping-core ....................................... SUCCESS [  0.002 s]
+[INFO] mapping-key-value .................................. SUCCESS [  0.002 s]
+[INFO] mapping-column ..................................... SUCCESS [  0.002 s]
+[INFO] mapping-document ................................... SUCCESS [  0.002 s]
+[INFO] tck-parent ......................................... SUCCESS [  0.002 s]
+[INFO] communication-tck .................................. SUCCESS [  0.002 s]
+[INFO] communication-tck-core ............................. SUCCESS [  0.003 s]
+[INFO] communication-tck-key-value ........................ SUCCESS [  0.002 s]
+[INFO] communication-tck-column ........................... SUCCESS [  0.001 s]
+[INFO] communication-tck-document ......................... SUCCESS [  0.002 s]
+[INFO] mapping-tck ........................................ SUCCESS [  0.001 s]
+[INFO] mapping-tck-test ................................... SUCCESS [  0.002 s]
+[INFO] mapping-tck-entities ............................... SUCCESS [  0.002 s]
+[INFO] mapping-tck-core ................................... SUCCESS [  0.001 s]
+[INFO] mapping-tck-key-value .............................. SUCCESS [  0.002 s]
+[INFO] mapping-tck-column ................................. SUCCESS [  0.002 s]
+[INFO] mapping-tck-document ............................... SUCCESS [  0.001 s]
+[INFO] driver-tck ......................................... SUCCESS [  0.001 s]
+[INFO] driver-tck-key-value ............................... SUCCESS [  0.002 s]
+[INFO] driver-tck-column .................................. SUCCESS [  0.001 s]
+[INFO] driver-tck-document ................................ SUCCESS [  0.002 s]
+[INFO] spec ............................................... SUCCESS [  0.001 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.564 s
+[INFO] Finished at: 2022-10-23T05:19:34-04:00
+[INFO] ------------------------------------------------------------------------
