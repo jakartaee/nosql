@@ -18,10 +18,9 @@ package jakarta.nosql.communication.tck;
 import jakarta.nosql.Params;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Value;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,7 +34,8 @@ public class ParamValueTest {
         Params params = Params.newParams();
         Value name = params.add("name");
         assertNotNull(name);
-        MatcherAssert.assertThat(params.getParametersNames(), containsInAnyOrder("name"));
+
+        assertThat(params.getParametersNames()).hasSize(1).contains("name");
     }
 
     @Test
