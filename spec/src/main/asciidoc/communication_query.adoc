@@ -155,26 +155,7 @@ Conditions are boolean statements that operate on data being queried. They are c
 
 ===== Operators
 
-The Operators are:
-
-
-[cols=2, options=header]
-.Operators in a query
-|===
-| *Operator* | *Description*
-| *=*         | Equal to
-| *>*         | Greater than
-| *<*         | Less than
-| *>=*        | Greater than or equal to
-| *<=*        | Less than or equal to
-| *BETWEEN*   | TRUE if the operand is within the range of comparisons
-| *NOT*       | Displays a record if the condition(s) is NOT TRUE
-| *AND*       | TRUE if all the conditions separated by AND is TRUE
-| *OR*        | TRUE if any of the conditions separated by OR is TRUE
-| *LIKE*      |TRUE if the operand matches a pattern
-| *IN*        |TRUE if the operand is equal to one of a list of expressions
-|===
-
+The Operators are https://en.wikipedia.org/wiki/SQL_syntax#Operators.
 
 ===== The Value
 
