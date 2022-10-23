@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DocumentParamsTest {
 
     @Test
-    public void shouldAddParamter() {
+    public void shouldAddParameter() {
         Params params = Params.newParams();
         Value name = params.add("name");
         assertNotNull(name);
