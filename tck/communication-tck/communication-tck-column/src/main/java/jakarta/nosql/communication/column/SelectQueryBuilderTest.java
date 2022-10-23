@@ -115,9 +115,7 @@ public class SelectQueryBuilderTest {
     @Test
     public void shouldReturnErrorWhenLimitIsNegative() {
         String documentCollection = "documentCollection";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            builder().from(documentCollection).limit(-1);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> builder().from(documentCollection).limit(-1));
     }
 
     @Test
@@ -133,9 +131,7 @@ public class SelectQueryBuilderTest {
     @Test
     public void shouldReturnErrorWhenSkipIsNegative() {
         String documentCollection = "documentCollection";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            builder().from(documentCollection).skip(-1);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> builder().from(documentCollection).skip(-1));
     }
 
     @Test

@@ -113,9 +113,7 @@ public class SelectQueryFluentBuilderTest {
     @Test
     public void shouldReturnErrorWhenLimitIsNegative() {
         String columnFamily = "columnFamily";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            select().from(columnFamily).limit(-1);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> select().from(columnFamily).limit(-1));
     }
 
 
@@ -132,9 +130,7 @@ public class SelectQueryFluentBuilderTest {
     @Test
     public void shouldReturnErrorWhenSkipIsNegative() {
         String columnFamily = "columnFamily";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            select().from(columnFamily).skip(-1);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> select().from(columnFamily).skip(-1));
     }
 
     @Test
