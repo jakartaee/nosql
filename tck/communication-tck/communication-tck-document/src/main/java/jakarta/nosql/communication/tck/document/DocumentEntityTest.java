@@ -33,8 +33,7 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -185,8 +184,8 @@ public class DocumentEntityTest {
         assertEquals("id", result.get("_id"));
         List<Map<String, Object>> contacts = (List<Map<String, Object>>) result.get("contacts");
         assertEquals(3, contacts.size());
-        assertThat(contacts, containsInAnyOrder(singletonMap("name", "Ada"), singletonMap("type", "type"),
-                singletonMap("information", "ada@lovelace.com")));
+        assertThat(contacts).contains(singletonMap("name", "Ada"), singletonMap("type", "type"),
+                singletonMap("information", "ada@lovelace.com"));
 
     }
 
@@ -205,8 +204,8 @@ public class DocumentEntityTest {
         assertEquals(1, contacts.size());
         List<Map<String, Object>> maps = contacts.get(0);
         assertEquals(3, maps.size());
-        assertThat(maps, containsInAnyOrder(singletonMap("name", "Ada"), singletonMap("type", "type"),
-                singletonMap("information", "ada@lovelace.com")));
+        assertThat(maps).contains(singletonMap("name", "Ada"), singletonMap("type", "type"),
+                singletonMap("information", "ada@lovelace.com"));
 
     }
 
@@ -360,7 +359,7 @@ public class DocumentEntityTest {
                 Document.of("name5", 14), Document.of("name5", 16));
 
         DocumentEntity collection = DocumentEntity.of("documentCollection", documents);
-        assertThat(collection.getDocumentNames(), containsInAnyOrder("name", "name2", "name3", "name4", "name5"));
+        assertThat(collection.getDocumentNames()).contains("name", "name2", "name3", "name4", "name5");
 
     }
 
@@ -371,8 +370,8 @@ public class DocumentEntityTest {
                 Document.of("name5", 14), Document.of("name5", 16));
 
         DocumentEntity collection = DocumentEntity.of("documentCollection", documents);
-        assertThat(collection.getValues(), containsInAnyOrder(Value.of(10), Value.of(11), Value.of(12),
-                Value.of(13), Value.of(16)));
+        assertThat(collection.getValues()).contains(Value.of(10), Value.of(11), Value.of(12),
+                Value.of(13), Value.of(16));
     }
 
     @Test

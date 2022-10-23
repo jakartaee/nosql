@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class DocumentTest {
 
-
     private static final Value DEFAULT_VALUE = Value.of(12);
 
     @Test
