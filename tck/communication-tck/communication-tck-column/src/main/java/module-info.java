@@ -16,7 +16,7 @@
 module jakarta.nosql.communication.tck.column {
     requires jakarta.nosql.communication.core;
     requires jakarta.nosql.communication.column;
-    requires hamcrest.all;
+    requires org.assertj.core;
     requires org.junit.jupiter.api;
     requires org.mockito;
     requires org.junit.jupiter.params;
