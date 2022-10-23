@@ -16,6 +16,5 @@
 module jakarta.nosql.communication.tck.core {
     requires org.junit.jupiter.api;
     requires jakarta.nosql.communication.core;
-    requires org.assertj.core;
     exports jakarta.nosql.communication.tck;
 }

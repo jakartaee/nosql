@@ -115,7 +115,8 @@ public class ValueTest {
         Map<String, Integer> map = Collections.singletonMap("ONE", 1);
         Value value = Value.of(map);
 
-        Map<String, Integer> result = value.get(new TypeReference<Map<String, Integer>>() {});
+        Map<String, Integer> result = value.get(new TypeReference<>() {
+        });
 
         assertThat(result.keySet()).hasSize(1).contains("ONE");
         assertThat(result.values()).hasSize(1).contains(1);
@@ -125,7 +126,7 @@ public class ValueTest {
     public void shouldConvertKeyValueInsideMap() {
         Map<Integer, String> map = Collections.singletonMap(10, "1");
         Value value = Value.of(map);
-        Map<String, Integer> result = value.get(new TypeReference<Map<String, Integer>>() {
+        Map<String, Integer> result = value.get(new TypeReference<>() {
         });
         assertThat(result.keySet()).hasSize(1).contains("10");
         assertThat(result.values()).hasSize(1).contains(1);
@@ -136,7 +137,7 @@ public class ValueTest {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> {
             Map<Integer, List<String>> map = Collections.singletonMap(10, Arrays.asList("1", "2", "3"));
             Value value = Value.of(map);
-            Map<String, List<String>> result = value.get(new TypeReference<Map<String, List<String>>>() {
+            Map<String, List<String>> result = value.get(new TypeReference<>() {
             });
             assertThat(result.keySet()).hasSize(1).contains("10");
             assertThat(result.values()).hasSize(1).contains(Arrays.asList("1", "2", "3"));
