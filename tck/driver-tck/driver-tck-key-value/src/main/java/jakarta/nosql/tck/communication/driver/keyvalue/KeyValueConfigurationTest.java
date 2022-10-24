@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class KeyValueConfigurationTest {
 
-
     @Test
     public void shouldReturnFromConfiguration() {
         KeyValueConfiguration configuration = KeyValueConfiguration.getConfiguration();
