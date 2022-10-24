@@ -17,7 +17,7 @@ module jakarta.nosql.communication.driver.tck.key.value {
     requires jakarta.nosql.communication.key.value;
     requires jakarta.nosql.communication.core;
     requires org.junit.jupiter.api;
-    requires hamcrest.all;
+    requires org.assertj.core;
     requires java.json.bind;
     exports jakarta.nosql.tck.communication.driver.keyvalue;
     opens jakarta.nosql.tck.communication.driver.keyvalue;
