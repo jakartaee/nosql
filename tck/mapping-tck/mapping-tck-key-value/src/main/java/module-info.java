@@ -24,5 +24,6 @@ module jakarta.nosql.mapping.tck.key.value {
     requires org.mockito;
     requires org.mockito.junit.jupiter;
     requires static org.apiguardian.api;
+    requires jakarta.nosql.mapping.key.value;
     exports jakarta.nosql.tck.mapping.keyvalue;
 }
