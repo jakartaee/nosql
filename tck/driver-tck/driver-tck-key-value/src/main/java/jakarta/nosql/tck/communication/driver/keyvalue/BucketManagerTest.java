@@ -117,7 +117,7 @@ public class BucketManagerTest {
     @AfterEach
     public void remove() {
         final Optional<BucketManagerSupplier> supplier = getSupplier();
-        if (!supplier.isPresent()) {
+        if (supplier.isEmpty()) {
             final BucketManager manager = getBucketManager();
             manager.delete(Arrays.asList("otavio", "soro"));
         }
