@@ -28,7 +28,7 @@ import jakarta.nosql.mapping.column.ColumnTemplate;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Vendor;
 import jakarta.nosql.tck.test.CDIExtension;
-import org.hamcrest.Matchers;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -55,7 +55,7 @@ import static jakarta.nosql.Condition.LESSER_THAN;
 import static jakarta.nosql.Condition.LIKE;
 import static java.util.Collections.singletonList;
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -136,7 +136,7 @@ public class ColumnRepositoryPaginationTest {
         List<Person> persons = personRepository.findByNameAndAge("name", 20, pagination);
         ArgumentCaptor<ColumnQuery> captor = ArgumentCaptor.forClass(ColumnQuery.class);
         verify(template).select(captor.capture());
-        assertThat(persons, Matchers.contains(ada));
+        assertThat(persons).contains(ada);
 
         ColumnQuery query = captor.getValue();
         assertEquals("Person", query.getColumnFamily());
@@ -157,7 +157,7 @@ public class ColumnRepositoryPaginationTest {
         Set<Person> persons = personRepository.findByAgeAndName(20, "name", pagination);
         ArgumentCaptor<ColumnQuery> captor = ArgumentCaptor.forClass(ColumnQuery.class);
         verify(template).select(captor.capture());
-        assertThat(persons, Matchers.contains(ada));
+        assertThat(persons).contains(ada);
         ColumnQuery query = captor.getValue();
         assertEquals("Person", query.getColumnFamily());
         assertEquals(pagination.getSkip(), query.getSkip());
@@ -178,7 +178,7 @@ public class ColumnRepositoryPaginationTest {
         Stream<Person> persons = personRepository.findByNameAndAgeOrderByName("name", 20, pagination);
         ArgumentCaptor<ColumnQuery> captor = ArgumentCaptor.forClass(ColumnQuery.class);
         verify(template).select(captor.capture());
-        assertThat(persons.collect(Collectors.toList()), Matchers.contains(ada));
+        assertThat(persons.collect(Collectors.toList())).contains(ada);
         ColumnQuery query = captor.getValue();
         assertEquals("Person", query.getColumnFamily());
         assertEquals(pagination.getSkip(), query.getSkip());
@@ -198,7 +198,7 @@ public class ColumnRepositoryPaginationTest {
         Queue<Person> persons = personRepository.findByNameAndAgeOrderByAge("name", 20, pagination);
         ArgumentCaptor<ColumnQuery> captor = ArgumentCaptor.forClass(ColumnQuery.class);
         verify(template).select(captor.capture());
-        assertThat(persons, Matchers.contains(ada));
+        assertThat(persons).contains(ada);
         ColumnQuery query = captor.getValue();
         assertEquals("Person", query.getColumnFamily());
         assertEquals(pagination.getSkip(), query.getSkip());

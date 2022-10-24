@@ -30,8 +30,6 @@ import jakarta.nosql.tck.entities.inheritance.SmallProject;
 import jakarta.nosql.tck.entities.inheritance.SmsNotification;
 import jakarta.nosql.tck.entities.inheritance.SocialMediaNotification;
 import jakarta.nosql.tck.test.CDIExtension;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -339,11 +338,10 @@ public class ColumnEntityConverterInheritanceTest {
         List<Column> columns = entity.find("notification", new TypeReference<List<Column>>() {
         }).get();
 
-        MatcherAssert.assertThat(columns,
-                Matchers.containsInAnyOrder(Column.of("_id", 10L),
+        assertThat(columns).contains(Column.of("_id", 10L),
                         Column.of("name", "Ada"),
                         Column.of("dtype", "SocialMediaNotification"),
-                        Column.of("nickname", "ada.lovelace")));
+                        Column.of("nickname", "ada.lovelace"));
     }
 
     @Test
@@ -372,17 +370,17 @@ public class ColumnEntityConverterInheritanceTest {
 
         List<Column> largeCommunication = columns.get(0);
         List<Column> smallCommunication = columns.get(1);
-        MatcherAssert.assertThat(largeCommunication, Matchers.containsInAnyOrder(
+        assertThat(largeCommunication).contains(
                 Column.of("_id", "large"),
                 Column.of("size", "Large"),
                 Column.of("budget", BigDecimal.TEN)
-        ));
+        );
 
-        MatcherAssert.assertThat(smallCommunication, Matchers.containsInAnyOrder(
+        assertThat(smallCommunication).contains(
                 Column.of("size", "Small"),
                 Column.of("investor", "new investor"),
                 Column.of("_id", "Start up")
-        ));
+        );
 
     }
 
