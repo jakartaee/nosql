@@ -32,7 +32,6 @@ class DocumentRepositoryProducerTest {
     @Inject
     private DocumentRepositoryProducer producer;
 
-
     @Test
     public void shouldCreateFromManager() {
         DocumentCollectionManager manager= Mockito.mock(DocumentCollectionManager.class);

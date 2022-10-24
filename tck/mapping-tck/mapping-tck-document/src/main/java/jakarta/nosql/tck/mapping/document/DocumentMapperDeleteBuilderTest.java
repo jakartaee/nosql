@@ -39,7 +39,6 @@ public class DocumentMapperDeleteBuilderTest {
 
     @Inject
     private DocumentQueryMapper mapperBuilder;
-
     @Test
     public void shouldReturnDeleteFrom() {
         DocumentMapperDeleteFrom documentFrom = mapperBuilder.deleteFrom(Person.class);

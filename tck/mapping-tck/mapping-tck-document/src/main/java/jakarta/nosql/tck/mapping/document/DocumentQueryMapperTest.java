@@ -30,8 +30,6 @@ public class DocumentQueryMapperTest {
 
     @Inject
     private DocumentQueryMapper queryMapper;
-
-
     @Test
     public void shouldReturnErrorWhenEntityClassIsNull() {
         assertThrows(NullPointerException.class, () -> queryMapper.selectFrom(null));

@@ -52,8 +52,7 @@ import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -62,7 +61,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @CDIExtension
 public class DocumentEntityConverterTest {
-
     @Inject
     private DocumentEntityConverter converter;
 
@@ -96,8 +94,9 @@ public class DocumentEntityConverterTest {
         DocumentEntity entity = converter.toDocument(person);
         assertEquals("Person", entity.getName());
         assertEquals(4, entity.size());
-        assertThat(entity.getDocuments(), containsInAnyOrder(Document.of("_id", 12L),
-                Document.of("age", 10), Document.of("name", "Otavio"), Document.of("phones", Arrays.asList("234", "2342"))));
+        assertThat(entity.getDocuments()).contains(Document.of("_id", 12L),
+                Document.of("age", 10), Document.of("name", "Otavio"),
+                Document.of("phones", Arrays.asList("234", "2342")));
 
     }
 
@@ -110,7 +109,7 @@ public class DocumentEntityConverterTest {
         assertEquals(6, entity.size());
 
 
-        assertThat(entity.getDocuments(), containsInAnyOrder(documents));
+        assertThat(entity.getDocuments()).contains(documents);
     }
 
     @Test

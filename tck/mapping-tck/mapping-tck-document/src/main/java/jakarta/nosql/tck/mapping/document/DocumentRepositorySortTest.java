@@ -27,7 +27,6 @@ import jakarta.nosql.mapping.document.DocumentRepositoryProducer;
 import jakarta.nosql.mapping.document.DocumentTemplate;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.test.CDIExtension;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -42,7 +41,7 @@ import java.util.stream.Stream;
 import static jakarta.nosql.Condition.AND;
 import static jakarta.nosql.Condition.EQUALS;
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -89,7 +88,7 @@ class DocumentRepositorySortTest {
         assertEquals("Person", query.getDocumentCollection());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.asc("name")));
+        assertThat(query.getSorts()).contains(Sort.asc("name"));
 
     }
 
@@ -110,7 +109,7 @@ class DocumentRepositorySortTest {
         assertEquals(Condition.EQUALS, condition.getCondition());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.desc("name")));
+        assertThat(query.getSorts()).contains(Sort.desc("name"));
         assertEquals(Document.of("name", "name"), condition.getDocument());
 
         assertNotNull(personRepository.findByName("name", pagination, Sort.asc("name")));
@@ -137,7 +136,7 @@ class DocumentRepositorySortTest {
         assertEquals(Condition.EQUALS, condition.getCondition());
         assertEquals(0, query.getSkip());
         assertEquals(0, query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.desc("name")));
+        assertThat(query.getSorts()).contains(Sort.desc("name"));
         assertEquals(Document.of("age", 10), condition.getDocument());
 
         when(template.select(any(DocumentQuery.class)))
@@ -164,7 +163,7 @@ class DocumentRepositorySortTest {
         assertEquals(AND, condition.getCondition());
         assertEquals(0, query.getSkip());
         assertEquals(0, query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.desc("name")));
+        assertThat(query.getSorts()).contains(Sort.desc("name"));
 
     }
 
@@ -187,7 +186,7 @@ class DocumentRepositorySortTest {
         assertEquals(Document.of("name", "name"), condition.getDocument());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.asc("name"), Sort.desc("age")));
+        assertThat(query.getSorts()).contains(Sort.asc("name"), Sort.desc("age"));
 
     }
 
@@ -209,7 +208,8 @@ class DocumentRepositorySortTest {
         assertEquals(Document.of("name", "name"), condition.getDocument());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.asc("name"), Sort.desc("age"), Sort.asc("phone")));
+        assertThat(query.getSorts()).contains(Sort.asc("name"),
+                Sort.desc("age"), Sort.asc("phone"));
 
     }
 
