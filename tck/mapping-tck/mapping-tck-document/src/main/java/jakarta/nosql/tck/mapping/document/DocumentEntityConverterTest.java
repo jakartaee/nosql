@@ -185,7 +185,7 @@ public class DocumentEntityConverterTest {
         assertEquals(getValue(entity.find("phones")), director.getPhones());
 
         Document subdocument = entity.find("movie").get();
-        List<Document> documents = subdocument.get(new TypeReference<List<Document>>() {
+        List<Document> documents = subdocument.get(new TypeReference<>() {
         });
         assertEquals(3, documents.size());
         assertEquals("movie", subdocument.getName());
