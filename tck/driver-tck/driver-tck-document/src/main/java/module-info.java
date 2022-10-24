@@ -20,4 +20,5 @@ module jakarta.nosql.communication.driver.tck.document {
     requires java.logging;
     requires jakarta.nosql.communication.core;
     exports jakarta.nosql.tck.communication.driver.document;
+    uses jakarta.nosql.tck.communication.driver.document.DocumentCollectionManagerSupplier;
 }
