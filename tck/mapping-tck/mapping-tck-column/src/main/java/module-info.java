@@ -21,7 +21,7 @@ module jakarta.nosql.mapping.tck.column {
     requires org.mockito;
     requires jakarta.nosql.mapping.tck.entities;
     requires jakarta.nosql.communication.column;
-    requires hamcrest.all;
+    requires org.assertj.core;
     requires jakarta.nosql.communication.core;
     requires static org.apiguardian.api;
     exports jakarta.nosql.tck.mapping.column;
