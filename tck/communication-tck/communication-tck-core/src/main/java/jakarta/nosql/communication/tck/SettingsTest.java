@@ -167,8 +167,6 @@ public class SettingsTest {
 
         List<Object> hosts = settings.prefix("host");
         Assertions.assertEquals(4, hosts.size());
-        assertThat(hosts).hasSize(1)
-                .contains("key");
         assertThat(hosts).hasSize(4).contains("host", "host-1", "host-2", "host-3");
     }
 
