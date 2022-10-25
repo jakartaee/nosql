@@ -61,10 +61,9 @@ The default workflow has six events:
 5. *firePostEntity*: The entity model from the API low level from the `firePostAPI`.
 6. *firePostEntityDataBaseType*: Just like the previous event, however, to a specific database. In other words, each database has a particular event.
 
-
-include::template_document.adoc[]
-include::template_column.adoc[]
 include::template_key_value.adoc[]
+include::template_column.adoc[]
+include::template_document.adoc[]
 include::template_graph.adoc[]
 include::mapping_query.adoc[]
 include::repository.adoc[]

@@ -12,7 +12,9 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-== Let's Talk About Standard to NoSQL Databases in Java
+== NoSQL Database Types
+
+=== Let's Talk About Standard to NoSQL Databases in Java
 
 NoSQL databases provide mechanisms for storage and retrieval of unstructured data (non-relational) in stark contrast of the tabular relations used in relational databases. NoSQL databases, compared to relational databases, have better performance and high scalability. They are becoming more popular in several industry verticals, such as finance and streaming. As a result of this increased usage, the number of users and database vendors are increasing.
 
@@ -43,6 +45,31 @@ This database type has a structure that looks like a java.util.Map API, values a
 | Relationship | ----
 |===
 
+=== Column Family
+
+.Column Family Structure
+image::column.svg[alt=column family structure, width=70%, height=70%]
+
+This model became popular with the Bigtable paper by Google, with the goal of being a distributed storage system for structured data, projected to have either high scalability or volume.
+
+*Examples:*
+
+* HBase
+* Cassandra
+* Scylla
+* Cloud Data
+* SimpleDB
+
+[cols=2, options=header]
+.Column Family vs Relational structure
+|===
+| *Relational structure* | *Column Family structure*
+| Table | Column Family
+| Row | Column
+| Column | Key/value pair
+| Relationship | ----
+|===
+
 === Document
 
 .Document Structure
@@ -65,32 +92,6 @@ This model can store documents without a predefined structure. A document may be
 | Row | Document
 | Column | Key/value pair
 | Relationship | Link
-|===
-
-=== Column Family
-
-.Column Family Structure
-image::column.svg[alt=column family structure, width=70%, height=70%]
-
-This model became popular with the Bigtable paper by Google, with the goal of being a distributed storage system for structured data, projected to have either high scalability or volume.
-
-*Examples:*
-
-* HBase
-* Cassandra
-* Scylla
-* Cloud Data
-* SimpleDB
-
-
-[cols=2, options=header]
-.Column Family vs Relational structure
-|===
-| *Relational structure* | *Column Family structure*
-| Table | Column Family
-| Row | Column
-| Column | Key/value pair
-| Relationship | ----
 |===
 
 === Graph
