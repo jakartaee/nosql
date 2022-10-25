@@ -24,7 +24,6 @@ import jakarta.nosql.document.DocumentCollectionManager;
 import jakarta.nosql.document.DocumentCondition;
 import jakarta.nosql.document.DocumentEntity;
 import jakarta.nosql.document.DocumentQuery;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -36,9 +35,7 @@ import java.util.stream.Stream;
 
 import static jakarta.nosql.document.DocumentCondition.eq;
 import static jakarta.nosql.document.DocumentQuery.select;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -66,7 +63,7 @@ public class SelectQueryFluentBuilderTest {
     public void shouldSelectDocument() {
         String documentCollection = "documentCollection";
         DocumentQuery query = select("document", "document2").from(documentCollection).build();
-        assertThat(query.getDocuments(), containsInAnyOrder("document", "document2"));
+        assertThat(query.getDocuments()).contains("document", "document2");
         assertFalse(query.getCondition().isPresent());
         assertEquals(documentCollection, query.getDocumentCollection());
     }
@@ -84,7 +81,7 @@ public class SelectQueryFluentBuilderTest {
         assertTrue(query.getDocuments().isEmpty());
         assertFalse(query.getCondition().isPresent());
         assertEquals(documentCollection, query.getDocumentCollection());
-        assertThat(query.getSorts(), Matchers.contains(Sort.of("name", SortType.ASC)));
+        assertThat(query.getSorts()).contains(Sort.of("name", SortType.ASC));
     }
 
     @Test
@@ -94,7 +91,7 @@ public class SelectQueryFluentBuilderTest {
         assertTrue(query.getDocuments().isEmpty());
         assertFalse(query.getCondition().isPresent());
         assertEquals(documentCollection, query.getDocumentCollection());
-        assertThat(query.getSorts(), contains(Sort.of("name", SortType.DESC)));
+        assertThat(query.getSorts()).contains(Sort.of("name", SortType.DESC));
     }
 
 
@@ -119,9 +116,7 @@ public class SelectQueryFluentBuilderTest {
     @Test
     public void shouldReturnErrorWhenLimitIsNegative() {
         String documentCollection = "documentCollection";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           select().from(documentCollection).limit(-1);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> select().from(documentCollection).limit(-1));
     }
 
     @Test
@@ -137,9 +132,7 @@ public class SelectQueryFluentBuilderTest {
     @Test
     public void shouldReturnErrorWhenSkipIsNegative() {
         String documentCollection = "documentCollection";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            select().from(documentCollection).skip(-1);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> select().from(documentCollection).skip(-1));
     }
 
     @Test
@@ -254,7 +247,7 @@ public class SelectQueryFluentBuilderTest {
         assertEquals(Condition.BETWEEN, condition.getCondition());
         assertEquals("name", document.getName());
         assertThat(document.get(new TypeReference<List<Number>>() {
-        }), Matchers.contains(10, 20));
+        })).contains(10, 20);
     }
 
     @Test
@@ -284,11 +277,11 @@ public class SelectQueryFluentBuilderTest {
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
-        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
+        List<DocumentCondition> conditions = document.get(new TypeReference<>() {
         });
         assertEquals(Condition.AND, condition.getCondition());
-        assertThat(conditions, Matchers.containsInAnyOrder(eq(Document.of("name", name)),
-                DocumentCondition.gt(Document.of("age", 10))));
+        assertThat(conditions).contains(eq(Document.of("name", name)),
+                DocumentCondition.gt(Document.of("age", 10)));
     }
 
     @Test
@@ -299,11 +292,11 @@ public class SelectQueryFluentBuilderTest {
         DocumentCondition condition = query.getCondition().get();
 
         Document document = condition.getDocument();
-        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
+        List<DocumentCondition> conditions = document.get(new TypeReference<>() {
         });
         assertEquals(Condition.OR, condition.getCondition());
-        assertThat(conditions, Matchers.containsInAnyOrder(eq(Document.of("name", name)),
-                DocumentCondition.gt(Document.of("age", 10))));
+        assertThat(conditions).contains(eq(Document.of("name", name)),
+                DocumentCondition.gt(Document.of("age", 10)));
     }
 
 
@@ -316,12 +309,12 @@ public class SelectQueryFluentBuilderTest {
         DocumentCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
         assertEquals(documentCollection, query.getDocumentCollection());
         Document document = condition.getDocument();
-        List<DocumentCondition> conditions = document.get(new TypeReference<List<DocumentCondition>>() {
+        List<DocumentCondition> conditions = document.get(new TypeReference<>() {
         });
 
         assertEquals(Condition.AND, condition.getCondition());
-        assertThat(conditions, containsInAnyOrder(eq(Document.of("city", "Assis")).negate(),
-                eq(Document.of("name", "Lucas")).negate()));
+        assertThat(conditions).contains(eq(Document.of("city", "Assis")).negate(),
+                eq(Document.of("name", "Lucas")).negate());
 
     }
 

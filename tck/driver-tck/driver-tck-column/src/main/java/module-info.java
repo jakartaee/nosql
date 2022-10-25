@@ -19,4 +19,5 @@ module jakarta.nosql.communication.driver.tck.column {
     requires java.logging;
     requires jakarta.nosql.communication.core;
     exports jakarta.nosql.tck.communication.driver.column;
+    uses jakarta.nosql.tck.communication.driver.column.ColumnFamilyManagerSupplier;
 }

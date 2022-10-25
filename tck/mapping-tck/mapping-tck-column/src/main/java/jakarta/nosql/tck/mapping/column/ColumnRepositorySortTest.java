@@ -27,7 +27,6 @@ import jakarta.nosql.mapping.column.ColumnRepositoryProducer;
 import jakarta.nosql.mapping.column.ColumnTemplate;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.test.CDIExtension;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -42,7 +41,7 @@ import java.util.stream.Stream;
 import static jakarta.nosql.Condition.AND;
 import static jakarta.nosql.Condition.EQUALS;
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -88,7 +87,7 @@ public class ColumnRepositorySortTest {
         assertEquals("Person", query.getColumnFamily());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.asc("name")));
+        assertThat(query.getSorts()).contains(Sort.asc("name"));
 
     }
 
@@ -109,7 +108,7 @@ public class ColumnRepositorySortTest {
         assertEquals(Condition.EQUALS, condition.getCondition());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.desc("name")));
+        assertThat(query.getSorts()).contains(Sort.desc("name"));
         assertEquals(Column.of("name", "name"), condition.getColumn());
 
         assertNotNull(personRepository.findByName("name", pagination, Sort.asc("name")));
@@ -136,7 +135,7 @@ public class ColumnRepositorySortTest {
         assertEquals(Condition.EQUALS, condition.getCondition());
         assertEquals(0, query.getSkip());
         assertEquals(0, query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.desc("name")));
+        assertThat(query.getSorts()).contains(Sort.desc("name"));
         assertEquals(Column.of("age", 10), condition.getColumn());
 
         when(template.select(any(ColumnQuery.class)))
@@ -164,7 +163,7 @@ public class ColumnRepositorySortTest {
         assertEquals(AND, condition.getCondition());
         assertEquals(0, query.getSkip());
         assertEquals(0, query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.desc("name")));
+        assertThat(query.getSorts()).contains(Sort.desc("name"));
 
     }
 
@@ -186,7 +185,7 @@ public class ColumnRepositorySortTest {
         assertEquals(Column.of("name", "name"), condition.getColumn());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.asc("name"), Sort.desc("age")));
+        assertThat(query.getSorts()).contains(Sort.asc("name"), Sort.desc("age"));
 
     }
 
@@ -208,7 +207,8 @@ public class ColumnRepositorySortTest {
         assertEquals(Column.of("name", "name"), condition.getColumn());
         assertEquals(pagination.getSkip(), query.getSkip());
         assertEquals(pagination.getLimit(), query.getLimit());
-        assertThat(query.getSorts(), Matchers.contains(Sort.asc("name"), Sort.desc("age"), Sort.asc("phone")));
+        assertThat(query.getSorts()).contains(Sort.asc("name")
+                , Sort.desc("age"), Sort.asc("phone"));
 
     }
 

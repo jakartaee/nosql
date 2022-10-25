@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class DocumentTest {
 
-
     private static final Value DEFAULT_VALUE = Value.of(12);
 
     @Test
@@ -79,7 +78,7 @@ public class DocumentTest {
     public void shouldReturnGetType() {
         Value value = Value.of("text");
         Document document = Document.of("name", value);
-        TypeReference<List<String>> typeReference = new TypeReference<List<String>>() {
+        TypeReference<List<String>> typeReference = new TypeReference<>() {
         };
         assertEquals(value.get(typeReference), document.get(typeReference));
     }

@@ -16,8 +16,8 @@
 module jakarta.nosql.communication.tck.document {
     requires jakarta.nosql.communication.core;
     requires jakarta.nosql.communication.document;
-    requires hamcrest.all;
     requires org.junit.jupiter.api;
+    requires org.assertj.core;
     requires org.mockito;
     requires org.junit.jupiter.params;
     exports jakarta.nosql.communication.tck.document;

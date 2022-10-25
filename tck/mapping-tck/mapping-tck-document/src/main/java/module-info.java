@@ -20,7 +20,7 @@ module jakarta.nosql.mapping.tck.document {
     requires jakarta.nosql.mapping.tck.entities;
     requires org.junit.jupiter.api;
     requires jakarta.nosql.communication.core;
-    requires hamcrest.all;
+    requires org.assertj.core;
     requires org.mockito;
     requires jakarta.nosql.mapping.core;
     requires static org.apiguardian.api;

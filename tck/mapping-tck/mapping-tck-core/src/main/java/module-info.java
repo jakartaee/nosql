@@ -15,7 +15,7 @@
 module jakarta.nosql.mapping.tck.core {
     requires org.junit.jupiter.api;
     requires jakarta.nosql.mapping.core;
-    requires hamcrest.all;
+    requires org.assertj.core;
     requires jakarta.nosql.communication.core;
     exports jakarta.nosql.tck.mapping;
 }

@@ -29,9 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DocumentQueryTest {
 
-
     private DocumentQuery query;
-
 
     @BeforeEach
     public void setUp() {

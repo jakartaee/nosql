@@ -50,9 +50,8 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("nickName='").append(nickName).append('\'');
-        sb.append('}');
-        return sb.toString();
+        String sb = "User{" + "nickName='" + nickName + '\'' +
+                '}';
+        return sb;
     }
 }

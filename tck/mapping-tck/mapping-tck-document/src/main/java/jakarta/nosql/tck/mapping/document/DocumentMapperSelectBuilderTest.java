@@ -46,7 +46,6 @@ public class DocumentMapperSelectBuilderTest {
     @Inject
     private DocumentQueryMapper mapperBuilder;
 
-
     @Test
     public void shouldReturnSelectStarFrom() {
         DocumentMapperFrom documentFrom = mapperBuilder.selectFrom(Person.class);
