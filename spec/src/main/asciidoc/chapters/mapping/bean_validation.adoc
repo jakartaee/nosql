@@ -14,7 +14,7 @@
 
 === Bean Validation
 
-Mapping API supports http://beanvalidation.org/[Bean Validation]. This is implemented as a plugin that listens to *preEntity* events and performs bean validation on the entity.
+The Mapping API supports the https://jakarta.ee/specifications/bean-validation/[Jakarta Bean Validation] specification. This is implemented as a plugin that listens to *preEntity* events and performs bean validation on the entity.
 
 [source,java]
 ----
@@ -43,7 +43,7 @@ public class Person {
 }
 ----
 
-In case of validation failure, a `ConstraintViolationException` will be thrown.
+In case of a validation failure, a https://github.com/jakartaee/validation/blob/master/src/main/java/jakarta/validation/ConstraintViolationException.java[`ConstraintViolationException`] will be thrown. Consider the following example:
 
 [source,java]
 ----

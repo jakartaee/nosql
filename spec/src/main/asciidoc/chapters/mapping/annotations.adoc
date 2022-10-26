@@ -14,15 +14,14 @@
 
 === Models Annotation
 
-As previously mentioned, the Mapping API has annotations that make the Java developer's life easier; these annotations have two categories:
+As previously mentioned, the Mapping API provides annotations that make the Java developer's life easier. These annotations can be categorized in two categories:
 
 * Annotation Models
-* Qualifier annotation
+* Qualifier Annotation
 
 ==== Annotation Models
 
 The annotation model converts the entity model into the entity on communication, the communication entity:
-
 
 * Entity
 * Column
@@ -57,7 +56,6 @@ public class Person {
 
 An entity that is a field will be incorporated as a sub-entity. For example, in a Document, the entity field will be converted to a sub-document.
 
-
 [source,java]
 ----
 @Entity
@@ -73,7 +71,6 @@ public class Person {
     private Address address;
 }
 
-
 @Entity
 public class Address {
 
@@ -84,7 +81,6 @@ public class Address {
     private String city;
 }
 ----
-
 
 [source,json]
 ----
@@ -241,7 +237,6 @@ The following collections are supported:
 * `java.util.SortedSet`
 * `java.util.Collection`
 
-
 [source,java]
 ----
 @Entity
@@ -295,7 +290,6 @@ The above classes are mapped to:
 }
 ----
 
-
 ===== @MappedSuperclass
 
 The class with the `@MapperSuperclass` annotation will have all attributes considered as an extension of this subclass with an `@Entity` annotation. In this case, all attributes are going to be stored, even the attributes inside the super class.
@@ -329,7 +323,7 @@ Notice that the `Animal` doest not have an @Entity annotation, as it won't be pe
 
 On the example above, when saving a Dog instance, Animal class' fields are saved too: `name`, `race`, and `age` are saved in a single instance.
 
-==== @Inheritance
+===== @Inheritance
 
 The strategy to work with inheritance with NoSQL, you can active it by adding the @Inheritance annotation to the superclass.
 
@@ -351,9 +345,9 @@ public abstract class Notification {
 }
 ----
 
-==== @DiscriminatorColumn
+===== @DiscriminatorColumn
 
-Specifies the discriminator column for the inheritance mapping strategy.
+This annotation specifies the discriminator column for the inheritance mapping strategy.
 The strategy and the discriminator column are only specified in the root of an entity class hierarchy.
 
 If the DiscriminatorColumn annotation is missing, and a discriminator column is required, the name of the discriminator column defaults is "type".
@@ -377,9 +371,9 @@ public abstract class Notification {
 }
 ----
 
-==== @DiscriminatorValue
+===== @DiscriminatorValue
 
-Specifies the value of the discriminator column for entities of the given type.
+This annotation specifies the value of the discriminator column for entities of the given type.
 
 The DiscriminatorValue annotation can only be specified on a concrete entity class.
 
@@ -401,8 +395,6 @@ public class SmsNotification extends Notification {
         System.out.println("Sending message to sms: " + phoneNumber);
     }
 }
-
-
 
 @Entity
 @DiscriminatorValue("Email")
@@ -430,7 +422,7 @@ public class SocialMediaNotification extends Notification {
 }
 ----
 
-==== @Database
+===== @Database
 
 This annotation allows programmers to specialize `@Inject` annotations to choose which specific resource should be injected.
 
