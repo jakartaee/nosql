@@ -29,11 +29,13 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * A column family is a NoSQL object that contains columns of related data. It is a tuple (pair) that consists
- * of a key-value pair, where the key is mapped to a value that is a set of columns.
+ * It represents a column family or wide column objects.
+ * Each ColumnFamily has a name and one or more {@link Column}.
+ * @see Column
+ * @see ColumnEntity#getColumns()
+ * @see ColumnEntity#getName()
  */
 public interface ColumnEntity {
-
 
     /**
      * Creates a column family instance
@@ -43,7 +45,7 @@ public interface ColumnEntity {
      */
     static ColumnEntity of(String name) {
         return ServiceLoaderProvider.get(ColumnEntityProvider.class,
-                ()-> ServiceLoader.load(ColumnEntityProvider.class))
+                        () -> ServiceLoader.load(ColumnEntityProvider.class))
                 .apply(name);
     }
 
@@ -57,7 +59,7 @@ public interface ColumnEntity {
      */
     static ColumnEntity of(String name, List<Column> columns) {
         ColumnEntity entity = ServiceLoaderProvider.get(ColumnEntityProvider.class,
-                ()-> ServiceLoader.load(ColumnEntityProvider.class)).apply(name);
+                () -> ServiceLoader.load(ColumnEntityProvider.class)).apply(name);
         entity.addAll(columns);
         return entity;
     }
