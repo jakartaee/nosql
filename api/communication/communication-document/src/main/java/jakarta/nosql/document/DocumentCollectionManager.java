@@ -29,9 +29,10 @@ import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
- * Interface used to interact with the persistence context to {@link DocumentEntity}
+ * The persistence context to {@link DocumentEntity}.
  * The DocumentCollectionManager API is used to create and remove persistent {@link DocumentEntity} instances,
  * to select entities by their primary key, and to select over entities.
+ * Thus, ColumnFamilyManager enables CRUD Operation for {@link DocumentEntity}.
  */
 public interface DocumentCollectionManager extends AutoCloseable {
 

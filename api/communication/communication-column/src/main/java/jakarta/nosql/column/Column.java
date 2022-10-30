@@ -26,7 +26,7 @@ import java.util.function.BiFunction;
 
 /**
  * A Column is a tuple (pair) that consists of the name and its respective value.
- * A ColumnEntity has one or more Columns.
+ * A {@link ColumnEntity} has one or more Columns.
  */
 public interface Column {
 

@@ -25,10 +25,10 @@ import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
- * A Document Collection Entity unit, it is a tuple (pair) that consists of a key-value pair,
- * where the key is mapped to a value.
+ * A Document is a tuple (pair) that consists of the name and its respective value.
+ * A {@link DocumentEntity} has one or more Documents.
  */
-public interface Document  {
+public interface Document {
 
     /**
      * Creates a document instance
@@ -42,7 +42,7 @@ public interface Document  {
      */
     static <V> Document of(String name, V value) {
         return ServiceLoaderProvider.get(DocumentProvider.class,
-                ()-> ServiceLoader.load(DocumentProvider.class))
+                        () -> ServiceLoader.load(DocumentProvider.class))
                 .apply(name, value);
     }
 
