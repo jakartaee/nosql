@@ -33,11 +33,11 @@ public interface ValueReader extends Predicate<Class<?>> {
      * Once this implementation is compatible with the class type, the next step it converts  an
      * instance to this new one from the rightful class.
      *
-     * @param clazz - the new instance class
+     * @param type - the new instance class
      * @param value - instance to be converted
      * @param <T>   - the new type class
      * @return a new instance converted from required class
      */
-    <T> T read(Class<T> clazz, Object value);
+    <T> T read(Class<T> type, Object value);
 
 }
