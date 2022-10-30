@@ -20,12 +20,17 @@ import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
- * This interface represents the value that will be storage in the database.
+ * It represents a value that is to/from a database.
+ * Where to read it operates the {@link ValueReader} and writes it using {@link ValueWriter}.
+ * For both reading and writing, it will load those implementations from SPI.
+ *
+ * @see ValueReader
+ * @see ValueWriter
  */
 public interface Value {
 
     /**
-     * Returns the real value without conversion.
+     * Returns the value without conversion.
      *
      * @return the instance inside {@link Value}
      */
