@@ -21,9 +21,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * To put your own Java Structure in NoSQL database is necessary convert it to a supported one.
- * So, the ValueWriter has the goal to convert to any specific structure type that a database might support.
- * These implementations will loaded by ServiceLoad and a NoSQL implementation will may use it.
+ * This class represents the writer on the {@link Value} instance.
+ * Before sending the information to the NoSQL database, it will load the implementations from SPI,
+ * Java Service Provider, and write to the proper format.
  * The {@link Predicate} verifies if the writer has the support of instance from this class.
  *
  * @param <T> current type
@@ -41,13 +41,14 @@ public interface ValueWriter<T, S> extends Predicate<Class<?>> {
 
     /**
      * Returns the {@link Stream} of all {@link ValueWriter} available
-     * @return the stream of writers
+     *
      * @param <T> current type
      * @param <S> the converted type
+     * @return the stream of writers
      */
     static <T, S> Stream<ValueWriter<T, S>> getWriters() {
         return ServiceLoaderProvider.getSupplierStream(ValueWriter.class,
-                ()-> ServiceLoader.load(ValueWriter.class))
+                        () -> ServiceLoader.load(ValueWriter.class))
                 .map(ValueWriter.class::cast);
     }
 }
