@@ -23,7 +23,7 @@ import java.util.ServiceLoader;
 
 
 /**
- * The Jakarta NoSQL communication configuration to create a {@link ColumnFamilyManagerFactory}
+ * The Jakarta NoSQL configuration to create a {@link ColumnFamilyManagerFactory}
  */
 public interface ColumnConfiguration {
 
