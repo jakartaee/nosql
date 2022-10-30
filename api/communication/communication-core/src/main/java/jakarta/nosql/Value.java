@@ -21,7 +21,7 @@ import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
- * It represents a value that is to/from a database.
+ * It represents an information unit that is to/from a database.
  * Where to read it operates the {@link ValueReader} and writes it using {@link ValueWriter}.
  * For both reading and writing, it will load those implementations from SPI.
  *
