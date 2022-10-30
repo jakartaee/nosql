@@ -32,6 +32,9 @@ import static java.util.Objects.requireNonNull;
  * It represents a configuration in a NoSQL database, such as user, password, credential, and so on.
  * It is an immutable class.
  *
+ * It is a temporary solution, and as soon as the Jakarta Configuration has been created,
+ * this interface will be deprecated and removed.
+ *
  * @see Settings#of(Map[])
  */
 public interface Settings {
