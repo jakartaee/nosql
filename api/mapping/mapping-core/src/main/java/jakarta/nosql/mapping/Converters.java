@@ -16,12 +16,12 @@
 package jakarta.nosql.mapping;
 
 /**
- * The Converter storage
+ * The {@link Convert} collection, this interface will generate/create an instance.
  */
 public interface Converters {
 
     /**
-     * Return a new instance from the converter
+     * Returns a converter instance where it might use scope from CDI.
      *
      * @param converterClass the converter class
      * @param <X> the type of the entity attribute
