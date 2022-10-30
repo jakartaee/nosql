@@ -34,35 +34,35 @@ public interface Value {
     /**
      * Converts {@link Value#get()} to specified class
      *
-     * @param clazz the new class
-     * @param <T>   the new instance type
+     * @param type the class type
+     * @param <T>  the new instance type
      * @return a new instance converted to informed class
      * @throws NullPointerException          when the class is null
      * @throws UnsupportedOperationException when the type is unsupported
      * @see ValueReader
      */
-    <T> T get(Class<T> clazz);
+    <T> T get(Class<T> type);
 
     /**
      * Converts {@link Value#get()} to specified class
      *
-     * @param typeSupplier the type supplier
-     * @param <T>          the new instance type
+     * @param supplier the type supplier
+     * @param <T>      the new instance type
      * @return a new instance converted to informed class
      * @throws NullPointerException          when the class is null
      * @throws UnsupportedOperationException when the type is unsupported
      * @see ValueReader
      */
-    <T> T get(TypeSupplier<T> typeSupplier);
+    <T> T get(TypeSupplier<T> supplier);
 
     /**
      * A wrapper of {@link Class#isInstance(Object)} to check the value instance within the {@link Value}
      *
-     * @param typeClass the type
+     * @param type the type
      * @return {@link Class#isInstance(Object)}
-     * @throws NullPointerException when typeClass is null
+     * @throws NullPointerException when type is null
      */
-    boolean isInstanceOf(Class<?> typeClass);
+    boolean isInstanceOf(Class<?> type);
 
 
     /**
