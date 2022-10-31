@@ -80,9 +80,9 @@ Optional<Deity> idResult = repository.findById("diana");
 Optional<Deity> nameResult = repository.findByName("Diana");
 ----
 
-=== Beyond JPA
+=== Beyond Jakarta Persistence (JPA)
 
-JPA is a good API for object-relational mapping and has established itself as a standard in the Java world defined in JSRs. It would be ideal to use the same API for both SQL and NoSQL, but there are behaviors in NoSQL that SQL does not cover, such as time to live and asynchronous operations. JPA was simply not designed to handle those features.
+The https://jakarta.ee/specifications/persistence/[Jakarta Persistence] specification is a good API for object-relational mapping and has established itself as a Jakarta EE standard. It would be ideal to use the same API for both SQL and NoSQL, but there are behaviors in NoSQL that SQL does not cover, such as time to live and asynchronous operations. Jakarta Persistence was simply not designed to handle those features.
 
 [source,java,subs="quotes"]
 ----
