@@ -21,7 +21,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * This class represents the writer on the {@link Value} instance.
+ * This interface represents the writer on the {@link Value} instance.
  * Before sending the information to the NoSQL database, it will load the implementations from SPI,
  * Java Service Provider, and write to the proper format.
  * The {@link Predicate} verifies if the writer has the support of instance from this class.
