@@ -20,7 +20,7 @@ package jakarta.nosql;
 import java.util.function.Predicate;
 
 /**
- * This class represents the reader on the {@link Value} instance.
+ * This interface represents the reader on the {@link Value} instance.
  * When the Value needs a conversion, it will load the implementations from SPI, Java Service Provider.
  * The {@link Predicate} verifies if the reader has the support the class type.
  * @see Value
