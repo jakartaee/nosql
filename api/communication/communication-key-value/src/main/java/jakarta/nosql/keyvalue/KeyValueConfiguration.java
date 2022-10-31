@@ -22,7 +22,7 @@ import jakarta.nosql.Settings;
 import java.util.ServiceLoader;
 
 /**
- * The Jakarta NoSQL communication configuration to create a {@link BucketManagerFactory}
+ * The Jakarta NoSQL configuration to create a {@link BucketManagerFactory}
  */
 public interface KeyValueConfiguration {
 

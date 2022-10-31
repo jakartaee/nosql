@@ -25,9 +25,11 @@ import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
- * An unit condition  to run a column family select
+ * It is the state of column queries, with a condition and a value, as a {@link Column},
+ * where both combined define a predicate.
  *
  * @see ColumnFamilyManager#select(ColumnQuery)
+ * @see Condition
  */
 public interface ColumnCondition {
 
@@ -82,7 +84,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition eq(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(column, Condition.EQUALS);
     }
 
@@ -99,7 +101,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.EQUALS);
     }
 
@@ -113,7 +115,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition gt(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(column, Condition.GREATER_THAN);
     }
 
@@ -130,7 +132,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.GREATER_THAN);
     }
 
@@ -145,7 +147,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition gte(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(column, Condition.GREATER_EQUALS_THAN);
     }
 
@@ -162,7 +164,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.GREATER_EQUALS_THAN);
     }
 
@@ -176,7 +178,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition lt(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(column, Condition.LESSER_THAN);
     }
 
@@ -193,7 +195,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.LESSER_THAN);
     }
 
@@ -208,7 +210,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition lte(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(column, Condition.LESSER_EQUALS_THAN);
     }
 
@@ -225,7 +227,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.LESSER_EQUALS_THAN);
     }
 
@@ -240,7 +242,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition in(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .in(column);
     }
 
@@ -257,7 +259,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .in(Column.of(name, value));
     }
 
@@ -271,7 +273,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition like(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(column, Condition.LIKE);
     }
 
@@ -288,7 +290,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .apply(Column.of(name, value), Condition.LIKE);
     }
 
@@ -307,7 +309,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition between(Column column) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .between(column);
     }
 
@@ -324,7 +326,7 @@ public interface ColumnCondition {
         Objects.requireNonNull(name, "name is required");
         Objects.requireNonNull(value, "value is required");
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                        ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .between(Column.of(name, value));
     }
 
@@ -359,7 +361,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition and(ColumnCondition... conditions) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .and(conditions);
     }
 
@@ -381,7 +383,7 @@ public interface ColumnCondition {
      */
     static ColumnCondition or(ColumnCondition... conditions) {
         return ServiceLoaderProvider.get(ColumnConditionProvider.class,
-                ()-> ServiceLoader.load(ColumnConditionProvider.class))
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
                 .or(conditions);
     }
 

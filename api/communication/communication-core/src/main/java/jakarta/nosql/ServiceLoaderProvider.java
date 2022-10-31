@@ -28,7 +28,8 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 
 /**
- * A class that loads class from {@link ServiceLoader}
+ * Jakarta NoSQL has several configurations through SPI, Service Provider Interface {@link ServiceLoader} or via OSGI.
+ * It will check if there is OSGI; otherwise, it loads from SPI.
  */
 public final class ServiceLoaderProvider {
     private ServiceLoaderProvider() {

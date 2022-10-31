@@ -41,7 +41,8 @@ public interface ColumnDeleteQuery {
 
     /**
      * getter the condition
-     * If empty, {@link Optional#empty()} is true, the implementation might either return an unsupported exception or delete same elements in the database.
+     * If empty, {@link Optional#empty()} is true, the implementation might either return
+     * an unsupported exception or delete same elements in the database.
      *
      * @return the condition
      */
@@ -58,7 +59,8 @@ public interface ColumnDeleteQuery {
     /**
      * It starts the first step of {@link ColumnDelete} API using a fluent-API way.
      * This first step will inform the fields to delete in the query instead of the whole record.
-     * This behavior might be different for each NoSQL database provider; therefore, it might be ignored for some implementations.
+     * This behavior might be different for each NoSQL database provider; therefore,
+     * it might be ignored for some implementations.
      *
      * @param columns the column fields to delete query
      * @return a new {@link ColumnDelete} instance
@@ -66,7 +68,7 @@ public interface ColumnDeleteQuery {
      */
     static ColumnDelete delete(String... columns) {
         return ServiceLoaderProvider.get(ColumnDeleteProvider.class,
-                ()-> ServiceLoader.load(ColumnDeleteProvider.class))
+                        () -> ServiceLoader.load(ColumnDeleteProvider.class))
                 .apply(columns);
     }
 
@@ -78,7 +80,7 @@ public interface ColumnDeleteQuery {
      */
     static ColumnDelete delete() {
         return ServiceLoaderProvider.get(ColumnDeleteProvider.class,
-                ()-> ServiceLoader.load(ColumnDeleteProvider.class))
+                        () -> ServiceLoader.load(ColumnDeleteProvider.class))
                 .get();
     }
 
@@ -94,7 +96,7 @@ public interface ColumnDeleteQuery {
      */
     static ColumnDeleteQueryBuilder builder(String... documents) {
         return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class,
-                ()-> ServiceLoader.load(ColumnDeleteQueryBuilderProvider.class))
+                        () -> ServiceLoader.load(ColumnDeleteQueryBuilderProvider.class))
                 .apply(documents);
     }
 
@@ -106,7 +108,7 @@ public interface ColumnDeleteQuery {
      */
     static ColumnDeleteQueryBuilder builder() {
         return ServiceLoaderProvider.get(ColumnDeleteQueryBuilderProvider.class,
-                ()-> ServiceLoader.load(ColumnDeleteQueryBuilderProvider.class))
+                        () -> ServiceLoader.load(ColumnDeleteQueryBuilderProvider.class))
                 .get();
     }
 
@@ -371,7 +373,7 @@ public interface ColumnDeleteQuery {
          * executes the {@link ColumnFamilyManager#delete(ColumnDeleteQuery)}
          *
          * @param manager the entity manager
-         * @throws NullPointerException when manager is null
+         * @throws NullPointerException  when manager is null
          * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
          *                               such as the {@link ColumnDeleteQueryBuilder#from(String)} method was not called.
          */

@@ -48,13 +48,13 @@ public final class ValueReaderDecorator implements ValueReader {
     }
 
     @Override
-    public <T> T read(Class<T> clazz, Object value) {
-        if (clazz.isInstance(value)) {
-            return clazz.cast(value);
+    public <T> T read(Class<T> type, Object value) {
+        if (type.isInstance(value)) {
+            return type.cast(value);
         }
-        ValueReader valueReader = readers.stream().filter(r -> r.test(clazz)).findFirst().orElseThrow(
-            () -> new UnsupportedOperationException("The type " + clazz + " is not supported yet"));
-        return valueReader.read(clazz, value);
+        ValueReader valueReader = readers.stream().filter(r -> r.test(type)).findFirst().orElseThrow(
+            () -> new UnsupportedOperationException("The type " + type + " is not supported yet"));
+        return valueReader.read(type, value);
     }
 
     @Override

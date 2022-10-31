@@ -20,7 +20,6 @@ package jakarta.nosql;
  */
 public class ProviderNotFoundException extends NoSQLException {
 
-
     ProviderNotFoundException(Class<?> provider) {
         super("Provider not found: " + provider);
     }

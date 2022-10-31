@@ -22,8 +22,7 @@ import jakarta.nosql.Settings;
 import java.util.ServiceLoader;
 
 /**
- * The Jakarta NoSQL communication configuration to create a {@link DocumentCollectionManagerFactory}
- *
+ * The Jakarta NoSQL configuration to create a {@link DocumentCollectionManagerFactory}
  */
 public interface DocumentConfiguration {
 
@@ -69,7 +68,7 @@ public interface DocumentConfiguration {
      * creates and returns a  {@link DocumentConfiguration} instance from {@link java.util.ServiceLoader}
      * for a particular provider implementation.
      *
-     * @param <T>      the configuration type
+     * @param <T>     the configuration type
      * @param service the particular provider
      * @return {@link DocumentConfiguration} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
