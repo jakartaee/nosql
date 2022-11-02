@@ -58,11 +58,6 @@ template.delete(God.class, "diana");
 
 This template has specialization to take the benefits of a particular NoSQL database type.
 
-* KeyValueTemplate
-* DocumentTemplate
-* ColumnTemplate
-
-
 There is  ```Repository``` exploring the DDD pattern to have a higher abstraction.
 
 [source,java]
@@ -82,6 +77,21 @@ repository.save(diana);
 Optional<God> idResult = repository.findById("diana");
 Optional<God> nameResult = repository.findByName("Diana");
 ----
+
+=== Key-value
+
+[source,java]
+----
+----
+
+=== Column
+
+[source,java]
+----
+----
+
+=== Document
+
 
 Check the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[Javadocs] to know more.
 
