@@ -105,3 +105,15 @@ You don’t need to build from source to use the project, but if you want to try
 ----
 mvn clean install
 ----
+
+== TCK
+
+Any Jakarta NoSQL module must pass this test suite.
+The TCK uses `JUnit Jupiter 5`.
+Check it more link:tck/README.adoc[to know more]
+
+== Spec
+
+Any Jakarta NoSQL module must pass this test suite.
+The TCK uses `JUnit Jupiter 5`.
+Check it more link:spec/README.adoc[to know more]
