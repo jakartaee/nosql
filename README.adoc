@@ -14,14 +14,14 @@ Jakarta NoSQL has one API for each NoSQL database type. However, it uses the sam
 [source,java]
 ----
 @Entity
-public class God {
+public class Car {
 
     @Id
-    private String id;
+    private Long id;
     @Column
     private String name;
     @Column
-    private String power;
+    private CarType type;
  //...
 }
 
@@ -49,39 +49,113 @@ After mapping an entity, you can explore the advantage of a Template, which is a
 Template template;
 ...
 
-God diana = God.builder().id("diana").name("Diana").power("hunt").builder();
-template.insert(diana);
+Car ferrari = Car.id(1L).name("Ferrari").type(CarType.SPORT);
+template.insert(ferrari);
 
-Optional<God> god = template.find(God.class, "diana");
-template.delete(God.class, "diana");
+Optional<Car> car = template.find(Car.class, 1L);
+template.delete(Car.class, 1L);
 ----
 
 This template has specialization to take the benefits of a particular NoSQL database type.
-
-* KeyValueTemplate
-* DocumentTemplate
-* ColumnTemplate
-
 
 There is  ```Repository``` exploring the DDD pattern to have a higher abstraction.
 
 [source,java]
 ----
-public interface GodRepository extends Repository<God, String> {
+public interface CarRepository extends Repository<Car, String> {
 
-    Optional<God> findByName(String name);
+    Optional<Car> findByName(String name);
 
 }
 
 @Inject
-GodRepository repository;
+CarRepository repository;
 ...
 
-God diana = God.builder().id("diana").name("Diana").power("hunt").builder();
-repository.save(diana);
-Optional<God> idResult = repository.findById("diana");
-Optional<God> nameResult = repository.findByName("Diana");
+Car ferrari = Car.id(1L).name("Ferrari").type(CarType.SPORT);
+repository.save(ferrari);
+Optional<Car> idResult = repository.findById(1L);
+Optional<Car> nameResult = repository.findByName("Ferrari");
 ----
+
+=== Key-value
+
+Jakarta NoSQL has a key-value template to explore the specific behavior of this NoSQL type.
+
+[source,java]
+----
+@Inject
+KeyValueTemplate template;
+...
+
+Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+
+template.put(ferrari);
+Optional<Car> car = template.get(1L, Car.class);
+template.delete(1L);
+----
+
+It is a key-value agnostic database; thus, you can change the database without or less code impact possible.
+
+=== Column
+
+Jakarta NoSQL has a column template to explore the specific behavior of this NoSQL type.
+
+[source,java]
+----
+@Inject
+ColumnTemplate template;
+...
+
+Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+
+template.insert(ferrari);
+Optional<Car> car = template.find(Car.class, 1L);
+
+ColumnDeleteQuery deleteQuery = delete().from("Car")
+                    .where("_id").eq(1L).build();
+template.delete(deleteQuery);
+
+
+ColumnDeleteQuery query = select().from("Car")
+                    .where("_id").eq(1L).build();
+
+Optional<Car> result = template.singleResult("select * from Car where _id = 1");
+
+----
+
+It is a wide-column agnostic database; thus, you can change the database without or less code impact possible.
+
+=== Document
+
+Jakarta NoSQL has a document template to explore the specific behavior of this NoSQL type.
+
+[source,java]
+----
+@Inject
+DocumentTemplate template;
+...
+
+Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+
+template.insert(ferrari);
+Optional<Car> car = template.find(Car.class, 1L);
+
+DocumentDeleteQuery deleteQuery = delete().from("Car")
+                    .where("_id").eq(1L).build();
+template.delete(deleteQuery);
+
+
+DocumentDeleteQuery query = select().from("Car")
+                    .where("_id").eq(1L).build();
+
+Optional<Car> result = template.singleResult("select * from Car where _id = 1");
+
+----
+
+It is a document agnostic database; thus, you can change the database without or less code impact possible.
+
+=== More information
 
 Check the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[Javadocs] to know more.
 
