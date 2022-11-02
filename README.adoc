@@ -1,8 +1,9 @@
 = Jakarta NoSQL
+:toc: auto
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
 
-:toc: auto
+
 
 ifndef::imagesdir[:imagesdir: spec/src/main/asciidoc/images]
 
