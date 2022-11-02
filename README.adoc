@@ -97,12 +97,34 @@ template.delete(1L);
 
 === Column
 
+Jakarta NoSQL has a column template to explore the specific behavior of this NoSQL type.
+
 [source,java]
 ----
+@Inject
+ColumnTemplate template;
+...
+
+Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+
+template.insert(ferrari);
+Optional<Car> car = template.find(Car.class, 1L);
+
+ColumnDeleteQuery deleteQuery = delete().from("Car")
+                    .where("_id").eq(1L).build();
+template.delete(deleteQuery);
+
+
+ColumnDeleteQuery query = select().from("Car")
+                    .where("_id").eq(1L).build();
+
+Optional<Car> result = template.singleResult("select * from Car where _id = 1");
+
 ----
 
 === Document
 
+Jakarta NoSQL has a document template to explore the specific behavior of this NoSQL type.
 
 Check the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[Javadocs] to know more.
 
