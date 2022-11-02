@@ -1,4 +1,5 @@
 = Jakarta NoSQL Specification
+:toc: auto
 
 This module contains AsciiDoc sources and configuration to generate Jakarta NoSQL documentation in HTML and PDF formats for both Apache License 2 and Jakarta Eclipse Foundation Specification Process.
 
