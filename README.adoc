@@ -80,8 +80,19 @@ Optional<God> nameResult = repository.findByName("Diana");
 
 === Key-value
 
+Jakarta NoSQL has a key-value template to explore the specific behavior of this NoSQL type.
+
 [source,java]
 ----
+@Inject
+KeyValueTemplate template;
+...
+
+Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+
+template.put(ferrari);
+Optional<Car> god = template.get(1L, Car.class);
+template.delete(1L);
 ----
 
 === Column
