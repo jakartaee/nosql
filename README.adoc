@@ -95,6 +95,8 @@ Optional<Car> car = template.get(1L, Car.class);
 template.delete(1L);
 ----
 
+It is a key-value agnostic database; thus, you can change the database without or less code impact possible.
+
 === Column
 
 Jakarta NoSQL has a column template to explore the specific behavior of this NoSQL type.
@@ -121,6 +123,8 @@ ColumnDeleteQuery query = select().from("Car")
 Optional<Car> result = template.singleResult("select * from Car where _id = 1");
 
 ----
+
+It is a wide-column agnostic database; thus, you can change the database without or less code impact possible.
 
 === Document
 
@@ -149,6 +153,9 @@ Optional<Car> result = template.singleResult("select * from Car where _id = 1");
 
 ----
 
+It is a document agnostic database; thus, you can change the database without or less code impact possible.
+
+=== More information
 
 Check the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[Javadocs] to know more.
 
