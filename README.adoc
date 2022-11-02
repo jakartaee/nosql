@@ -64,9 +64,7 @@ This template has specialization to take the benefits of a particular NoSQL data
 * ColumnTemplate
 
 
-
 There is  ```Repository``` exploring the DDD pattern to have a higher abstraction.
-
 
 [source,java]
 ----
