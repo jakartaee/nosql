@@ -7,7 +7,7 @@ ifndef::imagesdir[:imagesdir: spec/src/main/asciidoc/images]
 
 image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align=center, width=25%, height=25%]
 
-== One Mapping API, multiples databases
+== One Mapping API to multiples NoSQL databases
 
 Jakarta NoSQL has one API for each NoSQL database type. However, it uses the same annotations to map Java objects. Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
 
