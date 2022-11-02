@@ -1,20 +1,14 @@
 = Jakarta NoSQL
 
+Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
+
+:toc: auto
+
 ifndef::imagesdir[:imagesdir: spec/src/main/asciidoc/images]
 
-image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align=center, width=50%, height=50%]
+image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align=center, width=25%, height=25%]
 
-Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases. It defines a set of APIs and provides a standard implementation for most NoSQL databases. This clearly helps to achieve very low coupling with the underlying NoSQL technologies used in applications. The project has two layers:
-
-The project has two layers:
-
-1. *Communication Layer*: A set of APIs that defines communication with NoSQL databases. Compared with traditional the RDBMS world, they are like the JDBC API. It contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document, and Graph.
-
-2. *Mapping Layer*: These APIs help developers to integrate their Java application with the NoSQL database. This layer is annotation-driven and uses technologies like CDI and Bean Validation, making it simple for developers to use. In the traditional RDBMS world, this layer can be compared to the Java Persistence API or object-relational mapping frameworks such as Hibernate.
-
-image::jnosql.png[Layers,align="center"]
-
-== One Mapping API, Multiples Databases
+== One Mapping API, multiples databases
 
 Jakarta NoSQL has one API for each NoSQL database type. However, it uses the same annotations to map Java objects. Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
 
@@ -34,9 +28,43 @@ public class God {
 
 ----
 
-Another example can be found in an article that demonstrates the same annotated entity used across different NoSQL databases: Redis, Cassandra, Couchbase, and Neo4J. The approach is "stick to the API": the developer can replace Redis with Hazelcast, as both implement the Key-Value API, thus avoiding vendor lock-in with one of these databases.
+The Mapper annotations are pretty familiar if you are a JPA developer:
 
-Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there's a need to switch, other considerations include: time spent on the change, the learning curve of a new API to use with this database, the code that will be lost, the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the Communication APIs. It also has template classes that apply the design pattern 'template method’ to databases operations. And the Repository interface allows Java developers to create and extend interfaces, with implementation automatically provided by Jakarta NoSQL: support method queries built by developers will automatically be implemented for them.
+* Entity
+* Id
+* Column
+* Embeddable
+* Convert
+* DiscriminatorColumn
+* DiscriminatorValue
+* Inheritance
+* MappedSuperclass
+
+IMPORTANT: Although similar to JPA, Jakarta NoSQL defines persistable fields with either ID or Column annotation.
+
+After mapping an entity, you can explore the advantage of a Template, which is a helper to increase productivity on NoSQL operations.
+
+[source,java]
+----
+@Inject
+Template template;
+...
+
+God diana = God.builder().id("diana").name("Diana").power("hunt").builder();
+template.insert(diana);
+
+Optional<God> god = template.find(God.class, "diana");
+template.delete(God.class, "diana");
+----
+
+This template has specialization to take the benefits of a particular NoSQL database type.
+
+* KeyValueTemplate
+* DocumentTemplate
+* ColumnTemplate
+
+
+There is  ```Repository``` exploring the DDD pattern to have a higher abstraction.
 
 [source,java]
 ----
@@ -46,16 +74,35 @@ public interface GodRepository extends Repository<God, String> {
 
 }
 
-GodRepository repository = ...;
-God diana = God.builder().withId("diana").withName("Diana").withPower("hunt").builder();
+@Inject
+GodRepository repository;
+...
+
+God diana = God.builder().id("diana").name("Diana").power("hunt").builder();
 repository.save(diana);
-Optional idResult = repository.findById("diana");
-Optional nameResult = repository.findByName("Diana");
+Optional<God> idResult = repository.findById("diana");
+Optional<God> nameResult = repository.findByName("Diana");
 ----
 
-Find out more information and get involved!
+Check the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[Javadocs] to know more.
 
-* Website: http://www.jnosql.org/
-* Twitter: https://twitter.com/jnosql
-* GitHub Repo: https://github.com/eclipse-ee4j/nosql
-* Mailing List: https://accounts.eclipse.org/mailing-list/nosql-dev
+
+== Code of Conduct
+
+This project is governed by the Eclipse Foundation of Conduct. By participating, you are expected to uphold this code of conduct. Please report unacceptable behavior to codeofconduct@eclipse.org.
+
+
+== Getting Help
+
+Having trouble with Jakarta NoSQL? We’d love to help!
+
+Report bugs with Jakarta NoSQL at https://github.com/eclipse-ee4j/nosql.
+
+== Building from Source
+
+You don’t need to build from source to use the project, but if you want to try, you can make it using Maven and Java 11 or higher.
+
+[source, Bash]
+----
+mvn clean install
+----
