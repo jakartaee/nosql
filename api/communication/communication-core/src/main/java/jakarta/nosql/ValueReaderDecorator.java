@@ -43,8 +43,8 @@ public final class ValueReaderDecorator implements ValueReader {
     }
 
     @Override
-    public boolean test(Class clazz) {
-        return readers.stream().anyMatch(r -> r.test(clazz));
+    public boolean test(Class type) {
+        return readers.stream().anyMatch(r -> r.test(type));
     }
 
     @Override
