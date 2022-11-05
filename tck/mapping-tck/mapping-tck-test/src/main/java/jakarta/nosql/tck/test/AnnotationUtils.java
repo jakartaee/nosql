@@ -69,10 +69,10 @@ final class AnnotationUtils {
         }
 
         if (element instanceof Class) {
-            Class<?> clazz = (Class<?>) element;
+            Class<?> type = (Class<?>) element;
 
             // Search on interfaces
-            for (Class<?> ifc : clazz.getInterfaces()) {
+            for (Class<?> ifc : type.getInterfaces()) {
                 if (ifc != Annotation.class) {
                     Optional<A> annotationOnInterface = findAnnotation(ifc, annotationType, inherited, visited);
                     if (annotationOnInterface.isPresent()) {
@@ -84,7 +84,7 @@ final class AnnotationUtils {
             // Indirectly present?
             // Search in class hierarchy
             if (inherited) {
-                Class<?> superclass = clazz.getSuperclass();
+                Class<?> superclass = type.getSuperclass();
                 if (superclass != null && superclass != Object.class) {
                     Optional<A> annotationOnSuperclass = findAnnotation(superclass, annotationType, inherited, visited);
                     if (annotationOnSuperclass.isPresent()) {
