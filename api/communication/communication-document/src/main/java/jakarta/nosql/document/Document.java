@@ -63,13 +63,13 @@ public interface Document {
     /**
      * Alias to {@link Value#get(Class)}
      *
-     * @param clazz {@link Value#get(Class)}
+     * @param type {@link Value#get(Class)}
      * @param <T>   {@link Value#get(Class)}
      * @return {@link Value#get(Class)}
      * @throws NullPointerException          see {@link Value#get(Class)}
      * @throws UnsupportedOperationException see {@link Value#get(Class)}
      */
-    <T> T get(Class<T> clazz);
+    <T> T get(Class<T> type);
 
     /**
      * Alias to {@link Value#get(TypeSupplier)}
