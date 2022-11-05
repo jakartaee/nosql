@@ -60,7 +60,7 @@ The `Value` interface has the methods:
 
 * `Object get();` Returns the value as type `Object`
 
-* `<T> T get(Class<T> clazz);` Initiates the conversion process to the required type in a safe manner. If the required type doesn't have support, it will throw an exception. However, the API allows creating custom converters.
+* `<T> T get(Class<T> type);` Initiates the conversion process to the required type in a safe manner. If the required type doesn't have support, it will throw an exception. However, the API allows creating custom converters.
 
 * `<T> T get(TypeSupplier<T> typeSupplier);` Similar to the previous method, it initiates the conversion process using a structure that uses generics such as `List`, `Map`, `Stream` and `Set`.
 
@@ -85,7 +85,7 @@ As mentioned before, the `Value` interface is used to store the cost information
 
 
 * `ValueWriter`: This interface represents an instance of `Value` to write in a database.
-* `ValueReader`: This interface represents how the `Value` will convert to Java application. This interface will use the `<T> T get(Class<T> clazz)` and `<T> T get(TypeSupplier<T> typeSupplier)`.
+* `ValueReader`: This interface represents how the `Value` will convert to Java application. This interface will use the `<T> T get(Class<T> type)` and `<T> T get(TypeSupplier<T> typeSupplier)`.
 
 Both class implementations load from the Java SE ServiceLoader resource. So for the Communication API to learn a new type, just register on ServiceLoader. Consider the following `Money` class:
 
@@ -153,7 +153,7 @@ NOTE: Just to be more didactic, the book creates a simple money representation. 
 
 The first step is to create the converter to a custom type database, the `ValueWriter`. It has two methods:
 
-* `boolean isCompatible(Class clazz)`: Checks if the given class has support for this implementation.
+* `boolean isCompatible(Class type)`: Checks if the given class has support for this implementation.
 * `S write(T object)`: Once the implementation supports the type, the next step converts an instance of type `T` to type `S`.
 
 [source,java]
@@ -163,8 +163,8 @@ import jakarta.nosql.ValueWriter;
 public class MoneyValueWriter implements ValueWriter<Money, String> {
 
     @Override
-    public boolean isCompatible(Class clazz) {
-        return Money.class.equals(clazz);
+    public boolean isCompatible(Class type) {
+        return Money.class.equals(type);
     }
 
     @Override
@@ -186,12 +186,12 @@ import jakarta.nosql.ValueReader;
 public class MoneyValueReader implements ValueReader {
 
     @Override
-    public boolean isCompatible(Class clazz) {
-        return Money.class.equals(clazz);
+    public boolean isCompatible(Class type) {
+        return Money.class.equals(type);
     }
 
     @Override
-    public <T> T read(Class<T> clazz, Object value) {
+    public <T> T read(Class<T> type, Object value) {
         return (T) Money.parse(value.toString());
     }
 }
