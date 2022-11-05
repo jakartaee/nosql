@@ -176,8 +176,8 @@ public class MoneyValueWriter implements ValueWriter<Money, String> {
 
 With the `MoneyValueWriter` created and the `Money` type will save as String, then the next step is read information to Java application. As can be seen, a `ValueReader` implementation. This interface has two methods:
 
-* `boolean isCompatible(Class clazz)`; Check if the given class has support for this implementation.
-* `<T> T read(Class<T> clazz, Object value)`; Converts to type `T` from an instace of `Object`.
+* `boolean isCompatible(Class type)`; Check if the given class has support for this implementation.
+* `<T> T read(Class<T> type, Object value)`; Converts to type `T` from an instance of `Object`.
 
 [source,java]
 ----
