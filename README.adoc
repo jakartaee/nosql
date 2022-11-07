@@ -7,6 +7,18 @@ ifndef::imagesdir[:imagesdir: spec/src/main/asciidoc/images]
 
 image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align=center, width=25%, height=25%]
 
+== Goals
+
+* Increase productivity performing common NoSQL operations.
+* Rich Object Mapping integrated with CDI
+* Java-based Query and Fluent-API
+* Persistence lifecycle events
+* Low-level mapping using Standard NoSQL APIs.
+* Specific template API to each NoSQL category.
+* Annotation-oriented using JPA-like naming when it makes sense.
+* Extensible to explore the particular behavior of a NoSQL database
+* Explore the popularity of Apache TinkerPop in Graph API.
+
 == One Mapping API to multiples NoSQL databases
 
 Jakarta NoSQL has one API for each NoSQL database type. However, it uses the same annotations to map Java objects. Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
