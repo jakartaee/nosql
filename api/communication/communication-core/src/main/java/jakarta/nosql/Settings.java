@@ -66,6 +66,13 @@ public interface Settings {
      */
     Optional<Object> get(String key);
 
+    /**
+     * Returns the value to which the specified key is mapped, or {@link Optional#empty()} if this map contains no mapping for the key.
+     *
+     * @param supplier the key whose associated value is to be returned
+     * @return the value to which the specified key is mapped, or {@link Optional#empty()} if this map contains no mapping for the key
+     * @throws NullPointerException when key is null
+     */
     Optional<Object> get(Supplier<String> supplier);
 
     /**
@@ -83,7 +90,7 @@ public interface Settings {
      * Returns the value to which the specified from one of these keys is mapped, or {@link Optional#empty()}
      * if this map contains no mapping for the key.
      *
-     * @param suppliers the key's suppliers whose associated value is to be returned
+     * @param suppliers the key suppliers whose associated value is to be returned
      * @return the value to which the specified key is mapped, or {@link Optional#empty()}
      * if this map contains no mapping for the key
      * @throws NullPointerException when keys is null
@@ -141,7 +148,7 @@ public interface Settings {
     /**
      * Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
      *
-     * @param supplier the supplier's key whose associated value is to be returned
+     * @param supplier the key whose associated value is to be returned
      * @param type     the type be used as {@link Value#get(Class)}
      * @param <T>      the type value
      * @return the value to which the specified key is mapped, or {@link Optional#empty()} if this map contains no mapping for the key
