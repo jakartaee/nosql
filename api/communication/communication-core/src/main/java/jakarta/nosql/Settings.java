@@ -220,6 +220,15 @@ public interface Settings {
     void computeIfPresent(String key, BiConsumer<String, Object> action);
 
     /**
+     * If the value for the specified key is present and non-null, attempts to compute a new mapping given the key and its current mapped value.
+     *
+     * @param supplier the key
+     * @param action   the action
+     * @throws NullPointerException when there is null parameter
+     */
+    void computeIfPresent(Supplier<String> supplier, BiConsumer<String, Object> action);
+
+    /**
      * If the specified key is not already associated with a value (or is mapped to null),
      * attempts to compute its value using the given mapping function and enters it into this map unless null.
      *
@@ -228,6 +237,16 @@ public interface Settings {
      * @throws NullPointerException when there is null parameter
      */
     void computeIfAbsent(String key, Function<String, Object> action);
+
+    /**
+     * If the specified key is not already associated with a value (or is mapped to null),
+     * attempts to compute its value using the given mapping function and enters it into this map unless null.
+     *
+     * @param supplier the supplier
+     * @param action   the action
+     * @throws NullPointerException when there is null parameter
+     */
+    void computeIfAbsent(Supplier<String> supplier, Function<String, Object> action);
 
     /**
      * Creates a {@link SettingsBuilder}
