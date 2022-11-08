@@ -66,6 +66,8 @@ public interface Settings {
      */
     Optional<Object> get(String key);
 
+    Optional<Object> get(Supplier<String> supplier);
+
     /**
      * Returns the value to which the specified from one of these keys is mapped, or {@link Optional#empty()}
      * if this map contains no mapping for the key.
@@ -75,7 +77,9 @@ public interface Settings {
      * if this map contains no mapping for the key
      * @throws NullPointerException when keys is null
      */
-    Optional<Object> get(Collection<String> keys);
+    Optional<Object> get(Iterable<String> keys);
+
+    Optional<Object> get(Iterable<Supplier<String>> suppliers);
 
     /**
      * Finds all keys that have the parameter as a prefix
@@ -86,6 +90,8 @@ public interface Settings {
      */
     List<Object> prefix(String prefix);
 
+    List<Object> prefix(Supplier<String> supplier);
+
     /**
      * Finds all keys that have the parameter as a prefix
      *
@@ -93,7 +99,9 @@ public interface Settings {
      * @return all the keys from prefix
      * @throws NullPointerException when prefixes is null
      */
-    List<Object> prefix(Collection<String> prefixes);
+    List<Object> prefix(Iterable<String> prefixes);
+
+    List<Object> prefix(Iterable<Supplier<String>> suppliers);
 
     /**
      * Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
@@ -106,6 +114,8 @@ public interface Settings {
      */
     <T> Optional<T> get(String key, Class<T> type);
 
+    <T> Optional<T> get(Supplier<String> supplier, Class<T> type);
+
     /**
      * Returns the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key.
      *
@@ -114,6 +124,8 @@ public interface Settings {
      * @return the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key
      */
     Object getOrDefault(String key, Object defaultValue);
+
+    Object getOrDefault(Supplier<String> supplier, Object defaultValue);
 
     /**
      * @return Returns true if this map contains no key-value mappings.
