@@ -8,10 +8,15 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 == [Unreleased]
 
+=== Added
+
+- Add support to persist by constructor
+
 === Changed
 
 - Create a CHANGELOG file to track the specification evolution
 - Move the default documentation to ASCIIDOC
+- Add supplier at Settings API
 
 == [1.0.0.4-b4] - 2022-06-04
 
