@@ -79,7 +79,16 @@ public interface Settings {
      */
     Optional<Object> get(Iterable<String> keys);
 
-    Optional<Object> get(Iterable<Supplier<String>> suppliers);
+    /**
+     * Returns the value to which the specified from one of these keys is mapped, or {@link Optional#empty()}
+     * if this map contains no mapping for the key.
+     *
+     * @param suppliers the key's suppliers whose associated value is to be returned
+     * @return the value to which the specified key is mapped, or {@link Optional#empty()}
+     * if this map contains no mapping for the key
+     * @throws NullPointerException when keys is null
+     */
+    Optional<Object> getSupplier(Iterable<Supplier<String>> suppliers);
 
     /**
      * Finds all keys that have the parameter as a prefix
@@ -109,7 +118,14 @@ public interface Settings {
      */
     List<Object> prefix(Iterable<String> prefixes);
 
-    List<Object> prefix(Iterable<Supplier<String>> suppliers);
+    /**
+     * Finds all keys that have the parameter as a prefix
+     *
+     * @param suppliers the list of prefixes
+     * @return all the keys from prefix
+     * @throws NullPointerException when prefixes is null
+     */
+    List<Object> prefixSupplier(Iterable<Supplier<String>> suppliers);
 
     /**
      * Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
