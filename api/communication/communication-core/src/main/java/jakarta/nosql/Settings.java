@@ -31,7 +31,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * It represents a configuration in a NoSQL database, such as user, password, credential, and so on.
  * It is an immutable class.
- *
+ * <p>
  * It is a temporary solution, and as soon as the Jakarta Configuration has been created,
  * this interface will be deprecated and removed.
  *
@@ -90,6 +90,14 @@ public interface Settings {
      */
     List<Object> prefix(String prefix);
 
+
+    /**
+     * Finds all keys that have the parameter as a prefix
+     *
+     * @param supplier the prefix supplier
+     * @return all the keys from prefix
+     * @throws NullPointerException when prefix is null
+     */
     List<Object> prefix(Supplier<String> supplier);
 
     /**
@@ -114,6 +122,15 @@ public interface Settings {
      */
     <T> Optional<T> get(String key, Class<T> type);
 
+    /**
+     * Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
+     *
+     * @param supplier the supplier's key whose associated value is to be returned
+     * @param type     the type be used as {@link Value#get(Class)}
+     * @param <T>      the type value
+     * @return the value to which the specified key is mapped, or {@link Optional#empty()} if this map contains no mapping for the key
+     * @throws NullPointerException when there are null parameters
+     */
     <T> Optional<T> get(Supplier<String> supplier, Class<T> type);
 
     /**
@@ -124,6 +141,14 @@ public interface Settings {
      * @return the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key
      */
     Object getOrDefault(String key, Object defaultValue);
+
+    /**
+     * Returns the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key.
+     *
+     * @param supplier     the key's supplier whose associated value is to be returned
+     * @param defaultValue the default mapping of the key
+     * @return the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key
+     */
 
     Object getOrDefault(Supplier<String> supplier, Object defaultValue);
 
