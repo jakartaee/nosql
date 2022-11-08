@@ -286,6 +286,16 @@ public interface Settings {
         SettingsBuilder put(String key, Object value);
 
         /**
+         * Adds a new element in the builder
+         *
+         * @param supplier the key to the settings
+         * @param value    the value from the respective settings
+         * @return the settings builder with a new element
+         * @throws NullPointerException when either key or value are null
+         */
+        SettingsBuilder put(Supplier<String> supplier, Object value);
+
+        /**
          * Adds all elements in the builder
          *
          * @param settings the map with all elements
