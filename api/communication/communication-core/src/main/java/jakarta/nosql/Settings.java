@@ -145,12 +145,13 @@ public interface Settings {
     /**
      * Returns the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key.
      *
+     * @param <T> the type
      * @param supplier     the key's supplier whose associated value is to be returned
      * @param defaultValue the default mapping of the key
      * @return the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key
      */
 
-    Object getOrDefault(Supplier<String> supplier, Object defaultValue);
+    <T> T getOrDefault(Supplier<String> supplier, T defaultValue);
 
     /**
      * @return Returns true if this map contains no key-value mappings.
