@@ -38,7 +38,6 @@ include::chapters/license/license-alv2.asciidoc[]
 
 :sectnums:
 include::chapters/introduction/introduction.adoc[]
-include::chapters/types/types.adoc[]
 include::chapters/communication/communication.adoc[]
 include::chapters/mapping/mapping.adoc[]
 include::chapters/references/references.adoc[]
