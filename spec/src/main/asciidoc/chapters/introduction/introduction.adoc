@@ -159,5 +159,4 @@ template.save(person, level);
 * Easy-to-implement API Specification and Technology Compatibility Kit (TCK) for NoSQL Vendors
 * The APIs focus is on simplicity and ease of use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
 
-include::goals.adoc[]
 include::project_team.adoc[]
