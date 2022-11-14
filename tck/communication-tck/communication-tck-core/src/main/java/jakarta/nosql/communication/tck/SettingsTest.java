@@ -17,6 +17,7 @@ package jakarta.nosql.communication.tck;
 
 import jakarta.nosql.Settings;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -25,6 +26,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,6 +38,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SettingsTest {
 
+
+    @BeforeEach
+    public void beforeEach() {
+        System.clearProperty("host");
+        System.clearProperty("host.1");
+        System.clearProperty("host.2");
+        System.clearProperty("host.3");
+        System.clearProperty("server");
+        System.clearProperty("server.1");
+        System.clearProperty("server.2");
+    }
     @Test
     public void shouldReturnNPEWhenInstanceIsNull() {
         assertThrows(NullPointerException.class, () -> Settings.of((Map<String, Object>) null));
@@ -44,17 +58,13 @@ public class SettingsTest {
     @Test
     public void shouldReturnNewInstance() {
         Settings settings = Settings.of();
-        assertTrue(settings.isEmpty());
-        assertEquals(0, settings.size());
+        Assertions.assertNotNull(settings);
     }
 
     @Test
     public void shouldCreateFromMap() {
         Settings settings = Settings.of(singletonMap("key", "value"));
         assertFalse(settings.isEmpty());
-        assertEquals(1, settings.size());
-        assertEquals("value", settings.get("key")
-                .orElseThrow(() -> new NoSuchElementException("There is not key element in the settings")));
     }
 
     @Test
@@ -68,33 +78,85 @@ public class SettingsTest {
     @Test
     public void shouldGetKeys() {
         Settings settings = Settings.of(singletonMap("key", "value"));
-        assertThat(settings.keySet()).hasSize(1).contains("key");
+        assertThat(settings.keySet()).contains("key");
     }
+
 
     @Test
     public void shouldSize() {
         Settings settings = Settings.of(singletonMap("key", "value"));
-        assertEquals(1, settings.size());
-        settings = Settings.of(Collections.emptyMap());
-        assertEquals(0, settings.size());
+        assertTrue(settings.size() >= 1);
+
     }
 
     @Test
     public void shouldIsEmpty() {
         Settings settings = Settings.of(singletonMap("key", "value"));
         assertFalse(settings.isEmpty());
-        settings = Settings.of(Collections.emptyMap());
-        assertTrue(settings.isEmpty());
+    }
+
+    @Test
+    public void shouldGet() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+        Optional<Object> value = settings.get("key");
+        Assertions.assertNotNull(value);
+        Assertions.assertEquals("12", value.get());
+    }
+
+    @Test
+    public void shouldGetSupplier() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+        Optional<Object> value = settings.get(() -> "key");
+        Assertions.assertNotNull(value);
+        Assertions.assertEquals("12", value.get());
+    }
+
+    @Test
+    public void shouldNPEGet() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+        Assertions.assertThrows(NullPointerException.class, () -> settings.get((String) null));
+        Assertions.assertThrows(NullPointerException.class, () -> settings.get((Supplier<String>) null));
+    }
+
+    @Test
+    public void shouldGetIterable() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+        Optional<Object> value = settings.get(Collections.singleton("key"));
+        Assertions.assertNotNull(value);
+        Assertions.assertEquals("12", value.get());
+    }
+
+    @Test
+    public void shouldGetIterableSupplier() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+        Optional<Object> value = settings.getSupplier(Collections.singleton(() -> "key"));
+        Assertions.assertNotNull(value);
+        Assertions.assertEquals("12", value.get());
+    }
+
+    @Test
+    public void shouldNPEGetIterable() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+        Assertions.assertThrows(NullPointerException.class, () -> settings.get((Iterable<String>) null));
+        Assertions.assertThrows(NullPointerException.class, () -> settings.getSupplier(null));
     }
 
     @Test
     public void shouldGetValueClass() {
         Settings settings = Settings.of(singletonMap("key", "12"));
 
-        Integer value = settings.get("key", Integer.class)
-                .orElseThrow(() -> new NoSuchElementException("There is not 'key' element in the settings"));
+        Integer value = settings.get("key", Integer.class).get();
         assertEquals(Integer.valueOf(12), value);
         assertFalse(settings.get("key2", Integer.class).isPresent());
+    }
+
+    @Test
+    public void shouldGetValueClassSupplier() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+
+        Integer value = settings.get(() -> "key", Integer.class).get();
+        assertEquals(Integer.valueOf(12), value);
+        assertFalse(settings.get(() -> "key2", Integer.class).isPresent());
     }
 
     @Test
@@ -105,12 +167,19 @@ public class SettingsTest {
     }
 
     @Test
+    public void shouldGetOrDefaultSupplier() {
+        Settings settings = Settings.of(singletonMap("key", "12"));
+        assertEquals("12", settings.getOrDefault(() -> "key", "13"));
+        assertEquals("13", settings.getOrDefault(() -> "key-1", "13"));
+    }
+
+    @Test
     public void shouldReturnErrorWhenPrefixIsNull() {
         Settings settings = Settings.builder()
                 .put("host", "host")
-                .put("host-1", "host-1")
-                .put("host-2", "host-2")
-                .put("host-3", "host-3")
+                .put("host.1", "host-1")
+                .put("host.2", "host-2")
+                .put("host.3", "host-3")
                 .build();
         assertThrows(NullPointerException.class, () -> settings.prefix((String) null));
     }
@@ -119,23 +188,39 @@ public class SettingsTest {
     public void shouldFindPrefix() {
         Settings settings = Settings.builder()
                 .put("host", "host")
-                .put("host-1", "host-1")
-                .put("host-2", "host-2")
-                .put("host-3", "host-3")
+                .put("host.1", "host-1")
+                .put("host.2", "host-2")
+                .put("host.3", "host-3")
                 .build();
 
         List<Object> hosts = settings.prefix("host");
-        Assertions.assertEquals(4, hosts.size());
-        assertThat(hosts).hasSize(4).contains("host", "host-1", "host-2", "host-3");
+        assertThat(hosts)
+                .hasSize(4)
+                .contains("host", "host-1", "host-2", "host-3");
+    }
+
+    @Test
+    public void shouldFindPrefixSupplier() {
+        Settings settings = Settings.builder()
+                .put("host", "host")
+                .put("host.1", "host-1")
+                .put("host.2", "host-2")
+                .put("host.3", "host-3")
+                .build();
+
+        List<Object> hosts = settings.prefix(() -> "host");
+        assertThat(hosts)
+                .hasSize(4)
+                .contains("host", "host-1", "host-2", "host-3");
     }
 
     @Test
     public void shouldFindPrefixWithOrder() {
         Settings settings = Settings.builder()
                 .put("host", "host")
-                .put("host-3", "host-3")
-                .put("host-2", "host-2")
-                .put("host-1", "host-1")
+                .put("host.3", "host-3")
+                .put("host.2", "host-2")
+                .put("host.1", "host-1")
                 .build();
 
         List<Object> hosts = settings.prefix("host");
@@ -147,33 +232,46 @@ public class SettingsTest {
     public void shouldReturnErrorWhenPrefixesIsNull() {
         Settings settings = Settings.builder()
                 .put("host", "host")
-                .put("host-1", "host-1")
-                .put("host-2", "host-2")
-                .put("host-3", "host-3")
+                .put("host.1", "host-1")
+                .put("host.2", "host-2")
+                .put("host.3", "host-3")
                 .build();
         assertThrows(NullPointerException.class, () -> settings.prefix((Collection<String>) null));
+
     }
 
     @Test
     public void shouldFindPrefixes() {
         Settings settings = Settings.builder()
                 .put("host", "host")
-                .put("host-1", "host-1")
+                .put("host.1", "host-1")
                 .put("server", "server")
-                .put("server-1", "server-1")
+                .put("server.1", "server-1")
                 .build();
 
         List<Object> hosts = settings.prefix(Arrays.asList("host", "server"));
         assertThat(hosts).hasSize(4).contains("host", "host-1", "server", "server-1");
+    }
 
+    @Test
+    public void shouldFindPrefixesSupplier() {
+        Settings settings = Settings.builder()
+                .put("host", "host")
+                .put("host.1", "host-1")
+                .put("server", "server")
+                .put("server.1", "server-1")
+                .build();
+
+        List<Object> hosts = settings.prefixSupplier(Arrays.asList(() -> "host", () -> "server"));
+        assertThat(hosts).hasSize(4).contains("host", "host-1", "server", "server-1");
     }
 
     @Test
     public void shouldFindPrefixesSort() {
         Settings settings = Settings.builder()
-                .put("host-1", "host-1")
+                .put("host.1", "host-1")
                 .put("host", "host")
-                .put("server-1", "server-1")
+                .put("server.1", "server-1")
                 .put("server", "server")
                 .build();
 
