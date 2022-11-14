@@ -120,25 +120,6 @@ public class SettingsTest {
     }
 
     @Test
-    public void shouldComputeIfPresent() {
-        Settings settings = Settings.of(singletonMap("key", "12"));
-        List<Map.Entry<String, Object>> references = new ArrayList<>();
-        settings.computeIfPresent("key", (k, v) -> references.add(new AbstractMap.SimpleEntry<>(k, v)));
-        assertFalse(references.isEmpty());
-        Map.Entry<String, Object> entry = references.get(0);
-        Assertions.assertEquals("key", entry.getKey());
-        Assertions.assertEquals("12", entry.getValue());
-    }
-
-    @Test
-    public void shouldComputeIAbsent() {
-        Settings settings = Settings.of(singletonMap("key", "12"));
-        settings.computeIfAbsent("non", (k) -> "no key");
-        assertEquals("no key", settings.get("non")
-                .orElseThrow(() -> new NoSuchElementException("There is not 'non' element in the settings")));
-    }
-
-    @Test
     public void shouldGetOrDefault() {
         Settings settings = Settings.of(singletonMap("key", "12"));
         assertEquals("12", settings.getOrDefault("key", "13"));
