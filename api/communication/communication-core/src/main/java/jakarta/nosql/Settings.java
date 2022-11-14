@@ -221,6 +221,17 @@ public interface Settings {
     }
 
     /**
+     * Creates a {@link Settings}
+     *
+     * @return a {@link Settings} instance
+     */
+    static Settings settings() {
+        return ServiceLoaderProvider.get(SettingsBuilderProvider.class,
+                () -> ServiceLoader.load(SettingsBuilderProvider.class))
+                .get().build();
+    }
+
+    /**
      * Creates a settings from maps
      *
      * @param settings the setting
