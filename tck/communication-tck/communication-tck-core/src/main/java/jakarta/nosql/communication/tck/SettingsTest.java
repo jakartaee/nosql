@@ -19,8 +19,6 @@ import jakarta.nosql.Settings;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,14 +72,6 @@ public class SettingsTest {
     }
 
     @Test
-    public void shouldGetEntrySet() {
-        Settings settings = Settings.of(singletonMap("key", "value"));
-        assertEquals(settings.entrySet().stream().findFirst()
-                .orElseThrow(() -> new NoSuchElementException("The first element was not found"))
-                .getKey(), "key");
-    }
-
-    @Test
     public void shouldSize() {
         Settings settings = Settings.of(singletonMap("key", "value"));
         assertEquals(1, settings.size());
@@ -105,18 +95,6 @@ public class SettingsTest {
                 .orElseThrow(() -> new NoSuchElementException("There is not 'key' element in the settings"));
         assertEquals(Integer.valueOf(12), value);
         assertFalse(settings.get("key2", Integer.class).isPresent());
-    }
-
-    @Test
-    public void shouldIterateUsingForEach() {
-        Settings settings = Settings.of(singletonMap("key", "12"));
-        List<Map.Entry<String, Object>> references = new ArrayList<>();
-        settings.forEach((k, v) -> references.add(new AbstractMap.SimpleEntry<>(k, v)));
-
-        assertFalse(references.isEmpty());
-        Map.Entry<String, Object> entry = references.get(0);
-        Assertions.assertEquals("key", entry.getKey());
-        Assertions.assertEquals("12", entry.getValue());
     }
 
     @Test
