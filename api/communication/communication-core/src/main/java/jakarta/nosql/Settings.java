@@ -195,21 +195,6 @@ public interface Settings {
     boolean containsKey(String key);
 
     /**
-     * Returns a Set view of the mappings contained in this map.
-     *
-     * @return a set view of the mappings contained in this map
-     */
-    Set<Map.Entry<String, Object>> entrySet();
-
-    /**
-     * Performs the given action for each entry in this map until all entries have been processed or the action throws an exception.
-     *
-     * @param action the action
-     * @throws NullPointerException when action is null
-     */
-    void forEach(BiConsumer<String, Object> action);
-
-    /**
      * Creates a {@link SettingsBuilder}
      *
      * @return a {@link SettingsBuilder} instance
