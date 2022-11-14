@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -28,6 +28,7 @@ import jakarta.nosql.column.ColumnObserverParser;
 import jakarta.nosql.column.ColumnPreparedStatement;
 import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.column.ColumnQueryParser;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -35,6 +36,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,9 +47,16 @@ import static org.mockito.Mockito.mock;
 
 public class ColumnQueryParserTest {
     
-    private ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
+    private ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class,
+            ()-> ServiceLoader.load(ColumnQueryParser.class));
 
     private ColumnFamilyManager manager = mock(ColumnFamilyManager.class);
+
+    @BeforeEach
+    public void setUp() {
+        Module module = ColumnQueryParserTest.class.getModule();
+        module.addUses(ColumnQueryParser.class);
+    }
 
     @Test
     public void shouldReturnNPEWhenThereIsNullParameter() {

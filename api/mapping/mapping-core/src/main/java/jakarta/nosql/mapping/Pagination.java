@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,6 +17,7 @@ package jakarta.nosql.mapping;
 
 import jakarta.nosql.ServiceLoaderProvider;
 
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -62,7 +63,7 @@ public interface Pagination {
     /**
      * Returns a pagination instance that is read-only, in other words, that is not allowed to use the {@link Pagination#next()}.
      *
-     * @return a read-onlye {@link Pagination} instance
+     * @return a read-only {@link Pagination} instance
      */
     Pagination unmodifiable();
 
@@ -74,7 +75,8 @@ public interface Pagination {
      * @throws IllegalArgumentException when page is lesser equals than zero
      */
     static PaginationBuilder page(long page) {
-        return ServiceLoaderProvider.get(PaginationBuilderProvider.class).apply(page);
+        return ServiceLoaderProvider.get(PaginationBuilderProvider.class,
+                ()-> ServiceLoader.load(PaginationBuilderProvider.class)).apply(page);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -33,7 +33,10 @@ public final class TypeReferenceReaderDecorator implements TypeReferenceReader {
     private final List<TypeReferenceReader> readers = new ArrayList<>();
 
     {
-        ServiceLoader.load(TypeReferenceReader.class).forEach(readers::add);
+        ServiceLoaderProvider.getSupplierStream(TypeReferenceReader.class,
+                        () -> ServiceLoader.load(TypeReferenceReader.class))
+            .map(TypeReferenceReader.class::cast)
+            .forEach(readers::add);
     }
 
     public static TypeReferenceReaderDecorator getInstance() {

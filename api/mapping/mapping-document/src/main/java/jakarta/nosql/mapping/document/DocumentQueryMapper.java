@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -226,7 +226,7 @@ public interface DocumentQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);
@@ -241,7 +241,7 @@ public interface DocumentQueryMapper {
         DocumentMapperLimit limit(long limit);
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the order
          * @return a query with the sort defined
@@ -251,14 +251,14 @@ public interface DocumentQueryMapper {
     }
 
     /**
-     * The Document Order whose define the the maximum number of results to retrieve.
+     * The Document Order whose define the maximum number of results to retrieve.
      */
     interface DocumentMapperLimit extends DocumentMapperQueryBuild {
 
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);
@@ -363,7 +363,7 @@ public interface DocumentQueryMapper {
     interface DocumentMapperNameOrder extends DocumentMapperQueryBuild {
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the name to be ordered
          * @return a query with the sort defined
@@ -375,7 +375,7 @@ public interface DocumentQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);
@@ -532,7 +532,7 @@ public interface DocumentQueryMapper {
         /**
          * Defines the position of the first result to retrieve.
          *
-         * @param skip the first result to retrive
+         * @param skip the first result to retrieve
          * @return a query with first result defined
          */
         DocumentMapperSkip skip(long skip);
@@ -547,7 +547,7 @@ public interface DocumentQueryMapper {
         DocumentMapperLimit limit(long limit);
 
         /**
-         * Add the order how the result will returned
+         * Add the order how the result will return
          *
          * @param name the order
          * @return a query with the sort defined

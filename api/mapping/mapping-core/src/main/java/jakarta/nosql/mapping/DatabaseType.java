@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,7 +21,7 @@ package jakarta.nosql.mapping;
  */
 public enum DatabaseType {
     /**
-     * A document database is a type of nonrelational database that is designed to store semistructured data as documents.
+     * A document database is a type of non-relational database that is designed to store semi-structured data as documents.
      * Document databases are intuitive for developers to use because the data in the application tier is typically represented as a JSON document.
      */
     DOCUMENT,
@@ -48,7 +48,7 @@ public enum DatabaseType {
      * to be linked together directly, and in many cases retrieved with one operation.
      * Graph databases hold the relationships between data as a priority. Querying relationships within a graph database
      * is fast because they are perpetually stored within the database itself.
-     * Relationships can be intuitively visualized using graph databases, making it useful for heavily inter-connected data.
+     * Relationships can be intuitively visualized using graph databases, making it useful for heavily interconnected data.
      */
     GRAPH,
     /**

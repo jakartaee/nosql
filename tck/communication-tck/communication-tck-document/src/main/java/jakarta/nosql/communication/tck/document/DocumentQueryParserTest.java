@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -28,6 +28,7 @@ import jakarta.nosql.document.DocumentObserverParser;
 import jakarta.nosql.document.DocumentPreparedStatement;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.document.DocumentQueryParser;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -35,6 +36,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,10 +48,16 @@ import static org.mockito.Mockito.mock;
 
 public class DocumentQueryParserTest {
 
-    private DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class);
+    private DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
+            ()-> ServiceLoader.load(DocumentQueryParser.class));
 
     private DocumentCollectionManager manager = Mockito.mock(DocumentCollectionManager.class);
 
+    @BeforeEach
+    public void setUp() {
+        Module module = DocumentQueryParserTest.class.getModule();
+        module.addUses(DocumentQueryParser.class);
+    }
     @Test
     public void shouldReturnNPEWhenThereIsNullParameter() {
 
@@ -195,12 +203,12 @@ public class DocumentQueryParserTest {
         prepare.bind("age", 12);
         final Optional<DocumentEntity> result = prepare.getSingleResult();
         Mockito.verify(manager).select(captor.capture());
-        DocumentQuery columnQuery = captor.getValue();
-        DocumentCondition columnCondition = columnQuery.getCondition().get();
-        Document column = columnCondition.getDocument();
-        assertEquals(Condition.EQUALS, columnCondition.getCondition());
-        assertEquals("age", column.getName());
-        assertEquals(12, column.get());
+        DocumentQuery documentQuery = captor.getValue();
+        DocumentCondition documentCondition = documentQuery.getCondition().get();
+        Document document = documentCondition.getDocument();
+        assertEquals(Condition.EQUALS, documentCondition.getCondition());
+        assertEquals("age", document.getName());
+        assertEquals(12, document.get());
         assertTrue(result.isPresent());
     }
 
@@ -216,12 +224,12 @@ public class DocumentQueryParserTest {
         prepare.bind("age", 12);
         final Optional<DocumentEntity> result = prepare.getSingleResult();
         Mockito.verify(manager).select(captor.capture());
-        DocumentQuery columnQuery = captor.getValue();
-        DocumentCondition columnCondition = columnQuery.getCondition().get();
-        Document column = columnCondition.getDocument();
-        assertEquals(Condition.EQUALS, columnCondition.getCondition());
-        assertEquals("age", column.getName());
-        assertEquals(12, column.get());
+        DocumentQuery documentQuery = captor.getValue();
+        DocumentCondition documentCondition = documentQuery.getCondition().get();
+        Document document = documentCondition.getDocument();
+        assertEquals(Condition.EQUALS, documentCondition.getCondition());
+        assertEquals("age", document.getName());
+        assertEquals(12, document.get());
         assertFalse(result.isPresent());
     }
 
@@ -235,7 +243,7 @@ public class DocumentQueryParserTest {
 
         DocumentPreparedStatement prepare = parser.prepare(query, manager, DocumentObserverParser.EMPTY);
         prepare.bind("age", 12);
-        assertThrows(NonUniqueResultException.class, () -> prepare.getSingleResult());
+        assertThrows(NonUniqueResultException.class, prepare::getSingleResult);
     }
 
 }

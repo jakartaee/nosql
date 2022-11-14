@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -25,12 +25,14 @@ import java.time.Duration;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
- * Interface used to interact with the persistence context to {@link ColumnEntity}
+ * The persistence context to {@link ColumnEntity}.
  * The ColumnFamilyManager API is used to create and remove persistent {@link ColumnEntity} instances,
  * to select entities by their primary key, and to select over entities.
+ * Thus, ColumnFamilyManager enables CRUD Operation for {@link ColumnEntity}.
  */
 public interface ColumnFamilyManager extends AutoCloseable {
 
@@ -130,7 +132,8 @@ public interface ColumnFamilyManager extends AutoCloseable {
      */
     default Stream<ColumnEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
-        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
+        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class,
+                () -> ServiceLoader.load(ColumnQueryParser.class));
         return parser.query(query, this, ColumnObserverParser.EMPTY);
     }
 
@@ -146,7 +149,8 @@ public interface ColumnFamilyManager extends AutoCloseable {
      */
     default ColumnPreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
-        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class);
+        ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class
+                , () -> ServiceLoader.load(ColumnQueryParser.class));
         return parser.prepare(query, this, ColumnObserverParser.EMPTY);
     }
 

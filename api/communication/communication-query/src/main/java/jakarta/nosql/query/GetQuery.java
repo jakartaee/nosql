@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,6 +20,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -46,11 +47,22 @@ public interface GetQuery extends Query {
      */
     static GetQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(GetQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(GetQueryProvider.class,
+                () -> ServiceLoader.load(GetQueryProvider.class)).apply(query);
     }
 
     /**
-     * A provider to {@link GetQuery}
+     * Returns the {@link GetQueryProvider} instance
+     * @return the GetQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static GetQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(GetQueryProvider.class,
+                () -> ServiceLoader.load(GetQueryProvider.class));
+    }
+
+    /**
+     * A provider to {@link GetQuery}, this provider converts text into {@link GetQuery}
      */
     interface GetQueryProvider extends Function<String, GetQuery> {
 

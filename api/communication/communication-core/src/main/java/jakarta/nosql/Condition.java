@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -27,8 +27,8 @@ public enum Condition {
 
     /**
      * Return tne field as name to both document and column.
-     * The goal is the field gonna be a reserved word.
-     * The foruma is: underscore plus the {@link Enum#name()}
+     * The goal is to be a reserved word.
+     * The formula is: underscore plus the {@link Enum#name()}
      * So, call this method on {@link Condition#EQUALS}  will return "_EQUALS"
      *
      * @return the keyword to condition
@@ -38,7 +38,7 @@ public enum Condition {
     }
 
     /**
-     * Retrieve the condition from {@link Condition#getNameField()} on case sentive
+     * Retrieve the condition from {@link Condition#getNameField()} on case-sensitive
      *
      * @param condition the condition converted to field
      * @return the condition instance

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,6 +21,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 
@@ -41,7 +42,8 @@ public interface KeyValueEntity {
      * @throws NullPointerException when either key or value are null
      */
     static <K, V> KeyValueEntity of(K key, V value) {
-        return ServiceLoaderProvider.get(KeyValueEntityProvider.class).apply(key, value);
+        return ServiceLoaderProvider.get(KeyValueEntityProvider.class,
+                ()-> ServiceLoader.load(KeyValueEntityProvider.class)).apply(key, value);
     }
 
     /**
@@ -55,24 +57,24 @@ public interface KeyValueEntity {
     /**
      * Alias to {@link Value#get(Class)}
      *
-     * @param clazz {@link Value#get(Class)}
+     * @param type {@link Value#get(Class)}
      * @param <K>   {@link Value#get(Class)}
      * @return {@link Value#get(Class)}
      * @throws NullPointerException          see {@link Value#get(Class)}
      * @throws UnsupportedOperationException see {@link Value#get(Class)}
      */
-    <K> K getKey(Class<K> clazz);
+    <K> K getKey(Class<K> type);
 
     /**
      * Alias to {@link Value#get(TypeSupplier)}
      *
-     * @param typeSupplier {@link Value#get(TypeSupplier)}
+     * @param supplier {@link Value#get(TypeSupplier)}
      * @param <K>          {@link Value#get(TypeSupplier)}
      * @return {@link Value#get(TypeSupplier)}
      * @throws NullPointerException          see {@link Value#get(TypeSupplier)}
      * @throws UnsupportedOperationException see {@link Value#get(TypeSupplier)}
      */
-    <K> K getKey(TypeSupplier<K> typeSupplier);
+    <K> K getKey(TypeSupplier<K> supplier);
 
     /**
      * The value
@@ -85,13 +87,13 @@ public interface KeyValueEntity {
     /**
      * Alias to {@link Value#get(Class)}
      *
-     * @param clazz {@link Value#get(Class)}
+     * @param type {@link Value#get(Class)}
      * @param <V>   {@link Value#get(Class)}
      * @return {@link Value#get(Class)}
      * @throws NullPointerException          see {@link Value#get(Class)}
      * @throws UnsupportedOperationException see {@link Value#get(Class)}
      */
-    <V> V getValue(Class<V> clazz);
+    <V> V getValue(Class<V> type);
 
     /**
      * Alias to {@link Value#get(TypeSupplier)}

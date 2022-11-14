@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -28,23 +28,23 @@ public interface KeyValueEntityConverter {
     /**
      * Converts the instance entity to {@link KeyValueEntity}
      *
-     * @param entityInstance the instnace
+     * @param entity the instance
      * @return a {@link KeyValueEntity} instance
-     * @throws IdNotFoundException when the entityInstance hasn't a field with {@link Id}
-     * @throws NullPointerException when the entityInstance is null
+     * @throws IdNotFoundException when the entity hasn't a field with {@link Id}
+     * @throws NullPointerException when the entity is null
      */
-    KeyValueEntity toKeyValue(Object entityInstance);
+    KeyValueEntity toKeyValue(Object entity);
 
     /**
      * Converts a {@link KeyValueEntity} to entity
      *
-     * @param entityClass the entity class
+     * @param type the entity class
      * @param entity      the {@link KeyValueEntity} to be converted
      * @param <T>         the entity type
      * @return the instance from {@link KeyValueEntity}
      * @throws IdNotFoundException when the entityInstance hasn't a field with {@link Id}
      * @throws NullPointerException when the entityInstance is null
      */
-    <T> T toEntity(Class<T> entityClass, KeyValueEntity entity);
+    <T> T toEntity(Class<T> type, KeyValueEntity entity);
 
 }

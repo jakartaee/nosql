@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -15,10 +15,10 @@
  */
 package jakarta.nosql;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -28,7 +28,11 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 
 /**
- * The interface represents the settings used in a configuration.
+ * It represents a configuration in a NoSQL database, such as user, password, credential, and so on.
+ * It is an immutable class.
+ * <p>
+ * It is a temporary solution, and as soon as the Jakarta Configuration has been created,
+ * this interface will be deprecated and removed.
  *
  * @see Settings#of(Map[])
  */
@@ -62,6 +66,15 @@ public interface Settings {
     Optional<Object> get(String key);
 
     /**
+     * Returns the value to which the specified key is mapped, or {@link Optional#empty()} if this map contains no mapping for the key.
+     *
+     * @param supplier the key whose associated value is to be returned
+     * @return the value to which the specified key is mapped, or {@link Optional#empty()} if this map contains no mapping for the key
+     * @throws NullPointerException when key is null
+     */
+    Optional<Object> get(Supplier<String> supplier);
+
+    /**
      * Returns the value to which the specified from one of these keys is mapped, or {@link Optional#empty()}
      * if this map contains no mapping for the key.
      *
@@ -70,7 +83,18 @@ public interface Settings {
      * if this map contains no mapping for the key
      * @throws NullPointerException when keys is null
      */
-    Optional<Object> get(Collection<String> keys);
+    Optional<Object> get(Iterable<String> keys);
+
+    /**
+     * Returns the value to which the specified from one of these keys is mapped, or {@link Optional#empty()}
+     * if this map contains no mapping for the key.
+     *
+     * @param suppliers the key suppliers whose associated value is to be returned
+     * @return the value to which the specified key is mapped, or {@link Optional#empty()}
+     * if this map contains no mapping for the key
+     * @throws NullPointerException when keys is null
+     */
+    Optional<Object> getSupplier(Iterable<Supplier<String>> suppliers);
 
     /**
      * Finds all keys that have the parameter as a prefix
@@ -81,6 +105,16 @@ public interface Settings {
      */
     List<Object> prefix(String prefix);
 
+
+    /**
+     * Finds all keys that have the parameter as a prefix
+     *
+     * @param supplier the prefix supplier
+     * @return all the keys from prefix
+     * @throws NullPointerException when prefix is null
+     */
+    List<Object> prefix(Supplier<String> supplier);
+
     /**
      * Finds all keys that have the parameter as a prefix
      *
@@ -88,7 +122,16 @@ public interface Settings {
      * @return all the keys from prefix
      * @throws NullPointerException when prefixes is null
      */
-    List<Object> prefix(Collection<String> prefixes);
+    List<Object> prefix(Iterable<String> prefixes);
+
+    /**
+     * Finds all keys that have the parameter as a prefix
+     *
+     * @param suppliers the list of prefixes
+     * @return all the keys from prefix
+     * @throws NullPointerException when prefixes is null
+     */
+    List<Object> prefixSupplier(Iterable<Supplier<String>> suppliers);
 
     /**
      * Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
@@ -102,13 +145,36 @@ public interface Settings {
     <T> Optional<T> get(String key, Class<T> type);
 
     /**
+     * Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
+     *
+     * @param supplier the key whose associated value is to be returned
+     * @param type     the type be used as {@link Value#get(Class)}
+     * @param <T>      the type value
+     * @return the value to which the specified key is mapped, or {@link Optional#empty()} if this map contains no mapping for the key
+     * @throws NullPointerException when there are null parameters
+     */
+    <T> Optional<T> get(Supplier<String> supplier, Class<T> type);
+
+    /**
      * Returns the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key.
      *
+     * @param <T>          the type
      * @param key          the key whose associated value is to be returned
      * @param defaultValue the default mapping of the key
      * @return the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key
      */
-    Object getOrDefault(String key, Object defaultValue);
+    <T> T getOrDefault(String key, T defaultValue);
+
+    /**
+     * Returns the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key.
+     *
+     * @param <T>          the type
+     * @param supplier     the key's supplier whose associated value is to be returned
+     * @param defaultValue the default mapping of the key
+     * @return the value to which the specified key is mapped, or defaultValue if this map contains no mapping for the key
+     */
+
+    <T> T getOrDefault(Supplier<String> supplier, T defaultValue);
 
     /**
      * @return Returns true if this map contains no key-value mappings.
@@ -154,6 +220,15 @@ public interface Settings {
     void computeIfPresent(String key, BiConsumer<String, Object> action);
 
     /**
+     * If the value for the specified key is present and non-null, attempts to compute a new mapping given the key and its current mapped value.
+     *
+     * @param supplier the key
+     * @param action   the action
+     * @throws NullPointerException when there is null parameter
+     */
+    void computeIfPresent(Supplier<String> supplier, BiConsumer<String, Object> action);
+
+    /**
      * If the specified key is not already associated with a value (or is mapped to null),
      * attempts to compute its value using the given mapping function and enters it into this map unless null.
      *
@@ -164,12 +239,23 @@ public interface Settings {
     void computeIfAbsent(String key, Function<String, Object> action);
 
     /**
+     * If the specified key is not already associated with a value (or is mapped to null),
+     * attempts to compute its value using the given mapping function and enters it into this map unless null.
+     *
+     * @param supplier the supplier
+     * @param action   the action
+     * @throws NullPointerException when there is null parameter
+     */
+    void computeIfAbsent(Supplier<String> supplier, Function<String, Object> action);
+
+    /**
      * Creates a {@link SettingsBuilder}
      *
      * @return a {@link SettingsBuilder} instance
      */
     static SettingsBuilder builder() {
-        return ServiceLoaderProvider.get(SettingsBuilderProvider.class).get();
+        return ServiceLoaderProvider.get(SettingsBuilderProvider.class,
+                () -> ServiceLoader.load(SettingsBuilderProvider.class)).get();
     }
 
     /**
@@ -219,6 +305,16 @@ public interface Settings {
         SettingsBuilder put(String key, Object value);
 
         /**
+         * Adds a new element in the builder
+         *
+         * @param supplier the key to the settings
+         * @param value    the value from the respective settings
+         * @return the settings builder with a new element
+         * @throws NullPointerException when either key or value are null
+         */
+        SettingsBuilder put(Supplier<String> supplier, Object value);
+
+        /**
          * Adds all elements in the builder
          *
          * @param settings the map with all elements
@@ -230,7 +326,7 @@ public interface Settings {
         /**
          * Creates a {@link Settings} from the builder
          *
-         * @return a a {@link Settings} instance
+         * @return a {@link Settings} instance
          */
         Settings build();
     }

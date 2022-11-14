@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,14 +21,14 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
- * A Column Family entity unit, it is a tuple (pair) that consists of a key-value pair,
- * where the key is mapped to a value.
+ * A Column is a tuple (pair) that consists of the name and its respective value.
+ * A {@link ColumnEntity} has one or more Columns.
  */
 public interface Column {
-
 
     /**
      * Creates a column instance
@@ -41,9 +41,10 @@ public interface Column {
      * @see Columns
      */
     static <V> Column of(String name, V value) {
-        return ServiceLoaderProvider.get(ColumnProvider.class).apply(name, value);
+        return ServiceLoaderProvider.get(ColumnProvider.class,
+                        () -> ServiceLoader.load(ColumnProvider.class))
+                .apply(name, value);
     }
-
 
     /**
      * The column's name
@@ -62,24 +63,24 @@ public interface Column {
     /**
      * Alias to {@link Value#get(Class)}
      *
-     * @param clazz the clazz
-     * @param <T>   the type
+     * @param type the type class
+     * @param <T>  the instance type
      * @return {@link Value#get(Class)}
      * @throws NullPointerException          see {@link Value#get(Class)}
      * @throws UnsupportedOperationException see {@link Value#get(Class)}
      */
-    <T> T get(Class<T> clazz);
+    <T> T get(Class<T> type);
 
     /**
      * Alias to {@link Value#get(TypeSupplier)}
      *
-     * @param typeSupplier {@link Value#get(Class)}
-     * @param <T>          {@link Value#get(Class)}
+     * @param supplier {@link Value#get(Class)}
+     * @param <T>      {@link Value#get(Class)}
      * @return {@link Value#get(TypeSupplier)}
      * @throws NullPointerException          see {@link Value#get(Class)}
      * @throws UnsupportedOperationException see {@link Value#get(Class)}
      */
-    <T> T get(TypeSupplier<T> typeSupplier);
+    <T> T get(TypeSupplier<T> supplier);
 
     /**
      * Alias to {@link Value#get()}

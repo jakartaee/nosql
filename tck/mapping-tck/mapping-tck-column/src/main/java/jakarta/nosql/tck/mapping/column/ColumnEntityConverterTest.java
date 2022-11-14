@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -52,10 +52,10 @@ import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -96,8 +96,9 @@ public class ColumnEntityConverterTest {
         ColumnEntity entity = converter.toColumn(person);
         assertEquals("Person", entity.getName());
         assertEquals(4, entity.size());
-        assertThat(entity.getColumns(), containsInAnyOrder(Column.of("_id", 12L),
-                Column.of("age", 10), Column.of("name", "Otavio"), Column.of("phones", Arrays.asList("234", "2342"))));
+        assertThat(entity.getColumns()).contains(Column.of("_id", 12L),
+                Column.of("age", 10), Column.of("name", "Otavio"),
+                Column.of("phones", Arrays.asList("234", "2342")));
 
     }
 
@@ -108,7 +109,7 @@ public class ColumnEntityConverterTest {
         assertEquals("Actor", entity.getName());
         assertEquals(6, entity.size());
 
-        assertThat(entity.getColumns(), containsInAnyOrder(columns));
+        assertThat(entity.getColumns()).contains(columns);
     }
 
     @Test
@@ -183,9 +184,8 @@ public class ColumnEntityConverterTest {
         assertEquals(getValue(entity.find("_id")), director.getId());
         assertEquals(getValue(entity.find("phones")), director.getPhones());
 
-
         Column subColumn = entity.find("movie").get();
-        List<Column> columns = subColumn.get(new TypeReference<List<Column>>() {
+        List<Column> columns = subColumn.get(new TypeReference<>() {
         });
 
         assertEquals(3, columns.size());
@@ -224,9 +224,9 @@ public class ColumnEntityConverterTest {
 
         ColumnEntity entity = converter.toColumn(director);
         entity.remove("movie");
-        entity.add(Column.of("title", "Matrix"));
-        entity.add(Column.of("year", 2012));
-        entity.add(Column.of("actors", singleton("Actor")));
+        entity.remove("movie");
+        entity.add(Column.of("movie", Arrays.asList(Column.of("title", "Matrix"),
+                Column.of("year", 2012), Column.of("actors", singleton("Actor")))));
         Director director1 = converter.toEntity(entity);
 
         assertEquals(movie, director1.getMovie());
@@ -369,8 +369,9 @@ public class ColumnEntityConverterTest {
         entity.add(Column.of("street", "Rua Engenheiro Jose Anasoh"));
         entity.add(Column.of("city", "Salvador"));
         entity.add(Column.of("state", "Bahia"));
-        entity.add(Column.of("zip", "12321"));
-        entity.add(Column.of("plusFour", "1234"));
+        entity.add(Column.of("zipCode", Arrays.asList(
+                Column.of("zip", "12321"),
+                Column.of("plusFour", "1234"))));
 
         Address address = converter.toEntity(entity);
 
@@ -380,6 +381,24 @@ public class ColumnEntityConverterTest {
         assertEquals("12321", address.getZipCode().getZip());
         assertEquals("1234", address.getZipCode().getPlusFour());
 
+    }
+
+    @Test
+    public void shouldReturnNullWhenThereIsNotSubEntity() {
+        ColumnEntity entity = ColumnEntity.of("Address");
+
+        entity.add(Column.of("street", "Rua Engenheiro Jose Anasoh"));
+        entity.add(Column.of("city", "Salvador"));
+        entity.add(Column.of("state", "Bahia"));
+        entity.add(Column.of("zip", "12321"));
+        entity.add(Column.of("plusFour", "1234"));
+
+        Address address = converter.toEntity(entity);
+
+        assertEquals("Rua Engenheiro Jose Anasoh", address.getStreet());
+        assertEquals("Salvador", address.getCity());
+        assertEquals("Bahia", address.getState());
+        assertNull(address.getZipCode());
     }
 
     @Test

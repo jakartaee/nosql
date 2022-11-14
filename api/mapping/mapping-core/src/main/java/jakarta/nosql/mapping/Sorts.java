@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,6 +19,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Sort;
 
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.function.Supplier;
 
 /**
@@ -77,7 +78,9 @@ public interface Sorts {
      * @return a {@link Sorts} instance
      */
     static Sorts sorts() {
-        return ServiceLoaderProvider.get(SortsProvider.class).get();
+        return ServiceLoaderProvider.get(SortsProvider.class,
+                ()-> ServiceLoader.load(SortsProvider.class))
+                .get();
     }
 
     /**

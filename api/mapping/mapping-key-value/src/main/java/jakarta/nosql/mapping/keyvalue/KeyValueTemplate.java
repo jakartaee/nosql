@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,6 +17,7 @@ package jakarta.nosql.mapping.keyvalue;
 
 
 import jakarta.nosql.mapping.PreparedStatement;
+import jakarta.nosql.mapping.Template;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -28,14 +29,24 @@ import java.util.stream.StreamSupport;
 import static java.util.stream.Collectors.toList;
 
 
-/**
+/*
  * This interface that represents the common operation between an entity and KeyValueEntity
  */
-public interface KeyValueTemplate {
+
+/**
+ * KeyValueTemplate is a helper class that increases productivity when performing common Bucket operations.
+ * Includes integrated object mapping between documents and POJOs.
+ * It represents the common operation between an entity and {@link jakarta.nosql.keyvalue.BucketManager}
+ * In the Template, the methods {@link Template#update(Object)} and {@link Template#insert(Object)}
+ * might work as an alias to put operation.
+ *
+ * @see jakarta.nosql.keyvalue.BucketManager
+ */
+public interface KeyValueTemplate extends Template {
     /**
      * Saves the entity
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @param <T>    the entity type
      * @return the entity
      * @throws NullPointerException when entity is null
@@ -45,7 +56,7 @@ public interface KeyValueTemplate {
     /**
      * Saves the entity with time to live
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @param ttl    the defined time to live
      * @param <T>    the entity type
      * @return the entity
@@ -57,7 +68,7 @@ public interface KeyValueTemplate {
     /**
      * Saves the {@link Iterable} of entities
      *
-     * @param entities keys to be insert
+     * @param entities keys to be inserted
      * @param <T>      the entity type
      * @return the entities
      * @throws NullPointerException when the iterable is null

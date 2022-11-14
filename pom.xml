@@ -55,25 +55,27 @@
     <properties>
         <apache.rat.version>0.12</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
-        <jacoco.maven.version>0.8.4</jacoco.maven.version>
+        <jacoco.maven.version>0.8.7</jacoco.maven.version>
         <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
         <jakarta.enterprise.cdi.version>3.0.0</jakarta.enterprise.cdi.version>
         <jakarta.json.bind.version>2.0.0</jakarta.json.bind.version>
         <jakarta.json.version>2.0.0</jakarta.json.version>
         <jakarta.nosql.version>${project.version}</jakarta.nosql.version>
         <jakarta.validation.version>2.0.1</jakarta.validation.version>
-        <junit.version>5.7.0</junit.version>
-        <maven-javadoc-plugin.vesion>3.2.0</maven-javadoc-plugin.vesion>
-        <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
-        <maven.checkstyle.plugin.version>3.1.0</maven.checkstyle.plugin.version>
+        <junit.version>5.9.1</junit.version>
+        <maven-javadoc-plugin.vesion>3.3.2</maven-javadoc-plugin.vesion>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven.checkstyle.plugin.version>3.2.0</maven.checkstyle.plugin.version>
         <maven.compile.version>3.8.1</maven.compile.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.3.0.603</sonar.maven.version>
-        <mockito.verson>3.6.28</mockito.verson>
+        <mockito.verson>4.8.1</mockito.verson>
+        <assertj.version>3.23.1</assertj.version>
+        <commons.io.version>2.11.0</commons.io.version>
     </properties>
 
     <dependencies>
@@ -123,6 +125,18 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito.verson}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -193,6 +207,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven.checkstyle.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.3</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>verify-style</id>
@@ -203,16 +224,20 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes>${checkstyle.excludes}</excludes>
+                    <excludes>**/module-info.java,${checkstyle.excludes}</excludes>
                     <logViolationsToConsole>true</logViolationsToConsole>
                     <consoleOutput>true</consoleOutput>
                     <checkstyleRules>
                         <module name="Checker">
-                           
 
                             <module name="FileLength">
                                 <property name="max" value="3500"/>
                                 <property name="fileExtensions" value="java"/>
+                            </module>
+
+                            <module name="LineLength">
+                                <property name="max" value="180"/>
+                                <property name="ignorePattern" value="@version|@see"/>
                             </module>
 
                             <module name="FileTabCharacter"/>
@@ -243,11 +268,6 @@
                                 <module name="RedundantImport"/>
                                 <module name="UnusedImports"/>
 
-
-                                <module name="LineLength">
-                                    <property name="max" value="180"/>
-                                    <property name="ignorePattern" value="@version|@see"/>
-                                </module>
                                 <module name="MethodLength">
                                     <property name="max" value="250"/>
                                 </module>
@@ -403,7 +423,6 @@
             <url>https://jakarta.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
   <modules>
         <module>api</module>
         <module>tck</module>

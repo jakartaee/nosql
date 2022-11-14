@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,6 +16,7 @@
 package jakarta.nosql;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import jakarta.annotation.Priority;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Stream.of;
 
+@Disabled
 class ServiceLoaderSortTest {
 
 
@@ -49,7 +51,7 @@ class ServiceLoaderSortTest {
         List<Serializable> things = of(new Computer(), new Animal(), new Machine(), new Person())
                 .map(ServiceLoaderSort::of)
                 .sorted()
-                .map(s -> s.get())
+                .map(ServiceLoaderSort::get)
                 .collect(Collectors.toList());
 
         Assertions.assertTrue(things.get(0) instanceof Animal);

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,6 +16,8 @@
 
 package jakarta.nosql.communication.column;
 
+import jakarta.nosql.TypeReference;
+import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnEntity;
@@ -24,6 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,8 +34,7 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -74,6 +76,15 @@ public class ColumnEntityTest {
     }
 
     @Test
+    public void shouldReturnErrorWhenFindHasNullParameter() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Assertions.assertThrows(NullPointerException.class, () -> entity.find(null));
+        Assertions.assertThrows(NullPointerException.class, () -> entity.find("name", (Class<Object>) null));
+        Assertions.assertThrows(NullPointerException.class, () -> entity.find("name", (TypeSupplier<Object>) null));
+    }
+
+    @Test
     public void shouldFindColumn() {
         Column column = Column.of("name", "name");
         ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
@@ -82,6 +93,47 @@ public class ColumnEntityTest {
         assertTrue(name.isPresent());
         assertFalse(notfound.isPresent());
         assertEquals(column, name.get());
+    }
+
+    @Test
+    public void shouldFindValue() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Optional<String> name = entity.find("name", String.class);
+        Assertions.assertNotNull(name);
+        Assertions.assertTrue(name.isPresent());
+        Assertions.assertEquals("name", name.orElse(""));
+    }
+
+    @Test
+    public void shouldNotFindValue() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        Optional<String> notFound = entity.find("not_found", String.class);
+        Assertions.assertNotNull(notFound);
+        Assertions.assertFalse(notFound.isPresent());
+    }
+
+    @Test
+    public void shouldFindTypeSupplier() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        List<String> names = entity.find("name", new TypeReference<List<String>>() {
+        })
+                .orElse(Collections.emptyList());
+        Assertions.assertNotNull(names);
+        Assertions.assertFalse(names.isEmpty());
+    }
+
+    @Test
+    public void shouldNotFindTypeSupplier() {
+        Column column = Column.of("name", "name");
+        ColumnEntity entity = ColumnEntity.of("entity", singletonList(column));
+        List<String> names = entity.find("not_found", new TypeReference<List<String>>() {
+        })
+                .orElse(Collections.emptyList());
+        Assertions.assertNotNull(names);
+        Assertions.assertTrue(names.isEmpty());
     }
 
     @Test
@@ -135,8 +187,8 @@ public class ColumnEntityTest {
         assertEquals("id", result.get("_id"));
         List<Map<String, Object>> contacts = (List<Map<String, Object>>) result.get("contacts");
         assertEquals(3, contacts.size());
-        assertThat(contacts, containsInAnyOrder(singletonMap("name", "Ada"), singletonMap("type", "type"),
-                singletonMap("information", "ada@lovelace.com")));
+        assertThat(contacts).contains(singletonMap("name", "Ada"), singletonMap("type", "type"),
+                singletonMap("information", "ada@lovelace.com"));
 
     }
 
@@ -155,8 +207,8 @@ public class ColumnEntityTest {
         assertEquals(1, contacts.size());
         List<Map<String, Object>> maps = contacts.get(0);
         assertEquals(3, maps.size());
-        assertThat(maps, containsInAnyOrder(singletonMap("name", "Ada"), singletonMap("type", "type"),
-                singletonMap("information", "ada@lovelace.com")));
+        assertThat(maps).contains(singletonMap("name", "Ada"), singletonMap("type", "type"),
+                singletonMap("information", "ada@lovelace.com"));
 
     }
 
@@ -319,7 +371,7 @@ public class ColumnEntityTest {
                 Column.of("name5", 14), Column.of("name5", 16));
 
         ColumnEntity columnFamily = ColumnEntity.of("columnFamily", columns);
-        assertThat(columnFamily.getColumnNames(), containsInAnyOrder("name", "name2", "name3", "name4", "name5"));
+        assertThat(columnFamily.getColumnNames()).contains("name", "name2", "name3", "name4", "name5");
 
     }
 
@@ -330,8 +382,8 @@ public class ColumnEntityTest {
                 Column.of("name5", 14), Column.of("name5", 16));
 
         ColumnEntity columnFamily = ColumnEntity.of("columnFamily", columns);
-        assertThat(columnFamily.getValues(), containsInAnyOrder(Value.of(10), Value.of(11), Value.of(12),
-                Value.of(13), Value.of(16)));
+        assertThat(columnFamily.getValues()).contains(Value.of(10), Value.of(11), Value.of(12),
+                Value.of(13), Value.of(16));
     }
 
     @Test

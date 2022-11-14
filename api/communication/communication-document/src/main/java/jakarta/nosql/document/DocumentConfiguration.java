@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,9 +19,10 @@ package jakarta.nosql.document;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
+import java.util.ServiceLoader;
+
 /**
- * The Jakarta NoSQL communication configuration to create a {@link DocumentCollectionManagerFactory}
- *
+ * The Jakarta NoSQL configuration to create a {@link DocumentCollectionManagerFactory}
  */
 public interface DocumentConfiguration {
 
@@ -58,20 +59,23 @@ public interface DocumentConfiguration {
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
     static <T extends DocumentConfiguration> T getConfiguration() {
-        return (T) ServiceLoaderProvider.getUnique(DocumentConfiguration.class);
+        return (T) ServiceLoaderProvider.getUnique(DocumentConfiguration.class, () ->
+                ServiceLoader.load(DocumentConfiguration.class));
+
     }
 
     /**
      * creates and returns a  {@link DocumentConfiguration} instance from {@link java.util.ServiceLoader}
      * for a particular provider implementation.
      *
-     * @param <T>      the configuration type
-     * @param supplier the particular provider
+     * @param <T>     the configuration type
+     * @param service the particular provider
      * @return {@link DocumentConfiguration} instance
      * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
      * @throws jakarta.nosql.NonUniqueResultException  when there is more than one KeyValueConfiguration
      */
-    static <T extends DocumentConfiguration> T getConfiguration(Class<T> supplier) {
-        return ServiceLoaderProvider.getUnique(DocumentConfiguration.class, supplier);
+    static <T extends DocumentConfiguration> T getConfiguration(Class<T> service) {
+        return ServiceLoaderProvider.getUnique(DocumentConfiguration.class,
+                () -> ServiceLoader.load(DocumentConfiguration.class), service);
     }
 }

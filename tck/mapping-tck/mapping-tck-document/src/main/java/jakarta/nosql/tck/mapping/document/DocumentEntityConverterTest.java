@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -52,16 +52,15 @@ import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @CDIExtension
 public class DocumentEntityConverterTest {
-
     @Inject
     private DocumentEntityConverter converter;
 
@@ -95,8 +94,9 @@ public class DocumentEntityConverterTest {
         DocumentEntity entity = converter.toDocument(person);
         assertEquals("Person", entity.getName());
         assertEquals(4, entity.size());
-        assertThat(entity.getDocuments(), containsInAnyOrder(Document.of("_id", 12L),
-                Document.of("age", 10), Document.of("name", "Otavio"), Document.of("phones", Arrays.asList("234", "2342"))));
+        assertThat(entity.getDocuments()).contains(Document.of("_id", 12L),
+                Document.of("age", 10), Document.of("name", "Otavio"),
+                Document.of("phones", Arrays.asList("234", "2342")));
 
     }
 
@@ -109,7 +109,7 @@ public class DocumentEntityConverterTest {
         assertEquals(6, entity.size());
 
 
-        assertThat(entity.getDocuments(), containsInAnyOrder(documents));
+        assertThat(entity.getDocuments()).contains(documents);
     }
 
     @Test
@@ -185,7 +185,7 @@ public class DocumentEntityConverterTest {
         assertEquals(getValue(entity.find("phones")), director.getPhones());
 
         Document subdocument = entity.find("movie").get();
-        List<Document> documents = subdocument.get(new TypeReference<List<Document>>() {
+        List<Document> documents = subdocument.get(new TypeReference<>() {
         });
         assertEquals(3, documents.size());
         assertEquals("movie", subdocument.getName());
@@ -226,9 +226,9 @@ public class DocumentEntityConverterTest {
 
         DocumentEntity entity = converter.toDocument(director);
         entity.remove("movie");
-        entity.add(Document.of("title", "Matrix"));
-        entity.add(Document.of("year", 2012));
-        entity.add(Document.of("actors", singleton("Actor")));
+        entity.add(Document.of("movie", Arrays.asList(Document.of("title", "Matrix"),
+                Document.of("year", 2012), Document.of("actors", singleton("Actor")))));
+
         Director director1 = converter.toEntity(entity);
 
         assertEquals(movie, director1.getMovie());
@@ -372,8 +372,9 @@ public class DocumentEntityConverterTest {
         entity.add(Document.of("street", "Rua Engenheiro Jose Anasoh"));
         entity.add(Document.of("city", "Salvador"));
         entity.add(Document.of("state", "Bahia"));
-        entity.add(Document.of("zip", "12321"));
-        entity.add(Document.of("plusFour", "1234"));
+        entity.add(Document.of("zipCode", Arrays.asList(
+                Document.of("zip", "12321"),
+                Document.of("plusFour", "1234"))));
 
         Address address = converter.toEntity(entity);
 
@@ -382,6 +383,26 @@ public class DocumentEntityConverterTest {
         assertEquals("Bahia", address.getState());
         assertEquals("12321", address.getZipCode().getZip());
         assertEquals("1234",  address.getZipCode().getPlusFour());
+
+    }
+
+    @Test
+    public void shouldReturnNullWhenThereIsNotSubEntity() {
+
+        DocumentEntity entity = DocumentEntity.of("Address");
+
+        entity.add(Document.of("street", "Rua Engenheiro Jose Anasoh"));
+        entity.add(Document.of("city", "Salvador"));
+        entity.add(Document.of("state", "Bahia"));
+        entity.add(Document.of("zip", "12321"));
+        entity.add(Document.of("plusFour", "1234"));
+
+        Address address = converter.toEntity(entity);
+
+        assertEquals("Rua Engenheiro Jose Anasoh", address.getStreet());
+        assertEquals("Salvador", address.getCity());
+        assertEquals("Bahia", address.getState());
+        assertNull(address.getZipCode());
 
     }
 

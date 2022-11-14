@@ -1,0 +1,61 @@
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License v. 2.0 which is available at
+// http://www.eclipse.org/legal/epl-2.0.
+//
+// This Source Code may also be made available under the following Secondary
+// Licenses when the conditions for such availability set forth in the Eclipse
+// Public License v. 2.0 are satisfied: GNU General Public License, version 2
+// with the GNU Classpath Exception which is available at
+// https://www.gnu.org/software/classpath/license.html.
+//
+// SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+=== Bean Validation
+
+The Mapping API supports the https://jakarta.ee/specifications/bean-validation/[Jakarta Bean Validation] specification. This is implemented as a plugin that listens to *preEntity* events and performs bean validation on the entity.
+
+[source,java]
+----
+@Entity
+public class Person {
+
+    @Key
+    @NotNull
+    @Column
+    private String name;
+
+    @Min(21)
+    @NotNull
+    @Column
+    private Integer age;
+
+    @DecimalMax("100")
+    @NotNull
+    @Column
+    private BigDecimal salary;
+
+    @Size(min = 1, max = 3)
+    @NotNull
+    @Column
+    private List<String> phones;
+}
+----
+
+In case of a validation failure, a https://github.com/jakartaee/validation/blob/master/src/main/java/jakarta/validation/ConstraintViolationException.java[`ConstraintViolationException`] will be thrown. Consider the following example:
+
+[source,java]
+----
+Person person = Person.builder()
+                .withAge(10) //this is lower than @Min(21) defines
+                .withName("Ada")
+                .withSalary(BigDecimal.ONE)
+                .withPhones(singletonList("123131231"))
+                .build();
+
+repository.save(person); //throws a ConstraintViolationException
+----
+
+
+

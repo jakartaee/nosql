@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -29,22 +29,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DocumentQueryTest {
 
-
     private DocumentQuery query;
-
 
     @BeforeEach
     public void setUp() {
-        query = select().from("columnFamily").build();
+        query = select().from("documentCollection").build();
     }
 
 
     @Test
-    public void shouldNotRemoveColumns() {
+    public void shouldNotRemoveDocuments() {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> {
-            List<String> columns = query.getDocuments();
-            assertTrue(columns.isEmpty());
-            columns.clear();
+            List<String> documents = query.getDocuments();
+            assertTrue(documents.isEmpty());
+            documents.clear();
         });
     }
 

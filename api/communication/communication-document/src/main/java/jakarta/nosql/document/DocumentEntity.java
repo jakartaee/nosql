@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -18,25 +18,25 @@ package jakarta.nosql.document;
 
 
 import jakarta.nosql.ServiceLoaderProvider;
+import jakarta.nosql.TypeSupplier;
 import jakarta.nosql.Value;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Function;
 
 /**
- * A document-oriented database, or document store, is a computer program designed for storing, retrieving,
- * and managing document-oriented information, also known as semi-structured data. D
- * ocument-oriented databases are one of the main categories of NoSQL databases, and the
- * popularity of the term "document-oriented database" has grown with the use of the term NoSQL itself.
- * XML databases are a subclass of document-oriented databases that are optimized to work with XML documents.
- * Graph databases are similar, but add another layer, the relationship,
- * which allows them to link documents for rapid traversal.
+ * It represents a document collection or wide column objects.
+ * Each ColumnFamily has a name and one or more {@link Document}.
+ * @see Document
+ * @see DocumentEntity#getDocuments()
+ * @see DocumentEntity#getName()
  */
-public interface DocumentEntity  {
+public interface DocumentEntity {
 
     /**
      * Creates a {@link DocumentEntity} instance
@@ -46,19 +46,22 @@ public interface DocumentEntity  {
      * @throws NullPointerException when name is null
      */
     static DocumentEntity of(String name) {
-        return ServiceLoaderProvider.get(DocumentEntityProvider.class).apply(name);
+        return ServiceLoaderProvider.get(DocumentEntityProvider.class,
+                ()-> ServiceLoader.load(DocumentEntityProvider.class)).apply(name);
     }
 
     /**
      * Creates a {@link DocumentEntity} instance
      *
      * @param name      the collection name
-     * @param documents the intial document inside {@link DocumentEntity}
+     * @param documents the initial document inside {@link DocumentEntity}
      * @return a {@link DocumentEntity} instance
      * @throws NullPointerException when either name or documents are null
      */
     static DocumentEntity of(String name, List<Document> documents) {
-        DocumentEntity entity = ServiceLoaderProvider.get(DocumentEntityProvider.class).apply(name);
+        DocumentEntity entity = ServiceLoaderProvider.get(DocumentEntityProvider.class,
+                ()-> ServiceLoader.load(DocumentEntityProvider.class))
+                .apply(name);
         entity.addAll(documents);
         return entity;
     }
@@ -98,8 +101,8 @@ public interface DocumentEntity  {
     /**
      * add a document within {@link DocumentEntity}
      *
-     * @param documentName  a name of the document
-     * @param value the information of the document
+     * @param documentName a name of the document
+     * @param value        the information of the document
      * @throws UnsupportedOperationException when this method is not supported
      * @throws NullPointerException          when either name or value are null
      */
@@ -108,8 +111,8 @@ public interface DocumentEntity  {
     /**
      * add a document within {@link DocumentEntity}
      *
-     * @param documentName  a name of the document
-     * @param value the information of the document
+     * @param documentName a name of the document
+     * @param value        the information of the document
      * @throws UnsupportedOperationException when this method is not supported
      * @throws NullPointerException          when either name or value are null
      */
@@ -125,13 +128,35 @@ public interface DocumentEntity  {
     void addAll(Iterable<Document> documents);
 
     /**
-     * Find document a document from document name
+     * Find document from document name
      *
      * @param documentName a name of a document
      * @return an {@link Optional} instance with the result
      * @throws NullPointerException when documentName is null
      */
     Optional<Document> find(String documentName);
+
+    /**
+     * Find a document and converts to specific type from {@link Class}.
+     * It is an alias to {@link Value#get(Class)}
+     *
+     * @param documentName a name of a document
+     * @param type the type to convert the value
+     * @return an {@link Optional} instance with the result
+     * @throws NullPointerException when there are null parameters
+     */
+    <T> Optional<T> find(String documentName, Class<T> type);
+
+    /**
+     * Find a document and converts to specific type from {@link TypeSupplier}.
+     * It is an alias to {@link Value#get(TypeSupplier)}
+     *
+     * @param documentName a name of a document
+     * @param type the type to convert the value
+     * @return a new instance converted to informed class
+     * @throws NullPointerException when there are null parameters
+     */
+    <T> Optional<T> find(String documentName, TypeSupplier<T> type);
 
     /**
      * Returns the number of elements in this list.

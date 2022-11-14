@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -25,8 +25,7 @@ import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -34,17 +33,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class DocumentsTest {
     @Test
     public void shouldCreateDocument() {
-        Document column = Documents.of("name", "Ada");
-        assertEquals("name", column.getName());
-        assertEquals("Ada", column.get());
+        Document document = Documents.of("name", "Ada");
+        assertEquals("name", document.getName());
+        assertEquals("Ada", document.get());
     }
 
     @Test
-    public void shouldCreateColumnsFromMap() {
+    public void shouldCreateDocumentsFromMap() {
         Map<String, String> map = singletonMap("name", "Ada");
         List<Document> documents = Documents.of(map);
         assertFalse(documents.isEmpty());
-        assertThat(documents, contains(Document.of("name", "Ada")));
+        assertThat(documents).contains(Document.of("name", "Ada"));
     }
 
     @Test
