@@ -113,7 +113,7 @@ try (ColumnManager manager = factory.apply("database")) {
 [source,java]
 ----
 Settings settings = Settings.builder().put("credential", "value").build();
-KeyValueConfiguration configuration = new NoSQLColumnProvider();
+KeyValueConfiguration configuration = new NoSQLKeyValueProvider();
 BucketManagerFactory factory = configuration.apply(settings);
 try (BucketManager manager = factory.apply("database")) {
      KeyValueEntity entity = KeyValueEntity.of(12, "Poliana");
