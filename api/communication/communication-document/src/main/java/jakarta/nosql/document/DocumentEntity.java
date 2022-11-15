@@ -30,8 +30,10 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * It represents a document collection or wide column objects.
- * Each ColumnFamily has a name and one or more {@link Document}.
+ * The communication level entity. It is the API entity between the database and the Jakarta NoSQL communication level.
+ * It represents a document collection.
+ * Each DocumentEntity has a name and one or more {@link Document}.
+ *
  * @see Document
  * @see DocumentEntity#getDocuments()
  * @see DocumentEntity#getName()
@@ -47,7 +49,7 @@ public interface DocumentEntity {
      */
     static DocumentEntity of(String name) {
         return ServiceLoaderProvider.get(DocumentEntityProvider.class,
-                ()-> ServiceLoader.load(DocumentEntityProvider.class)).apply(name);
+                () -> ServiceLoader.load(DocumentEntityProvider.class)).apply(name);
     }
 
     /**
@@ -60,7 +62,7 @@ public interface DocumentEntity {
      */
     static DocumentEntity of(String name, List<Document> documents) {
         DocumentEntity entity = ServiceLoaderProvider.get(DocumentEntityProvider.class,
-                ()-> ServiceLoader.load(DocumentEntityProvider.class))
+                        () -> ServiceLoader.load(DocumentEntityProvider.class))
                 .apply(name);
         entity.addAll(documents);
         return entity;
@@ -141,7 +143,7 @@ public interface DocumentEntity {
      * It is an alias to {@link Value#get(Class)}
      *
      * @param documentName a name of a document
-     * @param type the type to convert the value
+     * @param type         the type to convert the value
      * @return an {@link Optional} instance with the result
      * @throws NullPointerException when there are null parameters
      */
@@ -152,7 +154,7 @@ public interface DocumentEntity {
      * It is an alias to {@link Value#get(TypeSupplier)}
      *
      * @param documentName a name of a document
-     * @param type the type to convert the value
+     * @param type         the type to convert the value
      * @return a new instance converted to informed class
      * @throws NullPointerException when there are null parameters
      */

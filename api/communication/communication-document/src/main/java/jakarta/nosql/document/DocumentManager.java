@@ -29,10 +29,9 @@ import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
- * The persistence context to {@link DocumentEntity}.
- * The DocumentCollectionManager API is used to create and remove persistent {@link DocumentEntity} instances,
- * to select entities by their primary key, and to select over entities.
- * Thus, ColumnFamilyManager enables CRUD Operation for {@link DocumentEntity}.
+ * The manager instance bridges the Jakarta NoSQL and the NoSQL vendor.
+ *
+ * @see DocumentEntity
  */
 public interface DocumentManager extends AutoCloseable {
 
@@ -133,7 +132,7 @@ public interface DocumentManager extends AutoCloseable {
     default Stream<DocumentEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
         DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
-                ()-> ServiceLoader.load(DocumentQueryParser.class));
+                () -> ServiceLoader.load(DocumentQueryParser.class));
         return parser.query(query, this, DocumentObserverParser.EMPTY);
     }
 
@@ -150,7 +149,7 @@ public interface DocumentManager extends AutoCloseable {
     default DocumentPreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
         DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
-                ()-> ServiceLoader.load(DocumentQueryParser.class));
+                () -> ServiceLoader.load(DocumentQueryParser.class));
         return parser.prepare(query, this, DocumentObserverParser.EMPTY);
     }
 
