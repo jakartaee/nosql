@@ -240,10 +240,7 @@ public class Money {
 
 NOTE: Just to be more didactic, the book creates a simple money representation. As everyone knows, reinventing the wheel is not a good practice. In a production environment, the Java developer should use mature Money APIs such as link:https://github.com/JavaMoney[Moneta], the reference implementation of link:https://jcp.org/en/jsr/detail?id=354[JSR 354].
 
-The first step is to create the converter to a custom type database, the `ValueWriter`. It has two methods:
-
-* `boolean isCompatible(Class type)`: Checks if the given class has support for this implementation.
-* `S write(T object)`: Once the implementation supports the type, the next step converts an instance of type `T` to type `S`.
+The first step is to create the converter to a custom type database, the `ValueWriter`.
 
 [source,java]
 ----
@@ -263,10 +260,7 @@ public class MoneyValueWriter implements ValueWriter<Money, String> {
 }
 ----
 
-With the `MoneyValueWriter` created and the `Money` type will save as String, then the next step is read information to Java application. As can be seen, a `ValueReader` implementation. This interface has two methods:
-
-* `boolean isCompatible(Class type)`; Check if the given class has support for this implementation.
-* `<T> T read(Class<T> type, Object value)`; Converts to type `T` from an instance of `Object`.
+With the `MoneyValueWriter` created and the `Money` type will save as String, then the next step is read information to Java application. As can be seen, a `ValueReader` implementation.
 
 [source,java]
 ----
