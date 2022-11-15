@@ -21,6 +21,7 @@ import java.util.function.Function;
 
 /**
  * The manager factory instance creates a manager instance from the database name.
+ * It should return a {@link NullPointerException} when the {@link String} parameter is null.
  *
  * @see DocumentManager
  */

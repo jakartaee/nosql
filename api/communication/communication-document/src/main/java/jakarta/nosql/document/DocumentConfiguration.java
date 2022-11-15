@@ -24,6 +24,8 @@ import java.util.function.Function;
 
 /**
  * It is a function that reads from {@link Settings} and then creates a manager factory instance.
+ * It should return a {@link NullPointerException} when the {@link Settings} parameter is null.
+ *
  * @see DocumentManagerFactory
  * @see DocumentManager
  */
