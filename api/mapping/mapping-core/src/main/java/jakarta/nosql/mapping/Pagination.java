@@ -23,6 +23,7 @@ import java.util.function.Function;
 /**
  * Pagination is the process of separating print or digital content into discrete pages.
  * This instance represents this pagination process.
+ * @deprecated Use the Jakarta Data Pageable instead.
  */
 public interface Pagination {
 

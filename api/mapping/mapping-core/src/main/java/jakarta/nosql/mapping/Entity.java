@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Specifies that the class is an entity. This annotation is applied to the entity class.
+ * @deprecated Use the Jakarta Data Entity annotation instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

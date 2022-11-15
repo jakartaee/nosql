@@ -26,6 +26,7 @@ import java.lang.annotation.Target;
  * That going to be used mainly for key-value operations.
  *
  * @see Entity
+ * @deprecated Use the Jakarta Data Id annotation instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})

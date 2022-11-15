@@ -23,6 +23,7 @@ import java.util.stream.Stream;
  * A page is a fixed-length contiguous block of entities from the database.
  *
  * @param <T> the entity type
+ * @deprecated Use the Jakarta Data Page instead.
  */
 public interface Page<T> extends Supplier<Stream<T>> {
 
