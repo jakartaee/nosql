@@ -27,10 +27,10 @@ public interface ColumnTemplateProducer {
      * creates a {@link ColumnManager}
      *
      * @param <T>                 the ColumnTemplate instance
-     * @param columnManager the columnFamilyManager
+     * @param manager the columnFamilyManager
      * @return a new instance
      * @throws NullPointerException when columnFamilyManager is null
      */
-    <T extends ColumnTemplate> T get(ColumnManager columnManager);
+    <T extends ColumnTemplate> T get(ColumnManager manager);
 
 }
