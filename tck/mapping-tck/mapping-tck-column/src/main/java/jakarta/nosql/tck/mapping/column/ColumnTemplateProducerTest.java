@@ -14,7 +14,7 @@
  */
 package jakarta.nosql.tck.mapping.column;
 
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 import jakarta.nosql.mapping.column.ColumnTemplate;
 import jakarta.nosql.mapping.column.ColumnTemplateProducer;
 import jakarta.nosql.tck.test.CDIExtension;
@@ -39,7 +39,7 @@ public class ColumnTemplateProducerTest {
 
     @Test
     public void shouldReturn() {
-        ColumnFamilyManager manager = Mockito.mock(ColumnFamilyManager.class);
+        ColumnManager manager = Mockito.mock(ColumnManager.class);
         ColumnTemplate columnTemplate = producer.get(manager);
         assertNotNull(columnTemplate);
     }

@@ -15,9 +15,9 @@
  */
 package jakarta.nosql.tck.communication.driver.column;
 
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 
 import java.util.function.Supplier;
 
-public interface ColumnFamilyManagerSupplier extends Supplier<ColumnFamilyManager> {
+public interface ColumnFamilyManagerSupplier extends Supplier<ColumnManager> {
 }

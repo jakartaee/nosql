@@ -17,22 +17,22 @@
 package jakarta.nosql.column;
 
 /**
- * {@link ColumnFamilyManager} factory.
+ * {@link ColumnManager} factory.
  * When the application has finished using the column family manager factory, and/or at application shutdown,
  * the application should close the column family manager factory.
  */
 public interface ColumnFamilyManagerFactory extends AutoCloseable {
 
     /**
-     * Creates a {@link ColumnFamilyManager} from database's name
+     * Creates a {@link ColumnManager} from database's name
      *
-     * @param <T>      the {@link ColumnFamilyManager} type
+     * @param <T>      the {@link ColumnManager} type
      * @param database a database name
-     * @return a new {@link ColumnFamilyManager} instance
+     * @return a new {@link ColumnManager} instance
      * @throws UnsupportedOperationException when this operation is not supported
      *                                       throws {@link NullPointerException} when the database is null
      */
-    <T extends ColumnFamilyManager> T get(String database);
+    <T extends ColumnManager> T get(String database);
 
     /**
      * closes a resource

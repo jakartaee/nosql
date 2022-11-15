@@ -20,7 +20,7 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnEntity;
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 import jakarta.nosql.column.ColumnQuery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,17 +42,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-public class ColumnFamilyManagerTest {
+public class ColumnManagerTest {
 
     @BeforeEach
     public void setUp() {
-        Module module = ColumnFamilyManagerTest.class.getModule();
+        Module module = ColumnManagerTest.class.getModule();
         module.addUses(ColumnFamilyManagerSupplier.class);
     }
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldInsert(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
 
         Assertions.assertTrue(entityOptional.isPresent());
@@ -68,14 +68,14 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnErrorWhenInsertIsNull(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.insert((ColumnEntity) null));
     }
 
     @ParameterizedTest
     @ColumnSource("column_ttl.properties")
     public void shouldInsertTTL(ColumnArgument argument) throws InterruptedException {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -93,7 +93,7 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column_ttl.properties")
     public void shouldReturnErrorWhenInsertTTLHasNullParameter(ColumnArgument argument) throws InterruptedException {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class,
                 () -> manager.insert((ColumnEntity) null, Duration.ZERO));
         assertThrows(NullPointerException.class,
@@ -103,7 +103,7 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldInsertIterable(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         List<ColumnEntity> entities = argument.insertAll(manager);
 
         final List<Object> ids = entities.stream()
@@ -123,14 +123,14 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnErrorWhenInsertIterableIsNull(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.insert((Iterable<ColumnEntity>) null));
     }
 
     @ParameterizedTest
     @ColumnSource("column_ttl.properties")
     public void shouldInsertIterableTTL(ColumnArgument argument) throws InterruptedException {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         List<ColumnEntity> entities = argument.insertAll(manager);
         Assertions.assertEquals(argument.getQuery().size(), entities.size());
 
@@ -148,7 +148,7 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column_ttl.properties")
     public void shouldReturnErrorWhenInsertIterableTTL(ColumnArgument argument) throws InterruptedException {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
 
         assertThrows(NullPointerException.class, () -> manager.insert((Iterable<ColumnEntity>) null,
                 null));
@@ -162,7 +162,7 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldUpdate(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -177,14 +177,14 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnErrorWhenUpdateIsNull(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.update((ColumnEntity) null));
     }
 
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldUpdateIterable(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         List<ColumnEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
@@ -205,14 +205,14 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnErrorWhenUpdateIterableIsNull(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.update((Iterable<ColumnEntity>) null));
     }
 
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldDelete(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -230,14 +230,14 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnErrorWhenDelete(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.delete(null));
     }
 
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldSelect(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -255,14 +255,14 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnErrorWhenSelect(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.select(null));
     }
 
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldSingleResult(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         Optional<ColumnEntity> entityOptional = argument.insertOne(manager);
         Assertions.assertTrue(entityOptional.isPresent());
         final ColumnEntity entity = entityOptional
@@ -281,7 +281,7 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnAnErrorEmptySingleResult(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         List<ColumnEntity> entities = argument.insertAll(manager);
 
         assertNotNull(manager.update(entities));
@@ -304,16 +304,16 @@ public class ColumnFamilyManagerTest {
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldReturnErrorWhenSingleResult(ColumnArgument argument) {
-        ColumnFamilyManager manager = getManager(argument);
+        ColumnManager manager = getManager(argument);
         assertThrows(NullPointerException.class, () -> manager.singleResult(null));
     }
 
-    private ColumnFamilyManager getManager(ColumnArgument argument) {
+    private ColumnManager getManager(ColumnArgument argument) {
         assumeTrue(argument.isEmpty());
         return getManager();
     }
 
-    private ColumnFamilyManager getManager() {
+    private ColumnManager getManager() {
         final ColumnFamilyManagerSupplier supplier = ServiceLoaderProvider
                 .get(ColumnFamilyManagerSupplier.class,
                         ()-> ServiceLoader.load(ColumnFamilyManagerSupplier.class));

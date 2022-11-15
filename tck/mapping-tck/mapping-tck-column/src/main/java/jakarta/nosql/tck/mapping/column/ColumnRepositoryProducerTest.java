@@ -14,7 +14,7 @@
  */
 package jakarta.nosql.tck.mapping.column;
 
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 import jakarta.nosql.mapping.column.ColumnRepositoryProducer;
 import jakarta.nosql.mapping.column.ColumnTemplate;
 import jakarta.nosql.tck.entities.PersonRepository;
@@ -34,7 +34,7 @@ class ColumnRepositoryProducerTest {
 
     @Test
     public void shouldCreateFromManager() {
-        ColumnFamilyManager manager= Mockito.mock(ColumnFamilyManager.class);
+        ColumnManager manager= Mockito.mock(ColumnManager.class);
         PersonRepository personRepository = producer.get(PersonRepository.class, manager);
         assertNotNull(personRepository);
     }

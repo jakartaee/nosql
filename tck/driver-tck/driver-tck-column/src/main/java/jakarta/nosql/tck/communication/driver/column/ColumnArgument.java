@@ -16,7 +16,7 @@
 package jakarta.nosql.tck.communication.driver.column;
 
 import jakarta.nosql.column.ColumnEntity;
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 
 import java.util.Collections;
 import java.util.List;
@@ -62,12 +62,12 @@ public final class ColumnArgument {
         return empty;
     }
 
-    public Optional<ColumnEntity> insertOne(ColumnFamilyManager manager) {
+    public Optional<ColumnEntity> insertOne(ColumnManager manager) {
         Objects.requireNonNull(manager, "manager is required");
         return getQuery().stream().limit(1L).flatMap(manager::query).findFirst();
     }
 
-    public List<ColumnEntity> insertAll(ColumnFamilyManager manager) {
+    public List<ColumnEntity> insertAll(ColumnManager manager) {
         Objects.requireNonNull(manager, "manager is required");
         return getQuery().stream().flatMap(manager::query).collect(Collectors.toList());
     }

@@ -21,7 +21,7 @@ import jakarta.nosql.TypeReference;
 import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnCondition;
 import jakarta.nosql.column.ColumnDeleteQuery;
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -253,7 +253,7 @@ public class DeleteQueryFluentBuilderTest {
     @Test
     public void shouldExecuteDelete() {
         String columnFamily = "columnFamily";
-        ColumnFamilyManager manager = mock(ColumnFamilyManager.class);
+        ColumnManager manager = mock(ColumnManager.class);
         ArgumentCaptor<ColumnDeleteQuery> queryCaptor = ArgumentCaptor.forClass(ColumnDeleteQuery.class);
         delete().from(columnFamily).delete(manager);
         verify(manager).delete(queryCaptor.capture());
