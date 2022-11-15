@@ -31,7 +31,7 @@ IMPORTANT: The package name might change on the Jakarta EE process.
 
 The mapping API has five parts:
 
-* The *persistence-core*: The mapping common project.
+* The *persistence-core*: The mapping common project where there are annotations commons among the NoSQL types.
 * The *persistence-column*: The mapping to column NoSQL database.
 * The *persistence-document*: The mapping to document NoSQL database.
 * The *persistence-key-value*: The mapping to key-value NoSQL database.

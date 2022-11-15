@@ -75,10 +75,10 @@ try (DocumentManager manager = factory.apply("database")) {
     entity.add("version", 0.001);
     entity.add("name", "Diana");
     manager.insert(entity);
-    DocumentQuery query = DocumentQuery.select().from("entity").where("version").gte(0.001).build();
+    DocumentQuery query = select().from("entity").where("version").gte(0.001).build();
 
     Stream<DocumentEntity> entities = manager.select(query);
-    DocumentDeleteQuery delete = DocumentDeleteQuery.delete().from("entity").where("id").eq(10L).build();
+    DocumentDeleteQuery delete = delete().from("entity").where("id").eq(10L).build();
 
   manager.delete(delete);
 }
@@ -98,10 +98,10 @@ try (ColumnManager manager = factory.apply("database")) {
     entity.add("name", "Diana");
 
     manager.insert(entity);
-    ColumnQuery query = ColumnQuery.select().from("entity").where("version").gte(0.001).build();
+    ColumnQuery query = select().from("entity").where("version").gte(0.001).build();
     Stream<ColumnEntity> entities = manager.select(query);
 
-    ColumnDeleteQuery delete = ColumnDeleteQuery.delete().from("entity").where("id").eq(10L).build();
+    ColumnDeleteQuery delete = delete().from("entity").where("id").eq(10L).build();
 
     manager.delete(delete);
 }
@@ -483,10 +483,7 @@ DocumentEntity entity = DocumentEntity.of("collection");
 Document diana = Document.of("name", "Diana");
 
 entity.add(diana);
-----
 
-[source,java]
-----
 List<DocumentEntity> entities = Collections.singletonList(entity);
 
 DocumentCollectionManager manager = // instance;
