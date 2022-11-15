@@ -21,7 +21,7 @@ import jakarta.nosql.QueryException;
 import java.util.stream.Stream;
 
 /**
- * A query parser to document database type, this class will convert a String to an operation in {@link DocumentCollectionManager}.
+ * A query parser to document database type, this class will convert a String to an operation in {@link DocumentManager}.
  */
 public interface DocumentQueryParser {
 
@@ -37,7 +37,7 @@ public interface DocumentQueryParser {
      * @throws IllegalArgumentException        when the query has value parameters
      * @throws QueryException when there is error in the syntax
      */
-    Stream<DocumentEntity> query(String query, DocumentCollectionManager collectionManager, DocumentObserverParser observer);
+    Stream<DocumentEntity> query(String query, DocumentManager collectionManager, DocumentObserverParser observer);
 
     /**
      * Executes a query and returns a {@link DocumentPreparedStatement}, when the operations are <b>insert</b>, <b>update</b> and <b>select</b>
@@ -51,7 +51,7 @@ public interface DocumentQueryParser {
      * @throws IllegalArgumentException        when the query has value parameters
      * @throws QueryException when there is error in the syntax
      */
-    DocumentPreparedStatement prepare(String query, DocumentCollectionManager collectionManager, DocumentObserverParser observer);
+    DocumentPreparedStatement prepare(String query, DocumentManager collectionManager, DocumentObserverParser observer);
 
 
 }

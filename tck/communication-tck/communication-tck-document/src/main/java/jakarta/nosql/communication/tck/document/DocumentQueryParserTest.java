@@ -20,7 +20,7 @@ import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.document.Document;
-import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.document.DocumentCondition;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentEntity;
@@ -51,7 +51,7 @@ public class DocumentQueryParserTest {
     private DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
             ()-> ServiceLoader.load(DocumentQueryParser.class));
 
-    private DocumentCollectionManager manager = Mockito.mock(DocumentCollectionManager.class);
+    private DocumentManager manager = Mockito.mock(DocumentManager.class);
 
     @BeforeEach
     public void setUp() {

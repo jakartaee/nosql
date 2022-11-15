@@ -34,7 +34,7 @@ import java.util.stream.Stream;
  * to select entities by their primary key, and to select over entities.
  * Thus, ColumnFamilyManager enables CRUD Operation for {@link DocumentEntity}.
  */
-public interface DocumentCollectionManager extends AutoCloseable {
+public interface DocumentManager extends AutoCloseable {
 
     /**
      * Saves document collection entity
@@ -58,7 +58,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
 
     /**
      * Saves documents collection entity, by default it's just run for each saving using
-     * {@link DocumentCollectionManager#insert(DocumentEntity)},
+     * {@link DocumentManager#insert(DocumentEntity)},
      * each NoSQL vendor might replace to a more appropriate one.
      *
      * @param entities entities to be saved
@@ -69,7 +69,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
 
     /**
      * Saves documents collection entity with time to live, by default it's just run for each saving using
-     * {@link DocumentCollectionManager#insert(DocumentEntity, Duration)},
+     * {@link DocumentManager#insert(DocumentEntity, Duration)},
      * each NoSQL vendor might replace to a more appropriate one.
      *
      * @param entities entities to be saved
@@ -91,7 +91,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
 
     /**
      * Updates documents collection entity, by default it's just run for each saving using
-     * {@link DocumentCollectionManager#update(DocumentEntity)},
+     * {@link DocumentManager#update(DocumentEntity)},
      * each NoSQL vendor might replace to a more appropriate one.
      *
      * @param entities entities to be saved

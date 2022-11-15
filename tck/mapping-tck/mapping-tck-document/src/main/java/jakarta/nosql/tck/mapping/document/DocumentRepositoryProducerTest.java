@@ -14,7 +14,7 @@
  */
 package jakarta.nosql.tck.mapping.document;
 
-import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.mapping.document.DocumentRepositoryProducer;
 import jakarta.nosql.mapping.document.DocumentTemplate;
 import jakarta.nosql.tck.entities.PersonRepository;
@@ -34,7 +34,7 @@ class DocumentRepositoryProducerTest {
 
     @Test
     public void shouldCreateFromManager() {
-        DocumentCollectionManager manager= Mockito.mock(DocumentCollectionManager.class);
+        DocumentManager manager= Mockito.mock(DocumentManager.class);
         PersonRepository personRepository = producer.get(PersonRepository.class, manager);
         assertNotNull(personRepository);
     }

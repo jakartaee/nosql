@@ -19,7 +19,7 @@ package jakarta.nosql.communication.tck.document;
 import jakarta.nosql.Condition;
 import jakarta.nosql.TypeReference;
 import jakarta.nosql.document.Document;
-import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.document.DocumentCondition;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import org.junit.jupiter.api.Assertions;
@@ -255,7 +255,7 @@ public class DeleteQueryFluentBuilderTest {
     @Test
     public void shouldExecuteDelete() {
         String collection = "collection";
-        DocumentCollectionManager manager = mock(DocumentCollectionManager.class);
+        DocumentManager manager = mock(DocumentManager.class);
         ArgumentCaptor<DocumentDeleteQuery> queryCaptor = ArgumentCaptor.forClass(DocumentDeleteQuery.class);
         delete().from(collection).delete(manager);
         verify(manager).delete(queryCaptor.capture());

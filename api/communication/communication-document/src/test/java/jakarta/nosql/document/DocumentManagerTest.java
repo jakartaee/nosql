@@ -34,10 +34,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-class DocumentCollectionManagerTest {
+class DocumentManagerTest {
 
     @Spy
-    private DocumentCollectionManager manager;
+    private DocumentManager manager;
 
     @Test
     public void shouldReturnSingleResult() {

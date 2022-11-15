@@ -15,7 +15,7 @@
  */
 package jakarta.nosql.mapping.document;
 
-import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.mapping.Repository;
 
 /**
@@ -26,7 +26,7 @@ public interface DocumentRepositoryProducer {
 
 
     /**
-     * Produces a Repository class from repository class and {@link DocumentCollectionManager}
+     * Produces a Repository class from repository class and {@link DocumentManager}
      * @param repositoryClass the repository class
      * @param manager the manager
      * @param <T> the entity of repository
@@ -35,7 +35,7 @@ public interface DocumentRepositoryProducer {
      * @return a {@link Repository} interface
      * @throws NullPointerException when there is null parameter
      */
-    <T, K, R extends Repository<T, K>> R get(Class<R> repositoryClass, DocumentCollectionManager manager);
+    <T, K, R extends Repository<T, K>> R get(Class<R> repositoryClass, DocumentManager manager);
 
     /**
      * Produces a Repository class from repository class and {@link DocumentTemplate}

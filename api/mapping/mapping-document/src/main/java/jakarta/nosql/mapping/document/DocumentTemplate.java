@@ -18,6 +18,7 @@ package jakarta.nosql.mapping.document;
 
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.document.DocumentDeleteQuery;
+import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.document.DocumentQuery;
 import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
@@ -29,9 +30,9 @@ import java.util.stream.Stream;
 /**
  * DocumentTemplate is a helper class that increases productivity when performing common DocumentEntity operations.
  * Includes integrated object mapping between documents and POJOs.
- * It represents the common operation between an entity and {@link jakarta.nosql.document.DocumentCollectionManager}
+ * It represents the common operation between an entity and {@link DocumentManager}
  *
- * @see jakarta.nosql.document.DocumentCollectionManager
+ * @see DocumentManager
  */
 public interface DocumentTemplate extends Template {
 
