@@ -14,20 +14,16 @@
 
 ==== DocumentTemplate
 
-This template has the responsibility to serve as a bridge between the entity model and communication API to a document collection. It has two classes; `DocumentTemplate` and `DocumentTemplateAsync` - one for the synchronous and the other for the asynchronous tasks.
+This template has the responsibility to serve as a bridge between the entity model and the communication to a column family NoSQL database type.
 
 
-The `DocumentTemplate` is the document template for the synchronous tasks. It has three components:
-
-* *DocumentEntityConverter*: That converts an entity to communication API, e.g., The Person to DocumentEntity.
-
-* *DocumentCollectionManager*: The document collection entity manager.
-
-* *DocumentWorkflow*: The workflow to update and insert methods.
+The `DocumentTemplate` is the document template for the synchronous tasks.
 
 [source,java]
 ----
-DocumentTemplate template = // instance;
+@Inject
+DocumentTemplate template;
+...
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -52,11 +48,9 @@ To remove and retrieve information from document collection, there are `Document
 DocumentQuery query = select().from("Person").where("address").eq("Olympus").build();
 
 Stream<Person> peopleWhoLiveOnOlympus = template.find(query);
-Optional<Person> artemis = template.singleResult(select().from("Person")
-                                   .where("nickname").eq("artemis").build());
+Optional<Person> artemis = template.singleResult(select().from("Person").where("nickname").eq("artemis").build());
 
-DocumentDeleteQuery deleteQuery = delete().from("Person").where("address")
-                                          .eq("Olympus").build();
+DocumentDeleteQuery deleteQuery = delete().from("Person").where("address").eq("Olympus").build();
 template.delete(deleteQuery);
 ----
 
@@ -102,20 +96,7 @@ To use a document template, just follow the CDI style and place an `@Inject` ann
 private DocumentTemplate template;
 ----
 
-The next step is to produce a `DocumentCollectionManager`:
-
-[source,java]
-----
-@Produces
-public DocumentCollectionManager getManager() {
-    DocumentCollectionManager manager = // instance;
-    return manager;
-}
-----
-
-To work with more than one document template, there are two approaches:
-
-1) Use qualifiers:
+You can work with several document database instances through CDI qualifier. To identify each database instance, make a DocumentManager visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
 
 [source,java]
 ----
@@ -130,15 +111,13 @@ private DocumentTemplate templateB;
 // producers methods
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
-public DocumentCollectionManager getManagerA() {
-    DocumentCollectionManager manager = // instance;
+public DocumentManager getManagerA() {
     return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
-public DocumentCollectionManager getManagerB() {
-    DocumentCollectionManager manager = //instance;
+public DocumentManager getManagerB() {
     return manager;
 }
 ----
