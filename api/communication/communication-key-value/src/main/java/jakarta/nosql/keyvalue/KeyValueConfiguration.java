@@ -20,33 +20,16 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
 import java.util.ServiceLoader;
+import java.util.function.Function;
 
 /**
- * The Jakarta NoSQL configuration to create a {@link BucketManagerFactory}
+ * It is a function that reads from {@link Settings} and then creates a manager factory instance.
+ * It should return a {@link NullPointerException} when the {@link Settings} parameter is null.
+ *
+ * @see BucketManagerFactory
+ * @see BucketManager
  */
-public interface KeyValueConfiguration {
-
-    /**
-     * Reads configuration either from default configuration or a file defined by NoSQL provider
-     * and then creates a {@link BucketManagerFactory} instance.
-     *
-     * @param <T> the BucketManagerFactory type
-     * @return a {@link BucketManagerFactory} instance
-     */
-    <T extends BucketManagerFactory> T get();
-
-    /**
-     * Reads configuration from the {@link Settings} instance, the parameters are defined by NoSQL
-     * provider, then creates a {@link BucketManagerFactory} instance.
-     *
-     * @param <T>      the BucketManagerFactory type
-     * @param settings the settings
-     * @return a {@link BucketManagerFactory}
-     * @throws NullPointerException when settings is null
-     * @see Settings
-     * @see Settings {@link java.util.Map}
-     */
-    <T extends BucketManagerFactory> T get(Settings settings);
+public interface KeyValueConfiguration extends Function<Settings, BucketManagerFactory> {
 
     /**
      * creates and returns a  {@link KeyValueConfiguration}  instance from {@link java.util.ServiceLoader}
