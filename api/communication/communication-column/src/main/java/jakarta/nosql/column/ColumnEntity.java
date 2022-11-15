@@ -29,8 +29,10 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * It represents a column family or wide column objects.
- * Each ColumnFamily has a name and one or more {@link Column}.
+ * The communication level entity. It is the API entity between the database and the Jakarta NoSQL communication level.
+ * It represents a column family.
+ * Each ColumnEntity has a name and one or more {@link Column}.
+ *
  * @see Column
  * @see ColumnEntity#getColumns()
  * @see ColumnEntity#getName()

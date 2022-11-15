@@ -27,4 +27,8 @@ import java.util.function.Function;
  */
 public interface DocumentManagerFactory extends Function<String, DocumentManager>, AutoCloseable {
 
+    /**
+     * closes a resource
+     */
+    void close();
 }

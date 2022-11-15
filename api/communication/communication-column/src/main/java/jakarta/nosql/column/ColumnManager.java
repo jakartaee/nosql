@@ -29,10 +29,9 @@ import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
- * The persistence context to {@link ColumnEntity}.
- * The ColumnFamilyManager API is used to create and remove persistent {@link ColumnEntity} instances,
- * to select entities by their primary key, and to select over entities.
- * Thus, ColumnFamilyManager enables CRUD Operation for {@link ColumnEntity}.
+ * The manager instance bridges the Jakarta NoSQL and the NoSQL vendor.
+ *
+ * @see ColumnEntity
  */
 public interface ColumnManager extends AutoCloseable {
 
