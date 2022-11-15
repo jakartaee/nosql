@@ -18,6 +18,9 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 - Move the default documentation to ASCIIDOC
 - Add supplier at Settings API
 
+=== Removed
+- Remove the settings methods to avoid mutability in the instance.
+
 == [1.0.0.4-b4] - 2022-06-04
 
 === Changed

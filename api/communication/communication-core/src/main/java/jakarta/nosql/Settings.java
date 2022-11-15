@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -196,59 +194,6 @@ public interface Settings {
     boolean containsKey(String key);
 
     /**
-     * Returns a Set view of the mappings contained in this map.
-     *
-     * @return a set view of the mappings contained in this map
-     */
-    Set<Map.Entry<String, Object>> entrySet();
-
-    /**
-     * Performs the given action for each entry in this map until all entries have been processed or the action throws an exception.
-     *
-     * @param action the action
-     * @throws NullPointerException when action is null
-     */
-    void forEach(BiConsumer<String, Object> action);
-
-    /**
-     * If the value for the specified key is present and non-null, attempts to compute a new mapping given the key and its current mapped value.
-     *
-     * @param key    the key
-     * @param action the action
-     * @throws NullPointerException when there is null parameter
-     */
-    void computeIfPresent(String key, BiConsumer<String, Object> action);
-
-    /**
-     * If the value for the specified key is present and non-null, attempts to compute a new mapping given the key and its current mapped value.
-     *
-     * @param supplier the key
-     * @param action   the action
-     * @throws NullPointerException when there is null parameter
-     */
-    void computeIfPresent(Supplier<String> supplier, BiConsumer<String, Object> action);
-
-    /**
-     * If the specified key is not already associated with a value (or is mapped to null),
-     * attempts to compute its value using the given mapping function and enters it into this map unless null.
-     *
-     * @param key    the key
-     * @param action the action
-     * @throws NullPointerException when there is null parameter
-     */
-    void computeIfAbsent(String key, Function<String, Object> action);
-
-    /**
-     * If the specified key is not already associated with a value (or is mapped to null),
-     * attempts to compute its value using the given mapping function and enters it into this map unless null.
-     *
-     * @param supplier the supplier
-     * @param action   the action
-     * @throws NullPointerException when there is null parameter
-     */
-    void computeIfAbsent(Supplier<String> supplier, Function<String, Object> action);
-
-    /**
      * Creates a {@link SettingsBuilder}
      *
      * @return a {@link SettingsBuilder} instance
@@ -256,6 +201,17 @@ public interface Settings {
     static SettingsBuilder builder() {
         return ServiceLoaderProvider.get(SettingsBuilderProvider.class,
                 () -> ServiceLoader.load(SettingsBuilderProvider.class)).get();
+    }
+
+    /**
+     * Creates a {@link Settings}
+     *
+     * @return a {@link Settings} instance
+     */
+    static Settings settings() {
+        return ServiceLoaderProvider.get(SettingsBuilderProvider.class,
+                () -> ServiceLoader.load(SettingsBuilderProvider.class))
+                .get().build();
     }
 
     /**
