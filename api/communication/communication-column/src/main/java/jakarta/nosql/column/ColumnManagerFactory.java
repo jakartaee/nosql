@@ -21,7 +21,7 @@ package jakarta.nosql.column;
  * When the application has finished using the column family manager factory, and/or at application shutdown,
  * the application should close the column family manager factory.
  */
-public interface ColumnFamilyManagerFactory extends AutoCloseable {
+public interface ColumnManagerFactory extends AutoCloseable {
 
     /**
      * Creates a {@link ColumnManager} from database's name

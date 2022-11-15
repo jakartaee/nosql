@@ -23,32 +23,32 @@ import java.util.ServiceLoader;
 
 
 /**
- * The Jakarta NoSQL configuration to create a {@link ColumnFamilyManagerFactory}
+ * The Jakarta NoSQL configuration to create a {@link ColumnManagerFactory}
  */
 public interface ColumnConfiguration {
 
     /**
      * Reads configuration either from default configuration or a file defined by NoSQL
-     * provider and then creates a {@link ColumnFamilyManagerFactory} instance.
+     * provider and then creates a {@link ColumnManagerFactory} instance.
      *
      * @param <T> the ColumnFamilyManagerFactory type
-     * @return a {@link ColumnFamilyManagerFactory}
+     * @return a {@link ColumnManagerFactory}
      */
-    <T extends ColumnFamilyManagerFactory> T get();
+    <T extends ColumnManagerFactory> T get();
 
 
     /**
      * Reads configuration from the {@link Settings} instance, the parameters are defined by NoSQL
-     * provider, then creates a {@link ColumnFamilyManagerFactory} instance.
+     * provider, then creates a {@link ColumnManagerFactory} instance.
      *
      * @param <T>      the ColumnFamilyManagerFactory type
      * @param settings the settings
-     * @return a {@link ColumnFamilyManagerFactory}
+     * @return a {@link ColumnManagerFactory}
      * @throws NullPointerException when settings is null
      * @see Settings
      * @see Settings {@link java.util.Map}
      */
-    <T extends ColumnFamilyManagerFactory> T get(Settings settings);
+    <T extends ColumnManagerFactory> T get(Settings settings);
 
     /**
      * creates and returns a  {@link ColumnConfiguration}  instance from {@link java.util.ServiceLoader}
