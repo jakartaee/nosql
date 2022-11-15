@@ -248,9 +248,9 @@ Value value = Value.of("BRL 10.0");
 
 Money money = value.get(Money.class);
 
-List<Money> list = value.get(new TypeReference<List<Money>>() {});
+List<Money> moneys = value.get(new TypeReference<List<Money>>() {});
 
-Set<Money> set = value.get(new TypeReference<Set<Money>>() {});;
+Set<Money> moneys = value.get(new TypeReference<Set<Money>>() {});;
 ----
 
 === Element Entity
@@ -308,7 +308,7 @@ Value value = document.getValue();
 String name = document.getName();
 ----
 
-With this interface, we may have a column inside of a column.
+With this interface, we may have a column inside a column.
 
 [source,java]
 ----
@@ -346,16 +346,14 @@ The `ColumnFamilyEntity` is an entity to the Column Family database type. It is 
 ----
 ColumnEntity entity = ColumnEntity.of("columnFamily");
 
-entity.add(Column.of("id", Value.of(10L)));
+entity.add("id", 10L);
 
-entity.add(Column.of("version", 0.001));
+entity.add("version", 0.001);
 
-entity.add(Column.of("name", "Diana"));
+entity.add("name", "Diana");
 
-entity.add(Column.of("options", Arrays.asList(1, 2, 3)));
-----
-[source,java]
-----
+entity.add("options", Arrays.asList(1, 2, 3));
+
 List<Column> columns = entity.getColumns();
 
 Optional<Column> id = entity.find("id");
@@ -371,16 +369,14 @@ DocumentEntity entity = DocumentEntity.of("documentFamily");
 
 String name = entity.getName();
 
-entity.add(Document.of("id", Value.of(10L)));
+entity.add("id", 10L);
 
-entity.add(Document.of("version", 0.001));
+entity.add("version", 0.001);
 
-entity.add(Document.of("name", "Diana"));
+entity.add("name", "Diana");
 
-entity.add(Document.of("options", Arrays.asList(1, 2, 3)));
-----
-[source,java]
-----
+entity.add("options", Arrays.asList(1, 2, 3));
+
 List<Document> documents = entity.getDocuments();
 Optional<Document> id = entity.find("id");
 entity.remove("options");
