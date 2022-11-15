@@ -426,15 +426,15 @@ public class SocialMediaNotification extends Notification {
 
 This annotation allows programmers to specialize `@Inject` annotations to choose which specific resource should be injected.
 
-For example, when working with multiple `DocumentRepositories`, the following statement are ambiguous:
+For example, when working with multiple `DocumentTemplate`, the following statement are ambiguous:
 
 [source,java]
 ----
 @Inject
-private DocumentRepository repositoryA;
+DocumentTemplate templateA;
 
 @Inject
-private DocumentRepository repositoryB;
+DocumentTemplate templateB;
 ----
 
 `@Database` has two attributes to help specify what resource should be injected:
@@ -448,11 +448,11 @@ Applying the annotation to the example above, the result is:
 ----
 @Inject
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
-private DocumentRepository repositoryA;
+private DocumentTemplate templateA;
 
 @Inject
 @Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
-private DocumentRepository repositoryB;
+private DocumentTemplate templateB;
 ----
 
 A producer method annotated with the same `@Database` values must exist as well.
