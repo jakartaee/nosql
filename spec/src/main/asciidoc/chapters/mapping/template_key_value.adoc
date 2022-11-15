@@ -16,15 +16,14 @@
 
 This template has the responsibility to serve as the persistence of an entity in a key-value database.
 
-The `KeyValueTemplate` is the template for synchronous tasks. It has three components:
-
-* *KeyValueEntityConverter*: That converts an entity to communication API, e.g., The Person to KeyValueEntity.
-* *BucketManager*: The key-value entity manager.
-* *KeyValueWorkflow*: The workflow to put method.
+The `KeyValueTemplate` is the template for synchronous tasks.
 
 [source,java]
 ----
-KeyValueTemplate template = // instance;
+@Inject
+KeyValueTemplate template;
+...
+
 User user = new User();
 user.setNickname("ada");
 user.setAge(10);
@@ -48,19 +47,7 @@ To use a key-value template, just follow the CDI style and precede the field wit
 private KeyValueTemplate template;
 ----
 
-The next step is to produce a `BucketManager`:
-
-[source,java]
-----
-@Produces
-public BucketManager getManager() {
-    BucketManager manager = // instance;
-    return manager;
-}
-----
-To work with more than one key-value template, there are two approaches:
-
-1) Use qualifiers:
+You can work with several key-value database instances through CDI qualifier. To identify each database instance, make a BucketManager visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
 
 [source,java]
 ----
@@ -85,22 +72,5 @@ public BucketManager getManagerA() {
 public DocumentCollectionManager getManagerB() {
     BucketManager manager = // instance;
     return manager;
-}
-----
-
-
-
-2) Use the `KeyValueTemplateProducer` class:
-
-[source,java]
-----
-@Inject
-private KeyValueTemplateProducer producer;
-
-public void sample() {
-    BucketManager managerA = // instance;
-    BucketManager managerB = // instance;
-    KeyValueTemplate templateA = producer.get(managerA);
-    KeyValueTemplate templateB = producer.get(managerB);
 }
 ----
