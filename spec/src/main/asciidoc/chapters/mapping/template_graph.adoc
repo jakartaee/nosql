@@ -16,15 +16,13 @@
 
 This template has the responsibility to serve as the persistence of an entity in a Graph database using http://tinkerpop.apache.org/[Apache Tinkerpop].
 
-The `GraphTemplate` is the column template for synchronous tasks. It has three components:
-
-* *GraphConverter*: That converts an entity to communication API, e.g., The Person to Vertex.
-* *Graph*: A Graph is a container object for a collection of Vertex, Edge, VertexProperty, and Property objects.
-* *GraphWorkflow*: The workflow to update and insert methods.
+The `GraphTemplate` is the column template for synchronous tasks.
 
 [source,java]
 ----
-GraphTemplate template = // instance;
+
+@Inject
+GraphTemplate template;
 
 Person person = new Person();
 person.setAddress("Olympus");
@@ -96,20 +94,7 @@ To use a graph template, just follow the CDI style and precede the field with th
 private GraphTemplate template;
 ----
 
-The next step: make a `Graph` instance eligible to CDI, applying the producers method:
-
-[source,java]
-----
-@Produces
-public Graph getManager() {
-    Graph graph = // instance;
-    return graph;
-}
-----
-
-To work with more than one graph template, there are two approaches:
-
-1) Use qualifiers:
+You can work with several graph database instances through CDI qualifier. To identify each database instance, make a `Graph` visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
 
 [source,java]
 ----
@@ -125,29 +110,12 @@ private GraphTemplate templateB;
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseA")
 public Graph getManagerA() {
-    Graph manager = // instance;
     return graph;
 }
 
 @Produces
 @Database(value = DatabaseType.GRAPH, provider = "databaseB")
 public Graph getManagerB() {
-    Graph graph = // instance;
     return graph;
-}
-----
-
-2) Use the `GraphTemplateProducer` class:
-
-[source,java]
-----
-@Inject
-private GraphTemplateProducer producer;
-
-public void sample() {
-   Graph graphA = // instance;
-   Graph graphB = // instance;
-   GraphTemplate templateA = producer.get(graphA);
-   GraphTemplate templateB = producer.get(graphB);
 }
 ----
