@@ -26,17 +26,6 @@ import java.util.ServiceLoader;
  */
 public interface DocumentConfiguration {
 
-
-    /**
-     * Reads configuration either from default configuration or a file defined by NoSQL provider and then creates a
-     * {@link DocumentManagerFactory} instance.
-     *
-     * @param <T> the type to DocumentCollectionManagerFactory
-     * @return a {@link DocumentManagerFactory} instance
-     */
-    <T extends DocumentManagerFactory> T get();
-
-
     /**
      * Reads configuration from the {@link Settings} instance, the parameters are defined by NoSQL
      * provider, then creates a {@link DocumentManagerFactory} instance.
