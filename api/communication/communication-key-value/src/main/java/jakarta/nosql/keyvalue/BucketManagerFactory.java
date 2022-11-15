@@ -21,23 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * {@link BucketManager} factory.
  * When the application has finished using the bucket manager factory, and/or at application shutdown,
  * the application should close the column family manager factory.
  */
-public interface BucketManagerFactory extends AutoCloseable {
-
-    /**
-     * Creates a {@link BucketManager} from a bucket name
-     *
-     * @param bucketName a bucket name
-     * @return a {@link BucketManager} instance
-     * @throws UnsupportedOperationException when the database does not have to it
-     * @throws NullPointerException          when bucketName is null
-     */
-    <T extends BucketManager> T getBucketManager(String bucketName);
+public interface BucketManagerFactory extends Function<String, BucketManager>, AutoCloseable {
 
     /**
      * Creates a {@link List} from bucket name
