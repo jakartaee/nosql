@@ -28,16 +28,6 @@ import java.util.ServiceLoader;
 public interface ColumnConfiguration {
 
     /**
-     * Reads configuration either from default configuration or a file defined by NoSQL
-     * provider and then creates a {@link ColumnManagerFactory} instance.
-     *
-     * @param <T> the ColumnFamilyManagerFactory type
-     * @return a {@link ColumnManagerFactory}
-     */
-    <T extends ColumnManagerFactory> T get();
-
-
-    /**
      * Reads configuration from the {@link Settings} instance, the parameters are defined by NoSQL
      * provider, then creates a {@link ColumnManagerFactory} instance.
      *
