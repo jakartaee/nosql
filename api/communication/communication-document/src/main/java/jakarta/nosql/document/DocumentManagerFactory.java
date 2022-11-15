@@ -17,27 +17,13 @@
 package jakarta.nosql.document;
 
 
+import java.util.function.Function;
+
 /**
- * {@link DocumentManager} factory.
- * When the application has finished using the document collection manager factory, and/or at application shutdown,
- * the application should close the column family manager factory.
+ * The manager factory instance creates a manager instance from the database name.
+ *
+ * @see DocumentManager
  */
-public interface DocumentManagerFactory extends AutoCloseable {
+public interface DocumentManagerFactory extends Function<String, DocumentManager>, AutoCloseable {
 
-    /**
-     * Creates a {@link DocumentManager} from database's name
-     *
-     * @param <T>      the {@link DocumentManager} type
-     * @param database a database name
-     * @return a new {@link DocumentManager} instance
-     * @throws UnsupportedOperationException when this operation is not supported
-     * @throws NullPointerException          when the database is null
-     */
-    <T extends DocumentManager> T get(String database);
-
-
-    /**
-     * closes a resource
-     */
-    void close();
 }
