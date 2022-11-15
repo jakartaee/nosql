@@ -143,19 +143,6 @@ This interface represents the value that will store, that is, a wrapper to serve
 [source,java]
 ----
 Value value = Value.of(12);
-----
-
-The `Value` interface has the methods:
-
-* `Object get();` Returns the value as type `Object`
-
-* `<T> T get(Class<T> type);` Initiates the conversion process to the required type in a safe manner. If the required type doesn't have support, it will throw an exception. However, the API allows creating custom converters.
-
-* `<T> T get(TypeSupplier<T> typeSupplier);` Similar to the previous method, it initiates the conversion process using a structure that uses generics such as `List`, `Map`, `Stream` and `Set`.
-
-[source,java]
-----
-Value value = Value.of(12);
 
 String string = value.get(String.class);
 
