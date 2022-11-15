@@ -22,33 +22,33 @@ import jakarta.nosql.Settings;
 import java.util.ServiceLoader;
 
 /**
- * The Jakarta NoSQL configuration to create a {@link DocumentCollectionManagerFactory}
+ * The Jakarta NoSQL configuration to create a {@link DocumentManagerFactory}
  */
 public interface DocumentConfiguration {
 
 
     /**
      * Reads configuration either from default configuration or a file defined by NoSQL provider and then creates a
-     * {@link DocumentCollectionManagerFactory} instance.
+     * {@link DocumentManagerFactory} instance.
      *
      * @param <T> the type to DocumentCollectionManagerFactory
-     * @return a {@link DocumentCollectionManagerFactory} instance
+     * @return a {@link DocumentManagerFactory} instance
      */
-    <T extends DocumentCollectionManagerFactory> T get();
+    <T extends DocumentManagerFactory> T get();
 
 
     /**
      * Reads configuration from the {@link Settings} instance, the parameters are defined by NoSQL
-     * provider, then creates a {@link DocumentCollectionManagerFactory} instance.
+     * provider, then creates a {@link DocumentManagerFactory} instance.
      *
      * @param <T>      the type to DocumentCollectionManagerFactory
      * @param settings the settings
-     * @return a {@link DocumentCollectionManagerFactory}
+     * @return a {@link DocumentManagerFactory}
      * @throws NullPointerException when settings is null
      * @see Settings
      * @see Settings {@link java.util.Map}
      */
-    <T extends DocumentCollectionManagerFactory> T get(Settings settings);
+    <T extends DocumentManagerFactory> T get(Settings settings);
 
     /**
      * creates and returns a  {@link DocumentConfiguration}  instance from {@link java.util.ServiceLoader}

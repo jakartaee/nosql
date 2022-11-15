@@ -22,7 +22,7 @@ package jakarta.nosql.document;
  * When the application has finished using the document collection manager factory, and/or at application shutdown,
  * the application should close the column family manager factory.
  */
-public interface DocumentCollectionManagerFactory extends AutoCloseable {
+public interface DocumentManagerFactory extends AutoCloseable {
 
     /**
      * Creates a {@link DocumentManager} from database's name
