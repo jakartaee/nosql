@@ -28,11 +28,37 @@ NOTE: A package for the Graph database type is not included in this API because 
 
 So, if a database is multi-model, i.e., has support for more than one database type, it will implement an API for each database it supports. Also, each API has the TCK to prove if the database is compatible with the API. Even from different NoSQL types, it tries to use the same nomenclature:
 
-* Configuration
-* Factory
-* Manager
-* Entity
-* Value
+* Configuration: It is a function that reads from `Settings and then creates a manager factory instance.
+* Manager's Factory: The manager factory instance creates a manager instance from the database name.
+* Manager: The manager instance bridges the Jakarta NoSQL and the NoSQL vendor.
+* Entity: The communication entity
+* Value: the information unit
+
+[cols="Communication API"]
+|===
+|Structure| Key-value|Column|Document
+
+|Configuration
+|KeyValueConfiguration
+|ColumnConfiguration
+|DocumentConfiguration
+
+|Factory
+|BucketManagerFactory
+|ColumnManagerFactory
+|DocumentManagerFactory
+
+|Manager's Factory
+|BucketManager
+|ColumnManager
+|DocumentManager
+
+|Entity
+|KeyValueEntity
+|ColumnEntity
+|DocumentEntity
+
+|===
 
 === The API Structure
 
