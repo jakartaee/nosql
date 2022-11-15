@@ -1059,8 +1059,11 @@ For the Document collection configuration, `DocumentConfiguration` configures an
 
 [source,java]
 ----
+Settings settings = Settings.builder()
+    .put("key", "value")
+    .build();
 DocumentConfiguration configuration = //instance;
-DocumentCollectionManagerFactory managerFactory = configuration.get();
+DocumentCollectionManagerFactory managerFactory = configuration.get(settings);
 ----
 
 ==== Column Configuration
@@ -1069,9 +1072,11 @@ For the Column Family configuration, `ColumnConfiguration` creates and configure
 
 [source,java]
 ----
+Settings settings = Settings.builder()
+    .put("key", "value")
+    .build();
 ColumnConfiguration configuration = //instance;
-
-ColumnFamilyManagerFactory managerFactory = configuration.get();
+ColumnFamilyManagerFactory managerFactory = configuration.get(settings);
 ----
 
 ==== Key Value Configuration
@@ -1080,6 +1085,9 @@ For the key-value configuration, there is `KeyValueConfiguration` to `BucketMana
 
 [source,java]
 ----
+Settings settings = Settings.builder()
+    .put("key", "value")
+    .build();
 KeyValueConfiguration configuration = //instance;
 BucketManagerFactory managerFactory = configuration.get();
 ----
