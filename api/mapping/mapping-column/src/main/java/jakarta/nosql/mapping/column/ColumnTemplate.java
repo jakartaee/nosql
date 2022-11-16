@@ -49,13 +49,13 @@ public interface ColumnTemplate extends Template {
     /**
      * Returns the number of elements from column family
      *
-     * @param <T>         the entity type
-     * @param entityClass the column family
+     * @param <T>  the entity type
+     * @param type the column family
      * @return the number of elements
      * @throws NullPointerException          when column family is null
      * @throws UnsupportedOperationException when the database dot not have support
      */
-    <T> long count(Class<T> entityClass);
+    <T> long count(Class<T> type);
 
     /**
      * Deletes an entity

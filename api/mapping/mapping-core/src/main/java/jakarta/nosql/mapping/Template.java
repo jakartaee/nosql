@@ -94,25 +94,25 @@ public interface Template {
     /**
      * Finds by Id.
      *
-     * @param entityClass the entity class
+     * @param type the entity class
      * @param id          the id value
      * @param <T>         the entity class type
      * @param <K>         the id type
      * @return the entity instance otherwise {@link Optional#empty()}
-     * @throws NullPointerException when either the entityClass or id are null
-     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
+     * @throws NullPointerException when either the type or id are null
+     * @throws IdNotFoundException  when the type does not have the Id annotation
      */
-    <T, K> Optional<T> find(Class<T> entityClass, K id);
+    <T, K> Optional<T> find(Class<T> type, K id);
 
     /**
      * Deletes by Id.
      *
-     * @param entityClass the entity class
+     * @param type the entity class
      * @param id          the id value
      * @param <T>         the entity class type
      * @param <K>         the id type
-     * @throws NullPointerException when either the entityClass or id are null
-     * @throws IdNotFoundException  when the entityClass does not have the Id annotation
+     * @throws NullPointerException when either the type or id are null
+     * @throws IdNotFoundException  when the type does not have the Id annotation
      */
-    <T, K> void delete(Class<T> entityClass, K id);
+    <T, K> void delete(Class<T> type, K id);
 }
