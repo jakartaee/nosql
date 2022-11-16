@@ -16,7 +16,7 @@
 package jakarta.nosql.mapping.column;
 
 
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 
 /**
  * The producer of {@link ColumnTemplate}
@@ -24,13 +24,13 @@ import jakarta.nosql.column.ColumnFamilyManager;
 public interface ColumnTemplateProducer {
 
     /**
-     * creates a {@link ColumnFamilyManager}
+     * creates a {@link ColumnManager}
      *
      * @param <T>                 the ColumnTemplate instance
-     * @param columnFamilyManager the columnFamilyManager
+     * @param manager the columnFamilyManager
      * @return a new instance
      * @throws NullPointerException when columnFamilyManager is null
      */
-    <T extends ColumnTemplate> T get(ColumnFamilyManager columnFamilyManager);
+    <T extends ColumnTemplate> T get(ColumnManager manager);
 
 }

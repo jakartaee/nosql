@@ -34,6 +34,6 @@ public class KeyValueConfigurationTest {
     @Test
     public void shouldReturnErrorWhenParameterIsNull() {
         KeyValueConfiguration configuration = KeyValueConfiguration.getConfiguration();
-        assertThrows(NullPointerException.class, ()-> configuration.get(null));
+        assertThrows(NullPointerException.class, ()-> configuration.apply(null));
     }
 }

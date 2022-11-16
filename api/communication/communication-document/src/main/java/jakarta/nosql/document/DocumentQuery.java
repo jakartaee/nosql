@@ -29,9 +29,9 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * Class that contains information to do a select to {@link DocumentCollectionManager}
+ * Class that contains information to do a select to {@link DocumentManager}
  *
- * @see DocumentCollectionManager#select(DocumentQuery)
+ * @see DocumentManager#select(DocumentQuery)
  * @see DocumentCondition
  * @see Sort
  */
@@ -469,7 +469,7 @@ public interface DocumentQuery {
     /**
      * The last step to the build of {@link DocumentQuery}.
      * It either can return a new {@link DocumentQuery} instance or execute a query with
-     * {@link DocumentCollectionManager}
+     * {@link DocumentManager}
      */
     interface DocumentQueryBuild {
 
@@ -481,22 +481,22 @@ public interface DocumentQuery {
         DocumentQuery build();
 
         /**
-         * Executes {@link DocumentCollectionManager#select(DocumentQuery)}
+         * Executes {@link DocumentManager#select(DocumentQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link DocumentCollectionManager#select(DocumentQuery)}
+         * @return the result of {@link DocumentManager#select(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        Stream<DocumentEntity> getResult(DocumentCollectionManager manager);
+        Stream<DocumentEntity> getResult(DocumentManager manager);
 
         /**
-         * Executes {@link DocumentCollectionManager#singleResult(DocumentQuery)}
+         * Executes {@link DocumentManager#singleResult(DocumentQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link DocumentCollectionManager#singleResult(DocumentQuery)}
+         * @return the result of {@link DocumentManager#singleResult(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        Optional<DocumentEntity> getSingleResult(DocumentCollectionManager manager);
+        Optional<DocumentEntity> getSingleResult(DocumentManager manager);
 
     }
 
@@ -596,25 +596,25 @@ public interface DocumentQuery {
         DocumentQuery build();
 
         /**
-         * Executes {@link DocumentCollectionManager#select(DocumentQuery)}
+         * Executes {@link DocumentManager#select(DocumentQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link DocumentCollectionManager#select(DocumentQuery)}
+         * @return the result of {@link DocumentManager#select(DocumentQuery)}
          * @throws NullPointerException  when manager is null
          * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
          *                               such as the {@link DocumentQueryBuilder#from(String)} method was not called.
          */
-        Stream<DocumentEntity> getResult(DocumentCollectionManager manager);
+        Stream<DocumentEntity> getResult(DocumentManager manager);
 
         /**
-         * Executes {@link DocumentCollectionManager#singleResult(DocumentQuery)}
+         * Executes {@link DocumentManager#singleResult(DocumentQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link DocumentCollectionManager#singleResult(DocumentQuery)}
+         * @return the result of {@link DocumentManager#singleResult(DocumentQuery)}
          * @throws NullPointerException  when manager is null
          * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
          *                               such as the {@link DocumentQueryBuilder#from(String)} method was not called.
          */
-        Optional<DocumentEntity> getSingleResult(DocumentCollectionManager manager);
+        Optional<DocumentEntity> getSingleResult(DocumentManager manager);
     }
 }

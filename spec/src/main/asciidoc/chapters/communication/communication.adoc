@@ -28,11 +28,100 @@ NOTE: A package for the Graph database type is not included in this API because 
 
 So, if a database is multi-model, i.e., has support for more than one database type, it will implement an API for each database it supports. Also, each API has the TCK to prove if the database is compatible with the API. Even from different NoSQL types, it tries to use the same nomenclature:
 
-* Configuration
-* Factory
-* Manager
-* Entity
-* Value
+* Configuration: It is a function that reads from `Settings and then creates a manager factory instance.
+* Manager's Factory: The manager factory instance creates a manager instance from the database name.
+* Manager: The manager instance bridges the Jakarta NoSQL and the NoSQL vendor.
+* Entity: The communication entity
+* Value: the information unit
+
+[cols="Communication API"]
+|===
+|Structure| Key-value|Column|Document
+
+|Configuration
+|KeyValueConfiguration
+|ColumnConfiguration
+|DocumentConfiguration
+
+|Factory
+|BucketManagerFactory
+|ColumnManagerFactory
+|DocumentManagerFactory
+
+|Manager's Factory
+|BucketManager
+|ColumnManager
+|DocumentManager
+
+|Entity
+|KeyValueEntity
+|ColumnEntity
+|DocumentEntity
+
+|===
+
+The codes below show several CRUD operations using the communication layer.
+
+=== Document Communication sample
+
+[source,java]
+----
+Settings settings = Settings.builder().put("credential", "value").build();
+DocumentConfiguration configuration = new NoSQLDocumentProvider();
+DocumentManagerFactory factory = configuration.apply(settings);
+try (DocumentManager manager = factory.apply("database")) {
+    DocumentEntity entity = DocumentEntity.of("entity");
+    entity.add("id", 10L);
+    entity.add("version", 0.001);
+    entity.add("name", "Diana");
+    manager.insert(entity);
+    DocumentQuery query = select().from("entity").where("version").gte(0.001).build();
+
+    Stream<DocumentEntity> entities = manager.select(query);
+    DocumentDeleteQuery delete = delete().from("entity").where("id").eq(10L).build();
+
+  manager.delete(delete);
+}
+----
+
+=== Column Communication sample
+
+[source,java]
+----
+Settings settings = Settings.builder().put("credential", "value").build();
+ColumnConfiguration configuration = new NoSQLColumnProvider();
+ColumnManagerFactory factory = configuration.apply(settings);
+try (ColumnManager manager = factory.apply("database")) {
+    ColumnEntity entity = ColumnEntity.of("entity");
+    entity.add("id", 10L);
+    entity.add("version", 0.001);
+    entity.add("name", "Diana");
+
+    manager.insert(entity);
+    ColumnQuery query = select().from("entity").where("version").gte(0.001).build();
+    Stream<ColumnEntity> entities = manager.select(query);
+
+    ColumnDeleteQuery delete = delete().from("entity").where("id").eq(10L).build();
+
+    manager.delete(delete);
+}
+----
+
+
+=== Key-value Communication sample
+
+[source,java]
+----
+Settings settings = Settings.builder().put("credential", "value").build();
+KeyValueConfiguration configuration = new NoSQLKeyValueProvider();
+BucketManagerFactory factory = configuration.apply(settings);
+try (BucketManager manager = factory.apply("database")) {
+     KeyValueEntity entity = KeyValueEntity.of(12, "Poliana");
+
+     manager.put(entity);
+     manager.delete(12);
+}
+----
 
 === The API Structure
 
@@ -50,19 +139,6 @@ WARNING: To the Graph communication API, there is the link:http://tinkerpop.apac
 === Value
 
 This interface represents the value that will store, that is, a wrapper to serve as a bridge between the database and the application. For example, if a database does not support a Java type, it may do the conversion with ease.
-
-[source,java]
-----
-Value value = Value.of(12);
-----
-
-The `Value` interface has the methods:
-
-* `Object get();` Returns the value as type `Object`
-
-* `<T> T get(Class<T> type);` Initiates the conversion process to the required type in a safe manner. If the required type doesn't have support, it will throw an exception. However, the API allows creating custom converters.
-
-* `<T> T get(TypeSupplier<T> typeSupplier);` Similar to the previous method, it initiates the conversion process using a structure that uses generics such as `List`, `Map`, `Stream` and `Set`.
 
 [source,java]
 ----
@@ -151,10 +227,7 @@ public class Money {
 
 NOTE: Just to be more didactic, the book creates a simple money representation. As everyone knows, reinventing the wheel is not a good practice. In a production environment, the Java developer should use mature Money APIs such as link:https://github.com/JavaMoney[Moneta], the reference implementation of link:https://jcp.org/en/jsr/detail?id=354[JSR 354].
 
-The first step is to create the converter to a custom type database, the `ValueWriter`. It has two methods:
-
-* `boolean isCompatible(Class type)`: Checks if the given class has support for this implementation.
-* `S write(T object)`: Once the implementation supports the type, the next step converts an instance of type `T` to type `S`.
+The first step is to create the converter to a custom type database, the `ValueWriter`.
 
 [source,java]
 ----
@@ -174,10 +247,7 @@ public class MoneyValueWriter implements ValueWriter<Money, String> {
 }
 ----
 
-With the `MoneyValueWriter` created and the `Money` type will save as String, then the next step is read information to Java application. As can be seen, a `ValueReader` implementation. This interface has two methods:
-
-* `boolean isCompatible(Class type)`; Check if the given class has support for this implementation.
-* `<T> T read(Class<T> type, Object value)`; Converts to type `T` from an instance of `Object`.
+With the `MoneyValueWriter` created and the `Money` type will save as String, then the next step is read information to Java application. As can be seen, a `ValueReader` implementation.
 
 [source,java]
 ----
@@ -222,9 +292,9 @@ Value value = Value.of("BRL 10.0");
 
 Money money = value.get(Money.class);
 
-List<Money> list = value.get(new TypeReference<List<Money>>() {});
+List<Money> moneys = value.get(new TypeReference<List<Money>>() {});
 
-Set<Money> set = value.get(new TypeReference<Set<Money>>() {});;
+Set<Money> moneys = value.get(new TypeReference<Set<Money>>() {});;
 ----
 
 === Element Entity
@@ -282,7 +352,7 @@ Value value = document.getValue();
 String name = document.getName();
 ----
 
-With this interface, we may have a column inside of a column.
+With this interface, we may have a column inside a column.
 
 [source,java]
 ----
@@ -320,16 +390,14 @@ The `ColumnFamilyEntity` is an entity to the Column Family database type. It is 
 ----
 ColumnEntity entity = ColumnEntity.of("columnFamily");
 
-entity.add(Column.of("id", Value.of(10L)));
+entity.add("id", 10L);
 
-entity.add(Column.of("version", 0.001));
+entity.add("version", 0.001);
 
-entity.add(Column.of("name", "Diana"));
+entity.add("name", "Diana");
 
-entity.add(Column.of("options", Arrays.asList(1, 2, 3)));
-----
-[source,java]
-----
+entity.add("options", Arrays.asList(1, 2, 3));
+
 List<Column> columns = entity.getColumns();
 
 Optional<Column> id = entity.find("id");
@@ -345,16 +413,14 @@ DocumentEntity entity = DocumentEntity.of("documentFamily");
 
 String name = entity.getName();
 
-entity.add(Document.of("id", Value.of(10L)));
+entity.add("id", 10L);
 
-entity.add(Document.of("version", 0.001));
+entity.add("version", 0.001);
 
-entity.add(Document.of("name", "Diana"));
+entity.add("name", "Diana");
 
-entity.add(Document.of("options", Arrays.asList(1, 2, 3)));
-----
-[source,java]
-----
+entity.add("options", Arrays.asList(1, 2, 3));
+
 List<Document> documents = entity.getDocuments();
 Optional<Document> id = entity.find("id");
 entity.remove("options");
@@ -389,11 +455,7 @@ The `Manager` is the class that pushes information to a database and retrieves i
 
 ==== Document Manager
 
-* *DocumentCollectionManager*: To perform synchronous operations.
-
-===== DocumentCollectionManager
-
-The `DocumentCollectionManager` is the class that manages the persistence on the synchronous way to document collection.
+The `DocumentManager` is the class that manages the persistence on the synchronous way to document collection.
 
 [source,java]
 ----
@@ -402,10 +464,7 @@ DocumentEntity entity = DocumentEntity.of("collection");
 Document diana = Document.of("name", "Diana");
 
 entity.add(diana);
-----
 
-[source,java]
-----
 List<DocumentEntity> entities = Collections.singletonList(entity);
 
 DocumentCollectionManager manager = // instance;
@@ -423,17 +482,9 @@ manager.update(entity);
 manager.update(entities);
 ----
 
-===== Search information on a document collection
+===== Search information
 
-The Document Communication API supports retrieving information from a `DocumentQuery` instance.  This class has six  attributes:
-
-* **documents**: The fields to return in a query.
-* **limit**: the maximum number of results in a query.
-* **skip**: the position of the first result.
-* **documentCollection**: the document collection name looks like a table in a document NoSQL database.
-* **condition**: the filter in the query.
-* **sorts**: the way to order the information, where the first element will have more precedence than the next ones.
-
+The Document Communication API supports retrieving information from a `DocumentQuery` instance.
 
 By default, there are two ways to create a `DocumentQuery` instance that are available as a static method in the same class:
 
@@ -453,7 +504,9 @@ DocumentQuery query = DocumentQuery.select().from("Person").build();
 //static imports
 DocumentQuery query = select().from("Person").build();
 ----
+
 Using the builder method:
+
 [source,java]
 ----
 DocumentQuery query = DocumentQuery.builder().from("Person").build();
@@ -474,7 +527,9 @@ Using the select method:
                 .from("Person").where("name").eq("Ada Lovelace")
                 .build();
 ----
+
 Using the builder method:
+
 [source,java]
 ----
 DocumentQuery query = DocumentQuery.builder()
@@ -491,26 +546,26 @@ DocumentQuery query = builder().from("Person")
 Using the select method:
 [source,java]
 ----
-  DocumentQuery query = DocumentQuery.select("name")
+DocumentQuery query = DocumentQuery.select("name")
                 .from("Person").where("name").eq("Ada Lovelace")
                 .build();
 //static imports
-  DocumentQuery query = select("name")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .build();
+DocumentQuery query = select("name")
+              .from("Person")
+              .where("name").eq("Ada Lovelace")
+              .build();
 ----
 Using the builder method:
 [source,java]
 ----
-  DocumentQuery query = DocumentQuery.builder("name")
-                .from("Person").where(DocumentCondition.eq("name", "Ada Lovelace"))
-                .build();
+DocumentQuery query = DocumentQuery.builder("name")
+              .from("Person").where(DocumentCondition.eq("name", "Ada Lovelace"))
+              .build();
 //static imports
 
-  DocumentQuery query = builder("name")
-                .from("Person").where(eq("name", "Ada Lovelace"))
-                .build();
+DocumentQuery query = builder("name")
+              .from("Person").where(eq("name", "Ada Lovelace"))
+              .build();
 ----
 
 * Select the fields name and age where the "name" is "Ada Lovelace" and the "age" is greater than twenty from the document collection Person.
@@ -519,16 +574,16 @@ Using the select method:
 [source,java]
 ----
 DocumentQuery query = DocumentQuery.select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .and("age").gt(20)
-                .build();
+              .from("Person")
+              .where("name").eq("Ada Lovelace")
+              .and("age").gt(20)
+              .build();
 //static imports
 DocumentQuery query = select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .and("age").gt(20)
-                .build();
+              .from("Person")
+              .where("name").eq("Ada Lovelace")
+              .and("age").gt(20)
+              .build();
 ----
 Using the builder method:
 [source,java]
@@ -552,17 +607,17 @@ DocumentQuery query = builder("name", "age")
 Using the select method:
 [source,java]
 ----
-  DocumentQuery query = DocumentQuery.select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .build();
+DocumentQuery query = DocumentQuery.select("name", "age")
+              .from("Person")
+              .where("name").eq("Ada Lovelace")
+              .or("age").gt(20)
+              .build();
 //static imports
-  DocumentQuery query = select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .build();
+DocumentQuery query = select("name", "age")
+              .from("Person")
+              .where("name").eq("Ada Lovelace")
+              .or("age").gt(20)
+              .build();
 ----
 Using the builder method:
 [source,java]
@@ -588,30 +643,30 @@ Using the select method:
 [source,java]
 ----
 DocumentQuery query = DocumentQuery.select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .skip(1)
-                .limit(2)
-                .build();
+              .from("Person")
+              .where("name").eq("Ada Lovelace")
+              .or("age").gt(20)
+              .skip(1)
+              .limit(2)
+              .build();
 //static imports
 DocumentQuery query = select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .skip(1)
-                .limit(2)
-                .build();
+              .from("Person")
+              .where("name").eq("Ada Lovelace")
+              .or("age").gt(20)
+              .skip(1)
+              .limit(2)
+              .build();
 ----
 Using the builder method:
 [source,java]
 ----
 DocumentQuery query = DocumentQuery.builder("name", "age")
-                .from("Person")
-                .where(DocumentCondition.or(DocumentCondition.eq("name", "Ada Lovelace"),
+              .from("Person")
+              .where(DocumentCondition.or(DocumentCondition.eq("name", "Ada Lovelace"),
                         DocumentCondition.gt("age", 20)))
-                .skip(1).limit(2)
-                .build();
+              .skip(1).limit(2)
+              .build();
 
 //static imports
 
@@ -666,7 +721,7 @@ DocumentQuery query = builder("name", "age")
          .build();
 ----
 
-===== Removing information from Document Collection
+===== Removing information
 
 Similar to `DocumentQuery`, there is a class to remove information from the document database type: A `DocumentDeleteQuery` type.
 
@@ -693,10 +748,6 @@ Thus, it is worth checking the DocumentCondition to see all the filter options.
 
 ==== Column Manager
 
-* *ColumnFamilyManager*: To perform synchronous operations.
-
-===== ColumnFamilyManager
-
 The `ColumnFamilyManager` is the class that manages the persistence on the synchronous way to a Column Family database.
 
 [source,java]
@@ -712,10 +763,7 @@ entity.add(diana);
 ----
 List<ColumnEntity> entities = Collections.singletonList(entity);
 ColumnFamilyManager manager = // instance;
-----
 
-[source,java]
-----
 // Insert operations
 manager.insert(entity);
 
@@ -729,15 +777,7 @@ manager.update(entity);
 manager.update(entities);
 ----
 
-The Column Communication API supports retrieving information from a `ColumnQuery` instance.  This class has six  attributes:
-
-* **columns**: The fields to return in a query.
-* **limit**: the maximum number of results in a query.
-* **skip**: the position of the first result.
-* **columnFamily**: the column family name looks like a table in a column-family NoSQL database.
-* **condition**: the filter in the query.
-* **sorts**: the way to order the information, where the first element will have more precedence than the next ones.
-
+The Column Communication API supports retrieving information from a `ColumnQuery` instance.
 
 By default, there are two ways to create a `ColumnQuery` instance that are available as a static method in the same class:
 
@@ -770,24 +810,24 @@ ColumnQuery query = builder().from("Person").build();
 Using the select method:
 [source,java]
 ----
- ColumnQuery query = ColumnQuery.select()
-                .from("Person").where("name").eq("Ada Lovelace")
-                .build();
+ColumnQuery query = ColumnQuery.select()
+            .from("Person").where("name").eq("Ada Lovelace")
+            .build();
 //static imports
- ColumnQuery query = select()
-                .from("Person").where("name").eq("Ada Lovelace")
-                .build();
+ColumnQuery query = select()
+            .from("Person").where("name").eq("Ada Lovelace")
+            .build();
 ----
 Using the builder method:
 [source,java]
 ----
 ColumnQuery query = ColumnQuery.builder()
-                .from("Person").where(ColumnCondition.eq("name", "Ada Lovelace"))
-                .build();
+            .from("Person").where(ColumnCondition.eq("name", "Ada Lovelace"))
+            .build();
 //static imports
 ColumnQuery query = builder().from("Person")
-                               .where(eq("name", "Ada Lovelace"))
-                               .build();
+            .where(eq("name", "Ada Lovelace"))
+            .build();
 ----
 
 * Select the field name where the "name" equals "Ada Lovelace" from the column family Person.
@@ -795,26 +835,26 @@ ColumnQuery query = builder().from("Person")
 Using the select method:
 [source,java]
 ----
-  ColumnQuery query = ColumnQuery.select("name")
-                .from("Person").where("name").eq("Ada Lovelace")
-                .build();
+ColumnQuery query = ColumnQuery.select("name")
+            .from("Person").where("name").eq("Ada Lovelace")
+            .build();
 //static imports
-  ColumnQuery query = select("name")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .build();
+ColumnQuery query = select("name")
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .build();
 ----
 Using the builder method:
 [source,java]
 ----
-  ColumnQuery query = ColumnQuery.builder("name")
-                .from("Person").where(ColumnCondition.eq("name", "Ada Lovelace"))
-                .build();
+ColumnQuery query = ColumnQuery.builder("name")
+            .from("Person").where(ColumnCondition.eq("name", "Ada Lovelace"))
+            .build();
 //static imports
 
-  ColumnQuery query = builder("name")
-                .from("Person").where(eq("name", "Ada Lovelace"))
-                .build();
+ColumnQuery query = builder("name")
+            .from("Person").where(eq("name", "Ada Lovelace"))
+            .build();
 ----
 
 * Select the fields name and age where the "name" is "Ada Lovelace" and the "age" is greater than twenty from the column family Person.
@@ -823,67 +863,67 @@ Using the select method:
 [source,java]
 ----
 ColumnQuery query = ColumnQuery.select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .and("age").gt(20)
-                .build();
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .and("age").gt(20)
+            .build();
 //static imports
 ColumnQuery query = select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .and("age").gt(20)
-                .build();
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .and("age").gt(20)
+            .build();
 ----
 Using the builder method:
 [source,java]
 ----
 ColumnQuery query = ColumnQuery.builder("name", "age")
-             .from("Person")
-             .where(ColumnCondition.and(ColumnCondition.eq("name", "Ada Lovelace"),
+            .from("Person")
+            .where(ColumnCondition.and(ColumnCondition.eq("name", "Ada Lovelace"),
              DocumentCondition.gt("age", 20)))
              .build();
 
 //static imports
 
 ColumnQuery query = builder("name", "age")
-             .from("Person")
-             .where(and(eq("name", "Ada Lovelace"),
+            .from("Person")
+            .where(and(eq("name", "Ada Lovelace"),
              gt("age", 20)))
-             .build();
+            .build();
 ----
 * Select the fields name and age where the "name" is "Ada Lovelace" or the "age" is greater than twenty from the column family Person.
 
 Using the select method:
 [source,java]
 ----
-  ColumnQuery query = ColumnQuery.select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .build();
+ColumnQuery query = ColumnQuery.select("name", "age")
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .or("age").gt(20)
+            .build();
 //static imports
-  ColumnQuery query = select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .build();
+ColumnQuery query = select("name", "age")
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .or("age").gt(20)
+            .build();
 ----
 Using the builder method:
 [source,java]
 ----
 ColumnQuery query = ColumnQuery.builder("name", "age")
-             .from("Person")
-             .where(ColumnCondition.or(ColumnCondition.eq("name", "Ada Lovelace"),
+            .from("Person")
+            .where(ColumnCondition.or(ColumnCondition.eq("name", "Ada Lovelace"),
              ColumnCondition.gt("age", 20)))
-             .build();
+            .build();
 
 //static imports
 
 ColumnQuery query = builder("name", "age")
-             .from("Person")
-             .where(or(eq("name", "Ada Lovelace"),
+            .from("Person")
+            .where(or(eq("name", "Ada Lovelace"),
              gt("age", 20)))
-             .build();
+            .build();
 ----
 
 * Select the fields name and age where the "name" is "Ada Lovelace" or the "age" is greater than twenty; skip the first element, and the max return is two from the column family Person.
@@ -892,30 +932,30 @@ Using the select method:
 [source,java]
 ----
 ColumnQuery query = ColumnQuery.select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .skip(1)
-                .limit(2)
-                .build();
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .or("age").gt(20)
+            .skip(1)
+            .limit(2)
+            .build();
 //static imports
 ColumnQuery query = select("name", "age")
-                .from("Person")
-                .where("name").eq("Ada Lovelace")
-                .or("age").gt(20)
-                .skip(1)
-                .limit(2)
-                .build();
+            .from("Person")
+            .where("name").eq("Ada Lovelace")
+            .or("age").gt(20)
+            .skip(1)
+            .limit(2)
+            .build();
 ----
 Using the builder method:
 [source,java]
 ----
 ColumnQuery query = ColumnQuery.builder("name", "age")
-                .from("Person")
-                .where(ColumnCondition.or(ColumnCondition.eq("name", "Ada Lovelace"),
+            .from("Person")
+            .where(ColumnCondition.or(ColumnCondition.eq("name", "Ada Lovelace"),
                         ColumnCondition.gt("age", 20)))
-                .skip(1).limit(2)
-                .build();
+            .skip(1).limit(2)
+            .build();
 
 //static imports
 
@@ -962,7 +1002,7 @@ ColumnQuery query = builder("name", "age")
 
 ----
 
-===== Removing information from Column Family
+===== Removing information
 
 Similar to `ColumnQuery`, there is a class to remove information from the document database type: A `ColumnDeleteQuery` type.
 
@@ -1009,7 +1049,7 @@ bucketManager.put(entities, Duration.ofHours(2)); // inserts with two hours TTL
 bucketManager.put(entity, Duration.ofHours(2)); // inserts with two hours TTL
 ----
 
-===== Remove and Retrieve Information From a Key-Value Database
+===== Remove and Retrieve information
 
 With a simple structure, the bucket needs a key to both retrieve and delete information from the database.
 
@@ -1030,59 +1070,9 @@ include::communication_query.adoc[]
 
 The factory class creates the *Managers*.
 
-* *ColumnFamilyManagerFactory*
-* *BucketManagerFactory*
-* *DocumentCollectionManagerFactory*
-
-
-==== Column Family Manager Factory
-
-The factory classes have the duty to create the Column Family manager.
-
-* *ColumnFamilyManagerFactory*
-
-[source,java]
-----
-ColumnFamilyManagerFactory factory = //instance;
-ColumnFamilyManager manager = factory.get("database");
-----
-
-==== Document Collection Factory
-
-The factory classes have the duty to create the document collection manager.
-
-* *DocumentCollectionManagerFactory*
-
-[source,java]
-----
-DocumentCollectionManagerFactory factory = //instance;
-DocumentCollectionManager manager = factory.get("database");
-----
-
-==== Bucket Manager Factory
-
-The factory classes have the responsibility to create the `BucketManager`.
-
-[source,java]
-----
-BucketManagerFactory bucketManager = //instance;
-BucketManager bucket = bucketManager.getBucketManager("bucket");
-----
-
-Beyond the BucketManager, some databases have support for particular structures represented in the Java world such as `List`, `Set`, `Queue` and `Map`.
-
-[source,java]
-----
-List<String> list = bucketManager.getList("list", String.class);
-
-Set<String> set = bucketManager.getSet("set", String.class);
-
-Queue<String> queue = bucketManager.getQueue("queue", String.class);
-
-Map<String, String> map = bucketManager.getMap("map", String.class, String.class);
-----
-
-These methods may return a `java.lang.UnsupportedOperationException` if the database does not support any of the structures.
+* *BucketManagerFactory*: The factory classes have the responsibility to create the `BucketManager`.
+* *ColumnManagerFactory*: The factory classes have the duty to create the Column manager.
+* *DocumentManagerFactory*: The factory classes have the duty to create the document collection manager.
 
 === Configuration
 
@@ -1104,23 +1094,17 @@ Map<String, Object> map = //instance;
 Settings settings = Settings.of(map);
 ----
 
-Each property unit has a tuple where the key is the name and the value is the property configuration. Each NoSQL database has its configuration properties.
-Also, some standard configurations might be used on NoSQL databases:
-
-* `jakarta.nosql.user`: to define a user in a NoSQL database
-* `jakarta.nosql.password`: to define a password in a database
-* `jakarta.nosql.host`: the host configuration that might have more than one with a number as a suffix, such as `jakarta.nosql.host-1=localhost` or `jakarta.nosql.host-2=host2`
-
-WARNING: To read the property information, it will follow the same principal and priority from Eclipse MicroProfile Configuration and Configuration Spec JSR 382. Therefore, it will read from the  {@link `System#getProperties()`,`System#getenv()` and `Settings`.
-
 ==== Document Configuration
 
 For the Document collection configuration, `DocumentConfiguration` configures and creates `DocumentCollectionManagerFactory`.
 
 [source,java]
 ----
+Settings settings = Settings.builder()
+    .put("key", "value")
+    .build();
 DocumentConfiguration configuration = //instance;
-DocumentCollectionManagerFactory managerFactory = configuration.get();
+DocumentCollectionManagerFactory managerFactory = configuration.get(settings);
 ----
 
 ==== Column Configuration
@@ -1129,9 +1113,11 @@ For the Column Family configuration, `ColumnConfiguration` creates and configure
 
 [source,java]
 ----
+Settings settings = Settings.builder()
+    .put("key", "value")
+    .build();
 ColumnConfiguration configuration = //instance;
-
-ColumnFamilyManagerFactory managerFactory = configuration.get();
+ColumnFamilyManagerFactory managerFactory = configuration.get(settings);
 ----
 
 ==== Key Value Configuration
@@ -1140,6 +1126,9 @@ For the key-value configuration, there is `KeyValueConfiguration` to `BucketMana
 
 [source,java]
 ----
+Settings settings = Settings.builder()
+    .put("key", "value")
+    .build();
 KeyValueConfiguration configuration = //instance;
 BucketManagerFactory managerFactory = configuration.get();
 ----

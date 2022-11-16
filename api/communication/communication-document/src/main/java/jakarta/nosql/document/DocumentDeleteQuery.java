@@ -29,7 +29,7 @@ import java.util.function.Supplier;
  * A unit that has the columnFamily and condition to delete from conditions
  * <p>
  * This instance will be used on:
- * <p>{@link DocumentCollectionManager#delete(DocumentDeleteQuery)}</p>
+ * <p>{@link DocumentManager#delete(DocumentDeleteQuery)}</p>
  */
 public interface DocumentDeleteQuery {
 
@@ -260,7 +260,7 @@ public interface DocumentDeleteQuery {
     /**
      * The last step to the build of {@link DocumentDeleteQuery}.
      * It either can return a new {@link DocumentDeleteQuery} instance or execute a query with
-     * {@link DocumentCollectionManager}
+     * {@link DocumentManager}
      */
     interface DocumentDeleteQueryBuild {
 
@@ -272,12 +272,12 @@ public interface DocumentDeleteQuery {
         DocumentDeleteQuery build();
 
         /**
-         * executes the {@link DocumentCollectionManager#delete(DocumentDeleteQuery)}
+         * executes the {@link DocumentManager#delete(DocumentDeleteQuery)}
          *
          * @param manager the entity manager
          * @throws NullPointerException when manager is null
          */
-        void delete(DocumentCollectionManager manager);
+        void delete(DocumentManager manager);
 
     }
 
@@ -369,13 +369,13 @@ public interface DocumentDeleteQuery {
         DocumentDeleteQuery build();
 
         /**
-         * executes the {@link DocumentCollectionManager#delete(DocumentDeleteQuery)}
+         * executes the {@link DocumentManager#delete(DocumentDeleteQuery)}
          *
          * @param manager the entity manager
          * @throws NullPointerException when manager is null
          * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
          *                               such as the {@link DocumentDeleteQueryBuilder#from(String)} method was not called.
          */
-        void delete(DocumentCollectionManager manager);
+        void delete(DocumentManager manager);
     }
 }

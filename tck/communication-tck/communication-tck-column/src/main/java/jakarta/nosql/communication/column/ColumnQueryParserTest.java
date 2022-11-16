@@ -23,7 +23,7 @@ import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnCondition;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnEntity;
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 import jakarta.nosql.column.ColumnObserverParser;
 import jakarta.nosql.column.ColumnPreparedStatement;
 import jakarta.nosql.column.ColumnQuery;
@@ -50,7 +50,7 @@ public class ColumnQueryParserTest {
     private ColumnQueryParser parser = ServiceLoaderProvider.get(ColumnQueryParser.class,
             ()-> ServiceLoader.load(ColumnQueryParser.class));
 
-    private ColumnFamilyManager manager = mock(ColumnFamilyManager.class);
+    private ColumnManager manager = mock(ColumnManager.class);
 
     @BeforeEach
     public void setUp() {

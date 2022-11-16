@@ -15,7 +15,7 @@
  */
 package jakarta.nosql.mapping.column;
 
-import jakarta.nosql.column.ColumnFamilyManager;
+import jakarta.nosql.column.ColumnManager;
 import jakarta.nosql.mapping.Repository;
 
 /**
@@ -25,7 +25,7 @@ import jakarta.nosql.mapping.Repository;
 public interface ColumnRepositoryProducer {
 
     /**
-     * Produces a Repository class from repository class and {@link ColumnFamilyManager}
+     * Produces a Repository class from repository class and {@link ColumnManager}
      * @param repositoryClass the repository class
      * @param manager the manager
      * @param <T> the entity of repository
@@ -34,7 +34,7 @@ public interface ColumnRepositoryProducer {
      * @return a {@link Repository} interface
      * @throws NullPointerException when there is null parameter
      */
-    <T, K, R extends Repository<T, K>> R get(Class<R> repositoryClass, ColumnFamilyManager manager);
+    <T, K, R extends Repository<T, K>> R get(Class<R> repositoryClass, ColumnManager manager);
 
     /**
      * Produces a Repository class from repository class and {@link ColumnTemplate}

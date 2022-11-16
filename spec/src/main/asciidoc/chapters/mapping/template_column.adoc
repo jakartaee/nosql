@@ -16,18 +16,13 @@
 
 This template has the responsibility to serve as a bridge between the entity model and the communication to a column family NoSQL database type.
 
-The `ColumnTemplate` is the column template for the synchronous tasks. It has three components:
-
-* *ColumnEntityConverter*: Converts an entity to communication API, e.g., the `Person` to `ColumnFamilyEntity`.
-
-* *ColumnCollectionManager*: The communication column family entity manager.
-
-* *ColumnWorkflow*: The workflow to update and insert methods.
+The `ColumnTemplate` is the column template for the synchronous tasks.
 
 [source,java]
 ----
-ColumnTemplate template = // instance;
-
+@Inject
+ColumnTemplate template;
+...
 Person person = new Person();
 person.setAddress("Olympus");
 person.setName("Artemis Good");
@@ -51,11 +46,9 @@ For information removal and retrieval, there are `ColumnQuery` and `ColumnDelete
 ColumnQuery query = select().from("Person").where("address").eq("Olympus").build();
 
 Stream<Person> peopleWhoLiveOnOlympus = template.select(query);
-Optional<Person> artemis = template.singleResult(select().from("Person")
-                                   .where("nickname").eq("artemis").build());
+Optional<Person> artemis = template.singleResult(select().from("Person").where("nickname").eq("artemis").build());
 
-ColumnDeleteQuery deleteQuery = delete().from("Person").where("address")
-                                        .eq("Olympus").build()
+ColumnDeleteQuery deleteQuery = delete().from("Person").where("address").eq("Olympus").build();
 template.delete(deleteQuery);
 ----
 
@@ -81,17 +74,15 @@ public class Person {
 [source,java]
 ----
 @Inject
-private ColumnQueryMapperBuilder mapperBuilder;
-
-public void mapper() {
-  ColumnQuery query = mapperBuilder.selectFrom(Person.class).where("id").gte(10).build();
+ColumnQueryMapperBuilder mapperBuilder;
+...
+ColumnQuery query = mapperBuilder.selectFrom(Person.class).where("id").gte(10).build();
   // translating: select().from("Person").where("native_id").gte(10L).build();
-  ColumnDeleteQuery deleteQuery = mapperBuilder.deleteFrom(Person.class)
+ ColumnDeleteQuery deleteQuery = mapperBuilder.deleteFrom(Person.class)
                                                .where("id").eq("20").build();
-  // translating: delete().from("Person").where("native_id").gte(10L).build();
-}
-----
+ // translating: delete().from("Person").where("native_id").gte(10L).build();
 
+----
 
 To use a column template, just follow the CDI style and precede the field with the `@Inject` annotation.
 
@@ -112,9 +103,7 @@ public ColumnFamilyManager getManager() {
 }
 ----
 
-To work with more than one column template, there are two approaches:
-
-1) Use qualifiers:
+You can work with several column database instances through CDI qualifier. To identify each database instance, make a `ColumnManager` visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
 
 [source,java]
 ----
@@ -129,29 +118,13 @@ private ColumnTemplate templateB;
 // producers methods
 @Produces
 @Database(value = DatabaseType.COLUMN, provider = "databaseA")
-public ColumnFamilyManager getManagerA() {
-    ColumnFamilyManager manager =// instance;
+public ColumnManager getManagerA() {
     return manager;
 }
 
 @Produces
 @Database(value = DatabaseType.COLUMN, provider = "databaseB")
-public ColumnFamilyManager getManagerB() {
-    ColumnFamilyManager manager = // instance;
+public ColumnManager getManagerB() {
     return manager;
 }
 ----
-
-2) Use the `ColumnTemplateProducer` class:
-
-```java
-@Inject
-private ColumnTemplateProducer producer;
-
-public void sample() {
-   ColumnFamilyManager managerA = // instance;
-   ColumnFamilyManager managerB = // instance;
-   ColumnTemplate templateA = producer.get(managerA);
-   ColumnTemplate templateB = producer.get(managerB);
-}
-```

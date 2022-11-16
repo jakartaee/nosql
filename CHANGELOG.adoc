@@ -17,9 +17,17 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 - Create a CHANGELOG file to track the specification evolution
 - Move the default documentation to ASCIIDOC
 - Add supplier at Settings API
+- Change the Configurations APIs to be a supplier
+- Update the nomenclature on the Document and Column APIs
+
 
 === Removed
+
 - Remove the settings methods to avoid mutability in the instance.
+
+=== Deprecated
+
+- Deprecate the APIs and annotations that will belong to Jakarta Data
 
 == [1.0.0.4-b4] - 2022-06-04
 

@@ -20,35 +20,18 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Settings;
 
 import java.util.ServiceLoader;
+import java.util.function.Function;
 
 
 /**
- * The Jakarta NoSQL configuration to create a {@link ColumnFamilyManagerFactory}
+ * It is a function that reads from {@link Settings} and then creates a manager factory instance.
+ * It should return a {@link NullPointerException} when the {@link Settings} parameter is null.
+ *
+ * @see ColumnManagerFactory
+ * @see ColumnManager
  */
-public interface ColumnConfiguration {
+public interface ColumnConfiguration extends Function<Settings, ColumnManagerFactory> {
 
-    /**
-     * Reads configuration either from default configuration or a file defined by NoSQL
-     * provider and then creates a {@link ColumnFamilyManagerFactory} instance.
-     *
-     * @param <T> the ColumnFamilyManagerFactory type
-     * @return a {@link ColumnFamilyManagerFactory}
-     */
-    <T extends ColumnFamilyManagerFactory> T get();
-
-
-    /**
-     * Reads configuration from the {@link Settings} instance, the parameters are defined by NoSQL
-     * provider, then creates a {@link ColumnFamilyManagerFactory} instance.
-     *
-     * @param <T>      the ColumnFamilyManagerFactory type
-     * @param settings the settings
-     * @return a {@link ColumnFamilyManagerFactory}
-     * @throws NullPointerException when settings is null
-     * @see Settings
-     * @see Settings {@link java.util.Map}
-     */
-    <T extends ColumnFamilyManagerFactory> T get(Settings settings);
 
     /**
      * creates and returns a  {@link ColumnConfiguration}  instance from {@link java.util.ServiceLoader}

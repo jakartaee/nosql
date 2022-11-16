@@ -34,10 +34,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-class ColumnFamilyManagerTest {
+class ColumnManagerTest {
 
     @Spy
-    private ColumnFamilyManager manager;
+    private ColumnManager manager;
 
     @Test
     public void shouldReturnSingleResult() {

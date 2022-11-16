@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 /**
  * Class that contains information to do a select to {@link ColumnEntity}
  *
- * @see ColumnFamilyManager#select(ColumnQuery)
+ * @see ColumnManager#select(ColumnQuery)
  * @see ColumnCondition
  * @see Sort
  */
@@ -267,7 +267,7 @@ public interface ColumnQuery {
     /**
      * The last step to the build of {@link ColumnQuery}.
      * It either can return a new {@link ColumnQuery} instance or execute a query with
-     * {@link ColumnFamilyManager}
+     * {@link ColumnManager}
      */
     interface ColumnQueryBuild {
 
@@ -279,22 +279,22 @@ public interface ColumnQuery {
         ColumnQuery build();
 
         /**
-         * Executes {@link ColumnFamilyManager#select(ColumnQuery)}
+         * Executes {@link ColumnManager#select(ColumnQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link ColumnFamilyManager#select(ColumnQuery)}
+         * @return the result of {@link ColumnManager#select(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        Stream<ColumnEntity> getResult(ColumnFamilyManager manager);
+        Stream<ColumnEntity> getResult(ColumnManager manager);
 
         /**
-         * Executes {@link ColumnFamilyManager#singleResult(ColumnQuery)}
+         * Executes {@link ColumnManager#singleResult(ColumnQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link ColumnFamilyManager#singleResult(ColumnQuery)}
+         * @return the result of {@link ColumnManager#singleResult(ColumnQuery)}
          * @throws NullPointerException when manager is null
          */
-        Optional<ColumnEntity> getSingleResult(ColumnFamilyManager manager);
+        Optional<ColumnEntity> getSingleResult(ColumnManager manager);
 
     }
 
@@ -601,25 +601,25 @@ public interface ColumnQuery {
         ColumnQuery build();
 
         /**
-         * Executes {@link ColumnFamilyManager#select(ColumnQuery)}
+         * Executes {@link ColumnManager#select(ColumnQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link ColumnFamilyManager#select(ColumnQuery)}
+         * @return the result of {@link ColumnManager#select(ColumnQuery)}
          * @throws NullPointerException  when manager is null
          * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
          *                               such as the {@link ColumnQueryBuilder#from(String)} method was not called.
          */
-        Stream<ColumnEntity> getResult(ColumnFamilyManager manager);
+        Stream<ColumnEntity> getResult(ColumnManager manager);
 
         /**
-         * Executes {@link ColumnFamilyManager#singleResult(ColumnQuery)}
+         * Executes {@link ColumnManager#singleResult(ColumnQuery)}
          *
          * @param manager the entity manager
-         * @return the result of {@link ColumnFamilyManager#singleResult(ColumnQuery)}
+         * @return the result of {@link ColumnManager#singleResult(ColumnQuery)}
          * @throws NullPointerException  when manager is null
          * @throws IllegalStateException It returns a state exception when an element is not valid or not fill-up,
          *                               such as the {@link ColumnQueryBuilder#from(String)} method was not called.
          */
-        Optional<ColumnEntity> getSingleResult(ColumnFamilyManager manager);
+        Optional<ColumnEntity> getSingleResult(ColumnManager manager);
     }
 }

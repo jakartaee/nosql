@@ -28,7 +28,7 @@ import java.util.function.BiFunction;
  * It is the state of column queries, with a condition and a value, as a {@link Column},
  * where both combined define a predicate.
  *
- * @see ColumnFamilyManager#select(ColumnQuery)
+ * @see ColumnManager#select(ColumnQuery)
  * @see Condition
  */
 public interface ColumnCondition {

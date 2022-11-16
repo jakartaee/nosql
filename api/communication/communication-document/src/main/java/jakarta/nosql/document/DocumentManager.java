@@ -29,12 +29,18 @@ import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
- * The persistence context to {@link DocumentEntity}.
- * The DocumentCollectionManager API is used to create and remove persistent {@link DocumentEntity} instances,
- * to select entities by their primary key, and to select over entities.
- * Thus, ColumnFamilyManager enables CRUD Operation for {@link DocumentEntity}.
+ * The manager instance bridges the Jakarta NoSQL and the NoSQL vendor.
+ *
+ * @see DocumentEntity
  */
-public interface DocumentCollectionManager extends AutoCloseable {
+public interface DocumentManager extends AutoCloseable {
+
+    /**
+     * Returns the database's name of this {@link DocumentManager}
+     *
+     * @return the database's name
+     */
+    String getName();
 
     /**
      * Saves document collection entity
@@ -58,7 +64,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
 
     /**
      * Saves documents collection entity, by default it's just run for each saving using
-     * {@link DocumentCollectionManager#insert(DocumentEntity)},
+     * {@link DocumentManager#insert(DocumentEntity)},
      * each NoSQL vendor might replace to a more appropriate one.
      *
      * @param entities entities to be saved
@@ -69,7 +75,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
 
     /**
      * Saves documents collection entity with time to live, by default it's just run for each saving using
-     * {@link DocumentCollectionManager#insert(DocumentEntity, Duration)},
+     * {@link DocumentManager#insert(DocumentEntity, Duration)},
      * each NoSQL vendor might replace to a more appropriate one.
      *
      * @param entities entities to be saved
@@ -91,7 +97,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
 
     /**
      * Updates documents collection entity, by default it's just run for each saving using
-     * {@link DocumentCollectionManager#update(DocumentEntity)},
+     * {@link DocumentManager#update(DocumentEntity)},
      * each NoSQL vendor might replace to a more appropriate one.
      *
      * @param entities entities to be saved
@@ -133,7 +139,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
     default Stream<DocumentEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
         DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
-                ()-> ServiceLoader.load(DocumentQueryParser.class));
+                () -> ServiceLoader.load(DocumentQueryParser.class));
         return parser.query(query, this, DocumentObserverParser.EMPTY);
     }
 
@@ -150,7 +156,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
     default DocumentPreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
         DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
-                ()-> ServiceLoader.load(DocumentQueryParser.class));
+                () -> ServiceLoader.load(DocumentQueryParser.class));
         return parser.prepare(query, this, DocumentObserverParser.EMPTY);
     }
 

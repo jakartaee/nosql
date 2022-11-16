@@ -29,12 +29,18 @@ import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
- * The persistence context to {@link ColumnEntity}.
- * The ColumnFamilyManager API is used to create and remove persistent {@link ColumnEntity} instances,
- * to select entities by their primary key, and to select over entities.
- * Thus, ColumnFamilyManager enables CRUD Operation for {@link ColumnEntity}.
+ * The manager instance bridges the Jakarta NoSQL and the NoSQL vendor.
+ *
+ * @see ColumnEntity
  */
-public interface ColumnFamilyManager extends AutoCloseable {
+public interface ColumnManager extends AutoCloseable {
+
+    /**
+     * Returns the database's name of this {@link ColumnManager}
+     *
+     * @return the database's name
+     */
+    String getName();
 
     /**
      * Saves a Column family entity
@@ -56,7 +62,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
 
     /**
      * Updates a Column family entities, by default it's just run for each saving using
-     * {@link ColumnFamilyManager#update(ColumnEntity)}, each NoSQL vendor might
+     * {@link ColumnManager#update(ColumnEntity)}, each NoSQL vendor might
      * replace to a more appropriate one.
      *
      * @param entities column family to be saved
@@ -78,7 +84,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
 
     /**
      * Saves a Column family entities, by default it's just run for each saving using
-     * {@link ColumnFamilyManager#insert(ColumnEntity)}, each NoSQL vendor might
+     * {@link ColumnManager#insert(ColumnEntity)}, each NoSQL vendor might
      * replace to a more appropriate one.
      *
      * @param entities column family to be saved
@@ -89,7 +95,7 @@ public interface ColumnFamilyManager extends AutoCloseable {
 
     /**
      * Saves a Column family entity with time to live, by default it's just run for each saving using
-     * {@link ColumnFamilyManager#insert(ColumnEntity, Duration)},
+     * {@link ColumnManager#insert(ColumnEntity, Duration)},
      * each NoSQL vendor might replace to a more appropriate one.
      *
      * @param entities column family to be saved

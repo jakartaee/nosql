@@ -31,7 +31,7 @@ public class DocumentConfigurationTest {
     @Test
     public void shouldReturnErrorWhenTheParameterIsNull() {
         final DocumentConfiguration configuration = DocumentConfiguration.getConfiguration();
-        Assertions.assertThrows(NullPointerException.class, () -> configuration.get(null));
+        Assertions.assertThrows(NullPointerException.class, () -> configuration.apply(null));
     }
 
 

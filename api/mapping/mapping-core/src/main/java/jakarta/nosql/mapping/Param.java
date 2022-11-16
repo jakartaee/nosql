@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Defines a param to a {@link Query} query.
+ * @deprecated Use the Jakarta Data Param annotation instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

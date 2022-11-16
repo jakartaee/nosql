@@ -41,8 +41,9 @@ import java.util.Optional;
  * <p><b>OrderBy____Desc</b></p>
  * <p><b>OrderBy_____ASC</b></p>
  *
- * @param <T>  the bean type
+ * @param <T> the bean type
  * @param <K> the K type
+ * @deprecated Use the Jakarta Data Repository instead.
  */
 public interface Repository<T, K> {
 

@@ -15,9 +15,9 @@
  */
 package jakarta.nosql.tck.communication.driver.document;
 
-import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentManager;
 
 import java.util.function.Supplier;
 
-public interface DocumentCollectionManagerSupplier extends Supplier<DocumentCollectionManager> {
+public interface DocumentCollectionManagerSupplier extends Supplier<DocumentManager> {
 }

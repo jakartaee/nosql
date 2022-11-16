@@ -22,8 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines an embedded field, that means all elements fields in the class will as converted as one.
- * E.g., In a document NoSQL database that class will translate to a sub-document.
+ * Specifies a class whose instances are stored as an intrinsic part of an owning entity and share the entity's identity.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

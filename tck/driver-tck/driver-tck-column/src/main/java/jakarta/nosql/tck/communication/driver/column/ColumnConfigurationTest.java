@@ -31,7 +31,7 @@ public class ColumnConfigurationTest {
     @Test
     public void shouldReturnErrorWhenTheParameterIsNull() {
         final ColumnConfiguration configuration = ColumnConfiguration.getConfiguration();
-        Assertions.assertThrows(NullPointerException.class, () -> configuration.get(null));
+        Assertions.assertThrows(NullPointerException.class, () -> configuration.apply(null));
     }
 
 

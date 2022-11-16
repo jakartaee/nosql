@@ -19,13 +19,14 @@ package jakarta.nosql.mapping.column;
 import jakarta.nosql.mapping.Page;
 
 /**
- *
  * @param <T> the entity type
+ * @deprecated Use the Jakarta Data Page instead.
  */
 public interface ColumnPage<T> extends Page<T> {
 
     /**
      * The query of the current {@link Page}
+     *
      * @return {@link ColumnQueryPagination}
      */
     ColumnQueryPagination getQuery();

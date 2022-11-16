@@ -15,7 +15,7 @@
  */
 package jakarta.nosql.tck.communication.driver.document;
 
-import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.document.DocumentEntity;
 
 import java.util.Collections;
@@ -62,13 +62,13 @@ public final class DocumentArgument {
         return empty;
     }
 
-    public Optional<DocumentEntity> insertOne(DocumentCollectionManager manager) {
+    public Optional<DocumentEntity> insertOne(DocumentManager manager) {
         Objects.requireNonNull(manager, "manager is required");
         return getQuery().stream().limit(1L).flatMap(manager::query)
                 .findFirst();
     }
 
-    public List<DocumentEntity> insertAll(DocumentCollectionManager manager) {
+    public List<DocumentEntity> insertAll(DocumentManager manager) {
         Objects.requireNonNull(manager, "manager is required");
         return getQuery().stream().flatMap(manager::query)
                 .collect(Collectors.toList());

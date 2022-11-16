@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * To run Query in Repository interface
+ * @deprecated Use the Jakarta Data Repository instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

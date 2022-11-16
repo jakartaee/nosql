@@ -16,7 +16,7 @@
 package jakarta.nosql.mapping.document;
 
 
-import jakarta.nosql.document.DocumentCollectionManager;
+import jakarta.nosql.document.DocumentManager;
 
 
 /**
@@ -28,10 +28,10 @@ public interface DocumentTemplateProducer {
      * creates a {@link DocumentTemplate}
      *
      * @param <T>               the DocumentTemplate instance
-     * @param collectionManager the collectionManager
+     * @param manager the manager
      * @return a new instance
-     * @throws NullPointerException when collectionManager is null
+     * @throws NullPointerException when manager is null
      */
-    <T extends DocumentTemplate> T get(DocumentCollectionManager collectionManager);
+    <T extends DocumentTemplate> T get(DocumentManager manager);
 
 }

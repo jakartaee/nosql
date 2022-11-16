@@ -28,7 +28,7 @@ import java.util.function.BiFunction;
  * It is the state of column queries, with a condition and a value, as a {@link Document},
  * where both combined define a predicate.
  *
- * @see DocumentCollectionManager#select(DocumentQuery)
+ * @see DocumentManager#select(DocumentQuery)
  * @see Condition
  */
 public interface DocumentCondition {
