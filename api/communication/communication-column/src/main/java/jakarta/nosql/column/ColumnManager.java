@@ -36,6 +36,13 @@ import java.util.stream.Stream;
 public interface ColumnManager extends AutoCloseable {
 
     /**
+     * Returns the database's name of this {@link ColumnManager}
+     *
+     * @return the database's name
+     */
+    String getName();
+
+    /**
      * Saves a Column family entity
      *
      * @param entity column family to be saved

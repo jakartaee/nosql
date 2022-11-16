@@ -36,6 +36,13 @@ import java.util.stream.Stream;
 public interface DocumentManager extends AutoCloseable {
 
     /**
+     * Returns the database's name of this {@link DocumentManager}
+     *
+     * @return the database's name
+     */
+    String getName();
+
+    /**
      * Saves document collection entity
      *
      * @param entity entity to be saved

@@ -34,6 +34,13 @@ import java.util.stream.Stream;
 public interface BucketManager extends AutoCloseable {
 
     /**
+     * Returns the bucket name of this {@link BucketManager}
+     *
+     * @return the bucket name
+     */
+    String getName();
+
+    /**
      * Associates the specified value with the specified key and than storage
      *
      * @param key   the key
@@ -60,7 +67,7 @@ public interface BucketManager extends AutoCloseable {
      * @throws NullPointerException          when entity is null
      * @throws UnsupportedOperationException when expired time is not supported
      */
-     void put(KeyValueEntity entity, Duration ttl);
+    void put(KeyValueEntity entity, Duration ttl);
 
     /**
      * Saves the {@link Iterable} of keys
@@ -125,15 +132,15 @@ public interface BucketManager extends AutoCloseable {
      *
      * @param query the query as {@link String}
      * @return the result of the operation if delete it will always return an empty list
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalArgumentException        when the query has value parameters
-     * @throws IllegalStateException           when there is not {@link KeyValueQueryParser}
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException     when there is parameter null
+     * @throws IllegalArgumentException when the query has value parameters
+     * @throws IllegalStateException    when there is not {@link KeyValueQueryParser}
+     * @throws QueryException           when there is error in the syntax
      */
     default Stream<Value> query(String query) {
         Objects.requireNonNull(query, "query is required");
         KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class,
-                ()-> ServiceLoader.load(KeyValueQueryParser.class));
+                () -> ServiceLoader.load(KeyValueQueryParser.class));
         return parser.query(query, this);
     }
 
@@ -144,14 +151,14 @@ public interface BucketManager extends AutoCloseable {
      *
      * @param query the query as {@link String}
      * @return a {@link KeyValuePreparedStatement} instance
-     * @throws NullPointerException            when there is parameter null
-     * @throws IllegalStateException           when there is not {@link KeyValuePreparedStatement}
-     * @throws QueryException when there is error in the syntax
+     * @throws NullPointerException  when there is parameter null
+     * @throws IllegalStateException when there is not {@link KeyValuePreparedStatement}
+     * @throws QueryException        when there is error in the syntax
      */
     default KeyValuePreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
         KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class
-        ,()-> ServiceLoader.load(KeyValueQueryParser.class));
+                , () -> ServiceLoader.load(KeyValueQueryParser.class));
         return parser.prepare(query, this);
     }
 
