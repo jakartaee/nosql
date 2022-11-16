@@ -22,8 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This isn't a mandatory field,  but when it defines this field is a key.
- * That going to be used mainly for key-value operations.
+ * Specifies the primary key of an entity.
  *
  * @see Entity
  * @deprecated Use the Jakarta Data Id annotation instead.
