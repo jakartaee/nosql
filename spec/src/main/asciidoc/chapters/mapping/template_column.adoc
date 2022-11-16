@@ -103,7 +103,7 @@ public ColumnFamilyManager getManager() {
 }
 ----
 
-You can work with several column database instances through CDI qualifier. To identify each database instance, make a ColumnManager visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
+You can work with several column database instances through CDI qualifier. To identify each database instance, make a `ColumnManager` visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
 
 [source,java]
 ----

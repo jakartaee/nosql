@@ -96,7 +96,7 @@ To use a document template, just follow the CDI style and place an `@Inject` ann
 private DocumentTemplate template;
 ----
 
-You can work with several document database instances through CDI qualifier. To identify each database instance, make a DocumentManager visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
+You can work with several document database instances through CDI qualifier. To identify each database instance, make a `DocumentManager` visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
 
 [source,java]
 ----

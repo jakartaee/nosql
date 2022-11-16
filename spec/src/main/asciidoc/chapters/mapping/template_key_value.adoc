@@ -47,7 +47,7 @@ To use a key-value template, just follow the CDI style and precede the field wit
 private KeyValueTemplate template;
 ----
 
-You can work with several key-value database instances through CDI qualifier. To identify each database instance, make a BucketManager visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
+You can work with several key-value database instances through CDI qualifier. To identify each database instance, make a `BucketManager` visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
 
 [source,java]
 ----
