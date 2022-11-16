@@ -47,7 +47,7 @@ public class DocumentManagerTest {
     @BeforeEach
     public void setUp() {
         Module module = DocumentManagerTest.class.getModule();
-        module.addUses(DocumentCollectionManagerSupplier.class);
+        module.addUses(DocumentManagerSupplier.class);
     }
     @ParameterizedTest
     @DocumentSource("document.properties")
@@ -315,9 +315,9 @@ public class DocumentManagerTest {
     }
 
     private DocumentManager getManager() {
-        final DocumentCollectionManagerSupplier supplier = ServiceLoaderProvider
-                .get(DocumentCollectionManagerSupplier.class,
-                        ()-> ServiceLoader.load(DocumentCollectionManagerSupplier.class));
+        final DocumentManagerSupplier supplier = ServiceLoaderProvider
+                .get(DocumentManagerSupplier.class,
+                        ()-> ServiceLoader.load(DocumentManagerSupplier.class));
         return supplier.get();
     }
 

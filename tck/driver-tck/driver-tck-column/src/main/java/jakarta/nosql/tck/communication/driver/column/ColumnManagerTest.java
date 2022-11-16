@@ -47,7 +47,7 @@ public class ColumnManagerTest {
     @BeforeEach
     public void setUp() {
         Module module = ColumnManagerTest.class.getModule();
-        module.addUses(ColumnFamilyManagerSupplier.class);
+        module.addUses(ColumnManagerSupplier.class);
     }
     @ParameterizedTest
     @ColumnSource("column.properties")
@@ -314,9 +314,9 @@ public class ColumnManagerTest {
     }
 
     private ColumnManager getManager() {
-        final ColumnFamilyManagerSupplier supplier = ServiceLoaderProvider
-                .get(ColumnFamilyManagerSupplier.class,
-                        ()-> ServiceLoader.load(ColumnFamilyManagerSupplier.class));
+        final ColumnManagerSupplier supplier = ServiceLoaderProvider
+                .get(ColumnManagerSupplier.class,
+                        ()-> ServiceLoader.load(ColumnManagerSupplier.class));
         return supplier.get();
     }
 

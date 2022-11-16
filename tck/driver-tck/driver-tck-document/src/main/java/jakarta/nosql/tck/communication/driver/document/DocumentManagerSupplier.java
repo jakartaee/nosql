@@ -19,5 +19,5 @@ import jakarta.nosql.document.DocumentManager;
 
 import java.util.function.Supplier;
 
-public interface DocumentCollectionManagerSupplier extends Supplier<DocumentManager> {
+public interface DocumentManagerSupplier extends Supplier<DocumentManager> {
 }

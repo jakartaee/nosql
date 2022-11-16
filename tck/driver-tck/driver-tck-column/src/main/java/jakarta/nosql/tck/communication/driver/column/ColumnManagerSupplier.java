@@ -19,5 +19,5 @@ import jakarta.nosql.column.ColumnManager;
 
 import java.util.function.Supplier;
 
-public interface ColumnFamilyManagerSupplier extends Supplier<ColumnManager> {
+public interface ColumnManagerSupplier extends Supplier<ColumnManager> {
 }
