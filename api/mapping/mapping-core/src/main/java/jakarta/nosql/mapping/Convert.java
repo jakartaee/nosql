@@ -22,8 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation enables the converter resource.
- * On the field say the converted to be used, must implement AttributeConverter interface.
+ * Specifies the conversion of a Basic field or property.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
