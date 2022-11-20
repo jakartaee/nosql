@@ -1,27 +1,28 @@
 = Jakarta NoSQL
 :toc: auto
 
-Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
-
 ifndef::imagesdir[:imagesdir: spec/src/main/asciidoc/images]
-
 image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,align=center, width=25%, height=25%]
+
+== Introduction
+
+Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
 
 == Goals
 
-* Increase productivity performing common NoSQL operations.
-* Rich Object Mapping integrated with CDI
+* Increase productivity performing common NoSQL operations
+* Rich Object Mapping integrated with Contexts and Dependency Injection (CDI)
 * Java-based Query and Fluent-API
 * Persistence lifecycle events
-* Low-level mapping using Standard NoSQL APIs.
-* Specific template API to each NoSQL category.
-* Annotation-oriented using JPA-like naming when it makes sense.
+* Low-level mapping using Standard NoSQL APIs
+* Specific template API to each NoSQL category
+* Annotation-oriented using JPA-like naming when it makes sense
 * Extensible to explore the particular behavior of a NoSQL database
-* Explore the popularity of Apache TinkerPop in Graph API.
+* Explore the popularity of Apache TinkerPop in Graph API
 
-== One Mapping API to multiples NoSQL databases
+== One Mapping API to Multiples NoSQL Databases
 
-Jakarta NoSQL has one API for each NoSQL database type. However, it uses the same annotations to map Java objects. Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
+Jakarta NoSQL provides one API for each NoSQL database type. However, it incorporates the same annotations from the Jakarta Persistence specification and heritage Java Persistence Architecture (JPA) to map Java objects. Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
 
 [source,java]
 ----
@@ -39,21 +40,43 @@ public class Car {
 
 ----
 
-The Mapper annotations are pretty familiar if you are a JPA developer:
+The annotations from the Mapping API annotations will look familiar to the Jakarta Persistence/JPA developer:
 
-* Entity
-* Id
-* Column
-* Embeddable
-* Convert
-* DiscriminatorColumn
-* DiscriminatorValue
-* Inheritance
-* MappedSuperclass
+[cols="Annotation description"]
+|===
+|Annotation|Description
 
-IMPORTANT: Although similar to JPA, Jakarta NoSQL defines persistable fields with either ID or Column annotation.
+|Entity
+|Specifies that the class is an entity. This annotation is applied to the entity class.
 
-After mapping an entity, you can explore the advantage of a Template, which is a helper to increase productivity on NoSQL operations.
+|@Id
+|Specifies the primary key of an entity.
+
+|@Column
+|Specify the mapped column for a persistent property or field.
+
+|@Embeddable
+|Specifies a class whose instances are stored as an intrinsic part of an owning entity and share the entity's identity.
+
+|@Convert
+|Specifies the conversion of a Basic field or property.
+
+|@MappedSuperclass
+|Designates a class whose mapping information is applied to the entities that inherit from it. A mapped superclass has no separate table defined for it.
+
+|@Inheritance
+|Specifies the inheritance strategy to be used for an entity class hierarchy.
+
+|@DiscriminatorColumn
+|Specifies the discriminator column for the mapping strategy.
+
+|@DiscriminatorValue
+|Specifies the value of the discriminator column for entities of the given type.
+
+|===
+IMPORTANT: Although similar to JPA, Jakarta NoSQL defines persistable fields with either ```@Id``` or ```@Column``` annotation.
+
+After mapping an entity, you can explore the advantage of using a ```Template``` interface, which can increase productivity on NoSQL operations.
 
 [source,java]
 ----
@@ -61,16 +84,18 @@ After mapping an entity, you can explore the advantage of a Template, which is a
 Template template;
 ...
 
-Car ferrari = Car.id(1L).name("Ferrari").type(CarType.SPORT);
-template.insert(ferrari);
+Car ferrari = Car.id(1L)
+        .name("Ferrari")
+        .type(CarType.SPORT);
 
+template.insert(ferrari);
 Optional<Car> car = template.find(Car.class, 1L);
 template.delete(Car.class, 1L);
 ----
 
 This template has specialization to take the benefits of a particular NoSQL database type.
 
-There is  ```Repository``` exploring the DDD pattern to have a higher abstraction.
+A ```Repository``` interface is also provided for exploring the Domain-Driven Design (DDD) pattern for a higher abstraction.
 
 [source,java]
 ----
@@ -84,15 +109,18 @@ public interface CarRepository extends Repository<Car, String> {
 CarRepository repository;
 ...
 
-Car ferrari = Car.id(1L).name("Ferrari").type(CarType.SPORT);
+Car ferrari = Car.id(1L)
+        .name("Ferrari")
+        .type(CarType.SPORT);
+
 repository.save(ferrari);
 Optional<Car> idResult = repository.findById(1L);
 Optional<Car> nameResult = repository.findByName("Ferrari");
 ----
 
-=== Key-value
+=== Key-Value
 
-Jakarta NoSQL has a key-value template to explore the specific behavior of this NoSQL type.
+Jakarta NoSQL provides a Key-Value template to explore the specific behavior of this NoSQL type.
 
 [source,java]
 ----
@@ -100,18 +128,21 @@ Jakarta NoSQL has a key-value template to explore the specific behavior of this 
 KeyValueTemplate template;
 ...
 
-Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+Car ferrari = Car.id(1L)
+        .name("ferrari")
+        .city("Rome")
+        .type(CarType.SPORT);
 
 template.put(ferrari);
 Optional<Car> car = template.get(1L, Car.class);
 template.delete(1L);
 ----
 
-It is a key-value agnostic database; thus, you can change the database without or less code impact possible.
+Key-Value is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
 
-=== Column
+=== Column Family
 
-Jakarta NoSQL has a column template to explore the specific behavior of this NoSQL type.
+Jakarta NoSQL provides a Column Family template to explore the specific behavior of this NoSQL type.
 
 [source,java]
 ----
@@ -119,28 +150,36 @@ Jakarta NoSQL has a column template to explore the specific behavior of this NoS
 ColumnTemplate template;
 ...
 
-Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+Car ferrari = Car.id(1L)
+        .name("ferrari")
+        .city("Rome")
+        .type(CarType.SPORT);
 
 template.insert(ferrari);
 Optional<Car> car = template.find(Car.class, 1L);
 
-ColumnDeleteQuery deleteQuery = delete().from("Car")
-                    .where("_id").eq(1L).build();
+ColumnDeleteQuery deleteQuery = delete()
+        .from("Car")
+        .where("_id")
+        .eq(1L)
+        .build();
+
 template.delete(deleteQuery);
 
-
-ColumnDeleteQuery query = select().from("Car")
-                    .where("_id").eq(1L).build();
+ColumnDeleteQuery query = select()
+        .from("Car")
+        .where("_id")
+        .eq(1L)
+        .build();
 
 Optional<Car> result = template.singleResult("select * from Car where _id = 1");
-
 ----
 
-It is a wide-column agnostic database; thus, you can change the database without or less code impact possible.
+Column Family is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
 
 === Document
 
-Jakarta NoSQL has a document template to explore the specific behavior of this NoSQL type.
+Jakarta NoSQL provides a Document template to explore the specific behavior of this NoSQL type.
 
 [source,java]
 ----
@@ -148,58 +187,60 @@ Jakarta NoSQL has a document template to explore the specific behavior of this N
 DocumentTemplate template;
 ...
 
-Car ferrari = Car.id(1L).name("ferrari").city("Rome").type(CarType.SPORT);
+Car ferrari = Car.id(1L)
+        .name("ferrari")
+        .city("Rome")
+        .type(CarType.SPORT);
 
 template.insert(ferrari);
 Optional<Car> car = template.find(Car.class, 1L);
 
-DocumentDeleteQuery deleteQuery = delete().from("Car")
-                    .where("_id").eq(1L).build();
+DocumentDeleteQuery deleteQuery = delete()
+        .from("Car")
+        .where("_id")
+        .eq(1L)
+        .build();
+
 template.delete(deleteQuery);
 
-
-DocumentDeleteQuery query = select().from("Car")
-                    .where("_id").eq(1L).build();
+DocumentDeleteQuery query = select()
+        .from("Car")
+        .where("_id")
+        .eq(1L)
+        .build();
 
 Optional<Car> result = template.singleResult("select * from Car where _id = 1");
-
 ----
 
-It is a document agnostic database; thus, you can change the database without or less code impact possible.
+Document is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
 
-=== More information
+=== More Information
 
-Check the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[Javadocs] to know more.
-
+To learn more, please refer to the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[JavaDocs].
 
 == Code of Conduct
 
 This project is governed by the Eclipse Foundation of Conduct. By participating, you are expected to uphold this code of conduct. Please report unacceptable behavior to codeofconduct@eclipse.org.
 
-
 == Getting Help
 
 Having trouble with Jakarta NoSQL? We’d love to help!
 
-Report bugs with Jakarta NoSQL at https://github.com/eclipse-ee4j/nosql.
+Please report any bugs, concerns or questions with Jakarta NoSQL to https://github.com/eclipse-ee4j/nosql.
 
 == Building from Source
 
-You don’t need to build from source to use the project, but if you want to try, you can make it using Maven and Java 11 or higher.
+You don’t need to build from source to use the project, but should you be interested in doing so, you can build it using Maven and Java 11 or higher.
 
 [source, Bash]
 ----
 mvn clean install
 ----
 
-== TCK
+== Technology Compatibility Kit
 
-Any Jakarta NoSQL module must pass this test suite.
-The TCK uses `JUnit Jupiter 5`.
-Check it more link:tck/README.adoc[to know more]
+Any Jakarta NoSQL module must pass the Technology Compatibility Kit (TCK) test suite. The TCK uses ``JUnit Jupiter 5``. Check it out to link:tck/README.adoc[learn more].
 
-== Spec
+== Specification
 
-Any Jakarta NoSQL module must pass this test suite.
-The TCK uses `JUnit Jupiter 5`.
-Check it more link:spec/README.adoc[to know more]
+Any Jakarta NoSQL module must pass the TCK suite. The TCK uses ```JUnit Jupiter 5```. Check it out to link:spec/README.adoc[learn more].
