@@ -20,8 +20,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Stereotype;
 
 /**
  * Specifies that the class is an entity. This annotation is applied to the entity class.
@@ -29,8 +27,6 @@ import javax.enterprise.inject.Stereotype;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Stereotype
-@Dependent
 public @interface Entity {
     /**
      * The name of an entity. Defaults to the unqualified name of the entity class.
