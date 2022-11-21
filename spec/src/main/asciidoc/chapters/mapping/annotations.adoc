@@ -122,7 +122,7 @@ This annotation defines which attribute is the entity's ID, or the Key in Key-Va
 [source,java]
 ----
 @Entity
-public class User implements Serializable {
+public class User {
 
     @Id
     private String userName;
