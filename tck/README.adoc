@@ -1,4 +1,5 @@
 = Running the Jakarta NoSQL TCK
+:toc: auto
 
 Any Jakarta NoSQL module must pass this test suite.
 The TCK uses `JUnit Jupiter 5`

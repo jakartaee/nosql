@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -18,10 +18,9 @@ package jakarta.nosql.communication.tck;
 import jakarta.nosql.Params;
 import jakarta.nosql.QueryException;
 import jakarta.nosql.Value;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,7 +34,8 @@ public class ParamValueTest {
         Params params = Params.newParams();
         Value name = params.add("name");
         assertNotNull(name);
-        MatcherAssert.assertThat(params.getParametersNames(), containsInAnyOrder("name"));
+
+        assertThat(params.getParametersNames()).hasSize(1).contains("name");
     }
 
     @Test

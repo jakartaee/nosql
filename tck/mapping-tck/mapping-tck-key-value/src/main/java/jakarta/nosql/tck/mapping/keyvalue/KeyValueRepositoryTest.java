@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -23,7 +23,6 @@ import jakarta.nosql.mapping.keyvalue.KeyValueRepositoryProducer;
 import jakarta.nosql.mapping.keyvalue.KeyValueTemplate;
 import jakarta.nosql.tck.entities.User;
 import jakarta.nosql.tck.test.CDIExtension;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
@@ -119,8 +118,7 @@ public class KeyValueRepositoryTest {
         List<String> keys = Arrays.asList("key", "key2");
         when(template.get(keys, User.class)).thenReturn(
                 Arrays.asList(user, user2));
-
-        assertThat(userRepository.findById(keys), Matchers.containsInAnyOrder(user, user2));
+        assertThat(userRepository.findById(keys)).contains(user, user2);
     }
 
     @Test

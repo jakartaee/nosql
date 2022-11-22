@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -43,37 +43,37 @@ public interface BucketManagerFactory extends AutoCloseable {
      * Creates a {@link List} from bucket name
      *
      * @param bucketName a bucket name
-     * @param clazz      the valeu class
+     * @param type      the value class
      * @param <T>        the value type
      * @return a {@link List} instance
      * @throws UnsupportedOperationException when the database does not have to it
      * @throws NullPointerException          when either bucketName or class are null
      */
-    <T> List<T> getList(String bucketName, Class<T> clazz);
+    <T> List<T> getList(String bucketName, Class<T> type);
 
     /**
      * Creates a {@link Set} from bucket name
      *
      * @param bucketName a bucket name
-     * @param clazz      the valeu class
+     * @param type      the value class
      * @param <T>        the value type
      * @return a {@link Set} instance
      * @throws UnsupportedOperationException when the database does not have to it
      * @throws NullPointerException          when either bucketName or class are null
      */
-    <T> Set<T> getSet(String bucketName, Class<T> clazz);
+    <T> Set<T> getSet(String bucketName, Class<T> type);
 
     /**
      * Creates a {@link Queue} from bucket name
      *
      * @param bucketName a bucket name
-     * @param clazz      the valeu class
+     * @param type      the value class
      * @param <T>        the value type
      * @return a {@link Queue} instance
      * @throws UnsupportedOperationException when the database does not have to it
      * @throws NullPointerException          when either bucketName or class are null
      */
-    <T> Queue<T> getQueue(String bucketName, Class<T> clazz);
+    <T> Queue<T> getQueue(String bucketName, Class<T> type);
 
     /**
      * Creates a {@link  Map} from bucket name

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,10 +16,9 @@
 package jakarta.nosql;
 
 /**
- * It is thrown by the ServiceLoaderProvider when there is not implementation.
+ * It is thrown by the ServiceLoaderProvider when there is no implementation.
  */
 public class ProviderNotFoundException extends NoSQLException {
-
 
     ProviderNotFoundException(Class<?> provider) {
         super("Provider not found: " + provider);

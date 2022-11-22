@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -23,12 +23,14 @@ import jakarta.nosql.column.ColumnEntity;
 import jakarta.nosql.column.ColumnFamilyManager;
 import jakarta.nosql.column.ColumnQuery;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -42,6 +44,11 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class ColumnFamilyManagerTest {
 
+    @BeforeEach
+    public void setUp() {
+        Module module = ColumnFamilyManagerTest.class.getModule();
+        module.addUses(ColumnFamilyManagerSupplier.class);
+    }
     @ParameterizedTest
     @ColumnSource("column.properties")
     public void shouldInsert(ColumnArgument argument) {
@@ -307,7 +314,9 @@ public class ColumnFamilyManagerTest {
     }
 
     private ColumnFamilyManager getManager() {
-        final ColumnFamilyManagerSupplier supplier = ServiceLoaderProvider.get(ColumnFamilyManagerSupplier.class);
+        final ColumnFamilyManagerSupplier supplier = ServiceLoaderProvider
+                .get(ColumnFamilyManagerSupplier.class,
+                        ()-> ServiceLoader.load(ColumnFamilyManagerSupplier.class));
         return supplier.get();
     }
 

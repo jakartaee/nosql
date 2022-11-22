@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class DocumentTest {
-
 
     private static final Value DEFAULT_VALUE = Value.of(12);
 
@@ -79,7 +78,7 @@ public class DocumentTest {
     public void shouldReturnGetType() {
         Value value = Value.of("text");
         Document document = Document.of("name", value);
-        TypeReference<List<String>> typeReference = new TypeReference<List<String>>() {
+        TypeReference<List<String>> typeReference = new TypeReference<>() {
         };
         assertEquals(value.get(typeReference), document.get(typeReference));
     }

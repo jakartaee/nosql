@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,12 +20,16 @@ package jakarta.nosql.column;
 import jakarta.nosql.Condition;
 import jakarta.nosql.ServiceLoaderProvider;
 
+import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
- * An unit condition  to run a column family select
+ * It is the state of column queries, with a condition and a value, as a {@link Column},
+ * where both combined define a predicate.
  *
  * @see ColumnFamilyManager#select(ColumnQuery)
+ * @see Condition
  */
 public interface ColumnCondition {
 
@@ -47,7 +51,7 @@ public interface ColumnCondition {
     /**
      * Creates a new {@link ColumnCondition} using the {@link Condition#AND}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -64,7 +68,7 @@ public interface ColumnCondition {
     /**
      * Creates a new {@link ColumnCondition} using the {@link Condition#OR}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -79,7 +83,26 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition eq(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.EQUALS);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.EQUALS);
+    }
+
+    /**
+     * an alias method to {@link ColumnCondition#eq(Column)} where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#EQUALS}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition eq(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(Column.of(name, value), Condition.EQUALS);
     }
 
     /**
@@ -91,7 +114,26 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition gt(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.GREATER_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.GREATER_THAN);
+    }
+
+    /**
+     * an alias method to {@link ColumnCondition#gt(Column)} where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#GREATER_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition gt(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(Column.of(name, value), Condition.GREATER_THAN);
     }
 
     /**
@@ -104,7 +146,26 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition gte(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.GREATER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.GREATER_EQUALS_THAN);
+    }
+
+    /**
+     * an alias method to {@link ColumnCondition#gte(Column)} where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#GREATER_EQUALS_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition gte(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(Column.of(name, value), Condition.GREATER_EQUALS_THAN);
     }
 
     /**
@@ -116,7 +177,26 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition lt(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.LESSER_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.LESSER_THAN);
+    }
+
+    /**
+     * an alias method to {@link ColumnCondition#lt(Column)} where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#LESSER_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition lt(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(Column.of(name, value), Condition.LESSER_THAN);
     }
 
     /**
@@ -129,7 +209,26 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition lte(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.LESSER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.LESSER_EQUALS_THAN);
+    }
+
+    /**
+     * an alias method to {@link ColumnCondition#lte(Column)} where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#LESSER_EQUALS_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition lte(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(Column.of(name, value), Condition.LESSER_EQUALS_THAN);
     }
 
     /**
@@ -142,7 +241,26 @@ public interface ColumnCondition {
      * @throws IllegalArgumentException when the {@link Column#get()} in not an iterable implementation
      */
     static ColumnCondition in(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).in(column);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .in(column);
+    }
+
+    /**
+     * an alias method to {@link ColumnCondition#in(Column)} where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#IN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition in(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .in(Column.of(name, value));
     }
 
     /**
@@ -154,7 +272,26 @@ public interface ColumnCondition {
      * @throws NullPointerException when column is null
      */
     static ColumnCondition like(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).apply(column, Condition.LIKE);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(column, Condition.LIKE);
+    }
+
+    /**
+     * an alias method to {@link ColumnCondition#like(Column)} where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#LIKE}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition like(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .apply(Column.of(name, value), Condition.LIKE);
     }
 
     /**
@@ -171,12 +308,43 @@ public interface ColumnCondition {
      *                                  an Iterable.
      */
     static ColumnCondition between(Column column) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).between(column);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .between(column);
     }
 
+    /**
+     * an alias method to {@link ColumnCondition#between(Column)} (Column) where it will create a {@link Column}
+     * instance first and then apply te condition.
+     *
+     * @param name  the name of the column
+     * @param value the column information
+     * @return a {@link ColumnCondition} with {@link Condition#BETWEEN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static ColumnCondition between(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .between(Column.of(name, value));
+    }
 
     /**
-     * Returns a new {@link ColumnCondition} aggregating ,as ¨AND", all the conditions as just one condition.
+     * Returns a predicate that is the negation of the supplied predicate.
+     * This is accomplished by returning result of the calling target.negate().
+     *
+     * @param condition
+     * @return a condition that negates the results of the supplied predicate
+     * @throws NullPointerException when condition is null
+     */
+    static ColumnCondition not(ColumnCondition condition) {
+        Objects.requireNonNull(condition, "condition is required");
+        return condition.negate();
+    }
+
+    /**
+     * Returns a new {@link ColumnCondition} aggregating ,as "AND", all the conditions as just one condition.
      * The {@link Column} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
@@ -192,11 +360,13 @@ public interface ColumnCondition {
      * @throws NullPointerException when the conditions is null
      */
     static ColumnCondition and(ColumnCondition... conditions) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).and(conditions);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .and(conditions);
     }
 
     /**
-     * Returns a new {@link ColumnCondition} aggregating ,as ¨OR", all the conditions as just one condition.
+     * Returns a new {@link ColumnCondition} aggregating ,as "OR", all the conditions as just one condition.
      * The {@link Column} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
@@ -212,7 +382,9 @@ public interface ColumnCondition {
      * @throws NullPointerException when the condition is null
      */
     static ColumnCondition or(ColumnCondition... conditions) {
-        return ServiceLoaderProvider.get(ColumnConditionProvider.class).or(conditions);
+        return ServiceLoaderProvider.get(ColumnConditionProvider.class,
+                        () -> ServiceLoader.load(ColumnConditionProvider.class))
+                .or(conditions);
     }
 
 
@@ -225,6 +397,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#BETWEEN} operation
+         *
          * @param column the column
          * @return a {@link ColumnCondition}
          */
@@ -232,6 +405,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#AND} operation
+         *
          * @param conditions the conditions
          * @return a {@link ColumnCondition}
          */
@@ -239,6 +413,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#OR} operation
+         *
          * @param conditions the conditions
          * @return a {@link ColumnCondition}
          */
@@ -246,6 +421,7 @@ public interface ColumnCondition {
 
         /**
          * Creates a {@link Condition#IN} operation
+         *
          * @param column the column
          * @return a {@link ColumnCondition}
          */

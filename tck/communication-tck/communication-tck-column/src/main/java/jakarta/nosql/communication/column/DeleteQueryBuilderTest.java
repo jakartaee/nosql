@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -22,16 +22,16 @@ import jakarta.nosql.column.Column;
 import jakarta.nosql.column.ColumnCondition;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnFamilyManager;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.util.Arrays;
 import java.util.List;
 
-import static jakarta.nosql.column.ColumnDeleteQuery.delete;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static jakarta.nosql.column.ColumnCondition.eq;
+import static jakarta.nosql.column.ColumnDeleteQuery.builder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,13 +42,13 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldReturnErrorWhenHasNullElementInSelect() {
-        Assertions.assertThrows(NullPointerException.class, () -> delete("column", "column", null));
+        Assertions.assertThrows(NullPointerException.class,() -> builder("column", "column", null));
     }
 
     @Test
     public void shouldDelete() {
-        String columnFamily = "columnFamily";
-        ColumnDeleteQuery query = delete().from(columnFamily).build();
+        String columnFamily = "column family";
+        ColumnDeleteQuery query = builder().from(columnFamily).build();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
         assertEquals(columnFamily, query.getColumnFamily());
@@ -56,9 +56,9 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldDeleteColumns() {
-        String columnFamily = "columnFamily";
-        ColumnDeleteQuery query = delete("column", "column2").from(columnFamily).build();
-        assertThat(query.getColumns(), containsInAnyOrder("column", "column2"));
+        String columnFamily = "column family";
+        ColumnDeleteQuery query = builder("column", "column2").from(columnFamily).build();
+        assertThat(query.getColumns()).contains("column", "column2");
         assertFalse(query.getCondition().isPresent());
         assertEquals(columnFamily, query.getColumnFamily());
     }
@@ -66,15 +66,17 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldReturnErrorWhenFromIsNull() {
-        Assertions.assertThrows(NullPointerException.class, () -> delete().from(null));
+        Assertions.assertThrows(NullPointerException.class,() -> builder().from(null));
     }
-
 
     @Test
     public void shouldSelectWhereNameEq() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         String name = "Ada Lovelace";
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").eq(name).build();
+
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.eq("name", name))
+                .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
@@ -89,9 +91,11 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameLike() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         String name = "Ada Lovelace";
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").like(name).build();
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.like("name", name))
+                .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
@@ -105,9 +109,11 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameGt() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         Number value = 10;
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").gt(value).build();
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.gt("name", value))
+                .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
@@ -121,9 +127,11 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameGte() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         Number value = 10;
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").gte(value).build();
+        ColumnDeleteQuery query = builder()
+                .from(columnFamily)
+                .where(ColumnCondition.gte("name", value)).build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
@@ -137,42 +145,47 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameLt() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         Number value = 10;
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").lt(value).build();
-        ColumnCondition columnCondition = query.getCondition().get();
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.lt("name", value)).build();
+        ColumnCondition condition = query.getCondition().get();
 
-        Column column = columnCondition.getColumn();
+        Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
         assertEquals(columnFamily, query.getColumnFamily());
-        assertEquals(Condition.LESSER_THAN, columnCondition.getCondition());
+        assertEquals(Condition.LESSER_THAN, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(value, column.get());
     }
 
     @Test
     public void shouldSelectWhereNameLte() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         Number value = 10;
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").lte(value).build();
-        ColumnCondition columnCondition = query.getCondition().get();
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.lte("name", value)).build();
+        ColumnCondition condition = query.getCondition().get();
 
-        Column column = columnCondition.getColumn();
+        Column column = condition.getColumn();
 
         assertTrue(query.getColumns().isEmpty());
         assertEquals(columnFamily, query.getColumnFamily());
-        assertEquals(Condition.LESSER_EQUALS_THAN, columnCondition.getCondition());
+        assertEquals(Condition.LESSER_EQUALS_THAN, condition.getCondition());
         assertEquals("name", column.getName());
         assertEquals(value, column.get());
     }
 
     @Test
     public void shouldSelectWhereNameBetween() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         Number valueA = 10;
         Number valueB = 20;
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").between(valueA, valueB).build();
+
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.between("name", Arrays.asList(valueA, valueB)))
+                .build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
@@ -181,15 +194,16 @@ public class DeleteQueryBuilderTest {
         assertEquals(columnFamily, query.getColumnFamily());
         assertEquals(Condition.BETWEEN, condition.getCondition());
         assertEquals("name", column.getName());
-        assertThat(column.get(new TypeReference<List<Number>>() {
-        }), Matchers.contains(10, 20));
+        assertThat(column.get(new TypeReference<List<Number>>() {})).contains(10, 20);
     }
 
     @Test
     public void shouldSelectWhereNameNot() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         String name = "Ada Lovelace";
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").not().eq(name).build();
+
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.eq("name", name).negate()).build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
@@ -205,64 +219,76 @@ public class DeleteQueryBuilderTest {
 
     @Test
     public void shouldSelectWhereNameAnd() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         String name = "Ada Lovelace";
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").eq(name).and("age").gt(10).build();
+        ColumnCondition nameEqualsAda = ColumnCondition.eq("name", name);
+        ColumnCondition olderThenTen = ColumnCondition.gt("age", 10);
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.and(nameEqualsAda, olderThenTen)).build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
-        List<ColumnCondition> conditions = column.get(new TypeReference<List<ColumnCondition>>() {
+        List<ColumnCondition> conditions = column.get(new TypeReference<>() {
         });
         assertEquals(Condition.AND, condition.getCondition());
-        assertThat(conditions, Matchers.containsInAnyOrder(ColumnCondition.eq(Column.of("name", name)),
-                ColumnCondition.gt(Column.of("age", 10))));
+        assertThat(conditions).contains(eq(Column.of("name", name)),
+                ColumnCondition.gt(Column.of("age", 10)));
     }
 
     @Test
     public void shouldSelectWhereNameOr() {
-        String columnFamily = "columnFamily";
+        String columnFamily = "column family";
         String name = "Ada Lovelace";
-        ColumnDeleteQuery query = delete().from(columnFamily).where("name").eq(name).or("age").gt(10).build();
+
+        ColumnCondition nameEqualsAda = ColumnCondition.eq("name", name);
+        ColumnCondition olderThenTen = ColumnCondition.gt("age", 10);
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.or(nameEqualsAda, olderThenTen)).build();
         ColumnCondition condition = query.getCondition().get();
 
         Column column = condition.getColumn();
-        List<ColumnCondition> conditions = column.get(new TypeReference<List<ColumnCondition>>() {
+        List<ColumnCondition> conditions = column.get(new TypeReference<>() {
         });
         assertEquals(Condition.OR, condition.getCondition());
-        assertThat(conditions, Matchers.containsInAnyOrder(ColumnCondition.eq(Column.of("name", name)),
-                ColumnCondition.gt(Column.of("age", 10))));
+        assertThat(conditions).contains(eq(Column.of("name", name)),
+                ColumnCondition.gt(Column.of("age", 10)));
     }
+
+
 
     @Test
     public void shouldDeleteNegate() {
         String columnFamily = "columnFamily";
-        ColumnDeleteQuery query = delete().from(columnFamily).where("city").not().eq("Assis")
-                .and("name").not().eq("Lucas").build();
+        ColumnCondition cityNotEqualsAssis = ColumnCondition.eq("city", "Assis").negate();
+        ColumnCondition nameNotEqualsLucas = ColumnCondition.eq("name", "Lucas").negate();
+
+        ColumnDeleteQuery query = builder().from(columnFamily)
+                .where(ColumnCondition.and(cityNotEqualsAssis, nameNotEqualsLucas)).build();
 
         ColumnCondition condition = query.getCondition().orElseThrow(RuntimeException::new);
         assertEquals(columnFamily, query.getColumnFamily());
         Column column = condition.getColumn();
-        List<ColumnCondition> conditions = column.get(new TypeReference<List<ColumnCondition>>() {
+        List<ColumnCondition> conditions = column.get(new TypeReference<>() {
         });
 
         assertEquals(Condition.AND, condition.getCondition());
-        assertThat(conditions, containsInAnyOrder(ColumnCondition.eq(Column.of("city", "Assis")).negate(),
-                ColumnCondition.eq(Column.of("name", "Lucas")).negate()));
+        assertThat(conditions).contains(eq(Column.of("city", "Assis")).negate(),
+                eq(Column.of("name", "Lucas")).negate());
 
 
     }
 
     @Test
     public void shouldExecuteDelete() {
-        String columnFamily = "columnFamily";
+        String collection = "collection";
         ColumnFamilyManager manager = mock(ColumnFamilyManager.class);
         ArgumentCaptor<ColumnDeleteQuery> queryCaptor = ArgumentCaptor.forClass(ColumnDeleteQuery.class);
-        delete().from(columnFamily).delete(manager);
+        builder().from(collection).delete(manager);
         verify(manager).delete(queryCaptor.capture());
 
         ColumnDeleteQuery query = queryCaptor.getValue();
         assertTrue(query.getColumns().isEmpty());
         assertFalse(query.getCondition().isPresent());
-        assertEquals(columnFamily, query.getColumnFamily());
+        assertEquals(collection, query.getColumnFamily());
     }
 }

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -33,11 +33,11 @@ public class DocumentDeleteQueryTest {
 
     @BeforeEach
     public void setUp() {
-        query = DocumentDeleteQuery.delete().from("columnFamily").build();
+        query = DocumentDeleteQuery.delete().from("documentCollection").build();
     }
 
     @Test
-    public void shouldNotEditColumns() {
+    public void shouldNotEditDocuments() {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> {
             List<String> documents = query.getDocuments();
             assertTrue(documents.isEmpty());

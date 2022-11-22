@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -32,7 +32,10 @@ public final class ValueReaderDecorator implements ValueReader {
     private final List<ValueReader> readers = new ArrayList<>();
 
     {
-        ServiceLoader.load(ValueReader.class).forEach(readers::add);
+        ServiceLoaderProvider.getSupplierStream(ValueReader.class,
+                        () -> ServiceLoader.load(ValueReader.class))
+            .map(ValueReader.class::cast)
+            .forEach(readers::add);
     }
 
     public static ValueReaderDecorator getInstance() {
@@ -40,18 +43,18 @@ public final class ValueReaderDecorator implements ValueReader {
     }
 
     @Override
-    public boolean test(Class clazz) {
-        return readers.stream().anyMatch(r -> r.test(clazz));
+    public boolean test(Class type) {
+        return readers.stream().anyMatch(r -> r.test(type));
     }
 
     @Override
-    public <T> T read(Class<T> clazz, Object value) {
-        if (clazz.isInstance(value)) {
-            return clazz.cast(value);
+    public <T> T read(Class<T> type, Object value) {
+        if (type.isInstance(value)) {
+            return type.cast(value);
         }
-        ValueReader valueReader = readers.stream().filter(r -> r.test(clazz)).findFirst().orElseThrow(
-            () -> new UnsupportedOperationException("The type " + clazz + " is not supported yet"));
-        return valueReader.read(clazz, value);
+        ValueReader valueReader = readers.stream().filter(r -> r.test(type)).findFirst().orElseThrow(
+            () -> new UnsupportedOperationException("The type " + type + " is not supported yet"));
+        return valueReader.read(type, value);
     }
 
     @Override

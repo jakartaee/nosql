@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,12 +16,12 @@
 package jakarta.nosql.mapping;
 
 /**
- * The Converter storage
+ * The {@link Convert} collection, this interface will generate/create an instance.
  */
 public interface Converters {
 
     /**
-     * Return a new instance from the converter
+     * Returns a converter instance where it might use scope from CDI.
      *
      * @param converterClass the converter class
      * @param <X> the type of the entity attribute

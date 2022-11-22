@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,7 +19,7 @@ package jakarta.nosql.mapping.keyvalue;
 import jakarta.nosql.keyvalue.KeyValueEntity;
 
 /**
- * The interface represents the model when the KeyValueEntity be saved that event will fired.
+ * The interface represents the model when the KeyValueEntity be saved that event will fire.
  */
 public interface KeyValueEntityPostPersist {
 

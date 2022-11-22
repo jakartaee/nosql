@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,6 +16,7 @@
 package jakarta.nosql;
 
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.function.Supplier;
 
 /**
@@ -37,7 +38,7 @@ public interface Params {
     Value add(String param);
 
     /**
-     * @return the parameters names at the params
+     * @return the parameters name at the params
      */
     List<String> getParametersNames();
 
@@ -55,7 +56,8 @@ public interface Params {
      * @return a new {@link Params} instance
      */
     static Params newParams() {
-        return ServiceLoaderProvider.get(ParamsProvider.class).get();
+        return ServiceLoaderProvider.get(ParamsProvider.class
+        , () -> ServiceLoader.load(ParamsProvider.class)).get();
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -29,9 +29,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static java.util.Collections.singletonMap;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,7 +70,7 @@ public class SettingsTest {
     @Test
     public void shouldGetKeys() {
         Settings settings = Settings.of(singletonMap("key", "value"));
-        assertThat(settings.keySet(), contains("key"));
+        assertThat(settings.keySet()).hasSize(1).contains("key");
     }
 
     @Test
@@ -169,7 +167,7 @@ public class SettingsTest {
 
         List<Object> hosts = settings.prefix("host");
         Assertions.assertEquals(4, hosts.size());
-        assertThat(hosts, containsInAnyOrder("host", "host-1", "host-2", "host-3"));
+        assertThat(hosts).hasSize(4).contains("host", "host-1", "host-2", "host-3");
     }
 
     @Test
@@ -182,8 +180,7 @@ public class SettingsTest {
                 .build();
 
         List<Object> hosts = settings.prefix("host");
-        Assertions.assertEquals(4, hosts.size());
-        assertThat(hosts, contains("host", "host-1", "host-2", "host-3"));
+        assertThat(hosts).hasSize(4).contains("host", "host-1", "host-2", "host-3");
     }
 
 
@@ -208,8 +205,7 @@ public class SettingsTest {
                 .build();
 
         List<Object> hosts = settings.prefix(Arrays.asList("host", "server"));
-        Assertions.assertEquals(4, hosts.size());
-        assertThat(hosts, containsInAnyOrder("host", "host-1", "server", "server-1"));
+        assertThat(hosts).hasSize(4).contains("host", "host-1", "server", "server-1");
 
     }
 
@@ -223,10 +219,7 @@ public class SettingsTest {
                 .build();
 
         List<Object> hosts = settings.prefix(Arrays.asList("host", "server"));
-        Assertions.assertEquals(4, hosts.size());
-        assertThat(hosts, containsInAnyOrder("host", "host-1", "server", "server-1"));
-
+        assertThat(hosts).hasSize(4).contains("host", "host-1", "server", "server-1");
     }
-
 
 }

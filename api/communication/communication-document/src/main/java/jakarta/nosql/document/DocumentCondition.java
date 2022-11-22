@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,12 +20,16 @@ package jakarta.nosql.document;
 import jakarta.nosql.Condition;
 import jakarta.nosql.ServiceLoaderProvider;
 
+import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
- * An unit condition  to run a document collection select
+ * It is the state of column queries, with a condition and a value, as a {@link Document},
+ * where both combined define a predicate.
  *
  * @see DocumentCollectionManager#select(DocumentQuery)
+ * @see Condition
  */
 public interface DocumentCondition {
 
@@ -47,7 +51,7 @@ public interface DocumentCondition {
     /**
      * Creates a new {@link DocumentCondition} using the {@link Condition#AND}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -64,7 +68,7 @@ public interface DocumentCondition {
     /**
      * Creates a new {@link DocumentCondition} using the {@link Condition#OR}
      *
-     * @param condition the condition to be agregated
+     * @param condition the condition to be aggregated
      * @return the conditions joined as AND
      * @throws NullPointerException when the condition is null
      */
@@ -79,7 +83,25 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition eq(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.EQUALS);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.EQUALS);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#eq(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#EQUALS}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition eq(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                        ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value), Condition.EQUALS);
     }
 
     /**
@@ -92,7 +114,26 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition gt(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.GREATER_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.GREATER_THAN);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#gt(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#GREATER_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition gt(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
+                , Condition.GREATER_THAN);
     }
 
     /**
@@ -105,7 +146,26 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition gte(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.GREATER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.GREATER_EQUALS_THAN);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#gte(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#GREATER_EQUALS_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition gte(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
+                , Condition.GREATER_EQUALS_THAN);
     }
 
     /**
@@ -117,7 +177,26 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition lt(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LESSER_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.LESSER_THAN);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#lt(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#LESSER_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition lt(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
+                , Condition.LESSER_THAN);
     }
 
     /**
@@ -130,7 +209,26 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition lte(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LESSER_EQUALS_THAN);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.LESSER_EQUALS_THAN);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#lte(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#LESSER_EQUALS_THAN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition lte(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
+                , Condition.LESSER_EQUALS_THAN);
     }
 
     /**
@@ -142,7 +240,25 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition in(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).in(document);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .in(document);
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#in(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#IN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition in(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .in(Document.of(name, value));
     }
 
     /**
@@ -154,7 +270,27 @@ public interface DocumentCondition {
      * @throws NullPointerException when column is null
      */
     static DocumentCondition like(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).apply(document, Condition.LIKE);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(document, Condition.LIKE);
+    }
+
+
+    /**
+     * an alias method to {@link DocumentCondition#like(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#LIKE}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition like(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .apply(Document.of(name, value)
+                , Condition.LIKE);
     }
 
     /**
@@ -171,11 +307,42 @@ public interface DocumentCondition {
      *                                  an Iterable.
      */
     static DocumentCondition between(Document document) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).between(document);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .between(document);
     }
 
     /**
-     * Returns a new {@link DocumentCondition} aggregating ,as ¨AND", all the conditions as just one condition.
+     * Returns a predicate that is the negation of the supplied predicate.
+     * This is accomplished by returning result of the calling target.negate().
+     *
+     * @param condition
+     * @return a condition that negates the results of the supplied predicate
+     * @throws NullPointerException when condition is null
+     */
+    static DocumentCondition not(DocumentCondition condition) {
+        Objects.requireNonNull(condition, "condition is required");
+        return condition.negate();
+    }
+
+    /**
+     * an alias method to {@link DocumentCondition#between(Document)} where it will create a {@link Document}
+     * instance first and then apply te condition.
+     * @param name the name of the document
+     * @param value the document information
+     * @return a {@link DocumentCondition} with {@link Condition#BETWEEN}
+     * @throws NullPointerException when either name or value is null
+     */
+    static DocumentCondition between(String name, Object value) {
+        Objects.requireNonNull(name, "name is required");
+        Objects.requireNonNull(value, "value is required");
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                        ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .between(Document.of(name, value));
+    }
+
+    /**
+     * Returns a new {@link DocumentCondition} aggregating ,as "AND", all the conditions as just one condition.
      * The {@link Document} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
@@ -190,14 +357,16 @@ public interface DocumentCondition {
      *
      * @param conditions the conditions to be aggregated
      * @return the new {@link DocumentCondition} instance
-     * @throws NullPointerException when the conditions is null
+     * @throws NullPointerException when the conditions are null
      */
     static DocumentCondition and(DocumentCondition... conditions) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).and(conditions);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .and(conditions);
     }
 
     /**
-     * Returns a new {@link DocumentCondition} aggregating ,as ¨OR", all the conditions as just one condition.
+     * Returns a new {@link DocumentCondition} aggregating ,as "OR", all the conditions as just one condition.
      * The {@link Document} will storage the {@link Condition#getNameField()} as key and the value gonna be
      * the {@link java.util.List} of all conditions, in other words.
      * <p>Given:</p>
@@ -215,7 +384,9 @@ public interface DocumentCondition {
      * @throws NullPointerException when the condition is null
      */
     static DocumentCondition or(DocumentCondition... conditions) {
-        return ServiceLoaderProvider.get(DocumentConditionProvider.class).or(conditions);
+        return ServiceLoaderProvider.get(DocumentConditionProvider.class,
+                ()-> ServiceLoader.load(DocumentConditionProvider.class))
+                .or(conditions);
     }
 
     /**

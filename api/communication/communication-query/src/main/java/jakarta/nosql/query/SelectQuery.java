@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -22,6 +22,7 @@ import jakarta.nosql.Sort;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
 /**
@@ -84,12 +85,22 @@ public interface SelectQuery extends Query {
      */
     static SelectQuery parse(String query) {
         Objects.requireNonNull(query, "query is required");
-        return ServiceLoaderProvider.get(SelectQueryProvider.class).apply(query);
+        return ServiceLoaderProvider.get(SelectQueryProvider.class,
+                ()-> ServiceLoader.load(SelectQueryProvider.class)).apply(query);
     }
 
+    /**
+     * Returns the {@link SelectQueryProvider} instance
+     * @return the SelectQueryProvider instance
+     * @throws jakarta.nosql.ProviderNotFoundException when the provider is not found
+     */
+    static SelectQueryProvider getProvider() {
+        return ServiceLoaderProvider.get(SelectQueryProvider.class,
+                ()-> ServiceLoader.load(SelectQueryProvider.class));
+    }
 
     /**
-     * A provider to {@link SelectQuery}
+     * A provider to {@link SelectQuery}, this provider converts text into {@link SelectQuery}
      */
     interface SelectQueryProvider extends Function<String, SelectQuery> {
 

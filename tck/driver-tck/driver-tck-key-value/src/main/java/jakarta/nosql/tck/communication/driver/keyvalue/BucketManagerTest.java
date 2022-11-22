@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,18 +20,19 @@ import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.Value;
 import jakarta.nosql.keyvalue.BucketManager;
 import jakarta.nosql.keyvalue.KeyValueEntity;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -47,6 +48,11 @@ public class BucketManagerTest {
     private KeyValueEntity keyValueSoro = KeyValueEntity.of("soro", Value.of(userSoro));
 
 
+    @BeforeEach
+    public void setUp() {
+        Module module = BucketManagerTest.class.getModule();
+        module.addUses(BucketManagerSupplier.class);
+    }
     @Test
     public void shouldPutValue() {
         final BucketManager manager = getBucketManager();
@@ -103,8 +109,7 @@ public class BucketManagerTest {
         List<String> keys = asList("otavio", "soro");
         Iterable<Value> values = manager.get(keys);
         assertThat(StreamSupport.stream(values.spliterator(), false).map(value -> value.get(User.class))
-                        .collect(Collectors.toList()),
-                Matchers.containsInAnyOrder(userOtavio, userSoro));
+                        .collect(Collectors.toList())).contains(userOtavio, userSoro);
         manager.delete(keys);
         assertEquals(0L, StreamSupport.stream(manager.get(keys).spliterator(), false).count());
     }
@@ -112,7 +117,7 @@ public class BucketManagerTest {
     @AfterEach
     public void remove() {
         final Optional<BucketManagerSupplier> supplier = getSupplier();
-        if (!supplier.isPresent()) {
+        if (supplier.isEmpty()) {
             final BucketManager manager = getBucketManager();
             manager.delete(Arrays.asList("otavio", "soro"));
         }
@@ -120,13 +125,16 @@ public class BucketManagerTest {
 
 
     private BucketManager getBucketManager() {
-        final BucketManagerSupplier bucketManagerSupplier = ServiceLoaderProvider.get(BucketManagerSupplier.class);
+        final BucketManagerSupplier bucketManagerSupplier = ServiceLoaderProvider
+                .get(BucketManagerSupplier.class,
+                        ()-> ServiceLoader.load(BucketManagerSupplier.class));
         return bucketManagerSupplier.get();
     }
 
     private Optional<BucketManagerSupplier> getSupplier() {
         return ServiceLoaderProvider
-                .getSupplierStream(BucketManagerSupplier.class)
+                .getSupplierStream(BucketManagerSupplier.class,
+                        ()-> ServiceLoader.load(BucketManagerSupplier.class))
                 .map(BucketManagerSupplier.class::cast)
                 .findFirst();
     }

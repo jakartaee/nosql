@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -24,6 +24,7 @@ import jakarta.nosql.Value;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
@@ -46,7 +47,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link KeyValueEntity}
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @throws NullPointerException when entity is null
      */
     void put(KeyValueEntity entity);
@@ -54,7 +55,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link KeyValueEntity} with time to live
      *
-     * @param entity the entity to be insert
+     * @param entity the entity to be inserted
      * @param ttl    the defined time to live
      * @throws NullPointerException          when entity is null
      * @throws UnsupportedOperationException when expired time is not supported
@@ -64,7 +65,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link Iterable} of keys
      *
-     * @param entities keys to be insert
+     * @param entities keys to be inserted
      * @throws NullPointerException when the iterable is null
      */
     void put(Iterable<KeyValueEntity> entities);
@@ -72,7 +73,7 @@ public interface BucketManager extends AutoCloseable {
     /**
      * Saves the {@link Iterable} of keys with a defined time to live
      *
-     * @param entities keys to be insert
+     * @param entities keys to be inserted
      * @param ttl      the time to entity expire
      * @throws NullPointerException          when the iterable is null
      * @throws UnsupportedOperationException when expired time is not supported
@@ -131,7 +132,8 @@ public interface BucketManager extends AutoCloseable {
      */
     default Stream<Value> query(String query) {
         Objects.requireNonNull(query, "query is required");
-        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
+        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class,
+                ()-> ServiceLoader.load(KeyValueQueryParser.class));
         return parser.query(query, this);
     }
 
@@ -148,7 +150,8 @@ public interface BucketManager extends AutoCloseable {
      */
     default KeyValuePreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
-        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class);
+        KeyValueQueryParser parser = ServiceLoaderProvider.get(KeyValueQueryParser.class
+        ,()-> ServiceLoader.load(KeyValueQueryParser.class));
         return parser.prepare(query, this);
     }
 

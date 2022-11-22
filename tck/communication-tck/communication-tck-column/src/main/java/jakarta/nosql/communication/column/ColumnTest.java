@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 Otavio Santana and others
+ *  Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  *  This program and the accompanying materials are made available under the
  *  terms of the Eclipse Public License v. 2.0 which is available at
@@ -74,7 +74,8 @@ public class ColumnTest {
     public void shouldReturnGetType() {
         Value value = Value.of("text");
         Column column = Column.of("name", value);
-        TypeReference<List<String>> typeReference = new TypeReference<List<String>>(){};
+        TypeReference<List<String>> typeReference = new TypeReference<>() {
+        };
         assertEquals(value.get(typeReference), column.get(typeReference));
     }
 }

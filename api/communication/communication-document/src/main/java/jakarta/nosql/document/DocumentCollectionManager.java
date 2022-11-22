@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -25,12 +25,14 @@ import java.time.Duration;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 /**
- * Interface used to interact with the persistence context to {@link DocumentEntity}
+ * The persistence context to {@link DocumentEntity}.
  * The DocumentCollectionManager API is used to create and remove persistent {@link DocumentEntity} instances,
  * to select entities by their primary key, and to select over entities.
+ * Thus, ColumnFamilyManager enables CRUD Operation for {@link DocumentEntity}.
  */
 public interface DocumentCollectionManager extends AutoCloseable {
 
@@ -79,7 +81,7 @@ public interface DocumentCollectionManager extends AutoCloseable {
     Iterable<DocumentEntity> insert(Iterable<DocumentEntity> entities, Duration ttl);
 
     /**
-     * Updates a entity
+     * Updates an entity
      *
      * @param entity entity to be updated
      * @return the entity updated
@@ -130,7 +132,8 @@ public interface DocumentCollectionManager extends AutoCloseable {
      */
     default Stream<DocumentEntity> query(String query) {
         Objects.requireNonNull(query, "query is required");
-        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class);
+        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
+                ()-> ServiceLoader.load(DocumentQueryParser.class));
         return parser.query(query, this, DocumentObserverParser.EMPTY);
     }
 
@@ -146,7 +149,8 @@ public interface DocumentCollectionManager extends AutoCloseable {
      */
     default DocumentPreparedStatement prepare(String query) {
         Objects.requireNonNull(query, "query is required");
-        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class);
+        DocumentQueryParser parser = ServiceLoaderProvider.get(DocumentQueryParser.class,
+                ()-> ServiceLoader.load(DocumentQueryParser.class));
         return parser.prepare(query, this, DocumentObserverParser.EMPTY);
     }
 

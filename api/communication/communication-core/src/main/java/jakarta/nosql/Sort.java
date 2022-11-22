@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Otavio Santana and others
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,10 +16,11 @@
 package jakarta.nosql;
 
 
+import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
- * This element represents a required order to be used in a query, it's has two attributes:
+ * This element represents a required order to be used in a query, it has two attributes:
  * -- The name - the field's name to be sorted
  * -- The type - the way to be sorted
  *
@@ -51,7 +52,8 @@ public interface Sort {
      * @throws NullPointerException when there are null parameters
      */
     static Sort of(String name, SortType type) {
-        return ServiceLoaderProvider.get(SortProvider.class).apply(name, type);
+        return ServiceLoaderProvider.get(SortProvider.class,
+                        () -> ServiceLoader.load(SortProvider.class)).apply(name, type);
     }
 
     /**
