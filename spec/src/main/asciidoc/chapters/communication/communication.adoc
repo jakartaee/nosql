@@ -449,7 +449,7 @@ Integer integer = entity.get(Integer.class);
 The `Manager` is the class that pushes information to a database and retrieves it.
 
 
-* *DocumentCollectionManager*
+* *DocumentManager*
 * *ColumnConfiguration*
 * *BucketManager*
 
