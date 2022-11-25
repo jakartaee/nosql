@@ -467,7 +467,7 @@ entity.add(diana);
 
 List<DocumentEntity> entities = Collections.singletonList(entity);
 
-DocumentCollectionManager manager = // instance;
+DocumentManager manager = // instance;
 
 // Insert operations
 manager.insert(entity);
@@ -731,7 +731,7 @@ It follows the same principle of the query where it has the build and select met
 
 [source,java]
 ----
-DocumentCollectionManager manager = // instance;
+DocumentManager manager = // instance;
 DocumentDeleteQuery query = DocumentQueryBuilder.delete().from("collection")
                                                 .where("age").gt(10).build();
 manager.delete(query);
@@ -1096,7 +1096,7 @@ Settings settings = Settings.of(map);
 
 ==== Document Configuration
 
-For the Document collection configuration, `DocumentConfiguration` configures and creates `DocumentCollectionManagerFactory`.
+For the Document collection configuration, `DocumentConfiguration` configures and creates `DocumentManagerFactory`.
 
 [source,java]
 ----
@@ -1104,7 +1104,7 @@ Settings settings = Settings.builder()
     .put("key", "value")
     .build();
 DocumentConfiguration configuration = //instance;
-DocumentCollectionManagerFactory managerFactory = configuration.get(settings);
+DocumentManagerFactory managerFactory = configuration.get(settings);
 ----
 
 ==== Column Configuration
