@@ -33,7 +33,7 @@ public class ColumnTemplateProducerTest {
     private ColumnTemplateProducer producer;
 
     @Test
-    public void shouldReturnErrorWhenColumnFamilyManagerNull() {
+    public void shouldReturnErrorWhenColumnManagerNull() {
         Assertions.assertThrows(NullPointerException.class, () -> producer.get(null));
     }
 
