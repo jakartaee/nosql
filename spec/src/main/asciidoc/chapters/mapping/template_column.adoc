@@ -92,13 +92,13 @@ To use a column template, just follow the CDI style and precede the field with t
 private ColumnTemplate template;
 ----
 
-The next step is to produce a `ColumnFamilyManager`:
+The next step is to produce a `ColumnManager`:
 
 [source,java]
 ----
 @Produces
-public ColumnFamilyManager getManager() {
-    ColumnFamilyManager manager = // instance;
+public ColumnManager getManager() {
+    ColumnManager manager = // instance;
     return manager;
 }
 ----

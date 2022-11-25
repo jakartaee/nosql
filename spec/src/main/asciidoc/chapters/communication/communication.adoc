@@ -382,13 +382,13 @@ The Entity is the body of the information that goes to the database. Each databa
 * DocumentEntity
 * KeyValueEntity
 
-==== ColumnFamilyEntity
+==== ColumnEntity
 
-The `ColumnFamilyEntity` is an entity to the Column Family database type. It is composed of one or more columns. As a result, the `Column` is a tuple of name and value.
+The `ColumnEntity` is an entity to the Column Family database type. It is composed of one or more columns. As a result, the `Column` is a tuple of name and value.
 
 [source,java]
 ----
-ColumnEntity entity = ColumnEntity.of("columnFamily");
+ColumnEntity entity = ColumnEntity.of("entity");
 
 entity.add("id", 10L);
 
@@ -748,11 +748,11 @@ Thus, it is worth checking the DocumentCondition to see all the filter options.
 
 ==== Column Manager
 
-The `ColumnFamilyManager` is the class that manages the persistence on the synchronous way to a Column Family database.
+The `ColumnManager` is the class that manages the persistence on the synchronous way to a Column Family database.
 
 [source,java]
 ----
-ColumnEntity entity = ColumnEntity.of("columnFamily");
+ColumnEntity entity = ColumnEntity.of("entity");
 
 Column diana = Column.of("name", "Diana");
 
@@ -762,7 +762,7 @@ entity.add(diana);
 [source,java]
 ----
 List<ColumnEntity> entities = Collections.singletonList(entity);
-ColumnFamilyManager manager = // instance;
+ColumnManager manager = // instance;
 
 // Insert operations
 manager.insert(entity);
@@ -1012,7 +1012,7 @@ It follows the same principle of the query where it has the build and select met
 
 [source,java]
 ----
-ColumnFamilyManager manager = // instance;
+ColumnManager manager = // instance;
 ColumnDeleteQuery query = ColumnDeleteQuery.delete().from("collection")
                                                 .where("age").gt(10).build();
 manager.delete(query);
@@ -1109,7 +1109,7 @@ DocumentManagerFactory managerFactory = configuration.get(settings);
 
 ==== Column Configuration
 
-For the Column Family configuration, `ColumnConfiguration` creates and configures `ColumnFamilyManagerFactory`.
+For the Column Family configuration, `ColumnConfiguration` creates and configures `ColumnManagerFactory`.
 
 [source,java]
 ----
@@ -1117,7 +1117,7 @@ Settings settings = Settings.builder()
     .put("key", "value")
     .build();
 ColumnConfiguration configuration = //instance;
-ColumnFamilyManagerFactory managerFactory = configuration.get(settings);
+ColumnManagerFactory managerFactory = configuration.get(settings);
 ----
 
 ==== Key Value Configuration
