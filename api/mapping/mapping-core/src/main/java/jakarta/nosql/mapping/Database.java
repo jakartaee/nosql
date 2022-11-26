@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * with {@link Database}
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Qualifier
 public @interface Database {
 
