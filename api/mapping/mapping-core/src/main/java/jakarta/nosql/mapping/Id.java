@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
  * Specifies the primary key of an entity.
  *
  * @see Entity
- * @deprecated Use the Jakarta Data Id annotation instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
