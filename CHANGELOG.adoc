@@ -27,7 +27,7 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 === Deprecated
 
-- Deprecate the APIs and annotations that will belong to Jakarta Data
+- Deprecate the repository interfaces that will belong to Jakarta Data
 
 == [1.0.0.4-b4] - 2022-06-04
 
