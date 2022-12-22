@@ -8,6 +8,8 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 == [Unreleased]
 
+== [1.0.0.4-b5] - 2022-12-22
+
 === Added
 
 - Add support to persist by constructor
