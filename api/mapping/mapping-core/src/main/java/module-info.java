@@ -15,8 +15,7 @@
  */
 module jakarta.nosql.mapping.core {
     requires jakarta.nosql.communication.core;
-    requires javax.inject;
-    requires jakarta.enterprise.cdi.api;
+    requires jakarta.inject;
 
     exports jakarta.nosql.mapping;
     uses jakarta.nosql.mapping.Pagination.PaginationBuilderProvider;
