@@ -16,7 +16,7 @@
  */
 module jakarta.nosql.communication.query {
     requires jakarta.nosql.communication.core;
-    requires java.json;
+    requires jakarta.json;
 
     exports jakarta.nosql.query;
 
