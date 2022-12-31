@@ -22,7 +22,7 @@
 
 <properties>
     <asciidoctor-maven.version>2.2.2</asciidoctor-maven.version>
-    <asciidoctorj-pdf.version>2.3.3</asciidoctorj-pdf.version>
+    <asciidoctorj-pdf.version>2.3.4</asciidoctorj-pdf.version>
     <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
     <revisiondate>${maven.build.timestamp}</revisiondate>
     <revremark>Draft</revremark>
