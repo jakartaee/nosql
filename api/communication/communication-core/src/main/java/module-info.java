@@ -16,7 +16,7 @@
  */
 module jakarta.nosql.communication.core {
     requires java.logging;
-    requires java.annotation;
+    requires jakarta.annotation;
     requires static java.compiler;
     exports jakarta.nosql;
 
