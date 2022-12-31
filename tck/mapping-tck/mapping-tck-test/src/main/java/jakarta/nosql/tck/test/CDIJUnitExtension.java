@@ -20,11 +20,11 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.se.SeContainer;
-import javax.enterprise.inject.spi.AnnotatedType;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.InjectionTarget;
+import jakarta.enterprise.context.spi.CreationalContext;
+import jakarta.enterprise.inject.se.SeContainer;
+import jakarta.enterprise.inject.spi.AnnotatedType;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.InjectionTarget;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -63,8 +63,10 @@ class CDIJUnitExtension implements BeforeAllCallback, AfterAllCallback, BeforeEa
     private Consumer<Object> inject() {
         return instance ->  {
             final BeanManager manager = container.getBeanManager();
-            final AnnotatedType<?> annotatedType = manager.createAnnotatedType(instance.getClass());
-            final InjectionTarget injectionTarget = manager.createInjectionTarget(annotatedType);
+            final AnnotatedType<?> type = manager.createAnnotatedType(instance.getClass());
+
+            final InjectionTarget injectionTarget = manager.getInjectionTargetFactory(type)
+                    .createInjectionTarget(null);
             context = manager.createCreationalContext(null);
             injectionTarget.inject(instance, context);
         };
