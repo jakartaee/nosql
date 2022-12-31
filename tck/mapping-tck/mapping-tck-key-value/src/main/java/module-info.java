@@ -14,7 +14,7 @@
  */
 module jakarta.nosql.mapping.tck.key.value {
     requires jakarta.nosql.mapping.tck.test;
-    requires javax.inject;
+    requires jakarta.inject;
     requires jakarta.nosql.mapping.tck.entities;
     requires org.assertj.core;
     requires org.junit.jupiter.api;

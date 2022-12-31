@@ -15,7 +15,7 @@
 module jakarta.nosql.mapping.tck.column {
     requires jakarta.nosql.mapping.tck.test;
     requires jakarta.nosql.mapping.column;
-    requires javax.inject;
+    requires jakarta.inject;
     requires jakarta.nosql.mapping.core;
     requires org.junit.jupiter.api;
     requires org.mockito;
