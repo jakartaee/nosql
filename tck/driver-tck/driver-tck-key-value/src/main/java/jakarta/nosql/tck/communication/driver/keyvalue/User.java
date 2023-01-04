@@ -15,13 +15,13 @@
  */
 package jakarta.nosql.tck.communication.driver.keyvalue;
 
-import javax.json.bind.annotation.JsonbCreator;
-import javax.json.bind.annotation.JsonbProperty;
-import java.io.Serializable;
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
+
 import java.util.Objects;
 
 
-public class User implements Serializable {
+public class User  {
 
     private final String nickName;
 

@@ -14,7 +14,7 @@
  */
 module jakarta.nosql.mapping.tck.document {
     requires jakarta.nosql.mapping.tck.test;
-    requires javax.inject;
+    requires jakarta.inject;
     requires jakarta.nosql.mapping.document;
     requires jakarta.nosql.communication.document;
     requires jakarta.nosql.mapping.tck.entities;

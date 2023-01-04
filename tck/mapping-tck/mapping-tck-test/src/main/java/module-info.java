@@ -14,7 +14,7 @@
  */
 module jakarta.nosql.mapping.tck.test {
     requires org.junit.jupiter.api;
-    requires jakarta.enterprise.cdi.api;
+    requires jakarta.cdi;
     exports jakarta.nosql.tck.test;
     opens jakarta.nosql.tck.test;
 }
