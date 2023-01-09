@@ -66,7 +66,7 @@ public interface DocumentTemplate extends Template {
     <T> Stream<T> select(DocumentQuery query);
 
     /**
-     * Returns a {@link DocumentQueryMapper.DocumentMapperFrom} implementation that does the object mapper API.
+     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
      * @param <T>         the entity type

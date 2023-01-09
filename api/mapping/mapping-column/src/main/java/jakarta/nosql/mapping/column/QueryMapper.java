@@ -162,10 +162,9 @@ public interface QueryMapper {
         /**
          * executes the {@link ColumnTemplate#delete(ColumnDeleteQuery)}
          *
-         * @param template the column template
          * @throws NullPointerException when manager is null
          */
-        void delete(ColumnTemplate template);
+        void execute();
 
     }
 
