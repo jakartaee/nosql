@@ -400,7 +400,7 @@ public interface QueryMapper {
          * @param <T> the entity type
          * @return the result of the query
          */
-        <T> List<T> getResult();
+        <T> List<T> result();
 
         /**
          * Executes the query and it returns as a Stream
@@ -416,7 +416,7 @@ public interface QueryMapper {
          * @param <T> the entity type
          * @return the result of the query that may have one or empty result
          */
-        <T> Optional<T> getSingleResult();
+        <T> Optional<T> singleResult();
 
 
     }
