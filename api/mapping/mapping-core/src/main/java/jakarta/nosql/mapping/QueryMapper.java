@@ -16,9 +16,7 @@
 package jakarta.nosql.mapping;
 
 
-import jakarta.nosql.column.ColumnDeleteQuery;
-import jakarta.nosql.column.ColumnQuery;
-
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -144,23 +142,13 @@ public interface QueryMapper {
     }
 
     /**
-     * The last step to the build of {@link ColumnDeleteQuery}.
-     * It either can return a new {@link ColumnDeleteQuery} instance or execute a query with
-     * {@link ColumnTemplate}
+     * The last step to the build of execution
      */
     interface MapperDeleteQueryBuild {
 
-        /**
-         * Creates a new instance of {@link ColumnDeleteQuery}
-         *
-         * @return a new {@link ColumnDeleteQuery} instance
-         */
-        ColumnDeleteQuery build();
 
         /**
-         * executes the {@link ColumnTemplate#delete(ColumnDeleteQuery)}
-         *
-         * @throws NullPointerException when manager is null
+         * Executes the query
          */
         void execute();
 
@@ -173,7 +161,7 @@ public interface QueryMapper {
 
 
         /**
-         * Starts a new condition in the select using {@link jakarta.nosql.column.ColumnCondition#and(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical conjunction using two predicates.
          *
          * @param name a condition to be added
          * @return the same {@link MapperDeleteNameCondition} with the condition appended
@@ -182,7 +170,7 @@ public interface QueryMapper {
         MapperDeleteNameCondition and(String name);
 
         /**
-         * Starts a new condition in the select using {@link jakarta.nosql.column.ColumnCondition#or(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical disjunction using two predicates.
          *
          * @param name a condition to be added
          * @return the same {@link MapperDeleteNameCondition} with the condition appended
@@ -401,64 +389,35 @@ public interface QueryMapper {
     }
 
     /**
-     * The last step to the build of {@link ColumnQuery}.
-     * It either can return a new {@link ColumnQuery} instance or execute a query with
-     * {@link ColumnTemplate}
+     * The last step to the build select query
      */
     interface MapperQueryBuild {
 
-        /**
-         * Creates a new instance of {@link ColumnQuery}
-         *
-         * @return a new {@link ColumnQuery} instance
-         */
-        ColumnQuery build();
 
         /**
-         * Creates a new instance of {@link ColumnQuery} from {@link Pagination}
+         * Executes the query and it returns as a {@link List}
          *
-         * @param pagination the pagination
-         * @return a new {@link ColumnQuery} instance from {@link Pagination}
+         * @param <T> the entity type
+         * @return the result of the query
          */
-        ColumnQuery build(Pagination pagination);
+        <T> List<T> getResult();
 
         /**
-         * Executes {@link ColumnTemplate#select(ColumnQuery)}
+         * Executes the query and it returns as a Stream
          *
-         * @param <T>      the entity type
-         * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
-         * @throws NullPointerException when manager is null
+         * @param <T> the entity type
+         * @return the result of the query
          */
-        <T> Stream<T> getResult();
+        <T> List<T> stream();
 
         /**
-         * Executes {@link ColumnTemplate#singleResult(ColumnQuery)}
+         * Executes and returns a single result
          *
-         * @param <T>      the entity type
-         * @return the result of {@link ColumnTemplate#singleResult(ColumnQuery)}
-         * @throws NullPointerException when manager is null
+         * @param <T> the entity type
+         * @return the result of the query that may have one or empty result
          */
         <T> Optional<T> getSingleResult();
 
-        /**
-         * Executes {@link ColumnTemplate#select(ColumnQuery)} using {@link Pagination}
-         *
-         * @param <T>        the entity type
-         * @param pagination the pagination
-         * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
-         * @throws NullPointerException when there are null parameters
-         */
-        <T> Stream<T> getResult(Pagination pagination);
-
-        /**
-         * Executes {@link ColumnTemplate#singleResult(ColumnQuery)} using {@link Pagination}
-         *
-         * @param <T>        the entity type
-         * @param pagination the pagination
-         * @return the result of {@link ColumnTemplate#singleResult(ColumnQuery)}
-         * @throws NullPointerException when there are null parameters
-         */
-        <T> Optional<T> getSingleResult(Pagination pagination);
 
     }
 
@@ -484,8 +443,7 @@ public interface QueryMapper {
 
 
         /**
-         * Starts a new condition in the select using
-         * {@link jakarta.nosql.column.ColumnCondition#and(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical conjunction using two predicates.
          *
          * @param name a condition to be added
          * @return the same {@link MapperNameCondition} with the condition appended
@@ -494,8 +452,7 @@ public interface QueryMapper {
         MapperNameCondition and(String name);
 
         /**
-         * Appends a new condition in the select using
-         * {@link jakarta.nosql.column.ColumnCondition#or(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical disjunction using two predicates.
          *
          * @param name a condition to be added
          * @return the same {@link MapperNameCondition} with the condition appended
