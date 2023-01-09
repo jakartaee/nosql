@@ -169,10 +169,9 @@ public interface DocumentQueryMapper {
         /**
          * executes the {@link DocumentTemplate#delete(DocumentDeleteQuery)}
          *
-         * @param template the document template
          * @throws NullPointerException when manager is null
          */
-        void delete(DocumentTemplate template);
+        void execute();
     }
 
     /**
