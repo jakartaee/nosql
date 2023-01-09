@@ -18,6 +18,7 @@ package jakarta.nosql.mapping;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * The builder to either select and delete query using an object mapper API.
@@ -407,7 +408,7 @@ public interface QueryMapper {
          * @param <T> the entity type
          * @return the result of the query
          */
-        <T> List<T> stream();
+        <T> Stream<T> stream();
 
         /**
          * Executes and returns a single result
