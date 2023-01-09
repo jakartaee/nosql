@@ -20,6 +20,8 @@ module jakarta.nosql.communication.driver.tck.document {
     requires org.junit.jupiter.params;
     requires java.logging;
     requires jakarta.nosql.communication.core;
+    requires awaitility;
+    requires org.hamcrest;
     exports jakarta.nosql.tck.communication.driver.document;
     uses jakarta.nosql.tck.communication.driver.document.DocumentManagerSupplier;
 }
