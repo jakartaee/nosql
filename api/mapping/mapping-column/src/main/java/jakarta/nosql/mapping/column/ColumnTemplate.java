@@ -66,16 +66,6 @@ public interface ColumnTemplate extends Template {
     void delete(ColumnDeleteQuery query);
 
     /**
-     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
-     *
-     * @param type the entity class
-     * @param <T>         the entity type
-     * @return a {@link QueryMapper.MapperDeleteFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> QueryMapper.MapperDeleteFrom delete(Class<T> type);
-
-    /**
      * Finds entities from query
      *
      * @param query - query to figure out entities
@@ -85,15 +75,6 @@ public interface ColumnTemplate extends Template {
      */
     <T> Stream<T> select(ColumnQuery query);
 
-    /**
-     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
-     *
-     * @param type the entity class
-     * @param <T>         the entity type
-     * @return a {@link QueryMapper.MapperFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> QueryMapper.MapperFrom select(Class<T> type);
 
     /**
      * Finds entities from query using pagination
