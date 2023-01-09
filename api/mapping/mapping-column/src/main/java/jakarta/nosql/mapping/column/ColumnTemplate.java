@@ -70,10 +70,10 @@ public interface ColumnTemplate extends Template {
      *
      * @param type the entity class
      * @param <T>         the entity type
-     * @return a {@link ColumnQueryMapper.ColumnMapperDeleteFrom} instance
+     * @return a {@link QueryMapper.ColumnMapperDeleteFrom} instance
      * @throws NullPointerException when type is null
      */
-    <T> ColumnQueryMapper.ColumnMapperDeleteFrom delete(Class<T> type);
+    <T> QueryMapper.ColumnMapperDeleteFrom delete(Class<T> type);
 
     /**
      * Finds entities from query
@@ -90,10 +90,10 @@ public interface ColumnTemplate extends Template {
      *
      * @param type the entity class
      * @param <T>         the entity type
-     * @return a {@link ColumnQueryMapper.ColumnMapperFrom} instance
+     * @return a {@link QueryMapper.ColumnMapperFrom} instance
      * @throws NullPointerException when type is null
      */
-    <T> ColumnQueryMapper.ColumnMapperFrom select(Class<T> type);
+    <T> QueryMapper.ColumnMapperFrom select(Class<T> type);
 
     /**
      * Finds entities from query using pagination

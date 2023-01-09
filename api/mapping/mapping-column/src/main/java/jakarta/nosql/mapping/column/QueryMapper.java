@@ -27,8 +27,7 @@ import java.util.stream.Stream;
 /**
  * The builder to either select and delete query using an object mapper API.
  */
-public interface ColumnQueryMapper {
-
+public interface QueryMapper {
 
 
     /**
