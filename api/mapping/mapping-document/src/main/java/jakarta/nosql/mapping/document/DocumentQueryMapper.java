@@ -431,21 +431,19 @@ public interface DocumentQueryMapper {
          * Executes {@link DocumentTemplate#select(DocumentQuery)}
          *
          * @param <T>      the entity type
-         * @param template the template to document
          * @return the result of {@link DocumentTemplate#select(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> Stream<T> getResult(DocumentTemplate template);
+        <T> Stream<T> getResult();
 
         /**
          * Executes {@link DocumentTemplate#singleResult(DocumentQuery)}
          *
          * @param <T>      the entity type
-         * @param template the template to document
          * @return the result of {@link DocumentTemplate#singleResult(DocumentQuery)}
          * @throws NullPointerException when manager is null
          */
-        <T> Optional<T> getSingleResult(DocumentTemplate template);
+        <T> Optional<T> getSingleResult();
 
         /**
          * Executes {@link DocumentTemplate#select(DocumentQuery)} using {@link Pagination}
