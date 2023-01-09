@@ -18,7 +18,6 @@ package jakarta.nosql.mapping.column;
 
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
-import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.Pagination;
 
 import java.util.Optional;
