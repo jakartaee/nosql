@@ -25,7 +25,17 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * The builder to either select and delete query using an object mapper API.
+ * The DocumentQueryMapper is an interface that is the root of the fluent-API on both select and delete methods.
+ * It returns a mutable instance, thus non-thread-safe.
+ * <pre>
+ * @Inject
+ * DocumentTemplate template;
+ * ...
+ * List<Book> books = template.select(Book.class).where("category").eq("Java").execute();
+ * template.delete(Person.class).where("id").eq("id").execute();  
+ * </pre>
+ * @see DocumentTemplate#select(Class) 
+ * @see DocumentTemplate#delete(Class) 
  */
 public interface DocumentQueryMapper {
 
@@ -383,12 +393,14 @@ public interface DocumentQueryMapper {
 
         /**
          * Defines the order as {@link jakarta.nosql.SortType#ASC}
+         *
          * @return the {@link DocumentMapperNameOrder} instance
          */
         DocumentMapperNameOrder asc();
 
         /**
          * Defines the order as {@link jakarta.nosql.SortType#DESC}
+         *
          * @return the {@link DocumentMapperNameOrder} instance
          */
         DocumentMapperNameOrder desc();
