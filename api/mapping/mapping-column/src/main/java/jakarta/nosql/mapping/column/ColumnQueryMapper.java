@@ -30,25 +30,6 @@ import java.util.stream.Stream;
 public interface ColumnQueryMapper {
 
 
-    /**
-     * Returns a {@link ColumnMapperFrom} implementation that does the object mapper API.
-     *
-     * @param type the entity class
-     * @param <T>  the entity type
-     * @return a {@link ColumnMapperFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> ColumnMapperFrom selectFrom(Class<T> type);
-
-    /**
-     * Returns a {@link ColumnMapperDeleteFrom} implementation that does the object mapper API.
-     *
-     * @param type the entity class
-     * @param <T>  the entity type
-     * @return a {@link ColumnMapperDeleteFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> ColumnMapperDeleteFrom deleteFrom(Class<T> type);
 
     /**
      * The Column Delete Query
