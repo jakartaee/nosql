@@ -46,7 +46,7 @@ public interface DocumentTemplate extends Template {
     void delete(DocumentDeleteQuery query);
 
     /**
-     * Returns a {@link DocumentQueryMapper.DocumentMapperDeleteFrom} implementation that does the object mapper API.
+     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
      * @param <T>         the entity type
@@ -73,7 +73,7 @@ public interface DocumentTemplate extends Template {
      * @return a {@link DocumentQueryMapper.DocumentMapperFrom} instance
      * @throws NullPointerException when type is null
      */
-    <T> DocumentQueryMapper.DocumentMapperFrom selectFrom(Class<T> type);
+    <T> DocumentQueryMapper.DocumentMapperFrom select(Class<T> type);
 
     /**
      * Finds entities from query using pagination
