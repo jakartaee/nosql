@@ -46,6 +46,16 @@ public interface DocumentTemplate extends Template {
     void delete(DocumentDeleteQuery query);
 
     /**
+     * Returns a {@link DocumentQueryMapper.DocumentMapperDeleteFrom} implementation that does the object mapper API.
+     *
+     * @param type the entity class
+     * @param <T>         the entity type
+     * @return a {@link DocumentQueryMapper.DocumentMapperDeleteFrom} instance
+     * @throws NullPointerException when type is null
+     */
+    <T> DocumentQueryMapper.DocumentMapperDeleteFrom delete(Class<T> type);
+
+    /**
      * Finds entities from query
      *
      * @param query - query to figure out entities
@@ -54,6 +64,16 @@ public interface DocumentTemplate extends Template {
      * @throws NullPointerException when query is null
      */
     <T> Stream<T> select(DocumentQuery query);
+
+    /**
+     * Returns a {@link DocumentQueryMapper.DocumentMapperFrom} implementation that does the object mapper API.
+     *
+     * @param type the entity class
+     * @param <T>         the entity type
+     * @return a {@link DocumentQueryMapper.DocumentMapperFrom} instance
+     * @throws NullPointerException when type is null
+     */
+    <T> DocumentQueryMapper.DocumentMapperFrom selectFrom(Class<T> type);
 
     /**
      * Finds entities from query using pagination
