@@ -462,16 +462,6 @@ public interface QueryMapper {
          */
         <T> Optional<T> getSingleResult(Pagination pagination);
 
-
-        /**
-         * Creates a {@link Page} from pagination
-         *
-         * @param pagination the pagination
-         * @param <T>        the type
-         * @return a {@link Page} from instance
-         * @throws NullPointerException when there are null parameters
-         */
-        <T> Page<T> page(Pagination pagination);
     }
 
     /**
@@ -542,25 +532,4 @@ public interface QueryMapper {
         MapperOrder orderBy(String name);
     }
 
-    /**
-     * @param <T> the entity type
-     */
-    interface ColumnPage<T> extends Page<T> {
-
-        /**
-         * The query of the current {@link Page}
-         *
-         * @return {@link ColumnQueryPagination}
-         */
-        ColumnQueryPagination getQuery();
-
-        /**
-         * Returns the {@link Page} requesting the next {@link Page}.
-         *
-         * @return the next {@link Page}
-         */
-        ColumnPage<T> next();
-
-
-    }
 }
