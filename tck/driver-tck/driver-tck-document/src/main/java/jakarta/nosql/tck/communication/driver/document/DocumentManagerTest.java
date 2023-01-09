@@ -18,10 +18,11 @@ package jakarta.nosql.tck.communication.driver.document;
 import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.document.Document;
-import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.document.DocumentDeleteQuery;
 import jakarta.nosql.document.DocumentEntity;
+import jakarta.nosql.document.DocumentManager;
 import jakarta.nosql.document.DocumentQuery;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,6 +37,9 @@ import java.util.stream.Collectors;
 
 import static jakarta.nosql.document.DocumentDeleteQuery.delete;
 import static jakarta.nosql.document.DocumentQuery.select;
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,7 +52,9 @@ public class DocumentManagerTest {
     public void setUp() {
         Module module = DocumentManagerTest.class.getModule();
         module.addUses(DocumentManagerSupplier.class);
+        Awaitility.reset();
     }
+
     @ParameterizedTest
     @DocumentSource("document.properties")
     public void shouldInsert(DocumentArgument argument) {
@@ -248,7 +254,9 @@ public class DocumentManagerTest {
                 .orElseThrow(() -> new DocumentDriverException("Should return the id in the entity"));
 
         DocumentQuery query = select().from(entity.getName()).where(id.getName()).eq(id.get()).build();
-        assertEquals(1L, manager.select(query).count());
+
+        await().until(() -> manager.select(query).count(), equalTo(1L));
+
         DocumentDeleteQuery deleteQuery = delete().from(entity.getName()).where(id.getName()).eq(id.get()).build();
         manager.delete(deleteQuery);
     }
@@ -273,7 +281,11 @@ public class DocumentManagerTest {
                 .orElseThrow(() -> new DocumentDriverException("Should return the id in the entity"));
 
         DocumentQuery query = select().from(entity.getName()).where(id.getName()).eq(id.get()).build();
+
+        await().until(() -> manager.select(query).count(), greaterThan(0L));
+
         final Optional<DocumentEntity> optional = manager.singleResult(query);
+
         assertTrue(optional.isPresent());
         DocumentDeleteQuery deleteQuery = delete().from(entity.getName()).where(id.getName()).eq(id.get()).build();
         manager.delete(deleteQuery);
@@ -296,7 +308,10 @@ public class DocumentManagerTest {
         DocumentQuery query = select().from(entities.get(0).getName())
                 .where(argument.getIdName()).in(ids).build();
 
+        await().until(() -> manager.select(query).count(), equalTo((long) ids.size()));
+
         assertThrows(NonUniqueResultException.class, () -> manager.singleResult(query));
+
         DocumentDeleteQuery deleteQuery = delete().from(entities.get(0).getName())
                 .where(argument.getIdName()).in(ids).build();
         manager.delete(deleteQuery);
@@ -317,7 +332,7 @@ public class DocumentManagerTest {
     private DocumentManager getManager() {
         final DocumentManagerSupplier supplier = ServiceLoaderProvider
                 .get(DocumentManagerSupplier.class,
-                        ()-> ServiceLoader.load(DocumentManagerSupplier.class));
+                        () -> ServiceLoader.load(DocumentManagerSupplier.class));
         return supplier.get();
     }
 
