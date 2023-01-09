@@ -18,7 +18,6 @@ package jakarta.nosql.mapping;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * The builder to either select and delete query using an object mapper API.
