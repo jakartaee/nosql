@@ -115,4 +115,24 @@ public interface Template {
      * @throws IdNotFoundException  when the type does not have the Id annotation
      */
     <T, K> void delete(Class<T> type, K id);
+
+    /**
+     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
+     *
+     * @param type the entity class
+     * @param <T>         the entity type
+     * @return a {@link QueryMapper.MapperFrom} instance
+     * @throws NullPointerException when type is null
+     */
+    <T> QueryMapper.MapperFrom select(Class<T> type);
+
+    /**
+     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
+     *
+     * @param type the entity class
+     * @param <T>         the entity type
+     * @return a {@link QueryMapper.MapperDeleteFrom} instance
+     * @throws NullPointerException when type is null
+     */
+    <T> QueryMapper.MapperDeleteFrom delete(Class<T> type);
 }
