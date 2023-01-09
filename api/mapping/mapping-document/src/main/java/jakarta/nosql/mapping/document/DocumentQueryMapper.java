@@ -31,26 +31,6 @@ public interface DocumentQueryMapper {
 
 
     /**
-     * Returns a {@link DocumentMapperFrom} implementation that does the object mapper API.
-     *
-     * @param type the entity class
-     * @param <T>         the entity type
-     * @return a {@link DocumentMapperFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> DocumentMapperFrom selectFrom(Class<T> type);
-
-    /**
-     * Returns a {@link DocumentMapperDeleteFrom} implementation that does the object mapper API.
-     *
-     * @param type the entity class
-     * @param <T>         the entity type
-     * @return a {@link DocumentMapperDeleteFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> DocumentMapperDeleteFrom deleteFrom(Class<T> type);
-
-    /**
      * The Document Delete Query
      */
     interface DocumentMapperDeleteFrom extends DocumentMapperDeleteQueryBuild {
