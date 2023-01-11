@@ -54,7 +54,6 @@ DocumentDeleteQuery deleteQuery = delete().from("Person").where("address").eq("O
 template.delete(deleteQuery);
 ----
 
-Both `DocumentQuery` and `DocumentDeleteQuery` query won't convert the Object to native fields. However, `DocumentQueryMapperBuilder` creates both query types, reads the class, then switches to the native fields through annotations.
 
 [source,java]
 ----
@@ -75,15 +74,14 @@ public class Person {
 [source,java]
 ----
 @Inject
-private DocumentQueryMapperBuilder mapperBuilder;
+private DocumentTemplate template;
 
 public void mapper() {
-  DocumentQuery query = mapperBuilder.selectFrom(Person.class).where("id")
-                                     .gte(10).build();
+List<Person> people = template.select(Person.class).where("id")
+                                     .gte(10).result();
   // translating: select().from("Person").where("native_id").gte(10L).build();
-  DocumentDeleteQuery deleteQuery = mapperBuilder.deleteFrom(Person.class)
-                                                 .where("id").eq("20").build();
-  // translating: delete().from("Person").where("native_id").gte(10L).build();
+template.delete(Person.class).where("id").eq("20").execute();
+// translating: delete().from("Person").where("native_id").gte(10L).build();
 }
 ----
 
