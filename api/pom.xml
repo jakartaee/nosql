@@ -22,7 +22,6 @@
     <packaging>pom</packaging>
 
   <modules>
-        <module>communication</module>
         <module>mapping</module>
    </modules>
 </project>
