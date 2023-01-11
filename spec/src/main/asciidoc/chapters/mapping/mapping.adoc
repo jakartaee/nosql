@@ -45,12 +45,33 @@ include::annotations.adoc[]
 
 === Template classes
 
-The template offers convenient operations to create, update, delete, query, and provides a mapping among your domain objects and communication API. The templates classes have a goal to persist an Entity Model through a communication API. It has three components:
+The Template offers convenient creation, update, delete, and query operations for databases. The `Template` instance is the root implementation for all types. So, each database type will support this instance.
 
-* *Converter*: That converts the Entity to a communication level API.
-* *EntityManager*: The EntityManager for communication.
-* *Workflow*: That defines the workflow when either you save or update an entity. These events are useful when you, e.g., want to validate data before being saved. See the following picture:
+[source,java]
+----
+@Inject
+Template template;
 
+
+Book book = Book.builder().id(id).title("Java Concurrency in Practice")
+.author("Brian Goetz").year(Year.of(2006)).edition(1).build();
+template.insert(book);
+Optional<Book> optional = template.find(Book.class, id);
+System.out.println("The result " + optional);
+template.delete(Book.class, id);
+----
+
+Furthermore, in the CRUD operation, Template has two queries, fluent-API for either select or delete entities; thus, Template offers the capability for search and remove beyond the ID attribute.
+
+[source,java]
+----
+@Inject
+Template template;
+
+List<Book> books = template.select(Book.class).where("author").eq("Joshua Bloch").and("edition").gt(3).result();
+
+template.select(Book.class).where("author").eq("Joshua Bloch").and("edition").gt(3).execute();
+----
 
 include::template_key_value.adoc[]
 include::template_column.adoc[]
