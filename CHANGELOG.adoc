@@ -12,6 +12,7 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 - Update Jakarta API to after the Big-bang
 - Define high level API
+- Change the package name to "jakarta.nosql"
 
 === Added
 
