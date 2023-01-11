@@ -19,11 +19,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-      <groupId>jakarta.nosql.mapping</groupId>
-      <artifactId>api-parent</artifactId>
-      <version>1.0.0-b6-SNAPSHOT</version>
+        <groupId>jakarta.nosql</groupId>
+        <artifactId>api-parent</artifactId>
+        <version>1.0.0-b6-SNAPSHOT</version>
     </parent>
-
+    
     <artifactId>nosql-key-value</artifactId>
     <packaging>jar</packaging>
 
