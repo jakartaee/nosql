@@ -55,6 +55,7 @@ public interface DocumentTemplate extends Template {
      */
     <T> Stream<T> select(DocumentQuery query);
 
+
     /**
      * Finds entities from query using pagination
      *

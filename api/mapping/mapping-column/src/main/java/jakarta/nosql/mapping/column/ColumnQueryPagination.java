@@ -17,8 +17,8 @@ package jakarta.nosql.mapping.column;
 
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.column.ColumnQuery;
-import jakarta.nosql.mapping.Pagination;
 import jakarta.nosql.mapping.Page;
+import jakarta.nosql.mapping.Pagination;
 
 import java.util.ServiceLoader;
 import java.util.function.BiFunction;

@@ -12,6 +12,15 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 - Update Jakarta API to after the Big-bang
 
+=== Added
+
+- Add select mapper using fluent-API on Template
+- Add delete mapper using fluent-API on Template
+
+=== Removed
+
+- Remove ColumnQueryMapper
+- Remove DocumentQueryMapper
 
 == [1.0.0.4-b5] - 2022-12-22
 

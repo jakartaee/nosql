@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -13,62 +13,38 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.column;
+package jakarta.nosql.mapping;
 
 
-import jakarta.nosql.column.ColumnDeleteQuery;
-import jakarta.nosql.column.ColumnQuery;
-import jakarta.nosql.mapping.Page;
-import jakarta.nosql.mapping.Pagination;
-
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
  * The builder to either select and delete query using an object mapper API.
  */
-public interface ColumnQueryMapper {
+public interface QueryMapper {
 
-
-    /**
-     * Returns a {@link ColumnMapperFrom} implementation that does the object mapper API.
-     *
-     * @param type the entity class
-     * @param <T>  the entity type
-     * @return a {@link ColumnMapperFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> ColumnMapperFrom selectFrom(Class<T> type);
-
-    /**
-     * Returns a {@link ColumnMapperDeleteFrom} implementation that does the object mapper API.
-     *
-     * @param type the entity class
-     * @param <T>  the entity type
-     * @return a {@link ColumnMapperDeleteFrom} instance
-     * @throws NullPointerException when type is null
-     */
-    <T> ColumnMapperDeleteFrom deleteFrom(Class<T> type);
 
     /**
      * The Column Delete Query
      */
-    interface ColumnMapperDeleteFrom extends ColumnMapperDeleteQueryBuild {
+    interface MapperDeleteFrom extends MapperDeleteQueryBuild {
 
         /**
          * Starts a new condition defining the  column name
          *
          * @param name the column name
-         * @return a new {@link ColumnMapperDeleteNameCondition}
+         * @return a new {@link MapperDeleteNameCondition}
          * @throws NullPointerException when name is null
          */
-        ColumnMapperDeleteNameCondition where(String name);
+        MapperDeleteNameCondition where(String name);
     }
 
     /**
      * The base to delete name condition
      */
-    interface ColumnMapperDeleteNameCondition {
+    interface MapperDeleteNameCondition {
 
 
         /**
@@ -76,59 +52,59 @@ public interface ColumnQueryMapper {
          *
          * @param value the value to the condition
          * @param <T>   the type
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperDeleteWhere eq(T value);
+        <T> MapperDeleteWhere eq(T value);
 
         /**
          * Creates the like condition {@link jakarta.nosql.Condition#LIKE}
          *
          * @param value the value to the condition
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        ColumnMapperDeleteWhere like(String value);
+        MapperDeleteWhere like(String value);
 
         /**
          * Creates the greater than condition {@link jakarta.nosql.Condition#GREATER_THAN}
          *
          * @param value the value to the condition
          * @param <T>   the type
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperDeleteWhere gt(T value);
+        <T> MapperDeleteWhere gt(T value);
 
         /**
          * Creates the greater equals than condition {@link jakarta.nosql.Condition#GREATER_EQUALS_THAN}
          *
          * @param <T>   the type
          * @param value the value to the condition
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperDeleteWhere gte(T value);
+        <T> MapperDeleteWhere gte(T value);
 
         /**
          * Creates the lesser than condition {@link jakarta.nosql.Condition#LESSER_THAN}
          *
          * @param <T>   the type
          * @param value the value to the condition
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperDeleteWhere lt(T value);
+        <T> MapperDeleteWhere lt(T value);
 
         /**
          * Creates the lesser equals than condition {@link jakarta.nosql.Condition#LESSER_EQUALS_THAN}
          *
          * @param <T>   the type
          * @param value the value to the condition
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperDeleteWhere lte(T value);
+        <T> MapperDeleteWhere lte(T value);
 
         /**
          * Creates the between condition {@link jakarta.nosql.Condition#EQUALS}
@@ -136,97 +112,86 @@ public interface ColumnQueryMapper {
          * @param <T>    the type
          * @param valueA the values within a given range
          * @param valueB the values within a given range
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when either valueA or valueB are null
          */
-        <T> ColumnMapperDeleteWhere between(T valueA, T valueB);
+        <T> MapperDeleteWhere between(T valueA, T valueB);
 
         /**
          * Creates in condition {@link jakarta.nosql.Condition#IN}
          *
          * @param values the values
          * @param <T>    the type
-         * @return the {@link ColumnMapperDeleteWhere}
+         * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperDeleteWhere in(Iterable<T> values);
+        <T> MapperDeleteWhere in(Iterable<T> values);
 
         /**
          * Creates the equals condition {@link jakarta.nosql.Condition#NOT}
          *
-         * @return {@link ColumnMapperDeleteNotCondition}
+         * @return {@link MapperDeleteNotCondition}
          */
-        ColumnMapperDeleteNotCondition not();
+        MapperDeleteNotCondition not();
     }
 
     /**
      * The column not condition
      */
-    interface ColumnMapperDeleteNotCondition extends ColumnMapperDeleteNameCondition {
+    interface MapperDeleteNotCondition extends MapperDeleteNameCondition {
     }
 
     /**
-     * The last step to the build of {@link ColumnDeleteQuery}.
-     * It either can return a new {@link ColumnDeleteQuery} instance or execute a query with
-     * {@link ColumnTemplate}
+     * The last step to the build of execution
      */
-    interface ColumnMapperDeleteQueryBuild {
+    interface MapperDeleteQueryBuild {
+
 
         /**
-         * Creates a new instance of {@link ColumnDeleteQuery}
-         *
-         * @return a new {@link ColumnDeleteQuery} instance
+         * Executes the query
          */
-        ColumnDeleteQuery build();
-
-        /**
-         * executes the {@link ColumnTemplate#delete(ColumnDeleteQuery)}
-         *
-         * @param template the column template
-         * @throws NullPointerException when manager is null
-         */
-        void delete(ColumnTemplate template);
+        void execute();
 
     }
 
     /**
      * The Column Where whose define the condition in the delete query.
      */
-    interface ColumnMapperDeleteWhere extends ColumnMapperDeleteQueryBuild {
+    interface MapperDeleteWhere extends MapperDeleteQueryBuild {
 
 
         /**
-         * Starts a new condition in the select using {@link jakarta.nosql.column.ColumnCondition#and(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical conjunction using two predicates.
          *
          * @param name a condition to be added
-         * @return the same {@link ColumnMapperDeleteNameCondition} with the condition appended
+         * @return the same {@link MapperDeleteNameCondition} with the condition appended
          * @throws NullPointerException when condition is null
          */
-        ColumnMapperDeleteNameCondition and(String name);
+        MapperDeleteNameCondition and(String name);
 
         /**
-         * Starts a new condition in the select using {@link jakarta.nosql.column.ColumnCondition#or(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical disjunction using two predicates.
          *
          * @param name a condition to be added
-         * @return the same {@link ColumnMapperDeleteNameCondition} with the condition appended
+         * @return the same {@link MapperDeleteNameCondition} with the condition appended
          * @throws NullPointerException when condition is null
          */
-        ColumnMapperDeleteNameCondition or(String name);
+        MapperDeleteNameCondition or(String name);
     }
 
     /**
      * The ColumnFrom Query
      */
-    interface ColumnMapperFrom extends ColumnMapperQueryBuild {
+    interface MapperFrom extends MapperQueryBuild {
 
         /**
          * Starts a new condition defining the  column name
          *
          * @param name the column name
-         * @return a new {@link ColumnMapperNameCondition}
+         * @return a new {@link MapperNameCondition}
          * @throws NullPointerException when name is null
          */
-        ColumnMapperNameCondition where(String name);
+        MapperNameCondition where(String name);
 
         /**
          * Defines the position of the first result to retrieve.
@@ -234,7 +199,7 @@ public interface ColumnQueryMapper {
          * @param skip the first result to retrieve
          * @return a query with first result defined
          */
-        ColumnMapperSkip skip(long skip);
+        MapperSkip skip(long skip);
 
 
         /**
@@ -243,7 +208,7 @@ public interface ColumnQueryMapper {
          * @param limit the limit
          * @return a query with the limit defined
          */
-        ColumnMapperLimit limit(long limit);
+        MapperLimit limit(long limit);
 
         /**
          * Add the order how the result will return
@@ -252,13 +217,13 @@ public interface ColumnQueryMapper {
          * @return a query with the sort defined
          * @throws NullPointerException when name is null
          */
-        ColumnMapperOrder orderBy(String name);
+        MapperOrder orderBy(String name);
     }
 
     /**
      * The Column Order whose define the maximum number of results to retrieve.
      */
-    interface ColumnMapperLimit extends ColumnMapperQueryBuild {
+    interface MapperLimit extends MapperQueryBuild {
 
         /**
          * Defines the position of the first result to retrieve.
@@ -266,13 +231,13 @@ public interface ColumnQueryMapper {
          * @param skip the number of elements to skip
          * @return a query with first result defined
          */
-        ColumnMapperSkip skip(long skip);
+        MapperSkip skip(long skip);
     }
 
     /**
      * The base to name condition
      */
-    interface ColumnMapperNameCondition {
+    interface MapperNameCondition {
 
 
         /**
@@ -280,59 +245,59 @@ public interface ColumnQueryMapper {
          *
          * @param value the value to the condition
          * @param <T>   the type
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperWhere eq(T value);
+        <T> MapperWhere eq(T value);
 
         /**
          * Creates the like condition {@link jakarta.nosql.Condition#LIKE}
          *
          * @param value the value to the condition
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when value is null
          */
-        ColumnMapperWhere like(String value);
+        MapperWhere like(String value);
 
         /**
          * Creates the greater than condition {@link jakarta.nosql.Condition#GREATER_THAN}
          *
          * @param <T>   the type
          * @param value the value to the condition
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperWhere gt(T value);
+        <T> MapperWhere gt(T value);
 
         /**
          * Creates the greater equals than condition {@link jakarta.nosql.Condition#GREATER_EQUALS_THAN}
          *
          * @param <T>   the type
          * @param value the value to the condition
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperWhere gte(T value);
+        <T> MapperWhere gte(T value);
 
         /**
          * Creates the lesser than condition {@link jakarta.nosql.Condition#LESSER_THAN}
          *
          * @param <T>   the type
          * @param value the value to the condition
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperWhere lt(T value);
+        <T> MapperWhere lt(T value);
 
         /**
          * Creates the lesser equals than condition {@link jakarta.nosql.Condition#LESSER_EQUALS_THAN}
          *
          * @param <T>   the type
          * @param value the value to the condition
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperWhere lte(T value);
+        <T> MapperWhere lte(T value);
 
         /**
          * Creates the between condition {@link jakarta.nosql.Condition#EQUALS}
@@ -340,33 +305,33 @@ public interface ColumnQueryMapper {
          * @param <T>    the type
          * @param valueA the values within a given range
          * @param valueB the values within a given range
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when either valueA or valueB are null
          */
-        <T> ColumnMapperWhere between(T valueA, T valueB);
+        <T> MapperWhere between(T valueA, T valueB);
 
         /**
          * Creates in condition {@link jakarta.nosql.Condition#IN}
          *
          * @param values the values
          * @param <T>    the type
-         * @return the {@link ColumnMapperWhere}
+         * @return the {@link MapperWhere}
          * @throws NullPointerException when value is null
          */
-        <T> ColumnMapperWhere in(Iterable<T> values);
+        <T> MapperWhere in(Iterable<T> values);
 
         /**
          * Creates the equals condition {@link jakarta.nosql.Condition#NOT}
          *
-         * @return {@link ColumnMapperNotCondition}
+         * @return {@link MapperNotCondition}
          */
-        ColumnMapperNotCondition not();
+        MapperNotCondition not();
     }
 
     /**
      * The Column name order a query
      */
-    interface ColumnMapperNameOrder extends ColumnMapperQueryBuild {
+    interface MapperNameOrder extends MapperQueryBuild {
 
         /**
          * Add the order how the result will return
@@ -375,7 +340,7 @@ public interface ColumnQueryMapper {
          * @return a query with the sort defined
          * @throws NullPointerException when name is null
          */
-        ColumnMapperOrder orderBy(String name);
+        MapperOrder orderBy(String name);
 
 
         /**
@@ -384,7 +349,7 @@ public interface ColumnQueryMapper {
          * @param skip the first result to retrieve
          * @return a query with first result defined
          */
-        ColumnMapperSkip skip(long skip);
+        MapperSkip skip(long skip);
 
 
         /**
@@ -393,117 +358,73 @@ public interface ColumnQueryMapper {
          * @param limit the limit
          * @return a query with the limit defined
          */
-        ColumnMapperLimit limit(long limit);
+        MapperLimit limit(long limit);
     }
 
     /**
      * The column not condition
      */
-    interface ColumnMapperNotCondition extends ColumnMapperNameCondition {
+    interface MapperNotCondition extends MapperNameCondition {
     }
 
     /**
      * The definition to either {@link jakarta.nosql.SortType}
      */
-    interface ColumnMapperOrder {
+    interface MapperOrder {
 
 
         /**
          * Defines the order as {@link jakarta.nosql.SortType#ASC}
          *
-         * @return the {@link ColumnMapperNameOrder} instance
+         * @return the {@link MapperNameOrder} instance
          */
-        ColumnMapperNameOrder asc();
+        MapperNameOrder asc();
 
         /**
          * Defines the order as {@link jakarta.nosql.SortType#DESC}
          *
-         * @return the {@link ColumnMapperNameOrder} instance
+         * @return the {@link MapperNameOrder} instance
          */
-        ColumnMapperNameOrder desc();
+        MapperNameOrder desc();
     }
 
     /**
-     * The last step to the build of {@link ColumnQuery}.
-     * It either can return a new {@link ColumnQuery} instance or execute a query with
-     * {@link ColumnTemplate}
+     * The last step to the build select query
      */
-    interface ColumnMapperQueryBuild {
-
-        /**
-         * Creates a new instance of {@link ColumnQuery}
-         *
-         * @return a new {@link ColumnQuery} instance
-         */
-        ColumnQuery build();
-
-        /**
-         * Creates a new instance of {@link ColumnQuery} from {@link Pagination}
-         *
-         * @param pagination the pagination
-         * @return a new {@link ColumnQuery} instance from {@link Pagination}
-         */
-        ColumnQuery build(Pagination pagination);
-
-        /**
-         * Executes {@link ColumnTemplate#select(ColumnQuery)}
-         *
-         * @param <T>      the entity type
-         * @param template the column template
-         * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
-         * @throws NullPointerException when manager is null
-         */
-        <T> Stream<T> getResult(ColumnTemplate template);
-
-        /**
-         * Executes {@link ColumnTemplate#singleResult(ColumnQuery)}
-         *
-         * @param <T>      the entity type
-         * @param template the column template
-         * @return the result of {@link ColumnTemplate#singleResult(ColumnQuery)}
-         * @throws NullPointerException when manager is null
-         */
-        <T> Optional<T> getSingleResult(ColumnTemplate template);
-
-        /**
-         * Executes {@link ColumnTemplate#select(ColumnQuery)} using {@link Pagination}
-         *
-         * @param <T>        the entity type
-         * @param template   the column template
-         * @param pagination the pagination
-         * @return the result of {@link ColumnTemplate#select(ColumnQuery)}
-         * @throws NullPointerException when there are null parameters
-         */
-        <T> Stream<T> getResult(ColumnTemplate template, Pagination pagination);
-
-        /**
-         * Executes {@link ColumnTemplate#singleResult(ColumnQuery)} using {@link Pagination}
-         *
-         * @param <T>        the entity type
-         * @param template   the column template
-         * @param pagination the pagination
-         * @return the result of {@link ColumnTemplate#singleResult(ColumnQuery)}
-         * @throws NullPointerException when there are null parameters
-         */
-        <T> Optional<T> getSingleResult(ColumnTemplate template, Pagination pagination);
+    interface MapperQueryBuild {
 
 
         /**
-         * Creates a {@link Page} from pagination
+         * Executes the query and it returns as a {@link List}
          *
-         * @param pagination the pagination
-         * @param template   the template
-         * @param <T>        the type
-         * @return a {@link Page} from instance
-         * @throws NullPointerException when there are null parameters
+         * @param <T> the entity type
+         * @return the result of the query
          */
-        <T> Page<T> page(ColumnTemplate template, Pagination pagination);
+        <T> List<T> result();
+
+        /**
+         * Executes the query and it returns as a Stream
+         *
+         * @param <T> the entity type
+         * @return the result of the query
+         */
+        <T> Stream<T> stream();
+
+        /**
+         * Executes and returns a single result
+         *
+         * @param <T> the entity type
+         * @return the result of the query that may have one or empty result
+         */
+        <T> Optional<T> singleResult();
+
+
     }
 
     /**
      * The Column Order whose define the position of the first result to retrieve.
      */
-    interface ColumnMapperSkip extends ColumnMapperQueryBuild {
+    interface MapperSkip extends MapperQueryBuild {
 
 
         /**
@@ -512,34 +433,32 @@ public interface ColumnQueryMapper {
          * @param limit the limit
          * @return a query with the limit defined
          */
-        ColumnMapperLimit limit(long limit);
+        MapperLimit limit(long limit);
     }
 
     /**
      * The Column Where whose define the condition in the query.
      */
-    interface ColumnMapperWhere extends ColumnMapperQueryBuild {
+    interface MapperWhere extends MapperQueryBuild {
 
 
         /**
-         * Starts a new condition in the select using
-         * {@link jakarta.nosql.column.ColumnCondition#and(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical conjunction using two predicates.
          *
          * @param name a condition to be added
-         * @return the same {@link ColumnMapperNameCondition} with the condition appended
+         * @return the same {@link MapperNameCondition} with the condition appended
          * @throws NullPointerException when condition is null
          */
-        ColumnMapperNameCondition and(String name);
+        MapperNameCondition and(String name);
 
         /**
-         * Appends a new condition in the select using
-         * {@link jakarta.nosql.column.ColumnCondition#or(jakarta.nosql.column.ColumnCondition)}
+         * It starts a new condition performing a logical disjunction using two predicates.
          *
          * @param name a condition to be added
-         * @return the same {@link ColumnMapperNameCondition} with the condition appended
+         * @return the same {@link MapperNameCondition} with the condition appended
          * @throws NullPointerException when condition is null
          */
-        ColumnMapperNameCondition or(String name);
+        MapperNameCondition or(String name);
 
         /**
          * Defines the position of the first result to retrieve.
@@ -547,7 +466,7 @@ public interface ColumnQueryMapper {
          * @param skip the first result to retrieve
          * @return a query with first result defined
          */
-        ColumnMapperSkip skip(long skip);
+        MapperSkip skip(long skip);
 
 
         /**
@@ -556,7 +475,7 @@ public interface ColumnQueryMapper {
          * @param limit the limit
          * @return a query with the limit defined
          */
-        ColumnMapperLimit limit(long limit);
+        MapperLimit limit(long limit);
 
         /**
          * Add the order how the result will return
@@ -565,28 +484,7 @@ public interface ColumnQueryMapper {
          * @return a query with the sort defined
          * @throws NullPointerException when name is null
          */
-        ColumnMapperOrder orderBy(String name);
+        MapperOrder orderBy(String name);
     }
 
-    /**
-     * @param <T> the entity type
-     */
-    interface ColumnPage<T> extends Page<T> {
-
-        /**
-         * The query of the current {@link Page}
-         *
-         * @return {@link ColumnQueryPagination}
-         */
-        ColumnQueryPagination getQuery();
-
-        /**
-         * Returns the {@link Page} requesting the next {@link Page}.
-         *
-         * @return the next {@link Page}
-         */
-        ColumnPage<T> next();
-
-
-    }
 }

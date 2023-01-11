@@ -75,6 +75,7 @@ public interface ColumnTemplate extends Template {
      */
     <T> Stream<T> select(ColumnQuery query);
 
+
     /**
      * Finds entities from query using pagination
      *
