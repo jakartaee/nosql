@@ -13,7 +13,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-module jakarta.nosql.mapping.key.value {
+module jakarta.nosql.keyvalue {
     requires jakarta.nosql.core;
     exports jakarta.nosql.keyvalue;
 }
