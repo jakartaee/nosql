@@ -432,7 +432,6 @@
     </distributionManagement>
   <modules>
         <module>api</module>
-        <module>tck</module>
         <module>spec</module>
    </modules>
 </project>
