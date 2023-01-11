@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.7</version>
     </parent>
 
     <groupId>jakarta.nosql</groupId>
@@ -62,6 +62,7 @@
         <jakarta.json.version>2.1.1</jakarta.json.version>
         <jakarta.nosql.version>${project.version}</jakarta.nosql.version>
         <jakarta.validation.version>3.0.2</jakarta.validation.version>
+        <jakarta.data.version></jakarta.data.version>
         <junit.version>5.9.1</junit.version>
         <maven-javadoc-plugin.vesion>3.3.2</maven-javadoc-plugin.vesion>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
