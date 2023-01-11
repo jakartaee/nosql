@@ -21,7 +21,10 @@
     <artifactId>api-parent</artifactId>
     <packaging>pom</packaging>
 
-  <modules>
-        <module>mapping</module>
-   </modules>
+    <modules>
+        <module>core</module>
+        <module>key-value</module>
+        <module>column</module>
+        <module>document</module>
+    </modules>
 </project>
