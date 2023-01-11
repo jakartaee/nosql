@@ -16,10 +16,7 @@ import jakarta.nosql.document.DocumentQueryPagination;
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 module jakarta.nosql.mapping.document {
-    requires jakarta.nosql.communication.core;
-    requires jakarta.nosql.mapping.core;
-    requires jakarta.nosql.communication.document;
-
+    requires jakarta.nosql.core;
     exports jakarta.nosql.document;
     uses DocumentQueryPagination.DocumentQueryPaginationProvider;
 }
