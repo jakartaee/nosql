@@ -1,5 +1,3 @@
-import jakarta.nosql.column.ColumnQueryPagination;
-
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *

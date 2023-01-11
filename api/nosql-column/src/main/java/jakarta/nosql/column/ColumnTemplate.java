@@ -16,12 +16,8 @@
 package jakarta.nosql.column;
 
 
-import jakarta.nosql.NonUniqueResultException;
 import jakarta.nosql.PreparedStatement;
 import jakarta.nosql.Template;
-import jakarta.nosql.column.ColumnDeleteQuery;
-import jakarta.nosql.column.ColumnManager;
-import jakarta.nosql.column.ColumnQuery;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -29,9 +25,7 @@ import java.util.stream.Stream;
 /**
  * ColumnTemplate is a helper class that increases productivity when performing common Column Family operations.
  * Includes integrated object mapping between documents and POJOs.
- * It represents the common operation between an entity and {@link ColumnManager}
  *
- * @see ColumnManager
  */
 public interface ColumnTemplate extends Template {
 
@@ -75,7 +69,6 @@ public interface ColumnTemplate extends Template {
      * @param <T>   the entity type
      * @return the result as {@link Optional}
      * @throws NullPointerException                   when the query is null
-     * @throws jakarta.data.exceptions.NonUniqueResultException if returns more than one result
      * @throws UnsupportedOperationException          if the specified template does not support this operation
      */
     <T> Optional<T> singleResult(String query);
