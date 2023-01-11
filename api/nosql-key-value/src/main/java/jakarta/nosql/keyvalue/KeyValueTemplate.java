@@ -36,11 +36,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * KeyValueTemplate is a helper class that increases productivity when performing common Bucket operations.
  * Includes integrated object mapping between documents and POJOs.
- * It represents the common operation between an entity and {@link jakarta.nosql.keyvalue.BucketManager}
- * In the Template, the methods {@link Template#update(Object)} and {@link Template#insert(Object)}
- * might work as an alias to put operation.
  *
- * @see jakarta.nosql.keyvalue.BucketManager
  */
 public interface KeyValueTemplate extends Template {
     /**
