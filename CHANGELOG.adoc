@@ -11,16 +11,19 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 === Changed
 
 - Update Jakarta API to after the Big-bang
+- Define high level API
 
 === Added
 
 - Add select mapper using fluent-API on Template
 - Add delete mapper using fluent-API on Template
+- Add Jakarta Data as dependency
 
 === Removed
 
 - Remove ColumnQueryMapper
 - Remove DocumentQueryMapper
+- Remove communication API
 
 == [1.0.0.4-b5] - 2022-12-22
 
