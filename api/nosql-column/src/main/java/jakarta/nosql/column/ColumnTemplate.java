@@ -56,45 +56,6 @@ public interface ColumnTemplate extends Template {
      */
     <T> long count(Class<T> type);
 
-    /**
-     * Deletes an entity
-     *
-     * @param query query to delete an entity
-     * @throws NullPointerException when query is null
-     */
-    void delete(ColumnDeleteQuery query);
-
-    /**
-     * Finds entities from query
-     *
-     * @param query - query to figure out entities
-     * @param <T>   the instance type
-     * @return entities found by query
-     * @throws NullPointerException when query is null
-     */
-    <T> Stream<T> select(ColumnQuery query);
-
-
-    /**
-     * Finds entities from query using pagination
-     *
-     * @param query - query to figure out entities
-     * @param <T>   the instance type
-     * @return entities found by query
-     * @throws NullPointerException when query is null
-     */
-    <T> Page<T> select(ColumnQueryPagination query);
-
-    /**
-     * Returns a single entity from query
-     *
-     * @param query - query to figure out entities
-     * @param <T>   the instance type
-     * @return an entity on {@link Optional} or {@link Optional#empty()} when the result is not found.
-     * @throws NonUniqueResultException when the result has more than 1 entity
-     * @throws NullPointerException     when query is null
-     */
-    <T> Optional<T> singleResult(ColumnQuery query);
 
     /**
      * Executes a query then bring the result as a {@link Stream}
@@ -114,7 +75,7 @@ public interface ColumnTemplate extends Template {
      * @param <T>   the entity type
      * @return the result as {@link Optional}
      * @throws NullPointerException                   when the query is null
-     * @throws jakarta.nosql.NonUniqueResultException if returns more than one result
+     * @throws jakarta.data.exceptions.NonUniqueResultException if returns more than one result
      * @throws UnsupportedOperationException          if the specified template does not support this operation
      */
     <T> Optional<T> singleResult(String query);

@@ -40,7 +40,7 @@ public interface PreparedStatement {
      * @param <T> the type
      * @return The result stream, if delete it will return an empty stream
      */
-    <T> Stream<T> getResult();
+    <T> Stream<T> result();
 
     /**
      * Returns the result as a single element otherwise it will return an {@link Optional#empty()}
@@ -49,5 +49,5 @@ public interface PreparedStatement {
      * @return the single result
      * @throws jakarta.data.exceptions.NonUniqueResultException when the result has more than one entity
      */
-    <T> Optional<T> getSingleResult();
+    <T> Optional<T> singleResult();
 }
