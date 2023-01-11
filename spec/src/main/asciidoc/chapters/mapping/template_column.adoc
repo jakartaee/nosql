@@ -39,7 +39,7 @@ template.update(person);
 template.update(people);
 ----
 
-For information removal and retrieval, there are `ColumnQuery` and `ColumnDeleteQuery` classes, respectively. Also, the callback method may be used.
+For information removal and retrieval, there are `ColumnQuery` and `ColumnDeleteQuery` classes, respectively.
 
 [source,java]
 ----
@@ -52,8 +52,6 @@ ColumnDeleteQuery deleteQuery = delete().from("Person").where("address").eq("Oly
 template.delete(deleteQuery);
 ----
 
-
-Both `ColumnQuery` and `ColumnDeleteQuery` won't convert the object to native fields. However, `ColumnQueryMapperBuilder` creates both query types, reads the class, then switches to the native fields through annotations.
 
 [source,java]
 ----
@@ -74,13 +72,12 @@ public class Person {
 [source,java]
 ----
 @Inject
-ColumnQueryMapperBuilder mapperBuilder;
+ColumnTemplate template;
 ...
-ColumnQuery query = mapperBuilder.selectFrom(Person.class).where("id").gte(10).build();
-  // translating: select().from("Person").where("native_id").gte(10L).build();
- ColumnDeleteQuery deleteQuery = mapperBuilder.deleteFrom(Person.class)
-                                               .where("id").eq("20").build();
- // translating: delete().from("Person").where("native_id").gte(10L).build();
+List<Person> people = template.select(Person.class).where("id").gte(10).result();
+// translating: select().from("Person").where("native_id").gte(10L).build();
+template.delete(Person.class).where("id").eq("20").execute();
+// translating: delete().from("Person").where("native_id").gte(10L).build();
 
 ----
 
