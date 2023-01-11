@@ -22,7 +22,7 @@ import java.util.function.Supplier;
  * this entity must have a field with {@link Id} annotation. If this entity
  * hasn't this information an exception will be launch.
  */
-public class IdNotFoundException extends MappingException {
+public class IdNotFoundException extends NoSQLException {
 
     public static final Supplier<IdNotFoundException> KEY_NOT_FOUND_EXCEPTION_SUPPLIER = ()
             -> new IdNotFoundException("To use this resource you must annotated a field with @Id");

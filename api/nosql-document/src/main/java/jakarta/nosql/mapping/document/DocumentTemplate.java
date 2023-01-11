@@ -16,11 +16,6 @@
 package jakarta.nosql.mapping.document;
 
 
-import jakarta.nosql.NonUniqueResultException;
-import jakarta.nosql.document.DocumentDeleteQuery;
-import jakarta.nosql.document.DocumentManager;
-import jakarta.nosql.document.DocumentQuery;
-import jakarta.nosql.mapping.Page;
 import jakarta.nosql.mapping.PreparedStatement;
 import jakarta.nosql.mapping.Template;
 
@@ -30,41 +25,10 @@ import java.util.stream.Stream;
 /**
  * DocumentTemplate is a helper class that increases productivity when performing common DocumentEntity operations.
  * Includes integrated object mapping between documents and POJOs.
- * It represents the common operation between an entity and {@link DocumentManager}
- *
- * @see DocumentManager
  */
 public interface DocumentTemplate extends Template {
 
 
-    /**
-     * Deletes an entity
-     *
-     * @param query query to delete an entity
-     * @throws NullPointerException query is null
-     */
-    void delete(DocumentDeleteQuery query);
-
-    /**
-     * Finds entities from query
-     *
-     * @param query - query to figure out entities
-     * @param <T>   the instance type
-     * @return entities found by query
-     * @throws NullPointerException when query is null
-     */
-    <T> Stream<T> select(DocumentQuery query);
-
-
-    /**
-     * Finds entities from query using pagination
-     *
-     * @param query - query to figure out entities
-     * @param <T>   the instance type
-     * @return entities found by query
-     * @throws NullPointerException when query is null
-     */
-    <T> Page<T> select(DocumentQueryPagination query);
 
     /**
      * Returns the number of elements from document collection
@@ -87,16 +51,6 @@ public interface DocumentTemplate extends Template {
      */
     <T> long count(Class<T> entityType);
 
-    /**
-     * Returns a single entity from query
-     *
-     * @param query - query to figure out entities
-     * @param <T>   the instance type
-     * @return an entity on {@link Optional} or {@link Optional#empty()} when the result is not found.
-     * @throws NonUniqueResultException when the result has more than 1 entity
-     * @throws NullPointerException     when query is null
-     */
-    <T> Optional<T> singleResult(DocumentQuery query);
 
     /**
      * Executes a query then bring the result as a {@link Stream}

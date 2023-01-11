@@ -16,7 +16,6 @@
 package jakarta.nosql.mapping.column;
 
 import jakarta.nosql.column.ColumnManager;
-import jakarta.nosql.mapping.Repository;
 
 /**
  * The producer of {@link Repository}

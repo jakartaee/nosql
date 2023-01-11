@@ -17,8 +17,6 @@ package jakarta.nosql.mapping.document;
 
 import jakarta.nosql.ServiceLoaderProvider;
 import jakarta.nosql.document.DocumentQuery;
-import jakarta.nosql.mapping.Pagination;
-import jakarta.nosql.mapping.Page;
 
 import java.util.ServiceLoader;
 import java.util.function.BiFunction;

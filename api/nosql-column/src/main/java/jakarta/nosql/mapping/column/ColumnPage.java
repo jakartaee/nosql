@@ -16,8 +16,6 @@
 
 package jakarta.nosql.mapping.column;
 
-import jakarta.nosql.mapping.Page;
-
 /**
  * @param <T> the entity type
  * @deprecated Use the Jakarta Data Page instead.

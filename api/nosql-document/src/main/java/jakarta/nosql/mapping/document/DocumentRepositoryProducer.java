@@ -16,7 +16,6 @@
 package jakarta.nosql.mapping.document;
 
 import jakarta.nosql.document.DocumentManager;
-import jakarta.nosql.mapping.Repository;
 
 /**
  * The producer of {@link Repository}

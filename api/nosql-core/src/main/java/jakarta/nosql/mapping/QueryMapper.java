@@ -48,7 +48,7 @@ public interface QueryMapper {
 
 
         /**
-         * Creates the equals condition {@link jakarta.nosql.Condition#EQUALS}
+         * Creates the equals condition
          *
          * @param value the value to the condition
          * @param <T>   the type
@@ -58,7 +58,7 @@ public interface QueryMapper {
         <T> MapperDeleteWhere eq(T value);
 
         /**
-         * Creates the like condition {@link jakarta.nosql.Condition#LIKE}
+         * Creates the like condition
          *
          * @param value the value to the condition
          * @return the {@link MapperDeleteWhere}
@@ -67,7 +67,7 @@ public interface QueryMapper {
         MapperDeleteWhere like(String value);
 
         /**
-         * Creates the greater than condition {@link jakarta.nosql.Condition#GREATER_THAN}
+         * Creates the greater than condition
          *
          * @param value the value to the condition
          * @param <T>   the type
@@ -77,7 +77,7 @@ public interface QueryMapper {
         <T> MapperDeleteWhere gt(T value);
 
         /**
-         * Creates the greater equals than condition {@link jakarta.nosql.Condition#GREATER_EQUALS_THAN}
+         * Creates the greater equals than condition
          *
          * @param <T>   the type
          * @param value the value to the condition
@@ -87,7 +87,7 @@ public interface QueryMapper {
         <T> MapperDeleteWhere gte(T value);
 
         /**
-         * Creates the lesser than condition {@link jakarta.nosql.Condition#LESSER_THAN}
+         * Creates the lesser than condition
          *
          * @param <T>   the type
          * @param value the value to the condition
@@ -97,7 +97,7 @@ public interface QueryMapper {
         <T> MapperDeleteWhere lt(T value);
 
         /**
-         * Creates the lesser equals than condition {@link jakarta.nosql.Condition#LESSER_EQUALS_THAN}
+         * Creates the lesser equals than condition
          *
          * @param <T>   the type
          * @param value the value to the condition
@@ -107,7 +107,7 @@ public interface QueryMapper {
         <T> MapperDeleteWhere lte(T value);
 
         /**
-         * Creates the between condition {@link jakarta.nosql.Condition#EQUALS}
+         * Creates the between condition
          *
          * @param <T>    the type
          * @param valueA the values within a given range
@@ -118,7 +118,7 @@ public interface QueryMapper {
         <T> MapperDeleteWhere between(T valueA, T valueB);
 
         /**
-         * Creates in condition {@link jakarta.nosql.Condition#IN}
+         * Creates in condition
          *
          * @param values the values
          * @param <T>    the type
@@ -128,7 +128,7 @@ public interface QueryMapper {
         <T> MapperDeleteWhere in(Iterable<T> values);
 
         /**
-         * Creates the equals condition {@link jakarta.nosql.Condition#NOT}
+         * Creates the equals condition.
          *
          * @return {@link MapperDeleteNotCondition}
          */
@@ -241,7 +241,7 @@ public interface QueryMapper {
 
 
         /**
-         * Creates the equals condition {@link jakarta.nosql.Condition#EQUALS}
+         * Creates the equals condition
          *
          * @param value the value to the condition
          * @param <T>   the type
@@ -251,7 +251,7 @@ public interface QueryMapper {
         <T> MapperWhere eq(T value);
 
         /**
-         * Creates the like condition {@link jakarta.nosql.Condition#LIKE}
+         * Creates the like condition
          *
          * @param value the value to the condition
          * @return the {@link MapperWhere}
@@ -260,7 +260,7 @@ public interface QueryMapper {
         MapperWhere like(String value);
 
         /**
-         * Creates the greater than condition {@link jakarta.nosql.Condition#GREATER_THAN}
+         * Creates the greater than condition
          *
          * @param <T>   the type
          * @param value the value to the condition
@@ -270,7 +270,7 @@ public interface QueryMapper {
         <T> MapperWhere gt(T value);
 
         /**
-         * Creates the greater equals than condition {@link jakarta.nosql.Condition#GREATER_EQUALS_THAN}
+         * Creates the greater equals than condition
          *
          * @param <T>   the type
          * @param value the value to the condition
@@ -280,7 +280,7 @@ public interface QueryMapper {
         <T> MapperWhere gte(T value);
 
         /**
-         * Creates the lesser than condition {@link jakarta.nosql.Condition#LESSER_THAN}
+         * Creates the lesser than condition
          *
          * @param <T>   the type
          * @param value the value to the condition
@@ -290,7 +290,7 @@ public interface QueryMapper {
         <T> MapperWhere lt(T value);
 
         /**
-         * Creates the lesser equals than condition {@link jakarta.nosql.Condition#LESSER_EQUALS_THAN}
+         * Creates the lesser equals than condition
          *
          * @param <T>   the type
          * @param value the value to the condition
@@ -300,7 +300,7 @@ public interface QueryMapper {
         <T> MapperWhere lte(T value);
 
         /**
-         * Creates the between condition {@link jakarta.nosql.Condition#EQUALS}
+         * Creates the between condition
          *
          * @param <T>    the type
          * @param valueA the values within a given range
@@ -311,7 +311,7 @@ public interface QueryMapper {
         <T> MapperWhere between(T valueA, T valueB);
 
         /**
-         * Creates in condition {@link jakarta.nosql.Condition#IN}
+         * Creates in condition
          *
          * @param values the values
          * @param <T>    the type
@@ -321,7 +321,7 @@ public interface QueryMapper {
         <T> MapperWhere in(Iterable<T> values);
 
         /**
-         * Creates the equals condition {@link jakarta.nosql.Condition#NOT}
+         * Creates the equals condition.
          *
          * @return {@link MapperNotCondition}
          */
@@ -368,20 +368,20 @@ public interface QueryMapper {
     }
 
     /**
-     * The definition to either {@link jakarta.nosql.SortType}
+     * The definition to either
      */
     interface MapperOrder {
 
 
         /**
-         * Defines the order as {@link jakarta.nosql.SortType#ASC}
+         * Defines the order ascending
          *
          * @return the {@link MapperNameOrder} instance
          */
         MapperNameOrder asc();
 
         /**
-         * Defines the order as {@link jakarta.nosql.SortType#DESC}
+         * Defines the order as descending
          *
          * @return the {@link MapperNameOrder} instance
          */

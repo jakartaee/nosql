@@ -15,17 +15,16 @@
  */
 package jakarta.nosql.mapping;
 
-import jakarta.nosql.NoSQLException;
 
 /**
  * The root exception to Mapping layer
  */
-public class MappingException extends NoSQLException {
+public class NoSQLException extends RuntimeException {
 
     /**
      * Constructs a new runtime exception with null as its detail message.
      */
-    public MappingException() {
+    public NoSQLException() {
         super();
     }
 
@@ -34,7 +33,7 @@ public class MappingException extends NoSQLException {
      *
      * @param message the message
      */
-    public MappingException(String message) {
+    public NoSQLException(String message) {
         super(message);
     }
 
@@ -44,7 +43,7 @@ public class MappingException extends NoSQLException {
      * @param message the message
      * @param cause   the cause
      */
-    public MappingException(String message, Throwable cause) {
+    public NoSQLException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -55,7 +54,7 @@ public class MappingException extends NoSQLException {
      *
      * @param cause the cause
      */
-    public MappingException(Throwable cause) {
+    public NoSQLException(Throwable cause) {
         super(cause);
     }
 
@@ -69,9 +68,9 @@ public class MappingException extends NoSQLException {
      * @param enableSuppression  the enableSuppression
      * @param writableStackTrace the writableStackTrace
      */
-    protected MappingException(String message, Throwable cause,
-                               boolean enableSuppression,
-                               boolean writableStackTrace) {
+    protected NoSQLException(String message, Throwable cause,
+                             boolean enableSuppression,
+                             boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

@@ -16,7 +16,6 @@
 package jakarta.nosql.mapping.keyvalue;
 
 import jakarta.nosql.keyvalue.BucketManager;
-import jakarta.nosql.mapping.Repository;
 
 /**
  * The producer of {@link Repository}
