@@ -15,10 +15,7 @@ import jakarta.nosql.column.ColumnQueryPagination;
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-module jakarta.nosql.mapping.column {
-    requires jakarta.nosql.communication.core;
-    requires jakarta.nosql.mapping.core;
-    requires jakarta.nosql.communication.column;
+module jakarta.nosql.column {
+    requires jakarta.nosql.core;
     exports jakarta.nosql.column;
-    uses ColumnQueryPagination.ColumnQueryPaginationProvider;
 }
