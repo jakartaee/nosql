@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 public interface DocumentTemplate extends Template {
 
 
-
     /**
      * Returns the number of elements from document collection
      *
@@ -69,9 +68,8 @@ public interface DocumentTemplate extends Template {
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Optional}
-     * @throws NullPointerException                   when the query is null
-     * @throws jakarta.nosql.NonUniqueResultException if returns more than one result
-     * @throws UnsupportedOperationException          if the specified template does not support this operation
+     * @throws NullPointerException          when the query is null
+     * @throws UnsupportedOperationException if the specified template does not support this operation
      */
     <T> Optional<T> singleResult(String query);
 

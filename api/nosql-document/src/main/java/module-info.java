@@ -1,5 +1,3 @@
-import jakarta.nosql.document.DocumentQueryPagination;
-
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
@@ -18,5 +16,4 @@ import jakarta.nosql.document.DocumentQueryPagination;
 module jakarta.nosql.mapping.document {
     requires jakarta.nosql.core;
     exports jakarta.nosql.document;
-    uses DocumentQueryPagination.DocumentQueryPaginationProvider;
 }
