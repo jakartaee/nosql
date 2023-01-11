@@ -13,15 +13,15 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.column;
+package jakarta.nosql.column;
 
 
 import jakarta.nosql.NonUniqueResultException;
+import jakarta.nosql.PreparedStatement;
+import jakarta.nosql.Template;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnManager;
 import jakarta.nosql.column.ColumnQuery;
-import jakarta.nosql.mapping.PreparedStatement;
-import jakarta.nosql.mapping.Template;
 
 import java.util.Optional;
 import java.util.stream.Stream;

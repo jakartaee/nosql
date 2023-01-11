@@ -41,4 +41,4 @@
  * for programming web applications, which are subject to continual change in place, and where speed of deployment
  * is an important issue.
  */
-package jakarta.nosql.mapping.document;
+package jakarta.nosql.document;

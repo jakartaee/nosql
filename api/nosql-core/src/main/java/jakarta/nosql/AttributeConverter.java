@@ -13,7 +13,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping;
+package jakarta.nosql;
 
 /**
  * A class that implements this interface can be used to convert entity attribute state into database column

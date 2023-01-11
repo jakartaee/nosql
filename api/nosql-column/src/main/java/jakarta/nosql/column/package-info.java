@@ -24,4 +24,4 @@
  * Ref: https://en.wikipedia.org/wiki/Column_family
  *
  */
-package jakarta.nosql.mapping.column;
+package jakarta.nosql.column;

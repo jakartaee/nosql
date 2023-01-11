@@ -32,4 +32,4 @@
  * The API is built on latest Java 8 features and therefore fit
  * perfectly with the functional features of Java 8.
  */
-package jakarta.nosql.mapping;
+package jakarta.nosql;

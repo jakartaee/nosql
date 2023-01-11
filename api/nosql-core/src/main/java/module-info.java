@@ -13,11 +13,8 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-module jakarta.nosql.mapping.core {
-    requires jakarta.nosql.communication.core;
+module jakarta.nosql.core {
     requires jakarta.inject;
-
-    exports jakarta.nosql.mapping;
-    uses jakarta.nosql.mapping.Pagination.PaginationBuilderProvider;
-    uses jakarta.nosql.mapping.Sorts.SortsProvider;
+    requires jakarta.data.api;
+    exports jakarta.nosql;
 }

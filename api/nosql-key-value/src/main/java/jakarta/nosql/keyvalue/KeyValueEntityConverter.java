@@ -13,12 +13,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping.keyvalue;
+package jakarta.nosql.keyvalue;
 
 
+import jakarta.nosql.Id;
+import jakarta.nosql.IdNotFoundException;
 import jakarta.nosql.keyvalue.KeyValueEntity;
-import jakarta.nosql.mapping.Id;
-import jakarta.nosql.mapping.IdNotFoundException;
 
 /**
  * This interface represents the converter between an entity and the {@link KeyValueEntity}

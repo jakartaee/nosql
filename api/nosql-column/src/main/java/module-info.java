@@ -1,3 +1,5 @@
+import jakarta.nosql.column.ColumnQueryPagination;
+
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
@@ -17,6 +19,6 @@ module jakarta.nosql.mapping.column {
     requires jakarta.nosql.communication.core;
     requires jakarta.nosql.mapping.core;
     requires jakarta.nosql.communication.column;
-    exports jakarta.nosql.mapping.column;
-    uses jakarta.nosql.mapping.column.ColumnQueryPagination.ColumnQueryPaginationProvider;
+    exports jakarta.nosql.column;
+    uses ColumnQueryPagination.ColumnQueryPaginationProvider;
 }

@@ -13,7 +13,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.mapping;
+package jakarta.nosql;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -47,7 +47,7 @@ public interface PreparedStatement {
      *
      * @param <T> the type
      * @return the single result
-     * @throws jakarta.nosql.NonUniqueResultException when the result has more than one entity
+     * @throws jakarta.data.exceptions.NonUniqueResultException when the result has more than one entity
      */
     <T> Optional<T> getSingleResult();
 }

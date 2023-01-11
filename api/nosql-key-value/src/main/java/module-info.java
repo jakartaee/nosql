@@ -16,5 +16,5 @@
 module jakarta.nosql.mapping.key.value {
     requires jakarta.nosql.communication.key.value;
     requires jakarta.nosql.mapping.core;
-    exports jakarta.nosql.mapping.keyvalue;
+    exports jakarta.nosql.keyvalue;
 }
