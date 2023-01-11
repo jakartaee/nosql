@@ -17,26 +17,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-
     <parent>
         <groupId>jakarta.nosql.mapping</groupId>
         <artifactId>mapping-api</artifactId>
         <version>1.0.0-b6-SNAPSHOT</version>
     </parent>
-
-    <artifactId>mapping-core</artifactId>
+    
+    <artifactId>nosql-column</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.nosql.communication</groupId>
-            <artifactId>communication-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.nosql.communication</groupId>
-            <artifactId>communication-query</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>nosql-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

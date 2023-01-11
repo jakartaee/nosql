@@ -20,22 +20,17 @@
 
     <parent>
         <groupId>jakarta.nosql.mapping</groupId>
-        <artifactId>mapping-api</artifactId>
+       <artifactId>api-parent</artifactId>
         <version>1.0.0-b6-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mapping-document</artifactId>
+    <artifactId>nosql-document</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>jakarta.nosql.communication</groupId>
-            <artifactId>communication-document</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
+          <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>mapping-core</artifactId>
+            <artifactId>nosql-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

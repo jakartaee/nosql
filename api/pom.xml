@@ -22,9 +22,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>core</module>
-        <module>key-value</module>
-        <module>column</module>
-        <module>document</module>
+        <module>nosql-core</module>
+        <module>nosql-key-value</module>
+        <module>nosql-column</module>
+        <module>nosql-document</module>
     </modules>
 </project>
