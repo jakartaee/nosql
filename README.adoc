@@ -55,23 +55,6 @@ The annotations from the Mapping API annotations will look familiar to the Jakar
 |@Column
 |Specify the mapped column for a persistent property or field.
 
-|@Embeddable
-|Specifies a class whose instances are stored as an intrinsic part of an owning entity and share the entity's identity.
-
-|@Convert
-|Specifies the conversion of a Basic field or property.
-
-|@MappedSuperclass
-|Designates a class whose mapping information is applied to the entities that inherit from it. A mapped superclass has no separate table defined for it.
-
-|@Inheritance
-|Specifies the inheritance strategy to be used for an entity class hierarchy.
-
-|@DiscriminatorColumn
-|Specifies the discriminator column for the mapping strategy.
-
-|@DiscriminatorValue
-|Specifies the value of the discriminator column for entities of the given type.
 
 |===
 IMPORTANT: Although similar to JPA, Jakarta NoSQL defines persistable fields with either ```@Id``` or ```@Column``` annotation.
@@ -94,29 +77,6 @@ template.delete(Car.class, 1L);
 ----
 
 This template has specialization to take the benefits of a particular NoSQL database type.
-
-A ```Repository``` interface is also provided for exploring the Domain-Driven Design (DDD) pattern for a higher abstraction.
-
-[source,java]
-----
-public interface CarRepository extends Repository<Car, String> {
-
-    Optional<Car> findByName(String name);
-
-}
-
-@Inject
-CarRepository repository;
-...
-
-Car ferrari = Car.id(1L)
-        .name("Ferrari")
-        .type(CarType.SPORT);
-
-repository.save(ferrari);
-Optional<Car> idResult = repository.findById(1L);
-Optional<Car> nameResult = repository.findByName("Ferrari");
-----
 
 === Key-Value
 
