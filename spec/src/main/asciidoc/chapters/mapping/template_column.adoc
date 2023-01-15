@@ -39,19 +39,7 @@ template.update(person);
 template.update(people);
 ----
 
-For information removal and retrieval, there are `ColumnQuery` and `ColumnDeleteQuery` classes, respectively.
-
-[source,java]
-----
-ColumnQuery query = select().from("Person").where("address").eq("Olympus").build();
-
-Stream<Person> peopleWhoLiveOnOlympus = template.select(query);
-Optional<Person> artemis = template.singleResult(select().from("Person").where("nickname").eq("artemis").build());
-
-ColumnDeleteQuery deleteQuery = delete().from("Person").where("address").eq("Olympus").build();
-template.delete(deleteQuery);
-----
-
+To remove and retrieve information from document collection, there are `select` and `delete` methods.
 
 [source,java]
 ----
@@ -87,41 +75,4 @@ To use a column template, just follow the CDI style and precede the field with t
 ----
 @Inject
 private ColumnTemplate template;
-----
-
-The next step is to produce a `ColumnManager`:
-
-[source,java]
-----
-@Produces
-public ColumnManager getManager() {
-    ColumnManager manager = // instance;
-    return manager;
-}
-----
-
-You can work with several column database instances through CDI qualifier. To identify each database instance, make a `ColumnManager` visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
-
-[source,java]
-----
-@Inject
-@Database(value = DatabaseType.COLUMN, provider = "databaseA")
-private ColumnTemplate templateA;
-
-@Inject
-@Database(value = DatabaseType.COLUMN, provider = "databaseB")
-private ColumnTemplate templateB;
-
-// producers methods
-@Produces
-@Database(value = DatabaseType.COLUMN, provider = "databaseA")
-public ColumnManager getManagerA() {
-    return manager;
-}
-
-@Produces
-@Database(value = DatabaseType.COLUMN, provider = "databaseB")
-public ColumnManager getManagerB() {
-    return manager;
-}
 ----
