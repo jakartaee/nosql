@@ -55,5 +55,4 @@ template.select(Book.class).where("author").eq("Joshua Bloch").and("edition").gt
 include::template_key_value.adoc[]
 include::template_column.adoc[]
 include::template_document.adoc[]
-include::template_graph.adoc[]
 include::mapping_query.adoc[]
