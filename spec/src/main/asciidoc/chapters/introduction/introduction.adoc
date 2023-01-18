@@ -18,15 +18,6 @@
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
 
-The project has two layers that define communication with NoSQL databases through APIs. These are:
-
-1. *Mapping Layer*: This layer is annotation-driven and uses technologies such as Jakarta Contexts and Dependency Injection and Jakarta Bean Validation, making it simple for developers to use.
-In the traditional RDBMS world, this layer may be compared to the Java Persistence API or object-relational mapping frameworks such as Hibernate.
-
-2. *Communication Layer*: This layer contains four modules, one for each NoSQL database type: Key-Value, Column Family, Document and Graph.
-In the traditional the RDBMS world, this layer may be compared to the JDBC API.
-
-This clearly helps to achieve very low application coupling with the underlying NoSQL technologies used in applications.
 
 Jakarta NoSQL defines an API for each NoSQL database type. However, it uses the same annotations to map Java objects.
 Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
@@ -50,35 +41,8 @@ public class Deity {
 
 Vendor lock-in is one of the things any Java project needs to consider when choosing NoSQL databases. If there is a need to switch out a database, other considerations include: time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the APIs of *Communication* and *Mapping* Layers.
 
-Jakarta NoSQL also has template classes that apply the design pattern 'template method’ to databases operations. And the `Repository` interface allows Java developers to create and extend interfaces, with implementation automatically provided by a Jakarta NoSQL implementation: support method queries built by developers will automatically be implemented for them.
+Jakarta NoSQL also has template classes that apply the design pattern 'template method’ to databases operations.
 
-[source,java]
-----
-public interface DeityRepository extends Repository<Deity, String> {
-
-    Optional<Deity> findById(String id);
-    Optional<Deity> findByName(String name);
-}
-----
-[source,java]
-----
-SeContainer container = SeContainerInitializer.newInstance().initialize()
-
-Service service = container.select(Service.class).get();
-
-DeityRepository repository = service.getDeityRepository();
-
-Deity diana = Deity.builder()
-        .withId("diana")
-        .withName("Diana")
-        .withPower("hunt")
-        .build();
-
-repository.save(diana);
-
-Optional<Deity> idResult = repository.findById("diana");
-Optional<Deity> nameResult = repository.findByName("Diana");
-----
 
 === Beyond Jakarta Persistence (JPA)
 
@@ -111,20 +75,12 @@ Deity diana = Deity.builder()
 
 template.insert(diana);// insert an entity
 
-DocumentQuery query = select()
-        .from(Deity.class)
+List<Deity> deities = template.select(Deity.class)
         .where("name")
-        .eq("Diana")
-        .build(); // SELECT Deity WHERE name equals “Diana”
+        .eq("Diana").result(); // SELECT Deity WHERE name equals “Diana”
 
-List<Deity> deities = template.select(query); // execute query
-
-DocumentDeleteQuery delete = delete()
-        .from("deity").where("name")
-        .eq("Diana")
-        .build(); // delete query
-
-template.delete(delete);
+template.delete(Deity.class).where("name")
+        .eq("Diana").execute();
 ----
 
 === Let's Not Reinvent the Wheel: Graph Database Type
@@ -135,22 +91,6 @@ The Communication Layer defines three new APIs: Key-Value, Document and Column F
 
 Particular behavior matters. Even within the same type, each NoSQL database has a unique feature that may be a considerable factor when choosing one database over another. This ‘’feature’’ might make it easier to develop, make it more scaleable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples include: Cassandra and its Cassandra Query Language and consistency level; OrientDB with live queries; ArangoDB and its Arango Query Language; Couchbase with N1QL; etc. Each NoSQL database has a specific behavior and this behavior matters, so Jakarta NoSQL was designed to be extensible enough to capture these substantially different feature elements.
 
-[source,java]
-----
-public interface PersonRepository extends CouchbaseRepository {
-
-    @N1QL("select * from Person")
-    List<Person> findAll();
-
-    @N1QL("select * from Person where name = $name")
-    List<Person> findByName(@Param("name") String name);
-}
-
-Person person = // instance;
-CassandraTemplate template = //instance;
-ConsistencyLevel level = ConsistencyLevel.THREE;
-template.save(person, level);
-----
 
 === Key Features
 

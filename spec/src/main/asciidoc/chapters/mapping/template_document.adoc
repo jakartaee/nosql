@@ -41,18 +41,7 @@ template.update(person);
 template.update(people);
 ----
 
-To remove and retrieve information from document collection, there are `DocumentQuery` and `DocumentDeleteQuery` classes.
-
-[source,java]
-----
-DocumentQuery query = select().from("Person").where("address").eq("Olympus").build();
-
-Stream<Person> peopleWhoLiveOnOlympus = template.find(query);
-Optional<Person> artemis = template.singleResult(select().from("Person").where("nickname").eq("artemis").build());
-
-DocumentDeleteQuery deleteQuery = delete().from("Person").where("address").eq("Olympus").build();
-template.delete(deleteQuery);
-----
+To remove and retrieve information from document collection, there are `select` and `delete` methods.
 
 
 [source,java]
@@ -92,30 +81,4 @@ To use a document template, just follow the CDI style and place an `@Inject` ann
 ----
 @Inject
 private DocumentTemplate template;
-----
-
-You can work with several document database instances through CDI qualifier. To identify each database instance, make a `DocumentManager` visible for CDI by putting the `@Produces` and the `@Database` annotations in the method.
-
-[source,java]
-----
-@Inject
-@Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
-private DocumentTemplate templateA;
-
-@Inject
-@Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
-private DocumentTemplate templateB;
-
-// producers methods
-@Produces
-@Database(value = DatabaseType.DOCUMENT, provider = "databaseA")
-public DocumentManager getManagerA() {
-    return manager;
-}
-
-@Produces
-@Database(value = DatabaseType.DOCUMENT, provider = "databaseB")
-public DocumentManager getManagerB() {
-    return manager;
-}
 ----

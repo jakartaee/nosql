@@ -21,8 +21,10 @@
     <artifactId>api-parent</artifactId>
     <packaging>pom</packaging>
 
-  <modules>
-        <module>communication</module>
-        <module>mapping</module>
-   </modules>
+    <modules>
+        <module>nosql-core</module>
+        <module>nosql-key-value</module>
+        <module>nosql-column</module>
+        <module>nosql-document</module>
+    </modules>
 </project>
