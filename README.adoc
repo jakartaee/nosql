@@ -52,8 +52,7 @@ The annotations from the Mapping API annotations will look familiar to the Jakar
 |Specify the mapped column for a persistent property or field.
 
 
-|===
-IMPORTANT: Although similar to JPA, Jakarta NoSQL defines persistable fields with either ```@Id``` or ```@Column``` annotation.
+
 
 After mapping an entity, you can explore the advantage of using a ```Template``` interface, which can increase productivity on NoSQL operations.
 
