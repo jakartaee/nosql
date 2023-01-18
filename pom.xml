@@ -57,7 +57,6 @@
         <checkstyle.excludes></checkstyle.excludes>
         <jacoco.maven.version>0.8.7</jacoco.maven.version>
         <jakarta.data.version>1.0.0-b1</jakarta.data.version>
-        <junit.version>5.9.1</junit.version>
         <maven-javadoc-plugin.vesion>3.3.2</maven-javadoc-plugin.vesion>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.checkstyle.plugin.version>3.2.0</maven.checkstyle.plugin.version>
@@ -68,10 +67,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.3.0.603</sonar.maven.version>
-        <mockito.verson>4.11.0</mockito.verson>
-        <assertj.version>3.23.1</assertj.version>
-        <commons.io.version>2.11.0</commons.io.version>
-        <awaitility.version>4.2.0</awaitility.version>
     </properties>
 
     <dependencies>
@@ -79,48 +74,6 @@
             <groupId>jakarta.data</groupId>
             <artifactId>jakarta-data-api</artifactId>
             <version>${jakarta.data.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.verson}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito.verson}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons.io.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility</artifactId>
-            <version>${awaitility.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
