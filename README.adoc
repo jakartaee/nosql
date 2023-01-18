@@ -118,19 +118,9 @@ Car ferrari = Car.id(1L)
 template.insert(ferrari);
 Optional<Car> car = template.find(Car.class, 1L);
 
-ColumnDeleteQuery deleteQuery = delete()
-        .from("Car")
-        .where("_id")
-        .eq(1L)
-        .build();
+List<Car> cars = template.select(Car.class).where("city").eq("Rome").result();
 
-template.delete(deleteQuery);
-
-ColumnDeleteQuery query = select()
-        .from("Car")
-        .where("_id")
-        .eq(1L)
-        .build();
+template.delete(Car.class).where("_id").eq(1L).execute();
 
 Optional<Car> result = template.singleResult("select * from Car where _id = 1");
 ----
@@ -155,19 +145,9 @@ Car ferrari = Car.id(1L)
 template.insert(ferrari);
 Optional<Car> car = template.find(Car.class, 1L);
 
-DocumentDeleteQuery deleteQuery = delete()
-        .from("Car")
-        .where("_id")
-        .eq(1L)
-        .build();
+List<Car> cars = template.select(Car.class).where("city").eq("Rome").result();
 
-template.delete(deleteQuery);
-
-DocumentDeleteQuery query = select()
-        .from("Car")
-        .where("_id")
-        .eq(1L)
-        .build();
+template.delete(Car.class).where("_id").eq(1L).execute();
 
 Optional<Car> result = template.singleResult("select * from Car where _id = 1");
 ----
