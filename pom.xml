@@ -56,12 +56,6 @@
         <apache.rat.version>0.12</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
         <jacoco.maven.version>0.8.7</jacoco.maven.version>
-        <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
-        <jakarta.enterprise.cdi.version>4.0.1</jakarta.enterprise.cdi.version>
-        <jakarta.json.bind.version>3.0.0</jakarta.json.bind.version>
-        <jakarta.json.version>2.1.1</jakarta.json.version>
-        <jakarta.nosql.version>${project.version}</jakarta.nosql.version>
-        <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <jakarta.data.version>1.0.0-b1</jakarta.data.version>
         <junit.version>5.9.1</junit.version>
         <maven-javadoc-plugin.vesion>3.3.2</maven-javadoc-plugin.vesion>
@@ -81,30 +75,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <version>${jakarta.json.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.json.bind</groupId>
-            <artifactId>jakarta.json.bind-api</artifactId>
-            <version>${jakarta.json.bind.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <version>${jakarta.annotation.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <version>${jakarta.enterprise.cdi.version}</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>jakarta.data</groupId>
             <artifactId>jakarta-data-api</artifactId>
