@@ -25,6 +25,7 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 - Remove ColumnQueryMapper
 - Remove DocumentQueryMapper
 - Remove communication API
+- Remove the TCK tests on this repository
 
 == [1.0.0.4-b5] - 2022-12-22
 
