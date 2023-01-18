@@ -11,14 +11,10 @@ Jakarta NoSQL is a Java framework that streamlines the integration of Java appli
 == Goals
 
 * Increase productivity performing common NoSQL operations
-* Rich Object Mapping integrated with Contexts and Dependency Injection (CDI)
+* Rich Object Mapping integrated
 * Java-based Query and Fluent-API
-* Persistence lifecycle events
-* Low-level mapping using Standard NoSQL APIs
 * Specific template API to each NoSQL category
 * Annotation-oriented using JPA-like naming when it makes sense
-* Extensible to explore the particular behavior of a NoSQL database
-* Explore the popularity of Apache TinkerPop in Graph API
 
 == One Mapping API to Multiples NoSQL Databases
 
