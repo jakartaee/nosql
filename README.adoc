@@ -51,7 +51,7 @@ The annotations from the Mapping API annotations will look familiar to the Jakar
 |@Column
 |Specify the mapped column for a persistent property or field.
 
-
+|===
 
 
 After mapping an entity, you can explore the advantage of using a ```Template``` interface, which can increase productivity on NoSQL operations.
