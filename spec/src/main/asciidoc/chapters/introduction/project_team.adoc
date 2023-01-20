@@ -20,28 +20,34 @@ of the project committers and various contributors.
 
 ==== Project Lead
 
-* Otavio Santana
+* https://projects.eclipse.org/content/otavio-santana-project-lead-jakarta-nosql[Otavio Santana]
+
+==== Contributors
+
+* https://projects.eclipse.org/user/8408[Ivar Grimstad]
+* https://projects.eclipse.org/user/8180[Kevin Sutter]
+* https://projects.eclipse.org/user/10810[Scott Stark]
 
 ==== Committers
 
-* Andres Galante
-* Fred Rowe
-* Gaurav Gupta
-* Ivan Junckes Filho
-* Jesse Gallagher
-* Nathan Rauh
-* Otavio Santana
-* Werner Keil
-* Michael Redlich
+* https://projects.eclipse.org/content/andres-galante-committer-jakarta-nosql[Andres Galante]
+* https://projects.eclipse.org/content/fred-rowe-committer-jakarta-nosql[Fred Rowe]
+* https://projects.eclipse.org/content/gaurav-gupta-committer-jakarta-nosql[Gaurav Gupta]
+* https://projects.eclipse.org/content/ivan-junckes-filho-committer-jakarta-nosql[Ivan Junckes Filho]
+* https://projects.eclipse.org/content/jesse-gallagher-committer-jakarta-nosql[Jesse Gallagher]
+* https://projects.eclipse.org/content/michael-redlich-committer-jakarta-nosql[Michael Redlich]
+* https://projects.eclipse.org/content/nathan-rauh-committer-jakarta-nosql[Nathan Rauh]
+* https://projects.eclipse.org/content/otavio-santana-committer-jakarta-nosql[Otavio Santana]
+* https://projects.eclipse.org/content/werner-keil-committer-jakarta-nosql[Werner Keil]
 
 ==== Historical Committer
 
-* Leonardo Lima
+* https://projects.eclipse.org/content/leonardo-lima-committer-jakarta-nosql[Leonardo Lima]
 
 ==== Mentor
 
-* Wayne Beaton
+* https://projects.eclipse.org/content/wayne-beaton-mentor-jakarta-nosql[Wayne Beaton]
 
-==== Contributors
+==== Full List of Contributors
 
 The complete list of Jakarta NoSQL contributors may be found https://github.com/eclipse-ee4j/nosql/graphs/contributors[here].

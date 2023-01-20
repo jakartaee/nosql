@@ -43,7 +43,6 @@ template.update(people);
 
 To remove and retrieve information from document collection, there are `select` and `delete` methods.
 
-
 [source,java]
 ----
 @Entity
@@ -66,14 +65,21 @@ public class Person {
 private DocumentTemplate template;
 
 public void mapper() {
-List<Person> people = template.select(Person.class).where("id")
-                                     .gte(10).result();
-  // translating: select().from("Person").where("native_id").gte(10L).build();
-template.delete(Person.class).where("id").eq("20").execute();
+List<Person> people = template.select(Person.class)
+        .where("id")
+        .gte(10)
+        .result();
+
+// translating: select().from("Person").where("native_id").gte(10L).build();
+
+template.delete(Person.class)
+        .where("id")
+        .eq("20")
+        .execute();
+
 // translating: delete().from("Person").where("native_id").gte(10L).build();
 }
 ----
-
 
 To use a document template, just follow the CDI style and place an `@Inject` annotation on the field.
 

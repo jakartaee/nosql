@@ -23,15 +23,15 @@ As previously mentioned, the Mapping API provides annotations that make the Java
 
 The annotation model converts the entity model into the entity on communication, the communication entity:
 
-* Entity
-* Column
-* Id
+* @Entity
+* @Column
+* @Id
 
-Jakarta NoSQL Mapping does not require getter and setter methods to fields. However, the Entity class must have a non-private constructor with no parameters.
+The Jakarta NoSQL Mapping API does not require getter and setter methods to fields. However, the Entity class must have a non-private constructor with no parameters.
 
 ===== @Entity
 
-This annotation maps the class to Jakarta NoSQL. There is a single value attribute. This attribute specifies the column family name, or the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
+This annotation maps the class to Jakarta NoSQL. There is a single value attribute that specifies the column family name, the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
 
 [source,java]
 ----
@@ -86,9 +86,10 @@ public class Address {
    }
 }
 ----
+
 ===== @Column
 
-This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database. It is default value that is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with `@Key` - all other fields are stored as a single blob.
+This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database with a default value that is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with the `@Key` annotation. All other fields are stored as a single BLOB.
 
 [source,java]
 ----

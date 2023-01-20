@@ -16,40 +16,53 @@
 
 The mapping level, to put it differently, has the same goals as either the JPA or ORM. In the NoSQL world, the *OxM* then converts the entity object to a communication model.
 
-This level is in charge to perform integration among technologies such as Bean Validation. The Mapping API has annotations that make the Java developer’s life easier. As a communication project, it must be extensible and configurable to keep the diversity of NoSQL database.
-
-IMPORTANT: The package name might change on the Jakarta EE process.
+This level is responsible to perform integration among technologies such as https://jakarta.ee/specifications/bean-validation/[Bean Validation]. The Mapping API provides annotations that make the Java developer's life easier. As a communication project, it must be extensible and configurable to keep the diversity of NoSQL databases.
 
 include::annotations.adoc[]
 
-=== Template classes
+=== Template Classes
 
-The Template offers convenient creation, update, delete, and query operations for databases. The `Template` instance is the root implementation for all types. So, each database type will support this instance.
+The Template classes offer convenient creation, update, delete, and query operations for databases. The `Template` instance is the root implementation for all types. So, each database type will support this instance.
 
 [source,java]
 ----
 @Inject
 Template template;
 
+Book book = Book.builder()
+        .id(id)
+        .title("Java Concurrency in Practice")
+        .author("Brian Goetz")
+        .year(Year.of(2006))
+        .edition(1)
+        .build();
 
-Book book = Book.builder().id(id).title("Java Concurrency in Practice")
-.author("Brian Goetz").year(Year.of(2006)).edition(1).build();
 template.insert(book);
 Optional<Book> optional = template.find(Book.class, id);
 System.out.println("The result " + optional);
 template.delete(Book.class, id);
 ----
 
-Furthermore, in the CRUD operation, Template has two queries, fluent-API for either select or delete entities; thus, Template offers the capability for search and remove beyond the ID attribute.
+Furthermore, in CRUD operations, Template provides two queries, a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID attribute.
 
 [source,java]
 ----
 @Inject
 Template template;
 
-List<Book> books = template.select(Book.class).where("author").eq("Joshua Bloch").and("edition").gt(3).result();
+List<Book> books = template.select(Book.class)
+        .where("author")
+        .eq("Joshua Bloch")
+        .and("edition")
+        .gt(3)
+        .result();
 
-template.select(Book.class).where("author").eq("Joshua Bloch").and("edition").gt(3).execute();
+template.select(Book.class)
+        .where("author")
+        .eq("Joshua Bloch")
+        .and("edition")
+        .gt(3)
+        .execute();
 ----
 
 include::template_key_value.adoc[]
