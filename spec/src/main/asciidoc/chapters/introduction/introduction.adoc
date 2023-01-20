@@ -23,7 +23,6 @@ Jakarta NoSQL defines an API for each NoSQL database type:
 * Key-Value
 * Column Family
 * Document
-* Graph
 
 However, it uses the same annotations to map Java objects. Therefore, with just these annotations, whose names match those from the Jakarta Persistence specification, there is support for more than twenty NoSQL databases.
 
@@ -88,9 +87,6 @@ template.delete(Deity.class).where("name")
         .eq("Diana").execute();
 ----
 
-=== Let's Not Reinvent the Wheel: Graph Database Type
-
-The Communication layer defines three new APIs for NoSQL database types: Key-Value, Column Family and Document. It does not provide the new Graph API because a very good one already exists. https://tinkerpop.apache.org/[Apache TinkerPop] is a graph computing framework for both graph databases (OLTP) and graph analytic systems (OLAP). Using Apache TinkerPop as the Communication API for Graph databases, the Mapping API has a tight integration with it.
 
 === Particular Behavior Matters in NoSQL Databases
 
@@ -98,7 +94,7 @@ Even within the same type, each NoSQL database has a unique feature that may be 
 
 === Key Features
 
-* Simple APIs that support all well-known NoSQL storage types: Key-Value, Column Family, Document and Graph databases
+* Simple APIs that support all well-known NoSQL storage types: Key-Value, Column Family, Document databases
 * Use of Convention Over Configuration
 * Easy-to-implement API Specification and Technology Compatibility Kit (TCK) for NoSQL Vendors
 * The APIs focus is on simplicity and ease-of-use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
