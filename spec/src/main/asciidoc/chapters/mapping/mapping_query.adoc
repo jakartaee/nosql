@@ -14,7 +14,7 @@
 
 ====  Querying by Text with the Mapping API
 
-Jakarta NoSQL has query by text where you can execute it; furthermore, there is the option to explore prepare statement query. Jakarta NoSQL does not provide any query support; thus, any vendor might have diverse queries.
+Jakarta NoSQL provides query by text that you can execute. Furthermore, there is the option to explore a prepared statement query. Jakarta NoSQL does not provide any query support. Thus, any vendor might have diverse queries.
 
 ===== Key-Value Database Types
 
@@ -25,17 +25,13 @@ Stream<User> users = template.query("get \"Diana\"");
 template.query("remove \"Diana\"");
 ----
 
-
 ===== Column-Family Database Types
-
-
 
 [source,java]
 ----
 ColumnTemplate template = // instance;
 Stream<Person> result = template.query("select * from Person where id = 1");
 ----
-
 
 ===== Document Database Types
 

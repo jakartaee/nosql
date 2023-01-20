@@ -62,9 +62,18 @@ public class Person {
 @Inject
 ColumnTemplate template;
 ...
-List<Person> people = template.select(Person.class).where("id").gte(10).result();
+List<Person> people = template.select(Person.class)
+        .where("id")
+        .gte(10)
+        .result();
+
 // translating: select().from("Person").where("native_id").gte(10L).build();
-template.delete(Person.class).where("id").eq("20").execute();
+
+template.delete(Person.class)
+        .where("id")
+        .eq("20")
+        .execute();
+
 // translating: delete().from("Person").where("native_id").gte(10L).build();
 
 ----
