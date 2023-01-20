@@ -47,7 +47,6 @@ public interface PreparedStatement {
      *
      * @param <T> the type
      * @return the single result
-     * @throws jakarta.data.exceptions.NonUniqueResultException when the result has more than one entity
      */
     <T> Optional<T> singleResult();
 }
