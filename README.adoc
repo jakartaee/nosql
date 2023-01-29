@@ -42,7 +42,7 @@ The annotations from the Mapping API annotations will look familiar to the Jakar
 |===
 |Annotation|Description
 
-|Entity
+|@Entity
 |Specifies that the class is an entity. This annotation is applied to the entity class.
 
 |@Id
