@@ -88,10 +88,6 @@ template.delete(Deity.class).where("name")
 ----
 
 
-=== Particular Behavior Matters in NoSQL Databases
-
-Even within the same type, each NoSQL database has a unique feature that may be a considerable factor when choosing one database over another. This "feature" might make it easier to develop, make it more scaleable or consistent from a configuration standpoint, have the desired consistency level or search engine, etc. Some examples include: Cassandra and its Cassandra Query Language and consistency level; OrientDB with live queries; ArangoDB and its Arango Query Language; Couchbase with N1QL; etc. Each NoSQL database has a specific behavior and this behavior matters, so Jakarta NoSQL was designed to be extensible enough to capture these substantially different feature elements.
-
 === Key Features
 
 * Simple APIs that support all well-known NoSQL storage types: Key-Value, Column Family, Document databases
