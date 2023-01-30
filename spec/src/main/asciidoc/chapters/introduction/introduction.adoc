@@ -93,6 +93,6 @@ template.delete(Deity.class).where("name")
 * Simple APIs that support all well-known NoSQL storage types: Key-Value, Column Family, Document databases
 * Use of Convention Over Configuration
 * Easy-to-implement API Specification and Technology Compatibility Kit (TCK) for NoSQL Vendors
-* The APIs focus is on simplicity and ease-of-use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL. The API is built on Java 8 features like Lambdas and Streams, and therefore fits perfectly with the functional features of Java 8+.
+* The APIs focus is on simplicity and ease-of-use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL.
 
 include::project_team.adoc[]
