@@ -57,7 +57,7 @@ List<Book> books = template.select(Book.class)
         .gt(3)
         .result();
 
-template.select(Book.class)
+template.delete(Book.class)
         .where("author")
         .eq("Joshua Bloch")
         .and("edition")
