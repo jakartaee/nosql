@@ -20,7 +20,7 @@
     <parent>
         <groupId>jakarta.nosql</groupId>
         <artifactId>api-parent</artifactId>
-        <version>1.0.0-b6-SNAPSHOT</version>
+        <version>1.0.0-b6</version>
     </parent>
     
     <artifactId>nosql-column</artifactId>
