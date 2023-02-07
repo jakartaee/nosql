@@ -24,10 +24,7 @@
     <packaging>pom</packaging>
 
     <name>Jakarta NoSQL</name>
-    <description>Create the specification in Jakarta EE to help Jakarta EE developers create enterprise-grade
-        applications using Java® and NoSQL technologies. It helps them create scalable applications
-        while maintaining low coupling with the underlying NoSQL technology.
-    </description>
+    <description>Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.</description>
     <url>www.eclipse.org/ee4j/nosql</url>
 
 
