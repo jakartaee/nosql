@@ -146,6 +146,18 @@ Optional<Car> result = template.singleResult("select * from Car where id = 1");
 
 Column Family is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
 
+*Maven dependency*
+
+[source,xml]
+----
+<dependency>
+    <groupId>jakarta.nosql</groupId>
+    <artifactId>nosql-column</artifactId>
+    <version>1.0.0-b6</version>
+</dependency>
+----
+
+
 === Document
 
 Jakarta NoSQL provides a Document template to explore the specific behavior of this NoSQL type.
