@@ -185,6 +185,17 @@ Optional<Car> result = template.singleResult("select * from Car where id = 1");
 
 Document is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
 
+*Maven dependency*
+
+[source,xml]
+----
+<dependency>
+    <groupId>jakarta.nosql</groupId>
+    <artifactId>nosql-document</artifactId>
+    <version>1.0.0-b6</version>
+</dependency>
+----
+
 === More Information
 
 To learn more, please refer to the https://www.jnosql.org/spec/[reference documentation], and https://www.jnosql.org/javadoc/[JavaDocs].
