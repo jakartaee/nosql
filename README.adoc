@@ -107,6 +107,18 @@ template.delete(1L);
 
 Key-Value is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
 
+*Maven dependency*
+
+[source,xml]
+----
+<dependency>
+    <groupId>jakarta.nosql</groupId>
+    <artifactId>nosql-key-value</artifactId>
+    <version>1.0.0-b6</version>
+</dependency>
+----
+
+
 === Column Family
 
 Jakarta NoSQL provides a Column Family template to explore the specific behavior of this NoSQL type.
