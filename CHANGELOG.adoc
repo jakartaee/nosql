@@ -24,6 +24,7 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 === Removed
 
+- Remove communication API level.
 - Remove ColumnQueryMapper
 - Remove DocumentQueryMapper
 - Remove communication API
