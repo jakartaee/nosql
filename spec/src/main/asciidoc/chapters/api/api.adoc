@@ -71,7 +71,7 @@ template.delete(Book.class)
         .execute();
 ----
 
-include::template_key_value.adoc[]
-include::template_column.adoc[]
-include::template_document.adoc[]
-include::mapping_query.adoc[]
+include::key_value.adoc[]
+include::column.adoc[]
+include::document.adoc[]
+include::query.adoc[]
