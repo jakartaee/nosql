@@ -14,9 +14,13 @@
 
 ==== ColumnTemplate
 
-This template has the responsibility to serve as a bridge between the entity model and the communication to a column family NoSQL database type.
+The `ColumnTemplate` class is a type of Template that makes it easier to work with Column-Family or Wide-Column databases. These NoSQL databases store data in a table-like structure, where each column contains a particular attribute or piece of information.
 
-The `ColumnTemplate` is the column template for the synchronous tasks.
+The `ColumnTemplate` class is designed to help developers quickly work with NoSQL databases and manage complex data structures. It uses the `Template`, allowing flexible and customizable joint operations on the database.
+
+The `ColumnTemplate` class offers excellent flexibility as it can be easily customized according to the needs of different vendors. It allows vendors to use it as a foundation for their NoSQL databases and add specific features or behaviors unique to their databases.
+
+To effectively utilize the specific features of Column-Family or Wild-Column databases, developers require a flexible API that accommodates the variations in the behavior of NoSQL databases. The `ColumnTemplate` class offers this adaptability, allowing the creation of durable and high-performing applications.
 
 [source,java]
 ----
@@ -39,7 +43,7 @@ template.update(person);
 template.update(people);
 ----
 
-To remove and retrieve information from document collection, there are `select` and `delete` methods.
+To remove and retrieve information from the entity, there are `select` and `delete` methods.
 
 [source,java]
 ----
@@ -76,12 +80,4 @@ template.delete(Person.class)
 
 // translating: delete().from("Person").where("native_id").gte(10L).build();
 
-----
-
-To use a column template, just follow the CDI style and precede the field with the `@Inject` annotation.
-
-[source,java]
-----
-@Inject
-private ColumnTemplate template;
 ----
