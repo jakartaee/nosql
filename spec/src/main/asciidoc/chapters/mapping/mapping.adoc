@@ -22,7 +22,15 @@ include::annotations.adoc[]
 
 === Template Classes
 
-The Template classes offer convenient creation, update, delete, and query operations for databases. The `Template` instance is the root implementation for all types. So, each database type will support this instance.
+The Template feature in Jakarta NoSQL simplifies the implementation of common database operations by providing a basic API to the underlying persistence engine. It follows the standard template pattern, a common design pattern used in software development.
+
+The Template pattern involves creating a skeletal structure for an algorithm, with some steps implemented and others left to be implemented by subclasses. Similarly, the Template feature in Jakarta NoSQL makes a skeleton around NoSQL database operations, allowing developers to focus on implementing the specific logic required for their application.
+
+The Template feature can be related to the Template Method design pattern, a variation of the Template pattern. In the Template Method pattern, an abstract class defines a template method that encapsulates a series of steps required to perform a task, with some steps implemented and others left to be implemented by subclasses.
+
+The Template feature in Jakarta NoSQL also defines a template method for performing NoSQL database operations, with some steps implemented and others left to be implemented by the developer.
+
+Overall, the Template feature in Jakarta NoSQL provides a simple and efficient way to implement common database operations while following established design patterns like the Template Method. By using the Template feature, developers can save time and effort in implementing their NoSQL database operations, allowing them to focus on other aspects of their application.
 
 [source,java]
 ----
