@@ -14,6 +14,12 @@
 
 === Annotations
 
+Jakarta NoSQL is a popular specification that provides a standardized way for Java developers to work with non-relational databases. One of the key features of this specification is the use of Java annotations, which provide a simple and intuitive way for developers to map Java objects to NoSQL databases. These annotations allow developers to specify the structure of their data and the relationships between different objects without having to write complex code or queries.
+
+Using Java annotations, developers can significantly simplify their workflow and reduce the time and effort required to work with NoSQL databases. Annotations also make it easier to maintain code and reduce the risk of errors since the database structure is defined clearly and concisely. Additionally, annotations provide high flexibility and customization, allowing developers to tailor the database schema to their specific needs.
+
+Using Java annotations in Jakarta NoSQL represents a significant step forward for developers working with non-relational databases. By providing a standardized approach to mapping Java objects to NoSQL databases, this specification makes working with these robust data storage solutions more effortless and efficient.
+
 Jakarta NoSQL has support for those three types:
 
 * @Entity
