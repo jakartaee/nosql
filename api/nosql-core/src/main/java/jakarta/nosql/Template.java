@@ -20,15 +20,14 @@ import java.util.Optional;
 
 /**
  * Templates are a helper class that increases productivity when performing common NoSQL operations.
- *
- * The Template feature in Jakarta NoSQL simplifies the implementation of common database
+ *  The Template feature in Jakarta NoSQL simplifies the implementation of common database
  * operations by providing a basic API to the underlying persistence engine.
  * It follows the standard template pattern, a common design pattern used in software development.
  */
 public interface Template {
 
     /**
-     * Inserts entity
+     * Inserts an entity
      *
      * @param entity entity to insert
      * @param <T>    the instance type
@@ -38,13 +37,13 @@ public interface Template {
     <T> T insert(T entity);
 
     /**
-     * Inserts entity with time to live
+     * Inserts entity with time to live, TTL.
      *
      * @param entity entity to insert
      * @param ttl    the time to live
      * @param <T>    the instance type
      * @return the entity saved
-     * @throws NullPointerException when entity is null
+     * @throws NullPointerException when entity or ttl is null
      */
     <T> T insert(T entity, Duration ttl);
 
