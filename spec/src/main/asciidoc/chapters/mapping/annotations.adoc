@@ -112,7 +112,7 @@ public class Person {
 
 ==== @Id
 
-This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. In such a case, the Value is the remaining information. It has a single attribute (like `@Column`) to define the native name. Unlike `@Column`, the default value is `_id`.
+This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. Unlike `@Column`, the default value is `_id`.
 
 [source,java]
 ----
