@@ -44,7 +44,7 @@ public class Person {
 }
 ----
 
-An entity that is a field will be incorporated as a sub-entity. For example, in a Document, the entity field will be converted to a sub-document.
+You can include one or multiple entities without requiring additional annotations like `OneToOne` or `OneToMany` in JPA when using the API. However, it's essential to remember that NoSQL databases have varying behaviors. For instance, in a Document database, these entities may be converted into a subdocument, while on a Key-value, it will be the value.
 
 [source,java]
 ----
