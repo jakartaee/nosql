@@ -51,7 +51,7 @@ System.out.println("The result " + optional);
 template.delete(Book.class, id);
 ----
 
-Furthermore, in CRUD operations, Template provides two queries, a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID attribute.
+Furthermore, in CRUD operations, Template provides a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID attribute.
 
 [source,java]
 ----
