@@ -1,0 +1,29 @@
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License v. 2.0 which is available at
+// http://www.eclipse.org/legal/epl-2.0.
+//
+// This Source Code may also be made available under the following Secondary
+// Licenses when the conditions for such availability set forth in the Eclipse
+// Public License v. 2.0 are satisfied: GNU General Public License, version 2
+// with the GNU Classpath Exception which is available at
+// https://www.gnu.org/software/classpath/license.html.
+//
+// SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+====  Querying by Text with the Mapping API
+
+Query by text is a powerful feature in the Jakarta NoSQL API that allows Java developers to perform CRUD operations on NoSQL databases using a text-based query language. Although the syntax may vary between different NoSQL vendors, the Jakarta NoSQL API provides a standard set of interfaces and methods that simplify performing CRUD operations through text queries.
+
+Apart from supporting static queries, the Jakarta NoSQL API offers an API for dynamic queries. This feature enables developers to bind parameters to a query at runtime, making the queries more flexible and adaptable to changing requirements.
+
+It is important to note that the Jakarta NoSQL specification does not specify the query syntax. Instead, each NoSQL vendor can define their query syntax and return types, allowing them to tailor their syntax to their platform's unique features and capabilities. This flexibility enables vendors to provide robust and efficient query capabilities that meet the needs of their users.
+
+Overall, the Jakarta NoSQL API's support for query by text provides Java developers with a flexible and intuitive way to perform CRUD operations on NoSQL databases. Although the query syntax is vendor-specific, the common interfaces and methods provided by the Jakarta NoSQL API make it easy to work with any NoSQL database that supports queries by text. The ability to dynamically bind parameters to a query at runtime adds extra flexibility, allowing developers to adapt their queries to changing requirements.
+
+[source,java]
+----
+Template template = // instance;
+Stream<Person> result = template.query("provider query");
+----

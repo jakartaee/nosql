@@ -1,0 +1,89 @@
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License v. 2.0 which is available at
+// http://www.eclipse.org/legal/epl-2.0.
+//
+// This Source Code may also be made available under the following Secondary
+// Licenses when the conditions for such availability set forth in the Eclipse
+// Public License v. 2.0 are satisfied: GNU General Public License, version 2
+// with the GNU Classpath Exception which is available at
+// https://www.gnu.org/software/classpath/license.html.
+//
+// SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+==== ColumnTemplate
+
+The `ColumnTemplate` class is a type of Template that makes it easier to work with Column-Family or Wide-Column databases. These NoSQL databases store data in a table-like structure, where each column contains a particular attribute or piece of information.
+
+The `ColumnTemplate` class is designed to help developers quickly work with NoSQL databases and manage complex data structures. It uses the `Template`, allowing flexible and customizable joint operations on the database.
+
+The `ColumnTemplate` class offers excellent flexibility as it can be easily customized according to the needs of different vendors. It allows vendors to use it as a foundation for their NoSQL databases and add specific features or behaviors unique to their databases.
+
+To effectively utilize the specific features of Column-Family or Wild-Column databases, developers require a flexible API that accommodates the variations in the behavior of NoSQL databases. The `ColumnTemplate` class offers this adaptability, allowing the creation of durable and high-performing applications.
+
+[source,java]
+----
+@Inject
+ColumnTemplate template;
+...
+Person person = new Person();
+person.setAddress("Olympus");
+person.setName("Artemis Good");
+person.setPhones(Arrays.asList("55 11 94320121", "55 11 94320121"));
+person.setNickname("artemis");
+
+List<Person> people = Collections.singletonList(person);
+
+Person personUpdated = template.insert(person);
+template.insert(people);
+template.insert(person, Duration.ofHours(1L));
+
+template.update(person);
+template.update(people);
+----
+
+
+The `select` and `delete` methods are two key features of the fluent API provided by the NoSQL Template. These methods enable developers to easily find and delete information from a NoSQL database using a simple and intuitive syntax.
+
+The select method allows developers to query a database and return results that match a specified set of criteria. This method typically takes one or more parameters defining the query's standards, such as a key, value, or other attribute. The query results are usually returned as a collection of objects matching the specified criteria, making it easy for developers to iterate over the results and extract the necessary information.
+
+On the other hand, the delete method allows developers to remove one or more items from a database based on a specified set of criteria. This method typically takes one or more parameters defining the deletion criteria, such as a key, value, or other attribute. The items that match the specified criteria are then removed from the database, making it easy for developers to clean up their data and maintain the integrity of their database.
+
+Both the select and delete methods are designed to be used as part of a fluent API, meaning they can be chained together with other ways to create powerful and flexible queries. This allows developers to build complex queries that are tailored to the specific needs of their application without having to worry about the underlying details of the database.
+
+[source,java]
+----
+@Entity
+public class Person {
+
+    @Id("native_id")
+    private long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private int age;
+}
+----
+
+[source,java]
+----
+@Inject
+ColumnTemplate template;
+...
+List<Person> people = template.select(Person.class)
+        .where("id")
+        .gte(10)
+        .result();
+
+// returning from Person entity where the ID is greater than ten as List
+
+template.delete(Person.class)
+        .where("id")
+        .eq("20")
+        .execute();
+
+//deleting from Person entity where the ID is equals to twenty
+----

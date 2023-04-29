@@ -14,38 +14,32 @@
 
 == Introduction
 
-=== One Mapping API, Multiple Databases
+=== One API, Multiple Databases
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
 
-Jakarta NoSQL defines an API for each NoSQL database type:
-
-* Key-Value
-* Column Family
-* Document
-
-However, it uses the same annotations to map Java objects. Therefore, with just these annotations, whose names match those from the Jakarta Persistence specification, there is support for more than twenty NoSQL databases.
+It uses the same annotations to map Java objects. Therefore, with just these annotations, whose names match those from the Jakarta Persistence specification, there is support for several NoSQL database types.
 
 [source,java]
 ----
 @Entity
-public class Deity {
+public class Book {
 
     @Id
-    private String id;
+    private String isbn;
 
     @Column
-    private String name;
+    private String title;
 
     @Column
-    private String power;
+    private String description;
  //...
 }
 ----
 
-Developers need to consider vendor lock-in when choosing a NoSQL database for their application. For example, if there is a need to switch out a database considerations include: the time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the *Mapping* API.
+Developers must consider low cognitive load when choosing a NoSQL database for their applications. For example, if there is a need to switch out a database, considerations include the time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the API.
 
-Jakarta NoSQL also provides template classes that apply the *Template Method* design pattern to all database operations.
+Jakarta NoSQL also provides `Template` classes that apply the *Template Method* design pattern to all database operations.
 
 === Beyond Jakarta Persistence (JPA)
 
@@ -66,11 +60,11 @@ template.insert(diana, *ttl*);
 
 === A Fluent API
 
-Jakarta NoSQL is a fluent API for Java developers to more easily create queries that either retrieve or delete information in a `Document` database type. For example:
+Jakarta NoSQL is a fluent API for Java developers to more easily create queries that either retrieve or delete information in a `NoSQL` database type. For example:
 
 [source,java]
 ----
-DocumentTemplate template = // instance; a template to document NoSQL operations
+Template template = // instance; a template to document NoSQL operations
 Deity diana = Deity.builder()
         .withId("diana")
         .withName("Diana")
@@ -87,12 +81,10 @@ template.delete(Deity.class).where("name")
         .eq("Diana").execute();
 ----
 
-
 === Key Features
 
-* Simple APIs that support all well-known NoSQL storage types: Key-Value, Column Family, Document databases
+* Simple APIs that support all well-known NoSQL storage types.
+* Specialized NoSQL types: Key-Value, Column Family, Document databases
 * Use of Convention Over Configuration
 * Easy-to-implement API Specification and Technology Compatibility Kit (TCK) for NoSQL Vendors
-* The APIs focus is on simplicity and ease-of-use. Developers should only have to know a minimal set of artifacts to work with Jakarta NoSQL.
-
-include::project_team.adoc[]
+* The API's focus is on simplicity and ease of use. Developers should only know minimal artifacts to work with Jakarta NoSQL.

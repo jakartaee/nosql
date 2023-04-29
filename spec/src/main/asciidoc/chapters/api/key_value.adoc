@@ -1,0 +1,46 @@
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License v. 2.0 which is available at
+// http://www.eclipse.org/legal/epl-2.0.
+//
+// This Source Code may also be made available under the following Secondary
+// Licenses when the conditions for such availability set forth in the Eclipse
+// Public License v. 2.0 are satisfied: GNU General Public License, version 2
+// with the GNU Classpath Exception which is available at
+// https://www.gnu.org/software/classpath/license.html.
+//
+// SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+==== Key-Value Template
+
+The `KeyValueTemplate` class is a type of `Template` made to make key-value databases easier to use. These databases store data as key-value pairs, where each key represents a unique identifier for a piece of data.
+
+The `KeyValueTemplate` class offers developers a straightforward method to handle NoSQL databases and streamline dealing with intricate data structures. This class is based on the Template, which provides a versatile and adaptable approach to define regular tasks that can be executed on a database.
+
+One of the key benefits of the `KeyValueTemplate` class is that it is designed to be highly customizable. Vendors who wish to explore particular NoSQL databases can use the KeyValue class as a starting point and then build on top of it to add support for additional features or behaviors specific to their particular database.
+
+Because the behavior of NoSQL databases can vary widely depending on the specific implementation, it is essential to have a flexible API that allows for specialization. The KeyValue class provides this flexibility and enables developers to build robust and efficient applications that take advantage of the unique features of key-value databases.
+
+It is important to note that key-value databases are primarily oriented toward working with the key and must be better suited for performing complex queries or data analysis. As a result, key-value databases might not support some methods and may return an `UnsupportedOperationException`.
+
+[source,java]
+----
+@Inject
+KeyValueTemplate template;
+...
+
+User user = new User();
+user.setNickname("ada");
+user.setAge(10);
+user.setName("Ada Lovelace");
+List<User> users = Collections.singletonList(user);
+
+template.put(user);
+template.put(users);
+
+Optional<Person> ada = template.get("ada", Person.class);
+Iterable<Person> usersFound = template.get(Collections.singletonList("ada"), Person.class);
+----
+
+WARNING: In key-value templates, both the `@Entity` and `@Id` annotations are required. The `@Id` identifies the key, and the whole entity will be the value. The API won't cover how the value persists this entity.

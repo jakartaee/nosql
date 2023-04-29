@@ -61,3 +61,5 @@ List of NoSQL databases:: http://nosql-database.org/
 Data access object Wiki:: https://en.wikipedia.org/wiki/Data_access_object
 CAP Theorem and Distributed Database Management Systems:: https://towardsdatascience.com/cap-theorem-and-distributed-database-management-systems-5c2be977950e
 Oracle Java EE 9 NoSQL view:: https://javaee.github.io/javaee-spec/download/JavaEE9.pdf
+
+include::project_team.adoc[]

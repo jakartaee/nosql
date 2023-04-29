@@ -23,8 +23,11 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * DocumentTemplate is a helper class that increases productivity when performing common DocumentEntity operations.
- * Includes integrated object mapping between documents and POJOs.
+ * The <b>DocumentTemplate</b> class is a type of <b>Template</b> explicitly made for simplifying
+ * document-oriented tasks on NoSQL databases.
+ * These databases store data as documents, individual data sets that can be grouped into collections.
+ * The query syntax belongs to each provider; thus, it is not Jakarta's NoSQL scope to define it.
+ * Accordingly, it might vary from implementation and NoSQL provider.
  */
 public interface DocumentTemplate extends Template {
 

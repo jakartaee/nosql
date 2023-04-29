@@ -20,11 +20,14 @@ import java.util.Optional;
 
 /**
  * Templates are a helper class that increases productivity when performing common NoSQL operations.
+ * The Template feature in Jakarta NoSQL simplifies the implementation of common database
+ * operations by providing a basic API to the underlying persistence engine.
+ * It follows the standard template pattern, a common design pattern used in software development.
  */
 public interface Template {
 
     /**
-     * Inserts entity
+     * Inserts an entity
      *
      * @param entity entity to insert
      * @param <T>    the instance type
@@ -34,13 +37,13 @@ public interface Template {
     <T> T insert(T entity);
 
     /**
-     * Inserts entity with time to live
+     * Inserts entity with time to live, TTL.
      *
      * @param entity entity to insert
      * @param ttl    the time to live
      * @param <T>    the instance type
      * @return the entity saved
-     * @throws NullPointerException when entity is null
+     * @throws NullPointerException when entity or ttl is null
      */
     <T> T insert(T entity, Duration ttl);
 
@@ -95,9 +98,9 @@ public interface Template {
      * Finds by Id.
      *
      * @param type the entity class
-     * @param id          the id value
-     * @param <T>         the entity class type
-     * @param <K>         the id type
+     * @param id   the id value
+     * @param <T>  the entity class type
+     * @param <K>  the id type
      * @return the entity instance otherwise {@link Optional#empty()}
      * @throws NullPointerException when either the type or id are null
      */
@@ -107,9 +110,9 @@ public interface Template {
      * Deletes by Id.
      *
      * @param type the entity class
-     * @param id          the id value
-     * @param <T>         the entity class type
-     * @param <K>         the id type
+     * @param id   the id value
+     * @param <T>  the entity class type
+     * @param <K>  the id type
      * @throws NullPointerException when either the type or id are null
      */
     <T, K> void delete(Class<T> type, K id);
@@ -118,9 +121,11 @@ public interface Template {
      * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
-     * @param <T>         the entity type
+     * @param <T>  the entity type
      * @return a {@link QueryMapper.MapperFrom} instance
-     * @throws NullPointerException when type is null
+     * @throws NullPointerException          when type is null
+     * @throws UnsupportedOperationException when the database cannot operate,
+     *                                       such as key-value where most operations are key-based.
      */
     <T> QueryMapper.MapperFrom select(Class<T> type);
 
@@ -128,9 +133,11 @@ public interface Template {
      * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
-     * @param <T>         the entity type
+     * @param <T>  the entity type
      * @return a {@link QueryMapper.MapperDeleteFrom} instance
-     * @throws NullPointerException when type is null
+     * @throws NullPointerException          when type is null
+     * @throws UnsupportedOperationException when the database cannot operate,
+     *                                       such as key-value where most operations are key-based.
      */
     <T> QueryMapper.MapperDeleteFrom delete(Class<T> type);
 }

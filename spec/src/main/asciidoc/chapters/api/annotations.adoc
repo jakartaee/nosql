@@ -1,0 +1,131 @@
+// Copyright (c) 2022 Contributors to the Eclipse Foundation
+//
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License v. 2.0 which is available at
+// http://www.eclipse.org/legal/epl-2.0.
+//
+// This Source Code may also be made available under the following Secondary
+// Licenses when the conditions for such availability set forth in the Eclipse
+// Public License v. 2.0 are satisfied: GNU General Public License, version 2
+// with the GNU Classpath Exception which is available at
+// https://www.gnu.org/software/classpath/license.html.
+//
+// SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+=== Annotations
+
+Jakarta NoSQL is a popular specification that provides a standardized way for Java developers to work with non-relational databases. One of the key features of this specification is the use of Java annotations, which provide a simple and intuitive way for developers to map Java objects to NoSQL databases. These annotations allow developers to specify the structure of their data and the relationships between different objects without having to write complex code or queries.
+
+Using Java annotations, developers can significantly simplify their workflow and reduce the time and effort required to work with NoSQL databases. Annotations also make it easier to maintain code and reduce the risk of errors since the database structure is defined clearly and concisely. Additionally, annotations provide high flexibility and customization, allowing developers to tailor the database schema to their specific needs.
+
+Using Java annotations in Jakarta NoSQL represents a significant step forward for developers working with non-relational databases. By providing a standardized approach to mapping Java objects to NoSQL databases, this specification makes working with these robust data storage solutions more effortless and efficient.
+
+Jakarta NoSQL has support for those three types:
+
+* @Entity
+* @Column
+* @Id
+
+==== @Entity
+
+This annotation maps the class to Jakarta NoSQL. There is a single value attribute that specifies the column family name, the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
+
+[source,java]
+----
+@Entity
+public class Person {
+}
+----
+
+[source,java]
+----
+@Entity("ThePerson")
+public class Person {
+}
+----
+
+You can include one or multiple entities without requiring additional annotations like `OneToOne` or `OneToMany` in JPA when using the API. However, it's essential to remember that NoSQL databases have varying behaviors. For instance, in a Document database, these entities may be converted into a subdocument, while on a Key-value, it will be the value.
+
+The sample below shows two entities, Person and Address, where a person has an address.
+
+[source,java]
+----
+@Entity
+public class Person {
+
+    @Id
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private Address address;
+}
+
+@Entity
+public class Address {
+
+    @Column
+    private String street;
+
+    @Column
+    private String city;
+}
+----
+
+The serialization method may differ depending on the NoSQL vendor.
+
+[source,json]
+----
+{
+   "_id":10,
+   "name":"Ada Lovelave",
+   "address":{
+      "city":"São Paulo",
+      "street":"Av Nove de Julho"
+   }
+}
+----
+
+==== @Column
+
+This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database with a default value that is the field name as declared in the class.
+
+[source,java]
+----
+@Entity
+public class Person {
+    @Column
+    private String nickname;
+
+    @Column("personName")
+    private String name;
+
+    @Column
+    private List<String> phones;
+
+    // ignored for Jakarta NoSQL
+    private String address;
+}
+----
+
+==== @Id
+
+This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. Unlike `@Column`, the default value is `_id`.
+
+[source,java]
+----
+@Entity
+public class User {
+
+    @Id
+    private String userName;
+
+    @Column
+    private String name;
+
+    @Column
+    private List<String> phones;
+}
+----
