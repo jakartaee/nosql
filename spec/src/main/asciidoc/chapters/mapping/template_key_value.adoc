@@ -14,9 +14,7 @@
 
 ==== Key-Value Template
 
-This template has the responsibility to serve as the persistence of an entity in a key-value database.
-
-The `KeyValueTemplate` is the template for synchronous tasks.
+The `KeyValueTemplate` is a specialization of `Template` to work with Key-value databases. Remember that this kind of database primarily works with the key. Thus, the select method from the Template might return `UnsupportedOperationException`.
 
 [source,java]
 ----
@@ -39,7 +37,7 @@ Iterable<Person> usersFound = template.get(Collections.singletonList("ada"), Per
 
 WARNING: In key-value templates, both the `@Entity` and `@Id` annotations are required. The `@Id` identifies the key, and the whole entity will be the value. The API won't cover how the value persists this entity.
 
-To use a key-value template, just follow the CDI style and precede the field with the `@Inject` annotation.
+
 
 [source,java]
 ----
