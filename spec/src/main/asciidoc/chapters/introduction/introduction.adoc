@@ -23,16 +23,16 @@ It uses the same annotations to map Java objects. Therefore, with just these ann
 [source,java]
 ----
 @Entity
-public class Deity {
+public class Book {
 
     @Id
-    private String id;
+    private String isbn;
 
     @Column
-    private String name;
+    private String title;
 
     @Column
-    private String power;
+    private String description;
  //...
 }
 ----
