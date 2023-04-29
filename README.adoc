@@ -36,6 +36,8 @@ public class Car {
 
 ----
 
+=== Annotations
+
 The annotations from the Mapping API annotations will look familiar to the Jakarta Persistence/JPA developer:
 
 [cols="Annotation description"]
