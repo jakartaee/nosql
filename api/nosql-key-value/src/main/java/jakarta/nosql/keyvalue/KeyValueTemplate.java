@@ -34,8 +34,10 @@ import static java.util.stream.Collectors.toList;
  */
 
 /**
- * KeyValueTemplate is a helper class that increases productivity when performing common Bucket operations.
- * Includes integrated object mapping between documents and POJOs.
+ * The <b>KeyValueTemplate</b> class is a type of <b>Template</b>
+ * made to make key-value databases easier to use.
+ * These databases store data as key-value pairs, where each key represents a unique identifier
+ * for a piece of data.
  *
  */
 public interface KeyValueTemplate extends Template {
