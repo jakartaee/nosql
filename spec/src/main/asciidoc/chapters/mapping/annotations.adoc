@@ -14,14 +14,9 @@
 
 === Models Annotation
 
-As previously mentioned, the Mapping API provides annotations that make the Java developer's life easier. These annotations can be categorized in two categories:
 
-* Annotation Models
-* Qualifier Annotation
 
-==== Annotation Models
-
-The annotation model converts the entity model into the entity on communication, the communication entity:
+Jakarta NoSQL has support for those three types:
 
 * @Entity
 * @Column
