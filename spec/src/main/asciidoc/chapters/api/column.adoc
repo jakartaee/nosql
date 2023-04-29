@@ -71,13 +71,12 @@ List<Person> people = template.select(Person.class)
         .gte(10)
         .result();
 
-// translating: select().from("Person").where("native_id").gte(10L).build();
+// returning from Person entity where the ID is greater than ten as List
 
 template.delete(Person.class)
         .where("id")
         .eq("20")
         .execute();
 
-// translating: delete().from("Person").where("native_id").gte(10L).build();
-
+//deleting from Person entity where the ID is equals to twenty
 ----
