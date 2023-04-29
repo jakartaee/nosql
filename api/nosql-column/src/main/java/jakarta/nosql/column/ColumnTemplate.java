@@ -23,9 +23,11 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * ColumnTemplate is a helper class that increases productivity when performing common Column Family operations.
- * Includes integrated object mapping between documents and POJOs.
- *
+ * The <b>ColumnTemplate</b> class is a type of <b>Template</b> that makes it easier to work with Column-Family
+ * or Wide-Column databases. These NoSQL databases store data in a table-like structure,
+ * where each column contains a particular attribute or piece of information.
+ * The query syntax belongs to each provider; thus, it is not Jakarta's NoSQL scope to define it.
+ * Accordingly, it might vary from implementation and NoSQL provider.
  */
 public interface ColumnTemplate extends Template {
 
