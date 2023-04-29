@@ -37,7 +37,7 @@ public class Book {
 }
 ----
 
-Developers must consider vendor lock-in and low cognitive load when choosing a NoSQL database for their applications. For example, if there is a need to switch out a database, considerations include the time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the *Mapping* API.
+Developers must consider low cognitive load when choosing a NoSQL database for their applications. For example, if there is a need to switch out a database, considerations include the time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the API.
 
 Jakarta NoSQL also provides `Template` classes that apply the *Template Method* design pattern to all database operations.
 
@@ -60,11 +60,11 @@ template.insert(diana, *ttl*);
 
 === A Fluent API
 
-Jakarta NoSQL is a fluent API for Java developers to more easily create queries that either retrieve or delete information in a `Document` database type. For example:
+Jakarta NoSQL is a fluent API for Java developers to more easily create queries that either retrieve or delete information in a `NoSQL` database type. For example:
 
 [source,java]
 ----
-DocumentTemplate template = // instance; a template to document NoSQL operations
+Template template = // instance; a template to document NoSQL operations
 Deity diana = Deity.builder()
         .withId("diana")
         .withName("Diana")
@@ -80,7 +80,6 @@ List<Deity> deities = template.select(Deity.class)
 template.delete(Deity.class).where("name")
         .eq("Diana").execute();
 ----
-
 
 === Key Features
 
