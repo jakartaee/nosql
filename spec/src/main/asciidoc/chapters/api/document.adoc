@@ -14,10 +14,15 @@
 
 ==== DocumentTemplate
 
-This template has the responsibility to serve as a bridge between the entity model and the communication to a column family NoSQL database type.
+The `DocumentTemplate` class is a type of `Template` explicitly made for simplifying document-oriented tasks on NoSQL databases. These databases store data as documents, individual data sets that can be grouped into collections.
 
+Developers can easily work with document-oriented NoSQL databases and streamline complex data structures using the `DocumentTemplate` class. This class is built on the `Template`, offering a flexible and extensible approach to defining common database operations.
 
-The `DocumentTemplate` is the document template for the synchronous tasks.
+The `DocumentTemplate` class offers excellent flexibility as it can be easily customized according to specific needs. Vendors can use it as a foundation to create support for additional features and behaviors that are unique to their NoSQL databases.
+
+Because the behavior of document-oriented NoSQL databases can vary widely depending on the specific implementation, it is crucial to have a flexible API that allows for specialization. The `DocumentTemplate` class provides this flexibility and enables developers to build robust and efficient applications that take advantage of the unique features of document-oriented NoSQL databases.
+
+One of the primary advantages of document-oriented NoSQL databases is their ability to handle semi-structured or unstructured data, which can be challenging to store and query in traditional relational databases. The DocumentTemplate class is designed to take advantage of this flexibility, providing a simple and intuitive way to work with documents, collections, and queries.
 
 [source,java]
 ----
@@ -79,12 +84,4 @@ template.delete(Person.class)
 
 // translating: delete().from("Person").where("native_id").gte(10L).build();
 }
-----
-
-To use a document template, just follow the CDI style and place an `@Inject` annotation on the field.
-
-[source,java]
-----
-@Inject
-private DocumentTemplate template;
 ----
