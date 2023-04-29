@@ -14,11 +14,11 @@
 
 == Introduction
 
-=== One Mapping API, Multiple Databases
+=== One API, Multiple Databases
 
 Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
 
-However, it uses the same annotations to map Java objects. Therefore, with just these annotations, whose names match those from the Jakarta Persistence specification, there is support for more than twenty NoSQL databases.
+It uses the same annotations to map Java objects. Therefore, with just these annotations, whose names match those from the Jakarta Persistence specification, there is support for several NoSQL database types.
 
 [source,java]
 ----
