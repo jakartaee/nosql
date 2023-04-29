@@ -26,8 +26,6 @@ Jakarta NoSQL has support for those three types:
 * @Column
 * @Id
 
-The Jakarta NoSQL Mapping API does not require getter and setter methods to fields. However, the Entity class must have a non-private constructor with no parameters.
-
 ==== @Entity
 
 This annotation maps the class to Jakarta NoSQL. There is a single value attribute that specifies the column family name, the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
