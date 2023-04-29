@@ -14,7 +14,15 @@
 
 ==== Key-Value Template
 
-The `KeyValueTemplate` is a specialization of `Template` to work with Key-value databases. Remember that this kind of database primarily works with the key. Thus, the `select` and `delete` methods that do a fluent query might return `UnsupportedOperationException`.
+The `KeyValueTemplate` class is a type of `Template` made to make key-value databases easier to use. These databases store data as key-value pairs, where each key represents a unique identifier for a piece of data.
+
+The `KeyValueTemplate` class offers developers a straightforward method to handle NoSQL databases and streamline dealing with intricate data structures. This class is based on the Template, which provides a versatile and adaptable approach to define regular tasks that can be executed on a database.
+
+One of the key benefits of the `KeyValueTemplate` class is that it is designed to be highly customizable. Vendors who wish to explore particular NoSQL databases can use the KeyValue class as a starting point and then build on top of it to add support for additional features or behaviors specific to their particular database.
+
+Because the behavior of NoSQL databases can vary widely depending on the specific implementation, it is essential to have a flexible API that allows for specialization. The KeyValue class provides this flexibility and enables developers to build robust and efficient applications that take advantage of the unique features of key-value databases.
+
+It is important to note that key-value databases are primarily oriented toward working with the key and must be better suited for performing complex queries or data analysis. As a result, key-value databases might not support some methods and may return an `UnsupportedOperationException`.
 
 [source,java]
 ----
@@ -36,9 +44,3 @@ Iterable<Person> usersFound = template.get(Collections.singletonList("ada"), Per
 ----
 
 WARNING: In key-value templates, both the `@Entity` and `@Id` annotations are required. The `@Id` identifies the key, and the whole entity will be the value. The API won't cover how the value persists this entity.
-
-[source,java]
-----
-@Inject
-private KeyValueTemplate template;
-----
