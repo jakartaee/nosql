@@ -88,5 +88,3 @@ template.delete(Deity.class).where("name")
 * Use of Convention Over Configuration
 * Easy-to-implement API Specification and Technology Compatibility Kit (TCK) for NoSQL Vendors
 * The API's focus is on simplicity and ease of use. Developers should only know minimal artifacts to work with Jakarta NoSQL.
-
-include::project_team.adoc[]
