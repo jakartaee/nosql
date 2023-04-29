@@ -12,11 +12,9 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-== Introduction to the Mapping API
+== Jakarta NoSQL's API
 
-The mapping level, to put it differently, has the same goals as either the JPA or ORM. In the NoSQL world, the *OxM* then converts the entity object to a communication model.
-
-This level is responsible to perform integration among technologies such as https://jakarta.ee/specifications/bean-validation/[Bean Validation]. The Mapping API provides annotations that make the Java developer's life easier. As a communication project, it must be extensible and configurable to keep the diversity of NoSQL databases.
+Put differently, Jakarta NoSQL's API has the same goals as the JPA or ORM. In the NoSQL world, the *OxM* then converts the entity object to a communication model that goes to the database.
 
 include::annotations.adoc[]
 
