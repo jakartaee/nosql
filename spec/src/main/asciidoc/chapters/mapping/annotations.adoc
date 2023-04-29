@@ -46,6 +46,8 @@ public class Person {
 
 You can include one or multiple entities without requiring additional annotations like `OneToOne` or `OneToMany` in JPA when using the API. However, it's essential to remember that NoSQL databases have varying behaviors. For instance, in a Document database, these entities may be converted into a subdocument, while on a Key-value, it will be the value.
 
+The sample below shows two entities, Person and Address, where a person has an address.
+
 [source,java]
 ----
 @Entity
@@ -72,6 +74,8 @@ public class Address {
 }
 ----
 
+The serialization method may differ depending on the NoSQL vendor.
+
 [source,json]
 ----
 {
@@ -86,7 +90,7 @@ public class Address {
 
 ==== @Column
 
-This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database with a default value that is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with the `@Key` annotation. All other fields are stored as a single BLOB.
+This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database with a default value that is the field name as declared in the class.
 
 [source,java]
 ----
@@ -101,7 +105,7 @@ public class Person {
     @Column
     private List<String> phones;
 
-    // ignored
+    // ignored for Jakarta NoSQL
     private String address;
 }
 ----
