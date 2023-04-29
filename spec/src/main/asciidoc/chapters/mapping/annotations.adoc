@@ -22,7 +22,7 @@ Jakarta NoSQL has support for those three types:
 
 The Jakarta NoSQL Mapping API does not require getter and setter methods to fields. However, the Entity class must have a non-private constructor with no parameters.
 
-===== @Entity
+==== @Entity
 
 This annotation maps the class to Jakarta NoSQL. There is a single value attribute that specifies the column family name, the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
 
@@ -80,7 +80,7 @@ public class Address {
 }
 ----
 
-===== @Column
+==== @Column
 
 This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database with a default value that is the field name as declared in the class. This annotation is mandatory for non-Key-Value database types. In Key-Value types, only the Key needs to be identified with the `@Key` annotation. All other fields are stored as a single BLOB.
 
@@ -102,7 +102,7 @@ public class Person {
 }
 ----
 
-===== @Id
+==== @Id
 
 This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. In such a case, the Value is the remaining information. It has a single attribute (like `@Column`) to define the native name. Unlike `@Column`, the default value is `_id`.
 
