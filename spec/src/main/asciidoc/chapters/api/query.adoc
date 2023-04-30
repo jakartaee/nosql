@@ -22,8 +22,32 @@ It is important to note that the Jakarta NoSQL specification does not specify th
 
 Overall, the Jakarta NoSQL API's support for query by text provides Java developers with a flexible and intuitive way to perform CRUD operations on NoSQL databases. Although the query syntax is vendor-specific, the common interfaces and methods provided by the Jakarta NoSQL API make it easy to work with any NoSQL database that supports queries by text. The ability to dynamically bind parameters to a query at runtime adds extra flexibility, allowing developers to adapt their queries to changing requirements.
 
+===== Key-Value Database Types
+
 [source,java]
 ----
-Template template = // instance;
-Stream<Person> result = template.query("provider query");
+@Inject
+KeyValueTemplate template;
+
+Stream<User> users = template.query("QUERY BY PROVIDER");
+----
+
+===== Column-Family Database Types
+
+[source,java]
+----
+@Inject
+ColumnTemplate template;
+
+Stream<Person> result = template.query("QUERY BY PROVIDER");
+----
+
+===== Document Database Types
+
+[source,java]
+----
+@Inject
+DocumentTemplate template;
+
+Stream<Person> result = template.query("QUERY BY PROVIDER");
 ----
