@@ -106,7 +106,7 @@ public interface KeyValueTemplate extends Template {
     <K, T> Optional<T> get(K key, Class<T> type);
 
     /**
-     * Executes a native query database.
+     * Executes a query database.
      *
      * @param query the query
      * @param type  the entity class
@@ -117,7 +117,7 @@ public interface KeyValueTemplate extends Template {
     <T> Stream<T> query(String query, Class<T> type);
 
     /**
-     * Executes a native query database then returns as single result
+     * Executes a query database then returns as single result
      *
      * @param query the query
      * @param type  the entity class
@@ -128,7 +128,7 @@ public interface KeyValueTemplate extends Template {
     <T> Optional<T> getSingleResult(String query, Class<T> type);
 
     /**
-     * Executes a native query database and don't return result, e.g.: when the query is either <b>remove</b> or
+     * Executes a query database and don't return result, e.g.: when the query is either <b>remove</b> or
      * <b>put</b>
      *
      * @param query the query
@@ -137,7 +137,7 @@ public interface KeyValueTemplate extends Template {
     void query(String query);
 
     /**
-     * Executes a native query database with {@link PreparedStatement}
+     * Executes a query database with {@link PreparedStatement}
      *
      * @param query the query
      * @param type  the entity class
