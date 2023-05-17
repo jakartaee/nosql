@@ -96,9 +96,9 @@ public interface KeyValueTemplate extends Template {
     /**
      * Finds the Value from a key
      *
-     * @param key         the key
-     * @param <K>         the key type
-     * @param <T>         the entity type
+     * @param key  the key
+     * @param <K>  the key type
+     * @param <T>  the entity type
      * @param type the entity class to convert the result
      * @return the {@link Optional} when is not found will return a {@link Optional#empty()}
      * @throws NullPointerException when the key is null
@@ -106,29 +106,29 @@ public interface KeyValueTemplate extends Template {
     <K, T> Optional<T> get(K key, Class<T> type);
 
     /**
-     * Executes query in the database
+     * Executes a native query database.
      *
-     * @param query       the query
-     * @param type the entity class
-     * @param <T>         the entity type
+     * @param query the query
+     * @param type  the entity class
+     * @param <T>   the entity type
      * @return the result list, if either <b>put</b> or <b>remove</b> it will return empty
      * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
      */
     <T> Stream<T> query(String query, Class<T> type);
 
     /**
-     * Executes query in the database then returns as single result
+     * Executes a native query database then returns as single result
      *
-     * @param query       the query
-     * @param type the entity class
-     * @param <T>         the entity type
+     * @param query the query
+     * @param type  the entity class
+     * @param <T>   the entity type
      * @return the result {@link Optional}, if either <b>put</b> or <b>remove</b> it will return {@link Optional#empty()}
      * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
      */
     <T> Optional<T> getSingleResult(String query, Class<T> type);
 
     /**
-     * Executes query in the database and don't return result, e.g.: when the query is either <b>remove</b> or
+     * Executes a native query database and don't return result, e.g.: when the query is either <b>remove</b> or
      * <b>put</b>
      *
      * @param query the query
@@ -137,11 +137,11 @@ public interface KeyValueTemplate extends Template {
     void query(String query);
 
     /**
-     * Executes query with {@link PreparedStatement}
+     * Executes a native query database with {@link PreparedStatement}
      *
-     * @param query       the query
-     * @param type the entity class
-     * @param <T>         the entity type
+     * @param query the query
+     * @param type  the entity class
+     * @param <T>   the entity type
      * @return a {@link PreparedStatement} instance
      * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
      */
@@ -151,9 +151,9 @@ public interface KeyValueTemplate extends Template {
      * Finds a list of values from keys
      *
      * @param type the entity class
-     * @param keys        the keys to be used in this query
-     * @param <K>         the key type
-     * @param <T>         the entity type
+     * @param keys the keys to be used in this query
+     * @param <K>  the key type
+     * @param <T>  the entity type
      * @return the list of result
      * @throws NullPointerException when either the keys or the entities values are null
      */
