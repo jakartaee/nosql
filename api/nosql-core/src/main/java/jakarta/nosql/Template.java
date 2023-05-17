@@ -44,6 +44,7 @@ public interface Template {
      * @param <T>    the instance type
      * @return the entity saved
      * @throws NullPointerException when entity or ttl is null
+     * @throws UnsupportedOperationException when the database does not provide TTL
      */
     <T> T insert(T entity, Duration ttl);
 
@@ -69,6 +70,7 @@ public interface Template {
      * @param ttl      time to live
      * @return the entity saved
      * @throws NullPointerException when entities is null
+     * @throws UnsupportedOperationException when the database does not provide TTL
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
@@ -95,7 +97,7 @@ public interface Template {
     <T> Iterable<T> update(Iterable<T> entities);
 
     /**
-     * Finds by Id.
+     * Finds by ID or key.
      *
      * @param type the entity class
      * @param id   the id value
@@ -107,7 +109,7 @@ public interface Template {
     <T, K> Optional<T> find(Class<T> type, K id);
 
     /**
-     * Deletes by Id.
+     * Deletes by ID or key.
      *
      * @param type the entity class
      * @param id   the id value
