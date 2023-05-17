@@ -55,7 +55,7 @@ public interface DocumentTemplate extends Template {
 
 
     /**
-     * Executes a query then bring the result as a {@link Stream}
+     * Executes a query database, then bring the result as a {@link Stream}
      *
      * @param query the query
      * @param <T>   the entity type
@@ -66,7 +66,7 @@ public interface DocumentTemplate extends Template {
     <T> Stream<T> query(String query);
 
     /**
-     * Executes a query then bring the result as a unique result
+     * Executes a query database, then bring the result as a unique result
      *
      * @param query the query
      * @param <T>   the entity type
