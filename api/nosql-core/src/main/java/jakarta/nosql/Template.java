@@ -97,7 +97,7 @@ public interface Template {
     <T> Iterable<T> update(Iterable<T> entities);
 
     /**
-     * Finds by Id.
+     * Finds by ID or key.
      *
      * @param type the entity class
      * @param id   the id value
@@ -109,7 +109,7 @@ public interface Template {
     <T, K> Optional<T> find(Class<T> type, K id);
 
     /**
-     * Deletes by Id.
+     * Deletes by ID or key.
      *
      * @param type the entity class
      * @param id   the id value
