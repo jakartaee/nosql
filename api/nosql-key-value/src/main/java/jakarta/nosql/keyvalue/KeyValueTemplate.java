@@ -113,6 +113,7 @@ public interface KeyValueTemplate extends Template {
      * @param <T>   the entity type
      * @return the result list, if either <b>put</b> or <b>remove</b> it will return empty
      * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
+     * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> Stream<T> query(String query, Class<T> type);
 
@@ -124,6 +125,7 @@ public interface KeyValueTemplate extends Template {
      * @param <T>   the entity type
      * @return the result {@link Optional}, if either <b>put</b> or <b>remove</b> it will return {@link Optional#empty()}
      * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
+     * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> Optional<T> getSingleResult(String query, Class<T> type);
 
@@ -133,6 +135,7 @@ public interface KeyValueTemplate extends Template {
      *
      * @param query the query
      * @throws NullPointerException when query is null
+     * @throws UnsupportedOperationException when the provider does not support query by text
      */
     void query(String query);
 
@@ -144,6 +147,7 @@ public interface KeyValueTemplate extends Template {
      * @param <T>   the entity type
      * @return a {@link PreparedStatement} instance
      * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
+     * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> PreparedStatement prepare(String query, Class<T> type);
 
