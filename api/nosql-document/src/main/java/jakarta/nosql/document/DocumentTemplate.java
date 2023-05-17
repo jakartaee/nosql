@@ -61,7 +61,7 @@ public interface DocumentTemplate extends Template {
      * @param <T>   the entity type
      * @return the result as {@link Stream}
      * @throws NullPointerException          when the query is null
-     * @throws UnsupportedOperationException if the specified template does not support this operation
+     * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> Stream<T> query(String query);
 
@@ -72,7 +72,7 @@ public interface DocumentTemplate extends Template {
      * @param <T>   the entity type
      * @return the result as {@link Optional}
      * @throws NullPointerException          when the query is null
-     * @throws UnsupportedOperationException if the specified template does not support this operation
+     * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> Optional<T> singleResult(String query);
 
@@ -82,7 +82,7 @@ public interface DocumentTemplate extends Template {
      * @param query the query
      * @return a {@link PreparedStatement} instance
      * @throws NullPointerException          when the query is null
-     * @throws UnsupportedOperationException if the specified template does not support this operation
+     * @throws UnsupportedOperationException when the provider does not support query by text
      */
     PreparedStatement prepare(String query);
 
