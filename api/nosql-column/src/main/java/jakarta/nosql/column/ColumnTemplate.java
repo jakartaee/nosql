@@ -54,7 +54,7 @@ public interface ColumnTemplate extends Template {
 
 
     /**
-     * Executes a query then bring the result as a {@link Stream}
+     * Executes a native query database then bring the result as a {@link Stream}
      *
      * @param query the query
      * @param <T>   the entity type
@@ -70,8 +70,8 @@ public interface ColumnTemplate extends Template {
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Optional}
-     * @throws NullPointerException                   when the query is null
-     * @throws UnsupportedOperationException          if the specified template does not support this operation
+     * @throws NullPointerException          when the query is null
+     * @throws UnsupportedOperationException if the specified template does not support this operation
      */
     <T> Optional<T> singleResult(String query);
 
