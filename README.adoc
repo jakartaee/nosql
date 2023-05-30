@@ -221,4 +221,3 @@ You don’t need to build from source to use the project, but should you be inte
 ----
 mvn clean install
 ----
-
