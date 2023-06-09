@@ -54,7 +54,7 @@
         <apache.rat.version>0.12</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
         <jacoco.maven.version>0.8.9</jacoco.maven.version>
-        <maven-javadoc-plugin.vesion>3.3.2</maven-javadoc-plugin.vesion>
+        <maven-javadoc-plugin.vesion>3.4.1</maven-javadoc-plugin.vesion>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.checkstyle.plugin.version>3.2.0</maven.checkstyle.plugin.version>
         <maven.compile.version>3.8.1</maven.compile.version>
