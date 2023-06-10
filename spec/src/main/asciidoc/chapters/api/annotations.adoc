@@ -36,6 +36,7 @@ This annotation maps the class to Jakarta NoSQL. There is a single value attribu
 public class Person {
 }
 ----
+In the case of name customization, it just needs to set the value of the @Entity annotation with the desired name as like below:
 
 [source,java]
 ----
