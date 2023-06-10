@@ -91,7 +91,27 @@ The serialization method may differ depending on the NoSQL vendor.
 
 ==== @Column
 
-This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database with a default value that is the field name as declared in the class.
+This annotation defines which fields that belong to an Entity will be persisted. The field name specifies the column name by default.
+
+[source,java]
+----
+@Entity
+public class Person {
+    @Column
+    private String nickname;
+
+    @Column
+    private String name;
+
+    @Column
+    private List<String> phones;
+
+    // ignored for Jakarta NoSQL
+    private String address;
+}
+----
+
+If any customization is needed, it just set the single attribute of the annotation to specify the desired name:
 
 [source,java]
 ----
