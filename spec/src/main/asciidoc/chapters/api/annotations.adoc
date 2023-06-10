@@ -36,6 +36,7 @@ This annotation maps the class to Jakarta NoSQL. There is a single value attribu
 public class Person {
 }
 ----
+In the case of name customization, it just needs to set the value of the @Entity annotation with the desired name as like below:
 
 [source,java]
 ----
@@ -90,7 +91,27 @@ The serialization method may differ depending on the NoSQL vendor.
 
 ==== @Column
 
-This annotation defines which fields that belong to an Entity will be persisted. There is a single attribute that specifies that name in Database with a default value that is the field name as declared in the class.
+This annotation defines which fields that belong to an Entity will be persisted. The field name specifies the column name by default.
+
+[source,java]
+----
+@Entity
+public class Person {
+    @Column
+    private String nickname;
+
+    @Column
+    private String name;
+
+    @Column
+    private List<String> phones;
+
+    // ignored for Jakarta NoSQL
+    private String address;
+}
+----
+
+If any customization is needed, it just set the single attribute of the annotation to specify the desired name:
 
 [source,java]
 ----
@@ -120,6 +141,24 @@ This annotation defines which attribute is the entity's ID, or the Key in Key-Va
 public class User {
 
     @Id
+    private String userName;
+
+    @Column
+    private String name;
+
+    @Column
+    private List<String> phones;
+}
+----
+
+And, like `@Column`, if the ID’s name requires customization, it just set the single attribute of the annotation to specify the desired name:
+
+[source,java]
+----
+@Entity
+public class User {
+
+    @Id("userId")
     private String userName;
 
     @Column
