@@ -150,3 +150,21 @@ public class User {
     private List<String> phones;
 }
 ----
+
+And, like `@Column`, if the ID’s name requires customization, it just set the single attribute of the annotation to specify the desired name:
+
+[source,java]
+----
+@Entity
+public class User {
+
+    @Id("userId")
+    private String userName;
+
+    @Column
+    private String name;
+
+    @Column
+    private List<String> phones;
+}
+----
