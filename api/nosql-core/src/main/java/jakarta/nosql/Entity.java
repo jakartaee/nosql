@@ -22,13 +22,75 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is an entity. This annotation is applied to the entity class.
+ * Specifies that the class is an entity.
+ * <p>
+ * You can include one or multiple entities without requiring additional annotations like {@code OneToOne} or {@code OneToMany} in JPA when using the API.
+ * <p>
+ * The sample below shows two entities, Person and Address, where a person has an address:
+ *
+ * <pre>{@code
+ * @Entity
+ * public class Person {
+ *
+ *     @Id
+ *     private Long id;
+ *
+ *     @Column
+ *     private String name;
+ *
+ *     @Column
+ *     private Address address;
+ * }
+ *
+ * @Entity
+ * public class Address {
+ *     @Column
+ *     private String street;
+ *
+ *     @Column
+ *     private String city;
+ * }
+ * }</pre>
+ * <p>
+ * However, it’s essential to remember that NoSQL databases have varying behaviors then the serialization method may differ depending on the NoSQL vendor. For instance, in a Document database, these entities may be converted into a sub-document, while on a Key-value, it will be the value:
+ *
+ * <pre>{@code
+ * {
+ *     "_id":10,
+ *     "name":"Ada Lovelave",
+ *     "address":{
+ *          "city":"São Paulo",
+ *          "street":"Av Nove de Julho"
+ *     }
+ * }
+ * }</pre>
+ *
+ * @see Id
+ * @see Column
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Entity {
     /**
-     * The name of an entity. Defaults to the unqualified name of the entity class.
+     * The name of an entity. The default value is the unqualified simple name of the class.
+     * <p>
+     * For example, given the {@code org.jakarta.nosql.demo.Person} class, the default name will be {@code Person}:
+     *
+     * <pre>{@code
+     *     @Entity
+     *     public class Person {
+     *     }
+     * }</pre>
+     * <p>
+     * <p>
+     * In the case of name customization, it just needs to set the value of the @Entity annotation with the desired name as like below:
+     *
+     * <pre>{@code
+     *     @Entity("ThePerson")
+     *     public class Person {
+     *     }
+     * }</pre>
+     *
      * @return the entity name (Optional)
      */
     String value() default "";
