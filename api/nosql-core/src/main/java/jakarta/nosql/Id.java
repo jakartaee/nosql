@@ -42,8 +42,10 @@ public @interface Id {
      *
      * }
      * }</pre>
+     *
      * <p>
      * if the entity ID name requires customization, it just set the single attribute of the annotation to specify the desired name:
+     * </p>
      *
      * <pre>{@code
      * @Entity
@@ -54,7 +56,7 @@ public @interface Id {
      *
      * }
      * }</pre>
-     * <p>
+     *
      * @return the entity ID name
      */
     String value() default "_id";

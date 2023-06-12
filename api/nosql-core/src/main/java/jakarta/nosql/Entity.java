@@ -25,8 +25,10 @@ import java.lang.annotation.Target;
  * Specifies that the class is an entity.
  * <p>
  * You can include one or multiple entities without requiring additional annotations like {@code OneToOne} or {@code OneToMany} in JPA when using the API.
+ * </p>
  * <p>
  * The sample below shows two entities, Person and Address, where a person has an address:
+ * </p>
  *
  * <pre>{@code
  * @Entity
@@ -54,6 +56,7 @@ import java.lang.annotation.Target;
  * <p>
  * However, it’s essential to remember that NoSQL databases have varying behaviors then the serialization method may differ depending on the NoSQL vendor.
  * For instance, in a Document database, these entities may be converted into a sub-document, while on a Key-value, it will be the value:
+ * </p>
  *
  * <pre>{@code
  * {
@@ -76,15 +79,17 @@ public @interface Entity {
      * The name of an entity. The default value is the unqualified simple name of the class.
      * <p>
      * For example, given the {@code org.jakarta.nosql.demo.Person} class, the default name will be {@code Person}:
+     * </p>
      *
      * <pre>{@code
      *     @Entity
      *     public class Person {
      *     }
      * }</pre>
-     * <p>
+     *
      * <p>
      * In the case of name customization, it just needs to set the value of the @Entity annotation with the desired name as like below:
+     * </p>
      *
      * <pre>{@code
      *     @Entity("ThePerson")

@@ -28,11 +28,12 @@ import java.util.Optional;
  * The Template pattern involves creating a skeletal structure for an algorithm, with some steps implemented and others left to be implemented by subclasses. Similarly, the
  * Template feature in Jakarta NoSQL makes a skeleton around NoSQL database operations, allowing developers to focus on implementing the specific logic required for their
  * application.
- *
+ * </p>
  * <p>
  * Overall, the Template feature in Jakarta NoSQL provides a simple and efficient way to implement common database operations while following established design patterns like
  * the Template Method. By using the Template feature, developers can save time and effort in implementing their NoSQL database operations, allowing them to focus on other
  * aspects of their application.
+ * </p>
  *
  * <pre>{@code
  * @Inject
@@ -53,12 +54,11 @@ import java.util.Optional;
  * System.out.println("The result " + optional);
  *
  * template.delete(Book.class,id);
- *
  * }</pre>
  * <p>
  * Furthermore, in CRUD operations, Template provides a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID
  * attribute. Take a look at {@link QueryMapper} for more detail about the provided fluent-API.
- *
+ * </p>
  * <pre>{@code
  * @Inject
  * Template template;

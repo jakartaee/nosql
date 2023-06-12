@@ -27,11 +27,13 @@ import java.util.stream.Stream;
  *
  * <p>
  * These databases store data as documents, individual data sets that can be grouped into collections.
+ * </p>
  *
  * <p>
  * This interface provides some methods that accepts queries in a text format to retrieve from the database but,
  * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it.
  * Accordingly, it might vary from implementation and NoSQL provider.</b>
+ * </p>
  */
 public interface DocumentTemplate extends Template {
 
@@ -63,6 +65,7 @@ public interface DocumentTemplate extends Template {
      *
      * <p>
      * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
      *
      * @param query the query
      * @param <T>   the entity type
@@ -77,6 +80,7 @@ public interface DocumentTemplate extends Template {
      *
      * <p>
      * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
      *
      * @param query the query
      * @param <T>   the entity type
@@ -91,6 +95,7 @@ public interface DocumentTemplate extends Template {
      *
      * <p>
      * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
      *
      * @param query the query
      * @return a {@link PreparedStatement} instance

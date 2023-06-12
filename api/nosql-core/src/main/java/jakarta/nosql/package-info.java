@@ -21,5 +21,6 @@
  * The focus of this API is on simplicity and ease of use.
  * Developers should only have to know a minimal set of
  * artifacts to work with the solution.
+ * </p>
  */
 package jakarta.nosql;

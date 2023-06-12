@@ -34,6 +34,7 @@ public @interface Column {
      *
      * <p>
      * The sample below shows the {@code Person} entity where the mapped fields with {@code @Column} will be going be mapped to columns with their respective field name:
+     * </p>
      *
      * <pre>{@code
      * @Entity
@@ -44,10 +45,11 @@ public @interface Column {
      *
      * }
      * }</pre>
+     *
      * <p>
      * If any name customization is needed, it just set the single attribute of the annotation to specify the desired name.
      * In the sample below the Person name field will be mapped to the "personName" column:
-     *
+     * </p>
      * <pre>{@code
      * @Entity
      * public class Person {
