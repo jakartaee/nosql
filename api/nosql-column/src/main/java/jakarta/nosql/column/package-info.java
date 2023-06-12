@@ -15,13 +15,15 @@
  */
 
 /**
- * Defines the API to Column Family in mapping level. This API gonna focus in domain, in other words,
- * ubiquitous language. A column family is a NoSQL object that contains columns of related data. It is a tuple (pair)
+ * Defines the API to Column Family in mapping level. This API going to focus in domain, in other words, ubiquitous language.
+ * <p>
+ * A column family is a NoSQL object that contains columns of related data. It is a tuple (pair)
  * that consists of a key-value pair, where the key is mapped to a value that is a set of columns.
- * In analogy with relational databases, a column family is as a "table", each key-value pair being a "row".
+ * In analogy with relational databases, a column family is as a <b>"table"</b>, each key-value pair being a <b>"row"</b>.
+ * <p>
  * Each column is a tuple (triplet) consisting of a column name, a value, and a timestamp. In a relational
  * database table, this data would be grouped together within a table with other non-related data.
- * Ref: https://en.wikipedia.org/wiki/Column_family
+ * Ref: <a href="https://en.wikipedia.org/wiki/Column_family" target="_blank">https://en.wikipedia.org/wiki/Column_family</a>
  *
  */
 package jakarta.nosql.column;
