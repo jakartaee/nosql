@@ -23,11 +23,17 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * The <b>DocumentTemplate</b> class is a type of <b>Template</b> explicitly made for simplifying
- * document-oriented tasks on NoSQL databases.
+ * {@link Template} specialization for Document-oriented databases.
+ *
+ * <p>
  * These databases store data as documents, individual data sets that can be grouped into collections.
- * The query syntax belongs to each provider; thus, it is not Jakarta's NoSQL scope to define it.
- * Accordingly, it might vary from implementation and NoSQL provider.
+ * </p>
+ *
+ * <p>
+ * This interface provides some methods that accepts queries in a text format to retrieve from the database but,
+ * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it.
+ * Accordingly, it might vary from implementation and NoSQL provider.</b>
+ * </p>
  */
 public interface DocumentTemplate extends Template {
 
@@ -57,6 +63,10 @@ public interface DocumentTemplate extends Template {
     /**
      * Executes a query database, then bring the result as a {@link Stream}
      *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
+     *
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Stream}
@@ -68,6 +78,10 @@ public interface DocumentTemplate extends Template {
     /**
      * Executes a query database, then bring the result as a unique result
      *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
+     *
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Optional}
@@ -78,6 +92,10 @@ public interface DocumentTemplate extends Template {
 
     /**
      * Creates a {@link PreparedStatement} from the query
+     *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
      *
      * @param query the query
      * @return a {@link PreparedStatement} instance

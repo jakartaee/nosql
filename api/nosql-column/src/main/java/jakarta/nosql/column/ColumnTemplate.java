@@ -23,11 +23,17 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * The <b>ColumnTemplate</b> class is a type of <b>Template</b> that makes it easier to work with Column-Family
- * or Wide-Column databases. These NoSQL databases store data in a table-like structure,
+ * {@link Template} specialization for Column-Family or Wide-Column databases.
+ *
+ * <p>
+ * These NoSQL databases store data in a table-like structure,
  * where each column contains a particular attribute or piece of information.
- * The query syntax belongs to each provider; thus, it is not Jakarta's NoSQL scope to define it.
- * Accordingly, it might vary from implementation and NoSQL provider.
+ * </p>
+ * <p>
+ * This interface provides some methods that accepts queries in a text format to retrieve from the database but,
+ * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it.
+ * Accordingly, it might vary from implementation and NoSQL provider.</b>
+ * </p>
  */
 public interface ColumnTemplate extends Template {
 
@@ -56,6 +62,10 @@ public interface ColumnTemplate extends Template {
     /**
      * Executes a native query database then bring the result as a {@link Stream}
      *
+     * <p>
+     * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
+     *
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Stream}
@@ -67,6 +77,10 @@ public interface ColumnTemplate extends Template {
     /**
      * Executes a query then bring the result as a unique result
      *
+     * <p>
+     * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
+     *
      * @param query the query
      * @param <T>   the entity type
      * @return the result as {@link Optional}
@@ -77,6 +91,10 @@ public interface ColumnTemplate extends Template {
 
     /**
      * Creates a {@link PreparedStatement} from the query
+     *
+     * <p>
+     * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
      *
      * @param query the query
      * @return a {@link PreparedStatement} instance

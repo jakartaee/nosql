@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies the primary key of an entity.
+ * Specifies the mapped field of an entity is the entity’s ID, or the Key in Key-Value databases.
  *
  * @see Entity
  */
@@ -30,5 +30,34 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 public @interface Id {
 
+    /**
+     * The name of the entity ID. Default value is {@code _id}.
+     *
+     * <pre>{@code
+     * @Entity
+     * public class User {
+     *
+     *     @Id
+     *     private String userName;
+     *
+     * }
+     * }</pre>
+     *
+     * <p>
+     * if the entity ID name requires customization, it just set the single attribute of the annotation to specify the desired name:
+     * </p>
+     *
+     * <pre>{@code
+     * @Entity
+     * public class User {
+     *
+     *     @Id("userId")
+     *     private String userName;
+     *
+     * }
+     * }</pre>
+     *
+     * @return the entity ID name
+     */
     String value() default "_id";
 }

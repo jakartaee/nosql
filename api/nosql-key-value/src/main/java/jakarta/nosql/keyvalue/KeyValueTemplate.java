@@ -28,18 +28,19 @@ import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toList;
 
-
-/*
- * This interface that represents the common operation between an entity and KeyValueEntity
- */
-
 /**
- * The <b>KeyValueTemplate</b> class is a type of <b>Template</b>
- * made to make key-value databases easier to use.
+ * {@link Template} specialization for Key-Value databases.
+ *
+ * <p>
  * These databases store data as key-value pairs, where each key represents a unique identifier
  * for a piece of data.
- * The query syntax belongs to each provider; thus, it is not Jakarta's NoSQL scope to define it.
- * Accordingly, it might vary from implementation and NoSQL provider.
+ * </p>
+ *
+ * <p>
+ * This interface provides some methods that accepts queries in a text format to retrieve from the database but,
+ * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it.
+ * Accordingly, it might vary from implementation and NoSQL provider.</b>
+ * </p>
  */
 public interface KeyValueTemplate extends Template {
     /**
@@ -108,11 +109,15 @@ public interface KeyValueTemplate extends Template {
     /**
      * Executes a query database.
      *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
+     *
      * @param query the query
      * @param type  the entity class
      * @param <T>   the entity type
      * @return the result list, if either <b>put</b> or <b>remove</b> it will return empty
-     * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
+     * @throws NullPointerException          when query is null, if the query is <b>get</b> the entity class is required
      * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> Stream<T> query(String query, Class<T> type);
@@ -120,11 +125,15 @@ public interface KeyValueTemplate extends Template {
     /**
      * Executes a query database then returns as single result
      *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
+     *
      * @param query the query
      * @param type  the entity class
      * @param <T>   the entity type
      * @return the result {@link Optional}, if either <b>put</b> or <b>remove</b> it will return {@link Optional#empty()}
-     * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
+     * @throws NullPointerException          when query is null, if the query is <b>get</b> the entity class is required
      * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> Optional<T> getSingleResult(String query, Class<T> type);
@@ -134,7 +143,7 @@ public interface KeyValueTemplate extends Template {
      * <b>put</b>
      *
      * @param query the query
-     * @throws NullPointerException when query is null
+     * @throws NullPointerException          when query is null
      * @throws UnsupportedOperationException when the provider does not support query by text
      */
     void query(String query);
@@ -142,11 +151,15 @@ public interface KeyValueTemplate extends Template {
     /**
      * Executes a query database with {@link PreparedStatement}
      *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     * </p>
+     *
      * @param query the query
      * @param type  the entity class
      * @param <T>   the entity type
      * @return a {@link PreparedStatement} instance
-     * @throws NullPointerException when query is null, if the query is <b>get</b> the entity class is required
+     * @throws NullPointerException          when query is null, if the query is <b>get</b> the entity class is required
      * @throws UnsupportedOperationException when the provider does not support query by text
      */
     <T> PreparedStatement prepare(String query, Class<T> type);

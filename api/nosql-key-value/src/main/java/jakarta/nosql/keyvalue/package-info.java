@@ -22,10 +22,14 @@
  * once in the collection.
  * The key-value model is one of the simplest non-trivial data models, and richer data models are often implemented
  * as an extension of it.
+ * </p>
+ * <p>
  * The key-value model can be extended to a discretely ordered model that maintains keys in lexicographic order.
  * This extension is computationally powerful, in that it can efficiently retrieve selective key ranges.
- * Key-value stores can use consistency models ranging from eventual consistency to serializability.
- * Some databases support ordering of keys. There are various hardware implementations, and some users maintain
- * data in memory (RAM), while others employ solid-state drives or rotating disks.
+ * </p>
+ * <p>
+ * Key-value stores can use consistency models ranging from eventual consistency to serializability. Some databases support ordering of keys.
+ * There are various hardware implementations, and some users maintain data in memory (RAM), while others employ solid-state drives or rotating disks.
+ * </p>
  */
 package jakarta.nosql.keyvalue;

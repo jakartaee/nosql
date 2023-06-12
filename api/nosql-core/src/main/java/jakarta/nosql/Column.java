@@ -23,6 +23,8 @@ import java.lang.annotation.Target;
 
 /**
  * Specify the mapped column for a persistent property or field.
+ *
+ * @see Entity
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
@@ -30,7 +32,35 @@ public @interface Column {
     /**
      * (Optional) The name of the column. Defaults to the property or field name.
      *
-     * @return the name
+     * <p>
+     * The sample below shows the {@code Person} entity where the mapped fields with {@code @Column} will be going be mapped to columns with their respective field name:
+     * </p>
+     *
+     * <pre>{@code
+     * @Entity
+     * public class Person {
+     *
+     *     @Column
+     *     private String name;
+     *
+     * }
+     * }</pre>
+     *
+     * <p>
+     * If any name customization is needed, it just set the single attribute of the annotation to specify the desired name.
+     * In the sample below the Person name field will be mapped to the "personName" column:
+     * </p>
+     * <pre>{@code
+     * @Entity
+     * public class Person {
+     *
+     *     @Column("personName")
+     *     private String name;
+     *
+     * }
+     * }</pre>
+     *
+     * @return the column name
      */
     String value() default "";
 }
