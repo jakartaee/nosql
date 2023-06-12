@@ -28,18 +28,15 @@ import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toList;
 
-
-/*
- * This interface that represents the common operation between an entity and KeyValueEntity
- */
-
 /**
- * The <b>KeyValueTemplate</b> class is a type of <b>Template</b>
- * made to make key-value databases easier to use.
+ * {@link Template} specialization for Key-Value databases.
+ *
+ * <p>
  * These databases store data as key-value pairs, where each key represents a unique identifier
  * for a piece of data.
- * The query syntax belongs to each provider; thus, it is not Jakarta's NoSQL scope to define it.
- * Accordingly, it might vary from implementation and NoSQL provider.
+ *
+ * <p>
+ * This interface provides some methods that accepts queries in a text format to retrieve from the database but, <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
  */
 public interface KeyValueTemplate extends Template {
     /**
@@ -108,6 +105,9 @@ public interface KeyValueTemplate extends Template {
     /**
      * Executes a query database.
      *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+     *
      * @param query the query
      * @param type  the entity class
      * @param <T>   the entity type
@@ -119,6 +119,9 @@ public interface KeyValueTemplate extends Template {
 
     /**
      * Executes a query database then returns as single result
+     *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
      *
      * @param query the query
      * @param type  the entity class
@@ -141,6 +144,9 @@ public interface KeyValueTemplate extends Template {
 
     /**
      * Executes a query database with {@link PreparedStatement}
+     *
+     * <p>
+     * <b>The query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
      *
      * @param query the query
      * @param type  the entity class
