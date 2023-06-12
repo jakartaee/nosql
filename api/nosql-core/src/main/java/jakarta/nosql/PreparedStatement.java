@@ -19,13 +19,14 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * An object that represents a precompiled Query statement.
+ * Represents a precompiled Query statement.
+ *
  */
 public interface PreparedStatement {
 
 
     /**
-     * Binds an argument to a positional parameter.
+     * Binds an argument to a named parameter.
      *
      * @param name  the parameter name
      * @param value the parameter value
