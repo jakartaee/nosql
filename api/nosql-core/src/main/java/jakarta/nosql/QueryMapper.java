@@ -442,7 +442,15 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a step where it's possible to perform a logical conjunction or disjunction adding one more condition or end up performing the built query
+     * Represents a step where it's possible to:
+     * <ul>
+     *     <li>Create a new condition performing logical conjunction (AND) by giving a column name</li>
+     *     <li>Or create a new condition performing logical disjunction (OR) by giving a column name</li>
+     *     <li>Or define the position of the first result</li>
+     *     <li>Or define the maximum number of results to retrieve</li>
+     *     <li>Or define the order of the results</li>
+     *     <li>Or to perform the query execution</li>
+     * </ul>
      */
     interface MapperWhere extends MapperQueryBuild {
 
