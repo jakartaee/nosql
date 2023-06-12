@@ -23,6 +23,73 @@ import java.util.Optional;
  * The Template feature in Jakarta NoSQL simplifies the implementation of common database
  * operations by providing a basic API to the underlying persistence engine.
  * It follows the standard template pattern, a common design pattern used in software development.
+ *
+ * <p>
+ * The Template pattern involves creating a skeletal structure for an algorithm, with some steps implemented and others left to be implemented by subclasses. Similarly, the Template feature in Jakarta NoSQL makes a skeleton around NoSQL database operations, allowing developers to focus on implementing the specific logic required for their application.
+ *
+ * <p>
+ * Overall, the Template feature in Jakarta NoSQL provides a simple and efficient way to implement common database operations while following established design patterns like the Template Method. By using the Template feature, developers can save time and effort in implementing their NoSQL database operations, allowing them to focus on other aspects of their application.
+ *
+ * <pre>{@code
+ * @Inject
+ * Template template;
+ *
+ * Book book = Book.builder()
+ *         .id(id)
+ *         .title("Java Concurrency in Practice")
+ *         .author("Brian Goetz")
+ *         .year(Year.of(2006))
+ *         .edition(1)
+ *         .build();
+ *
+ * template.insert(book);
+ *
+ * Optional<Book> optional = template.find(Book.class, id);
+ *
+ * System.out.println("The result " + optional);
+ *
+ * template.delete(Book.class,id);
+ *
+ * }</pre>
+ * <p>
+ * Furthermore, in CRUD operations, Template provides a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID attribute. Take a look at {@link QueryMapper} for more detail about the provided fluent-API.
+ *
+ * <pre>{@code
+ * @Inject
+ * Template template;
+ *
+ * List<Book> books = template.select(Book.class)
+ *         .where("author")
+ *         .eq("Joshua Bloch")
+ *         .and("edition")
+ *         .gt(3)
+ *         .results();
+ *
+ * Stream<Book> books = template.select(Book.class)
+ *         .where("author")
+ *         .eq("Joshua Bloch")
+ *         .stream();
+ *
+ * Optional<Book> optional = template.select(Book.class)
+ *         .where("title")
+ *         .eq("Java Concurrency in Practice")
+ *         .and("author")
+ *         .eq("Brian Goetz")
+ *         .and("year")
+ *         .eq(Year.of(2006))
+ *         .singleResult();
+ *
+ * template.delete(Book.class)
+ *         .where("author")
+ *         .eq("Joshua Bloch")
+ *         .and("edition")
+ *         .gt(3)
+ *         .execute();
+ *
+ * }</pre>
+ *
+ * @see QueryMapper
+ *
  */
 public interface Template {
 
@@ -43,7 +110,7 @@ public interface Template {
      * @param ttl    the time to live
      * @param <T>    the instance type
      * @return the entity saved
-     * @throws NullPointerException when entity or ttl is null
+     * @throws NullPointerException          when entity or ttl is null
      * @throws UnsupportedOperationException when the database does not provide TTL
      */
     <T> T insert(T entity, Duration ttl);
@@ -69,7 +136,7 @@ public interface Template {
      * @param <T>      the instance type
      * @param ttl      time to live
      * @return the entity saved
-     * @throws NullPointerException when entities is null
+     * @throws NullPointerException          when entities is null
      * @throws UnsupportedOperationException when the database does not provide TTL
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
@@ -132,7 +199,7 @@ public interface Template {
     <T> QueryMapper.MapperFrom select(Class<T> type);
 
     /**
-     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
+     * It starts a query builder using the fluent-API journey. It is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
      * @param <T>  the entity type
