@@ -27,13 +27,16 @@
  * <p>
  * Document-oriented databases are inherently a subclass of the key-value store, another NoSQL database concept.
  * <p>
- * The difference lies in the way the data is processed; in a key-value store the data is considered to be inherently opaque to the database, whereas a document-oriented system relies on internal structure in the document in order to extract metadata that the database engine uses for further optimization.
+ * The difference lies in the way the data is processed; in a key-value store the data is considered to be inherently opaque to the database, whereas a document-oriented system
+ * relies on internal structure in the document in order to extract metadata that the database engine uses for further optimization.
  * <p>
  * Although the difference is often moot due to tools in the systems, conceptually the document-store is designed to offer a richer experience with modern programming techniques.
  * <p>
  * Document databases contrast strongly with the traditional relational database (RDB).
- * Relational databases generally store data in separate tables that are defined by the programmer, and a single object may be spread across several tables. Document databases store all information for a given object in a single instance in the database, and every stored
- * object can be different from every other. This makes mapping objects into the database a simple task, normally eliminating anything similar to an
+ * Relational databases generally store data in separate tables that are defined by the programmer, and a single object may be spread across several tables.
+ * Document databases store all information for a given object in a single instance in the database, and every stored
+ * object can be different from every other.
+ * This makes mapping objects into the database a simple task, normally eliminating anything similar to an
  * object-relational mapping. This makes document stores attractive
  * for programming web applications, which are subject to continual change in place, and where speed of deployment is an important issue.
  */

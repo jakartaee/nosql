@@ -52,7 +52,8 @@ import java.lang.annotation.Target;
  * }
  * }</pre>
  * <p>
- * However, it’s essential to remember that NoSQL databases have varying behaviors then the serialization method may differ depending on the NoSQL vendor. For instance, in a Document database, these entities may be converted into a sub-document, while on a Key-value, it will be the value:
+ * However, it’s essential to remember that NoSQL databases have varying behaviors then the serialization method may differ depending on the NoSQL vendor.
+ * For instance, in a Document database, these entities may be converted into a sub-document, while on a Key-value, it will be the value:
  *
  * <pre>{@code
  * {

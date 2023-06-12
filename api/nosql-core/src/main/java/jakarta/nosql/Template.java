@@ -25,10 +25,14 @@ import java.util.Optional;
  * It follows the standard template pattern, a common design pattern used in software development.
  *
  * <p>
- * The Template pattern involves creating a skeletal structure for an algorithm, with some steps implemented and others left to be implemented by subclasses. Similarly, the Template feature in Jakarta NoSQL makes a skeleton around NoSQL database operations, allowing developers to focus on implementing the specific logic required for their application.
+ * The Template pattern involves creating a skeletal structure for an algorithm, with some steps implemented and others left to be implemented by subclasses. Similarly, the
+ * Template feature in Jakarta NoSQL makes a skeleton around NoSQL database operations, allowing developers to focus on implementing the specific logic required for their
+ * application.
  *
  * <p>
- * Overall, the Template feature in Jakarta NoSQL provides a simple and efficient way to implement common database operations while following established design patterns like the Template Method. By using the Template feature, developers can save time and effort in implementing their NoSQL database operations, allowing them to focus on other aspects of their application.
+ * Overall, the Template feature in Jakarta NoSQL provides a simple and efficient way to implement common database operations while following established design patterns like
+ * the Template Method. By using the Template feature, developers can save time and effort in implementing their NoSQL database operations, allowing them to focus on other
+ * aspects of their application.
  *
  * <pre>{@code
  * @Inject
@@ -52,7 +56,8 @@ import java.util.Optional;
  *
  * }</pre>
  * <p>
- * Furthermore, in CRUD operations, Template provides a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID attribute. Take a look at {@link QueryMapper} for more detail about the provided fluent-API.
+ * Furthermore, in CRUD operations, Template provides a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID
+ * attribute. Take a look at {@link QueryMapper} for more detail about the provided fluent-API.
  *
  * <pre>{@code
  * @Inject
@@ -89,7 +94,6 @@ import java.util.Optional;
  * }</pre>
  *
  * @see QueryMapper
- *
  */
 public interface Template {
 

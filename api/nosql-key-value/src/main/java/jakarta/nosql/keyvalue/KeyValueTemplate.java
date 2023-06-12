@@ -36,7 +36,9 @@ import static java.util.stream.Collectors.toList;
  * for a piece of data.
  *
  * <p>
- * This interface provides some methods that accepts queries in a text format to retrieve from the database but, <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it. Accordingly, it might vary from implementation and NoSQL provider.</b>
+ * This interface provides some methods that accepts queries in a text format to retrieve from the database but,
+ * <b>the query syntax belongs to each provider, thus, it is not Jakarta's NoSQL scope to define it.
+ * Accordingly, it might vary from implementation and NoSQL provider.</b>
  */
 public interface KeyValueTemplate extends Template {
     /**

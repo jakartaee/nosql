@@ -45,7 +45,8 @@ public @interface Column {
      * }
      * }</pre>
      * <p>
-     * If any name customization is needed, it just set the single attribute of the annotation to specify the desired name. In the sample below the Person name field will be mapped to the "personName" column:
+     * If any name customization is needed, it just set the single attribute of the annotation to specify the desired name.
+     * In the sample below the Person name field will be mapped to the "personName" column:
      *
      * <pre>{@code
      * @Entity
