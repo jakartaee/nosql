@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * It's a {@link Template} specialization for Column-Family or Wide-Column databases.
+ * {@link Template} specialization for Column-Family or Wide-Column databases.
  *
  * <p>
  * These NoSQL databases store data in a table-like structure,
