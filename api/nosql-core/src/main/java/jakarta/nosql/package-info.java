@@ -17,10 +17,9 @@
 /**
  * Defines the core API in mapping level.
  * It brings an easy interface to support NoSQL databases using as base Jakarta NoSQL.
- * The API's focus is on simplicity and ease of use.
+ * <p>
+ * The focus of this API is on simplicity and ease of use.
  * Developers should only have to know a minimal set of
  * artifacts to work with the solution.
- * The API is built on latest Java 8 features and therefore fit
- * perfectly with the functional features of Java 8.
  */
 package jakarta.nosql;
