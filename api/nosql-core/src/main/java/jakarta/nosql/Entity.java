@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Specifies that the class is an entity.
  * <p>
- * You can include one or multiple entities without requiring additional annotations like {@code OneToOne} or {@code OneToMany} in JPA when using the API.
+You can include one or multiple entities if the Database supports it.
  * <p>
  * The sample below shows two entities, Person and Address, where a person has an address:
  *
