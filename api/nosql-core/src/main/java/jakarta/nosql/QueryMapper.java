@@ -329,12 +329,12 @@ public interface QueryMapper {
 
     /**
      * Represents the step in the query fluent API where it's possible to:
-     * <lu>
+     * <ul>
      *     <li>define the order of the results</li>
      *     <li>or define the position of the first result</li>
      *     <li>or define the maximum number of results to retrieve</li>
      *     <li>or to perform the query execution</li>
-     * </lu>
+     * </ul>
      */
     interface MapperNameOrder extends MapperQueryBuild {
 
