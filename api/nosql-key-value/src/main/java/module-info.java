@@ -13,6 +13,16 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
+/**
+ * The key-value module in mapping level.
+ * <p>
+ * Key-value (KV) stores use the associative array (also known as a map or dictionary) as their fundamental data model.
+ * In this model, data is represented as a collection of key-value pairs, such that each possible key appears at most
+ * once in the collection.
+ * The key-value model is one of the simplest non-trivial data models, and richer data models are often implemented
+ * as an extension of it.
+ * </p>
+ */
 module jakarta.nosql.keyvalue {
     requires jakarta.nosql.core;
     exports jakarta.nosql.keyvalue;
