@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 /**
- * The key-value module in mapping level.
+ * The Jakarta NoSQL key-value module.
  * <p>
  * Key-value (KV) stores use the associative array (also known as a map or dictionary) as their fundamental data model.
  * In this model, data is represented as a collection of key-value pairs, such that each possible key appears at most
