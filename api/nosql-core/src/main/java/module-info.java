@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 /**
- * The Jakarta NoSQL Core.
+ * The Jakarta NoSQL Core module.
  * <p>
  * The focus of this API is on simplicity and ease of use.
  * Developers should only have to know a minimal set of
