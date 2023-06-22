@@ -21,7 +21,7 @@
     <parent>
         <groupId>jakarta.nosql</groupId>
         <artifactId>api-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-b7</version>
     </parent>
     
     <artifactId>nosql-key-value</artifactId>
