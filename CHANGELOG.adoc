@@ -8,6 +8,8 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 == [Unreleased]
 
+== [1.0.0-b7] - 2023-06-22
+
 === Added
 
 * Create test to Java 20
