@@ -191,6 +191,22 @@ public interface Template {
     <T, K> void delete(Class<T> type, K id);
 
     /**
+     * Deletes a given entity. Deletion is performed by matching the Id.
+     *
+     * @param entity must not be {@literal null}.
+     * @throws NullPointerException when the entity is null
+     */
+    <T> void delete(T entity);
+
+    /**
+     * Deletes the given entities. Deletion of each entity is performed by matching the Id.
+     *
+     * @param entities must not be {@literal null}. Must not contain {@literal null} elements.
+     * @throws NullPointerException when either the iterable is null or contains null elements
+     */
+    <T> void delete(Iterable<? extends T> entities);
+
+    /**
      * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
