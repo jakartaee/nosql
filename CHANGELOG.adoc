@@ -8,6 +8,14 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 == [Unreleased]
 
+=== Added
+
+* Add Delete by entity at Template
+
+=== Changed
+
+* Change the KeyValueTemplate method to use deleteByKey
+
 == [1.0.0-b7] - 2023-06-22
 
 === Added
