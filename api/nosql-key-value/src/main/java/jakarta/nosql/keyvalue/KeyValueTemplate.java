@@ -183,7 +183,7 @@ public interface KeyValueTemplate extends Template {
      * @param <K> the key type
      * @throws NullPointerException when the key is null
      */
-    <K> void deleteByKey(K key);
+    <K> void delete(K key);
 
     /**
      * Removes entities from keys
@@ -192,6 +192,6 @@ public interface KeyValueTemplate extends Template {
      * @param <K>  the key type
      * @throws NullPointerException when the key is null
      */
-    <K> void deleteByKey(Iterable<K> keys);
+    <K> void delete(Iterable<K> keys);
 
 }
