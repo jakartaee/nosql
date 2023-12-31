@@ -64,6 +64,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.9.1.2184</sonar.maven.version>
+        <checkstyle.version>10.12.6</checkstyle.version>
     </properties>
 
     <dependencies>
@@ -141,7 +142,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>10.12.0</version>
+                        <version>${checkstyle.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
