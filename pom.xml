@@ -51,7 +51,7 @@
     </developers>
 
     <properties>
-        <apache.rat.version>0.12</apache.rat.version>
+        <apache.rat.version>0.15</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
         <jacoco.maven.version>0.8.11</jacoco.maven.version>
         <maven-javadoc-plugin.vesion>3.6.3</maven-javadoc-plugin.vesion>
