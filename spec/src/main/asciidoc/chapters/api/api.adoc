@@ -70,8 +70,3 @@ template.delete(Book.class)
         .gt(3)
         .execute();
 ----
-
-include::key_value.adoc[]
-include::column.adoc[]
-include::document.adoc[]
-include::query.adoc[]
