@@ -39,3 +39,12 @@ While Jakarta NoSQL aims to enhance productivity and simplify integration with N
 2. **Full Compatibility with Every NoSQL Database**: Jakarta NoSQL aims to provide a standardized approach for working with NoSQL databases. However, it may offer partial compatibility with every NoSQL database on the market. Compatibility may vary based on the database type and specific features supported by each database.
 
 3. **Replacing Database-specific Features**: Jakarta NoSQL does not intend to remove all database-specific features provided by individual NoSQL databases. While it offers a standard set of APIs and annotations, developers may still need to leverage database-specific features directly for certain advanced use cases.
+
+=== Conventions
+
+The terms, _entity attribute_ and _entity property_, are used interchangeably throughout the specification.
+
+The lower case terms, _slice_ and _page_, are used interchangeably throughout the specification. Where there is a need to distinguish, the class name, `Slice` or `Page`, is used.
+
+
+include::project_team.adoc[]
