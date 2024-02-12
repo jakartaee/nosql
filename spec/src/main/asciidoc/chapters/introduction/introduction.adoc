@@ -14,86 +14,28 @@
 
 == Introduction
 
-=== One API, Multiple Databases
+In the ever-evolving landscape of modern application development, NoSQL databases have emerged as a vital component for handling vast amounts of unstructured data efficiently. Jakarta NoSQL bridges the gap between Java applications and NoSQL databases by offering a comprehensive set of APIs, annotations, and SPIs. These standardized tools empower developers to seamlessly integrate their Java applications with various types of NoSQL databases, ensuring flexibility and agility in database selection without compromising application logic.
 
-Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
+At its core, Jakarta NoSQL aims to simplify the complexity associated with NoSQL database integration, providing a unified approach for developers to interact with different database systems. By abstracting away the intricacies of database-specific operations, such as data modeling, querying, and transaction management, Jakarta NoSQL fosters a consistent development experience across diverse NoSQL technologies. This abstraction layer not only streamlines development efforts but also future-proofs applications against changes in underlying database implementations, enabling smooth transitions between different NoSQL solutions as project requirements evolve.
 
-It uses the same annotations to map Java objects. Therefore, with just these annotations, whose names match those from the Jakarta Persistence specification, there is support for several NoSQL database types.
+Furthermore, Jakarta NoSQL fosters a vibrant ecosystem by encouraging collaboration between developers, database vendors, and the wider Java community. Its extensible architecture allows for the seamless integration of custom database implementations, ensuring compatibility with both established and emerging NoSQL technologies. With Jakarta NoSQL, developers can focus on building robust, scalable applications while leveraging the strengths of NoSQL databases, confident in the knowledge that their code remains portable, adaptable, and primed for future innovation.
 
-[source,java]
-----
-@Entity
-public class Book {
+=== Goal
 
-    @Id
-    private String isbn;
+The primary goal of Jakarta NoSQL is to streamline and enhance productivity in performing everyday NoSQL operations within Java applications. In the ever-expanding landscape of data management, NoSQL databases have emerged as powerful tools for handling diverse data structures and massive volumes of information. Jakarta NoSQL aims to facilitate seamless integration between Java applications and NoSQL databases, providing developers with a standardized and efficient approach to interacting with these databases.
 
-    @Column
-    private String title;
+1. **Increasing Productivity**: Jakarta NoSQL is designed to simplify the process of working with NoSQL databases, enabling developers to focus on application logic rather than the intricacies of database management. By offering standardized APIs, annotations, and query languages, Jakarta NoSQL reduces the learning curve associated with integrating and interacting with various NoSQL database systems.
 
-    @Column
-    private String description;
- //...
-}
-----
+2. **Rich Object Mapping**: One of the core features of Jakarta NoSQL is its support for rich object mapping. This feature allows developers to map Java objects directly to NoSQL database structures, eliminating the need for complex data transformation code. By providing a seamless mapping mechanism, Jakarta NoSQL enables developers to work with NoSQL databases using familiar object-oriented paradigms, enhancing productivity and code readability.
 
-Developers must consider low cognitive load when choosing a NoSQL database for their applications. For example, if there is a need to switch out a database, considerations include the time spent on the change; the learning curve of a new database API; the code that will be lost; the persistence layer that needs to be replaced, etc. Jakarta NoSQL avoids most of these issues through the API.
+3. **Flexibility and Adaptability**: Jakarta NoSQL is designed to be flexible and adaptable, capable of working with a wide range of NoSQL database systems. Moreover, its extensible architecture allows for the easy integration of new database types and behaviors through extensions. It ensures that Jakarta NoSQL remains relevant and up-to-date in the face of evolving database technologies and requirements.
 
-Jakarta NoSQL also provides `Template` classes that apply the *Template Method* design pattern to all database operations.
+=== Non-Goals
 
-=== Beyond Jakarta Persistence (JPA)
+While Jakarta NoSQL aims to enhance productivity and simplify integration with NoSQL databases, it is essential to clarify its non-goals:
 
-The https://jakarta.ee/specifications/persistence/[Jakarta Persistence] specification is an excellent API for object-relational mapping and has established itself as a Jakarta EE standard. It would be ideal to use the same API for both SQL and NoSQL, but there are behaviors in NoSQL that SQL does not cover, such as time-to-live and asynchronous operations. Jakarta Persistence was simply not designed to handle those features.
+1. **ORM-like Features**: Jakarta NoSQL does not aim to replicate all Object-Relational Mapping (ORM) framework features. While it provides rich object mapping capabilities, it may offer a different level of abstraction and functionality than traditional ORM frameworks for relational databases.
 
-[source,java,subs="quotes"]
-----
-Template template = // instance; a template to document NoSQL operations
-Deity diana = Deity.builder()
-        .withId("diana")
-        .withName("Diana")
-        .withPower("hunt")
-        .build();
+2. **Full Compatibility with Every NoSQL Database**: Jakarta NoSQL aims to provide a standardized approach for working with NoSQL databases. However, it may offer partial compatibility with every NoSQL database on the market. Compatibility may vary based on the database type and specific features supported by each database.
 
-*Duration ttl = Duration.ofSeconds(1);*
-template.insert(diana, *ttl*);
-----
-
-=== A Fluent API
-
-Jakarta NoSQL provides a fluent API for Java developers to more easily create queries that either retrieve or delete information in a `NoSQL` database type. For example, given the scenario below:
-
-[source,java]
-----
-Template template = // instance; a template to document NoSQL operations
-Deity diana = Deity.builder()
-        .withId("diana")
-        .withName("Diana")
-        .withPower("hunt")
-        .build();
-
-template.insert(diana);// insert an entity
-
-----
-
-It’s possible to retrieve information by using the Fluent API which is a uniform way to define query criteria independent of each NoSQL database type:
-
-[source,java]
-----
-List<Deity> deities = template.select(Deity.class)
-        .where("name")
-        .eq("Diana").result(); // SELECT Deity WHERE name equals “Diana”
-----
-And, with this uniform API, it’s possible to perform deletions by providing a flexible criteria selection:
-[source,java]
-----
-template.delete(Deity.class).where("name")
-        .eq("Diana").execute();
-----
-
-=== Key Features
-
-* Simple APIs that support all well-known NoSQL storage types;
-* Specialized NoSQL types: Key-Value, Column Family, Document databases;
-* Use of Convention Over Configuration;
-* Easy-to-implement API Specification and Technology Compatibility Kit (TCK) for NoSQL Vendors;
-* The API's focus is on simplicity and ease of use. Developers should only know minimal artifacts to work with Jakarta NoSQL.
+3. **Replacing Database-specific Features**: Jakarta NoSQL does not intend to remove all database-specific features provided by individual NoSQL databases. While it offers a standard set of APIs and annotations, developers may still need to leverage database-specific features directly for certain advanced use cases.
