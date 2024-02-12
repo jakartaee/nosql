@@ -21,8 +21,8 @@
 <artifactId>spec</artifactId>
 
 <properties>
-    <asciidoctor-maven.version>2.2.5</asciidoctor-maven.version>
-    <asciidoctorj-pdf.version>2.3.7</asciidoctorj-pdf.version>
+    <asciidoctor-maven.version>2.2.6</asciidoctor-maven.version>
+    <asciidoctorj-pdf.version>2.3.12</asciidoctorj-pdf.version>
     <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
     <revisiondate>${maven.build.timestamp}</revisiondate>
     <revremark>Draft</revremark>
