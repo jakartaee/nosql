@@ -38,5 +38,5 @@ include::chapters/license/license-alv2.asciidoc[]
 
 :sectnums:
 include::chapters/introduction/introduction.adoc[]
+include::chapters/api/entity.adoc[]
 include::chapters/api/api.adoc[]
-include::chapters/references/references.adoc[]
