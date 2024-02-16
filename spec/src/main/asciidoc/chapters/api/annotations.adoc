@@ -185,6 +185,69 @@ This JSON structure represents a serialized `Owner` entity with `name` and `cars
 
 IMPORTANT: It's important to note that not all NoSQL databases support entity associations. Developers should verify the compatibility of association features with their chosen database technology.
 
+=== @Embeddable
+
+The `@Embeddable` annotation in Jakarta NoSQL marks a class as embeddable, as defined by <<embeddable_definition>>. An embeddable class is a class whose instances are stored as an intrinsic part of an owning entity and share the identity of the entity. Each of the persistent properties or fields of the embedded object is mapped to the database table for the entity.
+
+By default, the embedding strategy is FLAT, where the fields of the embedded class are directly mapped to columns in the owning entity's table.
+
+In the example below:
+
+[source,java]
+----
+@Embeddable
+public class Address {
+    @Column
+    private String street;
+    @Column
+    private String city;
+    @Column
+    private String postalCode;
+}
+
+@Entity
+public class Person {
+    @Id
+    private Long id;
+    @Column
+    private String name;
+    @Column
+    private Address address;  // embedded field
+}
+----
+
+Here's the JSON sample for *FLAT* embedding:
+
+[source,json]
+----
+{
+   "id": 1,
+   "name": "John Doe",
+   "address_street": "123 Main St",
+   "address_city": "Sampleville",
+   "address_postalCode": "12345"
+}
+----
+
+In addition to *FLAT*, the *GROUPING* embedding strategy is also available. In GROUPING embedding, the fields of the embedded class are grouped together within a structured type in the owning entity's table.
+
+To specify GROUPING embedding, use `@Embeddable(GROUPING)`.
+
+Here's the JSON sample for GROUPING embedding:
+
+[source,json]
+----
+{
+   "id": 1,
+   "name": "John Doe",
+   "address": {
+      "street": "123 Main St",
+      "city": "Sampleville",
+      "postalCode": "12345"
+   }
+}
+----
+
 === @Id
 
 The `@Id` annotation in Jakarta NoSQL defines the unique identifier for entities within a database. For any entity, it is mandatory to have a field annotated with `@Id` to identify each instance uniquely. According to the specification, the field annotated with `@Id` must be of a basic type defined by <<basic_types>>.
