@@ -185,6 +185,50 @@ This JSON structure represents a serialized `Owner` entity with `name` and `cars
 
 IMPORTANT: It's important to note that not all NoSQL databases support entity associations. Developers should verify the compatibility of association features with their chosen database technology.
 
+=== @Id
+
+The `@Id` annotation in Jakarta NoSQL defines the unique identifier for entities within a database. For any entity, it is mandatory to have a field annotated with `@Id` to identify each instance uniquely. According to the specification, the field annotated with `@Id` must be of a basic type defined by <<basic_types>>.
+
+While the `@Id` annotation allows for a native name, it's essential to note that some NoSQL databases have reserved keywords for their keys. In such cases, if the native name conflicts with a database keyword, the database might ignore it.
+
+Jakarta NoSQL does not provide any strategy for autoincrement when the field annotated with `@Id` is not filled up. The behavior varies with the NoSQL database. For instance, in a Key-Value NoSQL database, a null value for an ID will generate a `NullPointerException`. In other NoSQL databases, it might vary from generating a value to returning an exception error.
+
+Let's consider an example:
+
+[source,java]
+----
+@Entity
+public class User {
+
+    @Id
+    private String userName;
+
+    @Column
+    private String name;
+
+    @Column
+    private List<String> phones;
+}
+----
+
+In this example, the `User` entity includes a field `userName` annotated with `@Id`, indicating that `userName` serves as the unique identifier for instances of the `User` entity.
+
+Here's a generated JSON sample of this structure:
+
+[source,json]
+```json
+{
+   "userName": "john_doe",
+   "name": "John Doe",
+   "phones": [
+      "123456789",
+      "987654321"
+   ]
+}
+```
+
+This JSON structure represents a serialized `User` entity with `userName`, `name`, and `phones` attributes. The `userName` field acts as the unique identifier for the entity.
+
 === @Column
 
 This annotation defines which fields that belong to an Entity will be persisted. The field name specifies the column name by default.
@@ -224,43 +268,5 @@ public class Person {
 
     // A Jakarta NoSQL might ignore this field
     private String address;
-}
-----
-
-=== @Id
-
-This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. Unlike `@Column`, the default value is `_id`.
-
-[source,java]
-----
-@Entity
-public class User {
-
-    @Id
-    private String userName;
-
-    @Column
-    private String name;
-
-    @Column
-    private List<String> phones;
-}
-----
-
-And, like `@Column`, if the ID’s name requires customization, it just set the single attribute of the annotation to specify the desired name:
-
-[source,java]
-----
-@Entity
-public class User {
-
-    @Id("userId")
-    private String userName;
-
-    @Column
-    private String name;
-
-    @Column
-    private List<String> phones;
 }
 ----

@@ -65,7 +65,7 @@ Jakarta NoSQL distinguishes three kinds of persistent field within entity classe
 - An _embedded field_ allows the inclusion of the state of a finer-grained Java class within the state of an entity. The type of an embedded field is often a user-written Java class. Support for embedded fields varies depending on the Jakarta NoSQL provider and the database type.
 - An _association field_ implements an association between entity types. Support for association fields varies depending on the Jakarta NoSQL provider and the database type.
 
-==== Basic Types
+==== Basic Types [[basic_types]]
 
 Every Jakarta NoSQL provider must support the following basic types within its programming model:
 
