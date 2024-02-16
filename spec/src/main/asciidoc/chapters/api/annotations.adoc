@@ -48,22 +48,49 @@ In essence, Jakarta NoSQL annotations empower developers to craft sophisticated 
 
 === @Entity
 
-This annotation maps the class to Jakarta NoSQL. There is a single value attribute that specifies the column family name, the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
+The `@Entity` annotation is the cornerstone for defining persistent entities within Jakarta NoSQL. By annotating a Java class with `@Entity`, developers signify its role as a persistent entity, eligible for storage and retrieval in a NoSQL database. This annotation encapsulates the lifecycle management of entities, facilitating seamless integration with various NoSQL data stores.
+
+==== Entity Definition Reference
+
+First, let's establish a reference for entity definition, denoted by <<entity_definition>>. In Jakarta NoSQL, an entity class is typically annotated with `@Entity` to indicate its persistent nature.
 
 [source,java]
 ----
 @Entity
 public class Person {
+
+@Id
+private UUID id;
+@Column
+private String name;
 }
 ----
-In the case of name customization, it just needs to set the value of the @Entity annotation with the desired name as like below:
+
+In this example, the `Person` class is defined as an entity with an `id` field annotated with `@Id`, which designates it as the primary key, and a `name` field annotated with `@Column`, indicating it as a persistent attribute.
+
+One of the notable features of Jakarta NoSQL is its support for immutable and mutable entity classes. For immutable classes, Jakarta NoSQL provides compatibility with Java records, allowing developers to define compact and immutable entity structures concisely.
 
 [source,java]
 ----
-@Entity("ThePerson")
-public class Person {
+@Entity
+public record Person(@Id private UUID id, @Column private String name) {
 }
 ----
+
+In this sample, the `Person` class is defined as a record, capturing its immutable nature. The `@Id` and `@Column` annotations are applied directly to the constructor parameters, indicating the primary key and persistent attributes.
+
+The serialization method of entity classes may vary depending on the NoSQL vendor and configuration. Here's a sample JSON structure representing a `Person` entity:
+
+[source,json]
+----
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "John Doe"
+}
+----
+
+This JSON structure captures the serialized representation of a `Person` entity with its `id` and `name` attributes. The specific serialization method may differ based on the chosen NoSQL vendor and its corresponding serialization mechanisms.
+
 
 You can include one or multiple entities without requiring additional annotations like `OneToOne` or `OneToMany` in JPA when using the API. However, it's essential to remember that NoSQL databases have varying behaviors. For instance, in a Document database, these entities may be converted into a subdocument, while on a Key-value, it will be the value.
 
