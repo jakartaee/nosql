@@ -132,10 +132,10 @@ Like entities, a programming model for entity classes might support mutable embe
 
 A programming model for entity classes might define an annotation that identifies a user-written class as an embeddable class. For example, Jakarta Persistence defines the annotation `jakarta.persistence.Embeddabe`. Alternatively, the programming model might define an annotation that identifies a field as an embedded field. For example, Jakarta Persistence defines the annotation `jakarta.persistence.Embedded`.
 
-There are two natural ways that a Jakarta Data provider might store the state of an instance of an embedded class in a database:
+There are two natural ways that a Jakarta NoSQL provider might store the state of an instance of an embedded class in a database:
 
 - by _flattening_ the fields of the embeddable class into the data structure representing the parent entity, or
-- by _grouping_ the fields of the embedded class into a fine-grained structured type (a UDT, for example).
+- by _grouping_ the fields of the embedded class into a fine-grained structured type (a User-defined type ,*UDT*, for example).
 
 In a flattened representation of an embedded field, the fields of the embeddable class occur directly alongside the basic fields of the entity class in the data schema of the entity.
 There is no representation of the embeddable class itself in the data schema.
