@@ -335,3 +335,7 @@ Here's a generated JSON sample of this structure:
 ----
 
 This JSON structure represents a serialized `Person` entity with `nickname`, `name`, and `phones` attributes. The `nickname`, `name`, and `phones` fields are mapped to corresponding database columns.
+
+When using the `@Column` annotation, it's important to remember that Key-Value databases usually only require the `@Id` annotation to identify unique entities. The Jakarta NoSQL provider will determine how to serialize the object for storage, which can be combined with other annotations, such as Jakarta JSON Binding, to customize the serialization process. This flexibility allows developers to adapt the serialization process to the specific requirements of their database.
+
+If you use NoSQL databases that serialize information to JSON, you can integrate them with Jakarta JSON Binding. The Jakarta NoSQL provider will define the integration process, ensuring a smooth and efficient serialization of data to the JSON format.
