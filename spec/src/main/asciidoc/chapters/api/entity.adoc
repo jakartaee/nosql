@@ -28,14 +28,13 @@ A _programming model for entity classes_ specifies:
 - a set of restrictions on the implementation of a Java class which allows it to be used as an entity class with a given Jakarta NoSQL provider, and
 - a set of annotations allowing the identification of a Java class as an entity class, and further specification of the schema of the entity.
 
-Jakarta NosQL does not define its own programming model for entities, but instead:
+Jakarta NoSQL defines its programming model for entities explicitly. It relies on annotations provided by the specification. Jakarta NoSQL's programming model allows for seamless integration with custom annotations defined by Jakarta NoSQL providers or extensions.
 
-- allows for vendor-specific entity programming models to be defined by Jakarta Data providers.
+This approach ensures flexibility and interoperability, enabling developers to leverage Jakarta NoSQL's standardized annotations alongside provider-specific annotations for fine-tuning entity behavior and mapping. Additionally, Jakarta NoSQL facilitates integration with other Jakarta EE specifications, fostering a cohesive Java-based NoSQL application development ecosystem.
 
 This section lays out the core requirements that an entity programming model must satisfy in order to be compatible with Jakarta Data, and for the defining provider to be considered a fully-compliant implementation of this specification.
 
-Every entity programming model specifies an _entity-defining annotation_, that is `jakarta.nosql.Entity`. A Jakarta NoSQL provider must provide repository implementations for entity classes bearing the entity-defining annotations it supports, and must ignore entity classes with entity-defining annotations it does not support.
-
+Every entity programming model specifies an _entity-defining annotation_, that is `jakarta.nosql.Entity`.
 
 Furthermore, an entity programming model must define an annotation which identifies the field or property holding the unique identifier of an entity, the `jakarta.nosql.Id`.
 
