@@ -91,10 +91,9 @@ The serialization method of entity classes may vary depending on the NoSQL vendo
 
 This JSON structure captures the serialized representation of a `Person` entity with its `id` and `name` attributes. The specific serialization method may differ based on the chosen NoSQL vendor and its corresponding serialization mechanisms.
 
+==== Associating with Other Entities
 
-You can include one or multiple entities without requiring additional annotations like `OneToOne` or `OneToMany` in JPA when using the API. However, it's essential to remember that NoSQL databases have varying behaviors. For instance, in a Document database, these entities may be converted into a subdocument, while on a Key-value, it will be the value.
-
-The sample below shows two entities, Person and Address, where a person has an address.
+One of the powerful features of Jakarta NoSQL is its ability to associate entities with each other, enabling the creation of complex data structures. When an entity is related to another entity, it is incorporated as an embeddable group within the parent entity, as defined by <<embeddable_definition>>. Let's consider an example where a `Person` entity is associated with an `Address` entity:
 
 [source,java]
 ----
@@ -122,19 +121,69 @@ public class Address {
 }
 ----
 
-The serialization method may differ depending on the NoSQL vendor.
+In this example, the `Person` entity includes a field `address` of type `Address`, indicating the association between the two entities. The `address` field will be represented as a nested structure within the `Person` entity when serialized.
+
+The serialization method of entity classes may vary depending on the NoSQL vendor. Here's a sample JSON structure representing a `Person` entity with an associated `Address`:
 
 [source,json]
 ----
 {
    "_id":10,
-   "name":"Ada Lovelave",
+   "name":"Ada Lovelace",
    "address":{
       "city":"São Paulo",
       "street":"Av Nove de Julho"
    }
 }
 ----
+
+This JSON structure represents a serialized `Person` entity with `id`, `name`, and `address` attributes. The `address` field is a nested structure that includes `city` and `street` attributes from the associated `Address` entity.
+
+Entities can also be associated using collection types like `Iterable`, such as `List` or `Set`. Let's consider an example where an `Owner` entity is associated with multiple `Car` entities:
+
+[source,java]
+----
+@Entity
+public class Owner {
+    @Id
+    private String name;
+   @Column
+    private List<Car> cars;
+}
+
+@Entity
+public class Car {
+    @Column
+    private String make;
+    @Column
+    private String model;
+}
+----
+
+In this example, the `Owner` entity includes a field `cars` of type `List<Car>`, indicating an association between the two entities. The `cars` field will hold a collection of `Car` entities associated with the `Owner`.
+
+The serialization method of entity classes may vary depending on the NoSQL vendor. Here's a sample JSON structure representing an `Owner` entity with associated `Car` entities:
+
+[source,json]
+----
+{
+   "name": "marie Curie",
+   "cars": [
+      {
+         "make": "Toyota",
+         "model": "Camry"
+      },
+      {
+         "make": "Honda",
+         "model": "Accord"
+      }
+   ]
+}
+----
+
+This JSON structure represents a serialized `Owner` entity with `name` and `cars` attributes. The `cars` field is an array containing nested structures representing associated `Car` entities.
+
+IMPORTANT: It's important to note that not all NoSQL databases support entity associations. Developers should verify the compatibility of association features with their chosen database technology.
 
 === @Column
 
