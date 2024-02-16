@@ -12,21 +12,27 @@
 //
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-=== Annotations
+== Annotations
 
-Jakarta NoSQL is a popular specification that provides a standardized way for Java developers to work with non-relational databases. One of the key features of this specification is the use of Java annotations, which provide a simple and intuitive way for developers to map Java objects to NoSQL databases. These annotations allow developers to specify the structure of their data and the relationships between different objects without having to write complex code or queries.
+Jakarta NoSQL introduces a set of annotations designed to streamline and simplify the mapping of Java entities to NoSQL databases. These annotations provide:
 
-Using Java annotations, developers can significantly simplify their workflow and reduce the time and effort required to work with NoSQL databases. Annotations also make it easier to maintain code and reduce the risk of errors since the database structure is defined clearly and concisely. Additionally, annotations provide high flexibility and customization, allowing developers to tailor the database schema to their specific needs.
+* A standardized approach for defining entity classes.
+* Specifying primary keys.
+* Mapping entity properties to database fields.
 
-Using Java annotations in Jakarta NoSQL represents a significant step forward for developers working with non-relational databases. By providing a standardized approach to mapping Java objects to NoSQL databases, this specification makes working with these robust data storage solutions more effortless and efficient.
+Jakarta NoSQL has support for those nine types:
 
-Jakarta NoSQL has support for those three types:
+1. @Entity
+2. @Column
+3. @Id
+4. @Convert
+5. @Embeddable
+6. @MappedSuperclass
+7. @Inheritance
+8. @DiscriminatorValue
+9. @DiscriminatorColumn
 
-* @Entity
-* @Column
-* @Id
-
-==== @Entity
+=== @Entity
 
 This annotation maps the class to Jakarta NoSQL. There is a single value attribute that specifies the column family name, the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
 
@@ -89,7 +95,7 @@ The serialization method may differ depending on the NoSQL vendor.
 }
 ----
 
-==== @Column
+=== @Column
 
 This annotation defines which fields that belong to an Entity will be persisted. The field name specifies the column name by default.
 
@@ -131,7 +137,7 @@ public class Person {
 }
 ----
 
-==== @Id
+=== @Id
 
 This annotation defines which attribute is the entity's ID, or the Key in Key-Value databases. Unlike `@Column`, the default value is `_id`.
 
