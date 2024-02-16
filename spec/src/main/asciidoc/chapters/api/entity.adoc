@@ -1,5 +1,5 @@
 
-== Entity Classes
+== Entity Classes [[entity_definition]]
 
 The notion of an _entity_ is the fundamental building block with which a data model may be constructed.
 Abstractly, an entity (or _entity type_) is a schema for data.
@@ -117,7 +117,7 @@ In addition to the types listed above, an entity programming model might support
 
 NOTE: Many key-value, wide-column, and document databases feature native support for arrays or even associative arrays of these basic types.
 
-==== Embedded Fields and Embeddable Classes
+==== Embedded Fields and Embeddable Classes [[embeddable_definition]]
 
 An _embeddable class_ differs from an entity class in that:
 
