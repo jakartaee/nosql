@@ -32,6 +32,20 @@ Jakarta NoSQL has support for those nine types:
 8. @DiscriminatorValue
 9. @DiscriminatorColumn
 
+In the realm of Jakarta NoSQL, developers wield a powerful arsenal of annotations tailored to meet diverse data modeling needs:
+
+* **@Entity**: The `@Entity` annotation signifies that a Java class represents a persistent entity with a lifecycle managed by the underlying data store. By annotating a class with `@Entity`, developers indicate that instances of this class are subject to CRUD (Create, Read, Update, Delete) operations within the NoSQL database. This annotation not only defines the entity's structure but also denotes its existence beyond the scope of a single Java application instance. In essence, the `@Entity` annotation encapsulates the notion of a domain object that persists beyond the lifetime of a Java process, ensuring consistency and durability in data management.
+* **@Id**: Central to the entity model is the `@Id` annotation, which designates a field as the primary key. This annotation empowers developers to define the unique identifier for each entity, ensuring data integrity and facilitating efficient data retrieval operations.
+* **@Column**: The `@Column` annotation provides fine-grained control over mapping entity properties to database fields. By annotating fields with `@Column`, developers customize the storage and retrieval of data, specifying attributes such as column names, types, and constraints.
+* **@Convert**: With the `@Convert` annotation, developers can seamlessly transform entity attribute values between Java and database types. This annotation offers flexibility in data representation, allowing developers to adapt entity properties to suit the requirements of different database systems.
+* **@Embeddable**: The `@Embeddable` annotation is a Java feature that identifies a class that can be embedded within another entity. It enables developers to create intricate data structures by combining reusable components. This technique makes it possible to represent finer-grained attributes of an entity by using an embeddable class, which encapsulates related data fields into a single logical unit. There are two types of embedding strategies that can be used with this annotation: flattening and grouping. In the flattening strategy, the fields of the embeddable class are directly added to the data schema of the parent entity. In contrast, in the grouping strategy, the fields are grouped within a structured type.
+* **@MappedSuperclass**: The `@MappedSuperclass` annotation is used to define shared attributes and behaviors across multiple entity classes by denoting a superclass whose mappings are applied to its subclasses.
+* **@Inheritance**: The @Inheritance annotation facilitates modeling inheritance hierarchies within entity classes. By default, Jakarta NoSQL supports a single inheritance strategy where subclass information is incorporated into the data structure as a field within the parent entity. In this default strategy, attributes of subclasses are represented as fields within the parent entity, maintaining a denormalized data structure. However, Jakarta NoSQL allows Jakarta Data providers to offer alternative inheritance strategies beyond the default specification.
+* **@DiscriminatorValue**: When using inheritance strategies, the `@DiscriminatorValue` annotation specifies the discriminator value for entities in a single table inheritance hierarchy. This annotation enables database systems to differentiate between subclasses based on a discriminator column value.
+* **@DiscriminatorColumn**: The `@DiscriminatorColumn` annotation configures the discriminator column used in single table inheritance mappings. By annotating a field with `@DiscriminatorColumn`, developers control the storage of discriminator values, ensuring accurate and efficient retrieval of entity subclasses.
+
+In essence, Jakarta NoSQL annotations empower developers to craft sophisticated data models that seamlessly bridge the gap between Java entities and NoSQL databases. With a rich array of annotations at their disposal, developers can unlock the full potential of NoSQL technology, building scalable, efficient, and maintainable applications within the Jakarta EE ecosystem.
+
 === @Entity
 
 This annotation maps the class to Jakarta NoSQL. There is a single value attribute that specifies the column family name, the document collection name, etc. The default value is the simple name of the class. For example, given the `org.jakarta.nosql.demo.Person` class, the default name will be `Person`.
@@ -132,7 +146,7 @@ public class Person {
     @Column
     private List<String> phones;
 
-    // ignored for Jakarta NoSQL
+    // A Jakarta NoSQL might ignore this field
     private String address;
 }
 ----
