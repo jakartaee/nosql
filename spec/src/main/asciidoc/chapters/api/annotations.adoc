@@ -33,8 +33,8 @@ Jakarta NoSQL has support for those nine types:
 5. @Convert
 6. @MappedSuperclass
 7. @Inheritance
-8. @DiscriminatorValue
-9. @DiscriminatorColumn
+8. @DiscriminatorColumn
+9. @DiscriminatorValue
 
 In the realm of Jakarta NoSQL, developers wield a powerful arsenal of annotations tailored to meet diverse data modeling needs:
 
@@ -45,8 +45,8 @@ In the realm of Jakarta NoSQL, developers wield a powerful arsenal of annotation
 * **@Convert**: With the `@Convert` annotation, developers can seamlessly transform entity attribute values between Java and database types. This annotation offers flexibility in data representation, allowing developers to adapt entity properties to suit the requirements of different database systems.
 * **@MappedSuperclass**: The `@MappedSuperclass` annotation is used to define shared attributes and behaviors across multiple entity classes by denoting a superclass whose mappings are applied to its subclasses.
 * **@Inheritance**: The @Inheritance annotation facilitates modeling inheritance hierarchies within entity classes. By default, Jakarta NoSQL supports a single inheritance strategy where subclass information is incorporated into the data structure as a field within the parent entity. In this default strategy, attributes of subclasses are represented as fields within the parent entity, maintaining a denormalized data structure. However, Jakarta NoSQL allows Jakarta Data providers to offer alternative inheritance strategies beyond the default specification.
-* **@DiscriminatorValue**: When using inheritance strategies, the `@DiscriminatorValue` annotation specifies the discriminator value for entities in a single table inheritance hierarchy. This annotation enables database systems to differentiate between subclasses based on a discriminator column value.
 * **@DiscriminatorColumn**: The `@DiscriminatorColumn` annotation configures the discriminator column used in single table inheritance mappings. By annotating a field with `@DiscriminatorColumn`, developers control the storage of discriminator values, ensuring accurate and efficient retrieval of entity subclasses.
+* **@DiscriminatorValue**: When using inheritance strategies, the `@DiscriminatorValue` annotation specifies the discriminator value for entities in a single table inheritance hierarchy. This annotation enables database systems to differentiate between subclasses based on a discriminator column value.
 
 In essence, Jakarta NoSQL annotations empower developers to craft sophisticated data models that seamlessly bridge the gap between Java entities and NoSQL databases. With a rich array of annotations at their disposal, developers can unlock the full potential of NoSQL technology, building scalable, efficient, and maintainable applications within the Jakarta EE ecosystem.
 
@@ -497,3 +497,45 @@ In Jakarta NoSQL, a unique strategy is employed where a single data structure pe
 However, this strategy does have a drawback: it requires that fields corresponding to subclass-specific state be nullable. Despite this limitation, the `@Inheritance` annotation provides a powerful mechanism for organizing and structuring data within Jakarta NoSQL applications, supporting code reuse, maintainability, and flexibility in data modeling.
 
 It's important to note that the `@Inheritance` annotation works in conjunction with other annotations such as `@DiscriminatorValue` and `@DiscriminatorColumn`, which further refine the inheritance mapping strategy and specify how subclass instances are differentiated within the single data structure.
+
+[WARNING]
+====
+It's crucial to note that the `@Inheritance` annotation may not be fully supported in all NoSQL databases, particularly in Key-value databases. Due to the schemaless nature of these databases, the concept of class inheritance and table inheritance, as seen in traditional relational databases, may not apply. Therefore, the use of `@Inheritance` in such environments might lead to unexpected behavior or errors, and the Key-value database may outright ignore this annotation.
+
+Additionally, in cases where serialization is performed via JSON, certain NoSQL databases may not inherently support polymorphism and inheritance. However, Jakarta NoSQL providers may implement solutions using features from Jakarta JSON Binding to handle polymorphic entities effectively. Developers should be aware of these limitations and ensure compatibility with their chosen NoSQL database and serialization mechanisms when employing the `@Inheritance` annotation.
+====
+
+==== @DiscriminatorColumn
+
+The `@DiscriminatorColumn` annotation is utilized to specify the discriminator column for the inheritance mapping strategy within an entity class hierarchy. This annotation is typically applied at the root of the hierarchy, although it can also be used within subhierarchies if a different inheritance strategy is applied.
+
+When using inheritance mapping, the discriminator column serves as a means to differentiate between different subclasses of the entity. This column holds a value that identifies the specific subclass represented by each entity instance in the database.
+
+If the `@DiscriminatorColumn` annotation is not explicitly provided, and a discriminator column is required, the default name for the column is typically "DTYPE" or "dtype", depending on the NoSQL provider. The  discriminator type is set to STRING.
+
+It's essential to note that the `@DiscriminatorColumn` annotation can be applied to both concrete and abstract entity classes. This flexibility allows for precise control over the inheritance mapping strategy within the entity hierarchy.
+
+Let's illustrate the usage of the `@DiscriminatorColumn` annotation with an example:
+
+[source,java]
+----
+@Entity
+@Inheritance
+@DiscriminatorColumn("type")
+public abstract class Notification {
+    @Id
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private LocalDate createdOn;
+
+    public abstract void send();
+}
+----
+
+In this example, the `Notification` class is marked as abstract and serves as the root of an inheritance hierarchy. The `@DiscriminatorColumn("type")` annotation specifies that the discriminator column for this hierarchy will be named "type". This column will hold values indicating the specific subclass type for each entity instance.
+
+
