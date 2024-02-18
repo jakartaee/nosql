@@ -414,7 +414,18 @@ Inheritance in Jakarta NoSQL facilitates polymorphic associations and queries, a
 
 Overall, the support for inheritance in Jakarta NoSQL contributes to the creation of robust and adaptable data models, empowering developers to effectively represent complex domain structures in NoSQL databases.
 
-==== @MappedSuperclass
+
+==== Abstract Entity Classes
+
+In Jakarta NoSQL, an abstract class can be specified as an entity, providing a mechanism for defining common attributes and behaviors that are shared among multiple concrete subclasses. An abstract entity class is annotated with the `@Entity` annotation, indicating its role as a mapped entity within the data model.
+
+Abstract entity classes in Jakarta NoSQL differ from concrete entities primarily in their inability to be directly instantiated. Instead, abstract entities serve as templates or blueprints for concrete subclasses, encapsulating shared functionality and defining a common interface for their subclasses to implement.
+
+Despite being abstract, abstract entity classes are fully mapped as entities and can participate in data manipulation operations such as queries. Queries targeting abstract entity classes will operate over and/or retrieve instances of their concrete subclasses, allowing for polymorphic queries that span the entire inheritance hierarchy.
+
+By leveraging abstract entity classes, developers can effectively organize and structure their data model, promoting code reuse, maintainability, and scalability. Abstract entities encapsulate common attributes and behaviors, fostering a modular and extensible design approach within Jakarta NoSQL applications.
+
+===== @MappedSuperclass
 
 The `@MappedSuperclass` annotation designates a class whose mapping information is applied to the entities that inherit from it. Unlike regular entities, a mapped superclass does not imply the existence of a separate storage structure such as tables in relational databases.
 
