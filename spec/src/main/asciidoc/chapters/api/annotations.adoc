@@ -538,4 +538,80 @@ public abstract class Notification {
 
 In this example, the `Notification` class is marked as abstract and serves as the root of an inheritance hierarchy. The `@DiscriminatorColumn("type")` annotation specifies that the discriminator column for this hierarchy will be named "type". This column will hold values indicating the specific subclass type for each entity instance.
 
+==== @DiscriminatorValue
 
+This annotation specifies the value of the discriminator column for entities of the given type.
+
+The DiscriminatorValue annotation can only be specified on a concrete entity class. If the DiscriminatorValue annotation is not specified, a provider-specific function will be used to generate a value representing the entity type. By default, the discriminator value is derived from the `Class.getSimpleName()`.
+
+The inheritance strategy and the discriminator column are only specified in the root of an entity class hierarchy or subhierarchy in which a different inheritance strategy is applied. The discriminator value, if not defaulted, should be specified for each entity class in the hierarchy.
+
+[source,java]
+----
+@Entity
+@DiscriminatorValue("SMS")
+public class SmsNotification extends Notification {
+
+    @Column
+    private String phoneNumber;
+
+    @Override
+    public void send() {
+        System.out.println("Sending message to sms: " + phoneNumber);
+    }
+}
+
+@Entity
+@DiscriminatorValue("Email")
+public class EmailNotification extends Notification {
+
+    @Column
+    private String emailAddress;
+
+    @Override
+    public void send() {
+        System.out.println("Sending message to email: " + emailAddress);
+    }
+}
+
+@Entity
+// the discriminator value is SocialMediaNotification
+public class SocialMediaNotification extends Notification {
+    @Column
+    private String username;
+
+    @Override
+    public void send() {
+        System.out.println("Sending a post to: " + username);
+    }
+}
+----
+
+This JSON structure represents three different types of notifications: SMS, Email, and Social Media. Each notification has a unique ID, a name, a creation date, and type-specific attributes such as phone number or username. The discriminator value `"type"` indicates the specific subclass of the `Notification` entity.
+
+[source,json]
+----
+[
+  {
+    "id": 1,
+    "name": "Notification 1",
+    "createdOn": "2024-02-14",
+    "type": "SMS",
+    "phoneNumber": "+1234567890"
+  },
+  {
+    "id": 2,
+    "name": "Notification 2",
+    "createdOn": "2024-02-14",
+    "type": "Email",
+    "phoneNumber": "user@example.com"
+  },
+  {
+    "id": 3,
+    "name": "Notification 3",
+    "createdOn": "2024-02-14",
+    "type": "SocialMediaNotification",
+    "username": "socialmedia_user"
+  }
+]
+----
