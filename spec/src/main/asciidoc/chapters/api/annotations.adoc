@@ -343,3 +343,61 @@ This JSON structure represents a serialized `Person` entity with `nickname`, `na
 NOTE: When using the `@Column` annotation, it's important to remember that Key-Value databases usually only require the `@Id` annotation to identify unique entities. The Jakarta NoSQL provider will determine how to serialize the object for storage, which can be combined with other annotations, such as Jakarta JSON Binding, to customize the serialization process. This flexibility allows developers to adapt the serialization process to the specific requirements of their database.
 
 WARNING: If you use NoSQL databases that serialize information to JSON, A Jakarta NoSQL provider can integrate them with Jakarta JSON Binding annotations. The Jakarta NoSQL provider will define the integration process, ensuring a smooth and efficient serialization of data to the JSON format.
+
+=== @Convert
+
+The `@Convert` annotation is used in Jakarta NoSQL to declare that a specific field in an entity class requires conversion using a specified converter. This annotation is useful for converting non-persistent object types to formats that are compatible with the database, which expands data storage and manipulation capabilities.
+
+When you use the `@Convert` annotation, you must provide a converter class as an argument, which specifies the type of conversion to be performed. The converter class must implement the `AttributeConverter` interface and define methods for converting the object type from and to its database representation.
+
+For example, consider the following entity class `Employee`:
+
+[source,java]
+----
+@Entity
+public class Employee {
+
+    @Column
+    private String name;
+
+    @Column
+    private Job job;
+
+    @Column("money")
+    @Convert(MoneyConverter.class)
+    private MonetaryAmount salary;
+}
+----
+
+In this example, the `Employee' entity's' salary' field is annotated with `@Convert`, specifying the `MoneyConverter` class as the converter. The `MoneyConverter` class implements the `AttributeConverter` interface to convert `MonetaryAmount` objects to and from their database representation.
+
+Here's a simplified implementation of the `MoneyConverter` class:
+
+[source,java]
+----
+public class MoneyConverter implements AttributeConverter<MonetaryAmount, String> {
+
+    @Override
+    public String convertToDatabaseColumn(MonetaryAmount appValue) {
+        return appValue.toString();
+    }
+
+    @Override
+    public MonetaryAmount convertToEntityAttribute(String dbValue) {
+        return MonetaryAmount.parse(dbValue);
+    }
+}
+----
+
+Additionally, let's generate a JSON format for this code:
+
+[source,json]
+----
+{
+   "name": "John Doe",
+   "job": "Software Engineer",
+   "money": "USD 5000.00"
+}
+----
+
+In this JSON representation, the `money` field is stored in a database-compatible format after conversion by the `MoneyConverter` class, ensuring seamless integration with the NoSQL database.
