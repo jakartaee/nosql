@@ -401,3 +401,47 @@ Additionally, let's generate a JSON format for this code:
 ----
 
 In this JSON representation, the `money` field is stored in a database-compatible format after conversion by the `MoneyConverter` class, ensuring seamless integration with the NoSQL database.
+
+
+=== @MappedSuperclass
+
+The `@MappedSuperclass` annotation designates a class whose mapping information is applied to the entities that inherit from it. Unlike regular entities, a mapped superclass does not imply the existence of a separate storage structure such as tables in relational databases.
+
+In NoSQL databases, where data is often stored in a schema-less or schema-flexible manner, the concept of inheritance may not directly correspond to table inheritance as seen in relational databases. However, the `@MappedSuperclass` annotation serves a similar purpose by allowing common mappings to be defined in a superclass and inherited by its subclasses.
+
+For example, consider a mapped superclass `Animal`:
+
+[source,java]
+----
+@Entity
+public class Dog extends Animal {
+
+    @Column
+    private String name;
+}
+
+@MappedSuperclass
+public class Animal {
+
+    @Column
+    private String race;
+
+    @Column
+    private Integer age;
+}
+----
+
+In this example, the `Animal` class serves as a mapped superclass where common attributes like `race` and `age` are defined. Subclasses, such as `Dog`, can then inherit these mappings, enabling a consistent data model across entities while accommodating the flexibility of NoSQL database structures.
+
+Here's a JSON sample demonstrating the usage of `Animal` in a subclass `Dog`:
+
+[source,json]
+----
+{
+   "race": "Golden Retriever",
+   "age": 3,
+   "name": "Buddy"
+}
+----
+
+In this JSON representation, the attributes `race` and `age` from the `Animal` superclass are inherited by the `Dog` entity, showcasing the application of mapped superclass mappings to its subclasses.
