@@ -14,11 +14,15 @@
 
 == Annotations
 
-Jakarta NoSQL introduces a set of annotations designed to streamline and simplify the mapping of Java entities to NoSQL databases. These annotations provide:
+Jakarta NoSQL introduces a comprehensive set of annotations tailored to streamline and simplify mapping Java entities to NoSQL databases. These annotations offer:
 
-* A standardized approach for defining entity classes.
-* Specifying primary keys.
-* Mapping entity properties to database fields.
+* A standardized approach for defining entity classes, marked with `@Entity`, to establish the structural blueprint of data entities within the NoSQL environment.
+* Precise specification of primary keys using the `@Id` annotation, essential for uniquely identifying entities within the database.
+* Flexible mapping of entity properties to database fields through the `@Column` annotation, ensuring seamless integration of Java objects with NoSQL data storage.
+* Conversion of non-persistent object types to database-compatible formats facilitated by the `@Convert` annotation, enhancing compatibility and data manipulation capabilities.
+* Embedding of objects within entity structures enabled by the `@Embeddable` annotation, allowing for efficient storage of complex data structures as part of owning entities.
+* Abstraction of common properties and behaviors across multiple entity classes through the `@MappedSuperclass` annotation, promoting code reusability and maintainability.
+* Specifying inheritance strategies using the `@Inheritance`, `@DiscriminatorValue`, and `@DiscriminatorColumn` annotations facilitates polymorphic data modeling within the NoSQL environment.
 
 Jakarta NoSQL has support for those nine types:
 
