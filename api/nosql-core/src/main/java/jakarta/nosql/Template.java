@@ -56,7 +56,8 @@ import java.util.Optional;
  * template.delete(Book.class,id);
  * }</pre>
  * <p>
- * Furthermore, in CRUD (Create, Read, Update, Delete) operations, Template provides a fluent API for selecting, deleting, and querying entities, offering the capability to search and remove beyond the ID
+ * Furthermore, in CRUD (Create, Read, Update, Delete) operations, Template provides a fluent API for selecting,
+ * deleting, and querying entities, offering the capability to search and remove beyond the ID
  * attribute. Take a look at {@link QueryMapper} for more detail about the provided fluent-API.
  * </p>
  * <pre>{@code
@@ -110,6 +111,7 @@ public interface Template {
      * instance that is supplied as a parameter.</p>
      *
      * @param entity the entity to insert. Must not be {@code null}.
+     * @param <T>    the entity type
      * @return the inserted entity, which may or may not be a different instance depending on whether the insert
      * caused values to be generated or automatically incremented.
      * @throws NullPointerException if the entity is null.
@@ -130,6 +132,7 @@ public interface Template {
      *
      * @param entity the entity to insert. Must not be {@code null}.
      * @param ttl    time to live
+     *               @param <T>    the entity type
      * @return the inserted entity, which may or may not be a different instance depending on whether the insert caused
      * values to be generated or automatically incremented.
      * @throws NullPointerException if the entity is null.
@@ -153,6 +156,7 @@ public interface Template {
      * position of entities in the parameter based on the unique identifier of the entity.</p>
      *
      * @param entities entities to insert.
+     *                 @param <T>    the entity type
      * @return an iterable containing the inserted entities, which may or may not be different instances depending
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
@@ -175,6 +179,7 @@ public interface Template {
      * position of entities in the parameter based on the unique identifier of the entity.</p>
      *
      * @param entities entities to insert.
+     *                 @param <T>    the entity type
      * @return an iterable containing the inserted entities, which may or may not be different instances depending
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
@@ -194,7 +199,7 @@ public interface Template {
      * the update.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
-     *
+     *@param <T>    the entity type
      * @param entity the entity to update. Must not be {@code null}.
      * @return the updated entity, which may or may not be a different instance depending on whether the update caused
      * values to be generated or automatically incremented.

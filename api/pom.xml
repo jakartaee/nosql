@@ -23,8 +23,5 @@
 
     <modules>
         <module>nosql-core</module>
-        <module>nosql-key-value</module>
-        <module>nosql-column</module>
-        <module>nosql-document</module>
     </modules>
 </project>

@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Identifies the primary key of an entity.
  * Specifies the mapped field of an entity as the entity’s ID, or the Key in Key-Value databases.
- * <p>
+ *
  * The field or property to which the {@code Id} annotation is
  * applied should have one of the following types:
  * <ul>
@@ -35,8 +35,7 @@ import java.lang.annotation.Target;
  * <li>{@link java.math.BigDecimal};</li>
  * <li>{@link java.math.BigInteger}.</li>
  * </ul>
- * Or it uses the {@link Converter} to convert the type to one of the above types.
- * </p>
+ * Or it uses the {@link Convert} to convert the type to one of the above types.
  * <p>
  * The mapped column for the primary key of the entity is assumed
  * to be the primary key of the database structure.
@@ -53,7 +52,7 @@ import java.lang.annotation.Target;
  *
  * @see Column
  * @see Entity
- * @see Converter
+ * @see Convert
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)

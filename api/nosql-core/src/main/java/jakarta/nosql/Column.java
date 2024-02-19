@@ -27,15 +27,13 @@ import java.lang.annotation.Target;
  * If no {@code Column} annotation is explicitly specified, the field will be ignored by Jakarta NoSQL.
  * </p>
  *
- * <p>
- * Example 1:
+ * Example:
  * <pre>{@code
  * @Column(name = "DESC")
  * private String description;
  * }</pre>
- * </p>
  *
- * @see Converter
+ * @see Convert
  * @see Entity
  * @see Id
  * @since 1.0.0

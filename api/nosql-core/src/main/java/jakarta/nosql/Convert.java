@@ -51,6 +51,7 @@ import java.lang.annotation.Target;
 public @interface Convert {
     /**
      * Specifies the converter to be applied.
+     * @return the converter class
      */
     Class<? extends AttributeConverter<?, ?>> value();
 }
