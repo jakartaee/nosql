@@ -468,7 +468,7 @@ Here's a JSON sample demonstrating the usage of `Animal` in a subclass `Dog`:
 
 In this JSON representation, the attributes `race` and `age` from the `Animal` superclass are inherited by the `Dog` entity, showcasing the application of mapped superclass mappings to its subclasses.
 
-==== @Inheritance
+==== @Inheritance [[inheritance_definition]]
 
 The `@Inheritance` annotation in Jakarta NoSQL enables the use of inheritance strategies within the data model, allowing for the creation of class hierarchies where subclasses inherit attributes and behaviors from their superclass. By applying `@Inheritance` to the superclass, developers can define the inheritance strategy to be used for mapping the class hierarchy to the underlying NoSQL database.
 
