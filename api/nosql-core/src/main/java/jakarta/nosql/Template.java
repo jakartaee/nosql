@@ -22,7 +22,7 @@ import java.util.Optional;
  * Templates are a helper class that increases productivity when performing common NoSQL operations.
  * The Template feature in Jakarta NoSQL simplifies the implementation of common database
  * operations by providing a basic API to the underlying persistence engine.
- * It follows the standard template pattern, a common design pattern used in software development.
+ * It follows the standard DAO (Data Access Object) pattern, a common design pattern used in software development.
  *
  * <p>
  * The Template pattern involves creating a skeletal structure for an algorithm, with some steps implemented and others left to be implemented by subclasses. Similarly, the
@@ -56,7 +56,7 @@ import java.util.Optional;
  * template.delete(Book.class,id);
  * }</pre>
  * <p>
- * Furthermore, in CRUD operations, Template provides a fluent-API for either select or delete entities. Thus, Template offers the capability for search and remove beyond the ID
+ * Furthermore, in CRUD (Create, Read, Update, Delete) operations, Template provides a fluent API for selecting, deleting, and querying entities, offering the capability to search and remove beyond the ID
  * attribute. Take a look at {@link QueryMapper} for more detail about the provided fluent-API.
  * </p>
  * <pre>{@code
@@ -98,77 +98,132 @@ import java.util.Optional;
 public interface Template {
 
     /**
-     * Inserts an entity
+     * Inserts an entity into the database. If an entity of this type with the same
+     * unique identifier already exists in the database and the database supports ACID transactions,
+     * then this method raises an error. In databases that follow the BASE model
+     * or use an append model to write data, this exception is not thrown.
      *
-     * @param entity entity to insert
-     * @param <T>    the instance type
-     * @return the entity saved
-     * @throws NullPointerException when entity is null
+     * <p>The entity instance returned as a result of this method must include all values that were
+     * written to the database, including all automatically generated values and incremented values
+     * that changed due to the insert. After invoking this method, do not continue to use the instance
+     * that is supplied as a parameter. This method makes no guarantees about the state of the
+     * instance that is supplied as a parameter.</p>
+     *
+     * @param entity the entity to insert. Must not be {@code null}.
+     * @return the inserted entity, which may or may not be a different instance depending on whether the insert
+     * caused values to be generated or automatically incremented.
+     * @throws NullPointerException if the entity is null.
      */
     <T> T insert(T entity);
 
     /**
-     * Inserts entity with time to live, TTL.
+     * Inserts an entity into the database with an expiration to the entity. If an entity of this type with the same
+     * unique identifier already exists in the database and the database supports ACID transactions,
+     * then this method raises an error. In databases that follow the BASE model
+     * or use an append model to write data, this exception is not thrown.
      *
-     * @param entity entity to insert
-     * @param ttl    the time to live
-     * @param <T>    the instance type
-     * @return the entity saved
-     * @throws NullPointerException          when entity or ttl is null
+     * <p>The entity instance returned as a result of this method must include all values that were
+     * written to the database, including all automatically generated values and incremented values
+     * that changed due to the insert. After invoking this method, do not continue to use the instance
+     * that is supplied as a parameter. This method makes no guarantees about the state of the
+     * instance that is supplied as a parameter.</p>
+     *
+     * @param entity the entity to insert. Must not be {@code null}.
+     * @param ttl    time to live
+     * @return the inserted entity, which may or may not be a different instance depending on whether the insert caused
+     * values to be generated or automatically incremented.
+     * @throws NullPointerException if the entity is null.
      * @throws UnsupportedOperationException when the database does not provide TTL
      */
     <T> T insert(T entity, Duration ttl);
 
     /**
-     * Inserts entity, by default it's just run for each saving using
-     * {@link Template#insert(Object)}},
-     * each NoSQL vendor might replace to a more appropriate one.
+     * Inserts multiple entities into the database. If any entity of this type with the same
+     * unique identifier as any of the given entities already exists in the database and the database
+     * supports ACID transactions, then this method raises an error.
+     * In databases that follow the BASE model or use an append model to write data, this exception
+     * is not thrown.
      *
-     * @param entities entities to insert
-     * @param <T>      the instance type
-     * @return the entity saved
-     * @throws NullPointerException when entities is null
+     * <p>The entities within the returned {@link Iterable} must include all values that were
+     * written to the database, including all automatically generated values and incremented values
+     * that changed due to the insert. After invoking this method, do not continue to use
+     * the entity instances that are supplied in the parameter. This method makes no guarantees
+     * about the state of the entity instances that are supplied in the parameter.
+     * The position of entities within the {@code Iterable} return value must correspond to the
+     * position of entities in the parameter based on the unique identifier of the entity.</p>
+     *
+     * @param entities entities to insert.
+     * @return an iterable containing the inserted entities, which may or may not be different instances depending
+     * on whether the insert caused values to be generated or automatically incremented.
+     * @throws NullPointerException if the iterable is null or any element is null.
      */
     <T> Iterable<T> insert(Iterable<T> entities);
 
     /**
-     * Inserts entities collection entity with time to live, by default it's just run for each saving using
-     * {@link Template#insert(Object, Duration)},
-     * each NoSQL vendor might replace to a more appropriate one.
+     * Inserts multiple entities into the database with the expiration date. If any entity of this type with the same
+     * unique identifier as any of the given entities already exists in the database and the database
+     * supports ACID transactions, then this method raises an error.
+     * In databases that follow the BASE model or use an append model to write data, this exception
+     * is not thrown.
      *
-     * @param entities entities to be saved
-     * @param <T>      the instance type
-     * @param ttl      time to live
-     * @return the entity saved
-     * @throws NullPointerException          when entities is null
-     * @throws UnsupportedOperationException when the database does not provide TTL
+     * <p>The entities within the returned {@link Iterable} must include all values that were
+     * written to the database, including all automatically generated values and incremented values
+     * that changed due to the insert. After invoking this method, do not continue to use
+     * the entity instances that are supplied in the parameter. This method makes no guarantees
+     * about the state of the entity instances that are supplied in the parameter.
+     * The position of entities within the {@code Iterable} return value must correspond to the
+     * position of entities in the parameter based on the unique identifier of the entity.</p>
+     *
+     * @param entities entities to insert.
+     * @return an iterable containing the inserted entities, which may or may not be different instances depending
+     * on whether the insert caused values to be generated or automatically incremented.
+     * @throws NullPointerException if the iterable is null or any element is null.
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
     /**
-     * Updates an entity
+     * Modifies an entity that already exists in the database.
      *
-     * @param entity entity to update
-     * @param <T>    the instance type
-     * @return the entity updated
-     * @throws NullPointerException when entity is null
+     * <p>For an update to be made, a matching entity with the same unique identifier
+     * must be present in the database. In databases that use an append model to write data or
+     * follow the BASE model, this method behaves the same as the {@link #insert} method.</p>
+     *
+     * <p>If the entity is versioned (for example, with {@code jakarta.persistence.Version} or by
+     * another convention from the entity model such as having an attribute named {@code version}),
+     * then the version must also match. The version is automatically incremented when making
+     * the update.</p>
+     *
+     * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     *
+     * @param entity the entity to update. Must not be {@code null}.
+     * @return the updated entity, which may or may not be a different instance depending on whether the update caused
+     * values to be generated or automatically incremented.
+     * @throws NullPointerException if the entity is null.
      */
     <T> T update(T entity);
 
     /**
-     * Saves entity, by default it's just run for each saving using
-     * {@link Template#update(Object)}},
-     * each NoSQL vendor might replace to a more appropriate one.
+     * Modifies entities that already exist in the database.
      *
-     * @param entities entities to update
-     * @param <T>      the instance type
-     * @return the entity saved
-     * @throws NullPointerException when entities is null
+     * <p>For an update to be made to an entity, a matching entity with the same unique identifier
+     * must be present in the database. In databases that use an append model to write data or
+     * follow the BASE model, this method behaves the same as the {@link #insert(Iterable)} method.</p>
+     *
+     * <p>If the entity is versioned (for example, with {@code jakarta.persistence.Version} or by
+     * another convention from the entity model such as having an attribute named {@code version}),
+     * then the version must also match. The version is automatically incremented when making
+     * the update.</p>
+     *
+     * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     *
+     * @param entities entities to update.
+     * @return the number of matching entities that were found in the database to update.
+     * @throws NullPointerException if either the iterable is null or any element is null.
      */
     <T> Iterable<T> update(Iterable<T> entities);
 
     /**
-     * Finds by ID or key.
+     * Retrieves an entity by its Id.
      *
      * @param type the entity class
      * @param id   the id value
