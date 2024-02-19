@@ -414,6 +414,7 @@ Inheritance in Jakarta NoSQL facilitates polymorphic associations and queries, a
 
 Overall, the support for inheritance in Jakarta NoSQL contributes to the creation of robust and adaptable data models, empowering developers to effectively represent complex domain structures in NoSQL databases.
 
+WARNING: Some NoSQL databases, particularly key-value databases, might not fully support inheritance due to their schemaless nature and limited querying capabilities. Developers should carefully consider the compatibility of their chosen database with inheritance features when designing their data models.
 
 ==== Abstract Entity Classes
 
