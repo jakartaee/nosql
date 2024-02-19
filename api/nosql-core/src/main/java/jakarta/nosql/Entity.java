@@ -88,7 +88,7 @@ import java.lang.annotation.Target;
 public @interface Entity {
     /**
      * The name of the entity. If not specified, defaults to the unqualified simple name of the class.
-     * This name is used to refer to the entity in queries and also to represent the entity in the NoSQL database structure, such as the table name or collection name.
+     * This name is used to refer to the entity in queries and also to represent the name in the NoSQL database structure, such as the table name or collection name.
      * <p>
      * For example, given the class {@code org.jakarta.nosql.demo.Person}, the default name will be {@code Person}.
      * </p>
