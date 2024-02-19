@@ -17,7 +17,7 @@ package jakarta.nosql;
 
 
 /**
- * The root exception to Mapping layer
+ * Thrown by the persistence provider when a problem occurs.
  */
 public class NoSQLException extends RuntimeException {
 

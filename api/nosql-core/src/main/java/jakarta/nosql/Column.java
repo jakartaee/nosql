@@ -35,6 +35,9 @@ import java.lang.annotation.Target;
  * }</pre>
  * </p>
  *
+ * @see Converter
+ * @see Entity
+ * @see Id
  * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
