@@ -616,3 +616,7 @@ This JSON structure represents three different types of notifications: SMS, Emai
   }
 ]
 ----
+
+In case of querying an entity using the `@Inheritance` annotation as defined by <<inheritance_definition>>, the Jakarta NoSQL provider must automatically include the condition where the value from `@DiscriminatorColumn` equals the value of `@DiscriminatorValue`.
+
+For example, given the sample code from <<inheritance_definition>> and executing the query for `SmsNotification`, the generated query should include a condition such as `type = 'SMS'` or its equivalent in the respective NoSQL database.
