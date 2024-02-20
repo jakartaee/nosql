@@ -41,13 +41,14 @@ import java.lang.annotation.Target;
  * to be the primary key of the database structure.
  * </p>
  *
- * <p>Example:
+ * <p>Example:</p>
  * <pre>
  * {@code
  * @Id
  * public Long id;
  * }
  * </pre>
+ * <p>
  * An insertion with an ID value might vary from the vendor, where vendors can throw a NullPointerException,
  * for example, a Key-value database, or apply a strategy of generating value, for example, UUID.
  * </p>
