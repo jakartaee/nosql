@@ -47,7 +47,7 @@ public interface AttributeConverter<X, Y> {
     /**
      * Converts the data stored in the database column into the value to be stored in the entity attribute.
      * Note that it is the responsibility of the converter writer to specify the correct database data type for the
-     * corresponding column for use by the JDBC driver: i.e., persistence providers are not expected to do
+     * corresponding column for use by the NoSQL database: i.e., persistence providers are not expected to do
      * such type conversion.
      *
      * @param dbData the data from the database column to be converted
