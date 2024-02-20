@@ -19,7 +19,7 @@ import java.time.Duration;
 import java.util.Optional;
 
 /**
- * Templates are a helper class that increases productivity when performing common NoSQL operations.
+ * {@code Template} is a helper class that increases productivity when performing common NoSQL operations.
  * The Template feature in Jakarta NoSQL simplifies the implementation of common database
  * operations by providing a basic API to the underlying persistence engine.
  * It follows the standard DAO (Data Access Object) pattern, a common design pattern used in software development.
