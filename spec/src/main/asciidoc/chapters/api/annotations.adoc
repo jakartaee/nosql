@@ -454,7 +454,7 @@ public class Animal {
 }
 ----
 
-In this example, the `Animal` class serves as a mapped superclass where common attributes like `race` and `age` are defined. Subclasses, such as `Dog`, can then inherit these mappings, enabling a consistent data model across entities while accommodating the flexibility of NoSQL database structures.
+In this example, the `Animal` class serves as a mapped superclass where common attributes like `breed` and `age` are defined. Subclasses, such as `Dog`, can then inherit these mappings, enabling a consistent data model across entities while accommodating the flexibility of NoSQL database structures.
 
 Here's a JSON sample demonstrating the usage of `Animal` in a subclass `Dog`:
 
