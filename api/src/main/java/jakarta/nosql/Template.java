@@ -256,7 +256,7 @@ public interface Template {
     <T, K> void delete(Class<T> type, K id);
 
     /**
-     * It starts a query using the fluent-API journey. It is a mutable and non-thread-safe instance.
+     * Start a query using the fluent API. The return value is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
      * @param <T>  the entity type
