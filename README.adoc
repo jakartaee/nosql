@@ -59,8 +59,6 @@ These annotations provide a powerful toolkit for defining and mapping entities i
 
 === Template
 
-=== Template
-
 After mapping an entity, you can explore the advantage of using a `Template` interface, which can increase productivity on NoSQL operations.
 
 [source,java]
