@@ -184,6 +184,8 @@ public interface Template {
      * @return an iterable containing the inserted entities, which may or may not be different instances depending
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
+     * @throws UnsupportedOperationException if the database does not provide time-to-live for insert operations.
+
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
