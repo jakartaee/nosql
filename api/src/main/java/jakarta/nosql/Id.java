@@ -42,10 +42,12 @@ import java.lang.annotation.Target;
  * </p>
  *
  * <p>Example:
- * {@snippet :
+ * <pre>
+ * {@code
  * @Id
  * public Long id;
  * }
+ * </pre>
  * An insertion with an ID value might vary from the vendor, where vendors can throw a NullPointerException,
  * for example, a Key-value database, or apply a strategy of generating value, for example, UUID.
  * </p>

@@ -132,10 +132,10 @@ public interface Template {
      *
      * @param entity the entity to insert. Must not be {@code null}.
      * @param ttl    time to live
-     *               @param <T>    the entity type
+     * @param <T>    the entity type
      * @return the inserted entity, which may or may not be a different instance depending on whether the insert caused
      * values to be generated or automatically incremented.
-     * @throws NullPointerException if the entity is null.
+     * @throws NullPointerException          if the entity is null.
      * @throws UnsupportedOperationException when the database does not provide TTL
      */
     <T> T insert(T entity, Duration ttl);
@@ -156,7 +156,7 @@ public interface Template {
      * position of entities in the parameter based on the unique identifier of the entity.</p>
      *
      * @param entities entities to insert.
-     *                 @param <T>    the entity type
+     * @param <T>      the entity type
      * @return an iterable containing the inserted entities, which may or may not be different instances depending
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
@@ -179,7 +179,8 @@ public interface Template {
      * position of entities in the parameter based on the unique identifier of the entity.</p>
      *
      * @param entities entities to insert.
-     *                 @param <T>    the entity type
+     * @param <T>      the entity type
+     * @param ttl      time to live
      * @return an iterable containing the inserted entities, which may or may not be different instances depending
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
@@ -199,7 +200,8 @@ public interface Template {
      * the update.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
-     *@param <T>    the entity type
+     *
+     * @param <T>    the entity type
      * @param entity the entity to update. Must not be {@code null}.
      * @return the updated entity, which may or may not be a different instance depending on whether the update caused
      * values to be generated or automatically incremented.
@@ -222,6 +224,7 @@ public interface Template {
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
      *
      * @param entities entities to update.
+     * @param <T>      the entity class type
      * @return the number of matching entities that were found in the database to update.
      * @throws NullPointerException if either the iterable is null or any element is null.
      */

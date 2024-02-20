@@ -29,7 +29,8 @@ import java.lang.annotation.Target;
  *
  * <p>The dot notation may also be used with map entries:
  * <p>Convert a basic attribute
- * {@snippet :
+ * <pre>
+ * {@code
  * @Converter
  * public class BooleanToIntegerConverter
  *         implements AttributeConverter<Boolean, Integer> {  ... }
@@ -43,7 +44,7 @@ import java.lang.annotation.Target;
  *     boolean fullTime;
  * }
  * }
- *
+ *</pre>
  * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
