@@ -268,7 +268,7 @@ public interface Template {
     <T> QueryMapper.MapperFrom select(Class<T> type);
 
     /**
-     * It starts a query builder using the fluent-API journey. It is a mutable and non-thread-safe instance.
+     * Start a query builder using the fluent API. The returned value is a mutable and non-thread-safe instance.
      *
      * @param type the entity class
      * @param <T>  the entity type
