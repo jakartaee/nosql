@@ -64,7 +64,7 @@ public @interface Id {
 
     /**
      * The name of the entity ID. Default value is {@code _id}.
-     * This value might be ignored if the NoSQL database has it keyword reserved for keys.
+     * This value might be ignored if the NoSQL database has a keyword reserved for keys.
      * For example:
      * {@code
      * @Entity
