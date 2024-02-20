@@ -467,7 +467,7 @@ Here's a JSON sample demonstrating the usage of `Animal` in a subclass `Dog`:
 }
 ----
 
-In this JSON representation, the attributes `race` and `age` from the `Animal` superclass are inherited by the `Dog` entity, showcasing the application of mapped superclass mappings to its subclasses.
+In this JSON representation, the attributes `breed` and `age` from the `Animal` superclass are inherited by the `Dog` entity, showcasing the application of mapped superclass mappings to its subclasses.
 
 ==== @Inheritance [[inheritance_definition]]
 
