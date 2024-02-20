@@ -461,7 +461,7 @@ Here's a JSON sample demonstrating the usage of `Animal` in a subclass `Dog`:
 [source,json]
 ----
 {
-   "race": "Golden Retriever",
+   "breed": "Golden Retriever",
    "age": 3,
    "name": "Buddy"
 }
