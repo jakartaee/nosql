@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
  * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 public @interface Column {
     /**
      * (Optional) The name of the column. Defaults to the property or field name.
