@@ -25,29 +25,36 @@ In Jakarta NoSQL, the concrete definition of an entity may be understood to enco
 
 A _programming model for entity classes_ specifies:
 
-- a set of restrictions on the implementation of a Java class which allows it to be used as an entity class with a given Jakarta NoSQL provider, and
-- a set of annotations allowing the identification of a Java class as an entity class, and further specification of the schema of the entity.
+- a set of restrictions on the implementation of a Java class that allows it to be used as an entity class with a given Jakarta NoSQL provider, and
+- a set of annotations allowing the identification of a Java class as an entity class, and further specification of the entity's schema.
 
 Jakarta NoSQL defines its programming model for entities explicitly. It relies on annotations provided by the specification. Jakarta NoSQL's programming model allows for seamless integration with custom annotations defined by Jakarta NoSQL providers or extensions.
 
 This approach ensures flexibility and interoperability, enabling developers to leverage Jakarta NoSQL's standardized annotations alongside provider-specific annotations for fine-tuning entity behavior and mapping. Additionally, Jakarta NoSQL facilitates integration with other Jakarta EE specifications, fostering a cohesive Java-based NoSQL application development ecosystem.
 
-This section lays out the core requirements that an entity programming model must satisfy in order to be compatible with Jakarta Data, and for the defining provider to be considered a fully-compliant implementation of this specification.
+This section lays out the core requirements that an entity programming model must satisfy to be compatible with Jakarta Data and for the defining provider to be considered a fully compliant implementation of this specification.
 
-Every entity programming model specifies an _entity-defining annotation_, that is `jakarta.nosql.Entity`.
+Every entity programming model specifies an _entity-defining annotation_, `jakarta.nosql.Entity`.
 
-Furthermore, an entity programming model must define an annotation which identifies the field or property holding the unique identifier of an entity, the `jakarta.nosql.Id`.
+Furthermore, an entity programming model must define an annotation that identifies the field or property holding the unique identifier of an entity, the `Jakarta.nosql.Id`.
 
-Typically, an entity programming model specifies additional annotations which are used to make the schema of the entity explicit, for example, `jakarta.nosql.Id` and `jakarta.nosql.Column`. The nature of such annotations is beyond the scope of this specification.
+Typically, an entity programming model specifies additional annotations used to make the entity schema explicit, for example, `jakarta.nosql.Id` and `jakarta.nosql.Column`. The nature of such annotations is beyond the scope of this specification.
 
-In a given entity programming model, entity classes might always be mutable, or might always be immutable, or, alternatively, the model might support a mix of mutable and immutable entity classes.
+In a given entity programming model, entity classes are always mutable, or immutable, or the model might support a mix of mutable and immutable entity classes.
 
-- A programming model which supports immutable entity classes may require that every mutable entity class declare a constructor with no parameters, and might place limits on the visibility of this constructor.
-- A programming model which supports the use of immutable entity classes--ideally represented as Java `record` types--would not typically require the existence of such a constructor.
+- A programming model that supports immutable entity classes may require that every mutable entity class declare a constructor with no parameters and might limit this constructor's visibility.
+- A programming model that supports the use of immutable entity classes--ideally represented as Java `record` types--would not typically require the existence of such a constructor.
 
-In either case, an entity programming model might place restrictions on the visibility of fields and property accessors of an entity class.
+In either case, an entity programming model might restrict the visibility of an entity class's fields and property accessors.
 
-An entity programming model might support inheritance between entities, and might provide support for retrieval of entities in a polymorphic fashion. Support for inheritance is not required by this specification.
+An entity programming model might support inheritance between entities and provide support for retrieving entities in a polymorphic fashion. This specification does not require support for inheritance.
+
+To ensure compatibility with Jakarta NoSQL, an entity programming model must adhere to the following constructor rules:
+- Constructors must be `public` or `protected` with no parameters or with parameters annotated with `Jakarta.nosql.Column` or `Jakarta.nosql.Id`.
+- Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.
+- If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
+- Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.
+- Entities should not have multiple constructors using `jakarta.nosql.Id` or `jakarta.nosql.Column` annotations.
 
 ==== Persistent Fields
 
