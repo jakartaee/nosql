@@ -26,8 +26,13 @@ import java.lang.annotation.Target;
  * <p>
  * An entity class must adhere to certain rules:
  * <ul>
- * <li>It must have at least one field annotated with {@link Id} or {@link Column}.
- * <li>It must have a {@code public} or {@code protected} constructor with no parameters, or a constructor with parameters annotated with {@link Column} or {@link Id}.
+ * <li>It must have at least one field annotated with {@link Id} or {@link Column}.</li>
+ * <li>It must have a {@code public} or {@code protected} constructor with no parameters, or a constructor with parameters annotated with {@link Column} or {@link Id}.</li>
+ * <li>The annotations at the constructor will work to build the entity and, thus, read information from the database. The field annotations are still required to write information to the database.</li>
+ * <li>In the case of both a non-args constructor and a constructor with parameters with annotations, it will use the constructor with annotation to create the entity. </li>
+ * <li>It will ignore the constructor parameter without annotations. Thus, it will use a non-arg constructor.</li>
+ * <li>An entity should not have multiple constructor using {@link Id} or {@link Column}</li>
+ * <li>A record class can be an entity</li>
  * </ul>
  * <p>
  * Enums or interfaces cannot be designated as entities.
@@ -55,7 +60,7 @@ import java.lang.annotation.Target;
  *     private Address address;
  * }
  *
- * @Entity
+ * @Embeddable
  * public class Address {
  *     @Column
  *     private String street;
@@ -78,7 +83,26 @@ import java.lang.annotation.Target;
  *     }
  * }
  * }</pre>
+ * The record sample:
+ * <pre>{@code
+ * @Entity
+ * public record Person(@Id Long id, @Column String name, @Column Address address) {
+ * }
  *
+ * @Embeddable
+ * public class Address {
+ *     @Column
+ *     private String street;
+ *
+ *     @Column
+ *     private String city;
+ *
+ *     public Address(@Column String street, @Column String city) {
+ *         this.street = street;
+ *         this.city = city;
+ *     }
+ * }
+ * }</pre>
  * @see Id
  * @see Column
  * @since 1.0
