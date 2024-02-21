@@ -128,24 +128,31 @@ NOTE: Many key-value, wide-column, and document databases feature native support
 
 An _embeddable class_ differs from an entity class in that:
 
-- the embeddable class lacks its own persistent identity, and
+- the embeddable class lacks its own persistent identity and
 - the state of an instance of the embeddable class can only be stored in the database when the instance is referenced directly or indirectly by a "parent" entity class instance.
 
 An _embedded field_ is a field whose type is an embeddable class.
 
-Like entities, embeddable classes may have basic fields, embeddable fields, and association fields, but, unlike entities, they do not have identifier fields.
+Embeddable classes may have basic fields, embeddable fields, and association fields, but unlike entities, they do not have identifier fields.
 
 Like entities, a programming model for entity classes might support mutable embeddable classes, immutable embeddable classes, or both.
 
-Jakarta NoSQL defines an annotation that identifies a user-written class as an embeddable class: `jakarta.nosql.Embeddable`.
+Jakarta NoSQL defines an annotation identifying a user-written class as an embeddable class: `jakarta.nosql.Embeddable`.
 
 There are two natural ways that a Jakarta NoSQL provider might store the state of an instance of an embedded class in a database:
 
-- by _flattening_ the fields of the embeddable class into the data structure representing the parent entity, or
-- by _grouping_ the fields of the embedded class into a fine-grained structured type (a User-defined type ,*UDT*, for example).
+- by _flattening_ the fields of the embeddable class into the data structure representing the parent entity or
+- by _grouping_ the fields of the embedded class into a fine-grained structured type (a User-defined type,*UDT*, for example).
 
 In a flattened representation of an embedded field, the fields of the embeddable class occur directly alongside the basic fields of the entity class in the data schema of the entity.
 There is no representation of the embeddable class itself in the data schema.
+
+To ensure compatibility with Jakarta NoSQL, an embeddable class must adhere to the following constructor rules:
+- Constructors must be `public` or `protected` with no parameters or parameters annotated with `jakarta.nosql.Column` or `jakarta.nosql.Id`.
+- Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.
+-If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
+- Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.
+- Embeddable classes should not have multiple constructors using `jakarta.nosql.Id` or `jakarta.nosql.Column` annotations.
 
 For example, consider the following Java classes:
 
