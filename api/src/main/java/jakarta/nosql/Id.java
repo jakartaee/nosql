@@ -24,7 +24,6 @@ import java.lang.annotation.Target;
 /**
  * Identifies the primary key of an entity.
  * Specifies the mapped field of an entity as the entity’s ID, or the Key in Key-Value databases.
- *
  * The field or property to which the {@code Id} annotation is
  * applied should have one of the following types:
  * <ul>
@@ -50,12 +49,12 @@ import java.lang.annotation.Target;
  * </pre>
  * <p>
  * An insertion with an ID value might vary from the vendor, where vendors can throw a NullPointerException,
- * for example, a Key-value database, or apply a strategy of generating value, for example, UUID.
+ * for example, a Key-value database, or apply a strategy of auto generating value, for example, UUID or auto-increment.
  * </p>
  *
+ * @see Convert
  * @see Column
  * @see Entity
- * @see Convert
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
