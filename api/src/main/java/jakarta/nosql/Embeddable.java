@@ -28,10 +28,15 @@ import java.lang.annotation.Target;
  * <p>The annotated type must:</p>
  * <ul>
  *     <li>Be a non-abstract, non-final top-level class or static inner class.</li>
- *     <li>Have a public or protected constructor with no parameters or a constructor parameter annotated with {@link Column}.</li>
+ *     <li>Have at least one field annotated with {@link Id} or {@link Column}.</li>
+ *     <li>Have a public or protected constructor with no parameters or a constructor parameter annotated with {@link Column} or {@link Id}.</li>
+ *     <li>Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.</li>
+ *     <li>If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.</li>
+ *     <li>Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.</li>
+ *     <li>An embeddable class should not have multiple constructors using {@link Id} or {@link Column} annotations.</li>
+ *     <li>Enums or interfaces cannot be designated as embeddable types.</li>
+ *     <li>Record classes can also serve as embeddable types.</li>
  * </ul>
- *
- * <p>Enums or interfaces cannot be designated as embeddable types.</p>
  *
  * <p>An embeddable class does not have its own database structure; instead, the state of an instance is stored in the structure mapped by the owning entity.</p>
  *
@@ -48,20 +53,29 @@ import java.lang.annotation.Target;
  *
  * <p>Example:</p>
  * <pre>{@code
- * &#64;Embeddable
+ * @Embeddable
  * public class PhoneNumber {
- *     &#64;Column
+ *     @Column
  *     protected String areaCode;
- *     &#64;Column
+ *     @Column
  *     protected String localNumber;
  * }
  * }</pre>
- *
+ * The sample below demonstrates the use of records as embeddable types:
+ * </p>
+ * <pre>{@code
+ * @Embeddable
+ * public record PhoneNumber(@Column String areaCode, @Column String localNumber) {
+ * }
+ * }</pre>
+ * @see Column
+ * @see Entity
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Embeddable {
+
 
     /**
      * Specifies the embeddable type.
