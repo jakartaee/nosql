@@ -205,7 +205,7 @@ public interface Template {
      * must be present in the database. In databases that use an append model to write data or
      * follow the BASE model, this method behaves the same as the {@link #insert} method.</p>
      *
-     * <p>If the entity is versioned (for example, with {@code jakarta.persistence.Version} or by
+     * <p>If the entity is versioned (for example, with an annotation or by
      * another convention from the entity model such as having an attribute named {@code version}),
      * then the version must also match. The version is automatically incremented when making
      * the update.</p>
