@@ -1,0 +1,104 @@
+== Jakarta NoSQL Providers
+
+Jakarta NoSQL providers play a crucial role in the ecosystem by interpreting the annotations provided by developers and implementing the corresponding Template interfaces. These providers handle operations related to entities according to the rules outlined in the Jakarta NoSQL specification.
+
+By adhering to these rules, Jakarta NoSQL providers ensure seamless integration with the application via dependency injection. This integration allows developers to access the functionality provided by the Template interfaces without concerning themselves with the underlying database implementation details.
+
+The Jakarta NoSQL specification sets clear guidelines for Jakarta NoSQL providers, ensuring consistency and compatibility across different providers. These rules enable multiple Jakarta Data providers to coexist within a system without interfering or overlapping at the same injection points. This level of standardization fosters interoperability and flexibility, empowering developers to choose the provider that best suits their project requirements.
+
+
+=== Jakarta NoSQL Providers Extensions
+
+Jakarta NoSQL providers and NoSQL databases have the flexibility to extend the API according to their specific requirements. This extensibility allows providers to create new annotations or develop specialized versions of the Template API tailored to their unique features or functionalities.
+
+However, it's essential to note that these extensions are specific to the respective provider or database and may not be compatible with others. As a result, there is no guarantee of compatibility between extensions developed by different Jakarta NoSQL providers or NoSQL databases.
+
+Despite the lack of cross-compatibility, this extensibility empowers providers to effectively innovate and address specific use cases or requirements. By leveraging extensions, developers can harness the full potential of Jakarta NoSQL while benefiting from the diverse capabilities offered by different providers and databases.
+
+== Interoperability with other Jakarta EE Specifications
+
+This section discusses Interoperability with related Jakarta EE specifications. When operating within a Jakarta EE product, the availability of other Jakarta EE technologies depends on whether the Jakarta EE Core profile, Jakarta EE Web profile, or Jakarta EE Platform is used.
+
+=== Jakarta Contexts and Dependency Injection
+
+Contexts and Dependency Injection (CDI) is a foundational specification within the Jakarta EE Core profile, offering a robust dependency injection framework for Java applications. CDI facilitates the decoupling of components and manages their lifecycle through dependency injection, promoting loose coupling and enabling the creation of modular, reusable code.
+
+CDI is crucial in integrating the Jakarta NoSQL template seamlessly into applications through the `@Inject` annotation in Jakarta EE environments. This integration allows developers to inject instances of the `Template` class directly into their application components, enabling straightforward access to its methods and functionalities.
+
+With CDI and the `@Inject` annotation, developers can inject the `Template` instance and utilize its methods effortlessly, as illustrated in the following example:
+
+[source,java]
+----
+@Inject
+Template template;
+
+// ...
+
+List<Car> cars = template.select(Car.class).where("type").eq(CarType.SPORT).result();
+----
+
+==== CDI Extensions for Jakarta Data Providers
+
+In environments where CDI Full or CDI Lite is available, Jakarta NoSQL providers can leverage CDI extensions to enhance the integration and discovery of entities or implementations. While Jakarta NoSQL does not prescribe a specific type of CDI extension, it does require Jakarta NoSQL providers to ensure that template implementations are injected into appropriate injection points, typically interfaces, without additional qualifiers.
+
+It's important to note the distinction between CDI Full and CDI Lite: CDI Full, part of the Jakarta Web profile and Jakarta Platform, includes support for `jakarta.enterprise.inject.spi.Extension`, whereas CDI Lite (Jakarta Core profile) does not. However, both CDI Full and CDI Lite support `jakarta.enterprise.inject.build.compatible.spi.BuildCompatibleExtension`.
+
+To avoid conflicts between the `BuildCompatibleExtension` and portable `Extension` in CDI Full environments, Jakarta NoSQL providers can utilize CDI's `@SkipIfPortableExtensionPresent` annotation.
+
+CDI provides a robust foundation for integrating Jakarta NoSQL repositories into Jakarta EE applications, offering flexibility and extensibility to meet diverse requirements and use cases.
+
+
+=== Jakarta Bean Validation
+
+Integrating Jakarta Bean Validation into Jakarta NoSQL ensures data consistency within the Java layer by enforcing validation rules and constraints on data objects. By applying validation rules, developers can maintain data integrity, improve data quality, and enhance the reliability of their applications.
+
+Jakarta Validation offers several advantages for Jakarta NoSQL applications:
+
+1. It helps identify and prevent invalid or inconsistent data from being processed or persisted, reducing the risk of data corruption.
+2. Catching validation errors early in the Java layer allows developers to identify and resolve potential issues before further processing or persistence occurs, leading to more robust and reliable applications.
+3. Jakarta Validation supports declarative validation rules, simplifying the validation logic and promoting cleaner, more maintainable code.
+
+In Jakarta NoSQL, template implementations are subject to method validation as specified in the "Method and constructor validation" section of the Jakarta Validation specification. This validation includes checking for constraints on method parameters and results. Automatic validation using these constraints is done by delegating validation to the Bean Validation implementation when inserting, updating, or deleting data through the methods.
+
+Let's consider an example demonstrating the usage of Jakarta Bean Validation annotations in the `Student` entity class:
+
+[source,java]
+----
+@Entity
+public class Student {
+
+    @Id
+    private String id;
+
+    @Column
+    @NotBlank
+    private String name;
+
+    @Positive
+    @Min(18)
+    @Column
+    private int age;
+}
+----
+
+In this example, the `name` field is annotated with `@NotBlank`, indicating that it must not be blank. The `age` field is annotated with both `@Positive` and `@Min(18)`, ensuring it is a positive integer greater than or equal to 18.
+
+To execute validation before inserting data using Jakarta NoSQL templates, developers can simply invoke the `insert` method on the template instance:
+
+[source,java]
+----
+@Inject
+private Template template;
+...
+// Execute the validation before inserting the data.
+template.insert(student);
+----
+
+
+=== Jakarta Data
+
+Integrating Jakarta NoSQL with Jakarta Data allows developers to incorporate common data patterns, such as repositories, into their codebase seamlessly.
+
+Jakarta NoSQL providers that support Jakarta Data typically scan interfaces marked with the `jakarta.data.repository.Repository` annotation. This annotation serves as a marker for repositories, providing a standardized way to define repository interfaces.
+
+By embracing Jakarta Data, Jakarta NoSQL providers empower Java developers to leverage well-established and standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.

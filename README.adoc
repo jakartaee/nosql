@@ -6,16 +6,15 @@ image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,ali
 
 == Introduction
 
-Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.
+Jakarta NoSQL is a comprehensive framework designed to simplify the integration of Java applications with various NoSQL databases. By providing a unified API and a set of powerful annotations, Jakarta NoSQL enables developers to seamlessly work with different NoSQL data stores while maintaining flexibility and productivity.
 
 == Goals
 
 * Increase productivity performing common NoSQL operations.
 * Rich Object Mapping integrated.
 * Java-based Query and Fluent-API.
-* Specific templates API to NoSQL key-value, document, wide-column types.
 * It is designed to work with various NoSQL databases and can quickly adapt to support new types and behaviors through extensions.
-* Annotation-oriented using JPA-like naming when it makes sense
+* Annotation-oriented using Jakarta Persistence-like naming when it makes sense
 
 == One Mapping API to Multiples NoSQL Databases
 
@@ -39,26 +38,27 @@ public class Car {
 
 === Annotations
 
-The annotations from the Mapping API annotations will look familiar to the Jakarta Persistence/JPA developer:
+The annotations from the Mapping API will look familiar to Jakarta Persistence developers:
 
-[cols="Annotation description"]
+[cols="2"]
 |===
-|Annotation|Description
-
-|@Entity
-|Specifies that the class is an entity. This annotation is applied to the entity class.
-
-|@Id
-|Specifies the primary key of an entity.
-
-|@Column
-|Specify the mapped column for a persistent property or field.
-
+| Annotation | Description
+| `@Entity` | Specifies that the class is an entity. This annotation is applied to the entity class.
+| `@Id` | Specifies the primary key of an entity.
+| `@Column` | Specifies the mapped column for a persistent property or field.
+| `@MappedSuperclass` | Specifies a class whose mapping information is applied to entities that inherit from it.
+| `@Embeddable` | Declares a class whose instances are stored as an intrinsic part of an owning entity, sharing the identity of the entity.
+| `@Inheritance` | Specifies the inheritance mapping strategy for the entity class hierarchy.
+| `@DiscriminatorColumn` | Specifies the discriminator column for the mapping strategy.
+| `@DiscriminatorValue` | Specifies the value of the discriminator column for the annotated entity type.
+| `@Convert` | Specifies how the values of a field or property are converted to a basic type or a type that can be persisted by a persistence provider.
 |===
+
+These annotations provide a powerful toolkit for defining and mapping entities in NoSQL databases, analogous to their counterparts in Jakarta Persistence.
 
 === Template
 
-After mapping an entity, you can explore the advantage of using a ```Template``` interface, which can increase productivity on NoSQL operations.
+After mapping an entity, you can explore the advantage of using a `Template` interface, which can increase productivity on NoSQL operations.
 
 [source,java]
 ----
@@ -75,7 +75,7 @@ Optional<Car> car = template.find(Car.class, 1L);
 template.delete(Car.class, 1L);
 ----
 
-This template has specialization to take the benefits of a particular NoSQL database type.
+The `Template` interface provides specialized methods to leverage the features of specific NoSQL database types.
 
 *Maven dependency*
 
@@ -83,118 +83,7 @@ This template has specialization to take the benefits of a particular NoSQL data
 ----
 <dependency>
     <groupId>jakarta.nosql</groupId>
-    <artifactId>nosql-core</artifactId>
-    <version>1.0.0-b7</version>
-</dependency>
-----
-
-=== Key-Value
-
-Jakarta NoSQL provides a Key-Value template to explore the specific behavior of this NoSQL type.
-
-[source,java]
-----
-@Inject
-KeyValueTemplate template;
-...
-
-Car ferrari = Car.id(1L)
-        .name("ferrari")
-        .city("Rome")
-        .type(CarType.SPORT);
-
-template.put(ferrari);
-Optional<Car> car = template.get(1L, Car.class);
-template.delete(1L);
-----
-
-Key-Value is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
-
-*Maven dependency*
-
-[source,xml]
-----
-<dependency>
-    <groupId>jakarta.nosql</groupId>
-    <artifactId>nosql-key-value</artifactId>
-    <version>1.0.0-b7</version>
-</dependency>
-----
-
-
-=== Column Family
-
-Jakarta NoSQL provides a Column Family template to explore the specific behavior of this NoSQL type.
-
-[source,java]
-----
-@Inject
-ColumnTemplate template;
-...
-
-Car ferrari = Car.id(1L)
-        .name("ferrari")
-        .city("Rome")
-        .type(CarType.SPORT);
-
-template.insert(ferrari);
-Optional<Car> car = template.find(Car.class, 1L);
-
-List<Car> cars = template.select(Car.class).where("city").eq("Rome").result();
-
-template.delete(Car.class).where("id").eq(1L).execute();
-
-Optional<Car> result = template.singleResult("select * from Car where id = 1");
-----
-
-Column Family is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
-
-*Maven dependency*
-
-[source,xml]
-----
-<dependency>
-    <groupId>jakarta.nosql</groupId>
-    <artifactId>nosql-column</artifactId>
-    <version>1.0.0-b7</version>
-</dependency>
-----
-
-
-=== Document
-
-Jakarta NoSQL provides a Document template to explore the specific behavior of this NoSQL type.
-
-[source,java]
-----
-@Inject
-DocumentTemplate template;
-...
-
-Car ferrari = Car.id(1L)
-        .name("ferrari")
-        .city("Rome")
-        .type(CarType.SPORT);
-
-template.insert(ferrari);
-Optional<Car> car = template.find(Car.class, 1L);
-
-List<Car> cars = template.select(Car.class).where("city").eq("Rome").result();
-
-template.delete(Car.class).where("id").eq(1L).execute();
-
-Optional<Car> result = template.singleResult("select * from Car where id = 1");
-----
-
-Document is database agnostic. Thus, you can change the database in your application with no or minimal impact on source code.
-
-*Maven dependency*
-
-[source,xml]
-----
-<dependency>
-    <groupId>jakarta.nosql</groupId>
-    <artifactId>nosql-document</artifactId>
+    <artifactId>jakarta.nosql-api</artifactId>
     <version>1.0.0-b7</version>
 </dependency>
 ----

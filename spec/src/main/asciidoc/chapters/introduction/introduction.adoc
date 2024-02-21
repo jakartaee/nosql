@@ -42,9 +42,10 @@ While Jakarta NoSQL aims to enhance productivity and simplify integration with N
 
 === Conventions
 
-The terms, _entity attribute_ and _entity property_, are used interchangeably throughout the specification.
+Throughout the Jakarta NoSQL specification, the terms "entity attribute" and "entity property" are used interchangeably to refer to the fields or properties defined within an entity class.
 
-The lower case terms, _slice_ and _page_, are used interchangeably throughout the specification. Where there is a need to distinguish, the class name, `Slice` or `Page`, is used.
+When demonstrating output samples, JSON format is commonly used to represent data structures. However, it's important to note that this does not imply that a NoSQL database must serialize data in JSON format. The JSON samples provided serve to demonstrate and exemplify the structure of the data.
 
+It's crucial to understand that a Jakarta NoSQL provider and the underlying NoSQL database have the flexibility to define the serialization process according to their requirements. This may involve using user-defined types (UDTs), proprietary serialization formats, or other methods tailored to the specific database technology used.
 
 include::project_team.adoc[]

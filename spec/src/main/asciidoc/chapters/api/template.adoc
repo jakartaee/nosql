@@ -1,0 +1,90 @@
+== Template Classes
+
+The DAO (Data Access Object) pattern in Jakarta NoSQL simplifies the implementation of common database operations by providing a basic API to the underlying persistence engine. This pattern encapsulates the logic for interacting with the database, promoting a clean separation between the application's business logic and its data access code.
+
+In the DAO pattern, each entity in the application typically has a corresponding DAO class responsible for handling database operations related to that entity. These DAO classes abstract away the complexity of database interactions, providing a simplified interface for performing CRUD (Create, Read, Update, Delete) operations.
+
+Jakarta NoSQL's DAO feature follows this pattern closely, offering a set of template classes that serve as the foundation for implementing DAOs. These template classes provide pre-defined methods for common database operations, such as saving, updating, querying, and deleting entities.
+
+Developers can extend these template classes to create custom DAOs for their application entities. By doing so, they can focus on implementing the specific logic required for their application, while the underlying Jakarta NoSQL framework handles the low-level database interactions.
+
+Overall, the DAO pattern in Jakarta NoSQL promotes modularity, reusability, and maintainability in application development by abstracting away database access details. By adhering to this pattern, developers can create robust and scalable applications with ease, without having to deal with the complexities of database interaction at the application level.
+
+The provided code snippet demonstrates the usage of the `Template` class in Jakarta NoSQL to perform basic CRUD operations on entities in the database using the DAO pattern.
+
+1. **Create Book Entity**: An instance of the `Book` entity is created using the builder pattern. This entity represents a book with attributes such as title, author, publication year, and edition.
+
+2. **Insert Operation**: The `insert` method of the `Template` class is invoked to insert the `Book` entity into the database. This method takes the entity as a parameter and stores it in the underlying database.
+
+3. **Find Operation**: The `find` method of the `Template` class is called to retrieve the `Book` entity from the database based on its ID (`id`). This method returns an `Optional` object containing the retrieved entity, if it exists.
+
+4. **Print Result**: The retrieved `Book` entity is printed to the console using `System.out.println`. If the entity exists in the database, it will be printed; otherwise, the output will indicate that the entity was not found.
+
+5. **Delete Operation**: Finally, the `delete` method of the `Template` class is used to delete the `Book` entity from the database based on its ID. This method removes the entity from the database.
+
+Overall, this code snippet demonstrates how to use the `Template` class in Jakarta NoSQL to interact with the database, abstracting away the low-level details of database operations and providing a simplified interface for performing CRUD operations on entities.
+
+[source,java]
+----
+@Inject
+Template template;
+
+//1. Create Book Entity
+Book book = Book.builder()
+        .id(id)
+        .title("Java Concurrency in Practice")
+        .author("Brian Goetz")
+        .year(Year.of(2006))
+        .edition(1)
+        .build();
+//2. Insert Operation
+template.insert(book);
+//3. Find Operation
+Optional<Book> optional = template.find(Book.class, id);
+//4. Print Result
+System.out.println("The result " + optional);
+//5. Delete Operation
+template.delete(Book.class, id);
+----
+
+The `Template` class in Jakarta NoSQL simplifies CRUD (Create, Read, Update, Delete) operations by providing a fluent API for interacting with the underlying NoSQL database. This API allows developers to perform advanced queries and deletion operations beyond the basic ID attribute.
+
+[source,java]
+----
+@Inject
+Template template;
+
+List<Book> books = template.select(Book.class)
+        .where("author")
+        .eq("Joshua Bloch")
+        .and("edition")
+        .gt(3)
+        .result();
+
+template.delete(Book.class)
+        .where("author")
+        .eq("Joshua Bloch")
+        .and("edition")
+        .gt(3)
+        .execute();
+----
+
+The fluent API feature for searching and removing entities provided by the `Template` class in Jakarta NoSQL offers excellent flexibility and convenience for CRUD operations. However, it's essential to note that this feature may only be fully supported for some types of NoSQL databases, as the capabilities of the underlying database technology may limit certain operations.
+
+In cases where the underlying NoSQL database does not support advanced querying or deletion beyond the basic ID attribute, attempting to use these features with the `Template` class will result in an `UnsupportedOperationException` being thrown by Jakarta NoSQL. This exception indicates that the current database type does not support the requested operation.
+
+Some NoSQL databases may not support all filter operations, such as logical OR operations in the fluent API. In such cases, attempting to use unsupported operations with the `Template` class will result in an `UnsupportedOperationException` being thrown by Jakarta NoSQL. This exception indicates that the current Jakarta NoSQL provider does not support the requested operation due to limitations imposed by the underlying NoSQL database technology.
+
+Developers should be aware that while Jakarta NoSQL aims to provide a unified API across different NoSQL databases, there may be variations in support for certain operations depending on the capabilities of the specific database provider. When encountering limitations or unsupported operations, developers may need to adjust their application logic or consider alternative approaches to achieve the desired functionality within the constraints of the chosen NoSQL database technology.
+
+
+In case of querying an entity using the `@Inheritance` annotation as defined by <<inheritance_definition>>, the Jakarta NoSQL provider must automatically include the condition where the value from `@DiscriminatorColumn` equals the value of `@DiscriminatorValue`.
+
+For example, given the sample code from <<inheritance_definition>> and executing the query for `SmsNotification`, the generated query should include a condition such as `type = 'SMS'` or its equivalent in the respective NoSQL database.
+
+[source,java]
+----
+List<SmsNotification> notifications = template.select(SmsNotification.class);
+----
+
+It ensures that only entities of type `SmsNotification`, as indicated by the discriminator value, are retrieved from the database.

@@ -1,4 +1,5 @@
-== Entity Classes
+
+== Entity Classes [[entity_definition]]
 
 The notion of an _entity_ is the fundamental building block with which a data model may be constructed.
 Abstractly, an entity (or _entity type_) is a schema for data.
@@ -27,14 +28,13 @@ A _programming model for entity classes_ specifies:
 - a set of restrictions on the implementation of a Java class which allows it to be used as an entity class with a given Jakarta NoSQL provider, and
 - a set of annotations allowing the identification of a Java class as an entity class, and further specification of the schema of the entity.
 
-Jakarta NosQL does not define its own programming model for entities, but instead:
+Jakarta NoSQL defines its programming model for entities explicitly. It relies on annotations provided by the specification. Jakarta NoSQL's programming model allows for seamless integration with custom annotations defined by Jakarta NoSQL providers or extensions.
 
-- allows for vendor-specific entity programming models to be defined by Jakarta Data providers.
+This approach ensures flexibility and interoperability, enabling developers to leverage Jakarta NoSQL's standardized annotations alongside provider-specific annotations for fine-tuning entity behavior and mapping. Additionally, Jakarta NoSQL facilitates integration with other Jakarta EE specifications, fostering a cohesive Java-based NoSQL application development ecosystem.
 
 This section lays out the core requirements that an entity programming model must satisfy in order to be compatible with Jakarta Data, and for the defining provider to be considered a fully-compliant implementation of this specification.
 
-Every entity programming model specifies an _entity-defining annotation_, that is `jakarta.nosql.Entity`. A Jakarta NoSQL provider must provide repository implementations for entity classes bearing the entity-defining annotations it supports, and must ignore entity classes with entity-defining annotations it does not support.
-
+Every entity programming model specifies an _entity-defining annotation_, that is `jakarta.nosql.Entity`.
 
 Furthermore, an entity programming model must define an annotation which identifies the field or property holding the unique identifier of an entity, the `jakarta.nosql.Id`.
 
@@ -65,7 +65,7 @@ Jakarta NoSQL distinguishes three kinds of persistent field within entity classe
 - An _embedded field_ allows the inclusion of the state of a finer-grained Java class within the state of an entity. The type of an embedded field is often a user-written Java class. Support for embedded fields varies depending on the Jakarta NoSQL provider and the database type.
 - An _association field_ implements an association between entity types. Support for association fields varies depending on the Jakarta NoSQL provider and the database type.
 
-==== Basic Types
+==== Basic Types [[basic_types]]
 
 Every Jakarta NoSQL provider must support the following basic types within its programming model:
 
@@ -102,18 +102,22 @@ For example, the following entity class has five basic fields:
 public class Person {
     @Id
     private UUID id;
+    @Column
     private String name;
+    @Column
     private long ssn;
+    @Column
     private LocalDate birthdate;
+    @Column
     private byte[] photo;
 }
 ----
 
 In addition to the types listed above, an entity programming model might support additional domain-specific basic types. This extended set of basic types might include types with a nontrivial internal structure. An entity programming model might even provide mechanisms to convert between user-written types and natively-supported basic types, defined at the `AttributeConverter` interface.
 
-NOTE: Many key-value, wide-column, document, and relational databases feature native support for arrays or even associative arrays of these basic types. Unfortunately, the semantics of such types--along with their performance characteristics--are extremely nonuniform, and so support for such types is left undefined by the Jakarta NoSQL specification.
+NOTE: Many key-value, wide-column, and document databases feature native support for arrays or even associative arrays of these basic types.
 
-==== Embedded Fields and Embeddable Classes
+==== Embedded Fields and Embeddable Classes [[embeddable_definition]]
 
 An _embeddable class_ differs from an entity class in that:
 
@@ -126,12 +130,12 @@ Like entities, embeddable classes may have basic fields, embeddable fields, and 
 
 Like entities, a programming model for entity classes might support mutable embeddable classes, immutable embeddable classes, or both.
 
-A programming model for entity classes might define an annotation that identifies a user-written class as an embeddable class. For example, Jakarta Persistence defines the annotation `jakarta.persistence.Embeddabe`. Alternatively, the programming model might define an annotation that identifies a field as an embedded field. For example, Jakarta Persistence defines the annotation `jakarta.persistence.Embedded`.
+Jakarta NoSQL defines an annotation that identifies a user-written class as an embeddable class: `jakarta.nosql.Embeddable`.
 
-There are two natural ways that a Jakarta Data provider might store the state of an instance of an embedded class in a database:
+There are two natural ways that a Jakarta NoSQL provider might store the state of an instance of an embedded class in a database:
 
 - by _flattening_ the fields of the embeddable class into the data structure representing the parent entity, or
-- by _grouping_ the fields of the embedded class into a fine-grained structured type (a UDT, for example).
+- by _grouping_ the fields of the embedded class into a fine-grained structured type (a User-defined type ,*UDT*, for example).
 
 In a flattened representation of an embedded field, the fields of the embeddable class occur directly alongside the basic fields of the entity class in the data schema of the entity.
 There is no representation of the embeddable class itself in the data schema.
@@ -142,8 +146,11 @@ For example, consider the following Java classes:
 ----
 @Embeddable
 public class Address {
+    @Column
     private String street;
+    @Column
     private String city;
+    @Column
     private String postalCode;
 }
 
@@ -151,7 +158,9 @@ public class Address {
 public class Person {
     @Id
     private Long id;
+    @Column
     private String name;
+    @Column
     private Address address;  // embedded field
 }
 ----
@@ -204,17 +213,38 @@ For example, consider the following Java classes:
 public class Author {
     @Id
     private UUID id;
+    @Column
     private String name;
+    @Column
     private List<Book> books;
 }
 
 @Entity
 public class Book {
-    @Id
-    private Long id;
+    @Column
     private String title;
+    @Column
     private String category;
-    private List<Author> authors;
+}
+----
+
+For example, the JSON representation of `Author` might be:
+
+[source,json]
+----
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "John Smith",
+  "books": [
+    {
+      "title": "Java Programming",
+      "category": "Programming"
+    },
+    {
+      "title": "Introduction to NoSQL",
+      "category": "Database"
+    }
+  ]
 }
 ----
 

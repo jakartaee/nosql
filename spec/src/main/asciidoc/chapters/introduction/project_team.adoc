@@ -51,3 +51,4 @@ of the project committers and various contributors.
 ==== Full List of Contributors
 
 The complete list of Jakarta NoSQL contributors may be found https://github.com/eclipse-ee4j/nosql/graphs/contributors[here,windows=\_blank].
+
