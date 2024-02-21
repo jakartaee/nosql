@@ -70,7 +70,7 @@ import java.lang.annotation.Target;
  * }</pre>
  * @see Column
  * @see Entity
- * @since 1.0
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

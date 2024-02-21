@@ -32,6 +32,7 @@ import java.lang.annotation.Target;
  * a provider-specific function will be used to generate a value representing the entity type.
  * So the discriminator value default is the {@link Class#getSimpleName()}.
  * @see DiscriminatorColumn
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

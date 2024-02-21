@@ -55,7 +55,7 @@ import java.lang.annotation.Target;
  * @see Convert
  * @see Column
  * @see Entity
- * @since 1.0
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
