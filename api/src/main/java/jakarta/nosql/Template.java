@@ -130,6 +130,11 @@ public interface Template {
      * that is supplied as a parameter. This method makes no guarantees about the state of the
      * instance that is supplied as a parameter.</p>
      *
+     * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
+     * database after a specified duration. When inserting an entity with a TTL, the entity will be automatically deleted
+     * from the database after the specified duration has passed since its insertion. If the database does not support TTL
+     * or if the TTL feature is not enabled, this operation will not have any effect on the entity's expiration.</p>
+     *
      * @param entity the entity to insert. Must not be {@code null}.
      * @param ttl    time to live
      * @param <T>    the entity type
@@ -178,6 +183,11 @@ public interface Template {
      * The position of entities within the {@code Iterable} return value must correspond to the
      * position of entities in the parameter based on the unique identifier of the entity.</p>
      *
+     * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
+     * database after a specified duration. When inserting entities with a TTL, the entities will be automatically deleted
+     * from the database after the specified duration has passed since their insertion. If the database does not support TTL
+     * or if the TTL feature is not enabled, this operation will not have any effect on the expiration of the entities.</p>
+     *
      * @param entities entities to insert.
      * @param <T>      the entity type
      * @param ttl      time to live
@@ -185,7 +195,6 @@ public interface Template {
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
      * @throws UnsupportedOperationException if the database does not provide time-to-live for insert operations.
-
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
