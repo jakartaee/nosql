@@ -30,7 +30,8 @@ import java.lang.annotation.Target;
  *     <li>Be a non-abstract, non-final top-level class or static inner class.</li>
  *     <li>Have at least one field annotated with {@link Id} or {@link Column}.</li>
  *     <li>Have a public or protected constructor with no parameters or a constructor parameter annotated with {@link Column} or {@link Id}.</li>
- *     <li>Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.</li>
+ *     <li>Annotations at the constructor will build the entity and read information from the database, while
+ *     field annotations are required to write information to the database.</li>
  *     <li>If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.</li>
  *     <li>Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.</li>
  *     <li>An embeddable class should not have multiple constructors using {@link Id} or {@link Column} annotations.</li>
@@ -62,7 +63,6 @@ import java.lang.annotation.Target;
  * }
  * }</pre>
  * The sample below demonstrates the use of records as embeddable types:
- * </p>
  * <pre>{@code
  * @Embeddable
  * public record PhoneNumber(@Column String areaCode, @Column String localNumber) {
