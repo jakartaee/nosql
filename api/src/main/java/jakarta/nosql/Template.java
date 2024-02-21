@@ -248,7 +248,7 @@ public interface Template {
      * @param id   the id value
      * @param <T>  the entity class type
      * @param <K>  the id type
-     * @return the entity instance otherwise {@link Optional#empty()}
+     * @return the entity instance, otherwise {@link Optional#empty()}
      * @throws NullPointerException when either the type or id are null
      */
     <T, K> Optional<T> find(Class<T> type, K id);
