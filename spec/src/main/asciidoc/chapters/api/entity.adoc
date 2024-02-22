@@ -124,7 +124,7 @@ In addition to the types listed above, an entity programming model might support
 
 NOTE: Many key-value, wide-column, and document databases feature native support for arrays or even associative arrays of these basic types.
 
-==== Embedded Fields and Embeddable Classes
+==== Embedded Fields and Embeddable Classes  [[embeddable_definition]]
 
 An _embeddable class_ differs from an entity class in that:
 
