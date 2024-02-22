@@ -1,4 +1,3 @@
-
 == Entity Classes [[entity_definition]]
 
 The notion of an _entity_ is the fundamental building block with which a data model may be constructed.
