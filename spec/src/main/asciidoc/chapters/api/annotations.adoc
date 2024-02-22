@@ -426,7 +426,7 @@ Despite being abstract, abstract entity classes are fully mapped as entities and
 
 By leveraging abstract entity classes, developers can effectively organize and structure their data model, promoting code reuse, maintainability, and scalability. Abstract entities encapsulate common attributes and behaviors, fostering a modular and extensible design approach within Jakarta NoSQL applications.
 
-===== @MappedSuperclass
+==== @MappedSuperclass
 
 The `@MappedSuperclass` annotation designates a class whose mapping information is applied to the entities that inherit from it. Unlike regular entities, a mapped superclass does not imply the existence of a separate storage structure such as tables in relational databases.
 
@@ -620,3 +620,4 @@ This JSON structure represents three different types of notifications: SMS, Emai
 In case of querying an entity using the `@Inheritance` annotation as defined by <<inheritance_definition>>, the Jakarta NoSQL provider must automatically include the condition where the value from `@DiscriminatorColumn` equals the value of `@DiscriminatorValue`.
 
 For example, given the sample code from <<inheritance_definition>> and executing the query for `SmsNotification`, the generated query should include a condition such as `type = 'SMS'` or its equivalent in the respective NoSQL database.
+

@@ -1,3 +1,4 @@
+
 == Jakarta NoSQL Providers
 
 Jakarta NoSQL providers play a crucial role in the ecosystem by interpreting the annotations provided by developers and implementing the corresponding Template interfaces. These providers handle operations related to entities according to the rules outlined in the Jakarta NoSQL specification.
