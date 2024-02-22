@@ -13,7 +13,8 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
 = Jakarta NoSQL
-:authors: Contributors to Jakarta NoSQL Specification (https://github.com/eclipse-ee4j/nosql/graphs/contributors)
+:pdf-theme: ../../theme/jakartaee-theme.yml
+:authors:
 :email: nosql-dev@eclipse.org
 :version-label!:
 :doctype: book
