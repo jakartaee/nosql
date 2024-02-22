@@ -15,35 +15,39 @@
  */
 
 /**
- * Provides classes and interfaces for integrating Java applications with various NoSQL databases.
- * <p>
- * NoSQL databases are a category of database systems that differ from traditional relational databases in their data
- * storage and retrieval mechanisms. Unlike relational databases, which organize data into tables with predefined schemas,
- * NoSQL databases use flexible data models that allow for unstructured or semi-structured data storage. These databases
- * are often preferred for their ability to handle large volumes of data, their scalability, and their flexibility in
- * accommodating evolving data schemas.
- * <p>
- * The {@link jakarta.nosql.Entity} annotation specifies that the class is an entity.
- * <p>
- * The {@link jakarta.nosql.Embeddable} annotation declares a class whose instances are stored as an intrinsic part of an
- * owning entity, sharing the identity of the entity.
- * <p>
- * The {@link jakarta.nosql.Id} annotation specifies the primary key of an entity.
- * <p>
- * The {@link jakarta.nosql.Column} annotation specifies the mapping of a persistent property or field to a database column.
- * <p>
- * The {@link jakarta.nosql.Convert} annotation specifies how the values of a field or property are converted to a basic
- * type or a type that can be persisted by a persistence provider.
- * <p>
- * The {@link jakarta.nosql.MappedSuperclass} annotation specifies a class whose mapping information is applied to entities
- * that inherit from it.
- * <p>
- * The {@link jakarta.nosql.Inheritance} annotation specifies the inheritance mapping strategy for the entity class hierarchy.
- * <p>
- * The {@link jakarta.nosql.DiscriminatorColumn} annotation specifies the discriminator column for the inheritance mapping
- * strategy.
- * <p>
- * The {@link jakarta.nosql.DiscriminatorValue} annotation specifies the value of the discriminator column for the annotated
- * entity type.
+
+ Provides classes and interfaces for integrating Java applications with various NoSQL databases.
+ <p>
+ NoSQL databases are a category of database systems that differ from traditional relational databases in their data
+ storage and retrieval mechanisms. Unlike relational databases, which organize data into tables with predefined schemas,
+ NoSQL databases use flexible data models that allow for unstructured or semi-structured data storage. These databases
+ are often preferred for their ability to handle large volumes of data, their scalability, and their flexibility in
+ accommodating evolving data schemas.
+ <p>
+ The {@link jakarta.nosql.Entity} annotation specifies that the class is an entity.
+ <p>
+ The {@link jakarta.nosql.Embeddable} annotation declares a class whose instances are stored as an intrinsic part of an
+ owning entity, sharing the identity of the entity.
+ <p>
+ The {@link jakarta.nosql.Id} annotation specifies the primary key of an entity.
+ <p>
+ The {@link jakarta.nosql.Column} annotation specifies the mapping of a persistent property or field to a database column.
+ <p>
+ The {@link jakarta.nosql.Convert} annotation specifies how the values of a field or property are converted to a basic
+ type or a type that can be persisted by a persistence provider.
+ <p>
+ The {@link jakarta.nosql.MappedSuperclass} annotation specifies a class whose mapping information is applied to entities
+ that inherit from it.
+ <p>
+ The {@link jakarta.nosql.Inheritance} annotation specifies the inheritance mapping strategy for the entity class hierarchy.
+ <p>
+ The {@link jakarta.nosql.DiscriminatorColumn} annotation specifies the discriminator column for the inheritance mapping
+ strategy.
+ <p>
+ The {@link jakarta.nosql.DiscriminatorValue} annotation specifies the value of the discriminator column for the annotated
+ entity type.
+ <p>
+ The {@link jakarta.nosql.Template} interface provides a set of methods for performing common NoSQL operations, such as
+ inserting, updating, and querying entities. It also supports features such as time-to-live (TTL) for entity expiration.
  */
 package jakarta.nosql;
