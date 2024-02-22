@@ -15,6 +15,9 @@
  */
 package jakarta.nosql;
 
+/**
+ * An exception that occurs where there is a mapping error.
+ */
 public class MappingException extends NoSQLException {
 
     /**
