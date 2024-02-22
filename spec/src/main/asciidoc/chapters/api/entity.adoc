@@ -124,7 +124,7 @@ In addition to the types listed above, an entity programming model might support
 
 NOTE: Many key-value, wide-column, and document databases feature native support for arrays or even associative arrays of these basic types.
 
-==== Embedded Fields and Embeddable Classes [[embeddable_definition]]
+==== Embedded Fields and Embeddable Classes
 
 An _embeddable class_ differs from an entity class in that:
 
@@ -133,7 +133,7 @@ An _embeddable class_ differs from an entity class in that:
 
 An _embedded field_ is a field whose type is an embeddable class.
 
-Embeddable classes may have basic fields, embeddable fields, and association fields, but unlike entities, they do not have identifier fields.
+Embeddable classes may have basic, embeddable, and association fields, but unlike entities, they do not have identifier fields.
 
 Like entities, a programming model for entity classes might support mutable embeddable classes, immutable embeddable classes, or both.
 
@@ -148,11 +148,12 @@ In a flattened representation of an embedded field, the fields of the embeddable
 There is no representation of the embeddable class itself in the data schema.
 
 To ensure compatibility with Jakarta NoSQL, an embeddable class must adhere to the following constructor rules:
-- Constructors must be `public` or `protected` with no parameters or parameters annotated with `jakarta.nosql.Column` or `jakarta.nosql.Id`.
+
+- Constructors must be `public` or `protected` with no parameters or parameters annotated with `jakarta.nosql.Column`.
 - Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.
--If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
+- If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
 - Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.
-- Embeddable classes should not have multiple constructors using `jakarta.nosql.Id` or `jakarta.nosql.Column` annotations.
+- Embeddable classes should not have multiple constructors using  `jakarta.nosql.Column` annotations.
 
 For example, consider the following Java classes:
 
@@ -175,11 +176,11 @@ public class Person {
     @Column
     private String name;
     @Column
-    private Address address;  // embedded field
+    private Address address;  // flat embedded field
 }
 ----
 
-In a document, wide-column, or graph database, the JSON representation of an instance of the `Person` entity might be as follows:
+In a document, wide-column, or graph database, the JSON representation of an instance of the `Person` entity where the `Address` class is *flat* might be:
 
 [source,json]
 ----
@@ -193,9 +194,22 @@ In a document, wide-column, or graph database, the JSON representation of an ins
 ----
 
 
-In a structured representation, the fields of the embeddable class are somehow grouped together in the data schema.
+In a structured representation, when the embeddable field is *grouping* it will be together in the data schema.
 
-For example, the JSON representation of `Person` might be:
+[source,java]
+----
+@Embeddable(GROUPING)
+public class Address {
+    @Column
+    private String street;
+    @Column
+    private String city;
+    @Column
+    private String postalCode;
+}
+----
+
+In a document, wide-column, or graph database, the JSON representation of an instance of the `Person` entity where the `Address` class is *grouping* might be:
 
 [source,json]
 ----
@@ -211,8 +225,11 @@ For example, the JSON representation of `Person` might be:
 }
 ----
 
-NOTE: Support for embeddable classes and embedded fields is not required by this specification.
-However, every Jakarta NoSQL provider is strongly encouraged to provide support for embeddable classes within its entity programming model.
+[NOTE]
+====
+Support for embeddable classes and embedded fields is not required by this specification.
+However, every Jakarta NoSQL provider is strongly encouraged to support embeddable classes within its entity programming model.
+====
 
 ==== Entity Associations
 
