@@ -117,3 +117,46 @@ The fluent API query offers a wide range of supported methods through the `Query
 However, it's essential to consider that the availability of certain query methods may vary depending on the specific NoSQL database being used. Some NoSQL databases may not support certain operations through the `UnsupportedOperationException`.
 
 Attempting to use unsupported operations with the fluent API query may result in runtime exceptions or unexpected behavior. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
+
+==== Query Navigation Hierarchy
+
+In Jakarta NoSQL, the query navigation hierarchy refers to navigating through the properties of entities and their associated classes when constructing queries. Within an entity, property names must be unique, ignoring cases. The field or accessor method name serves as the entity property name for simple entity properties. In the case of embedded and association classes, entity property names are computed by concatenating the field or accessor method names at each level, optionally joined by a comma, `.`, delimiter.
+
+For example, consider the following data model:
+
+[source,java]
+----
+class Person {
+  private Long id;
+  private MailingAddress address;
+}
+
+class MailingAddress {
+  private String zipcode;
+  private String city;
+}
+----
+
+In this scenario, querying for records based on the zip code at the `MailingAddress` class requires accessing the `address` field at `Person` and the `zipcode` property at `MailingAddress`.
+
+[source,java]
+----
+@Inject
+Template template;
+
+List<Book> books = template.select(Person.class)
+        .where("address.zipcode")
+        .eq("402-775")
+        .orderBy("address.city")
+        .asc()
+        .result();
+
+template.delete(Person.class)
+     .where("address.zipcode")
+     .eq("402-775")
+     .execute();
+----
+
+In the above example, the fluent API query navigates through the properties of the `Person` entity to access the `zipcode` property of the `MailingAddress` embedded class. The `where` clause specifies the path to the `zipcode` property using dot notation (`address.zipcode`). The `orderBy` clause similarly specifies the path to the `city` property for sorting the results by city in ascending order.
+
+This query navigation hierarchy enables developers to construct complex queries traverse multiple levels of entity properties, facilitating flexible and precise data retrieval and manipulation in Jakarta NoSQL.
