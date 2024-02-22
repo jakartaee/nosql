@@ -90,3 +90,30 @@ List<SmsNotification> notifications = template.select(SmsNotification.class);
 ----
 
 It ensures that only entities of type `SmsNotification`, as indicated by the discriminator value, are retrieved from the database.
+
+
+=== Fluent API Query
+
+The `Template` class in Jakarta NoSQL provides a fluent API for querying and deleting entities from the underlying NoSQL database. This fluent API offers a convenient and expressive way for Java developers to interact with their data, allowing them to construct complex queries efficiently and perform deletion operations.
+
+==== Importance of Fluent API Query
+
+The fluent API query is essential for Java developers as it simplifies retrieving and manipulating data from the NoSQL database. By providing a fluent interface, Jakarta NoSQL enables developers to express their query logic concisely and readably, making it easier to understand and maintain the codebase.
+
+The fluent API query also allows developers to build dynamic queries at runtime by chaining together various methods and conditions. This flexibility enables applications to adapt to changing requirements and user inputs, providing a more robust and responsive user experience.
+
+Furthermore, the fluent API query promotes code reuse and modularity by encapsulating query logic within reusable components. Developers can define and combine reusable query fragments to construct more complex queries, reducing duplication and improving code maintainability.
+
+==== Limitations in Key-Value Databases
+
+It is worth noting that the `select` and `delete` methods of the `Template` class may not be fully compatible with key-value databases. This limitation arises because key-value databases primarily rely on key-value pairs for data retrieval and deletion rather than complex query predicates.
+
+The primary data access mode in key-value databases is through direct lookup by key. It is challenging to support complex query operations like those provided by the fluent API query. As a result, attempts to use the `select` and `delete` methods with key-value databases may throw an `UnsupportedOperationException` by Jakarta NoSQL, indicating that the underlying database technology does not support the operation.
+
+==== Supported Methods in Other NoSQL Databases
+
+The fluent API query offers a wide range of supported methods through the `QueryMapper` class for other types of NoSQL databases, such as document-oriented or column-family databases. These methods may include filtering, sorting, and basic querying capabilities, providing developers with flexible data retrieval and manipulation tools.
+
+However, it's essential to consider that the availability of certain query methods may vary depending on the specific NoSQL database being used. Some NoSQL databases may not support certain operations through the `UnsupportedOperationException`.
+
+Attempting to use unsupported operations with the fluent API query may result in runtime exceptions or unexpected behavior. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
