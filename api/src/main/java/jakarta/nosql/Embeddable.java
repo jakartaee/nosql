@@ -44,13 +44,20 @@ import java.lang.annotation.Target;
  * <p>Persistent fields and properties of an embeddable class are mapped using the same mapping annotations used for
  * entity classes and may hold instances of other embeddable types.</p>
  *
- * <p>An embeddable class may not have a field or property annotated with {@link Id}.</p>
- *
  * <p>An embeddable class can have two types of strategies:</p>
  * <ul>
  *     <li>{@link EmbeddableType#FLAT}: where the embeddable class is treated as a parent entity type.</li>
- *     <li>{@link EmbeddableType#GROUPING}: where the embeddable class is treated stored in a structured type.</li>
+ *     <li>{@link EmbeddableType#GROUPING}: where the embeddable class is stored in a structured type.</li>
  * </ul>
+ *
+ * <p>The behavior of the {@link EmbeddableType#FLAT} strategy is guaranteed to be supported by all Jakarta NoSQL implementations.
+ * However, the support and behavior of the {@link EmbeddableType#GROUPING} strategy may vary among NoSQL databases.
+ * If a NoSQL database does not support the {@link EmbeddableType#GROUPING} strategy, invoking operations that require it
+ * will result in an {@link UnsupportedOperationException}. Additionally, if a database requires specific configurations,
+ * such as {@link Column#udt()}, to support the {@link EmbeddableType#GROUPING} strategy, but those configurations are not met,
+ * a {@link MappingException} may be thrown.</p>
+ *
+ * <p>For key-value NoSQL databases, the serialization mechanism may vary depending on the Jakarta NoSQL provider or the specific NoSQL database being used.</p>
  *
  * <p>Example:</p>
  * <pre>{@code
@@ -68,6 +75,7 @@ import java.lang.annotation.Target;
  * public record PhoneNumber(@Column String areaCode, @Column String localNumber) {
  * }
  * }</pre>
+ *
  * @see Column
  * @see Entity
  * @since 1.0.0
