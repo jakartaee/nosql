@@ -22,24 +22,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Declares that the annotated class is an entity. An entity represents a persistent class that corresponds to a structure in the database.
+ * Annotates a class as an entity, representing a persistent class corresponding to a database structure.
  * <p>
- * An entity class must adhere to certain rules:
+ * Entity classes must adhere to specific rules:
  * <ul>
- * <li>It must have at least one field annotated with {@link Id} or {@link Column}.
- * <li>It must have a {@code public} or {@code protected} constructor with no parameters, or a constructor with parameters annotated with {@link Column} or {@link Id}.
+ * <li>At least one field must be annotated with {@link Id} or {@link Column}.</li>
+ * <li>Constructors must be {@code public} or {@code protected} with no parameters, or with parameters annotated with {@link Column} or {@link Id}.</li>
+ * <li>Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.</li>
+ * <li>If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.</li>
+ * <li>Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.</li>
+ * <li>Entities should not have multiple constructors using {@link Id} or {@link Column} annotations.</li>
+ * <li>Record classes can also serve as entities.</li>
  * </ul>
  * <p>
  * Enums or interfaces cannot be designated as entities.
  * </p>
  * <p>
- * Each entity must have a unique identifier, typically a field annotated with {@link Id}.
+ * Each entity must have a unique identifier, typically annotated with {@link Id}.
  * </p>
  * <p>
- * The state of an entity is represented by its persistent fields and properties. By default, fields or properties of an entity class are not persistent.
- * </p>
- * <p>
- * The sample below demonstrates two entities, {@code Person} and {@code Address}, where a person has an address:
+ * The following example demonstrates two classes, {@code Person} and {@code Address}, where a person has an address:
  * </p>
  * <pre>{@code
  * @Entity
@@ -55,7 +57,7 @@ import java.lang.annotation.Target;
  *     private Address address;
  * }
  *
- * @Entity
+ * @Embeddable
  * public class Address {
  *     @Column
  *     private String street;
@@ -65,16 +67,27 @@ import java.lang.annotation.Target;
  * }
  * }</pre>
  * <p>
- * However, it’s important to note that NoSQL databases may have varying behaviors, so the serialization method may differ depending on the NoSQL vendor.
- * For example, in a document database, these entities may be converted into a sub-document, while in a key-value store, they will be stored as the value:
+ * Note: NoSQL databases may have varying behaviors regarding serialization, resulting in different storage formats based on the NoSQL vendor.
+ * </p>
+ * <p>
+ * The sample below demonstrates the use of records as entities:
  * </p>
  * <pre>{@code
- * {
- *     "_id": 10,
- *     "name": "Ada Lovelace",
- *     "address": {
- *          "city": "São Paulo",
- *          "street": "Av Nove de Julho"
+ * @Entity
+ * public record Person(@Id Long id, @Column String name, @Column Address address) {
+ * }
+ *
+ * @Embeddable
+ * public class Address {
+ *     @Column
+ *     private String street;
+ *
+ *     @Column
+ *     private String city;
+ *
+ *     public Address(@Column String street, @Column String city) {
+ *         this.street = street;
+ *         this.city = city;
  *     }
  * }
  * }</pre>

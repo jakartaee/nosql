@@ -33,6 +33,7 @@ package jakarta.nosql;
  * @param <Y> a basic type or a supported type in the NoSQL database representing the type of the database column
  *
  * @see Convert
+ * @since 1.0.0
  */
 public interface AttributeConverter<X, Y> {
 

@@ -40,6 +40,7 @@ import java.lang.annotation.Target;
  *   &#064;Entity
  *   public class SMSNotification extends Notification { ... }
  * </pre>
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

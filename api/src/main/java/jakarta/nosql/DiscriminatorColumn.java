@@ -44,6 +44,7 @@ import java.lang.annotation.Target;
  *     // Specific fields and methods for cats
  * }
  * }</pre>
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

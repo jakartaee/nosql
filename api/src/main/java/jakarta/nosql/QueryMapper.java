@@ -30,6 +30,7 @@ import java.util.stream.Stream;
  *
  * @see jakarta.nosql.Template#select(Class)
  * @see jakarta.nosql.Template#delete(Class)
+ * @since 1.0.0
  */
 public interface QueryMapper {
 
