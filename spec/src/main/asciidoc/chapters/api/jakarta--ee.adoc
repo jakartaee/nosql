@@ -99,8 +99,8 @@ template.insert(student);
 
 === Jakarta Data
 
-Integrating Jakarta NoSQL with Jakarta Data allows developers to incorporate common data patterns, such as repositories, into their codebase seamlessly.
+Developers can seamlessly incorporate common data patterns, such as repositories, into their codebase by integrating Jakarta NoSQL with Jakarta Data.
 
 Jakarta NoSQL providers that support Jakarta Data typically scan interfaces marked with the `jakarta.data.repository.Repository` annotation. This annotation serves as a marker for repositories, providing a standardized way to define repository interfaces.
 
-By embracing Jakarta Data, Jakarta NoSQL providers empower Java developers to leverage well-established and standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
+By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
