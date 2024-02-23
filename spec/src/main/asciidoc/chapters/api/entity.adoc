@@ -414,6 +414,87 @@ public class Headquarter {
 Collections within entities can accommodate various types of data, including basic types and complex structures like lists of strings.
 Jakarta NoSQL provides flexibility in handling such collections, ensuring seamless integration with the underlying NoSQL database.
 
+==== Map Collections
+
+Java `Map` collections offer a convenient way to represent associations and key-value pairs within entities in Jakarta NoSQL. Jakarta NoSQL handles map collections, allowing developers to manage complex data structures efficiently.
+
+[source,java]
+----
+@Entity
+public class Contact {
+    @Id
+    private String name;
+
+    @Column
+    private Map<String, String> socialMedia;
+}
+----
+
+JSON representation:
+[source,json]
+----
+{
+  "name": "John Doe",
+  "socialMedia": {
+    "twitter": "@johndoe",
+    "linkedin": "linkedin.com/in/johndoe"
+  }
+}
+----
+
+In the example above, the `Contact` entity includes a `socialMedia` field, represented as a `Map` where the key is a string representing the social media platform, and the value is the corresponding username or profile link.
+
+The behavior of map collections remains consistent regardless of whether the map values are basic types, embeddable classes, or entity classes. However, for embeddable or entity classes used as map values, the `udt` attribute may be required in the `@Column` annotation to specify the user-defined type.
+
+For instance, consider the following example:
+
+[source,java]
+----
+@Entity
+public class Computer {
+    @Id
+    private String name;
+
+    @Column
+    private Map<String, Program> programs;
+}
+
+@Embedded
+public class Program {
+    @Id
+    private String name;
+
+    @Column
+    private Map<String, String> socialMedia;
+}
+----
+
+JSON representation:
+[source,json]
+----
+{
+  "name": "My Computer",
+  "programs": {
+    "browser": {
+      "socialMedia": {
+        "twitter": "@browseruser",
+        "instagram": "@browseruser"
+      }
+    },
+    "editor": {
+      "socialMedia": {
+        "github": "github.com/editoruser",
+        "linkedin": "linkedin.com/in/editoruser"
+      }
+    }
+  }
+}
+----
+
+The `Computer` entity includes a `programs` field, a map where the keys represent program names, and the values are instances of the `Program` embeddable class. Each `Program` instance contains its own `socialMedia` map, representing the social media profiles associated with that program.
+
+It's important to note that support for map collections may vary depending on the NoSQL database and Jakarta NoSQL provider used. Developers should consult the documentation of their chosen provider for specific details and considerations regarding map collections.
+
 
 ==== Entity Property Names
 
