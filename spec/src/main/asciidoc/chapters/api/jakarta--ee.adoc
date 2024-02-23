@@ -1,12 +1,13 @@
 
 == Jakarta NoSQL Providers
 
+A Jakarta NoSQL provider might come as an integrated component of a Jakarta EE container or a separate component that integrates with the Jakarta EE container via standard or proprietary SPIs. For example, a Jakarta NoSQL provider might use a CDI portable extension to integrate with dependency injection.
+
 Jakarta NoSQL providers play a crucial role in the ecosystem by interpreting the annotations provided by developers and implementing the corresponding Template interfaces. These providers handle operations related to entities according to the rules outlined in the Jakarta NoSQL specification.
 
 By adhering to these rules, Jakarta NoSQL providers ensure seamless integration with the application via dependency injection. This integration allows developers to access the functionality provided by the Template interfaces without concerning themselves with the underlying database implementation details.
 
 The Jakarta NoSQL specification sets clear guidelines for Jakarta NoSQL providers, ensuring consistency and compatibility across different providers. These rules enable multiple Jakarta Data providers to coexist within a system without interfering or overlapping at the same injection points. This level of standardization fosters interoperability and flexibility, empowering developers to choose the provider that best suits their project requirements.
-
 
 === Jakarta NoSQL Providers Extensions
 
