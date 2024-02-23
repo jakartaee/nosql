@@ -369,6 +369,7 @@ public interface QueryMapper {
          *
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException when limit is negative
          */
         MapperLimit limit(long limit);
     }
