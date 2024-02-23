@@ -225,6 +225,60 @@ In a document, wide-column, or graph database, the JSON representation of an ins
 }
 ----
 
+When an embeddable class is used within an iterable field of an entity class, both embedding strategies,
+namely *flattening* and *grouping*, will function as *grouping*. This means that the fields of the embeddable class
+will be grouped together within the data schema, regardless of whether the embeddable class is marked for flattening or grouping.
+
+For example, consider the following entity class `Driver` containing an iterable of `Car` instances:
+
+[source,java]
+----
+@Entity
+public class Driver {
+    @Id
+    private UUID id;
+    @Column
+    private String name;
+    @Column
+    private Iterable<Car> cars;
+}
+
+@Embeddable
+public class Car {
+    @Column
+    private String plate;
+    @Column
+    private String category;
+}
+----
+
+In this scenario, the `Car` embeddable class is used within the `cars` field, which is an iterable in the `Driver` entity class.
+As a result, the embedding strategy will behave as *grouping*, regardless of whether the `Car` class is marked with the `@Embeddable(GROUPING)` annotation.
+
+The JSON representation of an instance of the `Driver` entity might appear as follows:
+
+[source,json]
+----
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "John Doe",
+  "cars": [
+    {
+      "plate": "ABC123",
+      "category": "Sedan"
+    },
+    {
+      "plate": "XYZ789",
+      "category": "SUV"
+    }
+  ]
+}
+----
+
+In this JSON representation, the `cars` field contains an array of `Car` objects, each with its own `plate` and `category` fields. This structure reflects the *grouping* embedding strategy, where the fields of the `Car` embeddable class are grouped together within the `Driver` entity's data schema.
+
+Additionally, it's important to note that support for embedding with a `Map` may vary by NoSQL database and Jakarta NoSQL provider. Different providers may have different approaches or limitations regarding the embedding of data structures such as maps with embeddable classes. Developers should consult the documentation of their chosen NoSQL database and Jakarta NoSQL provider for specific details and considerations regarding map embedding.
+
 [NOTE]
 ====
 Support for grouping embeddable classes and embedded fields is not required by this specification.
