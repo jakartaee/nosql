@@ -118,34 +118,6 @@ However, it's essential to consider that the availability of certain query metho
 
 Attempting to use unsupported operations with the fluent API query may result in runtime exceptions or unexpected behavior. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
 
-==== TTL (Time-To-Live) Support
-
-TTL (Time-To-Live) is a feature provided by many NoSQL databases that allows developers to set an expiration time for data stored in the database. When data reaches its TTL, it is automatically removed from the database, freeing up resources and ensuring that it remains efficient and clutter-free.
-
-For Java developers, TTL support is essential for managing data lifecycle and optimizing resource usage. It enables developers to implement caching strategies, manage temporary data, and enforce data retention policies effectively.
-
-While TTL support is valuable, not all NoSQL databases provide native support for TTL. In cases where TTL is not supported, attempting to set a TTL on data may result in an `UnsupportedOperationException` being thrown by the Jakarta NoSQL provider.
-
-Additionally, some NoSQL providers may have limitations on the granularity of TTL values, such as supporting only TTL values specified in certain units (e.g., hours) or rounding TTL values to the nearest supported unit. In such cases, attempting to set a TTL value that does not align with the provider's limitations may result in unexpected behavior or zero TTL being applied.
-
-For example, suppose a NoSQL database only supports TTL values specified in hours. If a developer attempts to set a TTL of 10 seconds, the Jakarta NoSQL provider may throw an UnsupportedOperationException. Similarly, if the developer attempts to set a TTL of 3660 seconds (which is more than one hour), the TTL value may be rounded to the nearest supported unit (i.e., one hour) by the provider.
-
-[source,java]
-----
-@Inject
-Template template;
-
-// UnsupportedOperationException: TTL granularity not supported
-template.insert(entity, Duration.ofSeconds(10L));
-
-// Inserting data with a TTL of one hour
-template.insert(entity, Duration.ofSeconds(3600));
-
-// Inserting data with a TTL of one hour (rounded from 3660 seconds)
-template.insert(entity, Duration.ofSeconds(3660));
-----
-
-
 ==== Query Navigation Hierarchy
 
 In Jakarta NoSQL, the query navigation hierarchy refers to navigating through the properties of entities and their associated classes when constructing queries. Within an entity, property names must be unique, ignoring cases. The field or accessor method name serves as the entity property name for simple entity properties. In the case of embedded and association classes, entity property names are computed by concatenating the field or accessor method names at each level, optionally joined by a comma, `.`, delimiter.
@@ -188,3 +160,30 @@ template.delete(Person.class)
 In the above example, the fluent API query navigates through the properties of the `Person` entity to access the `zipcode` property of the `MailingAddress` embedded class. The `where` clause specifies the path to the `zipcode` property using dot notation (`address.zipcode`). The `orderBy` clause similarly specifies the path to the `city` property for sorting the results by city in ascending order.
 
 This query navigation hierarchy enables developers to construct complex queries traverse multiple levels of entity properties, facilitating flexible and precise data retrieval and manipulation in Jakarta NoSQL.
+
+=== TTL (Time-To-Live) Support
+
+TTL (Time-To-Live) is a feature provided by many NoSQL databases that allows developers to set an expiration time for data stored in the database. When data reaches its TTL, it is automatically removed from the database, freeing up resources and ensuring that it remains efficient and clutter-free.
+
+For Java developers, TTL support is essential for managing data lifecycle and optimizing resource usage. It enables developers to implement caching strategies, manage temporary data, and enforce data retention policies effectively.
+
+While TTL support is valuable, not all NoSQL databases provide native support for TTL. In cases where TTL is not supported, attempting to set a TTL on data may result in an `UnsupportedOperationException` being thrown by the Jakarta NoSQL provider.
+
+Additionally, some NoSQL providers may have limitations on the granularity of TTL values, such as supporting only TTL values specified in certain units (e.g., hours) or rounding TTL values to the nearest supported unit. In such cases, attempting to set a TTL value that does not align with the provider's limitations may result in unexpected behavior or zero TTL being applied.
+
+For example, suppose a NoSQL database only supports TTL values specified in hours. If a developer attempts to set a TTL of 10 seconds, the Jakarta NoSQL provider may throw an UnsupportedOperationException. Similarly, if the developer attempts to set a TTL of 3660 seconds (which is more than one hour), the TTL value may be rounded to the nearest supported unit (i.e., one hour) by the provider.
+
+[source,java]
+----
+@Inject
+Template template;
+
+// UnsupportedOperationException: TTL granularity not supported
+template.insert(entity, Duration.ofSeconds(10L));
+
+// Inserting data with a TTL of one hour
+template.insert(entity, Duration.ofSeconds(3600));
+
+// Inserting data with a TTL of one hour (rounded from 3660 seconds)
+template.insert(entity, Duration.ofSeconds(3660));
+----
