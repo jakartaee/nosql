@@ -85,7 +85,7 @@ public class Student {
 
 In this example, the `name` field is annotated with `@NotBlank`, indicating that it must not be blank. The `age` field is annotated with both `@Positive` and `@Min(18)`, ensuring it is a positive integer greater than or equal to 18.
 
-To execute validation before inserting data using Jakarta NoSQL templates, developers can simply invoke the `insert` method on the template instance:
+To execute validation before inserting data using Jakarta NoSQL templates, developers can simply invoke the `insert` and `update` methods on the template instance:
 
 [source,java]
 ----
