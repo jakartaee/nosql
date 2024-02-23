@@ -207,6 +207,7 @@ public interface QueryMapper {
          *
          * @param skip the first result to retrieve
          * @return a query with the first result defined
+         * @throws IllegalArgumentException when skip is negative
          */
         MapperSkip skip(long skip);
 
@@ -216,6 +217,7 @@ public interface QueryMapper {
          *
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException when limit is negative
          */
         MapperLimit limit(long limit);
 
@@ -239,6 +241,7 @@ public interface QueryMapper {
          *
          * @param skip the number of elements to skip
          * @return a query with the first result defined
+         * @throws IllegalArgumentException when skip is negative
          */
         MapperSkip skip(long skip);
     }
