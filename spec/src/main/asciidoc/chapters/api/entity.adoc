@@ -343,6 +343,78 @@ It means that the `books` field groups together instances of the `Book` entity w
 This specification does not require support for entity associations.
 ====
 
+==== Collections of Embeddable Classes and Basic Types
+
+A persistent field or property of an entity or embeddable class may correspond to a collection of a basic type, embeddable, or entity class.
+
+No action is required beyond including the `Column` annotation for a collection of basic types.
+
+[source,java]
+----
+@Entity
+public class BucketList {
+    @Id
+    private Long id;
+    @Column
+    private String name;
+    @Column
+    private List<String> tasks;
+}
+----
+
+[source,json]
+----
+// Sample JSON representation
+{
+  "id": 123,
+  "name": "Personal Goals",
+  "tasks": ["Travel the world", "Learn a new language", "Write a book"]
+}
+----
+
+The entity class will behave as an embeddable *grouping* class. This support may vary among NoSQL providers and might require a UDT name presentation in the case of embeddable or entity.
+
+For key-value databases, the serialization will occur through a unique blob, a process outside the scope of the Jakarta NoSQL specification.
+
+[source,java]
+----
+@Entity
+public class Company {
+    @Id
+    private String name;
+
+    @Column(udt= "headquarter")
+    private Set<Headquarter> headquarters;
+}
+
+@Entity
+// It could be Embedded, and the behavior won't change
+public class Headquarter {
+
+    @Column
+    private String city;
+
+    @Column
+    private String country;
+}
+----
+
+
+[source,json]
+----
+{
+  "name": "Acme Inc.",
+  "headquarters": [
+    {"city": "New York", "country": "USA"},
+    {"city": "London", "country": "UK"}
+  ]
+}
+----
+
+Collections within entities can accommodate various types of data, including basic types and complex structures like lists of strings.
+Jakarta NoSQL provides flexibility in handling such collections, ensuring seamless integration with the underlying NoSQL database.
+
+
 ==== Entity Property Names
 
 Within an entity, property names must be unique ignoring case. For simple entity properties, the field or accessor method name serves as the entity property name. In the case of embedded classes, entity property names are computed by concatenating the field or accessor method names at each level, optionally joined by a delimiter.
