@@ -227,7 +227,7 @@ In a document, wide-column, or graph database, the JSON representation of an ins
 
 [NOTE]
 ====
-Support for embeddable classes and embedded fields is not required by this specification.
+Support for grouping embeddable classes and embedded fields is not required by this specification.
 However, every Jakarta NoSQL provider is strongly encouraged to support embeddable classes within its entity programming model.
 ====
 
