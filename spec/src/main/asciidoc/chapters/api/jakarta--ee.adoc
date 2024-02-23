@@ -15,6 +15,18 @@ Configuration and credentials for NoSQL databases are not standardized within th
 
 The Jakarta NoSQL specification highly recommends following the Twelve-Factor App methodology, particularly the "Store config in the environment" principle. This approach advocates for storing configuration details such as database credentials, connection URLs, and other settings as environment variables. This practice promotes portability, scalability, and security by separating configuration from code and ensuring consistency across different environments.
 
+=== Schema Generation
+
+The process of creating a schema for a database is called schema generation. This process is not included in the Jakarta NoSQL specification. While some NoSQL databases allow schema definition and enforcement, many NoSQL databases are schemaless, which means developers can store data without defining a schema beforehand.
+
+Therefore, the ability to generate a schema may differ depending on the NoSQL database and the Jakarta NoSQL provider being used. Some Jakarta NoSQL providers offer schema generation capabilities, while others do not.
+
+For developers working with schemaless NoSQL databases, schema generation may not be necessary. This is because the database dynamically adapts to the structure of the data being stored. In such cases, the focus should be on organizing data to suit the application's requirements best, rather than defining a rigid schema.
+
+In cases where schema generation is supported, developers should be aware that the process may vary between NoSQL databases and Jakarta NoSQL providers. Different databases may have unique requirements or conventions for defining schemas, and Jakarta NoSQL providers may offer different approaches or tools for schema generation.
+
+Whether schema generation is necessary or beneficial depends on the specific use case, the NoSQL database being used, and the development team's preferences. Developers should consult the documentation of their chosen NoSQL database and Jakarta NoSQL provider for guidance on schema generation practices and considerations.
+
 === Jakarta NoSQL Providers Extensions
 
 Jakarta NoSQL providers and NoSQL databases have the flexibility to extend the API according to their specific requirements. This extensibility allows providers to create new annotations or develop specialized versions of the Template API tailored to their unique features or functionalities.
