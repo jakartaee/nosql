@@ -39,6 +39,23 @@ Template template;
 List<Car> cars = template.select(Car.class).where("type").eq(CarType.SPORT).result();
 ----
 
+Additionally, the Jakarta NoSQL provider should provide CDI qualifiers to allow working with multiple NoSQL databases through CDI.
+Developers can use these qualifiers to specify which database instance they want to inject, enabling flexibility and
+compatibility with different NoSQL data stores. Jakarta NoSQL providers typically supply annotations like `@DatabaseQualifier` to annotate the injection points.
+
+For example:
+
+[source,java]
+----
+@Inject
+@DatabaseQualifier
+Template template;
+
+@Inject
+@DatabaseQualifier("another")
+Template anotherTemplate;
+----
+
 ==== CDI Extensions for Jakarta Data Providers
 
 In environments where CDI Full or CDI Lite is available, Jakarta NoSQL providers can leverage CDI extensions to enhance the integration and discovery of entities or implementations. While Jakarta NoSQL does not prescribe a specific type of CDI extension, it does require Jakarta NoSQL providers to ensure that template implementations are injected into appropriate injection points, typically interfaces, without additional qualifiers.
