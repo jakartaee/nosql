@@ -158,6 +158,10 @@ public interface QueryMapper {
 
         /**
          * Executes the query.
+         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
+         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
+         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
+         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
          */
         void execute();
 
@@ -412,6 +416,10 @@ public interface QueryMapper {
          *
          * @param <T> the entity type
          * @return the result of the query
+         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
+         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
+         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
+         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
          */
         <T> List<T> result();
 
@@ -420,6 +428,10 @@ public interface QueryMapper {
          *
          * @param <T> the entity type
          * @return the result of the query
+         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
+         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
+         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
+         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
          */
         <T> Stream<T> stream();
 
@@ -434,6 +446,10 @@ public interface QueryMapper {
          *
          * @param <T> the type of the entity being queried
          * @return an Optional containing the single result of the query, if present, or empty if no result is found
+         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
+         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
+         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
+         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
          */
         <T> Optional<T> singleResult();
 
