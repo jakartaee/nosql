@@ -288,7 +288,7 @@ However, every Jakarta NoSQL provider is strongly encouraged to support embeddab
 ==== Entity Associations
 
 An association field is a field of an entity class whose declared type is also an entity class.
-Given an instance of the first entity class, its association field holds a reference to an instance of a second entity class.
+Given an instance of the first entity class, its association field references an instance of a second entity class.
 
 For example, consider the following Java classes:
 
@@ -334,7 +334,14 @@ For example, the JSON representation of `Author` might be:
 ----
 
 
-NOTE: Support for entity associations is not required by this specification.
+In this scenario, the association between `Author` and `Book` is represented by the `books` field in the `Author` entity class.
+Since NoSQL databases do not support joins, the association field behaves as a *grouping* embedded field defined at <<embeddable_definition>>.
+It means that the `books` field groups together instances of the `Book` entity within the `Author` entity's data schema.
+
+[NOTE]
+====
+This specification does not require support for entity associations.
+====
 
 ==== Entity Property Names
 
