@@ -9,6 +9,12 @@ By adhering to these rules, Jakarta NoSQL providers ensure seamless integration 
 
 The Jakarta NoSQL specification sets clear guidelines for Jakarta NoSQL providers, ensuring consistency and compatibility across different providers. These rules enable multiple Jakarta Data providers to coexist within a system without interfering or overlapping at the same injection points. This level of standardization fosters interoperability and flexibility, empowering developers to choose the provider that best suits their project requirements.
 
+=== Configuration and Credentials
+
+Configuration and credentials for NoSQL databases are not standardized within the Jakarta NoSQL specification. Each Jakarta NoSQL provider is responsible for providing its own configuration mechanism, allowing developers to configure the connection to the NoSQL database according to their specific requirements.
+
+The Jakarta NoSQL specification highly recommends following the Twelve-Factor App methodology, particularly the "Store config in the environment" principle. This approach advocates for storing configuration details such as database credentials, connection URLs, and other settings as environment variables. This practice promotes portability, scalability, and security by separating configuration from code and ensuring consistency across different environments.
+
 === Jakarta NoSQL Providers Extensions
 
 Jakarta NoSQL providers and NoSQL databases have the flexibility to extend the API according to their specific requirements. This extensibility allows providers to create new annotations or develop specialized versions of the Template API tailored to their unique features or functionalities.
