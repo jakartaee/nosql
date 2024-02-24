@@ -35,6 +35,23 @@ However, it's essential to note that these extensions are specific to the respec
 
 Despite the lack of cross-compatibility, this extensibility empowers providers to effectively innovate and address specific use cases or requirements. By leveraging extensions, developers can harness the full potential of Jakarta NoSQL while benefiting from the diverse capabilities offered by different providers and databases.
 
+=== Persistent Fields
+
+A Jakarta NoSQL provider can read the annotation via runtime, for example, using reflection, or via build-time, for example, Java Annotation Processor.
+
+Jakarta NoSQL provider runtime accesses the persistent state of an entity via either:
+
+* property access using style property accessors defined by the Jakarta NoSQL provider for its respective field or
+* field access, that is, direct access to instance variables.
+
+When property access is used, the Jakarta NoSQL provider must define the conversion; the recommendation is the method signature convention for JavaBeans read/write properties, as determined by the JavaBeans `Introspector` class.
+
+[NOTE]
+====
+The `Column` annotation should be at the field in both access types.
+====
+
+
 == Interoperability with other Jakarta EE Specifications
 
 This section discusses Interoperability with related Jakarta EE specifications. When operating within a Jakarta EE product, the availability of other Jakarta EE technologies depends on whether the Jakarta EE Core profile, Jakarta EE Web profile, or Jakarta EE Platform is used.
