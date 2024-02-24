@@ -342,6 +342,7 @@ It means that the `books` field groups together instances of the `Book` entity w
 [NOTE]
 ====
 This specification does not require support for entity associations.
+Some databases might require the use of the udt attribute in the @Column annotation for embedded fields.
 ====
 
 ==== Collections of Embeddable Classes and Basic Types
