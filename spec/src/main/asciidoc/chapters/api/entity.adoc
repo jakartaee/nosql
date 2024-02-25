@@ -124,7 +124,7 @@ In addition to the types listed above, an entity programming model might support
 
 NOTE: Many key-value, wide-column, and document databases feature native support for arrays or even associative arrays of these basic types.
 
-==== Embedded Fields and Embeddable Classes [[embeddable_definition]]
+==== Embedded Fields and Embeddable Classes  [[embeddable_definition]]
 
 An _embeddable class_ differs from an entity class in that:
 
@@ -133,7 +133,7 @@ An _embeddable class_ differs from an entity class in that:
 
 An _embedded field_ is a field whose type is an embeddable class.
 
-Embeddable classes may have basic fields, embeddable fields, and association fields, but unlike entities, they do not have identifier fields.
+Embeddable classes may have basic, embeddable, and association fields, but unlike entities, they do not have identifier fields.
 
 Like entities, a programming model for entity classes might support mutable embeddable classes, immutable embeddable classes, or both.
 
@@ -148,11 +148,12 @@ In a flattened representation of an embedded field, the fields of the embeddable
 There is no representation of the embeddable class itself in the data schema.
 
 To ensure compatibility with Jakarta NoSQL, an embeddable class must adhere to the following constructor rules:
-- Constructors must be `public` or `protected` with no parameters or parameters annotated with `jakarta.nosql.Column` or `jakarta.nosql.Id`.
+
+- Constructors must be `public` or `protected` with no parameters or parameters annotated with `jakarta.nosql.Column`.
 - Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.
--If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
+- If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
 - Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.
-- Embeddable classes should not have multiple constructors using `jakarta.nosql.Id` or `jakarta.nosql.Column` annotations.
+- Embeddable classes should not have multiple constructors using  `jakarta.nosql.Column` annotations.
 
 For example, consider the following Java classes:
 
@@ -175,11 +176,11 @@ public class Person {
     @Column
     private String name;
     @Column
-    private Address address;  // embedded field
+    private Address address;  // flat embedded field
 }
 ----
 
-In a document, wide-column, or graph database, the JSON representation of an instance of the `Person` entity might be as follows:
+In a document, wide-column, or graph database, the JSON representation of an instance of the `Person` entity where the `Address` class is *flat* might be:
 
 [source,json]
 ----
@@ -193,9 +194,22 @@ In a document, wide-column, or graph database, the JSON representation of an ins
 ----
 
 
-In a structured representation, the fields of the embeddable class are somehow grouped together in the data schema.
+In a structured representation, when the embeddable field is *grouping* it will be together in the data schema.
 
-For example, the JSON representation of `Person` might be:
+[source,java]
+----
+@Embeddable(GROUPING)
+public class Address {
+    @Column
+    private String street;
+    @Column
+    private String city;
+    @Column
+    private String postalCode;
+}
+----
+
+In a document, wide-column, or graph database, the JSON representation of an instance of the `Person` entity where the `Address` class is *grouping* might be:
 
 [source,json]
 ----
@@ -211,13 +225,71 @@ For example, the JSON representation of `Person` might be:
 }
 ----
 
-NOTE: Support for embeddable classes and embedded fields is not required by this specification.
-However, every Jakarta NoSQL provider is strongly encouraged to provide support for embeddable classes within its entity programming model.
+When an embeddable class is used within an iterable field of an entity class, both embedding strategies,
+namely *flattening* and *grouping*, will function as *grouping*. This means that the fields of the embeddable class
+will be grouped together within the data schema, regardless of whether the embeddable class is marked for flattening or grouping.
+
+For example, consider the following entity class `Driver` containing an iterable of `Car` instances:
+
+[source,java]
+----
+@Entity
+public class Driver {
+    @Id
+    private UUID id;
+    @Column
+    private String name;
+    @Column
+    private Iterable<Car> cars;
+}
+
+@Embeddable
+public class Car {
+    @Column
+    private String plate;
+    @Column
+    private String category;
+}
+----
+
+In this scenario, the `Car` embeddable class is used within the `cars` field, which is an iterable in the `Driver` entity class.
+As a result, the embedding strategy will behave as *grouping*, regardless of whether the `Car` class is marked with the `@Embeddable(GROUPING)` annotation.
+
+The JSON representation of an instance of the `Driver` entity might appear as follows:
+
+[source,json]
+----
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "John Doe",
+  "cars": [
+    {
+      "plate": "ABC123",
+      "category": "Sedan"
+    },
+    {
+      "plate": "XYZ789",
+      "category": "SUV"
+    }
+  ]
+}
+----
+
+In this JSON representation, the `cars` field contains an array of `Car` objects, each with its own `plate` and `category` fields. This structure reflects the *grouping* embedding strategy, where the fields of the `Car` embeddable class are grouped together within the `Driver` entity's data schema.
+
+Additionally, it's important to note that support for embedding with a `Map` may vary by NoSQL database and Jakarta NoSQL provider. Different providers may have different approaches or limitations regarding the embedding of data structures such as maps with embeddable classes. Developers should consult the documentation of their chosen NoSQL database and Jakarta NoSQL provider for specific details and considerations regarding map embedding.
+
+[NOTE]
+====
+Support for grouping embeddable classes and embedded fields is not required by this specification.
+However, every Jakarta NoSQL provider is strongly encouraged to support embeddable classes within its entity programming model.
+Some databases might require the use of the `udt` attribute in the `@Column` annotation for embedded fields.
+====
 
 ==== Entity Associations
 
 An association field is a field of an entity class whose declared type is also an entity class.
-Given an instance of the first entity class, its association field holds a reference to an instance of a second entity class.
+Given an instance of the first entity class, its association field references an instance of a second entity class.
 
 For example, consider the following Java classes:
 
@@ -263,7 +335,167 @@ For example, the JSON representation of `Author` might be:
 ----
 
 
-NOTE: Support for entity associations is not required by this specification.
+In this scenario, the association between `Author` and `Book` is represented by the `books` field in the `Author` entity class.
+Since NoSQL databases do not support joins, the association field behaves as a *grouping* embedded field defined at <<embeddable_definition>>.
+It means that the `books` field groups together instances of the `Book` entity within the `Author` entity's data schema.
+
+[NOTE]
+====
+This specification does not require support for entity associations.
+Some databases might require the use of the udt attribute in the @Column annotation for embedded fields.
+====
+
+==== Collections of Embeddable Classes and Basic Types
+
+A persistent field or property of an entity or embeddable class may correspond to a collection of a basic type, embeddable, or entity class.
+
+No action is required beyond including the `Column` annotation for a collection of basic types.
+
+[source,java]
+----
+@Entity
+public class BucketList {
+    @Id
+    private Long id;
+    @Column
+    private String name;
+    @Column
+    private List<String> tasks;
+}
+----
+
+[source,json]
+----
+{
+  "id": 123,
+  "name": "Personal Goals",
+  "tasks": ["Travel the world", "Learn a new language", "Write a book"]
+}
+----
+
+The entity class will behave as an embeddable *grouping* class. This support may vary among NoSQL providers and might require a UDT name presentation in the case of embeddable or entity.
+
+For key-value databases, the serialization will occur through a unique blob, a process outside the scope of the Jakarta NoSQL specification.
+
+[source,java]
+----
+@Entity
+public class Company {
+    @Id
+    private String name;
+
+    @Column(udt= "headquarter")
+    private Set<Headquarter> headquarters;
+}
+
+@Entity
+// It could be Embedded, and the behavior won't change
+public class Headquarter {
+
+    @Column
+    private String city;
+
+    @Column
+    private String country;
+}
+----
+
+
+[source,json]
+----
+{
+  "name": "Acme Inc.",
+  "headquarters": [
+    {"city": "New York", "country": "USA"},
+    {"city": "London", "country": "UK"}
+  ]
+}
+----
+
+Collections within entities can accommodate various types of data, including basic types and complex structures like lists of strings.
+Jakarta NoSQL provides flexibility in handling such collections, ensuring seamless integration with the underlying NoSQL database.
+
+==== Map Collections
+
+Java `Map` collections offer a convenient way to represent associations and key-value pairs within entities in Jakarta NoSQL. Jakarta NoSQL handles map collections, allowing developers to manage complex data structures efficiently.
+
+[source,java]
+----
+@Entity
+public class Contact {
+    @Id
+    private String name;
+
+    @Column
+    private Map<String, String> socialMedia;
+}
+----
+
+JSON representation:
+[source,json]
+----
+{
+  "name": "John Doe",
+  "socialMedia": {
+    "twitter": "@johndoe",
+    "linkedin": "linkedin.com/in/johndoe"
+  }
+}
+----
+
+In the example above, the `Contact` entity includes a `socialMedia` field, represented as a `Map` where the key is a string representing the social media platform, and the value is the corresponding username or profile link.
+
+The behavior of map collections remains consistent regardless of whether the map values are basic types, embeddable classes, or entity classes. However, for embeddable or entity classes used as map values, the `udt` attribute may be required in the `@Column` annotation to specify the user-defined type.
+
+For instance, consider the following example:
+
+[source,java]
+----
+@Entity
+public class Computer {
+    @Id
+    private String name;
+
+    @Column
+    private Map<String, Program> programs;
+}
+
+@Embedded
+public class Program {
+    @Id
+    private String name;
+
+    @Column
+    private Map<String, String> socialMedia;
+}
+----
+
+JSON representation:
+[source,json]
+----
+{
+  "name": "My Computer",
+  "programs": {
+    "browser": {
+      "socialMedia": {
+        "twitter": "@browseruser",
+        "instagram": "@browseruser"
+      }
+    },
+    "editor": {
+      "socialMedia": {
+        "github": "github.com/editoruser",
+        "linkedin": "linkedin.com/in/editoruser"
+      }
+    }
+  }
+}
+----
+
+The `Computer` entity includes a `programs` field, a map where the keys represent program names, and the values are instances of the `Program` embeddable class. Each `Program` instance contains its own `socialMedia` map, representing the social media profiles associated with that program.
+
+It's important to note that support for map collections may vary depending on the NoSQL database and Jakarta NoSQL provider used. Developers should consult the documentation of their chosen provider for specific details and considerations regarding map collections.
+
 
 ==== Entity Property Names
 

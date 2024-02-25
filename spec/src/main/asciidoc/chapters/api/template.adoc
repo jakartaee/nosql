@@ -1,3 +1,4 @@
+
 == Template Classes
 
 The DAO (Data Access Object) pattern in Jakarta NoSQL simplifies the implementation of common database operations by providing a basic API to the underlying persistence engine. This pattern encapsulates the logic for interacting with the database, promoting a clean separation between the application's business logic and its data access code.
@@ -77,6 +78,7 @@ Some NoSQL databases may not support all filter operations, such as logical OR o
 
 Developers should be aware that while Jakarta NoSQL aims to provide a unified API across different NoSQL databases, there may be variations in support for certain operations depending on the capabilities of the specific database provider. When encountering limitations or unsupported operations, developers may need to adjust their application logic or consider alternative approaches to achieve the desired functionality within the constraints of the chosen NoSQL database technology.
 
+=== Template and Inheritance classes
 
 In case of querying an entity using the `@Inheritance` annotation as defined by <<inheritance_definition>>, the Jakarta NoSQL provider must automatically include the condition where the value from `@DiscriminatorColumn` equals the value of `@DiscriminatorValue`.
 
@@ -88,3 +90,100 @@ List<SmsNotification> notifications = template.select(SmsNotification.class);
 ----
 
 It ensures that only entities of type `SmsNotification`, as indicated by the discriminator value, are retrieved from the database.
+
+
+=== Fluent API Query
+
+The `Template` class in Jakarta NoSQL provides a fluent API for querying and deleting entities from the underlying NoSQL database. This fluent API offers a convenient and expressive way for Java developers to interact with their data, allowing them to construct complex queries efficiently and perform deletion operations.
+
+==== Importance of Fluent API Query
+
+The fluent API query is essential for Java developers as it simplifies retrieving and manipulating data from the NoSQL database. By providing a fluent interface, Jakarta NoSQL enables developers to express their query logic concisely and readably, making it easier to understand and maintain the codebase.
+
+The fluent API query also allows developers to build dynamic queries at runtime by chaining together various methods and conditions. This flexibility enables applications to adapt to changing requirements and user inputs, providing a more robust and responsive user experience.
+
+Furthermore, the fluent API query promotes code reuse and modularity by encapsulating query logic within reusable components. Developers can define and combine reusable query fragments to construct more complex queries, reducing duplication and improving code maintainability.
+
+==== Limitations in Key-Value Databases
+
+It is worth noting that the `select` and `delete` methods of the `Template` class may not be fully compatible with key-value databases. This limitation arises because key-value databases primarily rely on key-value pairs for data retrieval and deletion rather than complex query predicates.
+
+The primary data access mode in key-value databases is through direct lookup by key. It is challenging to support complex query operations like those provided by the fluent API query. As a result, attempts to use the `select` and `delete` methods with key-value databases may throw an `UnsupportedOperationException` by Jakarta NoSQL, indicating that the underlying database technology does not support the operation.
+
+==== Supported Methods in Other NoSQL Databases
+
+The fluent API query offers a wide range of supported methods through the `QueryMapper` class for other types of NoSQL databases, such as document-oriented or column-family databases. These methods may include filtering, sorting, and basic querying capabilities, providing developers with flexible data retrieval and manipulation tools.
+
+However, it's essential to consider that the availability of certain query methods may vary depending on the specific NoSQL database being used. NoSQL databases that do not support certain operations can raise `UnsupportedOperationException`.
+
+Attempting to use unsupported operations with the fluent API query may result in runtime exceptions or unexpected behavior. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
+
+==== Query Navigation Hierarchy
+
+In Jakarta NoSQL, the query navigation hierarchy refers to navigating through the properties of entities and their associated classes when constructing queries. Within an entity, property names must be unique, ignoring case. The field or accessor method name serves as the entity property name for simple entity properties. In the case of embedded and association classes, entity property names are computed by concatenating the field or accessor method names at each level, optionally joined by a comma, `.`, delimiter.
+
+For example, consider the following data model:
+
+[source,java]
+----
+class Person {
+  private Long id;
+  private MailingAddress address;
+}
+
+class MailingAddress {
+  private String zipcode;
+  private String city;
+}
+----
+
+In this scenario, querying for records based on the zip code of the `MailingAddress` class requires accessing the `address` field of `Person` and the `zipcode` property of `MailingAddress`.
+
+[source,java]
+----
+@Inject
+Template template;
+
+List<Book> books = template.select(Person.class)
+        .where("address.zipcode")
+        .eq("402-775")
+        .orderBy("address.city")
+        .asc()
+        .result();
+
+template.delete(Person.class)
+     .where("address.zipcode")
+     .eq("402-775")
+     .execute();
+----
+
+In the above example, the fluent API query navigates through the properties of the `Person` entity to access the `zipcode` property of the `MailingAddress` embedded class. The `where` clause specifies the path to the `zipcode` property using dot notation (`address.zipcode`). The `orderBy` clause similarly specifies the path to the `city` property for sorting the results by city in ascending order.
+
+This query navigation hierarchy enables developers to construct complex queries traverse multiple levels of entity properties, facilitating flexible and precise data retrieval and manipulation in Jakarta NoSQL.
+
+=== TTL (Time-To-Live) Support
+
+TTL (Time-To-Live) is a feature provided by many NoSQL databases that allows developers to set an expiration time for data stored in the database. When data reaches its TTL, it is automatically removed from the database, freeing up resources and ensuring that it remains efficient and clutter-free.
+
+For Java developers, TTL support is essential for managing data lifecycle and optimizing resource usage. It enables developers to implement caching strategies, manage temporary data, and enforce data retention policies effectively.
+
+While TTL support is valuable, not all NoSQL databases provide native support for TTL. In cases where TTL is not supported, attempting to set a TTL on data may result in an `UnsupportedOperationException` being thrown by the Jakarta NoSQL provider.
+
+Additionally, some NoSQL providers may have limitations on the granularity of TTL values, such as supporting only TTL values specified in certain units (e.g., hours) or rounding TTL values to the nearest supported unit. In such cases, attempting to set a TTL value that does not align with the provider's limitations may result in unexpected behavior or no TTL being applied.
+
+For example, suppose a NoSQL database only supports TTL values specified in hours. If a developer attempts to set a TTL of 10 seconds, the Jakarta NoSQL provider may throw an UnsupportedOperationException. Similarly, if the developer attempts to set a TTL of 3660 seconds (which is more than one hour), the TTL value may be rounded to the nearest supported unit (i.e., one hour) by the provider.
+
+[source,java]
+----
+@Inject
+Template template;
+
+// UnsupportedOperationException: TTL granularity not supported
+template.insert(entity, Duration.ofSeconds(10L));
+
+// Inserting data with a TTL of one hour
+template.insert(entity, Duration.ofSeconds(3600));
+
+// Inserting data with a TTL of one hour (rounded from 3660 seconds)
+template.insert(entity, Duration.ofSeconds(3660));
+----

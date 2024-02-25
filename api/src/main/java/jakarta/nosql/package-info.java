@@ -45,5 +45,8 @@
  * <p>
  * The {@link jakarta.nosql.DiscriminatorValue} annotation specifies the value of the discriminator column for the annotated
  * entity type.
+ * <p>
+ * The {@link jakarta.nosql.Template} interface provides methods for interacting with NoSQL databases, allowing operations
+ * such as insertion, updating, querying, and deletion of entities.
  */
 package jakarta.nosql;

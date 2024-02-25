@@ -1,4 +1,7 @@
+
 == Jakarta NoSQL Providers
+
+A Jakarta NoSQL provider might come as an integrated component of a Jakarta EE container or a separate component that integrates with the Jakarta EE container via standard or proprietary SPIs. For example, a Jakarta NoSQL provider might use a CDI portable extension to integrate with dependency injection.
 
 Jakarta NoSQL providers play a crucial role in the ecosystem by interpreting the annotations provided by developers and implementing the corresponding Template interfaces. These providers handle operations related to entities according to the rules outlined in the Jakarta NoSQL specification.
 
@@ -6,6 +9,23 @@ By adhering to these rules, Jakarta NoSQL providers ensure seamless integration 
 
 The Jakarta NoSQL specification sets clear guidelines for Jakarta NoSQL providers, ensuring consistency and compatibility across different providers. These rules enable multiple Jakarta Data providers to coexist within a system without interfering or overlapping at the same injection points. This level of standardization fosters interoperability and flexibility, empowering developers to choose the provider that best suits their project requirements.
 
+=== Configuration and Credentials
+
+Configuration and credentials for NoSQL databases are not standardized within the Jakarta NoSQL specification. Each Jakarta NoSQL provider is responsible for providing its own configuration mechanism, allowing developers to configure the connection to the NoSQL database according to their specific requirements.
+
+The Jakarta NoSQL specification highly recommends following the Twelve-Factor App methodology, particularly the "Store config in the environment" principle. This approach advocates for storing configuration details such as database credentials, connection URLs, and other settings as environment variables. This practice promotes portability, scalability, and security by separating configuration from code and ensuring consistency across different environments.
+
+=== Schema Generation
+
+The process of creating a schema for a database is called schema generation. This process is not included in the Jakarta NoSQL specification. While some NoSQL databases allow schema definition and enforcement, many NoSQL databases are schemaless, which means developers can store data without defining a schema beforehand.
+
+Therefore, the ability to generate a schema may differ depending on the NoSQL database and the Jakarta NoSQL provider being used. Some Jakarta NoSQL providers offer schema generation capabilities, while others do not.
+
+For developers working with schemaless NoSQL databases, schema generation may not be necessary. This is because the database dynamically adapts to the structure of the data being stored. In such cases, the focus should be on organizing data to suit the application's requirements best, rather than defining a rigid schema.
+
+In cases where schema generation is supported, developers should be aware that the process may vary between NoSQL databases and Jakarta NoSQL providers. Different databases may have unique requirements or conventions for defining schemas, and Jakarta NoSQL providers may offer different approaches or tools for schema generation.
+
+Whether schema generation is necessary or beneficial depends on the specific use case, the NoSQL database being used, and the development team's preferences. Developers should consult the documentation of their chosen NoSQL database and Jakarta NoSQL provider for guidance on schema generation practices and considerations.
 
 === Jakarta NoSQL Providers Extensions
 
@@ -14,6 +34,23 @@ Jakarta NoSQL providers and NoSQL databases have the flexibility to extend the A
 However, it's essential to note that these extensions are specific to the respective provider or database and may not be compatible with others. As a result, there is no guarantee of compatibility between extensions developed by different Jakarta NoSQL providers or NoSQL databases.
 
 Despite the lack of cross-compatibility, this extensibility empowers providers to effectively innovate and address specific use cases or requirements. By leveraging extensions, developers can harness the full potential of Jakarta NoSQL while benefiting from the diverse capabilities offered by different providers and databases.
+
+=== Persistent Fields
+
+A Jakarta NoSQL provider can read the annotation via runtime, for example, using reflection, or via build-time, for example, Java Annotation Processor.
+
+Jakarta NoSQL provider runtime accesses the persistent state of an entity via either:
+
+* property access using style property accessors defined by the Jakarta NoSQL provider for its respective field or
+* field access, that is, direct access to instance variables.
+
+When property access is used, the Jakarta NoSQL provider must define the conversion; the recommendation is the method signature convention for JavaBeans read/write properties, as determined by the JavaBeans `Introspector` class.
+
+[NOTE]
+====
+The `Column` annotation should be at the field in both access types.
+====
+
 
 == Interoperability with other Jakarta EE Specifications
 
@@ -35,6 +72,23 @@ Template template;
 // ...
 
 List<Car> cars = template.select(Car.class).where("type").eq(CarType.SPORT).result();
+----
+
+Additionally, the Jakarta NoSQL provider should provide CDI qualifiers to allow working with multiple NoSQL databases through CDI.
+Developers can use these qualifiers to specify which database instance they want to inject, enabling flexibility and
+compatibility with different NoSQL data stores. Jakarta NoSQL providers typically supply annotations like `@DatabaseQualifier` to annotate the injection points.
+
+For example:
+
+[source,java]
+----
+@Inject
+@DatabaseQualifier
+Template template;
+
+@Inject
+@DatabaseQualifier("another")
+Template anotherTemplate;
 ----
 
 ==== CDI Extensions for Jakarta Data Providers
@@ -83,7 +137,7 @@ public class Student {
 
 In this example, the `name` field is annotated with `@NotBlank`, indicating that it must not be blank. The `age` field is annotated with both `@Positive` and `@Min(18)`, ensuring it is a positive integer greater than or equal to 18.
 
-To execute validation before inserting data using Jakarta NoSQL templates, developers can simply invoke the `insert` method on the template instance:
+To execute validation before inserting data using Jakarta NoSQL templates, developers can simply invoke the `insert` and `update` methods on the template instance:
 
 [source,java]
 ----
@@ -97,8 +151,8 @@ template.insert(student);
 
 === Jakarta Data
 
-Integrating Jakarta NoSQL with Jakarta Data allows developers to incorporate common data patterns, such as repositories, into their codebase seamlessly.
+Developers can seamlessly incorporate common data patterns, such as repositories, into their codebase by integrating Jakarta NoSQL with Jakarta Data.
 
 Jakarta NoSQL providers that support Jakarta Data typically scan interfaces marked with the `jakarta.data.repository.Repository` annotation. This annotation serves as a marker for repositories, providing a standardized way to define repository interfaces.
 
-By embracing Jakarta Data, Jakarta NoSQL providers empower Java developers to leverage well-established and standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
+By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
