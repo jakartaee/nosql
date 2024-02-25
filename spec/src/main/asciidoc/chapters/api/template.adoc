@@ -169,7 +169,7 @@ For Java developers, TTL support is essential for managing data lifecycle and op
 
 While TTL support is valuable, not all NoSQL databases provide native support for TTL. In cases where TTL is not supported, attempting to set a TTL on data may result in an `UnsupportedOperationException` being thrown by the Jakarta NoSQL provider.
 
-Additionally, some NoSQL providers may have limitations on the granularity of TTL values, such as supporting only TTL values specified in certain units (e.g., hours) or rounding TTL values to the nearest supported unit. In such cases, attempting to set a TTL value that does not align with the provider's limitations may result in unexpected behavior or zero TTL being applied.
+Additionally, some NoSQL providers may have limitations on the granularity of TTL values, such as supporting only TTL values specified in certain units (e.g., hours) or rounding TTL values to the nearest supported unit. In such cases, attempting to set a TTL value that does not align with the provider's limitations may result in unexpected behavior or no TTL being applied.
 
 For example, suppose a NoSQL database only supports TTL values specified in hours. If a developer attempts to set a TTL of 10 seconds, the Jakarta NoSQL provider may throw an UnsupportedOperationException. Similarly, if the developer attempts to set a TTL of 3660 seconds (which is more than one hour), the TTL value may be rounded to the nearest supported unit (i.e., one hour) by the provider.
 
