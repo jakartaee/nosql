@@ -114,7 +114,7 @@ The primary data access mode in key-value databases is through direct lookup by 
 
 The fluent API query offers a wide range of supported methods through the `QueryMapper` class for other types of NoSQL databases, such as document-oriented or column-family databases. These methods may include filtering, sorting, and basic querying capabilities, providing developers with flexible data retrieval and manipulation tools.
 
-However, it's essential to consider that the availability of certain query methods may vary depending on the specific NoSQL database being used. Some NoSQL databases may not support certain operations through the `UnsupportedOperationException`.
+However, it's essential to consider that the availability of certain query methods may vary depending on the specific NoSQL database being used. NoSQL databases that do not support certain operations can raise `UnsupportedOperationException`.
 
 Attempting to use unsupported operations with the fluent API query may result in runtime exceptions or unexpected behavior. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
 
