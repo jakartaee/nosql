@@ -137,7 +137,7 @@ class MailingAddress {
 }
 ----
 
-In this scenario, querying for records based on the zip code at the `MailingAddress` class requires accessing the `address` field at `Person` and the `zipcode` property at `MailingAddress`.
+In this scenario, querying for records based on the zip code of the `MailingAddress` class requires accessing the `address` field of `Person` and the `zipcode` property of `MailingAddress`.
 
 [source,java]
 ----
