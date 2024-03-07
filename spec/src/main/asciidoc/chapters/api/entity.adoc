@@ -124,6 +124,55 @@ In addition to the types listed above, an entity programming model might support
 
 NOTE: Many key-value, wide-column, and document databases feature native support for arrays or even associative arrays of these basic types.
 
+===== Enum Type [[enum_type]]
+
+Enum types in Java refer to a set of fixed constants. In Jakarta NoSQL, enums are regarded as basic types that are frequently used to represent data with a limited number of predefined values. By default, enums are stored as strings in the database, with the enum constant name being used as the stored value.
+
+For example, consider the following enum representing the days of the week:
+
+[source,java]
+----
+public enum DayOfWeek {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
+}
+----
+
+When using an enum type in an entity class, it can be annotated with the `@Column` annotation to specify the storage details. Here's an entity class `Meeting` that includes an enum field representing the day of the week:
+
+[source,java]
+----
+@Entity
+public class Meeting {
+    @Id
+    private String id;
+
+    @Column
+    private DayOfWeek day;
+
+    @Column
+    private List<String> attendees;
+}
+----
+
+In this example, the `day` field of the `Meeting` entity is of type `DayOfWeek`, an enum type representing the days of the week. The `@Column` annotation indicates that this enum will be stored as a string in the database.
+
+The JSON representation of a `Meeting` entity might look like this:
+
+[source,json]
+----
+{
+  "id": "123456",
+  "day": "MONDAY",
+  "attendees": ["Alice", "Bob", "Charlie"]
+}
+----
+
 ==== Embedded Fields and Embeddable Classes  [[embeddable_definition]]
 
 An _embeddable class_ differs from an entity class in that:
