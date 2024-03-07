@@ -126,7 +126,7 @@ NOTE: Many key-value, wide-column, and document databases feature native support
 
 ===== Enum Type [[enum_type]]
 
-Enum types in Java refer to a set of fixed constants. In Jakarta NoSQL, enums are regarded as basic types that are frequently used to represent data with a limited number of predefined values. By default, enums are stored as strings in the database, with the enum constant name being used as the stored value.
+Enum types in Java represent a fixed set of constants. In Jakarta NoSQL, enums are considered basic types and are commonly used to represent data with a limited number of predefined values. By default, enums are stored as strings in the database, with the enum constant name being used as the stored value. The `name()` method of the enum class is typically used to retrieve the name of the enum constant.
 
 For example, consider the following enum representing the days of the week:
 
@@ -160,7 +160,7 @@ public class Meeting {
 }
 ----
 
-In this example, the `day` field of the `Meeting` entity is of type `DayOfWeek`, an enum type representing the days of the week. The `@Column` annotation indicates that this enum will be stored as a string in the database.
+In this example, the `day` field of the `Meeting` entity is of type `DayOfWeek`, an enum type representing the days of the week. The `@Column` annotation indicates that this enum will be stored as a string in the database using the `name()` method to retrieve the enum constant's name.
 
 The JSON representation of a `Meeting` entity might look like this:
 
