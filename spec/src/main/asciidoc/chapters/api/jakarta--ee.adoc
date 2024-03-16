@@ -74,9 +74,7 @@ Template template;
 List<Car> cars = template.select(Car.class).where("type").eq(CarType.SPORT).result();
 ----
 
-Additionally, the Jakarta NoSQL provider should provide CDI qualifiers to allow working with multiple NoSQL databases through CDI.
-Developers can use these qualifiers to specify which database instance they want to inject, enabling flexibility and
-compatibility with different NoSQL data stores. Jakarta NoSQL providers typically supply annotations like `@DatabaseQualifier` to annotate the injection points.
+The Jakarta NoSQL provider should also provide CDI qualifiers to work with multiple NoSQL databases through CDI. Developers can use these qualifiers to specify which database instance they want to inject, enabling flexibility and compatibility with different NoSQL data stores. Jakarta NoSQL providers typically supply annotations like `@DatabaseQualifier` to annotate the injection points.
 
 For example:
 
@@ -90,6 +88,15 @@ Template template;
 @DatabaseQualifier("another")
 Template anotherTemplate;
 ----
+
+The template implementation bean must have:
+
+- qualifier type `@Default`, and
+- the template interface as a bean type.
+
+Thus, the implementation is eligible for injection to unqualified injection points typed to the repository interface, as defined by section 2.4 of the CDI specification, version 4.0.
+
+NOTE: This specification does not restrict the scope of the template implementation bean.
 
 ==== CDI Extensions for Jakarta Data Providers
 
