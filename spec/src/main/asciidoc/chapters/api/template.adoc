@@ -120,7 +120,11 @@ Attempting to use unsupported operations with the fluent API query may result in
 
 ==== Query Navigation Hierarchy
 
-In Jakarta NoSQL, the query navigation hierarchy refers to navigating through the properties of entities and their associated classes when constructing queries. Within an entity, property names must be unique, ignoring case. The field or accessor method name serves as the entity property name for simple entity properties. In the case of embedded and association classes, entity property names are computed by concatenating the field or accessor method names at each level, optionally joined by a dot, `.`, delimiter.
+In Jakarta NoSQL, the query navigation hierarchy refers to navigating through the properties of entities and their associated classes when constructing queries. Within an entity, property names must be unique, ignoring cases. For simple entity properties, the field or accessor method name serves as the entity property name. In the case of embedded and association classes, entity property names are computed by concatenating the field or accessor method names at each level, optionally joined by a dot or period, `.`, delimiter.
+
+Within a given entity or embeddable class, names assigned to persistent fields must be unique, ignoring cases.
+
+Furthermore, within the context of a given entity, each persistent field of an embeddable class reachable by navigation from the entity class may be assigned a compound name. The compound name is obtained by concatenating the names assigned to each field traversed by navigation from the entity class to the persistent field of the embedded class, optionally joined by a delimiter.
 
 For example, consider the following data model:
 
