@@ -8,6 +8,25 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 == [Unreleased]
 
+== [1.0.0-M1] - 2024-03-23
+
+=== Removed
+
+- Remove document API
+- Remove column API
+- Remove key-value API
+
+=== Changed
+
+- Define Entity by Jakarta NoSQL
+- Define inheritance by Jakarta NoSQL
+- Define MappedSuperclass by Jakarta NoSQL
+- Define Embeddable by Jakarta NoSQL
+
+=== Added
+
+- add MappedSuperclass, Embeddable, Inheritance, DiscriminatorColumn, DiscriminatorValue annotations
+
 == [1.0.0-b7] - 2023-06-22
 
 === Added
