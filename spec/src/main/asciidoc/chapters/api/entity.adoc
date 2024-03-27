@@ -50,6 +50,7 @@ In either case, an entity programming model might restrict the visibility of an 
 An entity programming model might support inheritance between entities and provide support for retrieving entities in a polymorphic fashion. This specification does not require support for inheritance.
 
 To ensure compatibility with Jakarta NoSQL, an entity programming model must adhere to the following constructor rules:
+
 - Constructors must be `public` or `protected` with no parameters or with parameters annotated with `Jakarta.nosql.Column` or `Jakarta.nosql.Id`.
 - Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.
 - If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
