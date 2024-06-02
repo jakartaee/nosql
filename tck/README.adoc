@@ -1,0 +1,55 @@
+= Jakarta NoSQL TCK
+:toc:
+
+== Introduction
+
+The Jakarta NoSQL Technology Compatibility Kit (TCK) is a suite of tests designed to verify that a Jakarta NoSQL implementation is compatible with the Jakarta NoSQL specification. It ensures consistency and reliability across different implementations of the Jakarta NoSQL API.
+
+Any Jakarta NoSQL module must pass this test suite to be considered compliant with the Jakarta NoSQL standards.
+
+
+== Dependencies
+
+You must add the appropriate TCK module dependency for the Jakarta NoSQL implementation you wish to test in your build file to enable the tests. Here is an example of how to configure it in your `pom.xml` file:
+
+[source,xml]
+----
+<properties>
+    <jakarta.nosql.version>1.0.0</jakarta.nosql.version>
+</properties>
+
+<dependency>
+    <groupId>jakarta.nosql</groupId>
+    <artifactId>jakarta.nosql-tck</artifactId>
+    <version>${jakarta.nosql.version}</version>
+    <scope>test</scope>
+</dependency>
+----
+
+== Configuration in Apache Maven pom.xml
+
+The tests are run by the `maven-surefire-plugin`. Ensure that your `pom.xml` is configured correctly to include this plugin and scan for the necessary dependencies. Below is an example configuration:
+
+[source,xml]
+----
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${maven.surefire.plugin.version}</version>
+            <configuration>
+                <dependenciesToScan>
+                    <dependency>jakarta.nosql:jakarta.nosql-tck</dependency>
+                </dependenciesToScan>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+----
+
+== TemplateSupplier and SPI Implementation
+
+The next step involves creating and preparing the `TemplateSupplier`, and using a sample Service Provider Interface (SPI) implementation. This setup ensures the TCK can adequately interact with and test the Jakarta NoSQL implementation.
+
+Detailed instructions for implementing and configuring the `TemplateSupplier` and SPI can be found in the official Jakarta NoSQL documentation. Ensure these components are correctly set up to facilitate seamless testing with the TCK.

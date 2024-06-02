@@ -1,0 +1,25 @@
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+test-output/
+/doc
+*.iml
+*.idea
+*.log
+/.idea
+.checkstyle
+
+# Eclipse metadata
+.settings/
+.project
+.factorypath
+.classpath
+-project
+/.resourceCache
+/.project
+**/.DS_Store
+# Annotation processor metadata
+.apt_generated/
+.apt_generated_tests/
