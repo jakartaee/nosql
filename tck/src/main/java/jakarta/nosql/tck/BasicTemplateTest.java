@@ -17,6 +17,8 @@ package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.PersonSupplier;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -25,7 +27,14 @@ public class BasicTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonSupplier.class)
-    void shouldInsert(Person person) {
-        template.insert(person);
+    @DisplayName("Should insert the person: {0}")
+    void shouldInsert(Person entity) {
+        var person = template.insert(entity);
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(person).isNotNull();
+            soft.assertThat(person.getId()).isNotNull();
+            soft.assertThat(person.getName()).isEqualTo(entity.getName());
+            soft.assertThat(person.getAge()).isEqualTo(entity.getAge());
+        });
     }
 }

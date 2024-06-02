@@ -27,13 +27,13 @@ import java.util.function.Supplier;
  * <p>The {@code TemplateSupplier} abstracts the complexity of database configuration and dependency injection,
  * facilitating seamless interaction with NoSQL databases, particularly schema-based databases.</p>
  *
- * <p>Upon creation of a {@code TemplateSupplier} instance, the Jakarta NoSQL provider is responsible for:
+ * <p>Upon creation of a {@code TemplateSupplier} instance, the Jakarta NoSQL provider is responsible for:</p>
  * <ul>
  *   <li>Setting up the database credentials</li>
  *   <li>Initializing the database</li>
  *   <li>Configuring the dependency injection mechanism</li>
  * </ul>
- * Although Jakarta CDI (Contexts and Dependency Injection) is recommended as the dependency injection engine,
+ * <p>Although Jakarta CDI (Contexts and Dependency Injection) is recommended as the dependency injection engine,
  * its specific implementation is beyond the scope of the Jakarta NoSQL specification. The specification primarily
  * focuses on configuration and management of database resources.</p>
  *
