@@ -15,7 +15,6 @@
  */
 package jakarta.nosql.tck.factories;
 
-import jakarta.nosql.tck.entities.Person;
 import net.datafaker.Faker;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
@@ -45,13 +44,12 @@ import java.util.function.Supplier;
  *
  * @param <T> the type of object that this supplier provides
  *
- * @see Person
  * @see Faker
  * @see Supplier
  * @see ArgumentsProvider
  * @since 1.0
  */
-abstract class AbstractSupplier<T> implements Supplier<Person>, ArgumentsProvider {
+abstract class AbstractSupplier<T> implements Supplier<T>, ArgumentsProvider {
 
     private static final Faker FAKER = new Faker();
 
