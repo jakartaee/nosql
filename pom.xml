@@ -65,6 +65,7 @@
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.10.0.2594</sonar.maven.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+        <apache.pdm.plugin.version>3.24.0</apache.pdm.plugin.version>
     </properties>
 
     <dependencies>
@@ -329,6 +330,27 @@
                                         <arg>loopback</arg>
                                     </gpgArguments>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>${apache.pdm.plugin.version}</version>
+                        <configuration>
+                            <rulesets>
+                                <ruleset>/category/java/bestpractices.xml</ruleset>
+                                <ruleset>/category/java/security.xml</ruleset>
+                                <ruleset>/category/java/performance.xml</ruleset>
+                            </rulesets>
+                            <failOnViolation>true</failOnViolation>
+                            <printFailingErrors>true</printFailingErrors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
