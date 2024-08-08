@@ -53,18 +53,19 @@
     <properties>
         <apache.rat.version>0.15</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
-        <jacoco.maven.version>0.8.11</jacoco.maven.version>
-        <maven-javadoc-plugin.vesion>3.6.3</maven-javadoc-plugin.vesion>
-        <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-        <maven.checkstyle.plugin.version>3.3.1</maven.checkstyle.plugin.version>
-        <maven.compile.version>3.12.1</maven.compile.version>
+        <jacoco.maven.version>0.8.12</jacoco.maven.version>
+        <maven-javadoc-plugin.vesion>3.8.0</maven-javadoc-plugin.vesion>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven.checkstyle.plugin.version>3.4.0</maven.checkstyle.plugin.version>
+        <maven.compile.version>3.13.0</maven.compile.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>3.3.1</maven.surefire.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.jacoco.reportPath>../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.maven.version>3.10.0.2594</sonar.maven.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+        <apache.pdm.plugin.version>3.24.0</apache.pdm.plugin.version>
     </properties>
 
     <dependencies>
@@ -278,6 +279,27 @@
                 <executions>
                     <execution>
                         <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${apache.pdm.plugin.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>/category/java/bestpractices.xml</ruleset>
+                        <ruleset>/category/java/security.xml</ruleset>
+                        <ruleset>/category/java/performance.xml</ruleset>
+                    </rulesets>
+                    <failOnViolation>true</failOnViolation>
+                    <printFailingErrors>true</printFailingErrors>
+                </configuration>
+                <executions>
+                    <execution>
                         <goals>
                             <goal>check</goal>
                         </goals>
