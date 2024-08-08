@@ -56,7 +56,7 @@
         <jacoco.maven.version>0.8.11</jacoco.maven.version>
         <maven-javadoc-plugin.vesion>3.6.3</maven-javadoc-plugin.vesion>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-        <maven.checkstyle.plugin.version>3.3.1</maven.checkstyle.plugin.version>
+        <maven.checkstyle.plugin.version>3.4.0</maven.checkstyle.plugin.version>
         <maven.compile.version>3.12.1</maven.compile.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -285,6 +285,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${apache.pdm.plugin.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>/category/java/bestpractices.xml</ruleset>
+                        <ruleset>/category/java/security.xml</ruleset>
+                        <ruleset>/category/java/performance.xml</ruleset>
+                    </rulesets>
+                    <failOnViolation>true</failOnViolation>
+                    <printFailingErrors>true</printFailingErrors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -330,27 +351,6 @@
                                         <arg>loopback</arg>
                                     </gpgArguments>
                                 </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>${apache.pdm.plugin.version}</version>
-                        <configuration>
-                            <rulesets>
-                                <ruleset>/category/java/bestpractices.xml</ruleset>
-                                <ruleset>/category/java/security.xml</ruleset>
-                                <ruleset>/category/java/performance.xml</ruleset>
-                            </rulesets>
-                            <failOnViolation>true</failOnViolation>
-                            <printFailingErrors>true</printFailingErrors>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
                             </execution>
                         </executions>
                     </plugin>
