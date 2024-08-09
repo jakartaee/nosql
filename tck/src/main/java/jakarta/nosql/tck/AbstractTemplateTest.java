@@ -27,4 +27,5 @@ public abstract class AbstractTemplateTest {
         TemplateSupplier supplier = TemplateSupplier.template();
         this.template = supplier.get();
     }
+
 }
