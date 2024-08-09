@@ -9,30 +9,6 @@
         Rules which enforce a specific coding style.
     </description>
 
-    <rule name="AtLeastOneConstructor"
-          language="java"
-          since="1.04"
-          message="Each class should declare at least one constructor"
-          class="net.sourceforge.pmd.lang.java.rule.codestyle.AtLeastOneConstructorRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_codestyle.html#atleastoneconstructor">
-        <description>
-            <![CDATA[
-Each non-static class should declare at least one constructor.
-Classes with solely static members are ignored, refer to [UseUtilityClassRule](pmd_rules_java_design.html#useutilityclass) to detect those.
-]]>
-        </description>
-        <priority>3</priority>
-        <example>
-            <![CDATA[
-public class Foo {
-   // missing constructor
-  public void doSomething() { ... }
-  public void doOtherThing { ... }
-}
-]]>
-        </example>
-    </rule>
-
     <rule name="AvoidDollarSigns"
           language="java"
           since="1.5"
@@ -943,28 +919,6 @@ public interface MissingProperSuffix extends javax.ejb.EJBLocalObject {}    // n
         </example>
     </rule>
 
-    <rule name="LocalVariableCouldBeFinal"
-          language="java"
-          since="2.2"
-          message="Local variable ''{0}'' could be declared final"
-          class="net.sourceforge.pmd.lang.java.rule.codestyle.LocalVariableCouldBeFinalRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_codestyle.html#localvariablecouldbefinal">
-        <description>
-            A local variable assigned only once can be declared final.
-        </description>
-        <priority>3</priority>
-        <example>
-            <![CDATA[
-public class Bar {
-    public void foo () {
-    String txtA = "a";          // if txtA will not be assigned again it is better to do this:
-    final String txtB = "b";
-    }
-}
-]]>
-        </example>
-    </rule>
-
     <rule name="LocalVariableNamingConventions"
           language="java"
           since="6.6.0"
@@ -1130,30 +1084,6 @@ public class ClassInDefaultPackage {
             <![CDATA[
 public class Foo {
     private int num = 1000000; // should be 1_000_000
-}
-]]>
-        </example>
-    </rule>
-
-    <rule name="OnlyOneReturn"
-          language="java"
-          since="1.0"
-          message="A method should have only one exit point, and that should be the last statement in the method"
-          class="net.sourceforge.pmd.lang.java.rule.codestyle.OnlyOneReturnRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_codestyle.html#onlyonereturn">
-        <description>
-            A method should have only one exit point, and that should be the last statement in the method.
-        </description>
-        <priority>3</priority>
-        <example>
-            <![CDATA[
-public class OneReturnOnly1 {
-  public String foo(int x) {
-    if (x > 0) {
-      return "hey";   // first exit
-    }
-    return "hi";    // second exit
-  }
 }
 ]]>
         </example>
@@ -1785,46 +1715,6 @@ was made possible for anonymous class constructors.
             }
             ]]>
         </example>
-    </rule>
-
-    <rule name="UseExplicitTypes"
-          language="java"
-          minimumLanguageVersion="10"
-          since="7.0.0"
-          message="Use Explicit Types"
-          class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
-          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_codestyle.html#useexplicittypes">
-        <description>
-            Java 10 introduced the `var` keyword. This reduces the amount of code written because java can infer the type
-            from the initializer of the variable declaration.
-
-            This is essentially a trade-off: On the one hand, it can make code more readable by eliminating redundant
-            information. On the other hand, it can make code less readable by eliding useful information. There is no
-            blanket rule for when `var` should be used or shouldn't.
-
-            It may make sense to use `var` when the type is inherently clear upon reading the statement
-            (ie: assignment to either a literal value or a constructor call). Those use cases
-            can be enabled through properties.
-
-            Notice that lambda parameters are allowed, as they are already inferred  by default (the `var` keyword
-            is completely optional).
-
-            See also [Local Variable Type Inference Style Guidelines](https://openjdk.org/projects/amber/guides/lvti-style-guide).
-        </description>
-        <priority>3</priority>
-        <properties>
-            <property name="allowLiterals" type="Boolean" value="false" description="Allow when variables are directly initialized with literals"/>
-            <property name="allowCtors" type="Boolean" value="false" description="Allow when variables are directly initialized with a constructor call"/>
-            <property name="xpath">
-                <value>
-                    <![CDATA[
-//LocalVariableDeclaration[@TypeInferred = true()]
-    [not(VariableDeclarator[*[pmd-java:nodeIs("Literal")]]) or $allowLiterals = false()]
-    [not(VariableDeclarator[ConstructorCall]) or $allowCtors = false()]
-]]>
-                </value>
-            </property>
-        </properties>
     </rule>
 
     <rule name="UselessParentheses"
