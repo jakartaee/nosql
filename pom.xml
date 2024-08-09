@@ -291,7 +291,7 @@
                 <version>${apache.pdm.plugin.version}</version>
                 <configuration>
                     <rulesets>
-                        <ruleset>/category/java/bestpractices.xml</ruleset>
+                        <ruleset>pmd/bestpractices.xml</ruleset>
                         <ruleset>/category/java/security.xml</ruleset>
                         <ruleset>/category/java/performance.xml</ruleset>
                     </rulesets>
