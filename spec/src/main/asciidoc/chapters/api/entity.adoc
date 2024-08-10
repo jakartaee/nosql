@@ -336,6 +336,55 @@ However, every Jakarta NoSQL provider is strongly encouraged to support embeddab
 Some databases might require the use of the `udt` attribute in the `@Column` annotation for embedded fields.
 ====
 
+
+==== Array Support
+
+Jakarta NoSQL implementations MUST support binding Java arrays of the basic types, as referenced in <<basic_types>>, and arrays of entities and embedded classes.
+
+Arrays of entities and embedded classes are supported and will function as embedded classes with *grouping*.
+
+Consider an entity class `Library` with an array of `Book` entities and an array of `String` tags.
+
+[source,java]
+----
+@Entity
+public class Library {
+    @Id
+    private Long id;
+
+    @Column
+    private Book[] books;
+
+    @Column
+    private String[] tags;
+}
+
+@Entity
+public class Book {
+    @Id
+    private Long id;
+
+    @Column
+    private String title;
+}
+----
+
+In this example, the array of `Book` entities will be treated as an embedded collection within the `Library` entity, using *grouping* to represent the structure.
+
+The JSON representation of an instance of the `Library` entity might be:
+
+[source,json]
+----
+{
+  "id": 1,
+  "books": [
+    {"id": 101, "title": "Java Programming"},
+    {"id": 102, "title": "Introduction to NoSQL"}
+  ],
+  "tags": ["Programming", "NoSQL", "Java"]
+}
+----
+
 ==== Entity Associations
 
 An association field is a field of an entity class whose declared type is also an entity class.
