@@ -100,7 +100,7 @@ This project is governed by the Eclipse Foundation of Conduct. By participating,
 
 Having trouble with Jakarta NoSQL? We’d love to help!
 
-Please report any bugs, concerns or questions with Jakarta NoSQL to https://github.com/eclipse-ee4j/nosql.
+Please report any bugs, concerns or questions with Jakarta NoSQL to https://github.com/jakartaee/nosql.
 
 == Building from Source
 
