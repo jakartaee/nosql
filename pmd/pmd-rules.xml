@@ -11,8 +11,19 @@ and then referenced by URL https://nexus.cicd.portit.io/repository/portit-webapp
     <description>Remove rules</description>
     <rule ref="category/java/bestpractices.xml">
         <exclude name="GuardLogStatement" />
+        <exclude name="AbstractClassWithoutAbstractMethod" />
+        <exclude name="JUnitTestsShouldIncludeAssert" />
     </rule>
-    <rule ref="category/java/codestyle.xml" />
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="LongVariable" />
+        <exclude name="MethodArgumentCouldBeFinal" />
+        <exclude name="ShortMethodName" />
+        <exclude name="ShortVariable" />
+        <exclude name="AtLeastOneConstructor" />
+        <exclude name="LocalVariableCouldBeFinal" />
+        <exclude name="UseExplicitTypes" />
+        <exclude name="OnlyOneReturn" />
+    </rule>
     <rule ref="category/java/security.xml" />
     <rule ref="category/java/performance.xml" />
 
