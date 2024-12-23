@@ -92,7 +92,43 @@ public @interface Embeddable {
     EmbeddableType value() default EmbeddableType.FLAT;
 
     /**
-     * Defines the strategy for how fields of the embeddable class are stored.
+     * Defines the strategies for how fields of an embeddable class are stored in the database.
+     * An embeddable class can have two types of strategies for how its fields are stored:
+     *
+     * <ul>
+     *     <li>{@link EmbeddableType#FLAT}: The fields of the embeddable class are embedded directly into the data structure of the parent entity or embeddable,
+     *     without creating a nested structure in the database.</li>
+     *     <li>{@link EmbeddableType#GROUPING}: The fields of the embeddable class are stored in a structured type, such as a user-defined type (UDT),
+     *     where the fields are grouped together under a single object or nested structure within the parent entity.</li>
+     * </ul>
+     *
+     * <p>The FLAT strategy ensures that the embeddable class fields are directly mapped to the database schema of the parent entity,
+     * whereas the GROUPING strategy results in the embeddable fields being treated as a distinct structure that may be stored in a separate sub-schema
+     * (like a UDT or nested document), depending on the NoSQL database used.</p>
+     *
+     * <p>While the FLAT strategy is guaranteed to be supported by all Jakarta NoSQL implementations, the support for the GROUPING strategy
+     * may vary between NoSQL databases. If a NoSQL database does not support it, invoking operations requiring the GROUPING strategy
+     * may result in an {@link UnsupportedOperationException}. Additionally, if a database requires specific configurations, such as
+     * the {@link Column#udt()} attribute, and those configurations are not met, a {@link MappingException} may be thrown.</p>
+     *
+     * <p>Example use case of the enum values:</p>
+     * <pre>{@code
+     * @Embeddable(EmbeddableType.FLAT)
+     * public class Address {
+     *     @Column
+     *     private String street;
+     *     @Column
+     *     private String city;
+     * }
+     *
+     * @Embeddable(EmbeddableType.GROUPING)
+     * public class Address {
+     *     @Column
+     *     private String street;
+     *     @Column
+     *     private String city;
+     * }
+     * }</pre>
      */
     enum EmbeddableType {
         /**
