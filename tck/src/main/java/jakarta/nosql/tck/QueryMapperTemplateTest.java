@@ -117,7 +117,6 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
     void shouldInsertIterableAndSelectWithLikeCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
         try {
-
             List<Person> result = template.select(Person.class)
                     .where("name")
                     .like(entities.get(0).getName())
