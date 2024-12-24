@@ -16,185 +16,177 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Person;
-import jakarta.nosql.tck.factories.PersonSupplier;
+import jakarta.nosql.tck.factories.PersonListSupplier;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class QueryMapperTemplateTest  extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with simple conditions")
-    void shouldSelectWithConditions(Person entity) {
-        try {
-            List<Person> result = template.select(Person.class)
-                    .where("name")
-                    .eq(entity.getName())
-                    .result();
-
-            Assertions.assertThat(result).isNotEmpty();
-
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+    @BeforeEach
+    void cleanDatabase() {
+        template.delete(Person.class).execute();
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with greater-than condition")
-    void shouldSelectWithGreaterThanCondition(Person entity) {
-        try {
-            var result = template.select(Person.class)
-                    .where("age")
-                    .gt(entity.getAge())
-                    .result();
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with simple conditions")
+    void shouldInsertIterablePerson(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
 
-            // Assuming results should return a List of Person
-            Assertions.assertThat(result).isNotEmpty();
+        List<Person> result = template.select(Person.class)
+                .where("name")
+                .eq(entities.get(0).getName())
+                .result();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .allMatch(person -> person.getName().equals(entities.get(0).getName()));
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with less-than condition")
-    void shouldSelectWithLessThanCondition(Person entity) {
-        try {
-            var result = template.select(Person.class)
-                    .where("age")
-                    .lt(entity.getAge())
-                    .result();
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with greater-than condition")
+    void shouldInsertIterableAndSelectWithGreaterThanCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
 
-            Assertions.assertThat(result).isNotEmpty();
+        var result = template.select(Person.class)
+                .where("age")
+                .gt(entities.get(0).getAge())
+                .<Person>result();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .allMatch(person -> person.getAge() > entities.get(0).getAge());
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with LIKE condition")
-    void shouldSelectWithLikeCondition(Person entity) {
-        try {
-            List<Person> result = template.select(Person.class)
-                    .where("name")
-                    .like(entity.getName())
-                    .result();
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with less-than condition")
+    void shouldInsertIterableAndSelectWithLessThanCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
 
-            Assertions.assertThat(result).isNotEmpty();
+        var result = template.select(Person.class)
+                .where("age")
+                .lt(entities.get(0).getAge())
+                .<Person>result();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .allMatch(person -> person.getAge() < entities.get(0).getAge());
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with 'in' condition")
-    void shouldSelectWithInCondition(Person entity) {
-        try {
-            var result = template.select(Person.class)
-                    .where("name")
-                    .in(List.of(entity.getName()))
-                    .result();
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with LIKE condition")
+    void shouldInsertIterableAndSelectWithLikeCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
 
-            // Assuming results should return a List of Person
-            Assertions.assertThat(result).isNotEmpty();
+        List<Person> result = template.select(Person.class)
+                .where("name")
+                .like(entities.get(0).getName())
+                .result();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .allMatch(person -> person.getName().contains(entities.get(0).getName()));
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with 'between' condition")
-    void shouldSelectWithBetweenCondition(Person entity) {
-        try {
-            var result = template.select(Person.class)
-                    .where("age")
-                    .between(entity.getAge(), entity.getAge() + 5)
-                    .result();
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with 'in' condition")
+    void shouldInsertIterableAndSelectWithInCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
 
-            Assertions.assertThat(result).isNotEmpty();
+        var result = template.select(Person.class)
+                .where("name")
+                .in(List.of(entities.get(0).getName()))
+                .<Person>result();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .allMatch(person -> person.getName().equals(entities.get(0).getName()));
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with 'skip' and 'limit' conditions")
-    void shouldSelectWithSkipAndLimitCondition(Person entity) {
-        try {
-            var result = template.select(Person.class)
-                    .where("age")
-                    .gt(entity.getAge())
-                    .skip(0)
-                    .limit(10)
-                    .result();
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with 'between' condition")
+    void shouldInsertIterableAndSelectWithBetweenCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
 
-            Assertions.assertThat(result).isNotEmpty();
+        var result = template.select(Person.class)
+                .where("age")
+                .between(entities.get(0).getAge(), entities.get(0).getAge() + 5)
+                .<Person>result();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .allMatch(person -> person.getAge() >= entities.get(0).getAge() && person.getAge() <= entities.get(0).getAge() + 5);
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should select with 'orderBy' condition")
-    void shouldSelectWithOrderByCondition(Person entity) {
-        try {
-            var result = template.select(Person.class)
-                    .where("age")
-                    .gt(entity.getAge())
-                    .orderBy("name")
-                    .asc()
-                    .result();
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with 'skip' and 'limit' conditions")
+    void shouldInsertIterableAndSelectWithSkipAndLimitCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
 
-            Assertions.assertThat(result).isNotEmpty();
+        var result = template.select(Person.class)
+                .where("age")
+                .gt(entities.get(0).getAge())
+                .skip(0)
+                .limit(10)
+                .<Person>result();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .allMatch(person -> person.getAge() > entities.get(0).getAge());
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should throw UnsupportedOperationException for complex queries in key-value stores")
-    void shouldThrowUnsupportedExceptionForComplexQuery(Person entity) {
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with 'orderBy' condition")
+    void shouldInsertIterableAndSelectWithOrderByCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        var result = template.select(Person.class)
+                .where("age")
+                .gt(entities.get(0).getAge())
+                .orderBy("name")
+                .asc()
+                .<Person>result();
+
+        List<String> names = result.stream()
+                .map(Person::getName)
+                .collect(Collectors.toList());
+
+        Assertions.assertThat(names)
+                .isSorted();
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with 'complex' query")
+    void shouldInsertIterableAndSelectWithComplexQuery(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
         try {
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .gt(entity.getAge())
+                    .gt(entities.get(0).getAge())
                     .and("name")
-                    .eq(entity.getName())
-                    .<Person>result();
+                    .eq(entities.get(0).getName())
+                    .result();
 
             Assertions.assertThat(result).isEmpty();
 
         } catch (UnsupportedOperationException exp) {
-            // Test passes if UnsupportedOperationException is thrown
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 }
