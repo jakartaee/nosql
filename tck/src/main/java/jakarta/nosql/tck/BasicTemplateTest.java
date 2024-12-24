@@ -44,7 +44,7 @@ class BasicTemplateTest extends AbstractTemplateTest {
     void shouldUpdate(Person entity) {
         var insertedPerson = template.insert(entity);
 
-        insertedPerson.setAge(insertedPerson.getAge() + 1); // Increment age for update
+        insertedPerson.setAge(insertedPerson.getAge() + 1);
         var updatedPerson = template.update(insertedPerson);
 
         SoftAssertions.assertSoftly(soft -> {
@@ -65,6 +65,20 @@ class BasicTemplateTest extends AbstractTemplateTest {
         var deletedPerson = template.find(Person.class, insertedPerson.getId());
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(deletedPerson).isEmpty();
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonSupplier.class)
+    @DisplayName("Should find the person: {0}")
+    void shouldFind(Person entity) {
+        var insertedPerson = template.insert(entity);
+        var foundPerson = template.find(Person.class, insertedPerson.getId());
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(foundPerson).isPresent();
+            soft.assertThat(foundPerson.orElseThrow().getId()).isEqualTo(insertedPerson.getId());
+            soft.assertThat(foundPerson.orElseThrow().getName()).isEqualTo(insertedPerson.getName());
+            soft.assertThat(foundPerson.orElseThrow().getAge()).isEqualTo(insertedPerson.getAge());
         });
     }
 
