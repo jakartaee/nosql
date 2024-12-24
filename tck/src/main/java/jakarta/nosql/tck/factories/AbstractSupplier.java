@@ -16,9 +16,12 @@
 package jakarta.nosql.tck.factories;
 
 import net.datafaker.Faker;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 
 /**
@@ -60,5 +63,10 @@ abstract class AbstractSupplier<T> implements Supplier<T>, ArgumentsProvider {
      */
     protected Faker faker() {
         return FAKER;
+    }
+
+    @Override
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+        return Stream.of(Arguments.of(get()));
     }
 }

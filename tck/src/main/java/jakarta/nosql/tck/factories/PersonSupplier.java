@@ -34,9 +34,4 @@ public class PersonSupplier extends AbstractSupplier<Person> {
         person.setAge(number.numberBetween(5, 80));
         return person;
     }
-
-    @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-        return Stream.of(Arguments.of(get()));
-    }
 }

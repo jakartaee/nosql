@@ -16,16 +16,17 @@
 package jakarta.nosql.tck.factories;
 
 import jakarta.nosql.tck.entities.Person;
+import jakarta.nosql.tck.entities.Vehicle;
 import net.datafaker.providers.base.Number;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
-public class VehicleSupplier extends AbstractSupplier<Person> {
+public class VehicleSupplier extends AbstractSupplier<Vehicle> {
 
     @Override
-    public Person get() {
+    public Vehicle get() {
 
         Number number = faker().number();
         Person person = new Person();
@@ -35,8 +36,5 @@ public class VehicleSupplier extends AbstractSupplier<Person> {
         return person;
     }
 
-    @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-        return Stream.of(Arguments.of(get()));
-    }
+
 }
