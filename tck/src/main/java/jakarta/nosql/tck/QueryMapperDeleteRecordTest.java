@@ -14,8 +14,74 @@ import jakarta.nosql.tck.factories.BookSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.util.List;
+
 public class QueryMapperDeleteRecordTest extends AbstractTemplateTest {
+
+    @BeforeEach
+    void cleanDatabase() {
+        template.delete(Book.class).execute();
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(BookSupplier.class)
+    @DisplayName("Should insert and delete the book")
+    void shouldInsertAndDeleteBook(List<Book> books) {
+        books.forEach(book -> template.insert(book));
+
+        try {
+            template.delete(Book.class)
+                    .where("title")
+                    .eq(books.get(0).title())
+                    .execute();
+
+            var deletedBook = template.select(Book.class)
+                    .where("title")
+                    .eq(books.get(0).title())
+                    .result();
+
+            SoftAssertions.assertSoftly(soft -> {
+                soft.assertThat(deletedBook).isEmpty();
+            });
+        } catch (UnsupportedOperationException exp) {
+            SoftAssertions.assertSoftly(soft -> {
+                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            });
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(BookSupplier.class)
+    @DisplayName("Should delete book with complex condition")
+    void shouldDeleteBookWithComplexCondition(List<Book> books) {
+        books.forEach(book -> template.insert(book));
+
+        try {
+            template.delete(Book.class)
+                    .where("genre")
+                    .eq(books.get(0).genre())
+                    .and("author")
+                    .eq(books.get(0).author())
+                    .execute();
+
+            var deletedBooks = template.select(Book.class)
+                    .where("genre")
+                    .eq(books.get(0).genre())
+                    .and("author")
+                    .eq(books.get(0).author())
+                    .result();
+
+            SoftAssertions.assertSoftly(soft -> {
+                soft.assertThat(deletedBooks).isEmpty();
+            });
+        } catch (UnsupportedOperationException exp) {
+            SoftAssertions.assertSoftly(soft -> {
+                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            });
+        }
+    }
+
 }
