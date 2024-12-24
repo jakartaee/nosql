@@ -11,6 +11,9 @@ public abstract class AbstractAnimal {
     @Id
     protected String id;
 
+    public String getId() {
+        return id;
+    }
 
     @Override
     public boolean equals(Object object) {
