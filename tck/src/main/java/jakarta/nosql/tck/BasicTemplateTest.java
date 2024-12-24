@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Duration;
 
-class BasicTemplateTest extends AbstractTemplateTest {
+class  extends AbstractTemplateTest {
 
 
     @ParameterizedTest

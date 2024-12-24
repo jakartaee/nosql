@@ -16,11 +16,6 @@
 package jakarta.nosql.tck.factories;
 
 import jakarta.nosql.tck.entities.Person;
-import net.datafaker.providers.base.Number;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.provider.Arguments;
-
-import java.util.stream.Stream;
 
 public class PersonSupplier extends AbstractSupplier<Person> {
 
