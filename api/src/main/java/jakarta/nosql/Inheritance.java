@@ -40,6 +40,8 @@ import java.lang.annotation.Target;
  *   &#064;Entity
  *   public class SMSNotification extends Notification { ... }
  * </pre>
+ * @see DiscriminatorColumn
+ * @see DiscriminatorValue
  * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
