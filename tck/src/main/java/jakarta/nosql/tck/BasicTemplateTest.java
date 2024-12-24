@@ -111,4 +111,11 @@ class BasicTemplateTest extends AbstractTemplateTest {
                 .isInstanceOf(NullPointerException.class);
     }
 
+    @Test
+    @DisplayName("Should throw exception when null entity is updated")
+    void shouldThrowExceptionWhenNullEntityUpdated() {
+        Assertions.assertThatThrownBy(() -> template.update(null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
 }
