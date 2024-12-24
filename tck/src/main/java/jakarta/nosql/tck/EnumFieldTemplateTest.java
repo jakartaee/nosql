@@ -23,6 +23,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.time.Duration;
+
 public class EnumFieldTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
@@ -73,6 +75,22 @@ public class EnumFieldTemplateTest extends AbstractTemplateTest {
             soft.assertThat(foundVehicle).isPresent();
             soft.assertThat(foundVehicle.orElseThrow().getTransmission()).isEqualTo(insertedVehicle.getTransmission());
         });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(VehicleSupplier.class)
+    @DisplayName("Should insert vehicle with TTL")
+    void shouldInsertWithTTL(Vehicle entity) {
+        try {
+            Vehicle insertedVehicle = template.insert(entity, Duration.ofMinutes(10));
+            SoftAssertions.assertSoftly(soft -> {
+                soft.assertThat(insertedVehicle).isNotNull();
+                soft.assertThat(insertedVehicle.getId()).isNotNull();
+                soft.assertThat(insertedVehicle.getModel()).isEqualTo(entity.getModel());
+            });
+        } catch (UnsupportedOperationException e) {
+            System.out.println("TTL operation not supported by this database: " + e.getMessage());
+        }
     }
 
 }
