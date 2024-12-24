@@ -37,6 +37,10 @@ public class Animal extends AbstractAnimal {
         return species;
     }
 
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
     Animal() {
     }
 
