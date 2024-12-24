@@ -15,25 +15,13 @@
  */
 package jakarta.nosql.tck.factories;
 
-import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Vehicle;
-import net.datafaker.providers.base.Number;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.provider.Arguments;
-
-import java.util.stream.Stream;
 
 public class VehicleSupplier extends AbstractSupplier<Vehicle> {
 
     @Override
     public Vehicle get() {
-
-        Number number = faker().number();
-        Person person = new Person();
-        person.setId(number.numberBetween(1L, 1000L));
-        person.setName(faker().name().fullName());
-        person.setAge(number.numberBetween(5, 80));
-        return person;
+        return Vehicle.of(faker());
     }
 
 

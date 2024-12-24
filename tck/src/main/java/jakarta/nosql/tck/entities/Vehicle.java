@@ -18,6 +18,7 @@ package jakarta.nosql.tck.entities;
 import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
+import net.datafaker.Faker;
 
 @Entity
 public class Vehicle {
@@ -28,4 +29,30 @@ public class Vehicle {
     @Column
     private String model;
 
+    @Column
+    private String make;
+
+    @Column
+    private String manufacturer;
+
+    @Column
+    private String color;
+
+    @Column
+    private Transmission transmission;
+
+
+    public Vehicle() {
+    }
+
+    public static Vehicle of(Faker faker) {
+        var fakeVehicle = faker.vehicle();
+        Vehicle vehicle = new Vehicle();
+        vehicle.model = fakeVehicle.model();
+        vehicle.make = fakeVehicle.make();
+        vehicle.manufacturer = fakeVehicle.manufacturer();
+        vehicle.color = fakeVehicle.color();
+        vehicle.transmission = Transmission.valueOf(fakeVehicle.transmission().toUpperCase());
+        return vehicle;
+    }
 }
