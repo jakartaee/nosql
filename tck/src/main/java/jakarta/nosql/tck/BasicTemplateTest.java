@@ -19,8 +19,10 @@ import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Vehicle;
 import jakarta.nosql.tck.factories.PersonSupplier;
 import jakarta.nosql.tck.factories.VehicleSupplier;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -100,6 +102,13 @@ class BasicTemplateTest extends AbstractTemplateTest {
         } catch (UnsupportedOperationException e) {
             System.out.println("TTL operation not supported by this database: " + e.getMessage());
         }
+    }
+
+    @Test
+    @DisplayName("Should throw exception when null entity is inserted")
+    void shouldThrowExceptionWhenNullEntityInserted() {
+        Assertions.assertThatThrownBy(() -> template.insert(null))
+                .isInstanceOf(NullPointerException.class);
     }
 
 }
