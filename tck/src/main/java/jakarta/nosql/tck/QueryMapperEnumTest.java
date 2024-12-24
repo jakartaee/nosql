@@ -28,4 +28,52 @@ import java.util.List;
 
 public class QueryMapperEnumTest extends AbstractTemplateTest {
 
+    @BeforeEach
+    void cleanDatabase() {
+        template.delete(Vehicle.class).execute();
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(VehicleListSupplier.class)
+    @DisplayName("Should insert Iterable and select with equals enum value")
+    void shouldInsertIterableAndSelectWithEnumCondition(List<Vehicle> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            List<Vehicle> result = template.select(Vehicle.class)
+                    .where("transmission")
+                    .eq(entities.get(0).getTransmission())
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(vehicle -> vehicle.getTransmission().equals(entities.get(0).getTransmission()));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(VehicleListSupplier.class)
+    @DisplayName("Should insert Iterable and delete with equals enum value")
+    void shouldInsertIterableAndDeleteWithEnumCondition(List<Vehicle> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            template.delete(Vehicle.class)
+                    .where("transmission")
+                    .eq(entities.get(0).getTransmission())
+                    .execute();
+
+            var result = template.select(Vehicle.class)
+                    .where("transmission")
+                    .eq(entities.get(0).getTransmission())
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isEmpty();
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
 }
