@@ -15,5 +15,11 @@
  */
 package jakarta.nosql.tck.entities;
 
+
+import jakarta.nosql.DiscriminatorColumn;
+import jakarta.nosql.Inheritance;
+
+@Inheritance
+@DiscriminatorColumn("dtype")
 public class Drink {
 }

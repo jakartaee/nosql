@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * <p>Example usage:
  * <pre>{@code
  * @Entity
- * @DiscriminatorColumn(name = "dtype")
+ * @DiscriminatorColumn("dtype")
  * public class Animal {
  *     // Common fields and methods for all animals
  * }
