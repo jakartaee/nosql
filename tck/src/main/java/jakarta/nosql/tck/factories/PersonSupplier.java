@@ -26,12 +26,6 @@ public class PersonSupplier extends AbstractSupplier<Person> {
 
     @Override
     public Person get() {
-
-        Number number = faker().number();
-        Person person = new Person();
-        person.setId(number.numberBetween(1L, 1000L));
-        person.setName(faker().name().fullName());
-        person.setAge(number.numberBetween(5, 80));
-        return person;
+        return Person.of(faker());
     }
 }
