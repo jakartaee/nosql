@@ -20,10 +20,26 @@ import jakarta.nosql.DiscriminatorColumn;
 import jakarta.nosql.Id;
 import jakarta.nosql.Inheritance;
 
+import java.util.Objects;
+
 @Inheritance
 @DiscriminatorColumn("type")
 public class Drink {
 
     @Id
     protected String id;
+
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Drink drink)) {
+            return false;
+        }
+        return Objects.equals(id, drink.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
