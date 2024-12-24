@@ -31,6 +31,22 @@ import java.lang.annotation.Target;
  * <p>If the <code>DiscriminatorValue</code> annotation is not specified and a discriminator column is used,
  * a provider-specific function will be used to generate a value representing the entity type.
  * So the discriminator value default is the {@link Class#getSimpleName()}.
+ *
+ * <p>Example usage of the {@code DiscriminatorValue} annotation:
+ * <pre>{@code
+ * @Entity
+ * @DiscriminatorValue("Mammal")
+ * public class Animal {
+ *     // Animal-specific fields and methods
+ * }
+ *
+ * @Entity
+ * @DiscriminatorValue("Dog")
+ * public class Dog extends Animal {
+ *     // Dog-specific fields and methods
+ * }
+ * }</pre>
+ *
  * @see DiscriminatorColumn
  * @since 1.0.0
  */
