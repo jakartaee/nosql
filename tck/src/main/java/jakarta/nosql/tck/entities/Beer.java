@@ -15,15 +15,18 @@
  */
 package jakarta.nosql.tck.entities;
 
+import jakarta.nosql.Column;
+import jakarta.nosql.DiscriminatorValue;
 
-import jakarta.nosql.DiscriminatorColumn;
-import jakarta.nosql.Id;
-import jakarta.nosql.Inheritance;
+@DiscriminatorValue("BEER")
+public class Beer extends Drink {
 
-@Inheritance
-@DiscriminatorColumn("type")
-public class Drink {
+    @Column
+    private String brand;
 
-    @Id
-    protected String id;
+    @Column
+    private String name;
+
+    @Column
+    private String style;
 }
