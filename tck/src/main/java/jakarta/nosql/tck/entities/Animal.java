@@ -2,6 +2,9 @@ package jakarta.nosql.tck.entities;
 
 import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
+import net.datafaker.Faker;
+
+import java.util.UUID;
 
 @Entity
 public class Animal extends AbstractAnimal {
@@ -34,6 +37,17 @@ public class Animal extends AbstractAnimal {
         return species;
     }
 
+    Animal() {
+    }
+
+    public Animal(String id, String name, String scientificName, String genus, String species) {
+        this.name = name;
+        this.scientificName = scientificName;
+        this.genus = genus;
+        this.species = species;
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Animal{" +
@@ -43,6 +57,11 @@ public class Animal extends AbstractAnimal {
                 ", species='" + species + '\'' +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    public static Animal of(Faker faker) {
+        var animal = faker.animal();
+        return new Animal(UUID.randomUUID().toString(), animal.name(), animal.scientificName(), animal.genus(), animal.species());
     }
 
 
