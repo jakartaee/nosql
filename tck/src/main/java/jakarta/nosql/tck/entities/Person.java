@@ -18,6 +18,8 @@ package jakarta.nosql.tck.entities;
 import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
+import net.datafaker.Faker;
+import net.datafaker.providers.base.Number;
 
 import java.util.Objects;
 
@@ -81,5 +83,14 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public static Person of(Faker faker) {
+        Number number = faker.number();
+        var person = new Person();
+        person.setId(number.numberBetween(1L, 1000L));
+        person.setName(faker.name().fullName());
+        person.setAge(number.numberBetween(5, 80));
+        return person;
     }
 }
