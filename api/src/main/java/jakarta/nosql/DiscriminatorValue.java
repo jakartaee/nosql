@@ -47,7 +47,9 @@ import java.lang.annotation.Target;
  * }
  * }</pre>
  *
+ * @see Inheritance
  * @see DiscriminatorColumn
+ * @see DiscriminatorValue
  * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
