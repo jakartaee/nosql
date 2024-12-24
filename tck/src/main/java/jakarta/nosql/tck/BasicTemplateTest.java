@@ -38,4 +38,34 @@ class BasicTemplateTest extends AbstractTemplateTest {
         });
     }
 
+    @ParameterizedTest
+    @ArgumentsSource(PersonSupplier.class)
+    @DisplayName("Should update the person: {0}")
+    void shouldUpdate(Person entity) {
+        var insertedPerson = template.insert(entity);
+
+        insertedPerson.setAge(insertedPerson.getAge() + 1); // Increment age for update
+        var updatedPerson = template.update(insertedPerson);
+
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(updatedPerson).isNotNull();
+            soft.assertThat(updatedPerson.getId()).isEqualTo(insertedPerson.getId());
+            soft.assertThat(updatedPerson.getAge()).isEqualTo(insertedPerson.getAge() + 1);
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonSupplier.class)
+    @DisplayName("Should delete the person: {0}")
+    void shouldDelete(Person entity) {
+        var insertedPerson = template.insert(entity);
+
+        template.delete(Person.class, insertedPerson.getId());
+
+        var deletedPerson = template.find(Person.class, insertedPerson.getId());
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(deletedPerson).isEmpty();
+        });
+    }
+
 }
