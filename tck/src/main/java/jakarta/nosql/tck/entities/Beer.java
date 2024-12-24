@@ -17,8 +17,11 @@ package jakarta.nosql.tck.entities;
 
 import jakarta.nosql.Column;
 import jakarta.nosql.DiscriminatorValue;
+import jakarta.nosql.Entity;
+import net.datafaker.Faker;
 
 @DiscriminatorValue("BEER")
+@Entity
 public class Beer extends Drink {
 
     @Column
@@ -29,4 +32,35 @@ public class Beer extends Drink {
 
     @Column
     private String style;
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    @Override
+    public String toString() {
+        return "Beer{" +
+                "brand='" + brand + '\'' +
+                ", name='" + name + '\'' +
+                ", style='" + style + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
+
+    public static Beer of(Faker faker) {
+        Beer beer = new Beer();
+        beer.id = faker.idNumber().valid();
+        beer.brand = faker.beer().brand();
+        beer.name = faker.beer().name();
+        beer.style = faker.beer().style();
+        return beer;
+    }
 }
