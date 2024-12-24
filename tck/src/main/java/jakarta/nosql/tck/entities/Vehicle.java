@@ -20,6 +20,8 @@ import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 import net.datafaker.Faker;
 
+import java.util.Objects;
+
 @Entity
 public class Vehicle {
 
@@ -41,8 +43,60 @@ public class Vehicle {
     @Column
     private Transmission transmission;
 
+    Vehicle() {
+    }
 
-    public Vehicle() {
+    public String getId() {
+        return id;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public Transmission getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(Transmission transmission) {
+        this.transmission = transmission;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id='" + id + '\'' +
+                ", model='" + model + '\'' +
+                ", make='" + make + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", color='" + color + '\'' +
+                ", transmission=" + transmission +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Vehicle vehicle)) {
+            return false;
+        }
+        return Objects.equals(id, vehicle.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     public static Vehicle of(Faker faker) {
@@ -55,4 +109,6 @@ public class Vehicle {
         vehicle.transmission = Transmission.valueOf(fakeVehicle.transmission().toUpperCase());
         return vehicle;
     }
+
+
 }
