@@ -19,7 +19,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Duration;
+import java.util.logging.Logger;
+
 public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
+
+    private static final Logger LOGGER = Logger.getLogger(BasicTemplateInheritanceTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(AnimalSupplier.class)
@@ -89,7 +93,7 @@ public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
                 soft.assertThat(insertedAnimal.getName()).isEqualTo(animal.getName());
             });
         } catch (UnsupportedOperationException e) {
-            System.out.println("TTL operation not supported by this database: " + e.getMessage());
+            LOGGER.info("TTL operation not supported by this database: " + e.getMessage());
         }
     }
 

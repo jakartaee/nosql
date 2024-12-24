@@ -25,8 +25,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Duration;
+import java.util.logging.Logger;
 
 public class BasicTemplateRecordTest extends AbstractTemplateTest {
+
+    private static final Logger LOGGER = Logger.getLogger(BasicTemplateRecordTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(BookSupplier.class)
@@ -97,7 +100,7 @@ public class BasicTemplateRecordTest extends AbstractTemplateTest {
                 soft.assertThat(insertedBook.title()).isEqualTo(book.title());
             });
         } catch (UnsupportedOperationException e) {
-            System.out.println("TTL operation not supported by this database: " + e.getMessage());
+            LOGGER.info("TTL operation not supported by this database: " + e.getMessage());
         }
     }
 

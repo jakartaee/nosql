@@ -28,6 +28,7 @@ and then referenced by URL https://nexus.cicd.portit.io/repository/portit-webapp
         <exclude name="CallSuperInConstructor" />
         <exclude name="CommentDefaultAccessModifier" />
         <exclude name="LambdaCanBeMethodReference" />
+        <exclude name="ShortClassName" />
     </rule>
     <rule ref="category/java/security.xml" />
     <rule ref="category/java/performance.xml" />

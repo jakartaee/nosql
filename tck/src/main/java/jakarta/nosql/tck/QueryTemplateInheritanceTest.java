@@ -140,7 +140,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getSpecies().compareTo(animals.get(0).getSpecies()) >= 0 && animal.getSpecies().compareTo("Zebra") <= 0);
+            soft.assertThat(result).allMatch(animal -> animal.getSpecies().compareTo(animals.get(0).getSpecies()) >= 0 && "Zebra".compareTo(animal.getSpecies()) >= 0);
         });
     }
 

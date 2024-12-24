@@ -24,8 +24,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Duration;
+import java.util.logging.Logger;
 
 public class EnumFieldTemplateTest extends AbstractTemplateTest {
+
+    private static final Logger LOGGER = Logger.getLogger(EnumFieldTemplateTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(VehicleSupplier.class)
@@ -89,7 +92,7 @@ public class EnumFieldTemplateTest extends AbstractTemplateTest {
                 soft.assertThat(insertedVehicle.getModel()).isEqualTo(entity.getModel());
             });
         } catch (UnsupportedOperationException e) {
-            System.out.println("TTL operation not supported by this database: " + e.getMessage());
+            LOGGER.info("TTL operation not supported by this database: " + e.getMessage());
         }
     }
 
