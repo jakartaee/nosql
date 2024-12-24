@@ -14,6 +14,7 @@ and then referenced by URL https://nexus.cicd.portit.io/repository/portit-webapp
         <exclude name="AbstractClassWithoutAbstractMethod" />
         <exclude name="JUnitTestsShouldIncludeAssert" />
         <exclude name="JUnit5TestShouldBePackagePrivate" />
+        <exclude name="JUnitTestContainsTooManyAsserts" />
     </rule>
     <rule ref="category/java/codestyle.xml">
         <exclude name="LongVariable" />
