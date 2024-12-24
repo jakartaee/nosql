@@ -16,11 +16,15 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Person;
+import jakarta.nosql.tck.entities.Vehicle;
 import jakarta.nosql.tck.factories.PersonSupplier;
+import jakarta.nosql.tck.factories.VehicleSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.time.Duration;
 
 class BasicTemplateTest extends AbstractTemplateTest {
 
@@ -80,6 +84,22 @@ class BasicTemplateTest extends AbstractTemplateTest {
             soft.assertThat(foundPerson.orElseThrow().getName()).isEqualTo(insertedPerson.getName());
             soft.assertThat(foundPerson.orElseThrow().getAge()).isEqualTo(insertedPerson.getAge());
         });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonSupplier.class)
+    @DisplayName("Should insert vehicle with TTL")
+    void shouldInsertWithTTL(Person person) {
+        try {
+            var insertedPerson = template.insert(person, Duration.ofMinutes(10));
+            SoftAssertions.assertSoftly(soft -> {
+                soft.assertThat(insertedPerson).isNotNull();
+                soft.assertThat(insertedPerson.getId()).isNotNull();
+                soft.assertThat(insertedPerson.getName()).isEqualTo(person.getName());
+            });
+        } catch (UnsupportedOperationException e) {
+            System.out.println("TTL operation not supported by this database: " + e.getMessage());
+        }
     }
 
 }
