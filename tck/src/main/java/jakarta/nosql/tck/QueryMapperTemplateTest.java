@@ -36,6 +36,24 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with no conditions")
+    void shouldInsertIterablePersonNoCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            List<Person> result = template.select(Person.class)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(entities.size());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with simple conditions")
     void shouldInsertIterablePerson(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
