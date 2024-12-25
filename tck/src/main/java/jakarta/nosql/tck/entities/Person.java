@@ -22,6 +22,7 @@ import net.datafaker.Faker;
 import net.datafaker.providers.base.Number;
 
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 public class Person {
@@ -86,11 +87,12 @@ public class Person {
     }
 
     public static Person of(Faker faker) {
-        Number number = faker.number();
         var person = new Person();
-        person.setId(number.numberBetween(1L, 1000L));
+        var id = ThreadLocalRandom.current().nextLong(1, 1_00_000);
+        var age = ThreadLocalRandom.current().nextInt(1, 100);
+        person.setId(id);
         person.setName(faker.name().fullName());
-        person.setAge(number.numberBetween(5, 80));
+        person.setAge(age);
         return person;
     }
 }
