@@ -15,10 +15,12 @@
  */
 package jakarta.nosql.tck;
 
+import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Transmission;
 import jakarta.nosql.tck.entities.Vehicle;
 import jakarta.nosql.tck.factories.VehicleSupplier;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -29,6 +31,11 @@ import java.util.logging.Logger;
 public class EnumFieldTemplateTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(EnumFieldTemplateTest.class.getName());
+
+    @BeforeEach
+    void cleanDatabase() {
+        template.delete(Vehicle.class).execute();
+    }
 
     @ParameterizedTest
     @ArgumentsSource(VehicleSupplier.class)
