@@ -15,10 +15,12 @@
  */
 package jakarta.nosql.tck;
 
+import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.entities.Book;
 import jakarta.nosql.tck.factories.BookSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,6 +32,11 @@ import java.util.logging.Logger;
 public class BasicTemplateRecordTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateRecordTest.class.getName());
+
+    @BeforeEach
+    void cleanDatabase() {
+        template.delete(Book.class).execute();
+    }
 
     @ParameterizedTest
     @ArgumentsSource(BookSupplier.class)
