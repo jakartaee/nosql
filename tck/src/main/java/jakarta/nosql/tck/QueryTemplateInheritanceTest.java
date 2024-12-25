@@ -136,15 +136,15 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
     void shouldSelectWithBetweenCondition(List<Animal> animals) {
         animals.forEach(animal -> template.insert(animal));
 
-        String species = animals.stream().map(Animal::getSpecies)
+        var age = animals.stream().map(Animal::getAge)
                 .sorted().findFirst()
-                .orElse("a");
+                .orElse(0);
 
-        LOGGER.info("Species: " + species);
+        LOGGER.info("Min age: " + age);
 
         var result = template.select(Animal.class)
-                .where("species")
-                .between(species, "Zebra")
+                .where("age")
+                .between(age, 1500)
                 .<Animal>result();
 
         SoftAssertions.assertSoftly(soft -> {
