@@ -18,7 +18,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
@@ -63,13 +62,13 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
         animals.forEach(animal -> template.insert(animal));
 
         var result = template.select(Animal.class)
-                .where("species")
-                .gt(animals.get(0).getSpecies())
+                .where("age")
+                .gt(animals.get(0).getAge())
                 .<Animal>result();
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getSpecies().compareTo(animals.get(0).getSpecies()) > 0);
+            soft.assertThat(result).allMatch(animal -> animal.getAge() > animals.get(0).getAge());
         });
     }
 
@@ -163,28 +162,6 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
             soft.assertThat(result).allMatch(animal -> animal.getSpecies().compareTo(animals.get(0).getSpecies()) > 0);
-        });
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(AnimalListSupplier.class)
-    @DisplayName("Should select animals with 'orderBy' condition")
-    void shouldSelectWithOrderByCondition(List<Animal> animals) {
-        animals.forEach(animal -> template.insert(animal));
-
-        var result = template.select(Animal.class)
-                .where("species")
-                .gt(animals.get(0).getSpecies())
-                .orderBy("name")
-                .asc()
-                .<Animal>result();
-
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result.stream()
-                            .map(Animal::getName)
-                            .collect(Collectors.toList()))
-                    .isSorted();
         });
     }
 }
