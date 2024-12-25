@@ -90,7 +90,7 @@ public class Animal extends AbstractAnimal {
 
     public static Animal of(Faker faker) {
         var animal = faker.animal();
-        var age = ThreadLocalRandom.current().nextInt(1, 1000);;
+        var age = ThreadLocalRandom.current().nextInt(1, 1000);
         return new Animal(UUID.randomUUID().toString(), animal.name(), animal.scientificName(), animal.genus(), animal.species(), age);
     }
 
