@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -152,16 +153,22 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
     void shouldSelectWithSkipAndLimitCondition(List<Animal> animals) {
         animals.forEach(animal -> template.insert(animal));
 
+        var secondOlder = animals.stream()
+                .sorted(Comparator.comparing(Animal::getAge))
+                .skip(1)
+                .findFirst()
+                .orElseThrow();
+
         var result = template.select(Animal.class)
-                .where("species")
-                .gt(animals.get(0).getSpecies())
+                .where("age")
+                .gt(secondOlder)
                 .skip(0)
                 .limit(10)
                 .<Animal>result();
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getSpecies().compareTo(animals.get(0).getSpecies()) > 0);
+            soft.assertThat(result).allMatch(animal -> animal.getAge() > animals.get(0).getAge());
         });
     }
 }
