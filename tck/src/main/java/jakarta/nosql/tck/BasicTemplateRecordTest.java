@@ -15,7 +15,6 @@
  */
 package jakarta.nosql.tck;
 
-import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.entities.Book;
 import jakarta.nosql.tck.factories.BookSupplier;
 import org.assertj.core.api.Assertions;

@@ -15,7 +15,6 @@
  */
 package jakarta.nosql.tck;
 
-import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Transmission;
 import jakarta.nosql.tck.entities.Vehicle;
 import jakarta.nosql.tck.factories.VehicleSupplier;
