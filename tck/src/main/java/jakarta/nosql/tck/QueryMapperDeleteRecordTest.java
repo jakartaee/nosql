@@ -10,6 +10,7 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Book;
+import jakarta.nosql.tck.factories.BookListSupplier;
 import jakarta.nosql.tck.factories.BookSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +22,7 @@ import java.util.List;
 public class QueryMapperDeleteRecordTest extends AbstractTemplateTest {
 
     @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
+    @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should insert and delete the book")
     void shouldInsertAndDeleteBook(List<Book> books) {
         books.forEach(book -> template.insert(book));
@@ -48,7 +49,7 @@ public class QueryMapperDeleteRecordTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
+    @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should delete book with complex condition")
     void shouldDeleteBookWithComplexCondition(List<Book> books) {
         books.forEach(book -> template.insert(book));
