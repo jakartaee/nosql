@@ -10,7 +10,7 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Book;
-import jakarta.nosql.tck.factories.BookSupplier;
+import jakarta.nosql.tck.factories.BookListSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +22,7 @@ public class QueryMapperSelectRecordTest extends AbstractTemplateTest {
 
 
     @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
+    @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should insert book and select with no conditions")
     void shouldInsertBookAndSelectWithNoConditions(List<Book> books) {
         books.forEach(book -> template.insert(book));
@@ -44,7 +44,7 @@ public class QueryMapperSelectRecordTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
+    @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should select book by title")
     void shouldSelectBookByTitle(List<Book> books) {
         books.forEach(book -> template.insert(book));
@@ -68,7 +68,7 @@ public class QueryMapperSelectRecordTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
+    @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should select book with 'like' condition")
     void shouldSelectBookWithLikeCondition(List<Book> books) {
         books.forEach(book -> template.insert(book));
@@ -92,7 +92,7 @@ public class QueryMapperSelectRecordTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
+    @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should select book by genre")
     void shouldSelectBookByGenre(List<Book> books) {
         books.forEach(book -> template.insert(book));
