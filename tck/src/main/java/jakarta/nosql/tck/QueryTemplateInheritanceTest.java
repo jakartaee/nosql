@@ -10,6 +10,7 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Animal;
+import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -61,14 +62,20 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
     void shouldSelectWithGreaterThanCondition(List<Animal> animals) {
         animals.forEach(animal -> template.insert(animal));
 
+        var secondElder = animals.stream()
+                .mapToInt(Animal::getAge)
+                .skip(1)
+                .findFirst()
+                .orElseThrow();
+
         var result = template.select(Animal.class)
                 .where("age")
-                .gt(animals.get(0).getAge())
+                .gt(secondElder)
                 .<Animal>result();
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getAge() > animals.get(0).getAge());
+            soft.assertThat(result).allMatch(animal -> animal.getAge() > secondElder);
         });
     }
 
@@ -78,14 +85,20 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
     void shouldSelectWithLessThanCondition(List<Animal> animals) {
         animals.forEach(animal -> template.insert(animal));
 
+        var secondElder = animals.stream()
+                .mapToInt(Animal::getAge)
+                .skip(1)
+                .findFirst()
+                .orElseThrow();
+
         var result = template.select(Animal.class)
                 .where("species")
-                .lt(animals.get(0).getSpecies())
+                .lt(secondElder)
                 .<Animal>result();
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getSpecies().compareTo(animals.get(0).getSpecies()) < 0);
+            soft.assertThat(result).allMatch(animal -> animal.getAge() < secondElder);
         });
     }
 
