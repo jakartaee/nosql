@@ -92,11 +92,12 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
     void shouldInsertIterableAndSelectWithLessThanCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
         try {
+
             var secondElder = entities.stream()
-                    .mapToInt(Person::getAge)
-                    .skip(1)
-                    .findFirst()
-                    .orElseThrow();
+                .mapToInt(Person::getAge)
+                .skip(1)
+                .findFirst()
+                .orElseThrow();
 
             var result = template.select(Person.class)
                     .where("age")
