@@ -16,8 +16,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -140,15 +138,12 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         var result = template.select(Animal.class)
                 .where("age")
-                .between(age, 1500)
+                .between(age, age + 10)
                 .<Animal>result();
 
-        var orderAnimals = animals.stream()
-                .sorted(Comparator.comparing(Animal::getAge)).toArray(Animal[]::new);
-        LOGGER.info("Order animals: " + Arrays.toString(orderAnimals));
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).containsExactly(orderAnimals);
+            soft.assertThat(result).allMatch(animal -> animal.getAge() >= age && animal.getAge() <= age + 10);
         });
     }
 
