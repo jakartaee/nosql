@@ -19,7 +19,6 @@ import jakarta.nosql.tck.entities.Transmission;
 import jakarta.nosql.tck.entities.Vehicle;
 import jakarta.nosql.tck.factories.VehicleSupplier;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;

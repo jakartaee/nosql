@@ -19,7 +19,6 @@ import jakarta.nosql.tck.entities.Book;
 import jakarta.nosql.tck.factories.BookSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
