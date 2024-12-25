@@ -19,7 +19,6 @@ import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 import net.datafaker.Faker;
-import net.datafaker.providers.base.Number;
 
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
