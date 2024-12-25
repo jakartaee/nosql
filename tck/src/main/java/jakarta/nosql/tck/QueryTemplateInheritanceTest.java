@@ -19,9 +19,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
+
+    private static final Logger LOGGER = Logger.getLogger(QueryTemplateInheritanceTest.class.getName());
 
     @BeforeEach
     void cleanDatabase() {
@@ -133,9 +136,15 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
     void shouldSelectWithBetweenCondition(List<Animal> animals) {
         animals.forEach(animal -> template.insert(animal));
 
+        String species = animals.stream().map(Animal::getSpecies)
+                .sorted().findFirst()
+                .orElse("a");
+
+        LOGGER.info("Species: " + species);
+
         var result = template.select(Animal.class)
                 .where("species")
-                .between(animals.get(0).getSpecies(), "Zebra")
+                .between(species, "Zebra")
                 .<Animal>result();
 
         SoftAssertions.assertSoftly(soft -> {
