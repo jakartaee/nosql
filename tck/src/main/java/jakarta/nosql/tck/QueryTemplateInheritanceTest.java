@@ -10,7 +10,6 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Animal;
-import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
