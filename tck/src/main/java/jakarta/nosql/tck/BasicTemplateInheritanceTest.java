@@ -26,12 +26,6 @@ public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateInheritanceTest.class.getName());
 
-
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Animal.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(AnimalSupplier.class)
     @DisplayName("Should insert the animal: {0}")

@@ -27,11 +27,6 @@ import java.util.List;
 
 public class QueryMapperDeleteTemplateInheritanceTest extends AbstractTemplateTest {
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Animal.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with no conditions")

@@ -32,11 +32,6 @@ class BasicTemplateTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateTest.class.getName());
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Person.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(PersonSupplier.class)
     @DisplayName("Should insert the person: {0}")

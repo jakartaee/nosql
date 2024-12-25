@@ -31,11 +31,6 @@ public class EnumFieldTemplateTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(EnumFieldTemplateTest.class.getName());
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Vehicle.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(VehicleSupplier.class)
     @DisplayName("Should insert vehicle with enum: {0}")

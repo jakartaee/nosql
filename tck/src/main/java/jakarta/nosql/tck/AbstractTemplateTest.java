@@ -16,16 +16,31 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.Template;
+import jakarta.nosql.tck.entities.Animal;
+import jakarta.nosql.tck.entities.Book;
+import jakarta.nosql.tck.entities.Person;
+import jakarta.nosql.tck.entities.Vehicle;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.logging.Logger;
+
 public abstract class AbstractTemplateTest {
+
+    private static final Logger LOGGER = Logger.getLogger(AbstractTemplateTest.class.getName());
 
     protected Template template;
 
     @BeforeEach
     void setUp() {
+        LOGGER.info("Getting the template");
         TemplateSupplier supplier = TemplateSupplier.template();
         this.template = supplier.get();
+        LOGGER.info("Cleaning up the database");
+        template.delete(Person.class).execute();
+        template.delete(Animal.class).execute();
+        template.delete(Vehicle.class).execute();
+        template.delete(Book.class).execute();
     }
+
 
 }

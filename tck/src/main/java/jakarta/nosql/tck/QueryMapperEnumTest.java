@@ -28,11 +28,6 @@ import java.util.List;
 
 public class QueryMapperEnumTest extends AbstractTemplateTest {
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Vehicle.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(VehicleListSupplier.class)
     @DisplayName("Should insert Iterable and select with equals enum value")

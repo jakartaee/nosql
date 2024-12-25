@@ -28,11 +28,6 @@ import java.util.List;
 public class QueryMapperDeleteTemplateTest extends AbstractTemplateTest {
 
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Person.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with no conditions")

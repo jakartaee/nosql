@@ -22,11 +22,6 @@ import java.util.List;
 public class QueryMapperSelectRecordTest extends AbstractTemplateTest {
 
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Book.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(BookSupplier.class)
     @DisplayName("Should insert book and select with no conditions")

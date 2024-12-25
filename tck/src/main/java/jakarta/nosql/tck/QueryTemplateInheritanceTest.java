@@ -10,14 +10,13 @@
 package jakarta.nosql.tck;
 
 import jakarta.nosql.tck.entities.Animal;
-import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,10 +26,6 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
     private static final Logger LOGGER = Logger.getLogger(QueryTemplateInheritanceTest.class.getName());
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Person.class).execute();
-    }
 
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
@@ -150,7 +145,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         var orderAnimals = animals.stream()
                 .sorted(Comparator.comparing(Animal::getAge)).toArray(Animal[]::new);
-
+        LOGGER.info("Order animals: " + Arrays.toString(orderAnimals));
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
             soft.assertThat(result).containsExactly(orderAnimals);

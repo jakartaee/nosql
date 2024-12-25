@@ -29,13 +29,6 @@ import java.util.List;
 
 public class IterableEntityTemplateTest extends AbstractTemplateTest {
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Person.class).execute();
-        template.delete(Vehicle.class).execute();
-    }
-
-
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert a list of persons")

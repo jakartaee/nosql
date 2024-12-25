@@ -29,11 +29,6 @@ import java.util.stream.Collectors;
 
 public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Person.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with no conditions")

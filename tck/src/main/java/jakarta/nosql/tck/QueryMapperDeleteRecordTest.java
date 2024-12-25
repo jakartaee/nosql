@@ -21,11 +21,6 @@ import java.util.List;
 
 public class QueryMapperDeleteRecordTest extends AbstractTemplateTest {
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Book.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(BookSupplier.class)
     @DisplayName("Should insert and delete the book")

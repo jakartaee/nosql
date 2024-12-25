@@ -32,11 +32,6 @@ public class BasicTemplateRecordTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateRecordTest.class.getName());
 
-    @BeforeEach
-    void cleanDatabase() {
-        template.delete(Book.class).execute();
-    }
-
     @ParameterizedTest
     @ArgumentsSource(BookSupplier.class)
     @DisplayName("Should insert the book: {0}")
