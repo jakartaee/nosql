@@ -154,7 +154,8 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
         animals.forEach(animal -> template.insert(animal));
 
         var secondOlder = animals.stream()
-                .sorted(Comparator.comparing(Animal::getAge))
+                .mapToInt(Animal::getAge)
+                .sorted()
                 .skip(1)
                 .findFirst()
                 .orElseThrow();
