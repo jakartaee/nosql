@@ -87,7 +87,7 @@ public class Person {
 
     public static Person of(Faker faker) {
         var person = new Person();
-        var id = ThreadLocalRandom.current().nextLong(1, 1_00_000);
+        var id = ThreadLocalRandom.current().nextLong(1, 1_000_000);
         var age = ThreadLocalRandom.current().nextInt(1, 100);
         person.setId(id);
         person.setName(faker.name().fullName());
