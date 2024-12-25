@@ -19,6 +19,7 @@ import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.PersonSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,6 +32,10 @@ class BasicTemplateTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateTest.class.getName());
 
+    @BeforeEach
+    void cleanDatabase() {
+        template.delete(Person.class).execute();
+    }
 
     @ParameterizedTest
     @ArgumentsSource(PersonSupplier.class)
