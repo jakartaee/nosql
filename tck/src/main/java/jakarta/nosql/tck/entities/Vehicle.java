@@ -106,7 +106,7 @@ public class Vehicle {
         vehicle.make = fakeVehicle.make();
         vehicle.manufacturer = fakeVehicle.manufacturer();
         vehicle.color = fakeVehicle.color();
-        vehicle.transmission = Transmission.valueOf(fakeVehicle.transmission().toUpperCase());
+        vehicle.transmission = faker.number().positive() % 2 == 0 ? Transmission.MANUAL : Transmission.AUTOMATIC;
         return vehicle;
     }
 
