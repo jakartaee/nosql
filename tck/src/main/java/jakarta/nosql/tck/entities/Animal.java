@@ -36,6 +36,9 @@ public class Animal extends AbstractAnimal {
     @Column
     private String species;
 
+    @Column
+    private Integer age;
+
     public String getName() {
         return name;
     }
@@ -52,6 +55,10 @@ public class Animal extends AbstractAnimal {
         return species;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
     public void setSpecies(String species) {
         this.species = species;
     }
@@ -59,12 +66,13 @@ public class Animal extends AbstractAnimal {
     Animal() {
     }
 
-    public Animal(String id, String name, String scientificName, String genus, String species) {
+    public Animal(String id, String name, String scientificName, String genus, String species, Integer age) {
         this.name = name;
         this.scientificName = scientificName;
         this.genus = genus;
         this.species = species;
         this.id = id;
+        this.age = age;
     }
 
     @Override
@@ -74,13 +82,15 @@ public class Animal extends AbstractAnimal {
                 ", scientificName='" + scientificName + '\'' +
                 ", genus='" + genus + '\'' +
                 ", species='" + species + '\'' +
+                ", age=" + age +
                 ", id='" + id + '\'' +
                 '}';
     }
 
     public static Animal of(Faker faker) {
         var animal = faker.animal();
-        return new Animal(UUID.randomUUID().toString(), animal.name(), animal.scientificName(), animal.genus(), animal.species());
+        var age = faker.number().numberBetween(1, 1000);
+        return new Animal(UUID.randomUUID().toString(), animal.name(), animal.scientificName(), animal.genus(), animal.species(), age);
     }
 
 
