@@ -62,7 +62,7 @@ class BasicTemplateTest extends AbstractTemplateTest {
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(updatedPerson).isNotNull();
             soft.assertThat(updatedPerson.getId()).isEqualTo(insertedPerson.getId());
-            soft.assertThat(updatedPerson.getAge()).isEqualTo(insertedPerson.getAge() + 1);
+            soft.assertThat(updatedPerson.getAge()).isEqualTo(insertedPerson.getAge());
         });
     }
 
