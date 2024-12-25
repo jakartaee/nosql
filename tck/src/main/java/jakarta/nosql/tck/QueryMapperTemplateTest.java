@@ -164,14 +164,20 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
     void shouldInsertIterableAndSelectWithBetweenCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
         try {
+            var secondElder = entities.stream()
+                    .mapToInt(Person::getAge)
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow();
+
             var result = template.select(Person.class)
                     .where("age")
-                    .between(entities.get(0).getAge(), entities.get(0).getAge() + 5)
+                    .between(secondElder, secondElder + 5)
                     .<Person>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> person.getAge() >= entities.get(0).getAge() && person.getAge() <= entities.get(0).getAge() + 5);
+                    .allMatch(person -> person.getAge() >= secondElder && person.getAge() <= secondElder + 5);
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -184,16 +190,22 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
         try {
 
+            var secondElder = entities.stream()
+                    .mapToInt(Person::getAge)
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow();
+
             var result = template.select(Person.class)
                     .where("age")
-                    .gt(entities.get(0).getAge())
+                    .gt(secondElder)
                     .skip(0)
                     .limit(10)
                     .<Person>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> person.getAge() > entities.get(0).getAge());
+                    .allMatch(person -> person.getAge() > secondElder);
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -207,9 +219,15 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
         try {
 
+            var secondElder = entities.stream()
+                    .mapToInt(Person::getAge)
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow();
+
             var result = template.select(Person.class)
                     .where("age")
-                    .gt(entities.get(0).getAge())
+                    .gt(secondElder)
                     .orderBy("name")
                     .asc()
                     .<Person>result();
@@ -232,9 +250,16 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
+
+            var secondElder = entities.stream()
+                    .mapToInt(Person::getAge)
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow();
+
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .gt(entities.get(0).getAge())
+                    .gt(secondElder)
                     .and("name")
                     .eq(entities.get(0).getName())
                     .result();
