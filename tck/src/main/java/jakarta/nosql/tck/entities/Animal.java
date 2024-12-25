@@ -20,6 +20,7 @@ import jakarta.nosql.Entity;
 import net.datafaker.Faker;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 public class Animal extends AbstractAnimal {
@@ -89,7 +90,7 @@ public class Animal extends AbstractAnimal {
 
     public static Animal of(Faker faker) {
         var animal = faker.animal();
-        var age = faker.number().numberBetween(1, 1000);
+        var age = ThreadLocalRandom.current().nextInt(1, 1000);;
         return new Animal(UUID.randomUUID().toString(), animal.name(), animal.scientificName(), animal.genus(), animal.species(), age);
     }
 
