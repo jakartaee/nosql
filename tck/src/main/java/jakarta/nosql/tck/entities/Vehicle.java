@@ -21,6 +21,7 @@ import jakarta.nosql.Id;
 import net.datafaker.Faker;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Vehicle {
@@ -102,6 +103,7 @@ public class Vehicle {
     public static Vehicle of(Faker faker) {
         var fakeVehicle = faker.vehicle();
         Vehicle vehicle = new Vehicle();
+        vehicle.id = UUID.randomUUID().toString();
         vehicle.model = fakeVehicle.model();
         vehicle.make = fakeVehicle.make();
         vehicle.manufacturer = fakeVehicle.manufacturer();
