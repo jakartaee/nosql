@@ -18,6 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -147,9 +148,12 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
                 .between(age, 1500)
                 .<Animal>result();
 
+        var orderAnimals = animals.stream()
+                .sorted(Comparator.comparing(Animal::getAge)).toArray(Animal[]::new);
+
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getSpecies().compareTo(animals.get(0).getSpecies()) >= 0 && "Zebra".compareTo(animal.getSpecies()) >= 0);
+            soft.assertThat(result).containsExactly(orderAnimals);
         });
     }
 
