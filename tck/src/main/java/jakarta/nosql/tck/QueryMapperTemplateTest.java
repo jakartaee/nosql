@@ -76,6 +76,7 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
             var secondElder = entities.stream()
                     .mapToInt(Person::getAge)
+                    .sorted()
                     .skip(1)
                     .findFirst()
                     .orElseThrow();
@@ -101,10 +102,11 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
         try {
 
             var secondElder = entities.stream()
-                .mapToInt(Person::getAge)
-                .skip(1)
-                .findFirst()
-                .orElseThrow();
+                    .mapToInt(Person::getAge)
+                    .sorted()
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow();
 
             var result = template.select(Person.class)
                     .where("age")
@@ -192,6 +194,7 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
             var secondElder = entities.stream()
                     .mapToInt(Person::getAge)
+                    .sorted()
                     .skip(1)
                     .findFirst()
                     .orElseThrow();
@@ -221,6 +224,7 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
             var secondElder = entities.stream()
                     .mapToInt(Person::getAge)
+                    .sorted()
                     .skip(1)
                     .findFirst()
                     .orElseThrow();
@@ -253,7 +257,8 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
             var secondElder = entities.stream()
                     .mapToInt(Person::getAge)
-                    .skip(1)
+                    .sorted()
+                    .skip(entities.size() - 1)
                     .findFirst()
                     .orElseThrow();
 
