@@ -29,6 +29,17 @@ public abstract class Drink {
     @Id
     protected String id;
 
+    @Id
+    protected String name;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     @Override
     public boolean equals(Object object) {
