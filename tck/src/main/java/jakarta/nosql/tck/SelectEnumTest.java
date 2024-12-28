@@ -25,7 +25,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-public class QueryMapperSelectEnumTest extends AbstractTemplateTest {
+@DisplayName("Select enum test")
+public class SelectEnumTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(VehicleListSupplier.class)

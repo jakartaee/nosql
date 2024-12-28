@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-public class QueryMapperSelectRecordTest extends AbstractTemplateTest {
+public class SelectRecordTest extends AbstractTemplateTest {
 
 
     @ParameterizedTest
