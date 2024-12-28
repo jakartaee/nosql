@@ -182,7 +182,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getAge() > animals.get(0).getAge());
+            soft.assertThat(result).allMatch(animal -> animal.getAge() > secondOlder);
         });
     }
 }
