@@ -29,9 +29,9 @@ import java.time.Duration;
 import java.util.logging.Logger;
 
 @DisplayName("Basic operations exploring Inheritance with Inheritance annotations")
-public class BasicOperationsWithInheritanceTest extends AbstractTemplateTest {
+public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
 
-    private static final Logger LOGGER = Logger.getLogger(BasicOperationsWithInheritanceTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BasicTemplateInheritanceTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(DrinkSupplier.class)
@@ -67,9 +67,9 @@ public class BasicOperationsWithInheritanceTest extends AbstractTemplateTest {
     void shouldDelete(Drink entity) {
         var insertedDrink = template.insert(entity);
 
-        template.delete(Drink.class, insertedDrink.getId());
+        template.delete(insertedDrink.getClass(), insertedDrink.getId());
 
-        var deletedDrink = template.find(Drink.class, insertedDrink.getId());
+        var deletedDrink = template.find(insertedDrink.getClass(), insertedDrink.getId());
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(deletedDrink).isEmpty();
         });
@@ -80,7 +80,7 @@ public class BasicOperationsWithInheritanceTest extends AbstractTemplateTest {
     @DisplayName("Should find the drink: {0}")
     void shouldFind(Drink entity) {
         var insertedDrink = template.insert(entity);
-        var foundDrink = template.find(Drink.class, insertedDrink.getId());
+        var foundDrink = template.find(insertedDrink.getClass(), insertedDrink.getId());
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(foundDrink).isPresent();
             soft.assertThat(foundDrink.orElseThrow().getId()).isEqualTo(insertedDrink.getId());
