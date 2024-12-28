@@ -24,7 +24,7 @@
  * package provide a uniform API for interacting with NoSQL databases, abstracting the underlying complexity of each NoSQL provider.
  * </p>
  * <p>
- * This package supports both single entity operations as well as batch operations for managing multiple entities at once.
+ * This package supports both single entity operations and batch operations for managing multiple entities at once.
  * It is part of a larger framework designed to simplify NoSQL operations and provide a consistent, high-level API for common use cases.
  * </p>
  *
