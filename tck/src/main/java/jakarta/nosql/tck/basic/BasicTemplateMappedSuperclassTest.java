@@ -23,9 +23,9 @@ import java.time.Duration;
 import java.util.logging.Logger;
 
 @DisplayName("The basic template operations with inheritance using MappedSuperclass annotation")
-public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
+public class BasicTemplateMappedSuperclassTest extends AbstractTemplateTest {
 
-    private static final Logger LOGGER = Logger.getLogger(BasicTemplateInheritanceTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BasicTemplateMappedSuperclassTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(AnimalSupplier.class)

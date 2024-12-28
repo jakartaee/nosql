@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @DisplayName("The query execution using MappedSuperclass annotation")
-public class SelectInheritanceTest extends AbstractTemplateTest {
+public class SelectMappedSuperclassTest extends AbstractTemplateTest {
 
-    private static final Logger LOGGER = Logger.getLogger(SelectInheritanceTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SelectMappedSuperclassTest.class.getName());
 
 
     @ParameterizedTest
