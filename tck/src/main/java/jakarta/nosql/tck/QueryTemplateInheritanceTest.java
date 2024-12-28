@@ -93,7 +93,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
                 .orElseThrow();
 
         var result = template.select(Animal.class)
-                .where("species")
+                .where("age")
                 .lt(secondElder)
                 .<Animal>result();
 
