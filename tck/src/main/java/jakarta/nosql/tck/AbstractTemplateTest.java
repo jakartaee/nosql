@@ -36,10 +36,14 @@ public abstract class AbstractTemplateTest {
         TemplateSupplier supplier = TemplateSupplier.template();
         this.template = supplier.get();
         LOGGER.info("Cleaning up the database");
-        template.delete(Person.class).execute();
-        template.delete(Animal.class).execute();
-        template.delete(Vehicle.class).execute();
-        template.delete(Book.class).execute();
+        try {
+            template.delete(Person.class).execute();
+            template.delete(Animal.class).execute();
+            template.delete(Vehicle.class).execute();
+            template.delete(Book.class).execute();
+        } catch (Exception e) {
+            LOGGER.warning("An error happened when cleaning up the database");
+        }
     }
 
 
