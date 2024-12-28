@@ -19,7 +19,6 @@ import jakarta.nosql.tck.entities.Person;
 
 public class PersonListSupplier extends AbstractListSupplier<Person> {
 
-
     @Override
     Person getEntity() {
         return Person.of(faker());
