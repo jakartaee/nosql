@@ -22,6 +22,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -249,30 +250,62 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert Iterable and select with 'complex' query")
-    void shouldInsertIterableAndSelectWithComplexQuery(List<Person> entities) {
+    @DisplayName("Should insert Iterable and select with 'complex' query using 'and'")
+    void shouldInsertIterableAndSelectWithComplexQueryAnd(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
 
             var secondElder = entities.stream()
-                    .mapToInt(Person::getAge)
-                    .sorted()
+                    .sorted(Comparator.comparing(Person::getAge))
                     .skip(entities.size() - 1)
                     .findFirst()
                     .orElseThrow();
 
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .gt(secondElder)
+                    .gt(secondElder.getAge())
                     .and("name")
-                    .eq(entities.get(0).getName())
+                    .eq(secondElder.getName())
                     .result();
 
-            Assertions.assertThat(result).isEmpty();
+            Assertions.assertThat(result).isNotEmpty()
+                    .allMatch(person -> person.getAge() > secondElder.getAge()
+                            && person.getName().equals(secondElder.getName()));
 
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with 'complex' query using 'or'")
+    void shouldInsertIterableAndSelectWithComplexQueryOr(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+
+            var secondElder = entities.stream()
+                    .sorted(Comparator.comparing(Person::getAge))
+                    .skip(entities.size() - 1)
+                    .findFirst()
+                    .orElseThrow();
+
+            List<Person> result = template.select(Person.class)
+                    .where("age")
+                    .gt(secondElder.getAge())
+                    .or("name")
+                    .eq(secondElder.getName())
+                    .result();
+
+            Assertions.assertThat(result).isNotEmpty()
+                    .allMatch(person -> person.getAge() > secondElder.getAge()
+                            || person.getName().equals(secondElder.getName()));
+
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
