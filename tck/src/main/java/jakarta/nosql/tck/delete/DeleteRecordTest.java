@@ -7,8 +7,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck;
+package jakarta.nosql.tck.delete;
 
+import jakarta.nosql.tck.AbstractTemplateTest;
 import jakarta.nosql.tck.entities.Book;
 import jakarta.nosql.tck.factories.BookListSupplier;
 import org.assertj.core.api.SoftAssertions;
