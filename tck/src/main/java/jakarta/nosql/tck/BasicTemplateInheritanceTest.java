@@ -21,6 +21,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.time.Duration;
 import java.util.logging.Logger;
 
+@DisplayName("The basic template operations with inheritance using MappedSuperclass annotation")
 public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateInheritanceTest.class.getName());
