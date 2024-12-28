@@ -264,7 +264,7 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
 
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .gt(secondElder.getAge())
+                    .gt(secondElder.getAge() -1)
                     .and("name")
                     .eq(secondElder.getName())
                     .result();
