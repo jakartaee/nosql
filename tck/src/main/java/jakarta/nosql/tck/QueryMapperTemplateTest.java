@@ -262,16 +262,19 @@ public class QueryMapperTemplateTest extends AbstractTemplateTest {
                     .findFirst()
                     .orElseThrow();
 
+            var age = secondElder.getAge() -1;
+            var name = secondElder.getName();
+
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .gt(secondElder.getAge() -1)
+                    .gt(age)
                     .and("name")
-                    .eq(secondElder.getName())
+                    .eq(name)
                     .result();
 
             Assertions.assertThat(result).isNotEmpty()
-                    .allMatch(person -> person.getAge() > secondElder.getAge()
-                            && person.getName().equals(secondElder.getName()));
+                    .allMatch(person -> person.getAge() > age
+                            && person.getName().equals(name));
 
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
