@@ -41,6 +41,10 @@ public abstract class Drink {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Drink drink)) {

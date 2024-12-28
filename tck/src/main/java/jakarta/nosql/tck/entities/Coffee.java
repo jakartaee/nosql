@@ -18,39 +18,54 @@ package jakarta.nosql.tck.entities;
 import jakarta.nosql.Column;
 import jakarta.nosql.DiscriminatorValue;
 import jakarta.nosql.Entity;
+import net.datafaker.Faker;
+
+import java.util.UUID;
 
 @DiscriminatorValue("COFFEE")
 @Entity
 public class Coffee extends Drink {
 
     @Column
-    private String brand;
+    private String country;
 
     @Column
-    private String name;
+    private String region;
 
     @Column
-    private String style;
+    private String blendName;
 
-    public String getBrand() {
-        return brand;
+    public String getCountry() {
+        return country;
     }
 
-    public String getName() {
-        return name;
+    public String getRegion() {
+        return region;
     }
 
-    public String getStyle() {
-        return style;
+    public String getBlendName() {
+        return blendName;
     }
 
     @Override
     public String toString() {
-        return "Coffe{" +
-                "brand='" + brand + '\'' +
-                ", name='" + name + '\'' +
-                ", style='" + style + '\'' +
+        return "Coffee{" +
+                "name='" + name + '\'' +
                 ", id='" + id + '\'' +
+                ", blendName='" + blendName + '\'' +
+                ", region='" + region + '\'' +
+                ", country='" + country + '\'' +
                 '}';
+    }
+
+    public static Coffee of(Faker faker) {
+        var fakeCoffee = faker.coffee();
+        Coffee coffee = new Coffee();
+        coffee.country = fakeCoffee.country();
+        coffee.region = fakeCoffee.region();
+        coffee.blendName = fakeCoffee.blendName();
+        coffee.name = fakeCoffee.name1();
+        coffee.id = UUID.randomUUID().toString();
+        return coffee;
     }
 }

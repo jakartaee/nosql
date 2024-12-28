@@ -30,17 +30,10 @@ public class Beer extends Drink {
     private String brand;
 
     @Column
-    private String name;
-
-    @Column
     private String style;
 
     public String getBrand() {
         return brand;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getStyle() {
