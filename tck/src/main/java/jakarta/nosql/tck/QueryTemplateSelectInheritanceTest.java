@@ -19,9 +19,9 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
+public class QueryTemplateSelectInheritanceTest extends AbstractTemplateTest{
 
-    private static final Logger LOGGER = Logger.getLogger(QueryTemplateInheritanceTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(QueryTemplateSelectInheritanceTest.class.getName());
 
 
     @ParameterizedTest

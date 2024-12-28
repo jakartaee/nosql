@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class QueryMapperTemplateTest extends AbstractTemplateTest {
+public class QueryMapperSelectTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
