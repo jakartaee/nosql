@@ -7,8 +7,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck;
+package jakarta.nosql.tck.select;
 
+import jakarta.nosql.tck.AbstractTemplateTest;
 import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.SoftAssertions;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @DisplayName("The query execution using MappedSuperclass annotation")
-public class SelectInheritanceTest extends AbstractTemplateTest{
+public class SelectInheritanceTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(SelectInheritanceTest.class.getName());
 
