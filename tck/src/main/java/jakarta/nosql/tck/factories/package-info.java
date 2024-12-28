@@ -31,8 +31,10 @@
  * The naming convention used is as follows:
  * </p>
  * <ul>
- *     <li>If the supplier returns a single entity, it is named <code>EntitySupplier</code>, where <code>Entity</code> is the name of the entity (e.g., <code>VehicleSupplier</code> for the {@link jakarta.nosql.tck.entities.Vehicle} entity).</li>
- *     <li>If the supplier returns a list of entities, it is named <code>EntityListSupplier</code>, where <code>Entity</code> is the name of the entity (e.g., <code>VehicleListSupplier</code> for a list of {@link jakarta.nosql.tck.entities.Vehicle} entities).</li>
+ *     <li>If the supplier returns a single entity, it is named <code>EntitySupplier</code>, where <code>Entity</code> is the name of the entity
+ *     (e.g., <code>VehicleSupplier</code> for the {@link jakarta.nosql.tck.entities.Vehicle} entity).</li>
+ *     <li>If the supplier returns a list of entities, it is named <code>EntityListSupplier</code>, where <code>Entity</code>
+ *     is the name of the entity (e.g., <code>VehicleListSupplier</code> for a list of {@link jakarta.nosql.tck.entities.Vehicle} entities).</li>
  * </ul>
  * <p>
  * These supplier classes are designed to provide the necessary test data for various NoSQL operations
