@@ -19,9 +19,9 @@ import jakarta.nosql.Column;
 import jakarta.nosql.DiscriminatorValue;
 import jakarta.nosql.Entity;
 
-@DiscriminatorValue("COFFE")
+@DiscriminatorValue("COFFEE")
 @Entity
-public class Coffe extends Drink {
+public class Coffee extends Drink {
 
     @Column
     private String brand;

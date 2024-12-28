@@ -24,7 +24,7 @@ import java.util.Objects;
 
 @Inheritance
 @DiscriminatorColumn("type")
-public class Drink {
+public abstract class Drink {
 
     @Id
     protected String id;
