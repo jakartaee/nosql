@@ -20,8 +20,10 @@ import jakarta.nosql.tck.entities.Drink;
 public class DrinkListSupplier extends AbstractListSupplier<Drink> {
 
     private static final DrinkSupplier SUPPLIER = new DrinkSupplier();
+
     @Override
     public Drink getEntity() {
         return SUPPLIER.get();
     }
+
 }
