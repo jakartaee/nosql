@@ -41,8 +41,8 @@ public abstract class AbstractTemplateTest {
             template.delete(Animal.class).execute();
             template.delete(Vehicle.class).execute();
             template.delete(Book.class).execute();
-        } catch (Exception e) {
-            LOGGER.warning("An error happened when cleaning up the database");
+        } catch (UnsupportedOperationException e) {
+            LOGGER.warning("The delete operation is not supported");
         }
     }
 
