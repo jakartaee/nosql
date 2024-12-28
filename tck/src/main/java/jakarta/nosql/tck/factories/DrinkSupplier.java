@@ -15,14 +15,28 @@
  */
 package jakarta.nosql.tck.factories;
 
-import jakarta.nosql.tck.entities.Vehicle;
+import jakarta.nosql.tck.entities.Beer;
+import jakarta.nosql.tck.entities.Coffee;
+import jakarta.nosql.tck.entities.Drink;
 
-public class DrinkSupplier extends AbstractSupplier<Vehicle> {
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Logger;
+
+public class DrinkSupplier extends AbstractSupplier<Drink> {
+
+    private static final Logger LOGGER = Logger.getLogger(DrinkSupplier.class.getName());
+
+    private static final AtomicLong COUNTER = new AtomicLong(0L);
 
     @Override
-    public Vehicle get() {
-        return Vehicle.of(faker());
+    public Drink get() {
+        var counter = COUNTER.incrementAndGet();
+        LOGGER.info("Creating a new Drink instance with counter: " + counter);
+        if(counter % 2 == 0) {
+            return Beer.of(faker());
+        } else {
+            return Coffee.of(faker());
+        }
     }
-
 
 }
