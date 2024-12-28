@@ -63,6 +63,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         var secondElder = animals.stream()
                 .mapToInt(Animal::getAge)
+                .sorted()
                 .skip(1)
                 .findFirst()
                 .orElseThrow();
@@ -86,6 +87,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         var secondElder = animals.stream()
                 .mapToInt(Animal::getAge)
+                .sorted()
                 .skip(1)
                 .findFirst()
                 .orElseThrow();
