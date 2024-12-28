@@ -26,7 +26,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-public class IterableEntityTemplateTest extends AbstractTemplateTest {
+public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
