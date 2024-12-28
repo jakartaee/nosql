@@ -20,6 +20,8 @@ import jakarta.nosql.DiscriminatorValue;
 import jakarta.nosql.Entity;
 import net.datafaker.Faker;
 
+import java.util.UUID;
+
 @DiscriminatorValue("BEER")
 @Entity
 public class Beer extends Drink {
@@ -56,11 +58,12 @@ public class Beer extends Drink {
     }
 
     public static Beer of(Faker faker) {
+        var fakeBeer = faker.beer();
         Beer beer = new Beer();
-        beer.id = faker.idNumber().valid();
-        beer.brand = faker.beer().brand();
-        beer.name = faker.beer().name();
-        beer.style = faker.beer().style();
+        beer.id = UUID.randomUUID().toString();
+        beer.brand = fakeBeer.brand();
+        beer.name = fakeBeer.name();
+        beer.style = fakeBeer.style();
         return beer;
     }
 }
