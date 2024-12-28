@@ -27,6 +27,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.time.Duration;
 import java.util.logging.Logger;
 
+@DisplayName("The basic template operations using a POJO entity")
 class BasicTemplateTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateTest.class.getName());
