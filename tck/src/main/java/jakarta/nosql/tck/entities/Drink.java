@@ -18,6 +18,7 @@ package jakarta.nosql.tck.entities;
 
 import jakarta.nosql.Column;
 import jakarta.nosql.DiscriminatorColumn;
+import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 import jakarta.nosql.Inheritance;
 
@@ -25,6 +26,7 @@ import java.util.Objects;
 
 @Inheritance
 @DiscriminatorColumn("type")
+@Entity
 public abstract class Drink {
 
     @Id
