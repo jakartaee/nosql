@@ -63,6 +63,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         var secondElder = animals.stream()
                 .mapToInt(Animal::getAge)
+                .sorted()
                 .skip(1)
                 .findFirst()
                 .orElseThrow();
@@ -86,12 +87,13 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         var secondElder = animals.stream()
                 .mapToInt(Animal::getAge)
+                .sorted()
                 .skip(1)
                 .findFirst()
                 .orElseThrow();
 
         var result = template.select(Animal.class)
-                .where("species")
+                .where("age")
                 .lt(secondElder)
                 .<Animal>result();
 
@@ -180,7 +182,7 @@ public class QueryTemplateInheritanceTest extends AbstractTemplateTest{
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).isNotEmpty();
-            soft.assertThat(result).allMatch(animal -> animal.getAge() > animals.get(0).getAge());
+            soft.assertThat(result).allMatch(animal -> animal.getAge() > secondOlder);
         });
     }
 }
