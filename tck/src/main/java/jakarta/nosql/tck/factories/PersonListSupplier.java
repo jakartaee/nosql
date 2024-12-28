@@ -17,12 +17,11 @@ package jakarta.nosql.tck.factories;
 
 import jakarta.nosql.tck.entities.Person;
 
-import java.util.List;
+public class PersonListSupplier extends AbstractListSupplier<Person> {
 
-public class PersonListSupplier extends AbstractSupplier<List<Person>> {
 
     @Override
-    public List<Person> get() {
-        return List.of(Person.of(faker()), Person.of(faker()), Person.of(faker()));
+    Person getEntity() {
+        return Person.of(faker());
     }
 }
