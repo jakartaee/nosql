@@ -16,6 +16,7 @@
 package jakarta.nosql.tck.entities;
 
 
+import jakarta.nosql.Column;
 import jakarta.nosql.DiscriminatorColumn;
 import jakarta.nosql.Id;
 import jakarta.nosql.Inheritance;
@@ -29,7 +30,7 @@ public abstract class Drink {
     @Id
     protected String id;
 
-    @Id
+    @Column
     protected String name;
 
 
