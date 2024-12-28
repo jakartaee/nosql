@@ -16,8 +16,6 @@
 package jakarta.nosql.tck.basic;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.entities.Beer;
-import jakarta.nosql.tck.entities.Coffee;
 import jakarta.nosql.tck.entities.Drink;
 import jakarta.nosql.tck.factories.DrinkSupplier;
 import org.assertj.core.api.Assertions;
