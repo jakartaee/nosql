@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-public class QueryMapperDeleteRecordTest extends AbstractTemplateTest {
+public class DeleteRecordTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(BookListSupplier.class)

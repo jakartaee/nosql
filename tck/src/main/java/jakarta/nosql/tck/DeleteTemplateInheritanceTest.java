@@ -15,8 +15,8 @@
  */
 package jakarta.nosql.tck;
 
-import jakarta.nosql.tck.entities.Person;
-import jakarta.nosql.tck.factories.PersonListSupplier;
+import jakarta.nosql.tck.entities.Animal;
+import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,19 +24,18 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-public class QueryMapperDeleteTemplateTest extends AbstractTemplateTest {
-
+public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
 
     @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
+    @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with no conditions")
-    void shouldInsertIterableAndDeleteNoCondition(List<Person> entities) {
+    void shouldInsertIterableAndDeleteNoCondition(List<Animal> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            template.delete(Person.class).execute();
+            template.delete(Animal.class).execute();
 
-            List<Person> result = template.select(Person.class).result();
+            List<Animal> result = template.select(Animal.class).result();
             Assertions.assertThat(result).isEmpty();
 
         } catch (UnsupportedOperationException exp) {
@@ -45,18 +44,18 @@ public class QueryMapperDeleteTemplateTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
+    @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with simple condition")
-    void shouldInsertIterableAndDeleteWithSimpleCondition(List<Person> entities) {
+    void shouldInsertIterableAndDeleteWithSimpleCondition(List<Animal> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            template.delete(Person.class)
+            template.delete(Animal.class)
                     .where("name")
                     .eq(entities.get(0).getName())
                     .execute();
 
-            List<Person> result = template.select(Person.class)
+            List<Animal> result = template.select(Animal.class)
                     .where("name")
                     .eq(entities.get(0).getName())
                     .result();
@@ -68,67 +67,21 @@ public class QueryMapperDeleteTemplateTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with greater-than condition")
-    void shouldInsertIterableAndDeleteWithGreaterThanCondition(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-            template.delete(Person.class)
-                    .where("age")
-                    .gt(entities.get(0).getAge())
-                    .execute();
-
-            List<Person> result = template.select(Person.class)
-                    .where("age")
-                    .gt(entities.get(0).getAge())
-                    .result();
-            Assertions.assertThat(result).isEmpty();
-
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with less-than condition")
-    void shouldInsertIterableAndDeleteWithLessThanCondition(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-            template.delete(Person.class)
-                    .where("age")
-                    .lt(entities.get(0).getAge())
-                    .execute();
-
-            List<Person> result = template.select(Person.class)
-                    .where("age")
-                    .lt(entities.get(0).getAge())
-                    .result();
-            Assertions.assertThat(result).isEmpty();
-
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
+    @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'in' condition")
-    void shouldInsertIterableAndDeleteWithInCondition(List<Person> entities) {
+    void shouldInsertIterableAndDeleteWithInCondition(List<Animal> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));
 
         try {
             // Delete based on the 'name' field (in a list of values)
-            template.delete(Person.class)
+            template.delete(Animal.class)
                     .where("name")
                     .in(List.of(entities.get(0).getName()))
                     .execute();
 
-            // Verify that no persons with the given names exist
-            List<Person> result = template.select(Person.class)
+            // Verify that no animals with the given names exist
+            List<Animal> result = template.select(Animal.class)
                     .where("name")
                     .in(List.of(entities.get(0).getName()))
                     .result();
@@ -141,20 +94,20 @@ public class QueryMapperDeleteTemplateTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
+    @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'between' condition")
-    void shouldInsertIterableAndDeleteWithBetweenCondition(List<Person> entities) {
+    void shouldInsertIterableAndDeleteWithBetweenCondition(List<Animal> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            template.delete(Person.class)
-                    .where("age")
-                    .between(entities.get(0).getAge(), entities.get(0).getAge() + 5)
+            template.delete(Animal.class)
+                    .where("species")
+                    .between(entities.get(0).getSpecies(), "Zebra") // Example condition
                     .execute();
 
-            List<Person> result = template.select(Person.class)
-                    .where("age")
-                    .between(entities.get(0).getAge(), entities.get(0).getAge() + 5)
+            List<Animal> result = template.select(Animal.class)
+                    .where("species")
+                    .between(entities.get(0).getSpecies(), "Zebra") // Example condition
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -164,27 +117,26 @@ public class QueryMapperDeleteTemplateTest extends AbstractTemplateTest {
         }
     }
 
-
     @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
+    @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'complex' query")
-    void shouldInsertIterableAndDeleteWithComplexQuery(List<Person> entities) {
+    void shouldInsertIterableAndDeleteWithComplexQuery(List<Animal> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            template.delete(Person.class)
-                    .where("age")
-                    .gt(entities.get(0).getAge())
-                    .and("name")
-                    .eq(entities.get(0).getName())
+            template.delete(Animal.class)
+                    .where("genus")
+                    .eq(entities.get(0).getGenus())
+                    .and("species")
+                    .eq(entities.get(0).getSpecies())
                     .execute();
 
-            List<Person> result = template.select(Person.class)
-                    .where("age")
-                    .gt(entities.get(0).getAge())
-                    .and("name")
-                    .eq(entities.get(0).getName())
+            List<Animal> result = template.select(Animal.class)
+                    .where("genus")
+                    .eq(entities.get(0).getGenus())
+                    .and("species")
+                    .eq(entities.get(0).getSpecies())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
