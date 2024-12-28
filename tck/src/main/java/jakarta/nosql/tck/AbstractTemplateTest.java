@@ -18,6 +18,7 @@ package jakarta.nosql.tck;
 import jakarta.nosql.Template;
 import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.entities.Book;
+import jakarta.nosql.tck.entities.Drink;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.entities.Vehicle;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,7 @@ public abstract class AbstractTemplateTest {
             template.delete(Animal.class).execute();
             template.delete(Vehicle.class).execute();
             template.delete(Book.class).execute();
+            template.delete(Drink.class).execute();
         } catch (UnsupportedOperationException e) {
             LOGGER.warning("The delete operation is not supported");
         }
