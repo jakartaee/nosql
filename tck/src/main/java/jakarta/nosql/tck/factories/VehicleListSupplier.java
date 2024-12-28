@@ -17,14 +17,10 @@ package jakarta.nosql.tck.factories;
 
 import jakarta.nosql.tck.entities.Vehicle;
 
-import java.util.List;
-
-public class VehicleListSupplier extends AbstractSupplier<List<Vehicle>> {
+public class VehicleListSupplier extends AbstractListSupplier<Vehicle> {
 
     @Override
-    public List<Vehicle> get() {
-        return List.of(Vehicle.of(faker()), Vehicle.of(faker()), Vehicle.of(faker()));
+    Vehicle getEntity() {
+        return Vehicle.of(faker());
     }
-
-
 }
