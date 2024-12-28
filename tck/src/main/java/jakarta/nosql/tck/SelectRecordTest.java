@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+@DisplayName("The query execution exploring records")
 public class SelectRecordTest extends AbstractTemplateTest {
 
 

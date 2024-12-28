@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+@DisplayName("The query execution exploring the classic POJO")
 public class SelectTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest

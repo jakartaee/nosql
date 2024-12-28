@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-@DisplayName("Select enum test")
+@DisplayName("The query execution exploring filters with enum")
 public class SelectEnumTest extends AbstractTemplateTest {
 
     @ParameterizedTest

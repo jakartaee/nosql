@@ -19,6 +19,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.util.List;
 import java.util.logging.Logger;
 
+@DisplayName("The query execution using MappedSuperclass annotation")
 public class SelectInheritanceTest extends AbstractTemplateTest{
 
     private static final Logger LOGGER = Logger.getLogger(SelectInheritanceTest.class.getName());
