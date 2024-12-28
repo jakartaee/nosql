@@ -30,5 +30,93 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.time.Duration;
 import java.util.logging.Logger;
 
-public class BasicOperationsWithInheritanceTest {
+@DisplayName("Basic operations exploring Inheritance with Inheritance annotations")
+public class BasicOperationsWithInheritanceTest extends AbstractTemplateTest {
+
+    private static final Logger LOGGER = Logger.getLogger(BasicOperationsWithInheritanceTest.class.getName());
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkSupplier.class)
+    @DisplayName("Should insert the drink: {0}")
+    void shouldInsert(Drink entity) {
+        var drink = template.insert(entity);
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(drink).isNotNull();
+            soft.assertThat(drink.getId()).isNotNull();
+            soft.assertThat(drink.getName()).isEqualTo(entity.getName());
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkSupplier.class)
+    @DisplayName("Should update the drink: {0}")
+    void shouldUpdate(Drink entity) {
+        var insertedDrink = template.insert(entity);
+
+        insertedDrink.setName(insertedDrink.getName() + " Updated");
+        var updatedDrink = template.update(insertedDrink);
+
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(updatedDrink).isNotNull();
+            soft.assertThat(updatedDrink.getId()).isEqualTo(insertedDrink.getId());
+            soft.assertThat(updatedDrink.getName()).isEqualTo(insertedDrink.getName());
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkSupplier.class)
+    @DisplayName("Should delete the drink: {0}")
+    void shouldDelete(Drink entity) {
+        var insertedDrink = template.insert(entity);
+
+        template.delete(Drink.class, insertedDrink.getId());
+
+        var deletedDrink = template.find(Drink.class, insertedDrink.getId());
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(deletedDrink).isEmpty();
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkSupplier.class)
+    @DisplayName("Should find the drink: {0}")
+    void shouldFind(Drink entity) {
+        var insertedDrink = template.insert(entity);
+        var foundDrink = template.find(Drink.class, insertedDrink.getId());
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(foundDrink).isPresent();
+            soft.assertThat(foundDrink.orElseThrow().getId()).isEqualTo(insertedDrink.getId());
+            soft.assertThat(foundDrink.orElseThrow().getName()).isEqualTo(insertedDrink.getName());
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkSupplier.class)
+    @DisplayName("Should insert drink with TTL")
+    void shouldInsertWithTTL(Drink drink) {
+        try {
+            var insertedDrink = template.insert(drink, Duration.ofMinutes(10));
+            SoftAssertions.assertSoftly(soft -> {
+                soft.assertThat(insertedDrink).isNotNull();
+                soft.assertThat(insertedDrink.getId()).isNotNull();
+                soft.assertThat(insertedDrink.getName()).isEqualTo(drink.getName());
+            });
+        } catch (UnsupportedOperationException e) {
+            LOGGER.info("TTL operation not supported by this database: " + e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Should throw exception when null entity is inserted")
+    void shouldThrowExceptionWhenNullEntityInserted() {
+        Assertions.assertThatThrownBy(() -> template.insert(null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when null entity is updated")
+    void shouldThrowExceptionWhenNullEntityUpdated() {
+        Assertions.assertThatThrownBy(() -> template.update(null))
+                .isInstanceOf(NullPointerException.class);
+    }
 }
