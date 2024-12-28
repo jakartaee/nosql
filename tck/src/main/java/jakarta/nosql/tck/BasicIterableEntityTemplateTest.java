@@ -26,6 +26,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+@DisplayName("The iterable template operations")
 public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
