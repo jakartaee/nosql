@@ -17,14 +17,12 @@ package jakarta.nosql.tck.factories;
 
 import jakarta.nosql.tck.entities.Animal;
 
-import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
-public class AnimalListSupplier extends AbstractSupplier<List<Animal>> {
+public class AnimalListSupplier extends AbstractListSupplier<Animal> {
+
 
     @Override
-    public List<Animal> get() {
-       return Stream.generate(AnimalSupplier::new).limit(100).map(Supplier::get).toList();
+    Animal getEntity() {
+        return Animal.of(faker());
     }
 }
