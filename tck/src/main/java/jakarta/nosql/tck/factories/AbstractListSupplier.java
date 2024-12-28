@@ -15,5 +15,19 @@
  */
 package jakarta.nosql.tck.factories;
 
-abstract class AbstractListSupplier {
+
+import java.util.List;
+import java.util.stream.Stream;
+
+abstract class AbstractListSupplier<T> extends AbstractSupplier<List<T>> {
+
+    private static final int SIZE = 6;
+
+
+    @Override
+    public List<T> get() {
+        return Stream.generate(this::getEntity).limit(SIZE).toList();
+    }
+
+    abstract T getEntity();
 }
