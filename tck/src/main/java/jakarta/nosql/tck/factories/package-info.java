@@ -13,7 +13,36 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
+
+
 /**
- * This package contains factories class to generate fake data to be used in the TCK tests.
+ * Provides supplier classes for generating test data for NoSQL operations.
+ * <p>
+ * The supplier classes in this package are responsible for supplying entities or lists of entities
+ * for parameterized tests. These classes follow a consistent naming convention:
+ * </p>
+ * <ul>
+ *     <li>{@link jakarta.nosql.tck.factories.VehicleSupplier}: Supplies a single instance of the {@link jakarta.nosql.tck.entities.Vehicle} entity for tests.</li>
+ *     <li>{@link jakarta.nosql.tck.factories.VehicleListSupplier}: Supplies a list of {@link jakarta.nosql.tck.entities.Vehicle} entities for batch tests.</li>
+ *     <li>{@link jakarta.nosql.tck.factories.PersonSupplier}: Supplies a single instance of the {@link jakarta.nosql.tck.entities.Person} entity for tests.</li>
+ *     <li>{@link jakarta.nosql.tck.factories.PersonListSupplier}: Supplies a list of {@link jakarta.nosql.tck.entities.Person} entities for batch tests.</li>
+ * </ul>
+ * <p>
+ * The naming convention used is as follows:
+ * </p>
+ * <ul>
+ *     <li>If the supplier returns a single entity, it is named <code>EntitySupplier</code>, where <code>Entity</code> is the name of the entity (e.g., <code>VehicleSupplier</code> for the {@link jakarta.nosql.tck.entities.Vehicle} entity).</li>
+ *     <li>If the supplier returns a list of entities, it is named <code>EntityListSupplier</code>, where <code>Entity</code> is the name of the entity (e.g., <code>VehicleListSupplier</code> for a list of {@link jakarta.nosql.tck.entities.Vehicle} entities).</li>
+ * </ul>
+ * <p>
+ * These supplier classes are designed to provide the necessary test data for various NoSQL operations
+ * across different database types.
+ * </p>
+ *
+ * @since 1.0.0
+ * @see jakarta.nosql.tck.factories.VehicleSupplier
+ * @see jakarta.nosql.tck.factories.VehicleListSupplier
+ * @see jakarta.nosql.tck.factories.PersonSupplier
+ * @see jakarta.nosql.tck.factories.PersonListSupplier
  */
 package jakarta.nosql.tck.factories;
