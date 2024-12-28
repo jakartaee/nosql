@@ -26,9 +26,11 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.time.Duration;
 import java.util.logging.Logger;
 
-public class EnumFieldTemplateTest extends AbstractTemplateTest {
 
-    private static final Logger LOGGER = Logger.getLogger(EnumFieldTemplateTest.class.getName());
+@DisplayName("The basic template operations with entity that contains enum")
+public class BasicEnumFieldTemplateTest extends AbstractTemplateTest {
+
+    private static final Logger LOGGER = Logger.getLogger(BasicEnumFieldTemplateTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(VehicleSupplier.class)
