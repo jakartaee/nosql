@@ -16,12 +16,12 @@
 package jakarta.nosql.tck.factories;
 
 import jakarta.nosql.tck.entities.Drink;
-import jakarta.nosql.tck.entities.Vehicle;
 
 public class DrinkListSupplier extends AbstractListSupplier<Drink> {
 
+    private static final DrinkSupplier SUPPLIER = new DrinkSupplier();
     @Override
-    Drink getEntity() {
-        return Vehicle.of(faker());
+    public Drink getEntity() {
+        return SUPPLIER.get();
     }
 }
