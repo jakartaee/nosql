@@ -45,9 +45,10 @@ public class Beer extends Drink {
     public String toString() {
         return "Beer{" +
                 "brand='" + brand + '\'' +
-                ", name='" + name + '\'' +
                 ", style='" + style + '\'' +
                 ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", alcoholPercentage=" + alcoholPercentage +
                 '}';
     }
 

@@ -51,7 +51,8 @@ public class Coffee extends Drink {
     @Override
     public String toString() {
         return "Coffee{" +
-                "name='" + name + '\'' +
+                "alcoholPercentage=" + alcoholPercentage +
+                ", name='" + name + '\'' +
                 ", id='" + id + '\'' +
                 ", blendName='" + blendName + '\'' +
                 ", region='" + region + '\'' +
