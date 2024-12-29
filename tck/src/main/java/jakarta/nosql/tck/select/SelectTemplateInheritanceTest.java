@@ -16,6 +16,8 @@
 package jakarta.nosql.tck.select;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
+import jakarta.nosql.tck.entities.Beer;
+import jakarta.nosql.tck.entities.Coffee;
 import jakarta.nosql.tck.entities.Drink;
 import jakarta.nosql.tck.factories.DrinkListSupplier;
 import org.assertj.core.api.Assertions;
@@ -25,6 +27,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -144,4 +147,45 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkListSupplier.class)
+    @DisplayName("should select by type, where the type is a drink")
+    void shouldSelectByType(List<Drink> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var coffees = template.select(Coffee.class).<Drink>result();
+            var beers = template.select(Beer.class).<Drink>result();
+            Assertions.assertThat(coffees).isNotEmpty().isInstanceOf(Coffee.class);
+            Assertions.assertThat(coffees).isNotEmpty().isInstanceOf(Beer.class);
+
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkListSupplier.class)
+    @DisplayName("Should select query using subtype")
+    void shouldDoQueryBySubType(List<Drink> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var coffee = entities.stream().filter(Coffee.class::isInstance)
+                    .map(Coffee.class::cast).findFirst().orElseThrow();
+            var coffees = template.select(Coffee.class).where("country")
+                    .eq(coffee.getCountry())
+                    .<Coffee>result();
+
+            Assertions.assertThat(coffees)
+                    .isNotEmpty()
+                    .isInstanceOf(Coffee.class)
+                    .allMatch(c -> c.getCountry().equals(coffee.getCountry()));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+
 }
