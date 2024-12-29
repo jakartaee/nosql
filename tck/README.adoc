@@ -48,8 +48,63 @@ The tests are run by the `maven-surefire-plugin`. Ensure that your `pom.xml` is 
 </build>
 ----
 
-== TemplateSupplier and SPI Implementation
+== Implementing `TemplateSupplier` and Defining it in SPI
 
-The next step involves creating and preparing the `TemplateSupplier`, and using a sample Service Provider Interface (SPI) implementation. This setup ensures the TCK can adequately interact with and test the Jakarta NoSQL implementation.
+The `TemplateSupplier` interface plays a vital role in the Jakarta NoSQL TCK (Technology Compatibility Kit). It allows developers to obtain a fully configured `Template` instance for interacting with NoSQL databases. By abstracting the complexities of database configuration and dependency injection, the `TemplateSupplier` simplifies the process of working with schema-based NoSQL databases.
 
-Detailed instructions for implementing and configuring the `TemplateSupplier` and SPI can be found in the official Jakarta NoSQL documentation. Ensure these components are correctly set up to facilitate seamless testing with the TCK.
+=== Implementing `TemplateSupplier`
+
+Your implementation must provide an instance of `Template`, which is expected to be fully configured and ready for interaction with the database.
+
+Example:
+
+[source,java]
+----
+public class MyTemplateSupplier implements TemplateSupplier {
+
+   @Override
+   public Template get() {
+       // Set up database connection, credentials, and configuration
+       return new MyTemplate();  // Return a Template instance connected to the database
+   }
+}
+----
+
+=== Defining `TemplateSupplier` in the SPI
+
+To make your `TemplateSupplier` implementation available to the Service Provider Interface (SPI), follow these steps:
+
+1. **Create the `META-INF/services` Directory:**
+Create the directory `META-INF/services` at the root of your project.
+
+2. **Create the SPI Configuration File:**
+Inside the `META-INF/services` directory, create a file named `jakarta.nosql.tck.TemplateSupplier` (the fully qualified name of the interface).
+
+3. **Register Your Implementation:**
+In this file, specify the fully qualified name of your `TemplateSupplier` implementation class. For example:
+
+[source]
+----
+com.example.MyTemplateSupplier
+----
+
+=== Expectations
+
+- **Database Lifecycle:**
+
+  The `TemplateSupplier` is not responsible for managing the database's Lifecycle. The database is expected to be already running when the `Template` instance is created and returned. The `TemplateSupplier` is only responsible for setting up the `Template` with the necessary configuration to interact with the database.
+
+- **Template Initialization:**
+
+  When the `get()` method is invoked, it is expected that the `Template` instance will be fully initialized and configured to interact with the database. The database connection, credentials, and any necessary configurations must be provided during the `Template` instantiation.
+
+  For example, your `get()` method might return a `Template` connected to a specific database, with authentication credentials and configurations loaded from a configuration file or environment variables.
+
+=== Example SPI File
+
+Here is how the `META-INF/services/jakarta.nosql.tck.TemplateSupplier` file should look:
+
+[source]
+----
+com.example.MyTemplateSupplier
+----
