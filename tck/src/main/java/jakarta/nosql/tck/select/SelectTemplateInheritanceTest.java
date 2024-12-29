@@ -187,5 +187,27 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @ArgumentsSource(DrinkListSupplier.class)
+    @DisplayName("Should select query using subtype")
+    void shouldDoQueryBySubType2(List<Drink> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var beer = entities.stream().filter(Beer.class::isInstance)
+                    .map(Beer.class::cast).findFirst().orElseThrow();
+            var beers = template.select(Beer.class).where("style")
+                    .eq(beer.getStyle())
+                    .<Beer>result();
+
+            Assertions.assertThat(beers)
+                    .isNotEmpty()
+                    .isInstanceOf(Beer.class)
+                    .allMatch(c -> c.getStyle().equals(beer.getStyle()));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 
 }
