@@ -155,7 +155,7 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
             var coffees = template.select(Coffee.class).<Drink>result();
             var beers = template.select(Beer.class).<Drink>result();
             Assertions.assertThat(coffees).isNotEmpty().isInstanceOf(Coffee.class);
-            Assertions.assertThat(coffees).isNotEmpty().isInstanceOf(Beer.class);
+            Assertions.assertThat(beers).isNotEmpty().isInstanceOf(Beer.class);
 
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
