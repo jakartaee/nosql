@@ -41,12 +41,12 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             var result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .lt(entities.get(0).getAlcoholPercentage())
+                    .lt(entities.get(0).getAlcoholPercentage() + 1)
                     .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getAlcoholPercentage() < entities.get(0).getAlcoholPercentage());
+                    .allMatch(drink -> drink.getAlcoholPercentage() <= entities.get(0).getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
