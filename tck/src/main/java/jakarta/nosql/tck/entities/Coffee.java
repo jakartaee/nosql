@@ -21,6 +21,7 @@ import jakarta.nosql.Entity;
 import net.datafaker.Faker;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @DiscriminatorValue("COFFEE")
 @Entity
@@ -66,6 +67,7 @@ public class Coffee extends Drink {
         coffee.blendName = fakeCoffee.blendName();
         coffee.name = fakeCoffee.name1();
         coffee.id = UUID.randomUUID().toString();
+        coffee.alcoholPercentage = ThreadLocalRandom.current().nextDouble(0, 10);
         return coffee;
     }
 }

@@ -36,7 +36,7 @@ public abstract class Drink {
     protected String name;
 
     @Column
-    private double alcoholPercentage;
+    protected double alcoholPercentage;
 
 
     public String getId() {
