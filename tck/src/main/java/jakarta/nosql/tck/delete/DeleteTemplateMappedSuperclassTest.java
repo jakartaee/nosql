@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
+public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
