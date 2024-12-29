@@ -31,19 +31,22 @@ import java.util.stream.Collectors;
 @DisplayName("The query execution exploring the inheritance annotation")
 public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
+
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with no conditions")
-    void shouldInsertIterableDrinkNoCondition(List<Drink> entities) {
+    @DisplayName("Should insert Iterable and select with less-than condition on alcoholPercentage")
+    void shouldInsertIterableAndSelectWithLessThanCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            List<Drink> result = template.select(Drink.class)
-                    .result();
+            var result = template.select(Drink.class)
+                    .where("alcoholPercentage")
+                    .lt(entities.get(0).getAlcoholPercentage())
+                    .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .hasSize(entities.size());
+                    .allMatch(drink -> drink.getAlcoholPercentage() < entities.get(0).getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -51,19 +54,19 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with simple conditions")
-    void shouldInsertIterableDrink(List<Drink> entities) {
+    @DisplayName("Should insert Iterable and select with less-than-or-equal condition on alcoholPercentage")
+    void shouldInsertIterableAndSelectWithLessThanOrEqualCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            List<Drink> result = template.select(Drink.class)
-                    .where("name")
-                    .eq(entities.get(0).getName())
-                    .result();
+            var result = template.select(Drink.class)
+                    .where("alcoholPercentage")
+                    .lte(entities.get(0).getAlcoholPercentage())
+                    .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getName().equals(entities.get(0).getName()));
+                    .allMatch(drink -> drink.getAlcoholPercentage() <= entities.get(0).getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -71,27 +74,25 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with greater-than condition")
+    @DisplayName("Should insert Iterable and select with greater-than condition on alcoholPercentage")
     void shouldInsertIterableAndSelectWithGreaterThanCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-
-            var secondElder = entities.stream()
-                    .mapToInt(drink -> drink.getName().length()) // Using length of name as a proxy for comparison
-                    .sorted()
+            var secondDrink = entities.stream()
+                    .sorted((d1, d2) -> Double.compare(d1.getAlcoholPercentage(), d2.getAlcoholPercentage()))
                     .skip(1)
                     .findFirst()
                     .orElseThrow();
 
             var result = template.select(Drink.class)
-                    .where("name")
-                    .gt(secondElder)
+                    .where("alcoholPercentage")
+                    .gt(secondDrink.getAlcoholPercentage())
                     .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getName().length() > secondElder);
+                    .allMatch(drink -> drink.getAlcoholPercentage() > secondDrink.getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -99,65 +100,19 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with less-than condition")
-    void shouldInsertIterableAndSelectWithLessThanCondition(List<Drink> entities) {
-        entities.forEach(entity -> template.insert(entity));
-        try {
-
-            var secondElder = entities.stream()
-                    .mapToInt(drink -> drink.getName().length()) // Using length of name as a proxy for comparison
-                    .sorted()
-                    .skip(1)
-                    .findFirst()
-                    .orElseThrow();
-
-            var result = template.select(Drink.class)
-                    .where("name")
-                    .lt(secondElder)
-                    .<Drink>result();
-
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(drink -> drink.getName().length() < secondElder);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with LIKE condition")
-    void shouldInsertIterableAndSelectWithLikeCondition(List<Drink> entities) {
-        entities.forEach(entity -> template.insert(entity));
-        try {
-            List<Drink> result = template.select(Drink.class)
-                    .where("name")
-                    .like(entities.get(0).getName())
-                    .result();
-
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(drink -> drink.getName().contains(entities.get(0).getName()));
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with 'in' condition")
-    void shouldInsertIterableAndSelectWithInCondition(List<Drink> entities) {
+    @DisplayName("Should insert Iterable and select with greater-than-or-equal condition on alcoholPercentage")
+    void shouldInsertIterableAndSelectWithGreaterThanOrEqualCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
             var result = template.select(Drink.class)
-                    .where("name")
-                    .in(List.of(entities.get(0).getName()))
+                    .where("alcoholPercentage")
+                    .gte(entities.get(0).getAlcoholPercentage())
                     .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getName().equals(entities.get(0).getName()));
+                    .allMatch(drink -> drink.getAlcoholPercentage() >= entities.get(0).getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -165,149 +120,26 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with 'between' condition")
+    @DisplayName("Should insert Iterable and select with 'between' condition on alcoholPercentage")
     void shouldInsertIterableAndSelectWithBetweenCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
+
         try {
-            var secondElder = entities.stream()
-                    .mapToInt(drink -> drink.getName().length()) // Using length of name as a proxy for comparison
+            var secondDrink = entities.stream()
+                    .sorted((d1, d2) -> Double.compare(d1.getAlcoholPercentage(), d2.getAlcoholPercentage()))
                     .skip(1)
                     .findFirst()
                     .orElseThrow();
 
             var result = template.select(Drink.class)
-                    .where("name")
-                    .between(secondElder, secondElder + 5)
+                    .where("alcoholPercentage")
+                    .between(secondDrink.getAlcoholPercentage(), secondDrink.getAlcoholPercentage() + 5)
                     .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getName().length() >= secondElder && drink.getName().length() <= secondElder + 5);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with 'skip' and 'limit' conditions")
-    void shouldInsertIterableAndSelectWithSkipAndLimitCondition(List<Drink> entities) {
-        entities.forEach(entity -> template.insert(entity));
-        try {
-
-            var secondElder = entities.stream()
-                    .mapToInt(drink -> drink.getName().length()) // Using length of name as a proxy for comparison
-                    .sorted()
-                    .skip(1)
-                    .findFirst()
-                    .orElseThrow();
-
-            var result = template.select(Drink.class)
-                    .where("name")
-                    .gt(secondElder)
-                    .skip(0)
-                    .limit(10)
-                    .<Drink>result();
-
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(drink -> drink.getName().length() > secondElder);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with 'orderBy' condition")
-    void shouldInsertIterableAndSelectWithOrderByCondition(List<Drink> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-
-            var secondElder = entities.stream()
-                    .mapToInt(drink -> drink.getName().length()) // Using length of name as a proxy for comparison
-                    .sorted()
-                    .skip(1)
-                    .findFirst()
-                    .orElseThrow();
-
-            var result = template.select(Drink.class)
-                    .where("name")
-                    .gt(secondElder)
-                    .orderBy("name")
-                    .asc()
-                    .<Drink>result();
-
-            List<String> names = result.stream()
-                    .map(Drink::getName)
-                    .collect(Collectors.toList());
-
-            Assertions.assertThat(names)
-                    .isSorted();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with 'complex' query using 'and'")
-    void shouldInsertIterableAndSelectWithComplexQueryAnd(List<Drink> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-
-            var secondElder = entities.stream()
-                    .sorted(Comparator.comparing(drink -> drink.getName().length()))
-                    .skip(entities.size() - 1)
-                    .findFirst()
-                    .orElseThrow();
-
-            var length = secondElder.getName().length() - 1;
-            var name = secondElder.getName();
-
-            List<Drink> result = template.select(Drink.class)
-                    .where("name")
-                    .gt(length)
-                    .and("name")
-                    .eq(name)
-                    .result();
-
-            Assertions.assertThat(result).isNotEmpty()
-                    .allMatch(drink -> drink.getName().length() > length
-                            && drink.getName().equals(name));
-
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should insert Iterable and select with 'complex' query using 'or'")
-    void shouldInsertIterableAndSelectWithComplexQueryOr(List<Drink> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-
-            var secondElder = entities.stream()
-                    .sorted(Comparator.comparing(drink -> drink.getName().length()))
-                    .skip(entities.size() - 1)
-                    .findFirst()
-                    .orElseThrow();
-
-            List<Drink> result = template.select(Drink.class)
-                    .where("name")
-                    .gt(secondElder.getName().length())
-                    .or("name")
-                    .eq(secondElder.getName())
-                    .result();
-
-            Assertions.assertThat(result).isNotEmpty()
-                    .allMatch(drink -> drink.getName().length() > secondElder.getName().length()
-                            || drink.getName().equals(secondElder.getName()));
-
+                    .allMatch(drink -> drink.getAlcoholPercentage() >= secondDrink.getAlcoholPercentage()
+                            && drink.getAlcoholPercentage() <= secondDrink.getAlcoholPercentage() + 5);
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }

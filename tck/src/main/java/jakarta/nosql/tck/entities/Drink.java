@@ -51,6 +51,10 @@ public abstract class Drink {
         this.name = name;
     }
 
+    public double getAlcoholPercentage() {
+        return alcoholPercentage;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Drink drink)) {
