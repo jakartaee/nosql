@@ -17,6 +17,7 @@ package jakarta.nosql.tck.delete;
 
 
 import jakarta.nosql.tck.AbstractTemplateTest;
+import jakarta.nosql.tck.entities.Beer;
 import jakarta.nosql.tck.entities.Drink;
 import jakarta.nosql.tck.factories.DrinkListSupplier;
 import org.assertj.core.api.Assertions;
@@ -191,6 +192,24 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
 
         } catch (UnsupportedOperationException exp) {
             // Expected for key-value or unsupported NoSQL databases
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkListSupplier.class)
+    @DisplayName("Should insert Iterable and delete with no conditions")
+    void shouldDeleteUsingSubType(List<Drink> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            template.delete(Beer.class).execute();
+
+            List<Drink> result = template.select(Drink.class).result();
+            Assertions.assertThat(result).isNotEmpty().allMatch(d -> !d.getClass().equals(Beer.class));
+
+        } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
