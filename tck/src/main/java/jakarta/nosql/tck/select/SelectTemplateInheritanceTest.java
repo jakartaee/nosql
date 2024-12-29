@@ -154,8 +154,8 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             var coffees = template.select(Coffee.class).<Drink>result();
             var beers = template.select(Beer.class).<Drink>result();
-            Assertions.assertThat(coffees).isNotEmpty().isInstanceOf(Coffee.class);
-            Assertions.assertThat(beers).isNotEmpty().isInstanceOf(Beer.class);
+            Assertions.assertThat(coffees).isNotEmpty().allMatch(Coffee.class::isInstance);
+            Assertions.assertThat(beers).isNotEmpty().allMatch(Beer.class::isInstance);
 
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -177,7 +177,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
             Assertions.assertThat(coffees)
                     .isNotEmpty()
-                    .isInstanceOf(Coffee.class)
                     .allMatch(c -> c.getCountry().equals(coffee.getCountry()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -199,7 +198,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
             Assertions.assertThat(beers)
                     .isNotEmpty()
-                    .isInstanceOf(Beer.class)
                     .allMatch(c -> c.getStyle().equals(beer.getStyle()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
