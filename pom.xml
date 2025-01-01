@@ -66,7 +66,7 @@
         <sonar.maven.version>5.0.0.4389</sonar.maven.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
         <apache.pdm.plugin.version>3.24.0</apache.pdm.plugin.version>
-        <checkstyle.version>10.21.0</checkstyle.version>
+        <checkstyle.version>10.21.1</checkstyle.version>
     </properties>
 
     <dependencies>
