@@ -25,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -80,7 +81,7 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
         try {
             var secondDrink = entities.stream()
-                    .sorted((d1, d2) -> Double.compare(d1.getAlcoholPercentage(), d2.getAlcoholPercentage()))
+                    .sorted(Comparator.comparingDouble(Drink::getAlcoholPercentage))
                     .skip(1)
                     .findFirst()
                     .orElseThrow();
@@ -126,7 +127,7 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
 
         try {
             var secondDrink = entities.stream()
-                    .sorted((d1, d2) -> Double.compare(d1.getAlcoholPercentage(), d2.getAlcoholPercentage()))
+                    .sorted(Comparator.comparingDouble(Drink::getAlcoholPercentage))
                     .skip(1)
                     .findFirst()
                     .orElseThrow();
