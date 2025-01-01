@@ -66,9 +66,7 @@ public class BasicEnumFieldTemplateTest extends AbstractTemplateTest {
         var insertedVehicle = template.insert(entity);
         template.delete(Vehicle.class, insertedVehicle.getId());
         var deletedVehicle = template.find(Vehicle.class, insertedVehicle.getId());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(deletedVehicle).isEmpty();
-        });
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedVehicle).isEmpty());
     }
 
     @ParameterizedTest

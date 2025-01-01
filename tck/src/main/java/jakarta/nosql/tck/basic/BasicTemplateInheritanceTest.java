@@ -70,9 +70,7 @@ public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
         template.delete(insertedDrink.getClass(), insertedDrink.getId());
 
         var deletedDrink = template.find(insertedDrink.getClass(), insertedDrink.getId());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(deletedDrink).isEmpty();
-        });
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedDrink).isEmpty());
     }
 
     @ParameterizedTest

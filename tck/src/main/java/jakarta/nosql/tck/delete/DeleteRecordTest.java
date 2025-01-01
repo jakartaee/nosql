@@ -38,13 +38,9 @@ public class DeleteRecordTest extends AbstractTemplateTest {
                     .eq(books.get(0).title())
                     .result();
 
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(deletedBook).isEmpty();
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBook).isEmpty());
         } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
     }
 
@@ -69,13 +65,9 @@ public class DeleteRecordTest extends AbstractTemplateTest {
                     .eq(books.get(0).author())
                     .result();
 
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(deletedBooks).isEmpty();
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBooks).isEmpty());
         } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
     }
 

@@ -71,9 +71,7 @@ class BasicTemplateTest extends AbstractTemplateTest {
         template.delete(Person.class, insertedPerson.getId());
 
         var deletedPerson = template.find(Person.class, insertedPerson.getId());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(deletedPerson).isEmpty();
-        });
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedPerson).isEmpty());
     }
 
     @ParameterizedTest

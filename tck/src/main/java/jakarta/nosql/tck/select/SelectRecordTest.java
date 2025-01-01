@@ -33,15 +33,11 @@ public class SelectRecordTest extends AbstractTemplateTest {
             List<Book> result = template.select(Book.class)
                     .result();
 
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(result)
-                        .isNotEmpty()
-                        .hasSize(books.size());
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(books.size()));
         } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
     }
 
@@ -57,15 +53,11 @@ public class SelectRecordTest extends AbstractTemplateTest {
                     .eq(books.get(0).title())
                     .<Book>result();
 
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(book -> book.title().equals(books.get(0).title()));
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(book -> book.title().equals(books.get(0).title())));
         } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
     }
 
@@ -81,15 +73,11 @@ public class SelectRecordTest extends AbstractTemplateTest {
                     .like(books.get(0).title())
                     .<Book>result();
 
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(book -> book.title().contains(books.get(0).title()));
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(book -> book.title().contains(books.get(0).title())));
         } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
     }
 
@@ -105,15 +93,11 @@ public class SelectRecordTest extends AbstractTemplateTest {
                     .eq(books.get(0).genre())
                     .<Book>result();
 
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(book -> book.genre().equals(books.get(0).genre()));
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(book -> book.genre().equals(books.get(0).genre())));
         } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            });
+            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
     }
 }

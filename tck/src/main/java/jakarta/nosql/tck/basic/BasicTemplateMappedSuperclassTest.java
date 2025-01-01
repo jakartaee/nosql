@@ -65,9 +65,7 @@ public class BasicTemplateMappedSuperclassTest extends AbstractTemplateTest {
         template.delete(Animal.class, insertedAnimal.getId());
 
         var deletedAnimal = template.find(Animal.class, insertedAnimal.getId());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(deletedAnimal).isEmpty();
-        });
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedAnimal).isEmpty());
     }
 
     @ParameterizedTest

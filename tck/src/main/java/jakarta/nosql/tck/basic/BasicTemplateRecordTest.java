@@ -72,9 +72,7 @@ public class BasicTemplateRecordTest extends AbstractTemplateTest {
         template.delete(Book.class, insertedBook.id());
 
         var deletedBook = template.find(Book.class, insertedBook.id());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(deletedBook).isEmpty();
-        });
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBook).isEmpty());
     }
 
     @ParameterizedTest
