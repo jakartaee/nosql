@@ -66,7 +66,7 @@ abstract class AbstractSupplier<T> implements Supplier<T>, ArgumentsProvider {
     }
 
     @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
         return Stream.of(Arguments.of(get()));
     }
 }
