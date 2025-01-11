@@ -26,6 +26,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @DisplayName("The iterable template operations")
 public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
@@ -66,7 +70,14 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should update a list of persons")
     void shouldUpdateIterablePerson(List<Person> entities) {
-        Iterable<Person> result = template.update(entities);
+
+        Iterable<Person> people = template.insert(entities);
+        var updatedEntities = StreamSupport.stream(people.spliterator(), false)
+                .peek(p -> {
+                    p.setName(p.getName() + "updated");
+                    int age = ThreadLocalRandom.current().nextInt();
+                }).toList();
+        Iterable<Person> result = template.update(updatedEntities);
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).hasSize(entities.size());
             result.forEach(person -> {
@@ -74,6 +85,7 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
                 soft.assertThat(person.getId()).isNotNull();
                 soft.assertThat(person.getName()).isNotNull();
                 soft.assertThat(person.getAge()).isNotNull();
+                soft.assertThat(person.getName()).contains("updated");
             });
         });
     }
@@ -82,6 +94,13 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
     @ArgumentsSource(VehicleListSupplier.class)
     @DisplayName("Should update a list of vehicles")
     void shouldUpdateIterableVehicle(List<Vehicle> entities) {
+
+        Iterable<Vehicle> vehicles = template.insert(entities);
+        var updatedEntities = StreamSupport.stream(vehicles.spliterator(), false)
+                .peek(v -> {
+                    v.setModel(v.getModel() + "updated");
+                }).toList();
+
         Iterable<Vehicle> result = template.update(entities);
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).hasSize(entities.size());
@@ -90,6 +109,7 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
                 soft.assertThat(vehicle.getId()).isNotNull();
                 soft.assertThat(vehicle.getModel()).isNotNull();
                 soft.assertThat(vehicle.getMake()).isNotNull();
+                soft.assertThat(vehicle.getModel()).contains("updated");
             });
         });
     }
