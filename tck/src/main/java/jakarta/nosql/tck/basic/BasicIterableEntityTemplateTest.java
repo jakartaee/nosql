@@ -26,9 +26,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @DisplayName("The iterable template operations")
@@ -75,7 +72,6 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
         var updatedEntities = StreamSupport.stream(people.spliterator(), false)
                 .peek(p -> {
                     p.setName(p.getName() + "updated");
-                    int age = ThreadLocalRandom.current().nextInt();
                 }).toList();
         Iterable<Person> result = template.update(updatedEntities);
         SoftAssertions.assertSoftly(soft -> {
@@ -101,7 +97,7 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
                     v.setModel(v.getModel() + "updated");
                 }).toList();
 
-        Iterable<Vehicle> result = template.update(entities);
+        Iterable<Vehicle> result = template.update(updatedEntities);
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).hasSize(entities.size());
             result.forEach(vehicle -> {
