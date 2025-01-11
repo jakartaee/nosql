@@ -23,6 +23,9 @@ public class NoSQLTypeCondition {
 
     private static final Logger LOGGER = Logger.getLogger(NoSQLTypeCondition.class.getName());
 
+    private NoSQLTypeCondition() {
+    }
+
     public static boolean isKeyValueType() {
         var type = NoSQLType.get();
         LOGGER.info("Checking if NoSQLType is KEY_VALUE, the nosql type: " + type);
