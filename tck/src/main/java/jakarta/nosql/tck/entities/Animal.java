@@ -40,6 +40,9 @@ public class Animal extends AbstractAnimal {
     @Column
     private Integer age;
 
+    public Animal() {
+    }
+
     public String getName() {
         return name;
     }
@@ -64,8 +67,23 @@ public class Animal extends AbstractAnimal {
         this.species = species;
     }
 
-    Animal() {
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public void setScientificName(String scientificName) {
+        this.scientificName = scientificName;
+    }
+
+    public void setGenus(String genus) {
+        this.genus = genus;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+
 
     public Animal(String id, String name, String scientificName, String genus, String species, Integer age) {
         this.name = name;

@@ -44,9 +44,6 @@ public class Vehicle {
     @Column
     private Transmission transmission;
 
-    Vehicle() {
-    }
-
     public String getId() {
         return id;
     }

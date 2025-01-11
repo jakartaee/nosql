@@ -33,12 +33,23 @@ public class Beer extends Drink {
     @Column
     private String style;
 
+    public Beer() {
+    }
+
     public String getBrand() {
         return brand;
     }
 
     public String getStyle() {
         return style;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     @Override

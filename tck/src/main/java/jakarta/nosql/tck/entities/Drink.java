@@ -38,7 +38,6 @@ public abstract class Drink {
     @Column
     protected double alcoholPercentage;
 
-
     public String getId() {
         return id;
     }
@@ -53,6 +52,14 @@ public abstract class Drink {
 
     public double getAlcoholPercentage() {
         return alcoholPercentage;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setAlcoholPercentage(double alcoholPercentage) {
+        this.alcoholPercentage = alcoholPercentage;
     }
 
     @Override

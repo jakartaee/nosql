@@ -48,6 +48,18 @@ public class Coffee extends Drink {
         return blendName;
     }
 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setBlendName(String blendName) {
+        this.blendName = blendName;
+    }
+
     @Override
     public String toString() {
         return "Coffee{" +
