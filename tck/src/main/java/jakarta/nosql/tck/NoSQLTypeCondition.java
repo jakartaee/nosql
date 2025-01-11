@@ -19,7 +19,8 @@ import java.util.logging.Logger;
 
 public class NoSQLTypeCondition {
 
-    public static final String DISABLE_IF_KEY_VALUE = NoSQLTypeCondition.class.getName() + "#isKeyValueType";
+    public static final String DISABLE_IF_KEY_VALUE = "jakarta.nosql.tck.NoSQLTypeCondition#isKeyValueType";
+
     private static final Logger LOGGER = Logger.getLogger(NoSQLTypeCondition.class.getName());
 
     public static boolean isKeyValueType() {
