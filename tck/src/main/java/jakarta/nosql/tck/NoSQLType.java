@@ -17,10 +17,38 @@ package jakarta.nosql.tck;
 
 import java.util.logging.Logger;
 
+/**
+ * Enum representing various types of NoSQL databases supported by Jakarta NoSQL.
+ * Each type is associated with a flexibility level, which indicates the database's
+ * capability to perform queries beyond basic operations.
+ *
+ * <p>Flexibility Level:</p>
+ * The flexibility level reflects the ability of a NoSQL database type to retrieve
+ * and query information beyond the key itself:
+ * <ul>
+ *     <li><b>KEY_VALUE (1):</b> Key-value stores generally support queries using only the key,
+ *     resulting in lower flexibility.</li>
+ *     <li><b>COLUMN (2):</b> Column-family databases offer more advanced querying capabilities,
+ *     such as filtering rows based on column values, providing moderate flexibility.</li>
+ *     <li><b>DOCUMENT (3):</b> Document-based databases support rich querying capabilities
+ *     over nested structures and fields within documents, leading to higher flexibility.</li>
+ *     <li><b>GRAPH (4):</b> Graph databases excel in querying relationships, relationship
+ *     directions, and properties, making them the most flexible type among NoSQL databases.</li>
+ *     <li><b>OTHER (0):</b> Represents database types that do not fit into the other categories
+ *     or have unknown flexibility.</li>
+ * </ul>
+ */
 public enum NoSQLType {
     KEY_VALUE(1), COLUMN(2), DOCUMENT(3), GRAPH(4), OTHER(0);
 
+    /**
+     * The system property used to define the NoSQL database type.
+     */
     public static final String DATABASE_TYPE_PROPERTY = "jakarta.nosql.database.type";
+
+    /**
+     * The default database type, used when no type is explicitly specified.
+     */
     public static final String DEFAULT_DATABASE_TYPE = "KEY_VALUE";
 
     private static final Logger LOGGER = Logger.getLogger(NoSQLType.class.getName());
@@ -28,14 +56,40 @@ public enum NoSQLType {
     private final int flexibility;
 
 
+    /**
+     * Constructor to initialize the flexibility level of each database type.
+     *
+     * @param flexibility the flexibility level of the NoSQL database type
+     */
     NoSQLType(int flexibility) {
         this.flexibility = flexibility;
     }
 
+    /**
+     * Returns the flexibility level of the current database type.
+     *
+     * <p>The flexibility score is determined based on the type's capability to
+     * perform queries beyond simple key-based lookups. For example:
+     * <ul>
+     *     <li>Key-value stores typically only allow key-based lookups, resulting
+     *     in a lower flexibility score.</li>
+     *     <li>Graph databases enable complex queries involving relationships,
+     *     directions, and properties, resulting in the highest flexibility score.</li>
+     * </ul>
+     * </p>
+     *
+     * @return the flexibility level
+     */
     public int getFlexibility() {
         return flexibility;
     }
 
+    /**
+     * Retrieves the NoSQLType from the system property {@code DATABASE_TYPE_PROPERTY}.
+     * If the property is not set, the {@code DEFAULT_DATABASE_TYPE} is used.
+     *
+     * @return the NoSQLType corresponding to the system property or default type
+     */
     public static NoSQLType get() {
         String type = System.getProperty(DATABASE_TYPE_PROPERTY);
         LOGGER.info("Getting the NoSQL type: " + type + " from the system property: " + DATABASE_TYPE_PROPERTY);
@@ -47,6 +101,13 @@ public enum NoSQLType {
         return get(type);
     }
 
+    /**
+     * Retrieves the NoSQLType based on the given type name.
+     * If the type name is invalid, the {@code DEFAULT_DATABASE_TYPE} is used.
+     *
+     * @param type the name of the NoSQL type
+     * @return the corresponding NoSQLType, or the default type if invalid
+     */
     public static NoSQLType get(String type) {
         LOGGER.info("Getting the NoSQL type: " + type);
         try {
