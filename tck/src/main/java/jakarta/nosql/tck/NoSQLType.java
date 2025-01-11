@@ -39,7 +39,42 @@ import java.util.logging.Logger;
  * </ul>
  */
 public enum NoSQLType {
-    KEY_VALUE(1), COLUMN(2), DOCUMENT(3), GRAPH(4), OTHER(0);
+    /**
+     * Key-value stores are databases optimized for simple key-based lookups.
+     * These databases have limited flexibility because they typically cannot
+     * perform advanced queries beyond retrieving values by keys.
+     */
+    KEY_VALUE(1),
+
+    /**
+     * Column-family databases organize data into rows and columns and allow
+     * advanced filtering and operations at the column level. These databases
+     * offer moderate flexibility due to their ability to query based on column
+     * values.
+     */
+    COLUMN(2),
+
+    /**
+     * Document-based databases store data in structured documents. These databases
+     * enable rich queries over nested structures and fields, providing a high degree
+     * of flexibility for complex queries.
+     */
+    DOCUMENT(3),
+
+    /**
+     * Graph databases specialize in querying relationships and properties between
+     * entities. These databases offer the highest flexibility due to their ability
+     * to perform complex queries on nodes, edges, relationships, directions, and
+     * properties.
+     */
+    GRAPH(4),
+
+    /**
+     * Represents database types that do not fall into the predefined categories or
+     * have an unknown level of flexibility. This category is used for custom or
+     * less common database types.
+     */
+    OTHER(0);
 
     /**
      * The system property used to define the NoSQL database type.
@@ -54,7 +89,6 @@ public enum NoSQLType {
     private static final Logger LOGGER = Logger.getLogger(NoSQLType.class.getName());
 
     private final int flexibility;
-
 
     /**
      * Constructor to initialize the flexibility level of each database type.
