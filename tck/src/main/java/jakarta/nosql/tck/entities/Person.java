@@ -27,7 +27,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Person {
 
     @Id
-    private Long id;
+    private String id;
 
     @Column
     private String name;
@@ -35,11 +35,11 @@ public class Person {
     @Column("native_age")
     private Integer age;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
