@@ -33,9 +33,6 @@ public class Beer extends Drink {
     @Column
     private String style;
 
-    public Beer() {
-    }
-
     public String getBrand() {
         return brand;
     }
