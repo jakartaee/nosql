@@ -89,7 +89,7 @@ public class Person {
         var person = new Person();
         var id = ThreadLocalRandom.current().nextLong(1, 1_000_000);
         var age = ThreadLocalRandom.current().nextInt(1, 100);
-        person.setId(id);
+        person.setId(String.valueOf(id));
         person.setName(faker.name().fullName());
         person.setAge(age);
         return person;
