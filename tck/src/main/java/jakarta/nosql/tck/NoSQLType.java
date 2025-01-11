@@ -15,6 +15,45 @@
  */
 package jakarta.nosql.tck;
 
+import java.util.logging.Logger;
+
 public enum NoSQLType {
-    KEY_VALUE, COLUMN, DOCUMENT, GRAPH
+    KEY_VALUE(1), COLUMN(2), DOCUMENT(3), GRAPH(4), OTHER(0);
+
+    public static final String DATABASE_TYPE_PROPERTY = "jakarta.nosql.database.type";
+    public static final String DEFAULT_DATABASE_TYPE = "KEY_VALUE";
+
+    private static final Logger LOGGER = Logger.getLogger(NoSQLType.class.getName());
+
+    private final int flexibility;
+
+
+    NoSQLType(int flexibility) {
+        this.flexibility = flexibility;
+    }
+
+    public int getFlexibility() {
+        return flexibility;
+    }
+
+    public static NoSQLType get() {
+        String type = System.getProperty(DATABASE_TYPE_PROPERTY);
+        LOGGER.info("Getting the NoSQL type: " + type + " from the system property: " + DATABASE_TYPE_PROPERTY);
+        if (type == null) {
+            LOGGER.info("No NoSQL type found in the system property: " + DATABASE_TYPE_PROPERTY + ". Using the default type: " + DEFAULT_DATABASE_TYPE);
+            type = DEFAULT_DATABASE_TYPE;
+            return get(type);
+        }
+        return get(type);
+    }
+
+    public static NoSQLType get(String type) {
+        LOGGER.info("Getting the NoSQL type: " + type);
+        try {
+            return NoSQLType.valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            LOGGER.warning("No NoSQL type found for: " + type + ". Using the default type: " + DEFAULT_DATABASE_TYPE);
+            return NoSQLType.valueOf(DEFAULT_DATABASE_TYPE);
+        }
+    }
 }
