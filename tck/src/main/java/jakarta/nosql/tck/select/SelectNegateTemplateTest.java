@@ -16,10 +16,12 @@
 package jakarta.nosql.tck.select;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
+import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.PersonListSupplier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -33,6 +35,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -53,6 +56,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated greater-than condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedGreaterThanCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -80,6 +84,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated less-than condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedLessThanCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -107,6 +112,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated LIKE condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedLikeCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -127,6 +133,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated 'in' condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedInCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -147,6 +154,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated 'between' condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedBetweenCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -173,6 +181,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated complex query using 'and'")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedComplexQueryAnd(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -205,6 +214,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with negated complex query using 'or'")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithNegatedComplexQueryOr(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 

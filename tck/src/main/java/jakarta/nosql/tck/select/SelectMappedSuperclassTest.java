@@ -10,10 +10,12 @@
 package jakarta.nosql.tck.select;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
+import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -28,6 +30,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with no conditions")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithNoConditions(List<Animal> animals) {
         animals.forEach(animal -> template.insert(animal));
 
@@ -45,6 +48,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with simple conditions")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithSimpleConditions(List<Animal> animals) {
         animals.forEach(animal -> template.insert(animal));
         try {
@@ -65,6 +69,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with 'greater-than' condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithGreaterThanCondition(List<Animal> animals) {
 
         try {
@@ -95,6 +100,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with 'less-than' condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithLessThanCondition(List<Animal> animals) {
 
         try {
@@ -124,6 +130,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with LIKE condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithLikeCondition(List<Animal> animals) {
 
         try {
@@ -147,6 +154,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with 'in' condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithInCondition(List<Animal> animals) {
 
         try {
@@ -169,6 +177,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with 'between' condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithBetweenCondition(List<Animal> animals) {
 
         try {
@@ -198,6 +207,7 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should select animals with 'skip' and 'limit' conditions")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectWithSkipAndLimitCondition(List<Animal> animals) {
 
         try {
