@@ -17,11 +17,13 @@ package jakarta.nosql.tck.delete;
 
 
 import jakarta.nosql.tck.AbstractTemplateTest;
+import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Beer;
 import jakarta.nosql.tck.entities.Drink;
 import jakarta.nosql.tck.factories.DrinkListSupplier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -33,6 +35,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with no conditions")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteNoCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -50,6 +53,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with simple condition on alcoholPercentage")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithSimpleCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -73,6 +77,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with greater-than condition on alcoholPercentage")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithGreaterThanCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -96,6 +101,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with less-than condition on alcoholPercentage")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithLessThanCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -119,6 +125,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'in' condition on alcoholPercentage")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithInCondition(List<Drink> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));
@@ -146,6 +153,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'between' condition on alcoholPercentage")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithBetweenCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -170,6 +178,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'complex' query using 'and' on alcoholPercentage")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithComplexQueryAnd(List<Drink> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));
@@ -200,6 +209,7 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and delete with no conditions")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldDeleteUsingSubType(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 

@@ -10,10 +10,12 @@
 package jakarta.nosql.tck.delete;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
+import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Book;
 import jakarta.nosql.tck.factories.BookListSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -24,6 +26,7 @@ public class DeleteRecordTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should insert and delete the book")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertAndDeleteBook(List<Book> books) {
         books.forEach(book -> template.insert(book));
 
@@ -47,6 +50,7 @@ public class DeleteRecordTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(BookListSupplier.class)
     @DisplayName("Should delete book with complex condition")
+    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldDeleteBookWithComplexCondition(List<Book> books) {
         books.forEach(book -> template.insert(book));
 
