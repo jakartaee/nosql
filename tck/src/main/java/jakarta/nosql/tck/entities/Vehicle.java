@@ -75,6 +75,10 @@ public class Vehicle {
         this.transmission = transmission;
     }
 
+    public void setModel(String model) {
+        this.model = model;
+    }
+
     @Override
     public String toString() {
         return "Vehicle{" +
