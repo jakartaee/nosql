@@ -16,5 +16,5 @@
 package jakarta.nosql.tck;
 
 public enum NoSQLType {
-
+    KEY_VALUE, COLUMN, DOCUMENT, GRAPH
 }
