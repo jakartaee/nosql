@@ -21,8 +21,7 @@ import java.util.logging.Logger;
  * Enum representing various types of NoSQL databases supported by Jakarta NoSQL.
  * Each type is associated with a flexibility level, which indicates the database's
  * capability to perform queries beyond basic operations.
- *
- * <p>Flexibility Level:</p>
+ * Flexibility Level:
  * The flexibility level reflects the ability of a NoSQL database type to retrieve
  * and query information beyond the key itself:
  * <ul>
@@ -101,8 +100,7 @@ public enum NoSQLType {
 
     /**
      * Returns the flexibility level of the current database type.
-     *
-     * <p>The flexibility score is determined based on the type's capability to
+     * The flexibility score is determined based on the type's capability to
      * perform queries beyond simple key-based lookups. For example:
      * <ul>
      *     <li>Key-value stores typically only allow key-based lookups, resulting
@@ -110,7 +108,6 @@ public enum NoSQLType {
      *     <li>Graph databases enable complex queries involving relationships,
      *     directions, and properties, resulting in the highest flexibility score.</li>
      * </ul>
-     * </p>
      *
      * @return the flexibility level
      */
