@@ -1,4 +1,5 @@
 package jakarta.nosql.tck;
 
-public enum NoSQLDatabases {
+public enum NoSQLType {
+
 }
