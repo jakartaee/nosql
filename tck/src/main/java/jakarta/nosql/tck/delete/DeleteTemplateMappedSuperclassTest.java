@@ -20,7 +20,6 @@ import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
