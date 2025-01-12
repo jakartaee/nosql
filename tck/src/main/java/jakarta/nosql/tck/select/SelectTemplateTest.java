@@ -16,7 +16,6 @@
 package jakarta.nosql.tck.select;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.PersonListSupplier;
 import org.assertj.core.api.Assertions;
@@ -36,7 +35,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with no conditions")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterablePersonNoCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -55,7 +53,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with simple conditions")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterablePerson(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -76,7 +73,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with greater-than condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithGreaterThanCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -105,7 +101,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with less-than condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithLessThanCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
         try {
@@ -133,7 +128,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with LIKE condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithLikeCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
         try {
@@ -153,7 +147,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with 'in' condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithInCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -174,7 +167,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with 'between' condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithBetweenCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
         try {
@@ -200,7 +192,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with 'skip' and 'limit' conditions")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithSkipAndLimitCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
         try {
@@ -230,7 +221,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with 'orderBy' condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithOrderByCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -264,7 +254,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with 'complex' query using 'and'")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithComplexQueryAnd(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -298,7 +287,6 @@ public class SelectTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with 'complex' query using 'or'")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithComplexQueryOr(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 

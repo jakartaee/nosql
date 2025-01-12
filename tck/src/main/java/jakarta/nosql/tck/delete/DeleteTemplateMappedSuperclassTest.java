@@ -16,7 +16,6 @@
 package jakarta.nosql.tck.delete;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Animal;
 import jakarta.nosql.tck.factories.AnimalListSupplier;
 import org.assertj.core.api.Assertions;
@@ -32,7 +31,6 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with no conditions")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteNoCondition(List<Animal> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -50,7 +48,6 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with simple condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithSimpleCondition(List<Animal> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -74,7 +71,6 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'in' condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithInCondition(List<Animal> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));
@@ -102,7 +98,6 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'between' condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithBetweenCondition(List<Animal> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -127,7 +122,6 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(AnimalListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'complex' query")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithComplexQuery(List<Animal> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));

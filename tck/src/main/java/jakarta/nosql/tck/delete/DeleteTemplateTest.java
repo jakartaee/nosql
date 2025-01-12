@@ -16,7 +16,6 @@
 package jakarta.nosql.tck.delete;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Person;
 import jakarta.nosql.tck.factories.PersonListSupplier;
 import org.assertj.core.api.Assertions;
@@ -33,7 +32,6 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with no conditions")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteNoCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -51,7 +49,6 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with simple condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithSimpleCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -75,7 +72,7 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with greater-than condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
+    
     void shouldInsertIterableAndDeleteWithGreaterThanCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -99,7 +96,6 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with less-than condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithLessThanCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -123,7 +119,6 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'in' condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithInCondition(List<Person> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));
@@ -151,7 +146,6 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'between' condition")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithBetweenCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -177,7 +171,6 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and delete with 'complex' query")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithComplexQuery(List<Person> entities) {
         // Insert the entities
         entities.forEach(entity -> template.insert(entity));

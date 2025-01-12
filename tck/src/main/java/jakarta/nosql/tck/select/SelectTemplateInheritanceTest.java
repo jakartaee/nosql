@@ -16,7 +16,6 @@
 package jakarta.nosql.tck.select;
 
 import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Beer;
 import jakarta.nosql.tck.entities.Coffee;
 import jakarta.nosql.tck.entities.Drink;
@@ -38,7 +37,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and select with less-than condition on alcoholPercentage")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithLessThanCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -59,7 +57,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and select with less-than-or-equal condition on alcoholPercentage")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithLessThanOrEqualCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -80,7 +77,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and select with greater-than condition on alcoholPercentage")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithGreaterThanCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -107,7 +103,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and select with greater-than-or-equal condition on alcoholPercentage")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithGreaterThanOrEqualCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -128,7 +123,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should insert Iterable and select with 'between' condition on alcoholPercentage")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithBetweenCondition(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -156,7 +150,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("should select by type, where the type is a drink")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldSelectByType(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -174,7 +167,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should select query using subtype")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldDoQueryBySubType(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -196,7 +188,6 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should select query using subtype")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldDoQueryBySubType2(List<Drink> entities) {
         entities.forEach(entity -> template.insert(entity));
 

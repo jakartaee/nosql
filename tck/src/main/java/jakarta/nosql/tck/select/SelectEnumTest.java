@@ -17,7 +17,6 @@ package jakarta.nosql.tck.select;
 
 
 import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.NoSQLTypeCondition;
 import jakarta.nosql.tck.entities.Vehicle;
 import jakarta.nosql.tck.factories.VehicleListSupplier;
 import org.assertj.core.api.Assertions;
@@ -34,7 +33,6 @@ public class SelectEnumTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(VehicleListSupplier.class)
     @DisplayName("Should insert Iterable and select with equals enum value")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndSelectWithEnumCondition(List<Vehicle> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -55,7 +53,6 @@ public class SelectEnumTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(VehicleListSupplier.class)
     @DisplayName("Should insert Iterable and delete with equals enum value")
-    @EnabledIf(NoSQLTypeCondition.DISABLE_IF_KEY_VALUE)
     void shouldInsertIterableAndDeleteWithEnumCondition(List<Vehicle> entities) {
         entities.forEach(entity -> template.insert(entity));
 
