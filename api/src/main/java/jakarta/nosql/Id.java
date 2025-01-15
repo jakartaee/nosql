@@ -63,15 +63,24 @@ public @interface Id {
 
     /**
      * The name of the entity ID. Default value is {@code _id}.
-     * This value might be ignored if the NoSQL database has a keyword reserved for keys.
-     * For example:
+     * <p>
+     * By default, the field marked with {@code @Id} maps to the field {@code _id} in the database. However,
+     * this can vary depending on the NoSQL provider. Certain databases may use a different field name for
+     * the identifier, such as {@code _key}, or allow users to override this value based on the specific
+     * database implementation. It is recommended to consult the documentation of the database provider
+     * to understand its requirements for primary key fields.
+     * </p>
+     * <p>Example of customization:</p>
+     * <pre>
      * {@code
      * @Entity
      * public class User {
-     *     @Id
+     *     @Id("userId")
      *     private String userName;
      * }
      * }
+     * </pre>
+     *
      * @return the entity ID name
      */
     String value() default "_id";
