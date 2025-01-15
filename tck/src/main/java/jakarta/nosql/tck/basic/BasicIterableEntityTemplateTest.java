@@ -70,9 +70,7 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
 
         Iterable<Person> people = template.insert(entities);
         var updatedEntities = StreamSupport.stream(people.spliterator(), false)
-                .peek(p -> {
-                    p.setName(p.getName() + "updated");
-                }).toList();
+                .peek(p -> p.setName(p.getName() + "updated")).toList();
         Iterable<Person> result = template.update(updatedEntities);
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(result).hasSize(entities.size());
@@ -93,9 +91,7 @@ public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
 
         Iterable<Vehicle> vehicles = template.insert(entities);
         var updatedEntities = StreamSupport.stream(vehicles.spliterator(), false)
-                .peek(v -> {
-                    v.setModel(v.getModel() + "updated");
-                }).toList();
+                .peek(v -> v.setModel(v.getModel() + "updated")).toList();
 
         Iterable<Vehicle> result = template.update(updatedEntities);
         SoftAssertions.assertSoftly(soft -> {
