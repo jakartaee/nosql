@@ -15,14 +15,23 @@
  */
 package jakarta.nosql.tck.entities;
 
+import net.datafaker.Faker;
+
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 public record Money(Currency currency, BigDecimal value) {
     public Money {
         Objects.requireNonNull(currency, "currency is required");
         Objects.requireNonNull(value, "value is required");
+    }
+
+    public static Money of(Faker faker) {
+        var currency = Currency.getInstance(faker.money().currencyCode());
+        BigDecimal value = BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(0, 1000));
+        return new Money(currency, value);
     }
 
     @Override
