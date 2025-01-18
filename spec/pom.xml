@@ -26,7 +26,7 @@
     <asciidoctorj-pdf.version>2.3.19</asciidoctorj-pdf.version>
     <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
     <revisiondate>${maven.build.timestamp}</revisiondate>
-    <revremark>Draft</revremark>
+    <revremark>Final</revremark>
     <gen-doc-dir>${project.build.directory}/generated-docs</gen-doc-dir>
 </properties>
 
