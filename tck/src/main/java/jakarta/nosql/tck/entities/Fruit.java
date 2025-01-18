@@ -21,6 +21,8 @@ import jakarta.nosql.Convert;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 
+import java.util.Objects;
+
 @Entity
 public class Fruit {
 
@@ -58,5 +60,26 @@ public class Fruit {
         this.price = price;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Fruit fruit = (Fruit) o;
+        return Objects.equals(id, fruit.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Fruit{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
