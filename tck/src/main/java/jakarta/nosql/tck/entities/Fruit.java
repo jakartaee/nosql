@@ -20,8 +20,10 @@ import jakarta.nosql.Column;
 import jakarta.nosql.Convert;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
+import net.datafaker.Faker;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Fruit {
@@ -81,5 +83,13 @@ public class Fruit {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    public static Fruit of(Faker faker) {
+        Fruit fruit = new Fruit();
+        fruit.setId(UUID.randomUUID().toString());
+        fruit.setName(faker.food().fruit());
+        fruit.setPrice(Money.of(faker));
+        return fruit;
     }
 }
