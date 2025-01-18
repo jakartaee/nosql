@@ -38,6 +38,9 @@ public class Fruit {
     @Convert(MoneyConverter.class)
     private Money price;
 
+    @Column
+    private Long quantity;
+
     public String getId() {
         return id;
     }
@@ -62,6 +65,14 @@ public class Fruit {
         this.price = price;
     }
 
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -82,6 +93,7 @@ public class Fruit {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", quantity=" + quantity +
                 '}';
     }
 
