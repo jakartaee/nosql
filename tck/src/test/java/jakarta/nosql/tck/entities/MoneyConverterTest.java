@@ -15,8 +15,31 @@
  */
 package jakarta.nosql.tck.entities;
 
-import static org.junit.jupiter.api.Assertions.*;
+import jakarta.nosql.AttributeConverter;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+import java.util.Currency;
 
 class MoneyConverterTest {
 
+    private final AttributeConverter<Money, String> converter = new MoneyConverter();
+
+    @Test
+    public void shouldConvertToDatabaseColumn() {
+        Money money = new Money(Currency.getInstance("USD"), BigDecimal.valueOf(10));
+        String convert = converter.convertToDatabaseColumn(money);
+        Assertions.assertThat(convert).isEqualTo("USD 10");
+    }
+
+    @Test
+    public void shouldConvertToEntityAttribute() {
+        Money money = converter.convertToEntityAttribute("USD 10");
+        SoftAssertions.assertSoftly(a -> {
+            a.assertThat(money.currency().getCurrencyCode()).isEqualTo("USD");
+            a.assertThat(money.value()).isEqualByComparingTo(BigDecimal.valueOf(10));
+        });
+    }
 }
