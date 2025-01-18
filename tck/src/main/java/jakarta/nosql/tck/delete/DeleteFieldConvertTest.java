@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-@DisplayName("Delete execution with @Convert annotated fields in Fruit entity")
+@DisplayName("Delete execution with @Convert annotated fields in the entity")
 public class DeleteFieldConvertTest extends AbstractTemplateTest {
 
     @ParameterizedTest
