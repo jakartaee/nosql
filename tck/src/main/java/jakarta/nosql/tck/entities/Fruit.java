@@ -24,6 +24,7 @@ import net.datafaker.Faker;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 public class Fruit {
@@ -102,6 +103,7 @@ public class Fruit {
         fruit.setId(UUID.randomUUID().toString());
         fruit.setName(faker.food().fruit());
         fruit.setPrice(Money.of(faker));
+        fruit.setQuantity(ThreadLocalRandom.current().nextLong(0, 1000));
         return fruit;
     }
 }
