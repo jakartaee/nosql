@@ -23,7 +23,7 @@ Status: {revremark}
 
 Release: {revdate}
 
-Copyright (c) 2020, {docyear} Eclipse Foundation:
+Copyright (c) {docyear} Eclipse Foundation:
 {authors}
 
 This program and the accompanying materials are made available under the
