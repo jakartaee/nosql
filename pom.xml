@@ -51,10 +51,11 @@
     </developers>
 
     <properties>
+        <spec.version>1.0</spec.version>
         <apache.rat.version>0.15</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
         <jacoco.maven.version>0.8.12</jacoco.maven.version>
-        <maven-javadoc-plugin.vesion>3.11.1</maven-javadoc-plugin.vesion>
+        <maven-javadoc-plugin.version>3.11.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven.checkstyle.plugin.version>3.5.0</maven.checkstyle.plugin.version>
         <maven.compile.version>3.13.0</maven.compile.version>
@@ -86,7 +87,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.vesion}</version>
+                <version>${maven-javadoc-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -97,6 +98,13 @@
                 </executions>
                 <configuration>
                     <source>${maven.compiler.source}</source>
+                    <doctitle>Jakarta NoSQL API documentation</doctitle>
+                    <windowtitle>Jakarta NoSQL API documentation</windowtitle>
+                    <header><![CDATA[<br>Jakarta NoSQL API v${spec.version}]]></header>
+                    <bottom><![CDATA[
+Comments to: <a href="mailto:nosql-dev@eclipse.org">nosql-dev@eclipse.org</a>.<br>
+Copyright &#169; 2025 Eclipse Foundation. All rights reserved.<br>]]>
+                    </bottom>
                 </configuration>
             </plugin>
             <plugin>
