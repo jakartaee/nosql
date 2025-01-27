@@ -50,8 +50,8 @@ specification is expressly prohibited.
 The notice is:
 
 "Copyright (c) {docyear} Eclipse Foundation AISBL.This software or
-document includes material copied from or derived from Jakarta Data and 
-https://jakarta.ee/specifications/data/."
+document includes material copied from or derived from Jakarta NoSQL and
+https://jakarta.ee/specifications/nosql/."
 
 === Disclaimers
 

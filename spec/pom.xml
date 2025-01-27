@@ -79,6 +79,7 @@
                 <attributes>
                     <license>Apache License v2.0</license>
                     <revnumber>${project.version}</revnumber>
+                    <specification>Jakarta NoSQL</specification>
                     <revremark>${revremark}</revremark>
                     <revdate>${revisiondate}</revdate>
                     <doctitle>Jakarta NoSQL</doctitle>
