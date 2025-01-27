@@ -35,7 +35,7 @@ ifndef::imagesdir[:imagesdir: images]
 ifndef::sourcedir[:sourcedir: ../../main/java]
 
 :sectnums!:
-include::chapters/license/license-alv2.asciidoc[]
+include::chapters/license/license-efsl.adoc[]
 
 :sectnums:
 include::chapters/introduction/introduction.adoc[]
