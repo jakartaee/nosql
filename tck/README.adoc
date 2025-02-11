@@ -78,7 +78,7 @@ To make your `TemplateSupplier` implementation available to the Service Provider
 Create the directory `META-INF/services` at the root of your project.
 
 2. **Create the SPI Configuration File:**
-Inside the `META-INF/services` directory, create a file named `jakarta.nosql.tck.TemplateSupplier` (the fully qualified name of the interface).
+Inside the `META-INF/services` directory, create a file named `ee.jakarta.tck.nosql.TemplateSupplier` (the fully qualified name of the interface).
 
 3. **Register Your Implementation:**
 In this file, specify the fully qualified name of your `TemplateSupplier` implementation class. For example:
