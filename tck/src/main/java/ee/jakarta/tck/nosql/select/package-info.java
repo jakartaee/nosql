@@ -38,4 +38,4 @@
  * @see jakarta.nosql.Template#select(Class)
  * @see jakarta.nosql.QueryMapper
  */
-package jakarta.nosql.tck.select;
+package ee.jakarta.tck.nosql.select;

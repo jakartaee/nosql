@@ -22,19 +22,19 @@
  * for parameterized tests. These classes follow a consistent naming convention:
  * </p>
  * <ul>
- *     <li>{@link jakarta.nosql.tck.factories.VehicleSupplier}: Supplies a single instance of the {@link jakarta.nosql.tck.entities.Vehicle} entity for tests.</li>
- *     <li>{@link jakarta.nosql.tck.factories.VehicleListSupplier}: Supplies a list of {@link jakarta.nosql.tck.entities.Vehicle} entities for batch tests.</li>
- *     <li>{@link jakarta.nosql.tck.factories.PersonSupplier}: Supplies a single instance of the {@link jakarta.nosql.tck.entities.Person} entity for tests.</li>
- *     <li>{@link jakarta.nosql.tck.factories.PersonListSupplier}: Supplies a list of {@link jakarta.nosql.tck.entities.Person} entities for batch tests.</li>
+ *     <li>{@link ee.jakarta.tck.nosql.factories.VehicleSupplier}: Supplies a single instance of the {@link ee.jakarta.tck.nosql.entities.Vehicle} entity for tests.</li>
+ *     <li>{@link ee.jakarta.tck.nosql.factories.VehicleListSupplier}: Supplies a list of {@link ee.jakarta.tck.nosql.entities.Vehicle} entities for batch tests.</li>
+ *     <li>{@link ee.jakarta.tck.nosql.factories.PersonSupplier}: Supplies a single instance of the {@link ee.jakarta.tck.nosql.entities.Person} entity for tests.</li>
+ *     <li>{@link ee.jakarta.tck.nosql.factories.PersonListSupplier}: Supplies a list of {@link ee.jakarta.tck.nosql.entities.Person} entities for batch tests.</li>
  * </ul>
  * <p>
  * The naming convention used is as follows:
  * </p>
  * <ul>
  *     <li>If the supplier returns a single entity, it is named <code>EntitySupplier</code>, where <code>Entity</code> is the name of the entity
- *     (e.g., <code>VehicleSupplier</code> for the {@link jakarta.nosql.tck.entities.Vehicle} entity).</li>
+ *     (e.g., <code>VehicleSupplier</code> for the {@link ee.jakarta.tck.nosql.entities.Vehicle} entity).</li>
  *     <li>If the supplier returns a list of entities, it is named <code>EntityListSupplier</code>, where <code>Entity</code>
- *     is the name of the entity (e.g., <code>VehicleListSupplier</code> for a list of {@link jakarta.nosql.tck.entities.Vehicle} entities).</li>
+ *     is the name of the entity (e.g., <code>VehicleListSupplier</code> for a list of {@link ee.jakarta.tck.nosql.entities.Vehicle} entities).</li>
  * </ul>
  * <p>
  * These supplier classes are designed to provide the necessary test data for various NoSQL operations
@@ -42,9 +42,9 @@
  * </p>
  *
  * @since 1.0.0
- * @see jakarta.nosql.tck.factories.VehicleSupplier
- * @see jakarta.nosql.tck.factories.VehicleListSupplier
- * @see jakarta.nosql.tck.factories.PersonSupplier
- * @see jakarta.nosql.tck.factories.PersonListSupplier
+ * @see ee.jakarta.tck.nosql.factories.VehicleSupplier
+ * @see ee.jakarta.tck.nosql.factories.VehicleListSupplier
+ * @see ee.jakarta.tck.nosql.factories.PersonSupplier
+ * @see ee.jakarta.tck.nosql.factories.PersonListSupplier
  */
-package jakarta.nosql.tck.factories;
+package ee.jakarta.tck.nosql.factories;

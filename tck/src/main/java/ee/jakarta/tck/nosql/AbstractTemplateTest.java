@@ -13,14 +13,14 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck;
+package ee.jakarta.tck.nosql;
 
 import jakarta.nosql.Template;
-import jakarta.nosql.tck.entities.Animal;
-import jakarta.nosql.tck.entities.Book;
-import jakarta.nosql.tck.entities.Drink;
-import jakarta.nosql.tck.entities.Person;
-import jakarta.nosql.tck.entities.Vehicle;
+import ee.jakarta.tck.nosql.entities.Animal;
+import ee.jakarta.tck.nosql.entities.Book;
+import ee.jakarta.tck.nosql.entities.Drink;
+import ee.jakarta.tck.nosql.entities.Person;
+import ee.jakarta.tck.nosql.entities.Vehicle;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.logging.Logger;

@@ -31,4 +31,4 @@
  * @since 1.0.0
  * @see jakarta.nosql.Template
  */
-package jakarta.nosql.tck.basic;
+package ee.jakarta.tck.nosql.basic;

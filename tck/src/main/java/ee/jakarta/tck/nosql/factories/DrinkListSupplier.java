@@ -13,9 +13,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck.factories;
+package ee.jakarta.tck.nosql.factories;
 
-import jakarta.nosql.tck.entities.Drink;
+import ee.jakarta.tck.nosql.entities.Drink;
 
 public class DrinkListSupplier extends AbstractListSupplier<Drink> {
 

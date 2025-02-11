@@ -13,7 +13,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck.factories;
+package ee.jakarta.tck.nosql.factories;
 
 import net.datafaker.Faker;
 import org.junit.jupiter.api.extension.ExtensionContext;

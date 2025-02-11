@@ -13,13 +13,13 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck.delete;
+package ee.jakarta.tck.nosql.delete;
 
 
-import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.entities.Beer;
-import jakarta.nosql.tck.entities.Drink;
-import jakarta.nosql.tck.factories.DrinkListSupplier;
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Beer;
+import ee.jakarta.tck.nosql.entities.Drink;
+import ee.jakarta.tck.nosql.factories.DrinkListSupplier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

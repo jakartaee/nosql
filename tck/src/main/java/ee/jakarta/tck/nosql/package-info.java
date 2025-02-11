@@ -16,4 +16,4 @@
 /**
  * This package contains the Technology Compatibility Kit (TCK) for the Jakarta NoSQL specification.
  */
-package jakarta.nosql.tck;
+package ee.jakarta.tck.nosql;

@@ -13,11 +13,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.tck.basic;
+package ee.jakarta.tck.nosql.basic;
 
-import jakarta.nosql.tck.AbstractTemplateTest;
-import jakarta.nosql.tck.entities.Person;
-import jakarta.nosql.tck.factories.PersonSupplier;
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Person;
+import ee.jakarta.tck.nosql.factories.PersonSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;

@@ -37,6 +37,6 @@
  * @see jakarta.nosql.QueryMapper.MapperDeleteFrom
  * @see jakarta.nosql.Template#delete(Class, Object)
  */
-package jakarta.nosql.tck.delete;
+package ee.jakarta.tck.nosql.delete;
 
 
