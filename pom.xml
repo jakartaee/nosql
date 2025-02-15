@@ -373,16 +373,6 @@ Copyright &#169; 2025 Eclipse Foundation. All rights reserved.<br>]]>
         </profile>
     </profiles>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://jakarta.oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://jakarta.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
     <modules>
         <module>api</module>
         <module>tck</module>
