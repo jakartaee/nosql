@@ -7,6 +7,13 @@ The Jakarta NoSQL Technology Compatibility Kit (TCK) is a suite of tests designe
 
 Any Jakarta NoSQL module must pass this test suite to be considered compliant with the Jakarta NoSQL standards.
 
+== Software Requirements
+
+To run the Jakarta NoSQL TCK, the following software must be installed:
+
+- **Java Development Kit (JDK)**: Jakarta NoSQL requires at least JDK 17 or later.
+- **Apache Maven**: Required to build and execute the test suite.
+- **A compatible NoSQL database**: The TCK needs a NoSQL database that conforms to the Jakarta NoSQL API. Ensure the database is running and accessible before executing the tests.
 
 == Dependencies
 
@@ -92,7 +99,7 @@ com.example.MyTemplateSupplier
 
 - **Database Lifecycle:**
 
-  The `TemplateSupplier` is not responsible for managing the database's Lifecycle. The database is expected to be already running when the `Template` instance is created and returned. The `TemplateSupplier` is only responsible for setting up the `Template` with the necessary configuration to interact with the database.
+  The `TemplateSupplier` is not responsible for managing the database's lifecycle. The database is expected to be already running when the `Template` instance is created and returned. The `TemplateSupplier` is only responsible for setting up the `Template` with the necessary configuration to interact with the database.
 
 - **Template Initialization:**
 
@@ -102,9 +109,34 @@ com.example.MyTemplateSupplier
 
 === Example SPI File
 
-Here is how the `META-INF/services/jakarta.nosql.tck.TemplateSupplier` file should look:
+Here is how the `META-INF/services/ee.jakarta.tck.nosql.TemplateSupplier` file should look:
 
 [source]
 ----
 com.example.MyTemplateSupplier
 ----
+
+== Running the Jakarta NoSQL TCK
+
+To execute the Jakarta NoSQL TCK tests and validate the compatibility of an implementation:
+
+1. Ensure that your NoSQL database is running and accessible.
+2. Add the required dependencies to your project.
+3. Implement and register the `TemplateSupplier` to provide a configured `Template` instance.
+4. Use Apache Maven to run the tests with the following command:
+
+[source,bash]
+----
+mvn clean test
+----
+
+This command will execute the test suite and verify whether the Jakarta NoSQL implementation is compliant with the specification.
+
+== Reporting Issues and Filing Challenges
+
+If you encounter any issues while running the Jakarta NoSQL TCK, you can file a challenge or report a bug:
+
+- **Jakarta NoSQL GitHub Repository**: https://github.com/jakartaee/nosql
+- **Jakarta NoSQL Mailing List**: Check the Jakarta EE community resources for discussions and support.
+
+Ensure to provide detailed information about the issue, including the database configuration, the implementation under test, and relevant stack traces.
