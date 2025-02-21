@@ -25,4 +25,45 @@
     <dependencies>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-api-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <source>${maven.compiler.source}</source>
+                            <quiet>true</quiet>
+                            <additionalJOption>-Xdoclint:none</additionalJOption>
+                            <description>Jakarta NoSQL API documentation</description>
+                            <doctitle>Jakarta NoSQL API documentation</doctitle>
+                            <windowtitle>Jakarta NoSQL API documentation</windowtitle>
+                            <header><![CDATA[<br>Jakarta NoSQL API v${spec.version}]]></header>
+                            <bottom><![CDATA[
+Comments to: <a href="mailto:data-dev@eclipse.org">nosql-dev@eclipse.org</a>.<br>
+Copyright &#169; 2024 Eclipse Foundation. All rights reserved.<br>
+Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
+                            </bottom>
+                            <docfilessubdirs>true</docfilessubdirs>
+                            <groups>
+                                <group>
+                                    <title>Jakarta NOSQL API Documentation</title>
+                                    <packages>
+                                        jakarta.nosql
+                                    </packages>
+                                </group>
+                            </groups>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
