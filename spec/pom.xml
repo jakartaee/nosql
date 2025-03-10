@@ -27,7 +27,9 @@
     <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
     <revisiondate>${maven.build.timestamp}</revisiondate>
     <revremark>Final</revremark>
+    <spec.version>1.0</spec.version>
     <gen-doc-dir>${project.build.directory}/generated-docs</gen-doc-dir>
+
 </properties>
 
 <dependencies>
