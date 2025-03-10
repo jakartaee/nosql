@@ -58,7 +58,7 @@
                     </goals>
                     <configuration>
                         <backend>pdf</backend>
-                        <outputFile>${gen-doc-dir}/jakarta-nosql-${project.version}.pdf</outputFile>
+                        <outputFile>${gen-doc-dir}/jakarta-nosql-${spec.version}.pdf</outputFile>
                     </configuration>
                 </execution>
                 <execution>
@@ -69,7 +69,7 @@
                     </goals>
                     <configuration>
                         <backend>html5</backend>
-                        <outputFile>${gen-doc-dir}/jakarta-nosql-${project.version}.html</outputFile>
+                        <outputFile>${gen-doc-dir}/jakarta-nosql-${spec.version}.html</outputFile>
                     </configuration>
                 </execution>
             </executions>
@@ -80,7 +80,7 @@
                 <embedAssets>true</embedAssets>
                 <attributes>
                     <license>Apache License v2.0</license>
-                    <revnumber>${project.version}</revnumber>
+                    <revnumber>${spec.version}</revnumber>
                     <specification>Jakarta NoSQL</specification>
                     <revremark>${revremark}</revremark>
                     <revdate>${revisiondate}</revdate>
