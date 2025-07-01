@@ -8,6 +8,12 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 == [Unreleased]
 
+== [1.0.1] - 2025-07-01
+
+=== Added
+
+- Adds OSGi manifest and used flatten plug-in
+
 == [1.0.0-M1] - 2024-03-23
 
 === Removed
