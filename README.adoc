@@ -84,7 +84,7 @@ The `Template` interface provides specialized methods to leverage the features o
 <dependency>
     <groupId>jakarta.nosql</groupId>
     <artifactId>jakarta.nosql-api</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ----
 
