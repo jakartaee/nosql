@@ -1,12 +1,12 @@
 name: TCK Challenge
-description: Jakarta Data TCK Challenge
+description: Jakarta NoSQL TCK Challenge
 title: "[TCK Challenge]: "
 labels: ["challenge"] #TODO need to add this label
 body:
 - type: markdown
   attributes: 
     value: >
-      Before submitting a TCK Challenge to the Jakarta Data community 
+      Before submitting a TCK Challenge to the Jakarta NoSQL community 
       please read and be familiar with the 
       [TCK Process document](https://jakarta.ee/committees/specification/tckprocess) 
       which may be updated occasionally.
@@ -18,7 +18,7 @@ body:
     label: Specification
     description: What specification is the challenge related to? Provide a link to the specification class or document section. 
     placeholder: |
-      ex. [Entity value](https://github.com/jakartaee/data/blob/main/api/src/main/java/jakarta/data/Entity.java#L33)
+      ex. [@Entity value](https://github.com/jakartaee/nosql/blob/main/api/src/main/java/jakarta/nosql/Entity.java#L118)
 - type: input
   id: assertion
   validations:
@@ -27,7 +27,7 @@ body:
     label: Assertion
     description: What assertion is the challenge related to? Provide a link to the assertion description
     placeholder: |
-      ex. [Signature tests](https://github.com/jakartaee/data/blob/main/tck/src/main/java/ee/jakarta/tck/data/standalone/signature/SignatureTests.java#L50)
+      ex. [Basic Template tests](https://github.com/jakartaee/nosql/blob/main/tck/src/main/java/ee/jakarta/tck/nosql/basic/BasicTemplateTest.java#L39)
 - type: dropdown
   id: version
   validations:
@@ -37,7 +37,6 @@ body:
     description: What version of the TCK are you running against? 
     options: #TODO need to update this list per release
       - 1.0.0-SNAPSHOT (Locally built)
-      - 1.0.0-RC1      (Release candidate)
       - 1.0.0          (Generally available)
 - type: input
   id: implementation
