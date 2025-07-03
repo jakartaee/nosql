@@ -243,6 +243,32 @@ public interface Template {
     <T> Iterable<T> update(Iterable<T> entities);
 
     /**
+     * Deletes a given entity. Deletion is performed by matching the Id, and if
+     * the entity is versioned (for example, with
+     * {@code jakarta.persistence.Version}), then also the version. Other
+     * attributes of the entity do not need to match.
+     *
+     * @param entity must not be {@code null}.
+     * @param <T>    the entity type
+     * @throws NullPointerException              when the entity is null
+     */
+    <T> void delete(T entity);
+
+    /**
+     * Deletes the given entities. Deletion of each entity is performed by
+     * matching the unique identifier, and if the entity is versioned (for
+     * example, with {@code jakarta.persistence.Version}), then also the
+     * version. Other attributes of the entity do not need to match.
+     * @param <T>    the entity type
+     * @param entities Must not be {@code null}. Must not contain {@code null}
+     *                 elements.
+     * @throws NullPointerException              If the iterable is {@code null}
+     *                                           or contains {@code null}
+     *                                           elements.
+     */
+    <T> void delete(Iterable<? extends T> entities);
+
+    /**
      * Retrieves an entity by its Id.
      *
      * @param type the entity class
