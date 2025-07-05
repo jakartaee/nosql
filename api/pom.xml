@@ -24,6 +24,8 @@
     <dependencies>
     </dependencies>
 
+    <url>https://projects.eclipse.org/projects/ee4j.nosql</url>
+
     <scm>
         <connection>scm:git:git://github.com/jakartaee/nosql.git</connection>
         <developerConnection>scm:git:ssh://github.com:jakartaee/nosql.git</developerConnection>
