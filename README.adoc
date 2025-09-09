@@ -33,7 +33,6 @@ public class Car {
     private CarType type;
  //...
 }
-
 ----
 
 === Annotations
