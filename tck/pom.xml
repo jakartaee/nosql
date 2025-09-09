@@ -25,7 +25,7 @@
     <properties>
         <junit.version>5.12.0</junit.version>
         <mockito.version>5.19.0</mockito.version>
-        <assertj.version>3.27.2</assertj.version>
+        <assertj.version>3.27.4</assertj.version>
         <awaitility.version>4.3.0</awaitility.version>
         <datafaker.version>2.4.4</datafaker.version>
         <pi-test.version>1.17.1</pi-test.version>
