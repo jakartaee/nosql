@@ -26,4 +26,3 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 - Include Jakarta NoSQL Specification initial documentation
 - Include Jakarta NoSQL Specification initial TCK
 - Include Jakarta NoSQL annotations and Template interface
-
