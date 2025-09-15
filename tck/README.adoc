@@ -11,7 +11,7 @@ Any Jakarta NoSQL module must pass this test suite to be considered compliant wi
 
 To run the Jakarta NoSQL TCK, the following software must be installed:
 
-- **Java Development Kit (JDK)**: Jakarta NoSQL requires at least JDK 17 or later.
+- **Java Development Kit (JDK)**: Jakarta NoSQL requires at least JDK 21 or later.
 - **Apache Maven**: Required to build and execute the test suite.
 - **A compatible NoSQL database**: The TCK needs a NoSQL database that conforms to the Jakarta NoSQL API. Ensure the database is running and accessible before executing the tests.
 

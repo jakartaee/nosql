@@ -10,6 +10,10 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 
 === Added
 
+- **BREAKING CHANGE**: Updated minimum Java version requirement from Java 17 to Java 21
+- Updated Maven compiler plugin to target Java 21
+- Updated CI/CD pipeline to use Java 21
+- Updated documentation to reflect Java 21 as the minimum required version
 - Include delete with entity parameter on Template
 
 == [1.0.1] - 2025-07-01
