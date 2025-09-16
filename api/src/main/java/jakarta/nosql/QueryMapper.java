@@ -267,15 +267,6 @@ public interface QueryMapper {
         <T> MapperWhere eq(T value);
 
         /**
-         * Creates a condition where the specified column name is like the provided value.
-         *
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
-         */
-        MapperWhere like(String value);
-
-        /**
          * Creates a condition where the specified column name is greater than the provided value.
          *
          * @param <T>   the type
@@ -314,6 +305,15 @@ public interface QueryMapper {
          * @throws NullPointerException when value is null
          */
         <T> MapperWhere lte(T value);
+
+        /**
+         * Creates a condition where the specified column name is like the provided value.
+         *
+         * @param value the value for the condition
+         * @return the {@link MapperWhere}
+         * @throws NullPointerException when value is null
+         */
+        MapperWhere like(String value);
 
         /**
          * Creates a condition where the specified column contains the given substring.
