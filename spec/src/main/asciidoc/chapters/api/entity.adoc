@@ -593,7 +593,7 @@ public class Computer {
     private Map<String, Program> programs;
 }
 
-@Embedded
+@Embeddable
 public class Program {
     @Id
     private String name;
