@@ -70,4 +70,8 @@ public class Contact {
         contact.socialMedia = socialMedia;
         return contact;
     }
+
+    public void put(String socialMedia, String url) {
+        this.socialMedia.put(socialMedia, url);
+    }
 }
