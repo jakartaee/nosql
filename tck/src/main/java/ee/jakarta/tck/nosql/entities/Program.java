@@ -62,4 +62,12 @@ public class Program {
                 ", programs=" + programs +
                 '}';
     }
+
+    public static Program of(String name, Map<String, Program> programs) {
+        Program program = new Program();
+        program.name = name;
+        program.programs = programs;
+        return program;
+    }
+
 }
