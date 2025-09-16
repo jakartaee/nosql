@@ -18,8 +18,10 @@ package ee.jakarta.tck.nosql.basic;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Contact;
 import ee.jakarta.tck.nosql.entities.Person;
+import ee.jakarta.tck.nosql.entities.Profile;
 import ee.jakarta.tck.nosql.factories.ContactSupplier;
 import ee.jakarta.tck.nosql.factories.PersonSupplier;
+import ee.jakarta.tck.nosql.factories.ProfileSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -78,12 +80,65 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(ContactSupplier.class)
     @DisplayName("Should find the contact: {0}")
-    void shouldFind(Contact entity) {
+    void shouldFindMapWithBasicValueMap(Contact entity) {
         var inserted = template.insert(entity);
-        var found = template.find(Person.class, inserted.getName());
+        var found = template.find(Contact.class, inserted.getName());
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(found).isPresent();
             soft.assertThat(found.orElseThrow().getName()).isEqualTo(inserted.getName());
+        });
+    }
+
+    //
+    @ParameterizedTest
+    @ArgumentsSource(ProfileSupplier.class)
+    @DisplayName("Should insert the profile: {0}")
+    void shouldInsertMapWithBasicValueMapOnRecord(Profile entity) {
+        var contact = template.insert(entity);
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(contact).isNotNull();
+            soft.assertThat(contact.name()).isNotNull();
+            soft.assertThat(contact.socialMedia()).isEqualTo(entity.socialMedia());
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ProfileSupplier.class)
+    @DisplayName("Should update the profile: {0}")
+    void shouldUpdateMapWithBasicValueMapOnRecord(Profile entity) {
+        var insertedContact = template.insert(entity);
+
+        insertedContact.put("socialMediaC", "http://new-social-media.com/profile");
+        var updatedPerson = template.update(insertedContact);
+
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(updatedPerson).isNotNull();
+            soft.assertThat(updatedPerson.name()).isEqualTo(insertedContact.name());
+            soft.assertThat(updatedPerson.socialMedia()).isEqualTo(insertedContact.socialMedia());
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ProfileSupplier.class)
+    @DisplayName("Should delete the profile: {0}")
+    void shouldDeleteMapWithBasicValueMapOnRecord(Profile entity) {
+        var insert = template.insert(entity);
+
+        template.delete(Contact.class, insert.name());
+
+        var deletedPerson = template.find(Contact.class, insert.name());
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedPerson).isEmpty());
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ProfileSupplier.class)
+    @DisplayName("Should find the profile: {0}")
+    void shouldFindMapWithBasicValueMapOnRecord(Profile entity) {
+        var inserted = template.insert(entity);
+        var found = template.find(Person.class, inserted.name());
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(found).isPresent();
+            soft.assertThat(found.orElseThrow().getName()).isEqualTo(inserted.name());
         });
     }
 

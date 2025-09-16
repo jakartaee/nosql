@@ -26,4 +26,7 @@ import java.util.Map;
 public record Profile(@Id String name, @Column Map<String, String> socialMedia) {
 
 
+    public void put(String socialMedia, String url) {
+        this.socialMedia.put(socialMedia, url);
+    }
 }
