@@ -69,4 +69,7 @@ public class Computer {
         return computer;
     }
 
+    public void put(String programName, Program program) {
+        this.programs.put(programName, program);
+    }
 }
