@@ -339,9 +339,26 @@ Some databases might require the use of the `udt` attribute in the `@Column` ann
 
 ==== Array Support
 
-Jakarta NoSQL implementations MUST support binding Java arrays of the basic types, as referenced in <<basic_types>>, and arrays of entities and embedded classes.
+Jakarta NoSQL supports `Map` collections to model key-value associations within your entities. This is useful for representing dynamic or grouped data without requiring fixed fields.
 
-Arrays of entities and embedded classes are supported and will function as embedded classes with *grouping*.
+When using `Map<K, V>` in Jakarta NoSQL:
+
+* **Key (`K`) must be a <<basic_types>>**
+Supported types include: `String`, `Integer`, `Long`, `UUID`, etc.
+
+* **Value (`V`) can be**:
+
+* A  <<basic_types>> (e.g., `String`, `Boolean`)
+* A class annotated with `@Embeddable`
+* A class annotated with `@Entity`
+
+Depending on the value type, Jakarta NoSQL behaves differently:
+
+1. **Basic Type Values**: Stored directly as key-value pairs.
+2. **`@Embeddable` Values**: Treated as **grouped objects**. Their fields are embedded directly within the parent entity.
+3. **`@Entity` Values**: Also treated as **grouped objects**, serialized inline within the parent document. These are *not* treated as separate references or persisted independently.
+
+Support for map collections depends on the underlying NoSQL database and provider. Some backends may require explicit support for nested/grouped structures. Always consult the provider documentation for advanced behavior.
 
 Consider an entity class `Library` with an array of `Book` entities and an array of `String` tags.
 
