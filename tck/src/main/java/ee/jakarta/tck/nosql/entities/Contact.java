@@ -20,7 +20,9 @@ import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 public class Contact {
@@ -31,4 +33,34 @@ public class Contact {
     @Column
     private Map<String, String> socialMedia;
 
+
+    public String getName() {
+        return name;
+    }
+
+    public Map<String, String> getSocialMedia() {
+        return Collections.unmodifiableMap(socialMedia);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Contact contact = (Contact) o;
+        return Objects.equals(name, contact.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", socialMedia=" + socialMedia +
+                '}';
+    }
 }
