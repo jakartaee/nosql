@@ -23,6 +23,6 @@ import jakarta.nosql.Id;
 import java.util.Map;
 
 @Entity
-public record MobileApp(@Id String id, @Column Map<String, Program> programs) {
+public record MobileSystem(@Id String id, @Column Map<String, Program> programs) {
 
 }

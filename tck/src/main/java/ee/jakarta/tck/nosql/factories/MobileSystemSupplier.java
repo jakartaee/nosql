@@ -15,17 +15,17 @@
  */
 package ee.jakarta.tck.nosql.factories;
 
-import ee.jakarta.tck.nosql.entities.MobileApp;
+import ee.jakarta.tck.nosql.entities.MobileSystem;
 import ee.jakarta.tck.nosql.entities.Program;
 import net.datafaker.Faker;
 
 import java.util.Map;
 import java.util.UUID;
 
-public class MobileSystemSupplier extends AbstractSupplier<MobileApp>  {
+public class MobileSystemSupplier extends AbstractSupplier<MobileSystem>  {
 
     @Override
-    public MobileApp get() {
+    public MobileSystem get() {
         Faker faker = faker();
         var id = UUID.randomUUID().toString();
         var program = Program.of(faker.app().name(), Map.of("version", faker.app().version(),
@@ -34,6 +34,6 @@ public class MobileSystemSupplier extends AbstractSupplier<MobileApp>  {
                 "language", faker.programmingLanguage().name()));
         var programs = Map.of("programA", program, "programB", program2);
 
-        return new MobileApp(id, programs);
+        return new MobileSystem(id, programs);
     }
 }
