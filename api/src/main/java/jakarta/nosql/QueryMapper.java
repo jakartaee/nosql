@@ -267,60 +267,68 @@ public interface QueryMapper {
         <T> MapperWhere eq(T value);
 
         /**
-         * Creates a condition where the specified column name is greater than the provided value.
+         * Creates a condition where the specified column value is greater than the given value.
          *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * Example:
+         * <pre>
+         * template.select(Product.class)
+         *         .where("price").gt(50)
+         *         .result();
+         * </pre>
+         *
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere gt(T value);
 
         /**
-         * Creates a condition where the specified column name is greater than or equal to the provided value.
+         * Creates a condition where the specified column value is greater than or equal to the given value.
          *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * Example:
+         * <pre>
+         * template.select(Product.class)
+         *         .where("stock").gte(10)
+         *         .result();
+         * </pre>
+         *
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere gte(T value);
 
         /**
-         * Creates a condition where the specified column name is less than the provided value.
+         * Creates a condition where the specified column value is less than the given value.
          *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * Example:
+         * <pre>
+         * template.select(Order.class)
+         *         .where("totalAmount").lt(500)
+         *         .result();
+         * </pre>
+         *
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere lt(T value);
 
         /**
-         * Creates a condition where the specified column name is less than or equal to the provided value.
+         * Creates a condition where the specified column value is less than or equal to the given value.
          *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
-         */
-        <T> MapperWhere lte(T value);
-
-        /**
-         * Creates a condition where the specified column contains a pattern matching the provided value.
-         * This method enables flexible pattern-based filtering when an exact value is not required.
          * Example:
          * <pre>
-         * template.select(Product.class)
-         *         .where("name").like("Book%")
+         * template.select(Customer.class)
+         *         .where("age").lte(30)
          *         .result();
          * </pre>
          *
-         * @param value the pattern to match
+         * @param value the value for the comparison
          * @return the {@link MapperWhere} instance for chaining
          * @throws NullPointerException if value is null
          */
-        MapperWhere like(String value);
+        <T> MapperWhere lte(T value);
 
         /**
          * Creates a condition where the specified column contains the given substring.
