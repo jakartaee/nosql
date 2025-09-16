@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Entity
-public record ContactRecord(    @Id String name, @Column Map<String, String> socialMedia) {
+public record ContactRecord(@Id String name, @Column Map<String, String> socialMedia) {
 
 
 }
