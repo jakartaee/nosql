@@ -533,7 +533,26 @@ Jakarta NoSQL provides flexibility in handling such collections, ensuring seamle
 
 ==== Map Collections
 
-Java `Map` collections offer a convenient way to represent associations and key-value pairs within entities in Jakarta NoSQL. Jakarta NoSQL handles map collections, allowing developers to manage complex data structures efficiently.
+Jakarta NoSQL supports `Map` collections to model key-value associations within your entities. This is useful for representing dynamic or grouped data without requiring fixed fields.
+
+When using `Map<K, V>` in Jakarta NoSQL:
+
+* **Key (`K`) should be a <<basic_types>>**
+Supported types include: `String`, `Integer`, `Long`, `UUID`, etc.
+
+* **Value (`V`) can be**:
+
+* A  <<basic_types>> (e.g., `String`, `Boolean`)
+* A class annotated with `@Embeddable`
+* A class annotated with `@Entity`
+
+Depending on the value type, Jakarta NoSQL behaves differently:
+
+1. **Basic Type Values**: Stored directly as key-value pairs.
+2. **`@Embeddable` Values**: Treated as **grouped objects**.
+3. **`@Entity` Values**: Also treated as **grouped objects**.
+
+Support for map collections depends on the underlying NoSQL database and provider. Some backends may require explicit support for nested/grouped structures. Always consult the provider documentation for advanced behavior.
 
 [source,java]
 ----
@@ -560,8 +579,6 @@ JSON representation:
 ----
 
 In the example above, the `Contact` entity includes a `socialMedia` field, represented as a `Map` where the key is a string representing the social media platform, and the value is the corresponding username or profile link.
-
-The behavior of map collections remains consistent regardless of whether the map values are basic types, embeddable classes, or entity classes. However, for embeddable or entity classes used as map values, the `udt` attribute may be required in the `@Column` annotation to specify the user-defined type.
 
 For instance, consider the following example:
 
