@@ -378,30 +378,46 @@ public interface QueryMapper {
 
 
         /**
-         * Creates a condition where the specified column name is between the provided values.
+         * Creates a condition where the specified column value is between the two provided bounds.
+         * Example:
+         * <pre>
+         * template.select(Product.class)
+         *         .where("price").between(10, 100)
+         *         .result();
+         * </pre>
          *
-         * @param <T>    the type
-         * @param valueA the lower bound of the range
-         * @param valueB the upper bound of the range
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when either valueA or valueB is null
+         * @param valueA the lower bound
+         * @param valueB the upper bound
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if either valueA or valueB is null
          */
         <T> MapperWhere between(T valueA, T valueB);
 
         /**
-         * Creates a condition where the specified column name is in the provided iterable values.
+         * Creates a condition where the specified column value exists within the given collection.
+         * Example:
+         * <pre>
+         * template.select(Product.class)
+         *         .where("category").in(List.of("book", "electronics"))
+         *         .result();
+         * </pre>
          *
-         * @param values the values for the condition
-         * @param <T>    the type
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when values is null
+         * @param values the collection of values to match
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if values is null
          */
         <T> MapperWhere in(Iterable<T> values);
 
         /**
-         * Creates a NOT condition for the specified column name.
+         * Creates a negated condition for the current column, allowing inverse logic.
+         * Example:
+         * <pre>
+         * template.select(User.class)
+         *         .where("active").not().eq(true)
+         *         .result();
+         * </pre>
          *
-         * @return {@link MapperNotCondition}
+         * @return the {@link MapperNotCondition} to continue building a negated expression
          */
         MapperNotCondition not();
     }
