@@ -20,12 +20,10 @@ import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
 
 @Entity
-public record ContactRecord(@Id String name, @Column Map<String, String> socialMedia) {
+public record Profile(@Id String name, @Column Map<String, String> socialMedia) {
 
 
 }
