@@ -457,7 +457,7 @@ public interface QueryMapper {
          * <pre>
          * template.select(Book.class)
          *         .where("author").eq("Ada")
-         *         .orderBy("title")
+         *         .orderBy("title").asc()
          *         .result();
          * </pre>
          *
@@ -515,16 +515,30 @@ public interface QueryMapper {
 
 
         /**
-         * Defines the order as ascending.
+         * Defines the sorting direction as ascending for the previously specified column.
+         * Example:
+         * <pre>
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title").asc()
+         *         .result();
+         * </pre>
          *
-         * @return the {@link MapperNameOrder} instance
+         * @return the {@link MapperNameOrder} instance for further chaining
          */
         MapperNameOrder asc();
 
         /**
-         * Defines the order as descending.
+         * Defines the sorting direction as descending for the previously specified column.
+         * Example:
+         * <pre>
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title").desc()
+         *         .result();
+         * </pre>
          *
-         * @return the {@link MapperNameOrder} instance
+         * @return the {@link MapperNameOrder} instance for further chaining
          */
         MapperNameOrder desc();
     }
