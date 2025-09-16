@@ -63,4 +63,11 @@ public class Contact {
                 ", socialMedia=" + socialMedia +
                 '}';
     }
+
+    public static Contact of(String name, Map<String, String> socialMedia) {
+        Contact contact = new Contact();
+        contact.name = name;
+        contact.socialMedia = socialMedia;
+        return contact;
+    }
 }
