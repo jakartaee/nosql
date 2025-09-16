@@ -257,18 +257,22 @@ public interface QueryMapper {
 
 
         /**
-         * Creates a condition where the specified column name equals the provided value.
+         * Creates a condition where the specified column value equals the given value.
+         * Example:
+         * <pre>
+         * template.select(User.class)
+         *         .where("username").eq("alice")
+         *         .result();
+         * </pre>
          *
-         * @param value the value for the condition
-         * @param <T>   the type
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere eq(T value);
 
         /**
          * Creates a condition where the specified column value is greater than the given value.
-         *
          * Example:
          * <pre>
          * template.select(Product.class)
@@ -284,7 +288,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value is greater than or equal to the given value.
-         *
          * Example:
          * <pre>
          * template.select(Product.class)
@@ -300,7 +303,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value is less than the given value.
-         *
          * Example:
          * <pre>
          * template.select(Order.class)
@@ -316,7 +318,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value is less than or equal to the given value.
-         *
          * Example:
          * <pre>
          * template.select(Customer.class)
