@@ -16,7 +16,6 @@
 package ee.jakarta.tck.nosql.factories;
 
 import ee.jakarta.tck.nosql.entities.Contact;
-import ee.jakarta.tck.nosql.entities.Profile;
 import net.datafaker.Faker;
 
 import java.util.Map;

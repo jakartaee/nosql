@@ -16,7 +16,6 @@
 package ee.jakarta.tck.nosql.factories;
 
 import ee.jakarta.tck.nosql.entities.Computer;
-import ee.jakarta.tck.nosql.entities.MobileSystem;
 import ee.jakarta.tck.nosql.entities.Program;
 import net.datafaker.Faker;
 

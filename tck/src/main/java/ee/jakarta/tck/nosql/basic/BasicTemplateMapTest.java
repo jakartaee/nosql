@@ -25,7 +25,6 @@ import ee.jakarta.tck.nosql.entities.Program;
 import ee.jakarta.tck.nosql.factories.ComputerSupplier;
 import ee.jakarta.tck.nosql.factories.ContactSupplier;
 import ee.jakarta.tck.nosql.factories.ProfileSupplier;
-import jakarta.nosql.Embeddable;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
