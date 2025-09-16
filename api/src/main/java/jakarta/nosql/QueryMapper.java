@@ -307,11 +307,18 @@ public interface QueryMapper {
         <T> MapperWhere lte(T value);
 
         /**
-         * Creates a condition where the specified column name is like the provided value.
+         * Creates a condition where the specified column contains a pattern matching the provided value.
+         * This method enables flexible pattern-based filtering when an exact value is not required.
+         * Example:
+         * <pre>
+         * template.select(Product.class)
+         *         .where("name").like("Book%")
+         *         .result();
+         * </pre>
          *
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * @param value the pattern to match
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         MapperWhere like(String value);
 
