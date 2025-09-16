@@ -25,12 +25,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.math.BigDecimal;
-import java.util.logging.Logger;
 
 @DisplayName("The basic template operations with entity that contains a converter field")
 public class BasicConverterFieldTemplateTest extends AbstractTemplateTest {
-
-    private static final Logger LOGGER = Logger.getLogger(BasicConverterFieldTemplateTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(FruitSupplier.class)
