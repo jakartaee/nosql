@@ -31,22 +31,22 @@ public class Program {
     private String name;
 
     @Column
-    private Map<String, String> socialMedia;
+    private Map<String, String> info;
 
 
     public String getName() {
         return name;
     }
 
-    public Map<String, String> getSocialMedia() {
-        return Collections.unmodifiableMap(socialMedia);
+    public Map<String, String> getInfo() {
+        return Collections.unmodifiableMap(info);
     }
 
     @Override
     public String toString() {
         return "Program{" +
                 "name='" + name + '\'' +
-                ", socialMedia=" + socialMedia +
+                ", info=" + info +
                 '}';
     }
 
@@ -56,18 +56,18 @@ public class Program {
             return false;
         }
         Program program = (Program) o;
-        return Objects.equals(name, program.name) && Objects.equals(socialMedia, program.socialMedia);
+        return Objects.equals(name, program.name) && Objects.equals(info, program.info);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, socialMedia);
+        return Objects.hash(name, info);
     }
 
     public static Program of(String name, Map<String, String> socialMedia) {
         Program program = new Program();
         program.name = name;
-        program.socialMedia = socialMedia;
+        program.info = socialMedia;
         return program;
     }
 }
