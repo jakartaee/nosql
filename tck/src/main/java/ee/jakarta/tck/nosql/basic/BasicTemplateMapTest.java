@@ -45,15 +45,15 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     @ArgumentsSource(ContactSupplier.class)
     @DisplayName("Should update the contact: {0}")
     void shouldUpdateMapWithBasicValueMap(Contact entity) {
-        var insertedContact = template.insert(entity);
+        var insert = template.insert(entity);
 
-        insertedContact.put("socialMediaC", "http://new-social-media.com/profile");
-        var updatedPerson = template.update(insertedContact);
+        insert.put("socialMediaC", "http://new-social-media.com/profile");
+        var updatedPerson = template.update(insert);
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(updatedPerson).isNotNull();
-            soft.assertThat(updatedPerson.getName()).isEqualTo(insertedContact.getName());
-            soft.assertThat(updatedPerson.getSocialMedia()).isEqualTo(insertedContact.getSocialMedia());
+            soft.assertThat(updatedPerson.getName()).isEqualTo(insert.getName());
+            soft.assertThat(updatedPerson.getSocialMedia()).isEqualTo(insert.getSocialMedia());
         });
     }
 
@@ -65,8 +65,8 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
 
         template.delete(Contact.class, insert.getName());
 
-        var deletedPerson = template.find(Contact.class, insert.getName());
-        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedPerson).isEmpty());
+        var deleted = template.find(Contact.class, insert.getName());
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deleted).isEmpty());
     }
 
     @ParameterizedTest
@@ -85,11 +85,11 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     @ArgumentsSource(ProfileSupplier.class)
     @DisplayName("Should insert the profile: {0}")
     void shouldInsertMapWithBasicValueMapOnRecord(Profile entity) {
-        var contact = template.insert(entity);
+        var insert = template.insert(entity);
         SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(contact).isNotNull();
-            soft.assertThat(contact.name()).isNotNull();
-            soft.assertThat(contact.socialMedia()).isEqualTo(entity.socialMedia());
+            soft.assertThat(insert).isNotNull();
+            soft.assertThat(insert.name()).isNotNull();
+            soft.assertThat(insert.socialMedia()).isEqualTo(entity.socialMedia());
         });
     }
 
@@ -97,15 +97,15 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     @ArgumentsSource(ProfileSupplier.class)
     @DisplayName("Should update the profile: {0}")
     void shouldUpdateMapWithBasicValueMapOnRecord(Profile entity) {
-        var insertedContact = template.insert(entity);
+        var insert = template.insert(entity);
 
-        insertedContact.put("socialMediaC", "http://new-social-media.com/profile");
-        var updatedPerson = template.update(insertedContact);
+        insert.put("socialMediaC", "http://new-social-media.com/profile");
+        var updatedPerson = template.update(insert);
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(updatedPerson).isNotNull();
-            soft.assertThat(updatedPerson.name()).isEqualTo(insertedContact.name());
-            soft.assertThat(updatedPerson.socialMedia()).isEqualTo(insertedContact.socialMedia());
+            soft.assertThat(updatedPerson.name()).isEqualTo(insert.name());
+            soft.assertThat(updatedPerson.socialMedia()).isEqualTo(insert.socialMedia());
         });
     }
 
@@ -117,8 +117,8 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
 
         template.delete(Contact.class, insert.name());
 
-        var deletedPerson = template.find(Contact.class, insert.name());
-        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedPerson).isEmpty());
+        var deleted = template.find(Contact.class, insert.name());
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deleted).isEmpty());
     }
 
     @ParameterizedTest
