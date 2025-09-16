@@ -73,6 +73,16 @@ Jakarta NoSQL distinguishes three kinds of persistent field within entity classe
 - An _embedded field_ allows the inclusion of the state of a finer-grained Java class within the state of an entity. The type of an embedded field is often a user-written Java class. Support for embedded fields varies depending on the Jakarta NoSQL provider and the database type.
 - An _association field_ implements an association between entity types. Support for association fields varies depending on the Jakarta NoSQL provider and the database type.
 
+
+Collection-valued persistent fields and properties must be defined in terms of one of the following collection-valued interfaces, regardless of whether the entity class otherwise adheres to the JavaBeans method conventions noted below, and of whether field or property access is used: java.util.Collection, java.util.Set, java.util.List, java.util.Map.
+
+Use of the generic variants of these collection types is strongly encouraged, for example, Set<Order> is preferred to the raw type Set.
+
+[NOTE]
+====
+Terminology Note: The terms “collection” and “collection-valued” are used in this specification to denote any of the above types, unless further qualified. In cases where a java.util.Collection type (or one of its subtypes) is to be distinguished, the type is identified as such. The terms “map” and “map collection” are used to denote to a collection of type java.util.Map.
+====
+
 ==== Basic Types [[basic_types]]
 
 Every Jakarta NoSQL provider must support the following basic types within its programming model:
@@ -339,9 +349,26 @@ Some databases might require the use of the `udt` attribute in the `@Column` ann
 
 ==== Array Support
 
-Jakarta NoSQL implementations MUST support binding Java arrays of the basic types, as referenced in <<basic_types>>, and arrays of entities and embedded classes.
+Jakarta NoSQL supports `Map` collections to model key-value associations within your entities. This is useful for representing dynamic or grouped data without requiring fixed fields.
 
-Arrays of entities and embedded classes are supported and will function as embedded classes with *grouping*.
+When using `Map<K, V>` in Jakarta NoSQL:
+
+* **Key (`K`) must be a <<basic_types>>**
+Supported types include: `String`, `Integer`, `Long`, `UUID`, etc.
+
+* **Value (`V`) can be**:
+
+* A  <<basic_types>> (e.g., `String`, `Boolean`)
+* A class annotated with `@Embeddable`
+* A class annotated with `@Entity`
+
+Depending on the value type, Jakarta NoSQL behaves differently:
+
+1. **Basic Type Values**: Stored directly as key-value pairs.
+2. **`@Embeddable` Values**: Treated as **grouped objects**. Their fields are embedded directly within the parent entity.
+3. **`@Entity` Values**: Also treated as **grouped objects**, serialized inline within the parent document. These are *not* treated as separate references or persisted independently.
+
+Support for map collections depends on the underlying NoSQL database and provider. Some backends may require explicit support for nested/grouped structures. Always consult the provider documentation for advanced behavior.
 
 Consider an entity class `Library` with an array of `Book` entities and an array of `String` tags.
 
@@ -516,7 +543,26 @@ Jakarta NoSQL provides flexibility in handling such collections, ensuring seamle
 
 ==== Map Collections
 
-Java `Map` collections offer a convenient way to represent associations and key-value pairs within entities in Jakarta NoSQL. Jakarta NoSQL handles map collections, allowing developers to manage complex data structures efficiently.
+Jakarta NoSQL supports `Map` collections to model key-value associations within your entities. This is useful for representing dynamic or grouped data without requiring fixed fields.
+
+When using `Map<K, V>` in Jakarta NoSQL:
+
+* **Key (`K`) should be a <<basic_types>>**
+Supported types include: `String`, `Integer`, `Long`, `UUID`, etc.
+
+* **Value (`V`) can be**:
+
+* A  <<basic_types>> (e.g., `String`, `Boolean`)
+* A class annotated with `@Embeddable`
+* A class annotated with `@Entity`
+
+Depending on the value type, Jakarta NoSQL behaves differently:
+
+1. **Basic Type Values**: Stored directly as key-value pairs.
+2. **`@Embeddable` Values**: Treated as **grouped objects**.
+3. **`@Entity` Values**: Also treated as **grouped objects**.
+
+Support for map collections depends on the underlying NoSQL database and provider. Some backends may require explicit support for nested/grouped structures. Always consult the provider documentation for advanced behavior.
 
 [source,java]
 ----
@@ -544,8 +590,6 @@ JSON representation:
 
 In the example above, the `Contact` entity includes a `socialMedia` field, represented as a `Map` where the key is a string representing the social media platform, and the value is the corresponding username or profile link.
 
-The behavior of map collections remains consistent regardless of whether the map values are basic types, embeddable classes, or entity classes. However, for embeddable or entity classes used as map values, the `udt` attribute may be required in the `@Column` annotation to specify the user-defined type.
-
 For instance, consider the following example:
 
 [source,java]
@@ -559,9 +603,9 @@ public class Computer {
     private Map<String, Program> programs;
 }
 
-@Embedded
+@Embeddable
 public class Program {
-    @Id
+    @Column
     private String name;
 
     @Column

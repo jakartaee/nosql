@@ -15,12 +15,12 @@
  */
 package ee.jakarta.tck.nosql;
 
-import jakarta.nosql.Template;
 import ee.jakarta.tck.nosql.entities.Animal;
 import ee.jakarta.tck.nosql.entities.Book;
 import ee.jakarta.tck.nosql.entities.Drink;
 import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.entities.Vehicle;
+import jakarta.nosql.Template;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.logging.Logger;
