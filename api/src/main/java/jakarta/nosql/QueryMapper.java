@@ -332,6 +332,21 @@ public interface QueryMapper {
         <T> MapperWhere lte(T value);
 
         /**
+         * Creates a condition where the specified column value matches the provided pattern.
+         * Example:
+         * <pre>
+         * template.select(Book.class)
+         *         .where("title").like("Java")
+         *         .result();
+         * </pre>
+         *
+         * @param value the pattern value to match
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
+         */
+        MapperWhere like(String value);
+
+        /**
          * Creates a condition where the specified column contains the given substring.
          *
          * <p>This is useful for filtering results where a column includes the given text fragment anywhere within its value.</p>
