@@ -25,4 +25,7 @@ import java.util.Map;
 @Entity
 public record MobileSystem(@Id String id, @Column Map<String, Program> programs) {
 
+    public void put(String programName, Program program) {
+        this.programs.put(programName, program);
+    }
 }

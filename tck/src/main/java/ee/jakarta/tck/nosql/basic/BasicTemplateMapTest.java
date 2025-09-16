@@ -18,6 +18,7 @@ package ee.jakarta.tck.nosql.basic;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Computer;
 import ee.jakarta.tck.nosql.entities.Contact;
+import ee.jakarta.tck.nosql.entities.MobileSystem;
 import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.entities.Profile;
 import ee.jakarta.tck.nosql.entities.Program;
@@ -193,6 +194,58 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
             soft.assertThat(found.orElseThrow().getId()).isEqualTo(inserted.getId());
         });
     }
+//
 
+    @ParameterizedTest
+    @ArgumentsSource(ComputerSupplier.class)
+    @DisplayName("Should insert the mobile: {0}")
+    void shouldInsertMapWithEmbeddableRecordValueMap(MobileSystem entity) {
+        var contact = template.insert(entity);
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(contact).isNotNull();
+            soft.assertThat(contact.id()).isNotNull();
+            soft.assertThat(contact.programs()).isEqualTo(entity.programs());
+        });
+    }
 
+    @ParameterizedTest
+    @ArgumentsSource(ComputerSupplier.class)
+    @DisplayName("Should update the mobile: {0}")
+    void shouldUpdateMapWithEmbeddableRecordValueMap(MobileSystem entity) {
+        var insert = template.insert(entity);
+
+        var program = Program.of("NewProgram", Map.of("infoA", "Some info A", "infoB", "Some info B"));
+        insert.put("newProgram", program);
+        var updatedPerson = template.update(insert);
+
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(updatedPerson).isNotNull();
+            soft.assertThat(updatedPerson.id()).isEqualTo(insert.id());
+            soft.assertThat(updatedPerson.programs()).isEqualTo(insert.programs());
+        });
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ComputerSupplier.class)
+    @DisplayName("Should delete the mobile: {0}")
+    void shouldDeleteMapWithEmbeddableRecordValueMap(MobileSystem entity) {
+        var insert = template.insert(entity);
+
+        template.delete(Contact.class, insert.id());
+
+        var deleted = template.find(Contact.class, insert.id());
+        SoftAssertions.assertSoftly(soft -> soft.assertThat(deleted).isEmpty());
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ComputerSupplier.class)
+    @DisplayName("Should find the mobile: {0}")
+    void shouldFindMapWithEmbeddableRecordValueMap(MobileSystem entity) {
+        var inserted = template.insert(entity);
+        var found = template.find(Computer.class, inserted.id());
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(found).isPresent();
+            soft.assertThat(found.orElseThrow().getId()).isEqualTo(inserted.id());
+        });
+    }
 }
