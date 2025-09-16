@@ -315,6 +315,13 @@ public interface QueryMapper {
          */
         <T> MapperWhere lte(T value);
 
+        MapperWhere contains(String value);
+
+        MapperWhere startWith(String value);
+
+        MapperWhere endsWith(String value);
+
+
         /**
          * Creates a condition where the specified column name is between the provided values.
          *
