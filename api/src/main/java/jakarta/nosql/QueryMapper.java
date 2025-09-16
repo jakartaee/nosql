@@ -452,30 +452,52 @@ public interface QueryMapper {
     interface MapperNameOrder extends MapperQueryBuild {
 
         /**
-         * Add the order of how the result will return based on a given column name.
+         * Adds an ordering rule based on the specified column name.
+         * Example:
+         * <pre>
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title")
+         *         .result();
+         * </pre>
          *
-         * @param name the column name to be ordered
-         * @return a query with the sort defined
-         * @throws NullPointerException when name is null
+         * @param name the column name to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException if name is null
          */
         MapperOrder orderBy(String name);
 
 
         /**
-         * Defines the position of the first result to retrieve.
+         * Sets the number of results to skip before starting to return results.
+         * Example:
+         * <pre>
+         * template.select(Book.class)
+         *         .where("category").eq("Science")
+         *         .skip(10)
+         *         .result();
+         * </pre>
          *
-         * @param skip the first result to retrieve
-         * @return a query with the first result defined
+         * @param skip the number of results to skip
+         * @return the {@link MapperSkip} instance for chaining
          */
         MapperSkip skip(long skip);
 
 
+
         /**
-         * Defines the maximum number of results to retrieve.
+         * Sets the maximum number of results to return.
+         * Example:
+         * <pre>
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5)
+         *         .result();
+         * </pre>
          *
-         * @param limit the limit
-         * @return a query with the limit defined
-         * @throws IllegalArgumentException when limit is negative
+         * @param limit the maximum number of results to retrieve
+         * @return the {@link MapperLimit} instance for chaining
+         * @throws IllegalArgumentException if limit is negative
          */
         MapperLimit limit(long limit);
     }
