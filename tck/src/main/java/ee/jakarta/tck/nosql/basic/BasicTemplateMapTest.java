@@ -20,22 +20,14 @@ import ee.jakarta.tck.nosql.entities.Contact;
 import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.entities.Profile;
 import ee.jakarta.tck.nosql.factories.ContactSupplier;
-import ee.jakarta.tck.nosql.factories.PersonSupplier;
 import ee.jakarta.tck.nosql.factories.ProfileSupplier;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import java.time.Duration;
-import java.util.logging.Logger;
-
 @DisplayName("The basic template operations using a POJO entity with a Map")
 class BasicTemplateMapTest extends AbstractTemplateTest {
-
-    private static final Logger LOGGER = Logger.getLogger(BasicTemplateMapTest.class.getName());
 
     @ParameterizedTest
     @ArgumentsSource(ContactSupplier.class)
