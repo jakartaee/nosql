@@ -595,7 +595,7 @@ public class Computer {
 
 @Embeddable
 public class Program {
-    @Id
+    @Column
     private String name;
 
     @Column
