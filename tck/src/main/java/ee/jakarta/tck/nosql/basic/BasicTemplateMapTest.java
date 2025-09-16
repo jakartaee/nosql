@@ -81,7 +81,6 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
         });
     }
 
-    //
     @ParameterizedTest
     @ArgumentsSource(ProfileSupplier.class)
     @DisplayName("Should insert the profile: {0}")
