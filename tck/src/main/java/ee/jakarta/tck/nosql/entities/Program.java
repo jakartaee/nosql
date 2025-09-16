@@ -18,7 +18,6 @@ package ee.jakarta.tck.nosql.entities;
 
 import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
-import jakarta.nosql.Id;
 
 import java.util.Collections;
 import java.util.Map;
@@ -27,18 +26,28 @@ import java.util.Objects;
 @Entity
 public class Program {
 
-    @Id
+
+    @Column
     private String name;
 
     @Column
-    private Map<String, Program> programs;
+    private Map<String, String> socialMedia;
+
 
     public String getName() {
         return name;
     }
 
-    public Map<String, Program> getPrograms() {
-        return Collections.unmodifiableMap(programs);
+    public Map<String, String> getSocialMedia() {
+        return Collections.unmodifiableMap(socialMedia);
+    }
+
+    @Override
+    public String toString() {
+        return "Program{" +
+                "name='" + name + '\'' +
+                ", socialMedia=" + socialMedia +
+                '}';
     }
 
     @Override
@@ -47,27 +56,18 @@ public class Program {
             return false;
         }
         Program program = (Program) o;
-        return Objects.equals(name, program.name);
+        return Objects.equals(name, program.name) && Objects.equals(socialMedia, program.socialMedia);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hash(name, socialMedia);
     }
 
-    @Override
-    public String toString() {
-        return "Program{" +
-                "name='" + name + '\'' +
-                ", programs=" + programs +
-                '}';
-    }
-
-    public static Program of(String name, Map<String, Program> programs) {
+    public static Program of(String name, Map<String, String> socialMedia) {
         Program program = new Program();
         program.name = name;
-        program.programs = programs;
+        program.socialMedia = socialMedia;
         return program;
     }
-
 }

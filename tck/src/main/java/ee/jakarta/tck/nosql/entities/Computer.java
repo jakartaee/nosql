@@ -17,6 +17,7 @@ package ee.jakarta.tck.nosql.entities;
 
 import jakarta.nosql.Column;
 import jakarta.nosql.Embeddable;
+import jakarta.nosql.Id;
 
 import java.util.Collections;
 import java.util.Map;
@@ -25,18 +26,18 @@ import java.util.Objects;
 @Embeddable
 public class Computer {
 
-    @Column
-    private String name;
+    @Id
+    private String id;
 
     @Column
-    private Map<String, String> socialMedia;
+    private Map<String, Program> programs;
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public Map<String, String> getSocialMedia() {
-        return Collections.unmodifiableMap(socialMedia);
+    public Map<String, Program> getPrograms() {
+        return Collections.unmodifiableMap(programs);
     }
 
     @Override
@@ -45,26 +46,27 @@ public class Computer {
             return false;
         }
         Computer computer = (Computer) o;
-        return Objects.equals(name, computer.name);
+        return Objects.equals(id, computer.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hashCode(id);
     }
 
     @Override
     public String toString() {
         return "Computer{" +
-                "name='" + name + '\'' +
-                ", socialMedia=" + socialMedia +
+                "id='" + id + '\'' +
+                ", programs=" + programs +
                 '}';
     }
 
-    public static Computer of(String name, Map<String, String> socialMedia) {
+    public static Computer of(String id, Map<String, Program> programs) {
         Computer computer = new Computer();
-        computer.name = name;
-        computer.socialMedia = socialMedia;
+        computer.id = id;
+        computer.programs = programs;
         return computer;
     }
+
 }
