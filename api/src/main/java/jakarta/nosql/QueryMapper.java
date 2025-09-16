@@ -410,6 +410,22 @@ public interface QueryMapper {
      */
     interface MapperQueryBuild {
 
+        /**
+         * Executes the query and returns the number of entities that match the current filter conditions.
+         *
+         * <p>This is a terminal operation. Unlike {@code result()} which returns the list of matching
+         * entities, {@code count()} returns the total number of matching records.
+         *
+         * <p>Example usage:
+         * <pre>{@code
+         * long count = template.select(Person.class)
+         *                      .where("active").eq(true)
+         *                      .count();
+         * }</pre>
+         *
+         * @return the number of records that match the filter criteria
+         */
+        long count();
 
         /**
          * Executes the query and returns the result as a {@link List}.
@@ -452,7 +468,6 @@ public interface QueryMapper {
          *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
          */
         <T> Optional<T> singleResult();
-
 
     }
 
