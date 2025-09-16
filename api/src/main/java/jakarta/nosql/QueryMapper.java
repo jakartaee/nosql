@@ -259,11 +259,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value equals the given value.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(User.class)
          *         .where("username").eq("alice")
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param value the value for the comparison
          * @return the {@link MapperWhere} instance for chaining
@@ -274,11 +274,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value is greater than the given value.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Product.class)
          *         .where("price").gt(50)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param value the value for the comparison
          * @return the {@link MapperWhere} instance for chaining
@@ -289,11 +289,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value is greater than or equal to the given value.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Product.class)
          *         .where("stock").gte(10)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param value the value for the comparison
          * @return the {@link MapperWhere} instance for chaining
@@ -304,11 +304,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value is less than the given value.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Order.class)
          *         .where("totalAmount").lt(500)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param value the value for the comparison
          * @return the {@link MapperWhere} instance for chaining
@@ -319,11 +319,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value is less than or equal to the given value.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Customer.class)
          *         .where("age").lte(30)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param value the value for the comparison
          * @return the {@link MapperWhere} instance for chaining
@@ -334,11 +334,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value matches the provided pattern.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Book.class)
          *         .where("title").like("Java")
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param value the pattern value to match
          * @return the {@link MapperWhere} instance for chaining
@@ -404,11 +404,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value is between the two provided bounds.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Product.class)
          *         .where("price").between(10, 100)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param valueA the lower bound
          * @param valueB the upper bound
@@ -420,11 +420,11 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column value exists within the given collection.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Product.class)
          *         .where("category").in(List.of("book", "electronics"))
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param values the collection of values to match
          * @return the {@link MapperWhere} instance for chaining
@@ -435,11 +435,11 @@ public interface QueryMapper {
         /**
          * Creates a negated condition for the current column, allowing inverse logic.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(User.class)
          *         .where("active").not().eq(true)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @return the {@link MapperNotCondition} to continue building a negated expression
          */
@@ -454,12 +454,12 @@ public interface QueryMapper {
         /**
          * Adds an ordering rule based on the specified column name.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
          *         .orderBy("title").asc()
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param name the column name to order by
          * @return the {@link MapperOrder} instance for defining the sort direction
@@ -471,12 +471,12 @@ public interface QueryMapper {
         /**
          * Sets the number of results to skip before starting to return results.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Book.class)
          *         .where("category").eq("Science")
          *         .skip(10)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param skip the number of results to skip
          * @return the {@link MapperSkip} instance for chaining
@@ -488,12 +488,12 @@ public interface QueryMapper {
         /**
          * Sets the maximum number of results to return.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
          *         .limit(5)
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @param limit the maximum number of results to retrieve
          * @return the {@link MapperLimit} instance for chaining
@@ -517,12 +517,12 @@ public interface QueryMapper {
         /**
          * Defines the sorting direction as ascending for the previously specified column.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
          *         .orderBy("title").asc()
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @return the {@link MapperNameOrder} instance for further chaining
          */
@@ -531,12 +531,12 @@ public interface QueryMapper {
         /**
          * Defines the sorting direction as descending for the previously specified column.
          * Example:
-         * <pre>
+         * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
          *         .orderBy("title").desc()
          *         .result();
-         * </pre>
+         * }</pre>
          *
          * @return the {@link MapperNameOrder} instance for further chaining
          */
@@ -567,7 +567,11 @@ public interface QueryMapper {
 
         /**
          * Executes the query and returns the result as a {@link List}.
-         *
+         * <pre>{@code
+         * List<Book> books = template.select(Book.class)
+         *                            .where("author").eq("Ada")
+         *                            .result();
+         * }</pre>
          * @param <T> the entity type
          * @return the result of the query
          * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
@@ -579,7 +583,13 @@ public interface QueryMapper {
 
         /**
          * Executes the query and returns the result as a {@link Stream}.
-         *
+         * <pre>{@code
+         * try (Stream<Book> books = template.select(Book.class)
+         *                                   .where("author").eq("Ada")
+         *                                   .stream()) {
+         *     books.forEach(System.out::println);
+         * }
+         * }</pre>
          * @param <T> the entity type
          * @return the result of the query
          * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
@@ -594,7 +604,11 @@ public interface QueryMapper {
          * If the query returns exactly one result, that result is returned in the Optional.
          * If no result is found, {@link Optional#empty()} is returned.
          * If more than one result is found, an exception specific to the Jakarta NoSQL provider may be thrown.
-         *
+         * <pre>{@code
+         * Optional<Book> book = template.select(Book.class)
+         *                               .where("isbn").eq("978-1234567890")
+         *                               .singleResult();
+         * }</pre>
          * <p>Use this method when expecting a single result from a query. It provides a safe way to handle the case
          * where zero or one result is expected, while also allowing for exceptional cases where multiple results are returned.</p>
          *
