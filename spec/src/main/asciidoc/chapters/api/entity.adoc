@@ -76,6 +76,13 @@ Jakarta NoSQL distinguishes three kinds of persistent field within entity classe
 
 Collection-valued persistent fields and properties must be defined in terms of one of the following collection-valued interfaces, regardless of whether the entity class otherwise adheres to the JavaBeans method conventions noted below, and of whether field or property access is used: java.util.Collection, java.util.Set, java.util.List, java.util.Map.
 
+Use of the generic variants of these collection types is strongly encouraged, for example, Set<Order> is preferred to the raw type Set.
+
+[NOTE]
+====
+Terminology Note: The terms “collection” and “collection-valued” are used in this specification to denote any of the above types, unless further qualified. In cases where a java.util.Collection type (or one of its subtypes) is to be distinguished, the type is identified as such. The terms “map” and “map collection” are used to denote to a collection of type java.util.Map.
+====
+
 ==== Basic Types [[basic_types]]
 
 Every Jakarta NoSQL provider must support the following basic types within its programming model:
