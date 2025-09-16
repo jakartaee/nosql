@@ -315,10 +315,58 @@ public interface QueryMapper {
          */
         <T> MapperWhere lte(T value);
 
+        /**
+         * Creates a condition where the specified column contains the given substring.
+         *
+         * <p>This is useful for filtering results where a column includes the given text fragment anywhere within its value.</p>
+         *
+         * @param value the substring to search for within the column
+         * @return the {@link MapperWhere} instance for further condition chaining
+         * @throws NullPointerException if {@code value} is {@code null}
+         *
+         * <p><b>Example:</b></p>
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("title").contains("Java")
+         *         .result();
+         * }</pre>
+         */
         MapperWhere contains(String value);
 
+        /**
+         * Creates a condition where the specified column starts with the given prefix.
+         *
+         * <p>This is useful for filtering results where a column begins with a specific value.</p>
+         *
+         * @param value the prefix to match at the beginning of the column
+         * @return the {@link MapperWhere} instance for further condition chaining
+         * @throws NullPointerException if {@code value} is {@code null}
+         *
+         * <p><b>Example:</b></p>
+         * <pre>{@code
+         * template.select(User.class)
+         *         .where("username").startWith("admin")
+         *         .result();
+         * }</pre>
+         */
         MapperWhere startWith(String value);
 
+        /**
+         * Creates a condition where the specified column ends with the given suffix.
+         *
+         * <p>This is useful for filtering results where a column ends with a specific value.</p>
+         *
+         * @param value the suffix to match at the end of the column
+         * @return the {@link MapperWhere} instance for further condition chaining
+         * @throws NullPointerException if {@code value} is {@code null}
+         *
+         * <p><b>Example:</b></p>
+         * <pre>{@code
+         * template.select(Document.class)
+         *         .where("filename").endsWith(".pdf")
+         *         .result();
+         * }</pre>
+         */
         MapperWhere endsWith(String value);
 
 
