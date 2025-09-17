@@ -248,7 +248,18 @@ public interface Template {
      * the update.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * Book book = Book.builder()
+     *     .isbn("978-1234567890")
+     *     .title("Domain-Driven Design")
+     *     .version(1)
+     *     .build();
+     *
+     * Book updated = template.update(book);
+     * }</pre>
      * @param <T>    the entity type
      * @param entity the entity to update. Must not be {@code null}.
      * @return the updated entity, which may or may not be a different instance depending on whether the update caused
@@ -270,7 +281,17 @@ public interface Template {
      * the update.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * List<Book> booksToUpdate = List.of(
+     *     Book.builder().isbn("978-1111111111").title("Effective Java").version(1).build(),
+     *     Book.builder().isbn("978-2222222222").title("Clean Code").version(2).build()
+     * );
+     *
+     * Iterable<Book> updatedBooks = template.update(booksToUpdate);
+     * }</pre>
      * @param entities entities to update.
      * @param <T>      the entity class type
      * @return the number of matching entities that were found in the database to update.
