@@ -413,7 +413,15 @@ public interface Template {
 
     /**
      * Start a query builder using the fluent API. The returned value is a mutable and non-thread-safe instance.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
      * @param type the entity class
      * @param <T>  the entity type
      * @return a {@link QueryMapper.MapperDeleteFrom} instance
