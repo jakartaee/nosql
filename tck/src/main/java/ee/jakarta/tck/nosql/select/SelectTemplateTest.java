@@ -25,11 +25,29 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @DisplayName("The query execution exploring the classic POJO")
 public class SelectTemplateTest extends AbstractTemplateTest {
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with no conditions as Stream")
+    void shouldInsertIterablePersonNoConditionAsStream(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var result = template.select(Person.class).stream();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(entities.size());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
@@ -44,6 +62,26 @@ public class SelectTemplateTest extends AbstractTemplateTest {
             Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(entities.size());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with no conditions")
+    void shouldFindSingleResult(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            String id = entities.get(0).getId();
+            Optional<Person> result = template.select(Person.class)
+                    .where("id").eq(id)
+                    .singleResult();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .get().extracting(Person::getId).isEqualTo(id);
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
