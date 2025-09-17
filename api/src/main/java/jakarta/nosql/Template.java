@@ -110,7 +110,14 @@ public interface Template {
      * that changed due to the insert. After invoking this method, do not continue to use the instance
      * that is supplied as a parameter. This method makes no guarantees about the state of the
      * instance that is supplied as a parameter.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * Book book = new Book("978-0132350884", "Clean Code", "Robert C. Martin");
+     * Book insertedBook = template.insert(book);
+     * }</pre>
+
      * @param entity the entity to insert. Must not be {@code null}.
      * @param <T>    the entity type
      * @return the inserted entity, which may or may not be a different instance depending on whether the insert
@@ -135,7 +142,16 @@ public interface Template {
      * database after a specified duration. When inserting an entity with a TTL, the entity will be automatically deleted
      * from the database after the specified duration has passed since its insertion. If the database does not support TTL
      * or if the TTL feature is not enabled, this operation will not have any effect on the entity's expiration.</p>
+     * <pre>{@code
      *
+     * @Inject
+     * Template template;
+     *
+     * SessionToken token = new SessionToken("abc123", "user-42", Instant.now());
+     * Duration ttl = Duration.ofMinutes(30);
+     *
+     * SessionToken inserted = template.insert(token, ttl);
+     * }</pre>
      * @param entity the entity to insert. Must not be {@code null}.
      * @param ttl    time to live
      * @param <T>    the entity type
@@ -188,6 +204,26 @@ public interface Template {
      * database after a specified duration. When inserting entities with a TTL, the entities will be automatically deleted
      * from the database after the specified duration has passed since their insertion. If the database does not support TTL
      * or if the TTL feature is not enabled, this operation will not have any effect on the expiration of the entities.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * List<SessionToken> tokens = List.of(
+     *     SessionToken.builder()
+     *         .id("abc123")
+     *         .userId("user-42")
+     *         .issuedAt(Instant.now())
+     *         .build(),
+     *
+     *     SessionToken.builder()
+     *         .id("def456")
+     *         .userId("user-99")
+     *         .issuedAt(Instant.now())
+     *         .build()
+     * );
+     *
+     * Iterable<SessionToken> insertedTokens = template.insert(tokens);
+     * }</pre>
      *
      * @param entities entities to insert.
      * @param <T>      the entity type
@@ -212,7 +248,18 @@ public interface Template {
      * the update.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * Book book = Book.builder()
+     *     .isbn("978-1234567890")
+     *     .title("Domain-Driven Design")
+     *     .version(1)
+     *     .build();
+     *
+     * Book updated = template.update(book);
+     * }</pre>
      * @param <T>    the entity type
      * @param entity the entity to update. Must not be {@code null}.
      * @return the updated entity, which may or may not be a different instance depending on whether the update caused
@@ -234,7 +281,17 @@ public interface Template {
      * the update.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * List<Book> booksToUpdate = List.of(
+     *     Book.builder().isbn("978-1111111111").title("Effective Java").version(1).build(),
+     *     Book.builder().isbn("978-2222222222").title("Clean Code").version(2).build()
+     * );
+     *
+     * Iterable<Book> updatedBooks = template.update(booksToUpdate);
+     * }</pre>
      * @param entities entities to update.
      * @param <T>      the entity class type
      * @return the number of matching entities that were found in the database to update.
@@ -247,7 +304,18 @@ public interface Template {
      * the entity is versioned (for example, with
      * {@code jakarta.persistence.Version}), then also the version. Other
      * attributes of the entity do not need to match.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * SessionToken token = SessionToken.builder()
+     *     .token("abc123")
+     *     .userId("user-42")
+     *     .version(1)
+     *     .build();
+     *
+     * template.delete(token);
+     * }</pre>
      * @param entity must not be {@code null}.
      * @param <T>    the entity type
      * @throws NullPointerException              when the entity is null
@@ -259,6 +327,25 @@ public interface Template {
      * matching the unique identifier, and if the entity is versioned (for
      * example, with {@code jakarta.persistence.Version}), then also the
      * version. Other attributes of the entity do not need to match.
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * List<SessionToken> tokens = List.of(
+     *     SessionToken.builder()
+     *         .token("abc123")
+     *         .userId("user-42")
+     *         .version(1)
+     *         .build(),
+     *     SessionToken.builder()
+     *         .token("def456")
+     *         .userId("user-99")
+     *         .version(2)
+     *         .build()
+     * );
+     *
+     * template.delete(tokens);
+     * }</pre>
      * @param <T>    the entity type
      * @param entities Must not be {@code null}. Must not contain {@code null}
      *                 elements.
@@ -270,7 +357,13 @@ public interface Template {
 
     /**
      * Retrieves an entity by its Id.
+     * <p>Example usage:
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * Optional<SessionToken> token = template.find(SessionToken.class, "abc123");
+     * }</pre>
      * @param type the entity class
      * @param id   the id value
      * @param <T>  the entity class type
@@ -282,7 +375,12 @@ public interface Template {
 
     /**
      * Deletes by ID or key.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * template.delete(SessionToken.class, "abc123");
+     * }</pre>
      * @param type the entity class
      * @param id   the id value
      * @param <T>  the entity class type
@@ -293,7 +391,17 @@ public interface Template {
 
     /**
      * Start a query using the fluent API. The return value is a mutable and non-thread-safe instance.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * List<Person> results = template.select(Person.class)
+     *     .where("name").eq("Ada")
+     *     .and("age").gte(30)
+     *     .orderBy("age").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
      * @param type the entity class
      * @param <T>  the entity type
      * @return a {@link QueryMapper.MapperFrom} instance
@@ -305,7 +413,15 @@ public interface Template {
 
     /**
      * Start a query builder using the fluent API. The returned value is a mutable and non-thread-safe instance.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
      * @param type the entity class
      * @param <T>  the entity type
      * @return a {@link QueryMapper.MapperDeleteFrom} instance

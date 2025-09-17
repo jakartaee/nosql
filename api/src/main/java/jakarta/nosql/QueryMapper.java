@@ -58,7 +58,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name equals the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").eq("Ada")
+         *         .execute();
+         * }</pre>
          * @param value the value for the condition
          * @param <T>   the type
          * @return the {@link MapperDeleteWhere}
@@ -68,7 +72,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is like the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").like("A%")
+         *         .execute();
+         * }</pre>
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
@@ -76,8 +84,58 @@ public interface QueryMapper {
         MapperDeleteWhere like(String value);
 
         /**
-         * Creates a delete condition where the specified column name is greater than the provided value.
+         * Creates a delete condition where the specified column contains the given value.
+         * This method is used when you want to delete entities where the column contains the provided substring.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("title").contains("Java")
+         *         .execute();
+         * }</pre>
          *
+         * @param value the substring value to match
+         * @return the {@link MapperDeleteWhere} to continue building the query
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere contains(String value);
+
+        /**
+         * Creates a delete condition where the specified column starts with the given value.
+         * This method is used when you want to delete entities where the column starts with the provided prefix.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").startWith("Ada")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the prefix value to match
+         * @return the {@link MapperDeleteWhere} to continue building the query
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere startWith(String value);
+
+        /**
+         * Creates a delete condition where the specified column ends with the given value.
+         * This method is used when you want to delete entities where the column ends with the provided suffix.
+         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").endsWith("Lovelace")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the suffix value to match
+         * @return the {@link MapperDeleteWhere} to continue building the query
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere endsWith(String value);
+
+        /**
+         * Creates a delete condition where the specified column name is greater than the provided value.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").gt(2015)
+         *         .execute();
+         * }</pre>
          * @param value the value for the condition
          * @param <T>   the type
          * @return the {@link MapperDeleteWhere}
@@ -87,7 +145,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is greater than or equal to the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").gte(2020)
+         *         .execute();
+         * }</pre>
          * @param <T>   the type
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
@@ -97,7 +159,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is less than the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").lt(2000)
+         *         .execute();
+         * }</pre>
          * @param <T>   the type
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
@@ -107,7 +173,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is less than or equal to the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").lte(2010)
+         *         .execute();
+         * }</pre>
          * @param <T>   the type
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
@@ -128,7 +198,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is in the provided iterable values.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").in(List.of("Ada", "Grace", "Alan"))
+         *         .execute();
+         * }</pre>
          * @param values the values for the condition
          * @param <T>    the type
          * @return the {@link MapperDeleteWhere}
@@ -138,7 +212,11 @@ public interface QueryMapper {
 
         /**
          * Creates a NOT delete condition for the specified column name.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").not().eq("Ada")
+         *         .execute();
+         * }</pre>
          * @return {@link MapperDeleteNotCondition}
          */
         MapperDeleteNotCondition not();
@@ -157,7 +235,15 @@ public interface QueryMapper {
 
 
         /**
-         * Executes the query.
+         *  Executes the delete query based on the specified conditions.
+         *  Use this method to remove entities from the database that match the defined criteria.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").eq("Ada")
+         *         .and("publishedYear").gte(2020)
+         *         .execute();
+         * }</pre>
+         *
          * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
          *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
          *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
@@ -199,7 +285,11 @@ public interface QueryMapper {
 
         /**
          * Starts a new condition by specifying a column name.
-         *
+         *Use this method to initiate a condition chain for filtering the query.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("title").eq("Domain-Driven Design");
+         * }</pre>
          * @param name the column name
          * @return a new {@link MapperNameCondition}
          * @throws NullPointerException when name is null
@@ -207,8 +297,12 @@ public interface QueryMapper {
         MapperNameCondition where(String name);
 
         /**
-         * Defines the position of the first result to retrieve.
-         *
+         * Defines the position of the first result to retrieve (pagination offset).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .skip(10);
+         * }</pre>
          * @param skip the first result to retrieve
          * @return a query with the first result defined
          * @throws IllegalArgumentException when skip is negative
@@ -217,8 +311,12 @@ public interface QueryMapper {
 
 
         /**
-         * Defines the maximum number of results to retrieve.
-         *
+         * Defines the maximum number of results to retrieve (pagination limit).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5);
+         * }</pre>
          * @param limit the limit
          * @return a query with the limit defined
          * @throws IllegalArgumentException when limit is negative
@@ -227,7 +325,14 @@ public interface QueryMapper {
 
         /**
          * Add the order how the result will return based on a given column name.
+         * Use this method to specify sorting criteria for query results.
          *
+         * <p>Example:
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title").asc();
+         * }</pre>
          * @param name the column name to be ordered
          * @return a query with the sort defined
          * @throws NullPointerException when name is null
@@ -241,9 +346,13 @@ public interface QueryMapper {
     interface MapperLimit extends MapperQueryBuild {
 
         /**
-         * Defines the position of the first result to retrieve.
-         *
-         * @param skip the number of elements to skip
+         * Defines the position of the first result to retrieve (pagination offset).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .skip(10);
+         * }</pre>
+         * @param skip the first result to retrieve
          * @return a query with the first result defined
          * @throws IllegalArgumentException when skip is negative
          */
@@ -257,89 +366,180 @@ public interface QueryMapper {
 
 
         /**
-         * Creates a condition where the specified column name equals the provided value.
+         * Creates a condition where the specified column value equals the given value.
+         * Example:
+         * <pre>{@code
+         * template.select(User.class)
+         *         .where("username").eq("alice")
+         *         .result();
+         * }</pre>
          *
-         * @param value the value for the condition
-         * @param <T>   the type
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere eq(T value);
 
         /**
-         * Creates a condition where the specified column name is like the provided value.
+         * Creates a condition where the specified column value is greater than the given value.
+         * Example:
+         * <pre>{@code
+         * template.select(Product.class)
+         *         .where("price").gt(50)
+         *         .result();
+         * }</pre>
          *
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
-         */
-        MapperWhere like(String value);
-
-        /**
-         * Creates a condition where the specified column name is greater than the provided value.
-         *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere gt(T value);
 
         /**
-         * Creates a condition where the specified column name is greater than or equal to the provided value.
+         * Creates a condition where the specified column value is greater than or equal to the given value.
+         * <pre>{@code
+         * template.select(Product.class)
+         *         .where("stock").gte(10)
+         *         .result();
+         * }</pre>
          *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere gte(T value);
 
         /**
-         * Creates a condition where the specified column name is less than the provided value.
+         * Creates a condition where the specified column value is less than the given value.
+         * <pre>{@code
+         * template.select(Order.class)
+         *         .where("totalAmount").lt(500)
+         *         .result();
+         * }</pre>
          *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere lt(T value);
 
         /**
-         * Creates a condition where the specified column name is less than or equal to the provided value.
+         * Creates a condition where the specified column value is less than or equal to the given value.
+         * <pre>{@code
+         * template.select(Customer.class)
+         *         .where("age").lte(30)
+         *         .result();
+         * }</pre>
          *
-         * @param <T>   the type
-         * @param value the value for the condition
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when value is null
+         * @param value the value for the comparison
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
          */
         <T> MapperWhere lte(T value);
 
         /**
-         * Creates a condition where the specified column name is between the provided values.
+         * Creates a condition where the specified column value matches the provided pattern.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("title").like("Java")
+         *         .result();
+         * }</pre>
          *
-         * @param <T>    the type
-         * @param valueA the lower bound of the range
-         * @param valueB the upper bound of the range
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when either valueA or valueB is null
+         * @param value the pattern value to match
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if value is null
+         */
+        MapperWhere like(String value);
+
+        /**
+         * Creates a condition where the specified column contains the given substring.
+         * This is useful for filtering results where a column includes the given text fragment anywhere within its value.
+         *
+         * @param value the substring to search for within the column
+         * @return the {@link MapperWhere} instance for further condition chaining
+         * @throws NullPointerException if {@code value} is {@code null}
+         *
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("title").contains("Java")
+         *         .result();
+         * }</pre>
+         */
+        MapperWhere contains(String value);
+
+        /**
+         * Creates a condition where the specified column starts with the given prefix.
+         * This is useful for filtering results where a column begins with a specific value.
+         *
+         * @param value the prefix to match at the beginning of the column
+         * @return the {@link MapperWhere} instance for further condition chaining
+         * @throws NullPointerException if {@code value} is {@code null}
+         *
+         * <p><b>Example:</b></p>
+         * <pre>{@code
+         * template.select(User.class)
+         *         .where("username").startWith("admin")
+         *         .result();
+         * }</pre>
+         */
+        MapperWhere startWith(String value);
+
+        /**
+         * Creates a condition where the specified column ends with the given suffix.
+         * This is useful for filtering results where a column ends with a specific value.
+         *
+         * @param value the suffix to match at the end of the column
+         * @return the {@link MapperWhere} instance for further condition chaining
+         * @throws NullPointerException if {@code value} is {@code null}
+         *
+         * <p><b>Example:</b></p>
+         * <pre>{@code
+         * template.select(Document.class)
+         *         .where("filename").endsWith(".pdf")
+         *         .result();
+         * }</pre>
+         */
+        MapperWhere endsWith(String value);
+
+
+        /**
+         * Creates a condition where the specified column value is between the two provided bounds.
+         * <pre>{@code
+         * template.select(Product.class)
+         *         .where("price").between(10, 100)
+         *         .result();
+         * }</pre>
+         *
+         * @param valueA the lower bound
+         * @param valueB the upper bound
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if either valueA or valueB is null
          */
         <T> MapperWhere between(T valueA, T valueB);
 
         /**
-         * Creates a condition where the specified column name is in the provided iterable values.
+         * Creates a condition where the specified column value exists within the given collection.
+         * <pre>{@code
+         * template.select(Product.class)
+         *         .where("category").in(List.of("book", "electronics"))
+         *         .result();
+         * }</pre>
          *
-         * @param values the values for the condition
-         * @param <T>    the type
-         * @return the {@link MapperWhere}
-         * @throws NullPointerException when values is null
+         * @param values the collection of values to match
+         * @return the {@link MapperWhere} instance for chaining
+         * @throws NullPointerException if values is null
          */
         <T> MapperWhere in(Iterable<T> values);
 
         /**
-         * Creates a NOT condition for the specified column name.
+         * Creates a negated condition for the current column, allowing inverse logic.
+         * <pre>{@code
+         * template.select(User.class)
+         *         .where("active").not().eq(true)
+         *         .result();
+         * }</pre>
          *
-         * @return {@link MapperNotCondition}
+         * @return the {@link MapperNotCondition} to continue building a negated expression
          */
         MapperNotCondition not();
     }
@@ -350,30 +550,49 @@ public interface QueryMapper {
     interface MapperNameOrder extends MapperQueryBuild {
 
         /**
-         * Add the order of how the result will return based on a given column name.
+         * Adds an ordering rule based on the specified column name.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title").asc()
+         *         .result();
+         * }</pre>
          *
-         * @param name the column name to be ordered
-         * @return a query with the sort defined
-         * @throws NullPointerException when name is null
+         * @param name the column name to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException if name is null
          */
         MapperOrder orderBy(String name);
 
 
         /**
-         * Defines the position of the first result to retrieve.
+         * Sets the number of results to skip before starting to return results.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("category").eq("Science")
+         *         .skip(10)
+         *         .result();
+         * }</pre>
          *
-         * @param skip the first result to retrieve
-         * @return a query with the first result defined
+         * @param skip the number of results to skip
+         * @return the {@link MapperSkip} instance for chaining
          */
         MapperSkip skip(long skip);
 
 
+
         /**
-         * Defines the maximum number of results to retrieve.
+         * Sets the maximum number of results to return.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5)
+         *         .result();
+         * }</pre>
          *
-         * @param limit the limit
-         * @return a query with the limit defined
-         * @throws IllegalArgumentException when limit is negative
+         * @param limit the maximum number of results to retrieve
+         * @return the {@link MapperLimit} instance for chaining
+         * @throws IllegalArgumentException if limit is negative
          */
         MapperLimit limit(long limit);
     }
@@ -391,16 +610,28 @@ public interface QueryMapper {
 
 
         /**
-         * Defines the order as ascending.
+         * Defines the sorting direction as ascending for the previously specified column.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title").asc()
+         *         .result();
+         * }</pre>
          *
-         * @return the {@link MapperNameOrder} instance
+         * @return the {@link MapperNameOrder} instance for further chaining
          */
         MapperNameOrder asc();
 
         /**
-         * Defines the order as descending.
+         * Defines the sorting direction as descending for the previously specified column.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title").desc()
+         *         .result();
+         * }</pre>
          *
-         * @return the {@link MapperNameOrder} instance
+         * @return the {@link MapperNameOrder} instance for further chaining
          */
         MapperNameOrder desc();
     }
@@ -410,10 +641,29 @@ public interface QueryMapper {
      */
     interface MapperQueryBuild {
 
+        /**
+         * Executes the query and returns the number of entities that match the current filter conditions.
+         *
+         * <p>This is a terminal operation. Unlike {@code result()} which returns the list of matching
+         * entities, {@code count()} returns the total number of matching records.
+         *
+         * <pre>{@code
+         * long count = template.select(Person.class)
+         *                      .where("active").eq(true)
+         *                      .count();
+         * }</pre>
+         *
+         * @return the number of records that match the filter criteria
+         */
+        long count();
 
         /**
          * Executes the query and returns the result as a {@link List}.
-         *
+         * <pre>{@code
+         * List<Book> books = template.select(Book.class)
+         *                            .where("author").eq("Ada")
+         *                            .result();
+         * }</pre>
          * @param <T> the entity type
          * @return the result of the query
          * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
@@ -425,7 +675,13 @@ public interface QueryMapper {
 
         /**
          * Executes the query and returns the result as a {@link Stream}.
-         *
+         * <pre>{@code
+         * Stream<Book> books = template.select(Book.class)
+         *                                   .where("author")
+         *                                   .eq("Ada")
+         *                                   .stream();
+         *     books.forEach(System.out::println);
+         * }</pre>
          * @param <T> the entity type
          * @return the result of the query
          * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
@@ -440,7 +696,11 @@ public interface QueryMapper {
          * If the query returns exactly one result, that result is returned in the Optional.
          * If no result is found, {@link Optional#empty()} is returned.
          * If more than one result is found, an exception specific to the Jakarta NoSQL provider may be thrown.
-         *
+         * <pre>{@code
+         * Optional<Book> book = template.select(Book.class)
+         *                               .where("isbn").eq("978-1234567890")
+         *                               .singleResult();
+         * }</pre>
          * <p>Use this method when expecting a single result from a query. It provides a safe way to handle the case
          * where zero or one result is expected, while also allowing for exceptional cases where multiple results are returned.</p>
          *
@@ -453,7 +713,6 @@ public interface QueryMapper {
          */
         <T> Optional<T> singleResult();
 
-
     }
 
     /**
@@ -463,10 +722,15 @@ public interface QueryMapper {
 
 
         /**
-         * Defines the maximum number of results to retrieve.
-         *
+         * Defines the maximum number of results to retrieve (pagination limit).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5);
+         * }</pre>
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException when limit is negative
          */
         MapperLimit limit(long limit);
     }
@@ -487,7 +751,13 @@ public interface QueryMapper {
 
         /**
          * Create a new condition performing logical conjunction (AND) by specifying a column name.
-         *
+         * Use this method to combine multiple conditions where all must be satisfied.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .and("publishedYear").gte(2020)
+         *         .result();
+         * }</pre>
          * @param name the column name
          * @return the same {@link MapperNameCondition} with the condition appended
          * @throws NullPointerException when name is null
@@ -496,7 +766,12 @@ public interface QueryMapper {
 
         /**
          * Create a new condition performing logical disjunction (OR) by specifying a column name.
-         *
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .or("author").eq("Otavio")
+         *         .result();
+         * }</pre>
          * @param name the column name
          * @return the same {@link MapperNameCondition} with the condition appended
          * @throws NullPointerException when name is null
@@ -504,19 +779,30 @@ public interface QueryMapper {
         MapperNameCondition or(String name);
 
         /**
-         * Defines the position of the first result to retrieve.
+         * Sets the number of results to skip before starting to return results.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("category").eq("Science")
+         *         .skip(10)
+         *         .result();
+         * }</pre>
          *
-         * @param skip the first result to retrieve
-         * @return a query with the first result defined
+         * @param skip the number of results to skip
+         * @return the {@link MapperSkip} instance for chaining
          */
         MapperSkip skip(long skip);
 
 
         /**
-         * Defines the maximum number of results to retrieve.
-         *
+         * Defines the maximum number of results to retrieve (pagination limit).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5);
+         * }</pre>
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException when limit is negative
          */
         MapperLimit limit(long limit);
 
