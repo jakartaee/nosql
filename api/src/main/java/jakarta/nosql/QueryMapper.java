@@ -231,7 +231,6 @@ public interface QueryMapper {
     /**
      * Represents the last step of the delete query fluent API execution.
      */
-    @SuppressWarnings("PMD.ImplicitFunctionalInterface")
     interface MapperDeleteQueryBuild {
 
 
