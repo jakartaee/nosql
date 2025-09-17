@@ -238,7 +238,7 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
         try {
             var startsWith =  entities.get(0).getName().substring(0, 1);
             List<Person> result = template.select(Person.class)
-                    .where("name").contains(startsWith)
+                    .where("name").endsWith(startsWith)
                     .result();
 
             Assertions.assertThat(result)
