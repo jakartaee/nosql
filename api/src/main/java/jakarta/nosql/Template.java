@@ -327,6 +327,25 @@ public interface Template {
      * matching the unique identifier, and if the entity is versioned (for
      * example, with {@code jakarta.persistence.Version}), then also the
      * version. Other attributes of the entity do not need to match.
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * List<SessionToken> tokens = List.of(
+     *     SessionToken.builder()
+     *         .token("abc123")
+     *         .userId("user-42")
+     *         .version(1)
+     *         .build(),
+     *     SessionToken.builder()
+     *         .token("def456")
+     *         .userId("user-99")
+     *         .version(2)
+     *         .build()
+     * );
+     *
+     * template.delete(tokens);
+     * }</pre>
      * @param <T>    the entity type
      * @param entities Must not be {@code null}. Must not contain {@code null}
      *                 elements.
