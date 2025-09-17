@@ -590,11 +590,11 @@ public interface QueryMapper {
         /**
          * Executes the query and returns the result as a {@link Stream}.
          * <pre>{@code
-         * try (Stream<Book> books = template.select(Book.class)
-         *                                   .where("author").eq("Ada")
-         *                                   .stream()) {
+         * Stream<Book> books = template.select(Book.class)
+         *                                   .where("author")
+         *                                   .eq("Ada")
+         *                                   .stream();
          *     books.forEach(System.out::println);
-         * }
          * }</pre>
          * @param <T> the entity type
          * @return the result of the query
