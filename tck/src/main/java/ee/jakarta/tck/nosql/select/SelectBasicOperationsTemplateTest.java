@@ -26,7 +26,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.util.Comparator;
 import java.util.List;
 
-@DisplayName("The query execution to the basic operations on the fluent API")
+@DisplayName("The query execution select with the basic operations on the fluent API")
 public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
