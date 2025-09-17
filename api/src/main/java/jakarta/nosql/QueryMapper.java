@@ -103,7 +103,7 @@ public interface QueryMapper {
          * This method is used when you want to delete entities where the column starts with the provided prefix.
          * <pre>{@code
          * template.delete(Book.class)
-         *         .where("author").startWith("Ada")
+         *         .where("author").startsWith("Ada")
          *         .execute();
          * }</pre>
          *
@@ -111,7 +111,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere} to continue building the query
          * @throws NullPointerException when value is null
          */
-        MapperDeleteWhere startWith(String value);
+        MapperDeleteWhere startsWith(String value);
 
         /**
          * Creates a delete condition where the specified column ends with the given value.
@@ -478,11 +478,11 @@ public interface QueryMapper {
          * <p><b>Example:</b></p>
          * <pre>{@code
          * template.select(User.class)
-         *         .where("username").startWith("admin")
+         *         .where("username").startsWith("admin")
          *         .result();
          * }</pre>
          */
-        MapperWhere startWith(String value);
+        MapperWhere startsWith(String value);
 
         /**
          * Creates a condition where the specified column ends with the given suffix.
