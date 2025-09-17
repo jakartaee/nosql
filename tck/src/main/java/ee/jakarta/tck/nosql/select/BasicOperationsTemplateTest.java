@@ -212,13 +212,13 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should execute basic operation with startsWith")
-    void shouldExecuteStartWith(List<Person> entities) {
+    void shouldExecuteStartsWith(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
             var startsWith =  entities.get(0).getName().substring(0, 1);
             List<Person> result = template.select(Person.class)
-                    .where("name").startWith(startsWith)
+                    .where("name").startsWith(startsWith)
                     .result();
 
             Assertions.assertThat(result)
