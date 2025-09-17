@@ -665,7 +665,13 @@ public interface QueryMapper {
 
         /**
          * Create a new condition performing logical conjunction (AND) by specifying a column name.
-         *
+         * Use this method to combine multiple conditions where all must be satisfied.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .and("publishedYear").gte(2020)
+         *         .result();
+         * }</pre>
          * @param name the column name
          * @return the same {@link MapperNameCondition} with the condition appended
          * @throws NullPointerException when name is null
@@ -674,7 +680,12 @@ public interface QueryMapper {
 
         /**
          * Create a new condition performing logical disjunction (OR) by specifying a column name.
-         *
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .or("author").eq("Otavio")
+         *         .result();
+         * }</pre>
          * @param name the column name
          * @return the same {@link MapperNameCondition} with the condition appended
          * @throws NullPointerException when name is null
