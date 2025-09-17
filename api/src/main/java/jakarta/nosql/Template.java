@@ -304,7 +304,18 @@ public interface Template {
      * the entity is versioned (for example, with
      * {@code jakarta.persistence.Version}), then also the version. Other
      * attributes of the entity do not need to match.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * SessionToken token = SessionToken.builder()
+     *     .token("abc123")
+     *     .userId("user-42")
+     *     .version(1)
+     *     .build();
+     *
+     * template.delete(token);
+     * }</pre>
      * @param entity must not be {@code null}.
      * @param <T>    the entity type
      * @throws NullPointerException              when the entity is null
