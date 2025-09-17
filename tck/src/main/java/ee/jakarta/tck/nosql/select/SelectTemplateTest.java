@@ -51,8 +51,8 @@ public class SelectTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert Iterable and select with no conditions and order by")
-    void shouldInsertIterablePersonNoConditionOrderBy(List<Person> entities) {
+    @DisplayName("Should insert Iterable and select with no conditions and order by asc")
+    void shouldInsertIterablePersonNoConditionOrderByAsc(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
         try {
@@ -61,13 +61,37 @@ public class SelectTemplateTest extends AbstractTemplateTest {
                     .asc()
                     .result();
 
-            Assertions.assertThat(result)
+            List<String> names = result.stream().map(Person::getName).distinct().toList();
+            Assertions.assertThat(names)
                     .isNotEmpty()
-                    .hasSize(entities.size());
+                    .containsExactly(entities.stream().map(Person::getName).sorted().toArray(String[]::new));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with no conditions and order by desc")
+    void shouldInsertIterablePersonNoConditionOrderByDesc(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            List<Person> result = template.select(Person.class)
+                    .orderBy("name")
+                    .desc()
+                    .result();
+
+            List<String> names = result.stream().map(Person::getName).distinct().toList();
+            Assertions.assertThat(names)
+                    .isNotEmpty()
+                    .containsExactly(entities.stream().map(Person::getName)
+                            .sorted(Comparator.reverseOrder()).toArray(String[]::new));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
