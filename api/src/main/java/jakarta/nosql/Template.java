@@ -357,7 +357,13 @@ public interface Template {
 
     /**
      * Retrieves an entity by its Id.
+     * <p>Example usage:
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * Optional<SessionToken> token = template.find(SessionToken.class, "abc123");
+     * }</pre>
      * @param type the entity class
      * @param id   the id value
      * @param <T>  the entity class type
@@ -369,7 +375,12 @@ public interface Template {
 
     /**
      * Deletes by ID or key.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * template.delete(SessionToken.class, "abc123");
+     * }</pre>
      * @param type the entity class
      * @param id   the id value
      * @param <T>  the entity class type
@@ -380,7 +391,17 @@ public interface Template {
 
     /**
      * Start a query using the fluent API. The return value is a mutable and non-thread-safe instance.
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * List<Person> results = template.select(Person.class)
+     *     .where("name").eq("Ada")
+     *     .and("age").gte(30)
+     *     .orderBy("age").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
      * @param type the entity class
      * @param <T>  the entity type
      * @return a {@link QueryMapper.MapperFrom} instance
