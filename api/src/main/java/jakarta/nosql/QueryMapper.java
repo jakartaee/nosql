@@ -58,7 +58,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name equals the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").eq("Ada")
+         *         .execute();
+         * }</pre>
          * @param value the value for the condition
          * @param <T>   the type
          * @return the {@link MapperDeleteWhere}
@@ -68,7 +72,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is like the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").like("A%")
+         *         .execute();
+         * }</pre>
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
@@ -77,7 +85,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is greater than the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").gt(2015)
+         *         .execute();
+         * }</pre>
          * @param value the value for the condition
          * @param <T>   the type
          * @return the {@link MapperDeleteWhere}
@@ -87,7 +99,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is greater than or equal to the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").gte(2020)
+         *         .execute();
+         * }</pre>
          * @param <T>   the type
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
@@ -97,7 +113,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is less than the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").lt(2000)
+         *         .execute();
+         * }</pre>
          * @param <T>   the type
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
@@ -107,7 +127,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is less than or equal to the provided value.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("publishedYear").lte(2010)
+         *         .execute();
+         * }</pre>
          * @param <T>   the type
          * @param value the value for the condition
          * @return the {@link MapperDeleteWhere}
@@ -128,7 +152,11 @@ public interface QueryMapper {
 
         /**
          * Creates a delete condition where the specified column name is in the provided iterable values.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").in(List.of("Ada", "Grace", "Alan"))
+         *         .execute();
+         * }</pre>
          * @param values the values for the condition
          * @param <T>    the type
          * @return the {@link MapperDeleteWhere}
@@ -138,7 +166,11 @@ public interface QueryMapper {
 
         /**
          * Creates a NOT delete condition for the specified column name.
-         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").not().eq("Ada")
+         *         .execute();
+         * }</pre>
          * @return {@link MapperDeleteNotCondition}
          */
         MapperDeleteNotCondition not();
