@@ -89,4 +89,43 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
         }
     }
 
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with LT")
+    void shouldExecuteLt(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
+            List<Person> result = template.select(Person.class)
+                    .where("age").lt(age)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getAge() < age);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with LTE")
+    void shouldExecuteLte(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
+            List<Person> result = template.select(Person.class)
+                    .where("age").gte(age)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getAge() <= age);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
