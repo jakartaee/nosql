@@ -157,7 +157,15 @@ public interface QueryMapper {
 
 
         /**
-         * Executes the query.
+         *  Executes the delete query based on the specified conditions.
+         *  Use this method to remove entities from the database that match the defined criteria.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").eq("Ada")
+         *         .and("publishedYear").gte(2020)
+         *         .execute();
+         * }</pre>
+         *
          * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
          *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
          *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
