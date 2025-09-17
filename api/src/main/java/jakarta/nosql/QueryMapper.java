@@ -199,7 +199,11 @@ public interface QueryMapper {
 
         /**
          * Starts a new condition by specifying a column name.
-         *
+         *Use this method to initiate a condition chain for filtering the query.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("title").eq("Domain-Driven Design");
+         * }</pre>
          * @param name the column name
          * @return a new {@link MapperNameCondition}
          * @throws NullPointerException when name is null
@@ -207,8 +211,12 @@ public interface QueryMapper {
         MapperNameCondition where(String name);
 
         /**
-         * Defines the position of the first result to retrieve.
-         *
+         * Defines the position of the first result to retrieve (pagination offset).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .skip(10);
+         * }</pre>
          * @param skip the first result to retrieve
          * @return a query with the first result defined
          * @throws IllegalArgumentException when skip is negative
@@ -217,8 +225,12 @@ public interface QueryMapper {
 
 
         /**
-         * Defines the maximum number of results to retrieve.
-         *
+         * Defines the maximum number of results to retrieve (pagination limit).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5);
+         * }</pre>
          * @param limit the limit
          * @return a query with the limit defined
          * @throws IllegalArgumentException when limit is negative
@@ -227,7 +239,14 @@ public interface QueryMapper {
 
         /**
          * Add the order how the result will return based on a given column name.
+         * Use this method to specify sorting criteria for query results.
          *
+         * <p>Example:
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .orderBy("title").asc();
+         * }</pre>
          * @param name the column name to be ordered
          * @return a query with the sort defined
          * @throws NullPointerException when name is null
@@ -241,9 +260,13 @@ public interface QueryMapper {
     interface MapperLimit extends MapperQueryBuild {
 
         /**
-         * Defines the position of the first result to retrieve.
-         *
-         * @param skip the number of elements to skip
+         * Defines the position of the first result to retrieve (pagination offset).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .skip(10);
+         * }</pre>
+         * @param skip the first result to retrieve
          * @return a query with the first result defined
          * @throws IllegalArgumentException when skip is negative
          */
@@ -349,13 +372,12 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column contains the given substring.
          *
-         * <p>This is useful for filtering results where a column includes the given text fragment anywhere within its value.</p>
+         * This is useful for filtering results where a column includes the given text fragment anywhere within its value.
          *
          * @param value the substring to search for within the column
          * @return the {@link MapperWhere} instance for further condition chaining
          * @throws NullPointerException if {@code value} is {@code null}
          *
-         * <p><b>Example:</b></p>
          * <pre>{@code
          * template.select(Book.class)
          *         .where("title").contains("Java")
@@ -367,7 +389,7 @@ public interface QueryMapper {
         /**
          * Creates a condition where the specified column starts with the given prefix.
          *
-         * <p>This is useful for filtering results where a column begins with a specific value.</p>
+         * This is useful for filtering results where a column begins with a specific value.
          *
          * @param value the prefix to match at the beginning of the column
          * @return the {@link MapperWhere} instance for further condition chaining
@@ -403,7 +425,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value is between the two provided bounds.
-         * Example:
          * <pre>{@code
          * template.select(Product.class)
          *         .where("price").between(10, 100)
@@ -419,7 +440,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value exists within the given collection.
-         * Example:
          * <pre>{@code
          * template.select(Product.class)
          *         .where("category").in(List.of("book", "electronics"))
@@ -434,7 +454,6 @@ public interface QueryMapper {
 
         /**
          * Creates a negated condition for the current column, allowing inverse logic.
-         * Example:
          * <pre>{@code
          * template.select(User.class)
          *         .where("active").not().eq(true)
@@ -453,7 +472,6 @@ public interface QueryMapper {
 
         /**
          * Adds an ordering rule based on the specified column name.
-         * Example:
          * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
@@ -470,7 +488,6 @@ public interface QueryMapper {
 
         /**
          * Sets the number of results to skip before starting to return results.
-         * Example:
          * <pre>{@code
          * template.select(Book.class)
          *         .where("category").eq("Science")
@@ -487,7 +504,6 @@ public interface QueryMapper {
 
         /**
          * Sets the maximum number of results to return.
-         * Example:
          * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
@@ -516,7 +532,6 @@ public interface QueryMapper {
 
         /**
          * Defines the sorting direction as ascending for the previously specified column.
-         * Example:
          * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
@@ -530,7 +545,6 @@ public interface QueryMapper {
 
         /**
          * Defines the sorting direction as descending for the previously specified column.
-         * Example:
          * <pre>{@code
          * template.select(Book.class)
          *         .where("author").eq("Ada")
@@ -554,7 +568,6 @@ public interface QueryMapper {
          * <p>This is a terminal operation. Unlike {@code result()} which returns the list of matching
          * entities, {@code count()} returns the total number of matching records.
          *
-         * <p>Example usage:
          * <pre>{@code
          * long count = template.select(Person.class)
          *                      .where("active").eq(true)
@@ -630,10 +643,15 @@ public interface QueryMapper {
 
 
         /**
-         * Defines the maximum number of results to retrieve.
-         *
+         * Defines the maximum number of results to retrieve (pagination limit).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5);
+         * }</pre>
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException when limit is negative
          */
         MapperLimit limit(long limit);
     }
@@ -671,19 +689,30 @@ public interface QueryMapper {
         MapperNameCondition or(String name);
 
         /**
-         * Defines the position of the first result to retrieve.
+         * Sets the number of results to skip before starting to return results.
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("category").eq("Science")
+         *         .skip(10)
+         *         .result();
+         * }</pre>
          *
-         * @param skip the first result to retrieve
-         * @return a query with the first result defined
+         * @param skip the number of results to skip
+         * @return the {@link MapperSkip} instance for chaining
          */
         MapperSkip skip(long skip);
 
 
         /**
-         * Defines the maximum number of results to retrieve.
-         *
+         * Defines the maximum number of results to retrieve (pagination limit).
+         * <pre>{@code
+         * template.select(Book.class)
+         *         .where("author").eq("Ada")
+         *         .limit(5);
+         * }</pre>
          * @param limit the limit
          * @return a query with the limit defined
+         * @throws IllegalArgumentException when limit is negative
          */
         MapperLimit limit(long limit);
 
