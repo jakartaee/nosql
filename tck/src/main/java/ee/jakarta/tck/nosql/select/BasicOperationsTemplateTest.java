@@ -209,4 +209,44 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with startsWith")
+    void shouldExecuteStartWith(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var startsWith =  entities.get(0).getName().substring(0, 1);
+            List<Person> result = template.select(Person.class)
+                    .where("name").startWith(startsWith)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getName().startsWith(startsWith));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with startsWith")
+    void shouldExecuteEndsWith(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var startsWith =  entities.get(0).getName().substring(0, 1);
+            List<Person> result = template.select(Person.class)
+                    .where("name").contains(startsWith)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getName().startsWith(startsWith));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
