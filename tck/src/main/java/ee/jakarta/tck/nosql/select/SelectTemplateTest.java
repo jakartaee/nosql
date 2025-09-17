@@ -51,6 +51,64 @@ public class SelectTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with no conditions and order by")
+    void shouldInsertIterablePersonNoConditionOrderBy(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            List<Person> result = template.select(Person.class)
+                    .orderBy("name")
+                    .asc()
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(entities.size());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with no conditions and Limit")
+    void shouldInsertIterablePersonNoConditionLimit(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            List<Person> result = template.select(Person.class)
+                    .limit(3)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(3);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and select with no conditions and Skip")
+    void shouldInsertIterablePersonNoConditionSkip(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            List<Person> result = template.select(Person.class)
+                    .skip(2)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(entities.size() - 2);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
     @DisplayName("Should insert Iterable and select with simple conditions")
     void shouldInsertIterablePerson(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
