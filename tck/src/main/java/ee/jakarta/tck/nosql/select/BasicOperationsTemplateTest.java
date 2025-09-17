@@ -128,4 +128,24 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with In")
+    void shouldExecuteIn(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var ids = entities.stream().map(Person::getId).limit(3).toList();
+            List<Person> result = template.select(Person.class)
+                    .where("id").in(ids)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> ids.contains(person.getId()));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
