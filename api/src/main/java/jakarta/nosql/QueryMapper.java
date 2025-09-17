@@ -383,7 +383,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column starts with the given prefix.
-         *
          * This is useful for filtering results where a column begins with a specific value.
          *
          * @param value the prefix to match at the beginning of the column
@@ -401,8 +400,7 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column ends with the given suffix.
-         *
-         * <p>This is useful for filtering results where a column ends with a specific value.</p>
+         * This is useful for filtering results where a column ends with a specific value.
          *
          * @param value the suffix to match at the end of the column
          * @return the {@link MapperWhere} instance for further condition chaining
