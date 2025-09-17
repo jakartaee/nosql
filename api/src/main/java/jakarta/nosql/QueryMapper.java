@@ -311,7 +311,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value is greater than or equal to the given value.
-         * Example:
          * <pre>{@code
          * template.select(Product.class)
          *         .where("stock").gte(10)
@@ -326,7 +325,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value is less than the given value.
-         * Example:
          * <pre>{@code
          * template.select(Order.class)
          *         .where("totalAmount").lt(500)
@@ -341,7 +339,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value is less than or equal to the given value.
-         * Example:
          * <pre>{@code
          * template.select(Customer.class)
          *         .where("age").lte(30)
@@ -356,7 +353,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column value matches the provided pattern.
-         * Example:
          * <pre>{@code
          * template.select(Book.class)
          *         .where("title").like("Java")
@@ -371,7 +367,6 @@ public interface QueryMapper {
 
         /**
          * Creates a condition where the specified column contains the given substring.
-         *
          * This is useful for filtering results where a column includes the given text fragment anywhere within its value.
          *
          * @param value the substring to search for within the column
