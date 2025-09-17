@@ -169,4 +169,44 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with contains")
+    void shouldExecuteContains(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+          var namePart =  entities.get(0).getName().substring(1, 3);
+            List<Person> result = template.select(Person.class)
+                    .where("name").contains(namePart)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getName().contains(namePart));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with Like")
+    void shouldExecuteLike(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var namePart =  entities.get(0).getName().substring(1, 3);
+            List<Person> result = template.select(Person.class)
+                    .where("name").like("%" + namePart + "%")
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getName().contains(namePart));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
