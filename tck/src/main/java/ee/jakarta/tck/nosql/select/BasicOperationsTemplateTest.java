@@ -148,4 +148,25 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with between")
+    void shouldExecuteBetween(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var ageA = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
+            var ageB = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(3).findFirst().orElseThrow().getAge();
+            List<Person> result = template.select(Person.class)
+                    .where("age").between(ageA, ageB)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getAge() <= ageB && person.getAge() >= ageA);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
