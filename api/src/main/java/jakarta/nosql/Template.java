@@ -110,7 +110,14 @@ public interface Template {
      * that changed due to the insert. After invoking this method, do not continue to use the instance
      * that is supplied as a parameter. This method makes no guarantees about the state of the
      * instance that is supplied as a parameter.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
      *
+     * Book book = new Book("978-0132350884", "Clean Code", "Robert C. Martin");
+     * Book insertedBook = template.insert(book);
+     * }</pre>
+
      * @param entity the entity to insert. Must not be {@code null}.
      * @param <T>    the entity type
      * @return the inserted entity, which may or may not be a different instance depending on whether the insert
@@ -135,7 +142,16 @@ public interface Template {
      * database after a specified duration. When inserting an entity with a TTL, the entity will be automatically deleted
      * from the database after the specified duration has passed since its insertion. If the database does not support TTL
      * or if the TTL feature is not enabled, this operation will not have any effect on the entity's expiration.</p>
+     * <pre>{@code
      *
+     * @Inject
+     * Template template;
+     *
+     * SessionToken token = new SessionToken("abc123", "user-42", Instant.now());
+     * Duration ttl = Duration.ofMinutes(30);
+     *
+     * SessionToken inserted = template.insert(token, ttl);
+     * }</pre>
      * @param entity the entity to insert. Must not be {@code null}.
      * @param ttl    time to live
      * @param <T>    the entity type
@@ -188,6 +204,26 @@ public interface Template {
      * database after a specified duration. When inserting entities with a TTL, the entities will be automatically deleted
      * from the database after the specified duration has passed since their insertion. If the database does not support TTL
      * or if the TTL feature is not enabled, this operation will not have any effect on the expiration of the entities.</p>
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * List<SessionToken> tokens = List.of(
+     *     SessionToken.builder()
+     *         .id("abc123")
+     *         .userId("user-42")
+     *         .issuedAt(Instant.now())
+     *         .build(),
+     *
+     *     SessionToken.builder()
+     *         .id("def456")
+     *         .userId("user-99")
+     *         .issuedAt(Instant.now())
+     *         .build()
+     * );
+     *
+     * Iterable<SessionToken> insertedTokens = template.insert(tokens);
+     * }</pre>
      *
      * @param entities entities to insert.
      * @param <T>      the entity type
