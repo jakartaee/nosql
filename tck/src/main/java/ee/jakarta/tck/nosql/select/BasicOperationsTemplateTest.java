@@ -23,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Comparator;
 import java.util.List;
 
 @DisplayName("The query execution to the basic operations on the fluent API")
@@ -30,7 +31,7 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
 
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert Iterable and select with no conditions")
+    @DisplayName("Should execute basic operation with Equals")
     void shouldExecuteEq(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
 
@@ -43,6 +44,46 @@ public class BasicOperationsTemplateTest extends AbstractTemplateTest {
             Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(person -> person.getId().equals(id));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with GT")
+    void shouldExecuteGt(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var age = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
+            List<Person> result = template.select(Person.class)
+                    .where("age").gt(age)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getAge() > age);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should execute basic operation with GTE")
+    void shouldExecuteGte(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            var age = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
+            List<Person> result = template.select(Person.class)
+                    .where("age").gte(age)
+                    .result();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getAge() >= age);
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
