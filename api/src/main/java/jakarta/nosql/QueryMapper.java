@@ -84,6 +84,52 @@ public interface QueryMapper {
         MapperDeleteWhere like(String value);
 
         /**
+         * Creates a delete condition where the specified column contains the given value.
+         * This method is used when you want to delete entities where the column contains the provided substring.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("title").contains("Java")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the substring value to match
+         * @return the {@link MapperDeleteWhere} to continue building the query
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere contains(String value);
+
+        /**
+         * Creates a delete condition where the specified column starts with the given value.
+         * This method is used when you want to delete entities where the column starts with the provided prefix.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").startWith("Ada")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the prefix value to match
+         * @return the {@link MapperDeleteWhere} to continue building the query
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere startWith(String value);
+
+        /**
+         * Creates a delete condition where the specified column ends with the given value.
+         * This method is used when you want to delete entities where the column ends with the provided suffix.
+         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *         .where("author").endsWith("Lovelace")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the suffix value to match
+         * @return the {@link MapperDeleteWhere} to continue building the query
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere endsWith(String value);
+
+        /**
          * Creates a delete condition where the specified column name is greater than the provided value.
          * <pre>{@code
          * template.delete(Book.class)
