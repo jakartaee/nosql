@@ -15,5 +15,18 @@
  */
 package ee.jakarta.tck.nosql.entities;
 
+import jakarta.nosql.Column;
+import jakarta.nosql.Entity;
+import jakarta.nosql.Id;
+
+import java.util.SequencedCollection;
+
+@Entity
 public class RecentSearches {
+
+    @Id
+    private String userId;
+
+    @Column
+    private SequencedCollection<String> keywords;
 }
