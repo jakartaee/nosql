@@ -19,6 +19,7 @@ import jakarta.nosql.Column;
 import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 
+import java.util.Objects;
 import java.util.SequencedCollection;
 
 @Entity
@@ -29,4 +30,35 @@ public class RecentSearches {
 
     @Column
     private SequencedCollection<String> keywords;
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public SequencedCollection<String> getKeywords() {
+        return keywords;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RecentSearches that = (RecentSearches) o;
+        return Objects.equals(userId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(userId);
+    }
+
+    @Override
+    public String toString() {
+        return "RecentSearches{" +
+                "userId='" + userId + '\'' +
+                ", keywords=" + keywords +
+                '}';
+    }
 }
