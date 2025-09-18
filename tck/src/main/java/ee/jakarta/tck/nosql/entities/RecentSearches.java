@@ -31,6 +31,8 @@ public class RecentSearches {
     @Column
     private SequencedCollection<String> keywords;
 
+    RecentSearches() {
+    }
 
     public String getUserId() {
         return userId;
@@ -60,5 +62,12 @@ public class RecentSearches {
                 "userId='" + userId + '\'' +
                 ", keywords=" + keywords +
                 '}';
+    }
+
+    public static RecentSearches of(String userId, SequencedCollection<String> keywords) {
+        RecentSearches recentSearches = new RecentSearches();
+        recentSearches.userId = userId;
+        recentSearches.keywords = keywords;
+        return recentSearches;
     }
 }
