@@ -15,12 +15,16 @@
  */
 package ee.jakarta.tck.nosql.factories;
 
-import ee.jakarta.tck.nosql.entities.Person;
+import ee.jakarta.tck.nosql.entities.RecentSearches;
 
-public class RecentSearchesSupplier extends AbstractSupplier<Person> {
+import java.util.UUID;
+
+public class RecentSearchesSupplier extends AbstractSupplier<RecentSearches> {
 
     @Override
-    public Person get() {
-        return Person.of(faker());
+    public RecentSearches get() {
+        var userId = UUID.randomUUID().toString();
+        var keywords = faker().lorem().words(faker().number().numberBetween(1, 10));
+        return RecentSearches.of(userId, keywords);
     }
 }
