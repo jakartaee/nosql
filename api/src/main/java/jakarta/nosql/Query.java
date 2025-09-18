@@ -19,12 +19,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * {@code Template}  is the representation of a query.
+ */
 public interface Query {
-
-
-    Query bind(String name, Object value);
-
-    Query bind(int position, Object value);
 
     void executeUpdate();
 
@@ -34,4 +32,7 @@ public interface Query {
 
     <T> Optional<T> singleResult();
 
+    Query bind(String name, Object value);
+
+    Query bind(int position, Object value);
 }
