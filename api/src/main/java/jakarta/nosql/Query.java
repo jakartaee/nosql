@@ -15,5 +15,23 @@
  */
 package jakarta.nosql;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public interface Query {
+
+
+    Query bind(String name, Object value);
+
+    Query bind(int position, Object value);
+
+    void executeUpdate();
+
+    <T> List<T> result();
+
+    <T> Stream<T> stream();
+
+    <T> Optional<T> singleResult();
+
 }
