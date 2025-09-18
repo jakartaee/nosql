@@ -17,7 +17,9 @@ package ee.jakarta.tck.nosql.basic;
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Person;
+import ee.jakarta.tck.nosql.entities.RecentSearches;
 import ee.jakarta.tck.nosql.factories.PersonSupplier;
+import ee.jakarta.tck.nosql.factories.RecentSearchesSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +28,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Duration;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @DisplayName("The basic template operations using a POJO entity")
@@ -116,6 +119,24 @@ class BasicTemplateTest extends AbstractTemplateTest {
     void shouldThrowExceptionWhenNullEntityUpdated() {
         Assertions.assertThatThrownBy(() -> template.update(null))
                 .isInstanceOf(NullPointerException.class);
+    }
+
+    @DisplayName("Should insert and update a collection of entities")
+    @ParameterizedTest
+    @ArgumentsSource(RecentSearchesSupplier.class)
+    void shouldInsertAndUpdateSequencedCollection(RecentSearches entity){
+        template.insert(entity);
+
+        Optional<RecentSearches> optional = template.find(RecentSearches.class, entity.getUserId());
+
+        SoftAssertions.assertSoftly(soft -> {
+           soft.assertThat(optional).isPresent();
+           var recentSearches = optional.orElseThrow();
+           soft.assertThat(recentSearches).isNotNull();
+           soft.assertThat(recentSearches.getUserId()).isNotNull();
+            soft.assertThat(recentSearches.getKeywords()).isNotNull().isNotEmpty();
+        });
+
     }
 
 }
