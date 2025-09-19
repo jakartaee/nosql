@@ -431,4 +431,27 @@ public interface Template {
      *                                       such as key-value where most operations are key-based.
      */
     <T> QueryMapper.MapperDeleteFrom delete(Class<T> type);
+
+
+
+    /**
+     * Creates a query from a raw string using Jakarta Query language (core grammar).
+     * <p>
+     * The entity type is inferred from the query string (e.g., {@code FROM Person}),
+     * so no result class needs to be explicitly passed.
+     * <p>
+     * The returned {@link Query} instance is mutable and not thread-safe.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Query query = template.query("SELECT * FROM Person WHERE name = :name");
+     * List<Person> people = query.bind("name", "Ada").result();
+     * }</pre>
+     *
+     * @param query the Jakarta Query string to execute (e.g., {@code SELECT * FROM Person WHERE active = true})
+     * @return a new {@link Query} instance bound to this query string
+     * @throws NullPointerException if the query string is {@code null}
+     * @throws UnsupportedOperationException if the database does not support dynamic queries
+     */
+    Query query(String query);
 }
