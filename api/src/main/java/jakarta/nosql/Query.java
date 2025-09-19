@@ -20,39 +20,36 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * {@code Query} represents a string-based query execution API built on top of
- * the Jakarta Query Core language and integrated with Jakarta NoSQL.
- *
- * <p>This interface supports:
- * <ul>
- *     <li>Binding parameters by name or position</li>
- *     <li>Execution of queries using fluent APIs</li>
- *     <li>Result retrieval as {@code List}, {@code Stream}, or {@code Optional}</li>
- *     <li>Write operations via {@link #executeUpdate()}</li>
- * </ul>
- *
- * <h3>Jakarta Query Compatibility</h3>
- * This query engine follows the Jakarta Query Core specification. Its behavior
- * is intended to be portable across different Jakarta NoSQL-compatible databases.
- *
- * <h3>Vendor Support</h3>
- * Not all NoSQL databases support every feature. If a query feature is unsupported by the underlying database provider,
- * this interface will throw a {@link UnsupportedOperationException}.
- *
- * <h3>Query Type Validation</h3>
- * <ul>
- *     <li>{@link #result()}, {@link #stream()}, and {@link #singleResult()} can only be used with {@code SELECT} queries</li>
- *     <li>{@link #executeUpdate()} must be used for {@code UPDATE} or {@code DELETE} queries only</li>
- * </ul>
- *
- * <p>Example usage:</p>
+ * {@code Query} represents a string-based query execution interface used in Jakarta NoSQL.
+ * It provides a consistent mechanism for dynamically executing queries using either
+ * named or positional parameters, and supports core query operations such as {@code SELECT},
+ * {@code UPDATE}, and {@code DELETE}.
+ * This API is based on Jakarta Query and supports the Jakarta Query Core language,
+ * including clauses such as {@code SELECT}, {@code WHERE}, {@code ORDER BY},
+ * {@code UPDATE SET}, and {@code DELETE FROM}.
+ * Entity class is only required for queries that return results (e.g., {@code SELECT}).
+ * For {@code UPDATE} or {@code DELETE} operations, the entity class is not required.
+ * If the underlying NoSQL provider does not support a particular feature or operation,
+ * this interface may throw {@link UnsupportedOperationException} at runtime.
+ * Usage constraints:
+ * - {@link #result()}, {@link #stream()}, and {@link #singleResult()} are valid only for {@code SELECT} queries.
+ * - {@link #executeUpdate()} is valid only for {@code UPDATE} or {@code DELETE} queries.
+ *<b> Example: SELECT query</b>
  * <pre>{@code
- * @Inject
- * Template template;
- *
- * List<Person> people = template.query("SELECT * FROM Person WHERE country = :country", Person.class)
- *                               .bind("country", "Portugal")
+ * List<Person> people = template.query("FROM Person WHERE active = true", Person.class)
  *                               .result();
+ * }</pre>
+ *
+ *<b> Example: DELETE query </b>
+ * <pre>{@code
+ * template.query("DELETE FROM Person WHERE active = false")
+ *         .executeUpdate();
+ * }</pre>
+ *
+ *<b> Example: UPDATE query </b>
+ * <pre>{@code
+ * template.query("UPDATE Person SET active = true WHERE name = 'Ada'")
+ *         .executeUpdate();
  * }</pre>
  */
 public interface Query {
