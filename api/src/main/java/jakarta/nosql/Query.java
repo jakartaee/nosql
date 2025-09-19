@@ -41,8 +41,7 @@ import java.util.stream.Stream;
  *
  * <p>Example usage for SELECT:</p>
  * <pre>{@code
- * List<Person> people = template.query("SELECT * FROM Person WHERE active = true", Person.class)
- *                                .result();
+ *   List<Person> people = template.query("SELECT * FROM Person WHERE active = true").result();
  * }</pre>
  *
  * <p>Example usage for DELETE:</p>
@@ -92,7 +91,7 @@ public interface Query {
      * the provider will raise an exception or error.</p>
      *
      * <pre>{@code
-     * List<Person> adults = template.query("SELECT * FROM Person WHERE age >= :minAge", Person.class)
+     * List<Person> adults = template.query("SELECT * FROM Person WHERE age >= :minAge")
      *                               .bind("minAge", 18)
      *                               .result();
      * }</pre>
@@ -113,7 +112,7 @@ public interface Query {
      * the provider will raise an exception or error.</p>
      *
      * <pre>{@code
-     * Stream<Person> stream = template.query("SELECT * FROM Person WHERE active = true", Person.class)
+     * Stream<Person> stream = template.query("SELECT * FROM Person WHERE active = true")
      *                                  .stream();
      * }</pre>
      *
@@ -136,7 +135,7 @@ public interface Query {
      * the provider will raise an exception or error.</p>
      *
      * <pre>{@code
-     * Optional<Person> person = template.query("SELECT * FROM Person WHERE id = :id", Person.class)
+     * Optional<Person> person = template.query("SELECT * FROM Person WHERE id = :id")
      *                                   .bind("id", "p-001")
      *                                   .singleResult();
      * }</pre>
