@@ -127,9 +127,13 @@ public interface Query {
      * Executes a {@code SELECT} query and returns a single result wrapped in an {@link Optional}.
      *
      * <p>If no result is found, returns {@link Optional#empty()}. If more than one result is found,
-     * the behavior is database-specific and may throw an exception.</p>
+     * the behavior is provider-specific and may throw an exception.</p>
      *
-     * <p>If the query is an {@code UPDATE} or {@code DELETE}, this method throws an {@link UnsupportedOperationException}.</p>
+     * <p>This method must only be used for queries that begin with {@code SELECT}.
+     * If the query is an {@code UPDATE} or {@code DELETE}, an {@link UnsupportedOperationException} will be thrown.</p>
+     *
+     * <p>If required parameters are not bound before execution, the query will fail and
+     * the provider will raise an exception or error.</p>
      *
      * <pre>{@code
      * Optional<Person> person = template.query("SELECT * FROM Person WHERE id = :id", Person.class)
