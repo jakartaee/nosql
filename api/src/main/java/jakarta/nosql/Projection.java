@@ -68,13 +68,27 @@ public @interface Projection {
      * Specifies the source entity class that this projection is based on.
      * This is used when the query string does not explicitly include a {@code FROM} clause.
      *
-     * <p>When this attribute is present, Jakarta NoSQL will assume the source entity
-     * and automatically inject the {@code FROM} clause during query processing.</p>
+     * <p>When this attribute is present, Jakarta NoSQL will infer the entity in the query and
+     * automatically inject the {@code FROM} clause during query execution.</p>
+     *
+     * <p><strong>Note:</strong> The specified class must be annotated with {@code @Entity}.</p>
      *
      * <p>This enables simpler query definitions such as:
      * <pre>{@code
+     * @Entity
+     * public class Product {
+     *     @Id
+     *     private String id;
+     *     @Column
+     *     private String name;
+     *     @Column
+     *     private double price;
+     *     @Column
+     *     private ProductType type;
+     * }
+     *
      * @Projection(from = Product.class)
-     * public record PromotionalProduct(String name, double price, String type) {}
+     * public record PromotionalProduct(String name, double price, ProductType type) {}
      *
      * List<PromotionalProduct> results = template
      *     .typedQuery("WHERE price < 100", PromotionalProduct.class)
@@ -91,7 +105,7 @@ public @interface Projection {
      * }</pre>
      * </p>
      *
-     * @return the source entity class
+     * @return the source entity class, which must be annotated with {@code @Entity}
      */
     Class<?> from() default void.class;
 }
