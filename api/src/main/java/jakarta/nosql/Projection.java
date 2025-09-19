@@ -27,11 +27,11 @@ import java.lang.annotation.Target;
  *
  * <p>This annotation allows Jakarta NoSQL to map query results to Java {@code record} types
  * without requiring explicit selection of fields in the query string—provided that
- * the record component names match the corresponding columns or properties returned by the query.</p>
+ * the record component names match the corresponding fields or properties returned by the query.</p>
  *
- * <p>Field matching is based on name: each component in the {@code record} must correspond to a property
- * returned by the query result. If a component does not match any field or alias in the result set,
- * the query will fail at runtime with an exception, depending on the Jakarta NoSQL provider.</p>
+ * <p>Matching is strictly based on name: each component in the {@code record} must correspond to a field
+ * returned by the query. If a component name does not match any field in the result set,
+ * the query will fail at runtime, depending on the Jakarta NoSQL provider.</p>
 
  *
  * <ul>
