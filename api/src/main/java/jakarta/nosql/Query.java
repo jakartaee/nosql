@@ -98,10 +98,8 @@ public interface Query {
      * <p>If the query is an {@code UPDATE} or {@code DELETE}, this method throws an {@link UnsupportedOperationException}.</p>
      *
      * <pre>{@code
-     * try (Stream<Person> stream = template.query("SELECT * FROM Person WHERE active = true", Person.class)
-     *                                       .stream()) {
-     *     stream.forEach(System.out::println);
-     * }
+     * Stream<Person> stream = template.query("SELECT * FROM Person WHERE active = true", Person.class)
+     *                                       .stream();
      * }</pre>
      *
      * @param <T> the type of the entity
