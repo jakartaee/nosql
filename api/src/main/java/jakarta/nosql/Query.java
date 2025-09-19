@@ -24,29 +24,34 @@ import java.util.stream.Stream;
  * It provides a consistent mechanism for dynamically executing queries using either
  * named or positional parameters, and supports core query operations such as {@code SELECT},
  * {@code UPDATE}, and {@code DELETE}.
+ *
  * This API is based on Jakarta Query and supports the Jakarta Query Core language,
  * including clauses such as {@code SELECT}, {@code WHERE}, {@code ORDER BY},
  * {@code UPDATE SET}, and {@code DELETE FROM}.
- * Entity class is only required for queries that return results (e.g., {@code SELECT}).
- * For {@code UPDATE} or {@code DELETE} operations, the entity class is not required.
- * If the underlying NoSQL provider does not support a particular feature or operation,
- * this interface may throw {@link UnsupportedOperationException} at runtime.
- * Usage constraints:
- * - {@link #result()}, {@link #stream()}, and {@link #singleResult()} are valid only for {@code SELECT} queries.
- * - {@link #executeUpdate()} is valid only for {@code UPDATE} or {@code DELETE} queries.
- *<b> Example: SELECT query</b>
+ *
+ * <p>This class is <strong>mutable</strong> and therefore <strong>not thread-safe</strong>. It is intended
+ * to be used in a single-threaded or scoped manner per operation or request.</p>
+ *
+ * <p>Usage constraints:</p>
+ * <ul>
+ *   <li>{@link #result()}, {@link #stream()}, and {@link #singleResult()} must only be used with {@code SELECT} queries.</li>
+ *   <li>{@link #executeUpdate()} must only be used with {@code DELETE} or {@code UPDATE} queries.</li>
+ *   <li>If the underlying NoSQL provider does not support a feature or query type, an {@link UnsupportedOperationException} will be thrown.</li>
+ * </ul>
+ *
+ * <p>Example usage for SELECT:</p>
  * <pre>{@code
- * List<Person> people = template.query("FROM Person WHERE active = true", Person.class)
- *                               .result();
+ * List<Person> people = template.query("SELECT * FROM Person WHERE active = true", Person.class)
+ *                                .result();
  * }</pre>
  *
- *<b> Example: DELETE query </b>
+ * <p>Example usage for DELETE:</p>
  * <pre>{@code
  * template.query("DELETE FROM Person WHERE active = false")
  *         .executeUpdate();
  * }</pre>
  *
- *<b> Example: UPDATE query </b>
+ * <p>Example usage for UPDATE:</p>
  * <pre>{@code
  * template.query("UPDATE Person SET active = true WHERE name = 'Ada'")
  *         .executeUpdate();
