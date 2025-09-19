@@ -62,16 +62,23 @@ public interface Query {
     /**
      * Executes a write operation query (such as {@code UPDATE} or {@code DELETE}).
      *
-     * <p>If the query is a {@code SELECT}, this method will throw an {@link UnsupportedOperationException}.
-     * </p>
+     * <p>This method performs non-select operations. If the query is a {@code SELECT},
+     * it will throw an {@link UnsupportedOperationException}.</p>
+     *
+     * <p>Note: Since some NoSQL databases use eventual consistency or append-only write models,
+     * the effects of this operation may not be immediately visible. The propagation of the update or delete
+     * may vary depending on the database implementation and its consistency guarantees.</p>
+     *
+     * <p>If required parameters (named or positional) are not bound, this operation will fail,
+     * and the provider may throw an exception.</p>
      *
      * <pre>{@code
-     * template.query("DELETE FROM Person WHERE age < :minAge", Person.class)
+     * template.query("DELETE FROM Person WHERE age < :minAge")
      *         .bind("minAge", 18)
      *         .executeUpdate();
      * }</pre>
      *
-     * @throws UnsupportedOperationException if the query is a {@code SELECT}, or the operation is not supported by the provider.
+     * @throws UnsupportedOperationException if the query is a {@code SELECT}, or the operation is not supported by the provider
      */
     void executeUpdate();
 
