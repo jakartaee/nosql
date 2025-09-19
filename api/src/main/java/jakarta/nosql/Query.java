@@ -106,11 +106,15 @@ public interface Query {
     /**
      * Executes a {@code SELECT} query and returns the result as a {@link Stream}.
      *
-     * <p>If the query is an {@code UPDATE} or {@code DELETE}, this method throws an {@link UnsupportedOperationException}.</p>
+     * <p>This method must only be used for queries that begin with {@code SELECT}.
+     * If the query is an {@code UPDATE} or {@code DELETE}, an {@link UnsupportedOperationException} will be thrown.</p>
+     *
+     * <p>If required parameters are not bound before execution, the query will fail and
+     * the provider will raise an exception or error.</p>
      *
      * <pre>{@code
      * Stream<Person> stream = template.query("SELECT * FROM Person WHERE active = true", Person.class)
-     *                                       .stream();
+     *                                  .stream();
      * }</pre>
      *
      * @param <T> the type of the entity
