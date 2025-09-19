@@ -21,36 +21,38 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
 /**
- * Indicates that the annotated {@code record} class is a projection used to map query results.
+ * Declares a record class as a projection for query results.
  *
- * <p>This annotation allows mapping query results directly into record classes without requiring full entity loading.
- * You do not need to explicitly list the fields in the query if they match the record structure.</p>
+ * <p>This annotation enables Jakarta NoSQL to map query results to Java {@code record} types
+ * using a query string. If the projection's record component names match fields in the entity,
+ * you don't need to explicitly list the fields in the query.
+ * The query engine will automatically map matching fields.</p>
  *
- * <p>You may omit the {@code FROM} clause entirely in the query string if the {@code from()} attribute is set.
- * In such cases, Jakarta NoSQL will automatically use the declared class as the source entity.</p>
+ * <ul>
+ *   <li>If the query omits the {@code FROM} clause, the {@code from()} attribute defines the entity class to use.</li>
+ *   <li>If both the query string and the annotation define the source entity, the {@code FROM} clause in the query takes precedence.</li>
+ *   <li>The projection class must be a {@code record}.</li>
+ * </ul>
  *
- * <p>If both the query string and the annotation specify a source entity, the entity name in the query string takes precedence.</p>
- *
- * <p>Example using implicit {@code from} via the annotation:</p>
- *
+ * <p>Example 1 – using an explicit {@code FROM} clause:</p>
  * <pre>{@code
- * @Projection(from = Person.class)
- * public record PersonSummary(String name, int age) {}
- *
- * List<PersonSummary> results = template
- *     .typedQuery("SELECT name, age", PersonSummary.class)
+ * @Projection
+ * public record TechProductView(String name, double price) {}
+
+ * List<TechProductView> techProducts = template
+ *     .typedQuery("FROM Product WHERE category = 'TECH'", TechProductView.class)
  *     .result();
  * }</pre>
  *
- * <p>Example with an explicit {@code FROM} clause (annotation still helps with mapping):</p>
- *
+ * <p>Example 2 – using only a {@code WHERE} clause and specifying the source via {@code from()}:</p>
  * <pre>{@code
- * @Projection
- * public record PersonSummary(String name, int age) {}
- *
- * List<PersonSummary> results = template
- *     .typedQuery("SELECT name, age FROM Person", PersonSummary.class)
+ * @Projection(from = Product.class)
+ * public record PromotionalProduct(String name, double price, String type) {}
+
+ * List<PromotionalProduct> results = template
+ *     .typedQuery("WHERE price < 100", PromotionalProduct.class)
  *     .result();
  * }</pre>
  *
