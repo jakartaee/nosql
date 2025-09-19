@@ -24,4 +24,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Projection {
+
+    Class<?> from() default void.class;
 }
