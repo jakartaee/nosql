@@ -95,6 +95,7 @@ import java.util.Optional;
  * }</pre>
  *
  * @see QueryMapper
+ * @see Query
  * @since 1.0.0
  */
 public interface Template {
