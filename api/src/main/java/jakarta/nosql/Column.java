@@ -37,6 +37,7 @@ import java.lang.annotation.Target;
  * @see Entity
  * @see MappedSuperclass
  * @see Embeddable
+ * @see Projection
  * @see Id
  * @since 1.0.0
  */
