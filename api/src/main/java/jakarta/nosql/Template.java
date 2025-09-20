@@ -459,22 +459,23 @@ public interface Template {
      * Creates a {@link TypedQuery} using the given query string and result type.
      *
      * <p>This method provides a type-safe way to execute queries by explicitly specifying the expected
-     * result type. The provided {@code type} must either be:
+     * result type. The provided {@code type} must be one of the following:
      * <ul>
-     *   <li>A class annotated with {@code @Entity}, matching the entity in the query's {@code FROM} clause or the {@code @Projection#from()} value.</li>
-     *   <li>A {@code record} annotated with {@code @Projection}, for mapping partial results or flattened structures.</li>
+     *  <li> An entity class annotated with {@code @Entity}. The query may explicitly include a {@code FROM} clause,
+     *   or omit it if the entity can be inferred from the {@code type} parameter.</li>
+     *   <li>A Java {@code record} annotated with {@code @Projection}, which maps partial or flattened results based on the query output.</li>
      * </ul>
      *
-     * <p>When using a projection, the query can omit the {@code SELECT} clause entirely if the {@code record} fields match
-     * the entity’s properties. Similarly, the {@code FROM} clause may also be omitted if defined in the {@code @Projection#from()} attribute.</p>
+     * <p>When using a projection, the query can omit the {@code SELECT} clause entirely if the record component names match
+     * the entity’s attributes. The {@code FROM} clause can also be omitted if the {@link jakarta.nosql.Projection#from()} attribute is specified.</p>
      *
-     * <p>If the query references a different entity than the one implied by the projection or the {@code type} argument,
-     * an {@link IllegalArgumentException} may be thrown by the provider to signal a mismatch.</p>
+     * <p>If the query references a different entity than the one implied by the {@code type} argument,
+     * an {@link IllegalArgumentException} may be thrown by the provider to indicate a mismatch.</p>
      *
      * <p>This method returns a {@link TypedQuery}, which improves safety and readability by:
      * <ul>
      *   <li>Restricting the result type to {@code T}, eliminating the need for casting</li>
-     *   <li>Allowing fluent binding and result handling</li>
+     *   <li>Allowing fluent parameter binding and result handling</li>
      * </ul>
      *
      * <pre>{@code
@@ -497,4 +498,5 @@ public interface Template {
      * @throws UnsupportedOperationException if the query is not supported by the underlying provider
      */
     <T> TypedQuery<T> typedQuery(String query, Class<T> type);
+
 }
