@@ -81,6 +81,7 @@ import java.lang.annotation.Target;
  *
  * <p>If a component name does not match any result field and is not annotated with {@code @Column},
  * an exception may be thrown at runtime depending on the provider.</p>
+ * @since 1.1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
