@@ -454,4 +454,6 @@ public interface Template {
      * @throws UnsupportedOperationException if the database does not support dynamic queries
      */
     Query query(String query);
+
+    <T> TypedQuery<T> typedQuery(String query, Class<T> type);
 }
