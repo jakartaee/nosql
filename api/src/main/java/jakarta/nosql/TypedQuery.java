@@ -20,44 +20,50 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * A type-safe variant of {@link Query} that maps results to a target type {@code T}, which can be either:
+ * A type-safe variant of {@link Query} that maps query results directly to the target type {@code T}.
+ * This type can be either:
  * <ul>
  *   <li>An entity class annotated with {@code @Entity}</li>
- *   <li>A projection class annotated with {@code @Projection}</li>
+ *   <li>A projection class annotated with {@link jakarta.nosql.Projection}</li>
  * </ul>
  *
- * <p>This interface provides a fluent and type-safe API for querying using the Jakarta Query Core language.
- * It avoids the need for casting when processing results, since the return type is already defined as {@code T}.</p>
- *
- * <p>When using Jakarta Query Core, the {@code FROM} clause can be omitted in the query string if the target class
- * is specified via the {@code from} attribute of the {@link jakarta.nosql.Projection} annotation.</p>
- *
- * <p>The target class {@code T} must match the structure of the query result:
+ * <p>One of the key benefits of using {@code TypedQuery} is that the {@code FROM} clause can be omitted
+ * when the provider is able to infer the source entity from the {@code T} type:
  * <ul>
- *   <li>If {@code T} is an entity class, and the query contains a {@code FROM} clause, the entity type in the query must match {@code T}.</li>
- *   <li>If {@code T} is a projection, its components must match the query result by name, or be annotated with {@link jakarta.nosql.Column} to map fields explicitly.</li>
+ *   <li>If {@code T} is an entity, the {@code FROM} clause is optional.</li>
+ *   <li>If {@code T} is a projection with the {@code @Projection(from = ...)} annotation, the entity source is inferred from it.</li>
  * </ul>
- * Failing to match the entity or projection class with the result may cause runtime exceptions, depending on the provider.</p>
+ * This simplifies queries significantly and avoids boilerplate.</p>
  *
- * <p>Example – query using a projection:</p>
+ * <p><strong>Important:</strong> When using a {@code FROM} clause explicitly in the query string,
+ * the entity specified in the query must match the class provided as {@code T}.
+ * For example, the following is <strong>invalid</strong> and must raise an error:
  * <pre>{@code
- * @Projection
- * public record TechProductView(String name, double price) {}
+ * // Assuming Cat and Dog are both entities
+ * template.typedQuery("FROM Cat", Dog.class); //Must fail
+ * }</pre>
+ * This validation ensures consistency between the declared return type and the query structure.</p>
  *
- * List<TechProductView> products = template
- *     .typedQuery("FROM Product WHERE category = 'TECH'", TechProductView.class)
+ * <p>Examples:</p>
+ *
+ * <p>Using entity type with inferred FROM clause:</p>
+ * <pre>{@code
+ * List<Product> products = template
+ *     .typedQuery("WHERE category = 'TECH'", Product.class)
  *     .result();
  * }</pre>
  *
- * <p>Example – query using an entity class:</p>
+ * <p>Using projection type with inferred FROM clause:</p>
  * <pre>{@code
- * List<Product> products = template
- *     .typedQuery("WHERE price < 100", Product.class)
+ * @Projection(from = Product.class)
+ * public record PromotionalProduct(String name, double price) {}
+ *
+ * List<PromotionalProduct> promos = template
+ *     .typedQuery("WHERE price < 100", PromotionalProduct.class)
  *     .result();
  * }</pre>
  *
  * @param <T> the type of the result objects
- * @since 1.1.0
  */
 public interface TypedQuery<T> extends Query {
 
