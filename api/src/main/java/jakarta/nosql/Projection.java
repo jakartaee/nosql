@@ -82,6 +82,7 @@ import java.lang.annotation.Target;
  * }</pre>
  *
  * @see jakarta.nosql.Column
+ * @since 1.1.0
  */
 
 @Retention(RetentionPolicy.RUNTIME)
