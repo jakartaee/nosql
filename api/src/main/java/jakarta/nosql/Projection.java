@@ -59,6 +59,25 @@ import java.lang.annotation.Target;
  *     .typedQuery("WHERE price < 100", PromotionalProduct.class)
  *     .result();
  * }</pre>
+ *
+ * A projection components can use {@link jakarta.nosql.Column} to explicitly map nested paths
+ * in the entity graph (e.g., associations or embedded objects) when using projections.
+ *
+ * <p>If the component name does not directly match a property in the query result,
+ * annotate it with {@code @Column("nested.path")}. This is useful when flattening structures
+ * in queries that traverse embedded or related objects.</p>
+ *
+ * <p><strong>Note:</strong> This mapping is <em>read-only</em> and applies only to query results.
+ * It has no effect on write operations, inserts, or updates.</p>
+ *
+ * <pre>{@code
+ * @Projection(from = Order.class)
+ * public record OrderDetail(
+ *     String id,
+ *     @Column("user.name") String customerName,
+ *     @Column("user.address.city") String city
+ * ) {}
+ * }</pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
