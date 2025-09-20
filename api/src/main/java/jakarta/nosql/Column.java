@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies the column mapped by the annotated persistent property or field.
+ * Specifies the column mapped by the annotated persistent attribute.
  * <p>
  * If no {@code Column} annotation is explicitly specified, the field will be ignored by Jakarta NoSQL.
  * </p>
@@ -35,6 +35,8 @@ import java.lang.annotation.Target;
  *
  * @see Convert
  * @see Entity
+ * @see MappedSuperclass
+ * @see Embeddable
  * @see Id
  * @since 1.0.0
  */
