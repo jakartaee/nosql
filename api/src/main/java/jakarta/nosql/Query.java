@@ -143,6 +143,7 @@ public interface Query {
      * @param <T> the type of the entity
      * @return optional result
      * @throws UnsupportedOperationException if the query is not a {@code SELECT}
+     * @since 1.1.0
      */
     <T> Optional<T> singleResult();
 
