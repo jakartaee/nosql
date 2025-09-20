@@ -52,11 +52,12 @@ import java.util.stream.Stream;
  * <p>Example – query using an entity class:</p>
  * <pre>{@code
  * List<Product> products = template
- *     .typedQuery("FROM Product WHERE price < 100", Product.class)
+ *     .typedQuery("WHERE price < 100", Product.class)
  *     .result();
  * }</pre>
  *
  * @param <T> the type of the result objects
+ * @since 1.1.0
  */
 public interface TypedQuery<T> extends Query {
 
