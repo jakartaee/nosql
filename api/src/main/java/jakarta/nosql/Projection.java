@@ -21,30 +21,28 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
  * Declares a record class as a projection for query results in Jakarta NoSQL.
  *
- * <p>This annotation allows Jakarta NoSQL to map query results to Java {@code record} types
+ * <p>This annotation enables Jakarta NoSQL to map query results to Java {@code record} types
  * without requiring explicit selection of fields in the query string—provided that
- * the record component names match the corresponding fields or properties returned by the query.</p>
+ * the projection component names match the corresponding fields or properties returned by the query.</p>
  *
- * <p>Matching is strictly based on name: each component in the {@code record} must correspond to a field
- * returned by the query. If a component name does not match any field in the result set,
- * the query will fail at runtime, depending on the Jakarta NoSQL provider.</p>
-
+ * <p>Matching is strictly based on name: each projection component must correspond to a field
+ * returned by the query. If a component does not match any field in the result set,
+ * an error may occur at runtime depending on the Jakarta NoSQL provider.</p>
  *
  * <ul>
- *   <li>If the query omits the {@code FROM} clause, the {@code from()} attribute specifies the default entity class.</li>
- *   <li>If both the query and annotation define a source entity, the query string takes precedence.</li>
- *   <li>The target class must be a Java {@code record}.</li>
+ *   <li>The annotated class must be a Java {@code record}.</li>
+ *   <li>If the query omits the {@code FROM} clause, the {@code from()} attribute defines the source entity.</li>
+ *   <li>If both the query and the annotation define a source entity, the query string takes precedence.</li>
  * </ul>
  *
  * <p>Example – using a projection without selecting fields explicitly:</p>
  * <pre>{@code
  * @Projection
  * public record TechProductView(String name, double price) {}
-
+ *
  * List<TechProductView> techProducts = template
  *     .typedQuery("FROM Product WHERE category = 'TECH'", TechProductView.class)
  *     .result();
@@ -54,22 +52,23 @@ import java.lang.annotation.Target;
  * <pre>{@code
  * @Projection(from = Product.class)
  * public record PromotionalProduct(String name, double price, String type) {}
-
+ *
  * List<PromotionalProduct> results = template
  *     .typedQuery("WHERE price < 100", PromotionalProduct.class)
  *     .result();
  * }</pre>
  *
- * A projection components can use {@link jakarta.nosql.Column} to explicitly map nested paths
- * in the entity graph (e.g., associations or embedded objects) when using projections.
+ * <p>Projection components may use {@link jakarta.nosql.Column} to map nested or embedded attributes
+ * from associated objects. This is especially useful when flattening query results.</p>
  *
- * <p>If the component name does not directly match a property in the query result,
- * annotate it with {@code @Column("nested.path")}. This is useful when flattening structures
- * in queries that traverse embedded or related objects.</p>
+ * <p>If a projection component does not directly match a field in the query result,
+ * annotate it with {@code @Column("nested.path")}, where the path traverses through
+ * embedded objects or associations.</p>
  *
- * <p><strong>Note:</strong> This mapping is <em>read-only</em> and applies only to query results.
+ * <p><strong>Note:</strong> This mapping is <em>read-only</em> and applies only to query result mapping.
  * It has no effect on write operations, inserts, or updates.</p>
  *
+ * <p>Example – mapping nested values with {@code @Column}:</p>
  * <pre>{@code
  * @Projection(from = Order.class)
  * public record OrderDetail(
@@ -77,6 +76,10 @@ import java.lang.annotation.Target;
  *     @Column("user.name") String customerName,
  *     @Column("user.address.city") String city
  * ) {}
+ *
+ * List<OrderDetail> details = template
+ *     .typedQuery("WHERE status = 'PENDING'", OrderDetail.class)
+ *     .result();
  * }</pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
