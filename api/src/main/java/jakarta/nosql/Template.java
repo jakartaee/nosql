@@ -455,5 +455,46 @@ public interface Template {
      */
     Query query(String query);
 
+    /**
+     * Creates a {@link TypedQuery} using the given query string and result type.
+     *
+     * <p>This method provides a type-safe way to execute queries by explicitly specifying the expected
+     * result type. The provided {@code type} must either be:
+     * <ul>
+     *   <li>A class annotated with {@code @Entity}, matching the entity in the query's {@code FROM} clause or the {@code @Projection#from()} value.</li>
+     *   <li>A {@code record} annotated with {@code @Projection}, for mapping partial results or flattened structures.</li>
+     * </ul>
+     *
+     * <p>When using a projection, the query can omit the {@code SELECT} clause entirely if the {@code record} fields match
+     * the entity’s properties. Similarly, the {@code FROM} clause may also be omitted if defined in the {@code @Projection#from()} attribute.</p>
+     *
+     * <p>If the query references a different entity than the one implied by the projection or the {@code type} argument,
+     * an {@link IllegalArgumentException} may be thrown by the provider to signal a mismatch.</p>
+     *
+     * <p>This method returns a {@link TypedQuery}, which improves safety and readability by:
+     * <ul>
+     *   <li>Restricting the result type to {@code T}, eliminating the need for casting</li>
+     *   <li>Allowing fluent binding and result handling</li>
+     * </ul>
+     *
+     * <pre>{@code
+     * List<TechProductView> techProducts = template
+     *     .typedQuery("FROM Product WHERE category = 'TECH'", TechProductView.class)
+     *     .result();
+     *
+     * Optional<PromotionalProduct> promo = template
+     *     .typedQuery("WHERE price < :maxPrice", PromotionalProduct.class)
+     *     .bind("maxPrice", 100)
+     *     .singleResult();
+     * }</pre>
+     *
+     * @param query the query string using Jakarta Query Core language
+     * @param type  the expected result type (entity or projection class)
+     * @param <T>   the type of the result
+     * @return a {@link TypedQuery} instance to bind parameters and fetch results
+     * @throws NullPointerException     if the query or type is {@code null}
+     * @throws IllegalArgumentException if the provided {@code type} is incompatible with the entity in the query
+     * @throws UnsupportedOperationException if the query is not supported by the underlying provider
+     */
     <T> TypedQuery<T> typedQuery(String query, Class<T> type);
 }
