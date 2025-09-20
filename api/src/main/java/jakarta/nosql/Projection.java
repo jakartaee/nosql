@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * Declares a Java {@code record} as a projection for query results in Jakarta NoSQL.
  *
  * <p>This annotation allows Jakarta NoSQL to map query results to Java record types
- * without requiring explicit selection of fields in the query string, provided that:
+ * without requiring explicit selection of attributes in the query string, provided that:
  * <ul>
  *   <li>Each projection component matches a property returned by the query by name, or</li>
  *   <li>The component is annotated with {@link jakarta.nosql.Column} to map to a different or nested path.</li>
@@ -77,7 +77,7 @@ import java.lang.annotation.Target;
  * <pre>{@code
  * @Projection(from = Product.class)
  * public record ProductBonus(
- *     @Column("prive") BigDecimal bonusAmount
+ *     @Column("price") BigDecimal bonusAmount
  * ) {}
  * }</pre>
  *
