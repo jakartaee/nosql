@@ -24,21 +24,26 @@ import java.lang.annotation.Target;
 /**
  * Declares a record class as a projection for query results in Jakarta NoSQL.
  *
- * <p>This annotation enables Jakarta NoSQL to map query results to Java {@code record} types
- * without requiring explicit selection of fields in the query string—provided that
- * the projection component names match the corresponding fields or properties returned by the query.</p>
+ * <p>This annotation allows Jakarta NoSQL to map query results to Java {@code record} types.
+ * You can define projections by matching record components to the entity's fields,
+ * or explicitly customize the mapping using {@link jakarta.nosql.Column}.</p>
  *
- * <p>Matching is strictly based on name: each projection component must correspond to a field
- * returned by the query. If a component does not match any field in the result set,
- * an error may occur at runtime depending on the Jakarta NoSQL provider.</p>
- *
+ * <p>There are two ways to map each projection component:</p>
  * <ul>
- *   <li>The annotated class must be a Java {@code record}.</li>
- *   <li>If the query omits the {@code FROM} clause, the {@code from()} attribute defines the source entity.</li>
- *   <li>If both the query and the annotation define a source entity, the query string takes precedence.</li>
+ *   <li><strong>By name:</strong> If the component name matches a property in the result set, it will be automatically mapped.</li>
+ *   <li><strong>Using {@code @Column}:</strong> For nested attributes (e.g., associations or embedded objects) or to rename properties, use {@code @Column("path")}.
+ *       This supports flattening or aliasing query results.</li>
  * </ul>
  *
- * <p>Example – using a projection without selecting fields explicitly:</p>
+ * <p>The target class must be a Java {@code record}, and this mapping is <strong>read-only</strong>.
+ *
+ * <p>If the query string omits the {@code FROM} clause, you can define the source entity using the {@link #from()} attribute.</p>
+ *
+ * <p>If both the annotation and the query define the entity source, the query string takes precedence.</p>
+ *
+ * <p>Examples:</p>
+ *
+ * <p><strong>1. Projection with automatic name matching:</strong></p>
  * <pre>{@code
  * @Projection
  * public record TechProductView(String name, double price) {}
@@ -48,27 +53,17 @@ import java.lang.annotation.Target;
  *     .result();
  * }</pre>
  *
- * <p>Example – defining the source entity with {@code from()} when the query omits {@code FROM}:</p>
+ * <p><strong>2. Projection with implicit {@code FROM} clause:</strong></p>
  * <pre>{@code
  * @Projection(from = Product.class)
- * public record PromotionalProduct(String name, double price, String type) {}
+ * public record PromotionalProduct(String name, double price, String category) {}
  *
  * List<PromotionalProduct> results = template
  *     .typedQuery("WHERE price < 100", PromotionalProduct.class)
  *     .result();
  * }</pre>
  *
- * <p>Projection components may use {@link jakarta.nosql.Column} to map nested or embedded attributes
- * from associated objects. This is especially useful when flattening query results.</p>
- *
- * <p>If a projection component does not directly match a field in the query result,
- * annotate it with {@code @Column("nested.path")}, where the path traverses through
- * embedded objects or associations.</p>
- *
- * <p><strong>Note:</strong> This mapping is <em>read-only</em> and applies only to query result mapping.
- * It has no effect on write operations, inserts, or updates.</p>
- *
- * <p>Example – mapping nested values with {@code @Column}:</p>
+ * <p><strong>3. Projection with nested and renamed attributes:</strong></p>
  * <pre>{@code
  * @Projection(from = Order.class)
  * public record OrderDetail(
@@ -76,11 +71,16 @@ import java.lang.annotation.Target;
  *     @Column("user.name") String customerName,
  *     @Column("user.address.city") String city
  * ) {}
- *
- * List<OrderDetail> details = template
- *     .typedQuery("WHERE status = 'PENDING'", OrderDetail.class)
- *     .result();
  * }</pre>
+ *
+ * <p><strong>4. Projection with renamed field:</strong></p>
+ * <pre>{@code
+ * @Projection(from = Product.class)
+ * public record ProductBonus(@Column("price") BigDecimal money) {}
+ * }</pre>
+ *
+ * <p>If a component name does not match any result field and is not annotated with {@code @Column},
+ * an exception may be thrown at runtime depending on the provider.</p>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
