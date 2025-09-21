@@ -132,8 +132,35 @@ public @interface Embeddable {
      */
     enum EmbeddableType {
         /**
-         * Fields of the embeddable class are embedded directly into the data structure of the parent entity or embeddable.
+         * Fields of the embeddable class are embedded directly into the data structure
+         * of the parent entity. This results in a flat structure in the database.
+         *
+         * <p>Example: An embeddable class {@code Address} inside {@code User} stored flatly:</p>
+         *
+         * <pre>{@code
+         * @Entity
+         * public class User {
+         *     @Id String id;
+         *     @Embedded(type = EmbeddableType.FLAT)
+         *     Address address;
+         * }
+         *
+         * public class Address {
+         *     String street;
+         *     String city;
+         * }
+         * }</pre>
+         *
+         * <p>JSON Output:</p>
+         * <pre>{@code
+         * {
+         *   "id": "u-123",
+         *   "street": "Main St",
+         *   "city": "Lisbon"
+         * }
+         * }</pre>
          */
+
         FLAT,
 
         /**
