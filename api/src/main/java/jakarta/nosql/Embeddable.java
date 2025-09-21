@@ -164,7 +164,35 @@ public @interface Embeddable {
         FLAT,
 
         /**
-         * Fields of the embeddable class are stored in a structured type, such as a user-defined type (UDT).
+         * Fields of the embeddable class are grouped into a structured object
+         * inside the parent entity. This is common in document or UDT-based models.
+         *
+         * <p>Example: An embeddable class {@code Address} inside {@code User} stored as a grouped object:</p>
+         *
+         * <pre>{@code
+         * @Entity
+         * public class User {
+         *     @Id String id;
+         *     @Embedded(type = EmbeddableType.GROUPING)
+         *     Address address;
+         * }
+         *
+         * public class Address {
+         *     String street;
+         *     String city;
+         * }
+         * }</pre>
+         *
+         * <p>JSON Output:</p>
+         * <pre>{@code
+         * {
+         *   "id": "u-123",
+         *   "address": {
+         *     "street": "Main St",
+         *     "city": "Lisbon"
+         *   }
+         * }
+         * }</pre>
          */
         GROUPING
     }
