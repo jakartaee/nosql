@@ -133,6 +133,44 @@ public @interface Embeddable {
     enum EmbeddableType {
         /**
          * Fields of the embeddable class are embedded directly into the data structure of the parent entity or embeddable.
+         *
+         * <p>This is the default behavior when using {@link jakarta.nosql.Embeddable} without specifying a type.</p>
+         *
+         * <p><strong>Example:</strong></p>
+         * <pre>{@code
+         * @Entity
+         * public class Person {
+         *
+         *     @Id
+         *     private String id;
+         *
+         *     @Column
+         *     private String name;
+         *
+         *     @Column
+         *     private Address address;
+         * }
+         *
+         * @Embeddable
+         * public class Address {
+         *
+         *     @Column
+         *     private String street;
+         *
+         *     @Column
+         *     private String city;
+         * }
+         * }</pre>
+         *
+         * <p><strong>JSON Output with {@code FLAT}:</strong></p>
+         * <pre>{@code
+         * {
+         *   "id": "p1",
+         *   "name": "Ada",
+         *   "street": "123 Main St",
+         *   "city": "Leiria"
+         * }
+         * }</pre>
          */
         FLAT,
 
