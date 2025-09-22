@@ -162,7 +162,7 @@ public @interface Embeddable {
          * }
          * }</pre>
          *
-         * <p><strong>JSON Output with {@code FLAT}:</strong></p>
+         * <p><strong>Illustrative structure with {@code FLAT} embedding:</strong></p>
          * <pre>{@code
          * {
          *   "id": "p1",
@@ -171,6 +171,8 @@ public @interface Embeddable {
          *   "city": "Leiria"
          * }
          * }</pre>
+         *<p>This nested structure is representative and does not assume a specific serialization format like JSON.
+         * Each database provider may map this structure differently depending on its capabilities.</p>
          */
         FLAT,
 
