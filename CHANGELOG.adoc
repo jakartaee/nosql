@@ -15,6 +15,9 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 - Updated CI/CD pipeline to use Java 21
 - Updated documentation to reflect Java 21 as the minimum required version
 - Include delete with entity parameter on Template
+- Include  startWith, endWith, and contains on fluent query API
+- Include support to Jakarta Query
+- Include support to Projectors
 
 == [1.0.1] - 2025-07-01
 
