@@ -421,6 +421,7 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param value the value for the comparison
+         * @param <T>   the type of the value to compare with the column value
          * @return the {@link MapperWhere} instance for chaining
          * @throws NullPointerException if value is null
          */
@@ -435,6 +436,7 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param value the value for the comparison
+         * @param <T>   the type of the value to compare with the column value
          * @return the {@link MapperWhere} instance for chaining
          * @throws NullPointerException if value is null
          */
@@ -515,6 +517,7 @@ public interface QueryMapper {
          *
          * @param valueA the lower bound
          * @param valueB the upper bound
+         * @param <T>   the type of the value to compare with the column value
          * @return the {@link MapperWhere} instance for chaining
          * @throws NullPointerException if either valueA or valueB is null
          */
@@ -529,6 +532,7 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param values the collection of values to match
+         * @param <T>   the type of the value to compare with the column value
          * @return the {@link MapperWhere} instance for chaining
          * @throws NullPointerException if values is null
          */
