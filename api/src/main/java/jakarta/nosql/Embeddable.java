@@ -207,7 +207,7 @@ public @interface Embeddable {
          * }
          * }</pre>
          *
-         * <p><strong>JSON Output with {@code GROUPING}:</strong></p>
+         *<p><strong>Illustrative structure with {@code GROUPING} embedding:</strong></p>
          * <pre>{@code
          * {
          *   "id": "p1",
