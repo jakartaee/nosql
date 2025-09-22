@@ -92,7 +92,7 @@ public interface TypedQuery<T> extends Query {
      * It throws an {@link UnsupportedOperationException} if the query is not a {@code SELECT}.</p>
      *
      * <pre>{@code
-     * trStream<TechProductView> stream = template
+     *    Stream<TechProductView> stream = template
      *         .typedQuery("FROM Product WHERE active = true", TechProductView.class)
      *         .stream();
      *     stream.forEach(System.out::println);
