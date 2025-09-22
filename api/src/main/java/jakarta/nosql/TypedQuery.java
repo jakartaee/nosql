@@ -28,21 +28,21 @@ import java.util.stream.Stream;
  * </ul>
  *
  * <p>One of the key benefits of using {@code TypedQuery} is that the {@code FROM} clause can be omitted
- * when the provider is able to infer the source entity from the {@code T} type:
+ * when the provider is able to infer the source entity from the {@code T} type:</p>
  * <ul>
  *   <li>If {@code T} is an entity, the {@code FROM} clause is optional.</li>
  *   <li>If {@code T} is a projection with the {@code @Projection(from = ...)} annotation, the entity source is inferred from it.</li>
  * </ul>
- * This simplifies queries significantly and avoids boilerplate.</p>
+ * <p>This simplifies queries significantly and avoids boilerplate.</p>
  *
  * <p><strong>Important:</strong> When using a {@code FROM} clause explicitly in the query string,
  * the entity specified in the query must match the class provided as {@code T}.
- * For example, the following is <strong>invalid</strong> and must raise an error:
+ * For example, the following is <strong>invalid</strong> and must raise an error:</p>
  * <pre>{@code
  * // Assuming Cat and Dog are both entities
  * template.typedQuery("FROM Cat", Dog.class); //Must fail
  * }</pre>
- * This validation ensures consistency between the declared return type and the query structure.</p>
+ * <p>This validation ensures consistency between the declared return type and the query structure.</p>
  *
  * <p>Examples:</p>
  *
