@@ -98,7 +98,7 @@ public @interface Projection {
      *
      * <p><strong>Note:</strong> The specified class must be annotated with {@code @Entity}.</p>
      *
-     * <p>This enables simpler query definitions such as:
+     * <p>This enables simpler query definitions such as:</p>
      * <pre>{@code
      * @Entity
      * public class Product {
@@ -119,16 +119,14 @@ public @interface Projection {
      *     .typedQuery("WHERE price < 100", PromotionalProduct.class)
      *     .result();
      * }</pre>
-     * </p>
      *
-     * <p>You may also use query parameters as usual:
+     * <p>You may also use query parameters as usual:</p>
      * <pre>{@code
      * List<PromotionalProduct> results = template
      *     .typedQuery("WHERE price < :maxPrice", PromotionalProduct.class)
      *     .bind("maxPrice", 100)
      *     .result();
      * }</pre>
-     * </p>
      *
      * @return the source entity class, which must be annotated with {@code @Entity}
      */
