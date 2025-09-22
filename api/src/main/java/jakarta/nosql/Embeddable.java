@@ -171,8 +171,8 @@ public @interface Embeddable {
          *   "city": "Leiria"
          * }
          * }</pre>
-         *<p>This nested structure is representative and does not assume a specific serialization format like JSON.
-         * Each database provider may map this structure differently depending on its capabilities.</p>
+         * <p>This representation illustrates how the embedded fields are flattened into the parent.
+         * Actual persistence formats may vary depending on the NoSQL database provider.</p>
          */
         FLAT,
 
