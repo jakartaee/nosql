@@ -22,22 +22,35 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies the column mapped by the annotated persistent property or field.
- * <p>
- * If no {@code Column} annotation is explicitly specified, the field will be ignored by Jakarta NoSQL.
- * </p>
+ * Declares that the annotated attribute is persistable and maps to a database column or key.
  *
- * Example:
+ * <p>This annotation is required to make fields persistable in Jakarta NoSQL.
+ * Only attributes explicitly annotated with {@code @Column} will be included in persistence operations.</p>
+ *
+ * <p>If the {@code name} attribute is omitted, the Java attribute name is used as the default mapping target.</p>
+ *
+ * <p>Example with a custom column name:</p>
  * <pre>{@code
- * @Column(name = "DESC")
- * private String description;
+ * @Entity
+ * public class Product {
+ *
+ *     @Column(name = "DESC")
+ *     private String description;
+ * }
  * }</pre>
  *
- * @see Convert
+ * <p><strong>Note:</strong> {@code @Column} is also used in {@link Projection} classes for mapping query results.
+ * In that context, it is used for read-only access and supports mapping of nested or aliased fields.</p>
+ *
  * @see Entity
+ * @see MappedSuperclass
+ * @see Embeddable
+ * @see Projection
+ * @see Convert
  * @see Id
  * @since 1.0.0
  */
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 public @interface Column {

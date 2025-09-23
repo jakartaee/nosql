@@ -95,6 +95,7 @@ import java.util.Optional;
  * }</pre>
  *
  * @see QueryMapper
+ * @see Query
  * @since 1.0.0
  */
 public interface Template {
@@ -430,4 +431,72 @@ public interface Template {
      *                                       such as key-value where most operations are key-based.
      */
     <T> QueryMapper.MapperDeleteFrom delete(Class<T> type);
+
+
+
+    /**
+     * Creates a query from a raw string using Jakarta Query language (core grammar).
+     * <p>
+     * The entity type is inferred from the query string (e.g., {@code FROM Person}),
+     * so no result class needs to be explicitly passed.
+     * <p>
+     * The returned {@link Query} instance is mutable and not thread-safe.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Query query = template.query("SELECT * FROM Person WHERE name = :name");
+     * List<Person> people = query.bind("name", "Ada").result();
+     * }</pre>
+     *
+     * @param query the Jakarta Query string to execute (e.g., {@code SELECT * FROM Person WHERE active = true})
+     * @return a new {@link Query} instance bound to this query string
+     * @throws NullPointerException if the query string is {@code null}
+     * @throws UnsupportedOperationException if the database does not support dynamic queries
+     */
+    Query query(String query);
+
+    /**
+     * Creates a {@link TypedQuery} using the given query string and result type.
+     *
+     * <p>This method provides a type-safe way to execute queries by explicitly specifying the expected
+     * result type. The provided {@code type} must be one of the following:
+     * <ul>
+     *  <li>An entity class annotated with {@code @Entity}. The query may explicitly include a {@code FROM} clause,
+     *   or omit it if the entity can be inferred from the {@code type} parameter.</li>
+     *   <li>A Java {@code record} annotated with {@code @Projection}, which maps partial or flattened results based on the query output.</li>
+     * </ul>
+     *
+     * <p>When using a projection, the query can omit the {@code SELECT} clause entirely if the record component names match
+     * the entity’s attributes. The {@code FROM} clause can also be omitted if the {@link jakarta.nosql.Projection#from()} attribute is specified.</p>
+     *
+     * <p>If the query references a different entity than the one implied by the {@code type} argument,
+     * an {@link IllegalArgumentException} may be thrown by the provider to indicate a mismatch.</p>
+     *
+     * <p>This method returns a {@link TypedQuery}, which improves safety and readability by:
+     * <ul>
+     *   <li>Restricting the result type to {@code T}, eliminating the need for casting</li>
+     *   <li>Allowing fluent parameter binding and result handling</li>
+     * </ul>
+     *
+     * <pre>{@code
+     * List<TechProductView> techProducts = template
+     *     .typedQuery("FROM Product WHERE category = 'TECH'", TechProductView.class)
+     *     .result();
+     *
+     * Optional<PromotionalProduct> promo = template
+     *     .typedQuery("WHERE price < :maxPrice", PromotionalProduct.class)
+     *     .bind("maxPrice", 100)
+     *     .singleResult();
+     * }</pre>
+     *
+     * @param query the query string using Jakarta Query Core language
+     * @param type  the expected result type (entity or projection class)
+     * @param <T>   the type of the result
+     * @return a {@link TypedQuery} instance to bind parameters and fetch results
+     * @throws NullPointerException     if the query or type is {@code null}
+     * @throws IllegalArgumentException if the provided {@code type} is incompatible with the entity in the query
+     * @throws UnsupportedOperationException if the query is not supported by the underlying provider
+     */
+    <T> TypedQuery<T> typedQuery(String query, Class<T> type);
+
 }

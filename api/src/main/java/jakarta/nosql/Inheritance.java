@@ -30,16 +30,31 @@ import java.lang.annotation.Target;
  * of every class in the hierarchy.
  * The subclass will use the {@link Entity} name from that class with this annotation.
  *
- * <pre>
+ * <pre>{@code
+ * @Entity
+ * @Inheritance
+ * public abstract class Notification {
+ *     @Id
+ *     private String id;
  *
- *   Example:
- *   &#064;Entity
- *   &#064;Inheritance
- *   public class Notification { ... }
+ *     @Column
+ *     private String recipient;
+ * }
  *
- *   &#064;Entity
- *   public class SMSNotification extends Notification { ... }
- * </pre>
+ * @Entity
+ * public class SMSNotification extends Notification {
+ *
+ *     @Column
+ *     private String phoneNumber;
+ * }
+ *
+ * @Entity
+ * public class EmailNotification extends Notification {
+ *
+ *     @Column
+ *     private String email;
+ * }
+ * }</pre>
  * @see DiscriminatorColumn
  * @see DiscriminatorValue
  * @since 1.0.0

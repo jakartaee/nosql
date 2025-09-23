@@ -29,9 +29,69 @@ package jakarta.nosql;
  *
  * <p>Note that the target type {@code X} and the converted basic type {@code Y} may be the same Java type.
  *
+ * <p>Example: Using a record {@code Money} value object with a custom converter</p>
+ * <pre>{@code
+ * public record Money(Currency currency, BigDecimal amount) {
+ *
+ *     @Override
+ *     public String toString() {
+ *         return currency.getCurrencyCode() + " " + amount;
+ *     }
+ *
+ *     public static Money fromString(String value) {
+ *         String[] parts = value.split(" ");
+ *         return new Money(Currency.getInstance(parts[0]), new BigDecimal(parts[1]));
+ *     }
+ * }
+ * }</pre>
+ *
+ * <p>Converter implementation:</p>
+ *
+ * <pre>{@code
+ * public class MoneyConverter implements AttributeConverter<Money, String> {
+ *
+ *     @Override
+ *     public String convertToDatabaseColumn(Money attribute) {
+ *         return attribute == null ? null : attribute.toString();
+ *     }
+ *
+ *     @Override
+ *     public Money convertToEntityAttribute(String dbData) {
+ *         return dbData == null ? null : Money.fromString(dbData);
+ *     }
+ * }
+ * }</pre>
+ *
+ * <p>Example usage in an entity:</p>
+ *
+ * <pre>{@code
+ * @Entity
+ * public class Product {
+ *
+ *     @Id
+ *     private String id;
+ *
+ *     @Column
+ *     private String name;
+ *
+ *     @Column
+ *     @Convert(MoneyConverter.class)
+ *     private Money price;
+ * }
+ * }</pre>
+ *
+ * <p>The representation stored in the database (depending on the NoSQL backend) may resemble:</p>
+ *
+ * <pre>{@code
+ * {
+ *   "id": "P-001",
+ *   "name": "Laptop",
+ *   "price": "USD 1499.00"
+ * }
+ * }</pre>
+ *
  * @param <X> the target type, that is, the type of the entity attribute
  * @param <Y> a basic type or a supported type in the NoSQL database representing the type of the database column
- *
  * @see Convert
  * @since 1.0.0
  */

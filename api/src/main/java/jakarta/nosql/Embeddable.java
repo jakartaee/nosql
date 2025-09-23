@@ -133,11 +133,93 @@ public @interface Embeddable {
     enum EmbeddableType {
         /**
          * Fields of the embeddable class are embedded directly into the data structure of the parent entity or embeddable.
+         *
+         * <p>This is the default behavior when using {@link jakarta.nosql.Embeddable} without specifying a type.</p>
+         *
+         * <p><strong>Example:</strong></p>
+         * <pre>{@code
+         * @Entity
+         * public class Person {
+         *
+         *     @Id
+         *     private String id;
+         *
+         *     @Column
+         *     private String name;
+         *
+         *     @Column
+         *     private Address address;
+         * }
+         *
+         * @Embeddable
+         * public class Address {
+         *
+         *     @Column
+         *     private String street;
+         *
+         *     @Column
+         *     private String city;
+         * }
+         * }</pre>
+         *
+         * <p><strong>Illustrative structure with {@code FLAT} embedding:</strong></p>
+         * <pre>{@code
+         * {
+         *   "id": "p1",
+         *   "name": "Ada",
+         *   "street": "123 Main St",
+         *   "city": "Leiria"
+         * }
+         * }</pre>
+         * <p>This representation illustrates how the embedded fields are flattened into the parent.
+         * Actual persistence formats may vary depending on the NoSQL database provider.</p>
          */
         FLAT,
 
         /**
-         * Fields of the embeddable class are stored in a structured type, such as a user-defined type (UDT).
+         * Fields of the embeddable class are stored in a grouped structure, such as a user-defined type (UDT) or embedded document.
+         *
+         * <p>This mode is used to encapsulate the embeddable fields under a single object inside the parent structure.</p>
+         *
+         * <p><strong>Example:</strong></p>
+         * <pre>{@code
+         * @Entity
+         * public class Person {
+         *
+         *     @Id
+         *     private String id;
+         *
+         *     @Column
+         *     private String name;
+         *
+         *     @Column
+         *     private Address address;
+         * }
+         *
+         * @Embeddable(EmbeddableType.GROUPING)
+         * public class Address {
+         *
+         *     @Column
+         *     private String street;
+         *
+         *     @Column
+         *     private String city;
+         * }
+         * }</pre>
+         *
+         *<p><strong>Illustrative structure with {@code GROUPING} embedding:</strong></p>
+         * <pre>{@code
+         * {
+         *   "id": "p1",
+         *   "name": "Ada",
+         *   "address": {
+         *     "street": "123 Main St",
+         *     "city": "Leiria"
+         *   }
+         * }
+         * }</pre>
+         * <p>This nested structure is representative and does not assume a specific serialization format like JSON.
+         * Each database provider may map this structure differently depending on its capabilities.</p>
          */
         GROUPING
     }
