@@ -181,10 +181,6 @@ public record OrderSummary(
 
 This approach is *read-only* and is designed for flexible querying — not persistence.
 
----
-
-Let me know if you'd like this split into a separate AsciiDoc file, include diagrams, or add examples per database type (e.g., MongoDB vs Cassandra).
-
 === Maven dependency
 
 [source,xml]
