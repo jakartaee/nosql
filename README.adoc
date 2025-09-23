@@ -18,7 +18,7 @@ Jakarta NoSQL is a comprehensive framework designed to simplify the integration 
 
 == One Mapping API to Multiples NoSQL Databases
 
-Jakarta NoSQL provides one API for each NoSQL database type. However, it incorporates the same annotations from the Jakarta Persistence specification and heritage Java Persistence Architecture (JPA) to map Java objects. Therefore, with just these annotations that look like JPA, there is support for more than twenty NoSQL databases.
+Jakarta NoSQL provides one API for each NoSQL database type. However, it incorporates the same annotations from the Jakarta Persistence specification and heritage Java Persistence Architecture (JPA) to map Java objects. Therefore, with just these annotations that look like Jakarta Persistence, there is support for more than twenty NoSQL databases.
 
 [source,java]
 ----
@@ -53,30 +53,138 @@ The annotations from the Mapping API will look familiar to Jakarta Persistence d
 | `@Convert` | Specifies how the values of a field or property are converted to a basic type or a type that can be persisted by a persistence provider.
 |===
 
-These annotations provide a powerful toolkit for defining and mapping entities in NoSQL databases, analogous to their counterparts in Jakarta Persistence.
+These annotations serve as a familiar and powerful toolkit for Java developers, enabling them to map Java objects to NoSQL databases similarly to how Jakarta Persistence works with relational data.
 
 === Template
 
-After mapping an entity, you can explore the advantage of using a `Template` interface, which can increase productivity on NoSQL operations.
+The `Template` interface is the central entry point for interacting with a NoSQL database in Jakarta NoSQL. It provides a consistent, high-level API for performing common persistence operations such as `insert`, `update`, `delete`, and `query`.
+
+Jakarta NoSQL supports multiple interaction styles through the `Template`, including:
+
+* Basic CRUD operations
+* Fluent-style query builders
+* String-based queries with support for projections
+
+==== Basic Operations
+
+Once you’ve annotated your entity, you can perform basic operations like insert, find, and delete using the `Template` instance.
 
 [source,java]
 ----
 @Inject
 Template template;
-...
 
-Car ferrari = Car.id(1L)
+Car ferrari = Car.builder()
+        .id(1L)
         .name("Ferrari")
-        .type(CarType.SPORT);
+        .type(CarType.SPORT)
+        .build();
 
 template.insert(ferrari);
+
 Optional<Car> car = template.find(Car.class, 1L);
+
 template.delete(Car.class, 1L);
 ----
 
-The `Template` interface provides specialized methods to leverage the features of specific NoSQL database types.
+Jakarta NoSQL provides a unified API with specialized support for a wide range of NoSQL databases, including but not limited to document, key-value, column-oriented, graph, and emerging models.
 
-*Maven dependency*
+==== Fluent API
+
+Jakarta NoSQL provides a fluent API for dynamic query construction, enabling you to perform more expressive filtering and deletion operations programmatically — without writing string-based queries.
+
+*Select example:*
+
+[source,java]
+----
+List<Car> sportsCars = template.select(Car.class)
+    .where("type").eq(CarType.SPORT)
+    .orderBy("name")
+    .result();
+----
+
+*Delete example:*
+
+[source,java]
+----
+template.delete(Car.class)
+    .where("type").eq(CarType.CLASSIC)
+    .execute();
+----
+
+This style promotes type safety and cleaner code, especially in dynamic or reusable query scenarios.
+
+==== Typed Queries and Projections
+
+Jakarta NoSQL supports string-based queries using the Jakarta Query Core language. There are two main methods for executing these queries:
+
+* `query(String)` — executes a generic query that always returns entities and *requires* an explicit `FROM` clause.
+* `typedQuery(String, Class<T>)` — maps results to either an entity or a projection class. Supports *omitting* the `FROM` clause when used with `@Projection(from = ...)`.
+
+===== Using `query(String)` – entity results only
+
+The `query(String)` method is useful for selecting full entity instances, deleting, or updating data. It always returns entity types and requires a `FROM` clause in the query.
+
+[source,java]
+----
+List<Car> cars = template.query("FROM Car WHERE type = :type")
+                         .bind("type", CarType.SPORT)
+                         .result();
+
+Optional<Car> one = template.query("FROM Car WHERE id = :id")
+                            .bind("id", 42)
+                            .singleResult();
+----
+
+IMPORTANT: You cannot use projections with `query(String)` — only entity classes are supported.
+
+===== Using `typedQuery(String, Class<T>)` – entities and projections
+
+Use `typedQuery(...)` when you want to:
+
+* Retrieve data as a projection (using `record` and `@Projection`)
+* Omit the `FROM` clause when using `@Projection(from = ...)`
+
+This method supports the full query API — `result()`, `stream()`, and `singleResult()`:
+
+[source,java]
+----
+@Projection
+public record TechCarView(String name, CarType type) {}
+
+List<TechCarView> cars = template
+    .typedQuery("FROM Car WHERE type = 'SPORT'", TechCarView.class)
+    .result();
+----
+
+You may also omit the `FROM` clause entirely if you annotate the projection with `@Projection(from = Car.class)`:
+
+[source,java]
+----
+@Projection(from = Car.class)
+public record BudgetCar(String name, double price) {}
+
+List<BudgetCar> cheapCars = template
+    .typedQuery("WHERE price < 100", BudgetCar.class)
+    .result();
+----
+
+===== Single result queries
+
+Both `query(...)` and `typedQuery(...)` support retrieving a single result wrapped in an `Optional`:
+
+[source,java]
+----
+Optional<Car> car = template.query("FROM Car WHERE id = :id")
+                            .bind("id", "c-001")
+                            .singleResult();
+
+Optional<BudgetCar> result = template
+    .typedQuery("WHERE price < 100", BudgetCar.class)
+    .singleResult();
+----
+
+=== Maven dependency
 
 [source,xml]
 ----
