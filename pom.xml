@@ -55,7 +55,7 @@
         <apache.rat.version>0.15</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
         <jacoco.maven.version>0.8.12</jacoco.maven.version>
-        <maven-javadoc-plugin.version>3.11.1</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
         <maven.checkstyle.plugin.version>3.5.0</maven.checkstyle.plugin.version>
         <maven.compile.version>3.14.1</maven.compile.version>
         <maven.compiler.source>21</maven.compiler.source>
