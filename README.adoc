@@ -116,32 +116,36 @@ This style promotes type safety and cleaner code, especially in dynamic or reusa
 
 ==== Typed Queries and Projections
 
-You can also execute string-based queries using the Jakarta Query Core language. The `Template` offers two approaches:
+Jakarta NoSQL supports string-based queries using the Jakarta Query Core language. There are two main methods for executing these queries:
 
-* `query(String)` — generic query for update, delete, or select
-* `typedQuery(String, Class<T>)` — allows result mapping to entity or projection classes
+* `query(String)` — executes a generic query that always returns entities and *requires* an explicit `FROM` clause.
+* `typedQuery(String, Class<T>)` — maps results to either an entity or a projection class. Supports *omitting* the `FROM` clause when used with `@Projection(from = ...)`.
 
-===== Select with parameters
+===== Using `query(String)` – entity results only
+
+The `query(String)` method is useful for selecting full entity instances, deleting, or updating data. It always returns entity types and requires a `FROM` clause in the query.
 
 [source,java]
 ----
-List<Car> cars = template.query("FROM Car WHERE type = :type", Car.class)
+List<Car> cars = template.query("FROM Car WHERE type = :type")
                          .bind("type", CarType.SPORT)
                          .result();
+
+Optional<Car> one = template.query("FROM Car WHERE id = :id")
+                            .bind("id", 42)
+                            .singleResult();
 ----
 
-===== Delete with parameters
+IMPORTANT: You cannot use projections with `query(String)` — only entity classes are supported.
 
-[source,java]
-----
-template.query("DELETE FROM Car WHERE type = :type")
-        .bind("type", CarType.CLASSIC)
-        .executeUpdate();
-----
+===== Using `typedQuery(String, Class<T>)` – entities and projections
 
-===== Using projections with records
+Use `typedQuery(...)` when you want to:
 
-Projections allow partial mapping of query results into lightweight records. This improves performance and simplifies read models.
+* Retrieve data as a projection (using `record` and `@Projection`)
+* Omit the `FROM` clause when using `@Projection(from = ...)`
+
+This method supports the full query API — `result()`, `stream()`, and `singleResult()`:
 
 [source,java]
 ----
@@ -153,7 +157,7 @@ List<TechCarView> cars = template
     .result();
 ----
 
-You may also omit the `FROM` clause by defining the entity in the `@Projection(from = Car.class)` annotation.
+You may also omit the `FROM` clause entirely if you annotate the projection with `@Projection(from = Car.class)`:
 
 [source,java]
 ----
@@ -165,21 +169,22 @@ List<BudgetCar> cheapCars = template
     .result();
 ----
 
-===== Nested attributes with `@Column`
+===== Single result queries
 
-When working with associated or embedded objects, use the `@Column("path.to.property")` annotation to flatten nested results.
+Both `query(...)` and `typedQuery(...)` support retrieving a single result wrapped in an `Optional`:
 
 [source,java]
 ----
-@Projection(from = Order.class)
-public record OrderSummary(
-    String id,
-    @Column("customer.name") String customerName,
-    @Column("customer.address.city") String city
-) {}
+Optional<Car> car = template.query("FROM Car WHERE id = :id")
+                            .bind("id", "c-001")
+                            .singleResult();
+
+Optional<BudgetCar> result = template
+    .typedQuery("WHERE price < 100", BudgetCar.class)
+    .singleResult();
 ----
 
-This approach is *read-only* and is designed for flexible querying — not persistence.
+This method is ideal when querying by unique identifiers or expecting a single item.
 
 === Maven dependency
 
