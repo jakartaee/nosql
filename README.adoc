@@ -109,7 +109,7 @@ List<Car> sportsCars = template.select(Car.class)
 ----
 template.delete(Car.class)
     .where("type").eq(CarType.CLASSIC)
-    .executeUpdate();
+    .execute();
 ----
 
 This style promotes type safety and cleaner code, especially in dynamic or reusable query scenarios.
