@@ -76,7 +76,7 @@ template.delete(Car.class, 1L);
 
 The `Template` interface provides specialized methods to leverage the features of specific NoSQL database types.
 
-*Maven dependency*
+=== Maven dependency
 
 [source,xml]
 ----
