@@ -57,24 +57,133 @@ These annotations provide a powerful toolkit for defining and mapping entities i
 
 === Template
 
-After mapping an entity, you can explore the advantage of using a `Template` interface, which can increase productivity on NoSQL operations.
+The `Template` interface is the central entry point for interacting with a NoSQL database in Jakarta NoSQL. It provides a consistent, high-level API for performing common persistence operations such as `insert`, `update`, `delete`, and `query`.
+
+Jakarta NoSQL supports multiple interaction styles through the `Template`, including:
+
+* Basic CRUD operations
+* Fluent-style query builders
+* String-based queries with support for projections
+
+==== Basic Operations
+
+Once you’ve annotated your entity, you can perform basic operations like insert, find, and delete using the `Template` instance.
 
 [source,java]
 ----
 @Inject
 Template template;
-...
 
-Car ferrari = Car.id(1L)
+Car ferrari = Car.builder()
+        .id(1L)
         .name("Ferrari")
-        .type(CarType.SPORT);
+        .type(CarType.SPORT)
+        .build();
 
 template.insert(ferrari);
+
 Optional<Car> car = template.find(Car.class, 1L);
+
 template.delete(Car.class, 1L);
 ----
 
-The `Template` interface provides specialized methods to leverage the features of specific NoSQL database types.
+These operations work consistently across different NoSQL types (Key-Value, Document, Column, Graph), and provide an abstraction over provider-specific drivers.
+
+==== Fluent API
+
+Jakarta NoSQL provides a fluent API for dynamic query construction, enabling you to perform more expressive filtering and deletion operations programmatically — without writing string-based queries.
+
+*Select example:*
+
+[source,java]
+----
+List<Car> sportsCars = template.select(Car.class)
+    .where("type").eq(CarType.SPORT)
+    .orderBy("name")
+    .result();
+----
+
+*Delete example:*
+
+[source,java]
+----
+template.delete(Car.class)
+    .where("type").eq(CarType.CLASSIC)
+    .executeUpdate();
+----
+
+This style promotes type safety and cleaner code, especially in dynamic or reusable query scenarios.
+
+==== Typed Queries and Projections
+
+You can also execute string-based queries using the Jakarta Query Core language. The `Template` offers two approaches:
+
+* `query(String)` — generic query for update, delete, or select
+* `typedQuery(String, Class<T>)` — allows result mapping to entity or projection classes
+
+===== Select with parameters
+
+[source,java]
+----
+List<Car> cars = template.query("FROM Car WHERE type = :type", Car.class)
+                         .bind("type", CarType.SPORT)
+                         .result();
+----
+
+===== Delete with parameters
+
+[source,java]
+----
+template.query("DELETE FROM Car WHERE type = :type")
+        .bind("type", CarType.CLASSIC)
+        .executeUpdate();
+----
+
+===== Using projections with records
+
+Projections allow partial mapping of query results into lightweight records. This improves performance and simplifies read models.
+
+[source,java]
+----
+@Projection
+public record TechCarView(String name, CarType type) {}
+
+List<TechCarView> cars = template
+    .typedQuery("FROM Car WHERE type = 'SPORT'", TechCarView.class)
+    .result();
+----
+
+You may also omit the `FROM` clause by defining the entity in the `@Projection(from = Car.class)` annotation.
+
+[source,java]
+----
+@Projection(from = Car.class)
+public record BudgetCar(String name, double price) {}
+
+List<BudgetCar> cheapCars = template
+    .typedQuery("WHERE price < 100", BudgetCar.class)
+    .result();
+----
+
+===== Nested attributes with `@Column`
+
+When working with associated or embedded objects, use the `@Column("path.to.property")` annotation to flatten nested results.
+
+[source,java]
+----
+@Projection(from = Order.class)
+public record OrderSummary(
+    String id,
+    @Column("customer.name") String customerName,
+    @Column("customer.address.city") String city
+) {}
+----
+
+This approach is *read-only* and is designed for flexible querying — not persistence.
+
+---
+
+Let me know if you'd like this split into a separate AsciiDoc file, include diagrams, or add examples per database type (e.g., MongoDB vs Cassandra).
 
 === Maven dependency
 
