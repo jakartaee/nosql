@@ -87,7 +87,7 @@ Optional<Car> car = template.find(Car.class, 1L);
 template.delete(Car.class, 1L);
 ----
 
-These operations work consistently across different NoSQL types (Key-Value, Document, Column, Graph), and provide an abstraction over provider-specific drivers.
+Jakarta NoSQL provides a unified API with specialized support for a wide range of NoSQL databases, including but not limited to document, key-value, column-oriented, graph, and emerging models.
 
 ==== Fluent API
 
