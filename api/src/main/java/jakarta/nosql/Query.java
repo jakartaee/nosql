@@ -151,7 +151,7 @@ public interface Query {
      * Binds a named parameter to the query.
      *
      * <pre>{@code
-     * Query query = template.query("SELECT * FROM Book WHERE title = :title", Book.class)
+     * Query query = template.query("SELECT * FROM Book WHERE title = :title")
      *                       .bind("title", "Effective Java");
      * }</pre>
      *
