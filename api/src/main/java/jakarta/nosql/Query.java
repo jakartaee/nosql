@@ -166,7 +166,7 @@ public interface Query {
      * Binds a positional parameter to the query. Positions are 1-based.
      *
      * <pre>{@code
-     * Query query = template.query("SELECT * FROM Person WHERE age > ?1", Person.class)
+     * Query query = template.query("SELECT * FROM Person WHERE age > ?1")
      *                       .bind(1, 30);
      * }</pre>
      *
