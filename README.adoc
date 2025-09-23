@@ -53,7 +53,7 @@ The annotations from the Mapping API will look familiar to Jakarta Persistence d
 | `@Convert` | Specifies how the values of a field or property are converted to a basic type or a type that can be persisted by a persistence provider.
 |===
 
-These annotations provide a powerful toolkit for defining and mapping entities in NoSQL databases, analogous to their counterparts in Jakarta Persistence.
+These annotations serve as a familiar and powerful toolkit for Java developers, enabling them to map Java objects to NoSQL databases similarly to how Jakarta Persistence works with relational data.
 
 === Template
 
