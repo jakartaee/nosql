@@ -461,7 +461,7 @@ public interface Template {
      * <p>This method provides a type-safe way to execute queries by explicitly specifying the expected
      * result type. The provided {@code type} must be one of the following:
      * <ul>
-     *  <li> An entity class annotated with {@code @Entity}. The query may explicitly include a {@code FROM} clause,
+     *  <li>An entity class annotated with {@code @Entity}. The query may explicitly include a {@code FROM} clause,
      *   or omit it if the entity can be inferred from the {@code type} parameter.</li>
      *   <li>A Java {@code record} annotated with {@code @Projection}, which maps partial or flattened results based on the query output.</li>
      * </ul>
