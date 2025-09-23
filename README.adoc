@@ -184,8 +184,6 @@ Optional<BudgetCar> result = template
     .singleResult();
 ----
 
-This method is ideal when querying by unique identifiers or expecting a single item.
-
 === Maven dependency
 
 [source,xml]
