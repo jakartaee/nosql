@@ -164,17 +164,17 @@ Jakarta NoSQL providers that support Jakarta Data typically scan interfaces mark
 
 By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
 
-== Jakarta Query
+=== Jakarta Query
 
 Jakarta NoSQL builds upon the foundation provided by _Jakarta Query_, a portable, object-oriented query language designed to abstract common database operations.
 
 All Jakarta NoSQL providers must support the **Jakarta Query Core** language, which enables structured access to NoSQL data using a consistent query syntax. This makes it possible to write expressive queries across a wide variety of underlying databases — from document to graph — without locking into database-specific syntax.
 
-=== Supported Operations
+==== Supported Operations
 
 The Jakarta Query Core language includes support for three core operations:
 
-==== `SELECT`
+===== `SELECT`
 
 Queries using `SELECT` retrieve entities from a data source, optionally filtered by conditions (`WHERE`) and sorted (`ORDER BY`).
 
@@ -182,7 +182,7 @@ The `FROM` clause specifies the entity to query. Filtering conditions may use co
 
 NOTE: Some NoSQL providers may impose default result limits or ignore ordering unless explicitly supported.
 
-==== `UPDATE`
+===== `UPDATE`
 
 Queries using `UPDATE` modify attributes of entities that match a condition.
 
@@ -190,13 +190,13 @@ The `SET` clause is used to assign new values to fields, while the `WHERE` claus
 
 IMPORTANT: Not all NoSQL databases support partial updates. In such cases, this operation may result in full entity replacement or raise an `UnsupportedOperationException`.
 
-==== `DELETE`
+===== `DELETE`
 
 Queries using `DELETE` remove entities matching the specified `WHERE` condition.
 
 NOTE: As with `UPDATE`, delete operations may behave differently depending on database capabilities (e.g., soft vs. hard deletion, transactionality).
 
-=== Limitations and Portability
+==== Limitations and Portability
 
 While Jakarta Query provides a consistent query interface, its execution is **subject to the capabilities and constraints of the underlying NoSQL provider**. For example:
 
