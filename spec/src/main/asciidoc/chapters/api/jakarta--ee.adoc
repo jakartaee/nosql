@@ -164,28 +164,46 @@ Jakarta NoSQL providers that support Jakarta Data typically scan interfaces mark
 
 By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
 
-=== Jakarta Query
+== Jakarta Query
 
-Jakarta NoSQL builds upon the foundation provided by _Jakarta Query_, which defines a **database-agnostic, object-oriented query language**.
+Jakarta NoSQL builds upon the foundation provided by _Jakarta Query_, a portable, object-oriented query language designed to abstract common database operations.
 
-At a minimum, Jakarta NoSQL implementations must support the **Jakarta Query Core language**, allowing developers to write type-safe, portable queries that work across multiple NoSQL databases.
+All Jakarta NoSQL providers must support the **Jakarta Query Core** language, which enables structured access to NoSQL data using a consistent query syntax. This makes it possible to write expressive queries across a wide variety of underlying databases — from document to graph — without locking into database-specific syntax.
 
-The core query syntax enables operations like:
+=== Supported Operations
 
-* `SELECT` – retrieve entities or projections
-* `UPDATE` – modify fields in one or more entities
-* `DELETE` – remove entities based on filters
+The Jakarta Query Core language includes support for three core operations:
 
-The language is expressive yet minimal, making it suitable for different NoSQL models, including key-value, document, column, and graph.
+==== `SELECT`
 
-Here’s a basic example using the Jakarta Query Core syntax with Jakarta NoSQL:
+Queries using `SELECT` retrieve entities from a data source, optionally filtered by conditions (`WHERE`) and sorted (`ORDER BY`).
 
-[source,java]
-----
-List<Product> electronics = template.query("FROM Product WHERE category = 'ELECTRONICS'")
-                                     .result();
-----
+The `FROM` clause specifies the entity to query. Filtering conditions may use comparison operators (`=`, `>`, `<=`, `<>`, etc.) and logical expressions (`AND`, `OR`, `NOT`). The `ORDER BY` clause defines how the result set is sorted.
 
-Jakarta NoSQL parses this query and delegates it to the appropriate database driver, handling entity mapping and result transformation automatically.
+NOTE: Some NoSQL providers may impose default result limits or ignore ordering unless explicitly supported.
 
-Because Jakarta Query is a standalone specification, it also promotes **reuse and compatibility** across Jakarta EE projects that deal with querying — whether working with relational, NoSQL, or other persistence mechanisms.
+==== `UPDATE`
+
+Queries using `UPDATE` modify attributes of entities that match a condition.
+
+The `SET` clause is used to assign new values to fields, while the `WHERE` clause narrows which records are affected.
+
+IMPORTANT: Not all NoSQL databases support partial updates. In such cases, this operation may result in full entity replacement or raise an `UnsupportedOperationException`.
+
+==== `DELETE`
+
+Queries using `DELETE` remove entities matching the specified `WHERE` condition.
+
+NOTE: As with `UPDATE`, delete operations may behave differently depending on database capabilities (e.g., soft vs. hard deletion, transactionality).
+
+=== Limitations and Portability
+
+While Jakarta Query provides a consistent query interface, its execution is **subject to the capabilities and constraints of the underlying NoSQL provider**. For example:
+
+* Some databases may not support advanced filtering or dynamic sorting.
+* Eventual consistency may result in observable delays between `UPDATE` or `DELETE` and subsequent `SELECT`.
+* Certain expressions or query paths may be unsupported or require index definitions.
+
+Jakarta NoSQL parses the query, maps it to the database-native format, and delegates execution to the provider — but database-specific limitations may still apply.
+
+This approach promotes code portability while allowing flexibility for providers to optimize for their own engines.
