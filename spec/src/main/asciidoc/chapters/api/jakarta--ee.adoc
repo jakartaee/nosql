@@ -166,7 +166,7 @@ By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use
 
 === Jakarta Query
 
-Jakarta NoSQL builds on the Jakarta Query Core language, offering a portable and expressive way to perform database operations across NoSQL technologies.
+Jakarta NoSQL builds on the Jakarta Query Core language, offering a portable and expressive way to perform database operations across persistence technologies.
 
 Jakarta Query provides a structured syntax that supports common query patterns such as retrieving, updating, and deleting data. It serves as a foundation for portable queries, abstracting low-level database-specific syntax behind a unified language.
 
