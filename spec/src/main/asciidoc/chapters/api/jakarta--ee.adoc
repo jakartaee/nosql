@@ -175,7 +175,6 @@ The core query syntax enables operations like:
 * `SELECT` – retrieve entities or projections
 * `UPDATE` – modify fields in one or more entities
 * `DELETE` – remove entities based on filters
-* `WHERE`, `ORDER BY` – apply conditions and sorting
 
 The language is expressive yet minimal, making it suitable for different NoSQL models, including key-value, document, column, and graph.
 
