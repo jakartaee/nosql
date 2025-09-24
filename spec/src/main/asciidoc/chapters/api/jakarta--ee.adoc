@@ -165,3 +165,28 @@ Jakarta NoSQL providers that support Jakarta Data typically scan interfaces mark
 By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
 
 === Jakarta Query
+
+Jakarta NoSQL builds upon the foundation provided by _Jakarta Query_, which defines a **database-agnostic, object-oriented query language**.
+
+At a minimum, Jakarta NoSQL implementations must support the **Jakarta Query Core language**, allowing developers to write type-safe, portable queries that work across multiple NoSQL databases.
+
+The core query syntax enables operations like:
+
+* `SELECT` – retrieve entities or projections
+* `UPDATE` – modify fields in one or more entities
+* `DELETE` – remove entities based on filters
+* `WHERE`, `ORDER BY` – apply conditions and sorting
+
+The language is expressive yet minimal, making it suitable for different NoSQL models, including key-value, document, column, and graph.
+
+Here’s a basic example using the Jakarta Query Core syntax with Jakarta NoSQL:
+
+[source,java]
+----
+List<Product> electronics = template.query("FROM Product WHERE category = 'ELECTRONICS'")
+                                     .result();
+----
+
+Jakarta NoSQL parses this query and delegates it to the appropriate database driver, handling entity mapping and result transformation automatically.
+
+Because Jakarta Query is a standalone specification, it also promotes **reuse and compatibility** across Jakarta EE projects that deal with querying — whether working with relational, NoSQL, or other persistence mechanisms.
