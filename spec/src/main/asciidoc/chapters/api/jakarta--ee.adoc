@@ -168,7 +168,7 @@ By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use
 
 *Jakarta Query* is a specification that defines an object-oriented, portable, and extensible query language for persistence technologies. It is designed to unify how queries are expressed across various persistence models — including both traditional relational databases and NoSQL systems.
 
-As part of the Jakarta EE ecosystem, Jakarta NoSQL builds on top of *Jakarta Query Core* as a foundational requirement. This core language provides a minimal but expressive set of constructs — such as filtering, ordering, selection, and updates — that serve as the base for querying entities in a database-independent way.
+Jakarta NoSQL builds on top of *Jakarta Query Core* as a foundational requirement. This core language provides a minimal but expressive set of constructs — such as filtering, ordering, selection, and updates — that serve as the base for querying entities in a database-independent way.
 
 Although the syntax is consistent across databases, actual query behavior may vary depending on the underlying NoSQL provider. For instance:
 
