@@ -209,7 +209,7 @@ Slightly more expressive than Key-Value:
 
 Document databases offer the most flexible query model:
 
-- Support filtering across multiple fields, not just `@Id`.
+- Support filtering across multiple fields, not just `jakarta.nosql.@Id`.
 - Enable use of a wide range of operators like `=`, `>`, `<`, `IN`, `AND`, `OR`, etc.
 - Typically support SELECT with `ORDER BY` and pagination-style features.
 - Full support for UPDATE and DELETE operations.
@@ -222,7 +222,7 @@ Graph providers generally offer capabilities comparable to document databases:
 - Allow deep filtering, traversals, and querying associated nodes/relationships.
 - Full SELECT, UPDATE, and DELETE operations are often supported depending on the graph engine.
 
-*Other or Custom NoSQL Providers*
+===== Other or Custom NoSQL Providers
 
 If a NoSQL database does not fit clearly into any of the categories above, it must support **at least the capabilities defined by the Key-Value model** — that is, equality conditions on `@Id` for SELECT and DELETE operations. Additional support is welcome and encouraged, as long as it respects Jakarta Query Core semantics.
 
