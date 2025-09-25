@@ -182,40 +182,53 @@ By integrating Jakarta Query, Jakarta NoSQL enables expressive, declarative, and
 
 ==== Query Limitations in NoSQL Providers
 
-While Jakarta NoSQL offers a unified query interface based on Jakarta Query Core, the actual capabilities and behaviors can vary significantly depending on the underlying NoSQL database type. These limitations are inherent to how each database model handles data access and indexing.
+While Jakarta NoSQL offers a unified query interface based on Jakarta Query Core, the actual capabilities and behaviors can vary significantly depending on the underlying NoSQL database type. These limitations are inherent to how each database model handles data access, indexing, and consistency.
 
-Below are key considerations per NoSQL type:
+Below are key considerations by NoSQL category:
 
 *Key-Value Databases*
 
-Key-Value databases revolve around direct access via keys, making their query capabilities very limited:
-- Supports only equality (`=`) conditions on the identifier attribute (`@Id`).
-- Queries such as `FROM Entity WHERE id = :id` are supported.
-- Equivalent DELETE operations may work using the same logic.
+Key-Value stores provide the most limited querying capability:
+- Only equality (`=`) comparisons are typically supported on the primary key field (`@Id`).
+- Queries like `FROM Entity WHERE id = :id` are supported.
+- DELETE operations behave similarly — only by `@Id`.
 - UPDATE operations are **not supported**.
+- No support for filtering by other fields or complex expressions.
 
 *Wide-Column Databases*
 
-These databases are similar to Key-Value in structure but may support additional operators depending on configuration:
-- Basic support for equality (`=`) on `@Id`.
-- Other fields and operators (e.g., `>`, `<`, `IN`) may be supported **only if a secondary index is created**, which can affect performance.
-- UPDATE and DELETE follow the same constraint: as a minimum, the operation must include an equality check on the `@Id` field.
-- Support for other filtering operations may be vendor-specific.
+Slightly more expressive than Key-Value:
+- Support for equality (`=`) on `@Id` is standard.
+- Some providers allow filtering on other fields (e.g., `>`, `<`, `IN`), but **require secondary indexes**, which may degrade performance.
+- UPDATE and DELETE require `@Id` and follow the same constraints as SELECT.
+- Advanced conditions may or may not be supported depending on the database and index setup.
 
 *Document Databases*
 
-Document databases are generally more flexible:
-- Queries can involve multiple attributes, not limited to `@Id`.
-- Rich support for comparison operators like `=`, `>`, `<`, `IN`, etc.
-- Supports ORDER BY and pagination-like behaviors (when available).
-- UPDATE, DELETE, and SELECT operations are usually fully supported within the database’s capabilities.
+Document databases offer the most flexible query model:
+- Support filtering across multiple fields, not just `@Id`.
+- Enable use of a wide range of operators like `=`, `>`, `<`, `IN`, `AND`, `OR`, etc.
+- Typically support SELECT with `ORDER BY` and pagination-style features.
+- Full support for UPDATE and DELETE operations.
+- Better suited for expressive queries in Jakarta Query.
 
 *Graph Databases*
 
-Graph databases share many of the same capabilities as Document stores in terms of query flexibility:
-- Complex queries involving multiple fields and relationships are typically supported.
-- Like documents, they support full SELECT, UPDATE, and DELETE semantics — though performance may depend on traversal and index strategy.
+Graph providers generally offer capabilities comparable to document databases:
+- Allow deep filtering, traversals, and querying associated nodes/relationships.
+- Full SELECT, UPDATE, and DELETE operations are often supported depending on the graph engine.
 
-IMPORTANT: Regardless of query syntax, the actual support for operators, indexing behavior, implicit limits, and consistency guarantees (e.g., eventual consistency) may vary between providers.
+*Other or Custom NoSQL Providers*
 
-Always consult your NoSQL provider’s documentation for query-specific behaviors and constraints.
+If a NoSQL database does not fit clearly into any of the categories above, it must support **at least the capabilities defined by the Key-Value model** — that is, equality conditions on `@Id` for SELECT and DELETE operations. Additional support is welcome and encouraged, as long as it respects Jakarta Query Core semantics.
+
+*Function and Time Expression Limitations*
+
+Many NoSQL databases — regardless of type — **do not natively support scalar or time-based functions** in their query engines. This includes operations such as:
+
+- `LENGTH(...)`, `LOWER(...)`, `UPPER(...)`, `ABS(...)`
+- Time-based comparisons like `NOW()`, `CURRENT_DATE`, etc.
+
+Because these operations are typically executed at the database level, they may not be portable or reliable across NoSQL providers. Implementations may throw `UnsupportedOperationException` or defer evaluation to the application layer (if applicable).
+
+IMPORTANT: Always validate your provider’s capabilities before using advanced expressions or functions. The goal of Jakarta NoSQL is to offer a consistent API while honoring the operational realities and limitations of each NoSQL technology.
