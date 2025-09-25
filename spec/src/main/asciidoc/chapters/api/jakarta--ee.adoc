@@ -189,6 +189,7 @@ Below are key considerations by NoSQL category:
 *Key-Value Databases*
 
 Key-Value stores provide the most limited querying capability:
+
 - Only equality (`=`) comparisons are typically supported on the primary key field (`@Id`).
 - Queries like `FROM Entity WHERE id = :id` are supported.
 - DELETE operations behave similarly — only by `@Id`.
@@ -198,6 +199,7 @@ Key-Value stores provide the most limited querying capability:
 *Wide-Column Databases*
 
 Slightly more expressive than Key-Value:
+
 - Support for equality (`=`) on `@Id` is standard.
 - Some providers allow filtering on other fields (e.g., `>`, `<`, `IN`), but **require secondary indexes**, which may degrade performance.
 - UPDATE and DELETE require `@Id` and follow the same constraints as SELECT.
@@ -206,6 +208,7 @@ Slightly more expressive than Key-Value:
 *Document Databases*
 
 Document databases offer the most flexible query model:
+
 - Support filtering across multiple fields, not just `@Id`.
 - Enable use of a wide range of operators like `=`, `>`, `<`, `IN`, `AND`, `OR`, etc.
 - Typically support SELECT with `ORDER BY` and pagination-style features.
@@ -215,6 +218,7 @@ Document databases offer the most flexible query model:
 *Graph Databases*
 
 Graph providers generally offer capabilities comparable to document databases:
+
 - Allow deep filtering, traversals, and querying associated nodes/relationships.
 - Full SELECT, UPDATE, and DELETE operations are often supported depending on the graph engine.
 
