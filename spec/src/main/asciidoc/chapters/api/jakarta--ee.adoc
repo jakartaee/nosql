@@ -235,4 +235,4 @@ Many NoSQL databases — regardless of type — **do not natively support scalar
 
 Because these operations are typically executed at the database level, they may not be portable or reliable across NoSQL providers. Implementations may throw `UnsupportedOperationException` or defer evaluation to the application layer (if applicable).
 
-IMPORTANT: Always validate your provider’s capabilities before using advanced expressions or functions. The goal of Jakarta NoSQL is to offer a consistent API while honoring the operational realities and limitations of each NoSQL technology.
+
