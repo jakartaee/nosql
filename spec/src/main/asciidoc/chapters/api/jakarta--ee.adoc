@@ -235,4 +235,57 @@ Many NoSQL databases — regardless of type — **do not natively support scalar
 
 Because these operations are typically executed at the database level, they may not be portable or reliable across NoSQL providers. Implementations may throw `UnsupportedOperationException` or defer evaluation to the application layer (if applicable).
 
+==== Object Mapping Integration
 
+Jakarta NoSQL integrates deeply with Jakarta Query by allowing query expressions to resolve against Java classes annotated with mapping metadata. This ensures consistency between the domain model and the query logic, while enabling database-specific providers to transform data automatically.
+
+Key concepts:
+
+*Attribute Resolution*
+
+Query fields are matched to Java attributes based on the following annotations:
+- `@jakarta.nosql.Id`: Marks the primary key of the entity.
+- `@jakarta.nosql.Column`: Marks attributes that are persistable and eligible for query evaluation.
+
+Only fields annotated with `@Id` or `@Column` are considered during query execution. Fields without these annotations are ignored for persistence and querying.
+
+*Entity Resolution*
+
+Classes or records involved in a query must be annotated with:
+- `@jakarta.nosql.Entity`: Identifies a class as a persistable root entity.
+
+These entity classes define the logical *FROM* target in a query. A query such as:
+
+[source,sql]
+----
+FROM Product WHERE category = 'TECH'
+----
+
+...relies on the existence of a class like:
+
+[source,java]
+----
+@Entity
+public class Product {
+    @Id
+    private String id;
+
+    @Column
+    private String category;
+
+    @Column
+    private double price;
+}
+----
+
+*Class Name Matching and Conflict Resolution*
+
+Entity resolution is based on the **simple name** of the class (e.g., `Product`), not the fully qualified package. This means that if two classes exist with the same simple name but different packages, such as:
+
+[source,java]
+----
+com.example.catalog.Product
+com.partner.model.Product
+----
+
+...and both are annotated with `@Entity`, **the behavior is undefined**. Jakarta NoSQL delegates resolution to the provider, and the specification does not define what happens in case of naming conflicts.
