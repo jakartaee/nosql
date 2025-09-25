@@ -200,9 +200,9 @@ Key-Value stores provide the most limited querying capability:
 
 Slightly more expressive than Key-Value:
 
-- Support for equality (`=`) on `@Id` is standard.
+- Support for equality (`=`) on `jakarta.nosql.@Id` is standard.
 - Some providers allow filtering on other fields (e.g., `>`, `<`, `IN`), but **require secondary indexes**, which may degrade performance.
-- UPDATE and DELETE require `@Id` and follow the same constraints as SELECT.
+- UPDATE and DELETE require `jakarta.nosql.@Id` and follow the same constraints as SELECT.
 - Advanced conditions may or may not be supported depending on the database and index setup.
 
 ===== Document Databases
