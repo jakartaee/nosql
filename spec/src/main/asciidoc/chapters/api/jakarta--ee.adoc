@@ -166,9 +166,8 @@ By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use
 
 === Jakarta Query
 
-Jakarta Query is a specification that defines a portable query language for Java applications. Jakarta NoSQL adopts the Jakarta Query Core language to offer a structured, yet minimal syntax for querying NoSQL databases. This includes entity selection, filtering, updates, and deletions — all written in a readable and consistent format.
+Jakarta Query is a specification that defines a portable, persistence-oriented query language for Java applications. Its goal is to provide a unified query model that works across database engines — including relational and non-relational (NoSQL) databases.
 
-The goal is to decouple query logic from database-specific syntax. By using Jakarta Query, developers can express operations in a unified way across different NoSQL database types, such as document, key-value, column, or graph. Jakarta NoSQL implementations parse these queries and delegate execution to the appropriate database driver, handling mapping and transformation transparently.
+Jakarta NoSQL builds on top of Jakarta Query Core as a minimum requirement. Every Jakarta NoSQL provider must support the Core language, which includes basic operations such as entity selection (`FROM`), filtering (`WHERE`), updates (`SET`), and deletions (`DELETE`). NoSQL databases may also implement additional capabilities from the extended Jakarta Query specification.
 
-Not all NoSQL databases support the full range of Jakarta Query operations. For example, some providers may not support ordered queries, or may impose result limits by default. Others may have eventual consistency models, which affect the timing of updates and deletes. These differences are gracefully handled through Jakarta NoSQL's flexible architecture and error handling, allowing for provider-specific behaviors while maintaining a common language interface.
-
+The level of support depends on the underlying database provider. For example, some NoSQL databases might not support all operations (like certain functions or update statements), while others may apply implicit query limits or work under eventual consistency. Despite these differences, Jakarta NoSQL ensures that the query structure remains consistent and portable — delegating execution to the provider while handling entity mapping and transformation transparently.
