@@ -189,7 +189,7 @@ Below are key considerations per NoSQL type:
 *Key-Value Databases*
 
 Key-Value databases revolve around direct access via keys, making their query capabilities very limited:
-- Supports only equality (`=`) conditions on the identifier field (`@Id`).
+- Supports only equality (`=`) conditions on the identifier attribute (`@Id`).
 - Queries such as `FROM Entity WHERE id = :id` are supported.
 - Equivalent DELETE operations may work using the same logic.
 - UPDATE operations are **not supported**.
