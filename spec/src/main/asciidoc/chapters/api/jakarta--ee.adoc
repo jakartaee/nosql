@@ -190,9 +190,9 @@ Below are key considerations by NoSQL category:
 
 Key-Value stores provide the most limited querying capability:
 
-- Only equality (`=`) comparisons are typically supported on the primary key field (`@Id`).
+- Only equality (`=`) comparisons are typically supported on the primary key attribute (`jakarta.nosql.@Id`).
 - Queries like `FROM Entity WHERE id = :id` are supported.
-- DELETE operations behave similarly — only by `@Id`.
+- DELETE operations behave similarly — only by `jakarta.nosql.@Id`.
 - UPDATE operations are **not supported**.
 - No support for filtering by other fields or complex expressions.
 
