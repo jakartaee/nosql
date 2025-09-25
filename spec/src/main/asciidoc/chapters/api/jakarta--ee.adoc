@@ -224,9 +224,9 @@ Graph providers generally offer capabilities comparable to document databases:
 
 ===== Other or Custom NoSQL Providers
 
-If a NoSQL database does not fit clearly into any of the categories above, it must support **at least the capabilities defined by the Key-Value model** — that is, equality conditions on `@Id` for SELECT and DELETE operations. Additional support is welcome and encouraged, as long as it respects Jakarta Query Core semantics.
+If a NoSQL database does not fit clearly into any of the categories above, it must support **at least the capabilities defined by the Key-Value model** — that is, equality conditions on `jakarta.nosql.@Id` for SELECT and DELETE operations. Additional support is welcome and encouraged, as long as it respects Jakarta Query Core semantics.
 
-*Function and Time Expression Limitations*
+===== Function and Time Expression Limitations
 
 Many NoSQL databases — regardless of type — **do not natively support scalar or time-based functions** in their query engines. This includes operations such as:
 
