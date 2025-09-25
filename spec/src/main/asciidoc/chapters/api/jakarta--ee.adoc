@@ -166,10 +166,16 @@ By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use
 
 === Jakarta Query
 
-*Jakarta Query* is a specification that defines a portable and consistent query language for persistence technologies in the Jakarta EE ecosystem. Its design allows seamless integration with both traditional relational databases and NoSQL systems.
+*Jakarta Query* is a specification that defines an object-oriented, portable, and extensible query language for persistence technologies. While it is part of the Jakarta EE family, its design is not limited to relational databases. Instead, it is explicitly crafted to support a wide range of data stores, including NoSQL systems.
 
-Jakarta NoSQL builds on top of Jakarta Query Core as a foundational requirement. Every Jakarta NoSQL provider supports this core language to enable type-safe, declarative querying across a wide range of database styles.
+Jakarta NoSQL builds on top of *Jakarta Query Core* as a foundational requirement. This core language defines a minimal yet expressive subset of the query model — including entity-based selection, filtering, ordering, and basic update/delete semantics — that all Jakarta NoSQL providers must support. It provides a unified foundation for querying data in a type-safe and declarative manner, across key-value, document, column, and graph databases.
 
-Although the same query syntax can be used across different NoSQL databases, the actual behavior may vary depending on the database provider. For example, certain databases may apply implicit result limits, support only eventual consistency, or have partial support for specific query operations. Jakarta NoSQL delegates execution to the appropriate provider while managing mapping and conversion between query results and Java objects.
+Although the syntax remains consistent, query behavior may vary based on the capabilities of the underlying NoSQL database. Examples include:
 
-This integration allows developers to write expressive, vendor-agnostic queries while preserving the flexibility and diversity of the NoSQL ecosystem.
+- Implicit limits or pagination imposed by the database engine.
+- Eventual consistency or asynchronous persistence models.
+- Partial or database-specific support for certain functions or expressions.
+
+Jakarta NoSQL delegates query execution to the appropriate provider, handling the translation from the abstract query language to native database operations. This approach ensures that application code remains portable and expressive, while still allowing each NoSQL provider to optimize behavior according to its model and features.
+
+By integrating Jakarta Query, Jakarta NoSQL enables developers to write clear, vendor-independent queries — while embracing the unique strengths and limitations of the NoSQL ecosystem.
