@@ -186,7 +186,7 @@ While Jakarta NoSQL offers a unified query interface based on Jakarta Query Core
 
 Below are key considerations by NoSQL category:
 
-*Key-Value Databases*
+===== Key-Value Databases
 
 Key-Value stores provide the most limited querying capability:
 
@@ -196,7 +196,7 @@ Key-Value stores provide the most limited querying capability:
 - UPDATE operations are **not supported**.
 - No support for filtering by other fields or complex expressions.
 
-*Wide-Column Databases*
+===== Wide-Column Databases
 
 Slightly more expressive than Key-Value:
 
@@ -205,7 +205,7 @@ Slightly more expressive than Key-Value:
 - UPDATE and DELETE require `@Id` and follow the same constraints as SELECT.
 - Advanced conditions may or may not be supported depending on the database and index setup.
 
-*Document Databases*
+===== Document Databases
 
 Document databases offer the most flexible query model:
 
@@ -215,7 +215,7 @@ Document databases offer the most flexible query model:
 - Full support for UPDATE and DELETE operations.
 - Better suited for expressive queries in Jakarta Query.
 
-*Graph Databases*
+===== Graph Databases
 
 Graph providers generally offer capabilities comparable to document databases:
 
