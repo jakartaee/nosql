@@ -166,8 +166,10 @@ By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use
 
 === Jakarta Query
 
-Jakarta Query is a specification that defines a portable, persistence-oriented query language for Java applications. Its goal is to provide a unified query model that works across database engines — including relational and non-relational (NoSQL) databases.
+Jakarta Query is a specification that defines a portable and consistent query language for persistence technologies in the Jakarta EE ecosystem. Its design allows seamless integration with both traditional relational databases and NoSQL systems.
 
-Jakarta NoSQL builds on top of Jakarta Query Core as a minimum requirement. Every Jakarta NoSQL provider must support the Core language, which includes basic operations such as entity selection (`FROM`), filtering (`WHERE`), updates (`SET`), and deletions (`DELETE`). NoSQL databases may also implement additional capabilities from the extended Jakarta Query specification.
+Jakarta NoSQL builds on top of Jakarta Query Core as a foundational requirement. Every Jakarta NoSQL provider supports this core language to enable type-safe, declarative querying across a wide range of database styles.
 
-The level of support depends on the underlying database provider. For example, some NoSQL databases might not support all operations (like certain functions or update statements), while others may apply implicit query limits or work under eventual consistency. Despite these differences, Jakarta NoSQL ensures that the query structure remains consistent and portable — delegating execution to the provider while handling entity mapping and transformation transparently.
+Although the same query syntax can be used across different NoSQL databases, the actual behavior may vary depending on the database provider. For example, certain databases may apply implicit result limits, support only eventual consistency, or have partial support for specific query operations. Jakarta NoSQL delegates execution to the appropriate provider while managing mapping and conversion between query results and Java objects.
+
+This integration allows developers to write expressive, vendor-agnostic queries while preserving the flexibility and diversity of the NoSQL ecosystem.
