@@ -274,5 +274,3 @@ You may then write a query like:
 ----
 FROM UserProfile WHERE name = 'Ada'
 ----
-
-NOTE: If two entity classes share the same simple class name but reside in different packages (e.g., `com.example.User` and `org.demo.User`), the query engine may encounter ambiguity. Jakarta NoSQL does not define a resolution strategy for such cases.
