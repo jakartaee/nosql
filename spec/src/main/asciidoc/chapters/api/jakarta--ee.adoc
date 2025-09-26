@@ -192,7 +192,7 @@ Key-Value stores provide the most limited query capabilities:
 
 - Only equality (`=`) comparisons are typically supported, and only on the primary key (`@jakarta.nosql.Id`).
 - Queries like `FROM Entity WHERE id = :id` are supported.
-- DELETE operations follow the same constraints — only by `@Id`.
+- DELETE operations follow the same constraints — only by `@jakarta.nosql.Id`.
 - UPDATE operations are not supported.
 - No filtering is allowed on other fields or attributes.
 
