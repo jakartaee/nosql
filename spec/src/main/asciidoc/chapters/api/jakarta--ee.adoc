@@ -238,10 +238,7 @@ Most NoSQL databases do not natively support scalar or time-based functions in t
 - `LENGTH(...)`, `LOWER(...)`, `UPPER(...)`, `ABS(...)`
 - `NOW()`, `CURRENT_DATE`, `YEAR(...)`, etc.
 
-Since these are generally evaluated at the database level, behavior is not guaranteed and may vary by provider. Unsupported operations may result in:
-
-- `UnsupportedOperationException`
-- Evaluation deferred to the application layer (optional and non-portable)
+Since these are generally evaluated at the database level, behavior is not guaranteed and may vary by provider. Unsupported operations may result in: `UnsupportedOperationException`.
 
 ==== Object Mapping Integration
 
