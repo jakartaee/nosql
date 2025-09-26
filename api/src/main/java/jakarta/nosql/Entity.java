@@ -128,5 +128,30 @@ public @interface Entity {
      */
     String value() default "";
 
+
+    /**
+     * Defines the logical name used to reference this entity in Jakarta Query language.
+     * <p>This is useful when multiple entity classes share the same simple name in different packages,
+     * or when you want a custom name for use in queries.</p>
+     * <p>If not specified, it defaults to the simple class name.</p>
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * @Entity(name = "CatalogItem")
+     * public class Product {
+     *     @Id
+     *     private String id;
+     *
+     *     @Column
+     *     private String category;
+     * }
+     *
+     * // Usage in query:
+     * List<Product> items = template.query("FROM CatalogItem WHERE category = 'TECH'").result();
+     * }</pre>
+     *
+     * @return the entity name used in query language
+     * @since 1.1.0
+     */
     String name() default "";
 }
