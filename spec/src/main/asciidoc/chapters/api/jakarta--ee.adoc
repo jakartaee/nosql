@@ -241,17 +241,19 @@ Jakarta NoSQL integrates deeply with Jakarta Query by allowing query expressions
 
 Key concepts:
 
-*Attribute Resolution*
+==== Attribute Resolution
 
-Query fields are matched to Java attributes based on the following annotations:
-- `@jakarta.nosql.Id`: Marks the primary key of the entity.
-- `@jakarta.nosql.Column`: Marks attributes that are persistable and eligible for query evaluation.
+Query attributes are matched to Java attributes based on the following annotations:
 
-Only fields annotated with `@Id` or `@Column` are considered during query execution. Fields without these annotations are ignored for persistence and querying.
+- `@jakarta.nosql.Id`
+- `@jakarta.nosql.Column`
 
-*Entity Resolution*
+Only attributes annotated with `@Id` or `@Column` are considered during query execution. Fields without these annotations are ignored for persistence and querying.
+
+==== Entity Resolution
 
 Classes or records involved in a query must be annotated with:
+
 - `@jakarta.nosql.Entity`: Identifies a class as a persistable root entity.
 
 These entity classes define the logical *FROM* target in a query. A query such as:
@@ -278,14 +280,3 @@ public class Product {
 }
 ----
 
-*Class Name Matching and Conflict Resolution*
-
-Entity resolution is based on the **simple name** of the class (e.g., `Product`), not the fully qualified package. This means that if two classes exist with the same simple name but different packages, such as:
-
-[source,java]
-----
-com.example.catalog.Product
-com.partner.model.Product
-----
-
-...and both are annotated with `@Entity`, **the behavior is undefined**. Jakarta NoSQL delegates resolution to the provider, and the specification does not define what happens in case of naming conflicts.
