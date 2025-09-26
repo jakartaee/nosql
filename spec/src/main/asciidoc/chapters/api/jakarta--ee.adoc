@@ -242,14 +242,44 @@ Since these are generally evaluated at the database level, behavior is not guara
 
 ==== Object Mapping Integration
 
-Jakarta NoSQL integrates query execution with Jakarta Mapping metadata. This allows queries to resolve field names and types based on the annotated Java class structure.
+Jakarta NoSQL integrates query execution with Jakarta Mapping metadata. This integration allows Jakarta Query Core to resolve attribute names and types based on the annotated Java class structure.
 
-Query engines match attributes and structures as follows:
+Only classes explicitly annotated with `@jakarta.nosql.Entity` are eligible for use in queries. Fields or constructor parameters must be annotated with either `@jakarta.nosql.Id` or `@jakarta.nosql.Column` to be considered queryable.
 
-- Classes must be annotated with `@jakarta.nosql.Entity`.
-- Only fields or constructor parameters annotated with `@jakarta.nosql.Id` or `@jakarta.nosql.Column` are visible to the query engine.
-- Fields without these annotations are not considered during query parsing or result transformation.
+- Fields or parameters *without* these annotations are ignored during both query parsing and result mapping.
+- This mapping model applies consistently to both traditional classes and Java `record` types.
 
-This mapping ensures consistency between domain models and query behavior.
+To define the entity name used in queries, Jakarta NoSQL uses the following precedence:
 
-TIP: If two entity classes share the same simple name but have different packages or qualified names, the result is undefined. Jakarta NoSQL does not define behavior for disambiguating entities with duplicate names. For clarity, use the `name` attribute in the `@Entity` annotation to assign a unique query name.
+- If `@Entity(name = ...)` is specified, the `name` value is used in query strings.
+- Otherwise, the unqualified simple class name is used by default.
+
+For example:
+
+[source,java]
+----
+@Entity(name = "UserProfile")
+public class User {
+    @Id
+    private String id;
+
+    @Column
+    private String name;
+}
+----
+
+You may then write a query like:
+
+[source]
+----
+FROM UserProfile WHERE name = 'Otavio'
+----
+
+NOTE: If two entity classes share the same simple class name but reside in different packages (e.g., `com.example.User` and `org.demo.User`), the query engine may encounter ambiguity. Jakarta NoSQL does not define a resolution strategy for such cases.
+
+To avoid conflicts, it is recommended to assign a unique query name using the `name` attribute in the `@Entity` annotation.
+
+This ensures:
+
+- Queries are unambiguous.
+- Mapping is predictable and portable across providers.
