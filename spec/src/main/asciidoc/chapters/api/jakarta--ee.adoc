@@ -182,70 +182,77 @@ By integrating Jakarta Query, Jakarta NoSQL enables expressive, declarative, and
 
 ==== Query Limitations in NoSQL Providers
 
-While Jakarta NoSQL offers a unified query interface based on Jakarta Query Core, the actual capabilities and behaviors can vary significantly depending on the underlying NoSQL database type. These limitations are inherent to how each database model handles data access, indexing, and consistency.
+While Jakarta NoSQL offers a unified query interface based on Jakarta Query Core, the actual query behavior and supported operations may vary across NoSQL database types. These limitations reflect fundamental differences in how each data model handles access, indexing, and consistency.
 
-Below are key considerations by NoSQL category:
+The following guidelines describe expected behaviors by NoSQL category:
 
 ===== Key-Value Databases
 
-Key-Value stores provide the most limited querying capability:
+Key-Value stores provide the most limited query capabilities:
 
-- Only equality (`=`) comparisons are typically supported on the primary key attribute (`jakarta.nosql.@Id`).
+- Only equality (`=`) comparisons are typically supported, and only on the primary key (`@jakarta.nosql.Id`).
 - Queries like `FROM Entity WHERE id = :id` are supported.
-- DELETE operations behave similarly — only by `jakarta.nosql.@Id`.
-- UPDATE operations are **not supported**.
-- No support for filtering by other fields or complex expressions.
+- DELETE operations follow the same constraints — only by `@Id`.
+- UPDATE operations are not supported.
+- No filtering is allowed on other fields or attributes.
 
 ===== Wide-Column Databases
 
-Slightly more expressive than Key-Value:
+Wide-Column stores may offer slightly more flexibility:
 
-- Support for equality (`=`) on `jakarta.nosql.@Id` is standard.
-- Some providers allow filtering on other fields (e.g., `>`, `<`, `IN`), but **require secondary indexes**, which may degrade performance.
-- UPDATE and DELETE require `jakarta.nosql.@Id` and follow the same constraints as SELECT.
-- Advanced conditions may or may not be supported depending on the database and index setup.
+- Equality (`=`) on `@jakarta.nosql.Id` is generally supported.
+- Additional filtering on non-ID fields (e.g., `>`, `<`, `IN`) is *optional* and often requires secondary indexes, which may affect performance.
+- UPDATE and DELETE operations typically require the presence of `@Id`, following the same restrictions as SELECT.
+- The degree of support for additional conditions is vendor-specific.
 
 ===== Document Databases
 
-Document databases offer the most flexible query model:
+Document databases typically offer full query capabilities:
 
-- Support filtering across multiple fields, not just `jakarta.nosql.@Id`.
-- Enable use of a wide range of operators like `=`, `>`, `<`, `IN`, `AND`, `OR`, etc.
-- Typically support SELECT with `ORDER BY` and pagination-style features.
-- Full support for UPDATE and DELETE operations.
-- Better suited for expressive queries in Jakarta Query.
+- Allow filtering across multiple fields, not just `@Id`.
+- Support a broad set of operators such as `=`, `>`, `<`, `IN`, `AND`, `OR`, etc.
+- SELECT operations may include ordering (`ORDER BY`) and pagination features.
+- Full UPDATE and DELETE support.
+- Suitable for expressive queries using Jakarta Query Core.
 
 ===== Graph Databases
 
-Graph providers generally offer capabilities comparable to document databases:
+Graph databases support advanced query patterns and filtering:
 
-- Allow deep filtering, traversals, and querying associated nodes/relationships.
-- Full SELECT, UPDATE, and DELETE operations are often supported depending on the graph engine.
+- Queries can target relationships, properties, and deep structures.
+- Support for SELECT, UPDATE, and DELETE varies by provider.
+- Often comparable in flexibility to document databases.
 
 ===== Other or Custom NoSQL Providers
 
-If a NoSQL database does not fit clearly into any of the categories above, it must support **at least the capabilities defined by the Key-Value model** — that is, equality conditions on `jakarta.nosql.@Id` for SELECT and DELETE operations. Additional support is welcome and encouraged, as long as it respects Jakarta Query Core semantics.
+If a NoSQL database does not fit into the categories above, it **must** support at minimum:
+
+- SELECT and DELETE queries using equality (`=`) on `@jakarta.nosql.Id`.
+
+Additional features — such as filtering, sorting, or update operations — are allowed if they respect Jakarta Query Core semantics.
 
 ===== Function and Time Expression Limitations
 
-Many NoSQL databases — regardless of type — **do not natively support scalar or time-based functions** in their query engines. This includes operations such as:
+Most NoSQL databases do not natively support scalar or time-based functions in their query engines. This includes expressions such as:
 
 - `LENGTH(...)`, `LOWER(...)`, `UPPER(...)`, `ABS(...)`
-- Time-based comparisons like `NOW()`, `CURRENT_DATE`, etc.
+- `NOW()`, `CURRENT_DATE`, `YEAR(...)`, etc.
 
-Because these operations are typically executed at the database level, they may not be portable or reliable across NoSQL providers. Implementations may throw `UnsupportedOperationException` or defer evaluation to the application layer (if applicable).
+Since these are generally evaluated at the database level, behavior is not guaranteed and may vary by provider. Unsupported operations may result in:
+
+- `UnsupportedOperationException`
+- Evaluation deferred to the application layer (optional and non-portable)
 
 ==== Object Mapping Integration
 
-Jakarta NoSQL integrates deeply with Jakarta Query by allowing query expressions to resolve against Java classes annotated with mapping metadata. This ensures consistency between the domain model and the query logic, while enabling database-specific providers to transform data automatically.
+Jakarta NoSQL integrates query execution with Jakarta Mapping metadata. This allows queries to resolve field names and types based on the annotated Java class structure.
 
-Key concepts:
+Query engines match attributes and structures as follows:
 
-==== Attribute Resolution
+- Classes must be annotated with `@jakarta.nosql.Entity`.
+- Only fields or constructor parameters annotated with `@jakarta.nosql.Id` or `@jakarta.nosql.Column` are visible to the query engine.
+- Fields without these annotations are not considered during query parsing or result transformation.
 
-Query attributes are matched to Java attributes based on the following annotations:
+This mapping ensures consistency between domain models and query behavior.
 
-- `@jakarta.nosql.Id`
-- `@jakarta.nosql.Column`
-
-Only attributes annotated with `@Id` or `@Column` are considered during query execution. Fields without these annotations are ignored for persistence and querying.
+TIP: If two entity classes share the same simple name but have different packages or qualified names, the result is undefined. Jakarta NoSQL does not define behavior for disambiguating entities with duplicate names. For clarity, use the `name` attribute in the `@Entity` annotation to assign a unique query name.
