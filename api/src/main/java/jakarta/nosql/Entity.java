@@ -100,6 +100,25 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Entity {
 
+    /**
+     * Defines the name of the NoSQL structure (such as a collection or table) where the entity is stored.
+     * <p>If not specified, it defaults to the simple (unqualified) name of the class.</p>
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * @Entity("products_collection")
+     * public class Product {
+     *     @Id
+     *     private String id;
+     *
+     *     @Column
+     *     private String name;
+     * }
+     * // The Product entity will be stored in the NoSQL structure named "products_collection"
+     * }</pre>
+     *
+     * @return the NoSQL structure name
+     */
     String value() default "";
 
     String name() default "";
