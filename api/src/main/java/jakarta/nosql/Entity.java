@@ -47,7 +47,7 @@ import java.lang.annotation.Target;
  *
  * <p>Example using class and embedded entity:</p>
  * <pre>{@code
- * @Entity(value = "people")
+ * @Entity("people")
  * public class Person {
  *
  *     @Id
@@ -73,7 +73,7 @@ import java.lang.annotation.Target;
  *
  * <p>Example using records and a custom query name:</p>
  * <pre>{@code
- * @Entity(name = "Contacts")
+ * @Entity("Contacts")
  * public record Person(@Id Long id, @Column String name, @Column Address address) {
  * }
  *
