@@ -22,29 +22,32 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates a class as an entity, representing a persistent class corresponding to a database structure.
- * <p>
- * Entity classes must adhere to specific rules:
+ * Annotates a class as an entity, representing a persistent domain object stored in a NoSQL database.
+ *
+ * <p>Entity classes are associated with a database structure, such as a <em>collection</em>, <em>bucket</em>,
+ * <em>column family</em>, or <em>edge label</em>, depending on the type of NoSQL database.
+ * By default, the entity structure name is inferred from the class name, but you can customize it using {@link #value()}.</p>
+ *
+ * <p>When writing queries using Jakarta Query, the name used in the `FROM` clause is inferred from the class name or
+ * explicitly defined using the {@link #name()} attribute. This is useful when multiple classes share the same simple name
+ * or when you want a more semantic alias for the query layer.</p>
+ *
+ * <p>Entity classes must follow these rules:</p>
  * <ul>
- * <li>At least one field must be annotated with {@link Id} or {@link Column}.</li>
- * <li>Constructors must be {@code public} or {@code protected} with no parameters, or with parameters annotated with {@link Column} or {@link Id}.</li>
- * <li>Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.</li>
- * <li>If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.</li>
- * <li>Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.</li>
- * <li>Entities should not have multiple constructors using {@link Id} or {@link Column} annotations.</li>
- * <li>Record classes can also serve as entities.</li>
+ *   <li>Must include at least one field annotated with {@link jakarta.nosql.Id} or {@link jakarta.nosql.Column}.</li>
+ *   <li>Can use either fields or constructors to define persistence mappings.</li>
+ *   <li>If a constructor is annotated with {@link jakarta.nosql.Column} or {@link jakarta.nosql.Id}, it will be used to instantiate the entity.</li>
+ *   <li>If both a no-arg constructor and an annotated constructor are present, the annotated one is preferred.</li>
+ *   <li>Parameters without annotations in constructors are ignored.</li>
+ *   <li>Only one constructor should contain mapping annotations.</li>
+ *   <li>Records may also be annotated as entities.</li>
  * </ul>
- * <p>
- * Enums or interfaces cannot be designated as entities.
- * </p>
- * <p>
- * Each entity must have a unique identifier, typically annotated with {@link Id}.
- * </p>
- * <p>
- * The following example demonstrates two classes, {@code Person} and {@code Address}, where a person has an address:
- * </p>
+ *
+ * <p>Interfaces and enums cannot be used as entities.</p>
+ *
+ * <p>Example using class and embedded entity:</p>
  * <pre>{@code
- * @Entity
+ * @Entity("people")
  * public class Person {
  *
  *     @Id
@@ -59,6 +62,7 @@ import java.lang.annotation.Target;
  *
  * @Embeddable
  * public class Address {
+ *
  *     @Column
  *     private String street;
  *
@@ -66,54 +70,79 @@ import java.lang.annotation.Target;
  *     private String city;
  * }
  * }</pre>
- * <p>
- * Note: NoSQL databases may have varying behaviors regarding serialization, resulting in different storage formats based on the NoSQL vendor.
- * </p>
- * <p>
- * The sample below demonstrates the use of records as entities:
- * </p>
+ *
+ * <p>Example using records and a custom query name:</p>
  * <pre>{@code
- * @Entity
+ * @Entity("Contacts")
  * public record Person(@Id Long id, @Column String name, @Column Address address) {
  * }
  *
- * @Embeddable
- * public class Address {
- *     @Column
- *     private String street;
- *
- *     @Column
- *     private String city;
- *
- *     public Address(@Column String street, @Column String city) {
- *         this.street = street;
- *         this.city = city;
- *     }
- * }
+ * // Query usage
+ * List<Person> people = template.query("FROM Contacts WHERE name = 'Ada'").result();
  * }</pre>
  *
- * @see Id
- * @see Column
+ * <p><strong>Note:</strong> NoSQL providers may serialize entities differently based on the underlying database engine.</p>
+ *
+ * @see jakarta.nosql.Id
+ * @see jakarta.nosql.Column
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Entity {
+
     /**
-     * The name of the entity. If not specified, defaults to the unqualified simple name of the class.
-     * This name is used to refer to the entity in queries and also to represent the name in the NoSQL database structure, such as the table name or collection name.
-     * <p>
-     * For example, given the class {@code org.jakarta.nosql.demo.Person}, the default name will be {@code Person}.
-     * </p>
-     * <p>
-     * To customize the name, set the value of the {@code @Entity} annotation to the desired name, as shown below:
+     * Defines the name of the NoSQL structure used to persist this entity.
+     * <p>If not specified, it defaults to the simple (unqualified) class name.</p>
+     *
+     * <p>The actual structure name depends on the NoSQL database type, for example:</p>
+     * <ul>
+     *   <li>Document: <code>collection</code></li>
+     *   <li>Key-Value: <code>bucket</code></li>
+     *   <li>Wide-column: <code>column family</code></li>
+     *   <li>Graph: <code>vertex label</code> or <code>edge label</code></li>
+     * </ul>
+     *
+     * <p>Example:</p>
      * <pre>{@code
-     * @Entity("ThePerson")
-     * public class Person {
+     * @Entity("product_bucket")
+     * public class Product {
+     *     @Id
+     *     private String id;
+     *
+     *     @Column
+     *     private String name;
      * }
      * }</pre>
      *
-     * @return the entity name (optional)
+     * @return the NoSQL structure name
      */
     String value() default "";
+
+
+    /**
+     * Defines the logical name used to reference this entity in Jakarta Query language.
+     * <p>This is useful when multiple entity classes share the same simple name in different packages,
+     * or when you want a custom name for use in queries.</p>
+     * <p>If not specified, it defaults to the simple class name.</p>
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * @Entity(name = "CatalogItem")
+     * public class Product {
+     *     @Id
+     *     private String id;
+     *
+     *     @Column
+     *     private String category;
+     * }
+     *
+     * // Usage in query:
+     * List<Product> items = template.query("FROM CatalogItem WHERE category = 'TECH'").result();
+     * }</pre>
+     *
+     * @return the entity name used in query language
+     * @since 1.1.0
+     */
+    String name() default "";
 }

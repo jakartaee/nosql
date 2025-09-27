@@ -54,6 +54,8 @@ In essence, Jakarta NoSQL annotations empower developers to craft sophisticated 
 
 The `@Entity` annotation is the cornerstone for defining persistent entities within Jakarta NoSQL. By annotating a Java class with `@Entity`, developers signify its role as a persistent entity, eligible for storage and retrieval in a NoSQL database. This annotation encapsulates the lifecycle management of entities, facilitating seamless integration with various NoSQL data stores.
 
+It defines how a Java class is mapped to a NoSQL database structure, such as a collection, table, bucket, column family, or edge — depending on the database type.
+
 ==== Entity Definition Reference
 
 First, let's establish a reference for entity definition, denoted by <<entity_definition>>. In Jakarta NoSQL, an entity class is typically annotated with `@Entity` to indicate its persistent nature.

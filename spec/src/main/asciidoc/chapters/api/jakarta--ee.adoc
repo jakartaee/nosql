@@ -163,3 +163,114 @@ Developers can seamlessly incorporate common data patterns, such as repositories
 Jakarta NoSQL providers that support Jakarta Data typically scan interfaces marked with the `jakarta.data.repository.Repository` annotation. This annotation serves as a marker for repositories, providing a standardized way to define repository interfaces.
 
 By embracing Jakarta Data, Jakarta NoSQL providers enable Java developers to use standardized data patterns and techniques when defining entities and repositories. This compatibility ensures interoperability with other technologies and frameworks, fostering a cohesive and streamlined development experience.
+
+=== Jakarta Query
+
+*Jakarta Query* is a specification that defines an object-oriented, portable, and extensible query language for persistence technologies. It is designed to unify how queries are expressed across various persistence models — including both traditional relational databases and NoSQL systems.
+
+Jakarta NoSQL builds on top of *Jakarta Query Core* as a foundational requirement. This core language provides a minimal but expressive set of constructs — such as filtering, ordering, selection, and updates — that serve as the base for querying entities in a database-independent way.
+
+Although the syntax is consistent across databases, actual query behavior may vary depending on the underlying NoSQL provider. For instance:
+
+- Some databases may impose implicit result limits.
+- Others may rely on eventual consistency for query visibility.
+- Certain functions or expressions may not be supported uniformly.
+
+Jakarta NoSQL providers are responsible for translating Jakarta Query into the native query dialect of the target NoSQL database, while handling mapping between query results and Java entities or projections. This delegation preserves query portability while respecting the constraints and capabilities of each NoSQL engine.
+
+By integrating Jakarta Query, Jakarta NoSQL enables expressive, declarative, and vendor-neutral queries — all while embracing the diversity and flexibility of NoSQL databases.
+
+==== Query Limitations in NoSQL Providers
+
+While Jakarta NoSQL offers a unified query interface based on Jakarta Query Core, the actual query behavior and supported operations may vary across NoSQL database types. These limitations reflect fundamental differences in how each data model handles access, indexing, and consistency.
+
+The following guidelines describe expected behaviors by NoSQL category:
+
+===== Key-Value Databases
+
+Key-Value stores provide the most limited query capabilities:
+
+- Only equality (`=`) comparisons are typically supported, and only on the primary key (`@jakarta.nosql.Id`).
+- Queries like `FROM Entity WHERE id = :id` are supported.
+- DELETE operations follow the same constraints — only by `@jakarta.nosql.Id`.
+- UPDATE operations are not supported.
+- No filtering is allowed on other fields or attributes.
+
+===== Wide-Column Databases
+
+Wide-Column stores may offer slightly more flexibility:
+
+- Equality (`=`) on `@jakarta.nosql.Id` is generally supported.
+- Additional filtering on non-ID fields (e.g., `>`, `<`, `IN`) is *optional* and often requires secondary indexes, which may affect performance.
+- UPDATE and DELETE operations typically require the presence of `@Id`, following the same restrictions as SELECT.
+- The degree of support for additional conditions is vendor-specific.
+
+===== Document Databases
+
+Document databases typically offer full query capabilities:
+
+- Allow filtering across multiple fields, not just `@Id`.
+- Support a broad set of operators such as `=`, `>`, `<`, `IN`, `AND`, `OR`, etc.
+- SELECT operations may include ordering (`ORDER BY`) and pagination features.
+- Full UPDATE and DELETE support.
+- Suitable for expressive queries using Jakarta Query Core.
+
+===== Graph Databases
+
+Graph databases support advanced query patterns and filtering:
+
+- Queries can target relationships, properties, and deep structures.
+- Support for SELECT, UPDATE, and DELETE varies by provider.
+- Often comparable in flexibility to document databases.
+
+===== Other or Custom NoSQL Providers
+
+If a NoSQL database does not fit into the categories above, it **must** support at minimum:
+
+- SELECT and DELETE queries using equality (`=`) on `@jakarta.nosql.Id`.
+
+Additional features — such as filtering, sorting, or update operations — are allowed if they respect Jakarta Query Core semantics.
+
+===== Function and Time Expression Limitations
+
+Most NoSQL databases do not natively support scalar or time-based functions in their query engines. This includes expressions such as:
+
+- `LENGTH(...)`, `LOWER(...)`, `UPPER(...)`, `ABS(...)`
+- `NOW()`, `CURRENT_DATE`, `YEAR(...)`, etc.
+
+Since these are generally evaluated at the database level, behavior is not guaranteed and may vary by provider. Unsupported operations may result in: `UnsupportedOperationException`.
+
+==== Object Mapping Integration
+
+Jakarta NoSQL integrates query execution with Jakarta Mapping metadata. This integration allows Jakarta Query Core to resolve attribute names and types based on the annotated Java class structure.
+
+Only classes explicitly annotated with `@jakarta.nosql.Entity` are eligible for use in queries. Fields or constructor parameters must be annotated with either `@jakarta.nosql.Id` or `@jakarta.nosql.Column` to be considered queryable.
+
+- Fields or parameters *without* these annotations are ignored during both query parsing and result mapping.
+- This mapping model applies consistently to both traditional classes and Java `record` types.
+
+To define the entity name used in queries, Jakarta NoSQL uses the following precedence:
+
+- If `@Entity(name = ...)` is specified, the `name` value is used in query strings.
+- Otherwise, the unqualified simple class name is used by default.
+
+For example:
+
+[source,java]
+----
+@Entity(name = "UserProfile")
+public class User {
+    @Id
+    private String id;
+
+    @Column
+    private String name;
+}
+----
+
+You may then write a query like:
+
+[source]
+----
+FROM UserProfile WHERE name = 'Ada'
+----
