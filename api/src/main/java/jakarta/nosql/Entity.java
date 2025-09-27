@@ -78,7 +78,7 @@ import java.lang.annotation.Target;
  * }
  *
  * // Query usage
- * List<Person> people = template.query("FROM Contacts WHERE name = 'Otavio'").result();
+ * List<Person> people = template.query("FROM Contacts WHERE name = 'Ada'").result();
  * }</pre>
  *
  * <p><strong>Note:</strong> NoSQL providers may serialize entities differently based on the underlying database engine.</p>
