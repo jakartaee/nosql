@@ -51,6 +51,7 @@ The annotations from the Mapping API will look familiar to Jakarta Persistence d
 | `@DiscriminatorColumn` | Specifies the discriminator column for the mapping strategy.
 | `@DiscriminatorValue` | Specifies the value of the discriminator column for the annotated entity type.
 | `@Convert` | Specifies how the values of a field or property are converted to a basic type or a type that can be persisted by a persistence provider.
+| `@Projection` | Declares a Java `record` as a projection for query results. Enables mapping partial or flattened query results to a record without requiring explicit field selection in the query.
 |===
 
 These annotations serve as a familiar and powerful toolkit for Java developers, enabling them to map Java objects to NoSQL databases similarly to how Jakarta Persistence works with relational data.
