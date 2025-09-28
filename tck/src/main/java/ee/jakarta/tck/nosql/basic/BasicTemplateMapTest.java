@@ -53,7 +53,7 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     void shouldUpdateMapWithBasicValueMap(Contact entity) {
         var insert = template.insert(entity);
 
-        insert.put("socialMediaC", "http://new-social-media.com/profile");
+        insert.put("socialMediaC", "https://new-social-media.com/profile");
         var updatedPerson = template.update(insert);
 
         SoftAssertions.assertSoftly(soft -> {
@@ -105,7 +105,7 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     void shouldUpdateMapWithBasicValueMapOnRecord(Profile entity) {
         var insert = template.insert(entity);
 
-        insert.put("socialMediaC", "http://new-social-media.com/profile");
+        insert.put("socialMediaC", "https://new-social-media.com/profile");
         var updatedPerson = template.update(insert);
 
         SoftAssertions.assertSoftly(soft -> {
