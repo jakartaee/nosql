@@ -27,7 +27,6 @@
     <description>Jakarta NoSQL is a Java framework that streamlines the integration of Java applications with NoSQL databases.</description>
     <url>www.eclipse.org/ee4j/nosql</url>
 
-
     <licenses>
         <license>
             <name>Eclipse Public License 2.0</name>
