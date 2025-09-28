@@ -24,7 +24,6 @@ import java.util.stream.Stream;
  * It provides a consistent mechanism for dynamically executing queries using either
  * named or positional parameters, and supports core query operations such as {@code SELECT},
  * {@code UPDATE}, and {@code DELETE}.
- *
  * This API is based on Jakarta Query and supports the Jakarta Query Core language,
  * including clauses such as {@code SELECT}, {@code WHERE}, {@code ORDER BY},
  * {@code UPDATE SET}, and {@code DELETE FROM}.
