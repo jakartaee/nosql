@@ -56,12 +56,12 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             template.delete(Drink.class)
                     .where("alcoholPercentage")
-                    .eq(entities.get(0).getAlcoholPercentage())
+                    .eq(entities.getFirst().getAlcoholPercentage())
                     .execute();
 
             List<Drink> result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .eq(entities.get(0).getAlcoholPercentage())
+                    .eq(entities.getFirst().getAlcoholPercentage())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -79,12 +79,12 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             template.delete(Drink.class)
                     .where("alcoholPercentage")
-                    .gt(entities.get(0).getAlcoholPercentage())
+                    .gt(entities.getFirst().getAlcoholPercentage())
                     .execute();
 
             List<Drink> result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .gt(entities.get(0).getAlcoholPercentage())
+                    .gt(entities.getFirst().getAlcoholPercentage())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -102,12 +102,12 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             template.delete(Drink.class)
                     .where("alcoholPercentage")
-                    .lt(entities.get(0).getAlcoholPercentage())
+                    .lt(entities.getFirst().getAlcoholPercentage())
                     .execute();
 
             List<Drink> result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .lt(entities.get(0).getAlcoholPercentage())
+                    .lt(entities.getFirst().getAlcoholPercentage())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -127,13 +127,13 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
             // Delete based on the 'alcoholPercentage' field (in a list of values)
             template.delete(Drink.class)
                     .where("alcoholPercentage")
-                    .in(List.of(entities.get(0).getAlcoholPercentage()))
+                    .in(List.of(entities.getFirst().getAlcoholPercentage()))
                     .execute();
 
             // Verify that no drinks with the given alcoholPercentage exist
             List<Drink> result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .in(List.of(entities.get(0).getAlcoholPercentage()))
+                    .in(List.of(entities.getFirst().getAlcoholPercentage()))
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -152,12 +152,12 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             template.delete(Drink.class)
                     .where("alcoholPercentage")
-                    .between(entities.get(0).getAlcoholPercentage(), entities.get(0).getAlcoholPercentage() + 5)
+                    .between(entities.getFirst().getAlcoholPercentage(), entities.getFirst().getAlcoholPercentage() + 5)
                     .execute();
 
             List<Drink> result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .between(entities.get(0).getAlcoholPercentage(), entities.get(0).getAlcoholPercentage() + 5)
+                    .between(entities.getFirst().getAlcoholPercentage(), entities.getFirst().getAlcoholPercentage() + 5)
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -177,16 +177,16 @@ public class DeleteTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             template.delete(Drink.class)
                     .where("alcoholPercentage")
-                    .gt(entities.get(0).getAlcoholPercentage())
+                    .gt(entities.getFirst().getAlcoholPercentage())
                     .and("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .execute();
 
             List<Drink> result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .gt(entities.get(0).getAlcoholPercentage())
+                    .gt(entities.getFirst().getAlcoholPercentage())
                     .and("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .result();
             Assertions.assertThat(result).isEmpty();
 

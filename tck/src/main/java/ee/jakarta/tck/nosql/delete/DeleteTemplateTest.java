@@ -54,12 +54,12 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
         try {
             template.delete(Person.class)
                     .where("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .execute();
 
             List<Person> result = template.select(Person.class)
                     .where("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -78,12 +78,12 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
         try {
             template.delete(Person.class)
                     .where("age")
-                    .gt(entities.get(0).getAge())
+                    .gt(entities.getFirst().getAge())
                     .execute();
 
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .gt(entities.get(0).getAge())
+                    .gt(entities.getFirst().getAge())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -101,12 +101,12 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
         try {
             template.delete(Person.class)
                     .where("age")
-                    .lt(entities.get(0).getAge())
+                    .lt(entities.getFirst().getAge())
                     .execute();
 
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .lt(entities.get(0).getAge())
+                    .lt(entities.getFirst().getAge())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -126,13 +126,13 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
             // Delete based on the 'name' field (in a list of values)
             template.delete(Person.class)
                     .where("name")
-                    .in(List.of(entities.get(0).getName()))
+                    .in(List.of(entities.getFirst().getName()))
                     .execute();
 
             // Verify that no persons with the given names exist
             List<Person> result = template.select(Person.class)
                     .where("name")
-                    .in(List.of(entities.get(0).getName()))
+                    .in(List.of(entities.getFirst().getName()))
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -151,12 +151,12 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
         try {
             template.delete(Person.class)
                     .where("age")
-                    .between(entities.get(0).getAge(), entities.get(0).getAge() + 5)
+                    .between(entities.getFirst().getAge(), entities.getFirst().getAge() + 5)
                     .execute();
 
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .between(entities.get(0).getAge(), entities.get(0).getAge() + 5)
+                    .between(entities.getFirst().getAge(), entities.getFirst().getAge() + 5)
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -177,16 +177,16 @@ public class DeleteTemplateTest extends AbstractTemplateTest {
         try {
             template.delete(Person.class)
                     .where("age")
-                    .gt(entities.get(0).getAge())
+                    .gt(entities.getFirst().getAge())
                     .and("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .execute();
 
             List<Person> result = template.select(Person.class)
                     .where("age")
-                    .gt(entities.get(0).getAge())
+                    .gt(entities.getFirst().getAge())
                     .and("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .result();
             Assertions.assertThat(result).isEmpty();
 

@@ -36,7 +36,7 @@ public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            String id = entities.get(0).getId();
+            String id = entities.getFirst().getId();
             List<Person> result = template.select(Person.class)
                     .where("id").eq(id)
                     .result();
@@ -176,7 +176,7 @@ public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-          var namePart =  entities.get(0).getName().substring(1, 3);
+          var namePart =  entities.getFirst().getName().substring(1, 3);
             List<Person> result = template.select(Person.class)
                     .where("name").contains(namePart)
                     .result();
@@ -196,7 +196,7 @@ public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var namePart =  entities.get(0).getName().substring(1, 3);
+            var namePart =  entities.getFirst().getName().substring(1, 3);
             List<Person> result = template.select(Person.class)
                     .where("name").like("%" + namePart + "%")
                     .result();
@@ -216,7 +216,7 @@ public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var startsWith =  entities.get(0).getName().substring(0, 1);
+            var startsWith =  entities.getFirst().getName().substring(0, 1);
             List<Person> result = template.select(Person.class)
                     .where("name").startsWith(startsWith)
                     .result();
@@ -236,7 +236,7 @@ public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var startsWith =  entities.get(0).getName().substring(0, 1);
+            var startsWith =  entities.getFirst().getName().substring(0, 1);
             List<Person> result = template.select(Person.class)
                     .where("name").endsWith(startsWith)
                     .result();

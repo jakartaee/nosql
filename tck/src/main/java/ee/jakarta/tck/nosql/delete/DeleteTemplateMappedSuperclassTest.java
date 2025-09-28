@@ -53,12 +53,12 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
         try {
             template.delete(Animal.class)
                     .where("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .execute();
 
             List<Animal> result = template.select(Animal.class)
                     .where("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -78,13 +78,13 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
             // Delete based on the 'name' field (in a list of values)
             template.delete(Animal.class)
                     .where("name")
-                    .in(List.of(entities.get(0).getName()))
+                    .in(List.of(entities.getFirst().getName()))
                     .execute();
 
             // Verify that no animals with the given names exist
             List<Animal> result = template.select(Animal.class)
                     .where("name")
-                    .in(List.of(entities.get(0).getName()))
+                    .in(List.of(entities.getFirst().getName()))
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -103,12 +103,12 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
         try {
             template.delete(Animal.class)
                     .where("species")
-                    .between(entities.get(0).getSpecies(), "Zebra") // Example condition
+                    .between(entities.getFirst().getSpecies(), "Zebra") // Example condition
                     .execute();
 
             List<Animal> result = template.select(Animal.class)
                     .where("species")
-                    .between(entities.get(0).getSpecies(), "Zebra") // Example condition
+                    .between(entities.getFirst().getSpecies(), "Zebra") // Example condition
                     .result();
             Assertions.assertThat(result).isEmpty();
 
@@ -128,16 +128,16 @@ public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
         try {
             template.delete(Animal.class)
                     .where("genus")
-                    .eq(entities.get(0).getGenus())
+                    .eq(entities.getFirst().getGenus())
                     .and("species")
-                    .eq(entities.get(0).getSpecies())
+                    .eq(entities.getFirst().getSpecies())
                     .execute();
 
             List<Animal> result = template.select(Animal.class)
                     .where("genus")
-                    .eq(entities.get(0).getGenus())
+                    .eq(entities.getFirst().getGenus())
                     .and("species")
-                    .eq(entities.get(0).getSpecies())
+                    .eq(entities.getFirst().getSpecies())
                     .result();
             Assertions.assertThat(result).isEmpty();
 

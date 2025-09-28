@@ -35,7 +35,7 @@ public class DeleteFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity();
+            var targetQuantity = entities.getFirst().getQuantity();
 
             template.delete(Fruit.class)
                     .where("quantity")
@@ -60,7 +60,7 @@ public class DeleteFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity() - 1;
+            var targetQuantity = entities.getFirst().getQuantity() - 1;
 
             template.delete(Fruit.class)
                     .where("quantity")
@@ -85,7 +85,7 @@ public class DeleteFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity() + 10;
+            var targetQuantity = entities.getFirst().getQuantity() + 10;
 
             template.delete(Fruit.class)
                     .where("quantity")
@@ -110,7 +110,7 @@ public class DeleteFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity();
+            var targetQuantity = entities.getFirst().getQuantity();
 
             template.delete(Fruit.class)
                     .where("quantity")

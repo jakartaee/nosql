@@ -42,12 +42,12 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             var result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .lt(entities.get(0).getAlcoholPercentage() + 1)
+                    .lt(entities.getFirst().getAlcoholPercentage() + 1)
                     .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getAlcoholPercentage() <= entities.get(0).getAlcoholPercentage());
+                    .allMatch(drink -> drink.getAlcoholPercentage() <= entities.getFirst().getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -62,12 +62,12 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             var result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .lte(entities.get(0).getAlcoholPercentage())
+                    .lte(entities.getFirst().getAlcoholPercentage())
                     .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getAlcoholPercentage() <= entities.get(0).getAlcoholPercentage());
+                    .allMatch(drink -> drink.getAlcoholPercentage() <= entities.getFirst().getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -108,12 +108,12 @@ public class SelectTemplateInheritanceTest extends AbstractTemplateTest {
         try {
             var result = template.select(Drink.class)
                     .where("alcoholPercentage")
-                    .gte(entities.get(0).getAlcoholPercentage())
+                    .gte(entities.getFirst().getAlcoholPercentage())
                     .<Drink>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(drink -> drink.getAlcoholPercentage() >= entities.get(0).getAlcoholPercentage());
+                    .allMatch(drink -> drink.getAlcoholPercentage() >= entities.getFirst().getAlcoholPercentage());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }

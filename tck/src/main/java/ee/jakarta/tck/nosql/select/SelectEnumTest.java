@@ -38,12 +38,12 @@ public class SelectEnumTest extends AbstractTemplateTest {
         try {
             List<Vehicle> result = template.select(Vehicle.class)
                     .where("transmission")
-                    .eq(entities.get(0).getTransmission())
+                    .eq(entities.getFirst().getTransmission())
                     .result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(vehicle -> vehicle.getTransmission().equals(entities.get(0).getTransmission()));
+                    .allMatch(vehicle -> vehicle.getTransmission().equals(entities.getFirst().getTransmission()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -58,12 +58,12 @@ public class SelectEnumTest extends AbstractTemplateTest {
         try {
             template.delete(Vehicle.class)
                     .where("transmission")
-                    .eq(entities.get(0).getTransmission())
+                    .eq(entities.getFirst().getTransmission())
                     .execute();
 
             var result = template.select(Vehicle.class)
                     .where("transmission")
-                    .eq(entities.get(0).getTransmission())
+                    .eq(entities.getFirst().getTransmission())
                     .result();
 
             Assertions.assertThat(result)

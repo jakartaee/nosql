@@ -35,7 +35,7 @@ public class SelectFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity();
+            var targetQuantity = entities.getFirst().getQuantity();
 
             List<Fruit> result = template.select(Fruit.class)
                     .where("quantity")
@@ -57,7 +57,7 @@ public class SelectFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity() - 1;
+            var targetQuantity = entities.getFirst().getQuantity() - 1;
 
             List<Fruit> result = template.select(Fruit.class)
                     .where("quantity")
@@ -79,7 +79,7 @@ public class SelectFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity() + 10;
+            var targetQuantity = entities.getFirst().getQuantity() + 10;
 
             List<Fruit> result = template.select(Fruit.class)
                     .where("quantity")
@@ -101,7 +101,7 @@ public class SelectFieldConvertTest extends AbstractTemplateTest {
         entities.forEach(template::insert);
 
         try {
-            var targetQuantity = entities.get(0).getQuantity();
+            var targetQuantity = entities.getFirst().getQuantity();
 
             List<Fruit> result = template.select(Fruit.class)
                     .where("quantity")

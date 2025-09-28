@@ -30,12 +30,12 @@ public class DeleteRecordTest extends AbstractTemplateTest {
         try {
             template.delete(Book.class)
                     .where("title")
-                    .eq(books.get(0).title())
+                    .eq(books.getFirst().title())
                     .execute();
 
             var deletedBook = template.select(Book.class)
                     .where("title")
-                    .eq(books.get(0).title())
+                    .eq(books.getFirst().title())
                     .result();
 
             SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBook).isEmpty());
@@ -53,16 +53,16 @@ public class DeleteRecordTest extends AbstractTemplateTest {
         try {
             template.delete(Book.class)
                     .where("genre")
-                    .eq(books.get(0).genre())
+                    .eq(books.getFirst().genre())
                     .and("author")
-                    .eq(books.get(0).author())
+                    .eq(books.getFirst().author())
                     .execute();
 
             var deletedBooks = template.select(Book.class)
                     .where("genre")
-                    .eq(books.get(0).genre())
+                    .eq(books.getFirst().genre())
                     .and("author")
-                    .eq(books.get(0).author())
+                    .eq(books.getFirst().author())
                     .result();
 
             SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBooks).isEmpty());

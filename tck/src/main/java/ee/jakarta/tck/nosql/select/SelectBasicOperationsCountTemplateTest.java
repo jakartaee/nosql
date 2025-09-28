@@ -36,7 +36,7 @@ public class SelectBasicOperationsCountTemplateTest extends AbstractTemplateTest
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            String id = entities.get(0).getId();
+            String id = entities.getFirst().getId();
             var count = template.select(Person.class)
                     .where("id").eq(id)
                     .count();
@@ -170,7 +170,7 @@ public class SelectBasicOperationsCountTemplateTest extends AbstractTemplateTest
         entities.forEach(entity -> template.insert(entity));
 
         try {
-          var namePart =  entities.get(0).getName().substring(1, 3);
+          var namePart =  entities.getFirst().getName().substring(1, 3);
             var count = template.select(Person.class)
                     .where("name").contains(namePart)
                     .count();
@@ -190,7 +190,7 @@ public class SelectBasicOperationsCountTemplateTest extends AbstractTemplateTest
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var namePart =  entities.get(0).getName().substring(1, 3);
+            var namePart =  entities.getFirst().getName().substring(1, 3);
             var count = template.select(Person.class)
                     .where("name").like("%" + namePart + "%")
                     .count();
@@ -209,7 +209,7 @@ public class SelectBasicOperationsCountTemplateTest extends AbstractTemplateTest
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var startsWith =  entities.get(0).getName().substring(0, 1);
+            var startsWith =  entities.getFirst().getName().substring(0, 1);
             var count = template.select(Person.class)
                     .where("name").startsWith(startsWith)
                     .count();
@@ -229,7 +229,7 @@ public class SelectBasicOperationsCountTemplateTest extends AbstractTemplateTest
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var startsWith =  entities.get(0).getName().substring(0, 1);
+            var startsWith =  entities.getFirst().getName().substring(0, 1);
             var count = template.select(Person.class)
                     .where("name").endsWith(startsWith)
                     .count();

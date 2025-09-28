@@ -50,12 +50,12 @@ public class SelectRecordTest extends AbstractTemplateTest {
         try {
             var result = template.select(Book.class)
                     .where("title")
-                    .eq(books.get(0).title())
+                    .eq(books.getFirst().title())
                     .<Book>result();
 
             SoftAssertions.assertSoftly(soft -> soft.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(book -> book.title().equals(books.get(0).title())));
+                    .allMatch(book -> book.title().equals(books.getFirst().title())));
         } catch (UnsupportedOperationException exp) {
             SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
@@ -70,12 +70,12 @@ public class SelectRecordTest extends AbstractTemplateTest {
         try {
             var result = template.select(Book.class)
                     .where("title")
-                    .like(books.get(0).title())
+                    .like(books.getFirst().title())
                     .<Book>result();
 
             SoftAssertions.assertSoftly(soft -> soft.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(book -> book.title().contains(books.get(0).title())));
+                    .allMatch(book -> book.title().contains(books.getFirst().title())));
         } catch (UnsupportedOperationException exp) {
             SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }
@@ -90,12 +90,12 @@ public class SelectRecordTest extends AbstractTemplateTest {
         try {
             var result = template.select(Book.class)
                     .where("genre")
-                    .eq(books.get(0).genre())
+                    .eq(books.getFirst().genre())
                     .<Book>result();
 
             SoftAssertions.assertSoftly(soft -> soft.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(book -> book.genre().equals(books.get(0).genre())));
+                    .allMatch(book -> book.genre().equals(books.getFirst().genre())));
         } catch (UnsupportedOperationException exp) {
             SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
         }

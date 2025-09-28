@@ -74,7 +74,7 @@ public class SelectTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            String id = entities.get(0).getId();
+            String id = entities.getFirst().getId();
             Optional<Person> result = template.select(Person.class)
                     .where("id").eq(id)
                     .singleResult();
@@ -178,12 +178,12 @@ public class SelectTemplateTest extends AbstractTemplateTest {
         try {
             List<Person> result = template.select(Person.class)
                     .where("name")
-                    .eq(entities.get(0).getName())
+                    .eq(entities.getFirst().getName())
                     .result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> person.getName().equals(entities.get(0).getName()));
+                    .allMatch(person -> person.getName().equals(entities.getFirst().getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -252,12 +252,12 @@ public class SelectTemplateTest extends AbstractTemplateTest {
         try {
             List<Person> result = template.select(Person.class)
                     .where("name")
-                    .like(entities.get(0).getName())
+                    .like(entities.getFirst().getName())
                     .result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> person.getName().contains(entities.get(0).getName()));
+                    .allMatch(person -> person.getName().contains(entities.getFirst().getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -272,12 +272,12 @@ public class SelectTemplateTest extends AbstractTemplateTest {
         try {
             var result = template.select(Person.class)
                     .where("name")
-                    .in(List.of(entities.get(0).getName()))
+                    .in(List.of(entities.getFirst().getName()))
                     .<Person>result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> person.getName().equals(entities.get(0).getName()));
+                    .allMatch(person -> person.getName().equals(entities.getFirst().getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }

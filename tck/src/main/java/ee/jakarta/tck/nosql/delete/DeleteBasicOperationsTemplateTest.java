@@ -37,7 +37,7 @@ public class DeleteBasicOperationsTemplateTest extends AbstractTemplateTest {
 
         try {
 
-            String id = entities.get(0).getId();
+            String id = entities.getFirst().getId();
             template.delete(Person.class)
                     .where("id").eq(id).execute();
 
@@ -190,7 +190,7 @@ public class DeleteBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-          var namePart =  entities.get(0).getName().substring(1, 3);
+          var namePart =  entities.getFirst().getName().substring(1, 3);
 
             template.delete(Person.class).where("name").contains(namePart).execute();
 
@@ -211,7 +211,7 @@ public class DeleteBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var namePart =  entities.get(0).getName().substring(1, 3);
+            var namePart =  entities.getFirst().getName().substring(1, 3);
             template.delete(Person.class)
                     .where("name").like("%" + namePart + "%")
                     .execute();
@@ -232,7 +232,7 @@ public class DeleteBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var startsWith =  entities.get(0).getName().substring(0, 1);
+            var startsWith =  entities.getFirst().getName().substring(0, 1);
 
             template.delete(Person.class)
                     .where("name").startsWith(startsWith)
@@ -255,7 +255,7 @@ public class DeleteBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var startsWith =  entities.get(0).getName().substring(0, 1);
+            var startsWith =  entities.getFirst().getName().substring(0, 1);
 
             template.delete(Person.class).where("name").endsWith(startsWith).execute();
 

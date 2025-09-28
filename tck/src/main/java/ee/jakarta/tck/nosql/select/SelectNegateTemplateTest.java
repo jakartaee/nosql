@@ -39,12 +39,12 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
         try {
             List<Person> result = template.select(Person.class)
                     .where("name")
-                    .not().eq(entities.get(0).getName())
+                    .not().eq(entities.getFirst().getName())
                     .result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> !person.getName().equals(entities.get(0).getName()));
+                    .allMatch(person -> !person.getName().equals(entities.getFirst().getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -113,12 +113,12 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
         try {
             List<Person> result = template.select(Person.class)
                     .where("name")
-                    .not().like(entities.get(0).getName())
+                    .not().like(entities.getFirst().getName())
                     .result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> !person.getName().contains(entities.get(0).getName()));
+                    .allMatch(person -> !person.getName().contains(entities.getFirst().getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -133,12 +133,12 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
         try {
             List<Person> result = template.select(Person.class)
                     .where("name")
-                    .not().in(List.of(entities.get(0).getName()))
+                    .not().in(List.of(entities.getFirst().getName()))
                     .result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> !person.getName().equals(entities.get(0).getName()));
+                    .allMatch(person -> !person.getName().equals(entities.getFirst().getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }

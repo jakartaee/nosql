@@ -50,12 +50,12 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
         try {
             var result = template.select(Animal.class)
                     .where("name")
-                    .eq(animals.get(0).getName())
+                    .eq(animals.getFirst().getName())
                     .<Animal>result();
 
             SoftAssertions.assertSoftly(soft -> {
                 soft.assertThat(result).isNotEmpty();
-                soft.assertThat(result).allMatch(animal -> animal.getName().equals(animals.get(0).getName()));
+                soft.assertThat(result).allMatch(animal -> animal.getName().equals(animals.getFirst().getName()));
             });
         } catch (UnsupportedOperationException exp) {
             SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
@@ -132,12 +132,12 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
 
             var result = template.select(Animal.class)
                     .where("name")
-                    .like(animals.get(0).getName())
+                    .like(animals.getFirst().getName())
                     .<Animal>result();
 
             SoftAssertions.assertSoftly(soft -> {
                 soft.assertThat(result).isNotEmpty();
-                soft.assertThat(result).allMatch(animal -> animal.getName().contains(animals.get(0).getName()));
+                soft.assertThat(result).allMatch(animal -> animal.getName().contains(animals.getFirst().getName()));
             });
         } catch (UnsupportedOperationException exp) {
             SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
@@ -154,12 +154,12 @@ public class SelectMappedSuperclassTest extends AbstractTemplateTest {
 
             var result = template.select(Animal.class)
                     .where("name")
-                    .in(List.of(animals.get(0).getName()))
+                    .in(List.of(animals.getFirst().getName()))
                     .<Animal>result();
 
             SoftAssertions.assertSoftly(soft -> {
                 soft.assertThat(result).isNotEmpty();
-                soft.assertThat(result).allMatch(animal -> animal.getName().equals(animals.get(0).getName()));
+                soft.assertThat(result).allMatch(animal -> animal.getName().equals(animals.getFirst().getName()));
             });
         } catch (UnsupportedOperationException exp) {
             SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
