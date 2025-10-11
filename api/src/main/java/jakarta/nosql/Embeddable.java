@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  *     <li>Annotations at the constructor will build the entity and read information from the database, while
  *     field annotations are required to write information to the database.</li>
  *     <li>If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.</li>
- *     <li>Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.</li>
+ *     <li>Constructor parameters without annotations will be ignored, using a non-arg constructor instead.</li>
  *     <li>An embeddable class should not have multiple constructors using {@link Column} annotations.</li>
  *     <li>Enums or interfaces cannot be designated as embeddable types.</li>
  *     <li>Record classes can also serve as embeddable types.</li>
