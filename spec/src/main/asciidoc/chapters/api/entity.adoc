@@ -1,19 +1,16 @@
-
 == Entity Classes [[entity_definition]]
 
-The notion of an _entity_ is the fundamental building block with which a data model may be constructed.
-Abstractly, an entity (or _entity type_) is a schema for data.
+An _entity_ represents the core concept of persistent data within a Jakarta NoSQL application. Conceptually, an entity defines a schema for structured or semi-structured data stored in a NoSQL database.
 
-- The schema may be as simple as a tuple of types or it might be structured, as in document data stores.
-- The schema might be explicit or it might be implicit, as is commonplace in key/value stores.
-- Either way, we assume that the entity is represented in Java as a class, which we call the _entity class_. footnote:[We will not consider generic programs which work with entity data via detyped representations.]
+Depending on the type of data store:
+- The schema may be explicit, as in document-oriented or column-family databases.
+- It may be implicit, as is common in key–value stores.
 
-NOTE: When there's no risk of confusion, we often use the word “entity” to mean the entity class, or even an instance of the entity class.
+In Jakarta NoSQL, an entity is represented in Java by an _entity class_. This class defines the mapping between Java fields and the attributes stored in the underlying database.
 
-Data represented by an entity is persistent, that is, the data itself outlives any Java process which makes use of it. Thus, it is necessary to maintain an association between instances of Java entity classes and state held in a data store.
+NOTE: When the context is clear, the term “entity” may refer either to the entity class or to an instance of that class.
 
-- Each persistent instantiation of the schema is distinguishable by a unique _identifier_.
-- Any persistent instantiation of the schema is representable by an instance of the entity class. In a given Java program, multiple entity class instances might represent the same persistent instance of the schema.
+The data record represented by an entity is persistent: it continues to exist independently of the Java process that accesses it. Each persistent instance is uniquely identified by an _identifier_ and may be represented by one or more Java instances of the same entity class.
 
 In Jakarta NoSQL, the concrete definition of an entity may be understood to encompass the following aspects:
 
