@@ -3,8 +3,9 @@
 An _entity_ represents the core concept of persistent data within a Jakarta NoSQL application. Conceptually, an entity defines a schema for structured or semi-structured data stored in a NoSQL database.
 
 Depending on the type of data store:
-- The schema may be explicit, as in document-oriented or column-family databases.
-- It may be implicit, as is common in key–value stores.
+
+* The schema may be explicit, as in document-oriented or column-family databases.
+* It may be implicit, as is common in key–value stores.
 
 In Jakarta NoSQL, an entity is represented in Java by an _entity class_. This class defines the mapping between Java fields and the attributes stored in the underlying database.
 
