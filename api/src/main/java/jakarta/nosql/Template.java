@@ -133,10 +133,10 @@ public interface Template {
      * then this method raises an error. In databases that follow the BASE model
      * or use an append model to write data, this exception is not thrown.
      *
-     * <p>The entity instance returned as a result of this method must include all values that were
+     * <p>The entity instance returned as a result of this method must include all values
      * written to the database, including all automatically generated values and incremented values
      * that changed due to the insert. After invoking this method, do not continue to use the instance
-     * that is supplied as a parameter. This method makes no guarantees about the state of the
+     *  supplied as a parameter. This method makes no guarantees about the state of the
      * instance that is supplied as a parameter.</p>
      *
      * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
@@ -170,7 +170,7 @@ public interface Template {
      * In databases that follow the BASE model or use an append model to write data, this exception
      * is not thrown.
      *
-     * <p>The entities within the returned {@link Iterable} must include all values that were
+     * <p>The entities within the returned {@link Iterable} must include all values
      * written to the database, including all automatically generated values and incremented values
      * that changed due to the insert. After invoking this method, do not continue to use
      * the entity instances that are supplied in the parameter. This method makes no guarantees
@@ -193,7 +193,7 @@ public interface Template {
      * In databases that follow the BASE model or use an append model to write data, this exception
      * is not thrown.
      *
-     * <p>The entities within the returned {@link Iterable} must include all values that were
+     * <p>The entities within the returned {@link Iterable} must include all values
      * written to the database, including all automatically generated values and incremented values
      * that changed due to the insert. After invoking this method, do not continue to use
      * the entity instances that are supplied in the parameter. This method makes no guarantees
