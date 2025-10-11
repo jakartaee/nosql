@@ -26,9 +26,9 @@ import java.lang.annotation.Target;
  * <p>The {@code DiscriminatorValue} annotation can only be specified on a concrete entity class.
  * Specifies the value of the discriminator column for entities of the given type.
  *
- * <p>The <code>DiscriminatorValue</code> annotation can only be specified on a concrete entity class.
+ * <p>The {@code DiscriminatorValue} annotation can only be specified on a concrete entity class.
  *
- * <p>If the <code>DiscriminatorValue</code> annotation is not specified and a discriminator column is used,
+ * <p>If the {@code DiscriminatorValue} annotation is not specified and a discriminator column is used,
  * a provider-specific function will be used to generate a value representing the entity type.
  * So the discriminator value default is the {@link Class#getSimpleName()}.
  *
