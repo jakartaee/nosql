@@ -97,10 +97,10 @@ public @interface Entity {
      *
      * <p>The actual structure name depends on the NoSQL database type, for example:</p>
      * <ul>
-     *   <li>Document: <code>collection</code></li>
-     *   <li>Key-Value: <code>bucket</code></li>
-     *   <li>Wide-column: <code>column family</code></li>
-     *   <li>Graph: <code>vertex label</code> or <code>edge label</code></li>
+     *   <li>Document: {@code collection}</li>
+     *   <li>Key-Value: {@code bucket}</li>
+     *   <li>Wide-column: {@code column family}</li>
+     *   <li>Graph: {@code vertex label} or {@code edge label}</li>
      * </ul>
      *
      * <p>Example:</p>
