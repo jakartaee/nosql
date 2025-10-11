@@ -57,7 +57,7 @@ import java.util.Optional;
  * }</pre>
  * <p>
  * Furthermore, in CRUD (Create, Read, Update, Delete) operations, Template provides a fluent API for selecting,
- * deleting, and querying entities, offering the capability to search and remove beyond the ID
+ * deleting, and querying entities, offering the ability to search and remove beyond the ID
  * attribute. Take a look at {@link QueryMapper} for more detail about the provided fluent-API.
  * </p>
  * <pre>{@code
@@ -106,10 +106,10 @@ public interface Template {
      * then this method raises an error. In databases that follow the BASE model
      * or use an append model to write data, this exception is not thrown.
      *
-     * <p>The entity instance returned as a result of this method must include all values that were
+     * <p>The entity instance returned as a result of this method must include all values
      * written to the database, including all automatically generated values and incremented values
      * that changed due to the insert. After invoking this method, do not continue to use the instance
-     * that is supplied as a parameter. This method makes no guarantees about the state of the
+     *  supplied as a parameter. This method makes no guarantees about the state of the
      * instance that is supplied as a parameter.</p>
      * <pre>{@code
      * @Inject
