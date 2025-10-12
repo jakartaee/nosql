@@ -15,7 +15,7 @@
     <parent>
         <groupId>jakarta.nosql</groupId>
         <artifactId>jakarta.nosql-parent</artifactId>
-        <version>1.1.0-M1</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>jakarta.nosql-spec</artifactId>
@@ -27,7 +27,7 @@
     <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
     <revisiondate>${maven.build.timestamp}</revisiondate>
     <revremark>Final</revremark>
-    <spec.version>1.1-M1</spec.version>
+    <spec.version>1.1.0</spec.version>
     <gen-doc-dir>${project.build.directory}/generated-docs</gen-doc-dir>
 
 </properties>
@@ -95,7 +95,7 @@
     		<plugin>
     			<groupId>org.eclipse.m2e</groupId>
     			<artifactId>lifecycle-mapping</artifactId>
-    			<version>1.1.0-M1</version>
+    			<version>1.1.0-SNAPSHOT</version>
     			<configuration>
     				<lifecycleMappingMetadata>
     					<pluginExecutions>
