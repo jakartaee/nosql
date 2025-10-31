@@ -123,4 +123,36 @@ public interface TypedQuery<T> extends Query {
      */
     @Override
     Optional<T> singleResult();
+
+    /**
+     * Binds a named parameter to the query.
+     *
+     * <pre>{@code
+     * TypedQuery<Product> query = template.typedQuery("SELECT * FROM Book WHERE title = :title", Product.class)
+     *                       .bind("title", "Effective Java");
+     * }</pre>
+     *
+     * @param name  the parameter name (without {@code :})
+     * @param value the value to bind
+     * @return this query instance for fluent chaining
+     * @throws NullPointerException if the name is null
+     */
+    @Override
+    TypedQuery<T> bind(String name, Object value);
+
+    /**
+     * Binds a positional parameter to the query. Positions are 1-based.
+     *
+     * <pre>{@code
+     * TypedQuery<Product> query = template.query("SELECT * FROM Person WHERE age > ?1", Product.class)
+     *                       .bind(1, 30);
+     * }</pre>
+     *
+     * @param position the parameter position (starting at 1)
+     * @param value    the value to bind
+     * @return this query instance for fluent chaining
+     * @throws IllegalArgumentException if position is less than 1
+     */
+    @Override
+    TypedQuery<T> bind(int position, Object value);
 }
