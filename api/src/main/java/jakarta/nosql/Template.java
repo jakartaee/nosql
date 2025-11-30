@@ -452,6 +452,7 @@ public interface Template {
      * @return a new {@link Query} instance bound to this query string
      * @throws NullPointerException if the query string is {@code null}
      * @throws UnsupportedOperationException if the database does not support dynamic queries
+     * @since 1.1.0
      */
     Query query(String query);
 
@@ -496,6 +497,7 @@ public interface Template {
      * @throws NullPointerException     if the query or type is {@code null}
      * @throws IllegalArgumentException if the provided {@code type} is incompatible with the entity in the query
      * @throws UnsupportedOperationException if the query is not supported by the underlying provider
+     * @since 1.1.0
      */
     <T> TypedQuery<T> typedQuery(String query, Class<T> type);
 
