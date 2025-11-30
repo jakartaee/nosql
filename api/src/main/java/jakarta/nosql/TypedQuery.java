@@ -64,6 +64,7 @@ import java.util.stream.Stream;
  * }</pre>
  *
  * @param <T> the type of the result objects
+ * @since 1.1.0
  */
 public interface TypedQuery<T> extends Query {
 
