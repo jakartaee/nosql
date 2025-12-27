@@ -15,5 +15,8 @@
  */
 package ee.jakarta.tck.nosql.query;
 
+import org.junit.jupiter.api.DisplayName;
+
+@DisplayName("The Jakarta Query integration test using select with where composite condition (AND, OR)")
 public class SelectFromWhereCompositeConditionTest {
 }
