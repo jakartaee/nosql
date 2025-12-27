@@ -19,4 +19,8 @@ import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("The Jakarta Query integration test using select with where composite condition (AND, OR)")
 public class SelectFromWhereCompositeConditionTest {
+
+    //should have query with AND
+    //should have query with OR
+    //should have query with AND & OR combined
 }
