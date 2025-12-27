@@ -17,7 +17,7 @@ package ee.jakarta.tck.nosql.query;
 
 import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("")
+@DisplayName("The Jakarta Query integration test using select without where clause")
 public class SelectFromTest {
 
     //FROM
