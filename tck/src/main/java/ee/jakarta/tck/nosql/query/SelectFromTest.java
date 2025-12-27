@@ -15,6 +15,9 @@
  */
 package ee.jakarta.tck.nosql.query;
 
+import org.junit.jupiter.api.DisplayName;
+
+@DisplayName("")
 public class SelectFromTest {
 
     //FROM
@@ -24,4 +27,6 @@ public class SelectFromTest {
     //should return error, when empty and there is no projection
     //should order by asc
     //should order by desc
+    //should return error when select has update
+    //should return error when select has delete
 }
