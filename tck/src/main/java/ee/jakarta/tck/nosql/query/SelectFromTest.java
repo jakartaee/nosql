@@ -25,8 +25,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import java.util.Comparator;
 import java.util.List;
+
+import static java.util.Comparator.comparing;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("The Jakarta Query integration test using select without where clause")
 class SelectFromTest extends AbstractTemplateTest {
@@ -46,7 +48,7 @@ class SelectFromTest extends AbstractTemplateTest {
         template.insert(vehicles);
         var result = template.query("FROM Vehicle").stream();
 
-        Assertions.assertThat(result)
+        assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
                 .containsAll(vehicles);
@@ -59,7 +61,7 @@ class SelectFromTest extends AbstractTemplateTest {
         template.insert(vehicles);
         var result = template.query("FROM Vehicle").result();
 
-        Assertions.assertThat(result)
+        assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
                 .containsAll(vehicles);
@@ -71,7 +73,7 @@ class SelectFromTest extends AbstractTemplateTest {
     void shouldUseTypedClass(List<Vehicle> vehicles) {
         template.insert(vehicles);
         var result = template.typedQuery("", Vehicle.class).result();
-        Assertions.assertThat(result)
+        assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
                 .containsAll(vehicles);
@@ -83,11 +85,12 @@ class SelectFromTest extends AbstractTemplateTest {
     void shouldOrderByAsc(List<Vehicle> vehicles) {
         template.insert(vehicles);
         var result = template.query("FROM Vehicle ORDER BY color ASC").result();
-        Assertions.assertThat(result)
+        assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
                 .containsExactly(vehicles.stream()
-                        .sorted(Comparator.comparing(Vehicle::getColor)).toList());
+                        .sorted(comparing(Vehicle::getColor))
+                        .toList());
     }
 
     @ParameterizedTest
@@ -96,11 +99,11 @@ class SelectFromTest extends AbstractTemplateTest {
     void shouldOrderByDesc(List<Vehicle> vehicles) {
         template.insert(vehicles);
         var result = template.query("FROM Vehicle ORDER BY color DESC").result();
-        Assertions.assertThat(result)
+        assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
                 .containsExactly(vehicles.stream()
-                        .sorted(Comparator.comparing(Vehicle::getColor).reversed())
+                        .sorted(comparing(Vehicle::getColor).reversed())
                         .toList());
     }
 
@@ -115,7 +118,7 @@ class SelectFromTest extends AbstractTemplateTest {
                 .map(v -> new VehicleSummary(v.getId(), v.getModel(), v.getMake()))
                 .toList();
 
-        Assertions.assertThat(result)
+        assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
                 .containsAll(expected);
