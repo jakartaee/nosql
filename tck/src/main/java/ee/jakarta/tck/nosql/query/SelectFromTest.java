@@ -15,16 +15,20 @@
  */
 package ee.jakarta.tck.nosql.query;
 
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Vehicle;
 import ee.jakarta.tck.nosql.factories.VehicleListSupplier;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
 @DisplayName("The Jakarta Query integration test using select without where clause")
-public class SelectFromTest {
+public class SelectFromTest extends AbstractTemplateTest {
 
     //FROM
     //empty with class
@@ -36,10 +40,27 @@ public class SelectFromTest {
     //should return error when select has update
     //should return error when select has delete
 
+    @AfterEach
+    void afterEach() {
+        try {
+            template.delete(Vehicle.class).execute();
+        } catch (UnsupportedOperationException e) {
+            //ignore
+        }
+    }
+
+    @Test
+    void shouldReturnErrorWhenQueryIsNull() {
+        Assertions.assertThatThrownBy(() -> this.template.query(null))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @ParameterizedTest
     @DisplayName("should find all entities")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldFindAllEntities(List<Vehicle> vehicles) {
 
     }
+
+
 }
