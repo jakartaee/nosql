@@ -50,7 +50,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
         }
 
         @ParameterizedTest
-        @DisplayName("should test eq")
+        @DisplayName("should test neq")
         @ArgumentsSource(FruitListSupplier.class)
         void shouldNEq(List<Fruit> fruits) {
             template.insert(fruits);
@@ -147,7 +147,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
     @Nested
     @DisplayName("When there is no param binder")
     class WhenThereIsNoParamBinder {
-        
+
         @ParameterizedTest
         @DisplayName("should test eq")
         @ArgumentsSource(FruitListSupplier.class)
@@ -161,6 +161,8 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getName().equals(sample.getName()));
         }
+
+
 
     }
 
