@@ -93,6 +93,23 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
                             && fruit.getQuantity().equals(sample.getQuantity()));
         }
 
+        @ParameterizedTest
+        @DisplayName("should test OR")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldOr(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample1 = fruits.get(0);
+            Fruit sample2 = fruits.get(1);
+            List<Fruit> result = template.typedQuery(
+                    "FROM Fruit WHERE name = '" + sample1.getName() + "' OR name = '" + sample2.getName() + "'",
+                    Fruit.class)
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample1.getName())
+                            || fruit.getName().equals(sample2.getName()));
+        }
 
     }
 
