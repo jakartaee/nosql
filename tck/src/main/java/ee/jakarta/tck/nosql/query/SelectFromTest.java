@@ -31,12 +31,7 @@ import java.util.List;
 public class SelectFromTest extends AbstractTemplateTest {
 
     //empty with Projection [class]
-    //with entity class
     //should return error, when empty and there is no projection
-    //should order by asc
-    //should order by desc
-    //should return error when select has update
-    //should return error when select has delete
 
     @Test
     void shouldReturnErrorWhenQueryIsNull() {
