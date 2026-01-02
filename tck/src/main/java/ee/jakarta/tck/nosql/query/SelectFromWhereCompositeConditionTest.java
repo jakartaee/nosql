@@ -16,8 +16,16 @@
 package ee.jakarta.tck.nosql.query;
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Fruit;
+import ee.jakarta.tck.nosql.factories.FruitListSupplier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @DisplayName("The Jakarta Query integration test using select with where composite condition (AND, OR)")
 public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest {
@@ -26,6 +34,23 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
     @Nested
     @DisplayName("When there is param binder")
     class WhenThereIsParamBinder {
+
+        @ParameterizedTest
+        @DisplayName("should test and")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldAnd(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.get(0);
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name AND quantity = :quantity", Fruit.class)
+                    .bind("name", sample.getName())
+                    .bind("quantity", sample.getQuantity())
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample.getName())
+                            && fruit.getQuantity().equals(sample.getQuantity()));
+        }
 
     }
 
