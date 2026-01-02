@@ -76,9 +76,24 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
     @DisplayName("When there is no param binder")
     class WhenThereIsNoParamBinder {
 
+        @ParameterizedTest
+        @DisplayName("should test AND")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldAnd(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.get(0);
+            List<Fruit> result = template.typedQuery(
+                    "FROM Fruit WHERE name = '" + sample.getName() + "' AND quantity = " + sample.getQuantity(),
+                    Fruit.class)
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample.getName())
+                            && fruit.getQuantity().equals(sample.getQuantity()));
+        }
+
+
     }
 
-    //should have query with AND
-    //should have query with OR
-    //should have query with AND & OR combined
 }
