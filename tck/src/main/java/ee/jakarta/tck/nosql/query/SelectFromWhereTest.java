@@ -220,10 +220,22 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                     .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
         }
 
+        @ParameterizedTest
+        @DisplayName("should test lt")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldLt(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity < " + sample.getQuantity(), Fruit.class)
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
+        }
+
     }
 
-    //should gt
-    //should gte
     //should lt
     //should lte
     //should like
