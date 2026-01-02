@@ -24,7 +24,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
 
     @Nested
     @DisplayName("When there is param binder")
-    class WhenThereIsParamBinder{
+    class WhenThereIsParamBinder {
         //should query with only where
         //should return error when where there is no projection
         //should eq
