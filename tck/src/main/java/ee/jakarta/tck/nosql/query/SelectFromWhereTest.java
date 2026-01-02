@@ -146,7 +146,22 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
 
     @Nested
     @DisplayName("When there is no param binder")
-    class WhenThereIsNoParamBinder{
+    class WhenThereIsNoParamBinder {
+        
+        @ParameterizedTest
+        @DisplayName("should test eq")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldEq(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = '" + sample.getName() + "'", Fruit.class)
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample.getName()));
+        }
+
     }
 
     //should query with only where
