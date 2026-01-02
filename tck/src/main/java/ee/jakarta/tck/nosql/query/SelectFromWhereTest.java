@@ -95,7 +95,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
         }
 
         @ParameterizedTest
-        @DisplayName("should test gte")
+        @DisplayName("should test lt")
         @ArgumentsSource(FruitListSupplier.class)
         void shouldLt(List<Fruit> fruits) {
             template.insert(fruits);
@@ -109,6 +109,20 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                     .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
         }
 
+        @ParameterizedTest
+        @DisplayName("should test lte")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldLte(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity <= :quantity", Fruit.class)
+                    .bind("quantity", sample.getQuantity())
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
+        }
 
         //should lt
         //should lte
