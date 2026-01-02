@@ -97,4 +97,18 @@ public class SelectFromTest extends AbstractTemplateTest {
                         .sorted(Comparator.comparing(Vehicle::getColor)).toList());
     }
 
+    @ParameterizedTest
+    @DisplayName("should order by descending")
+    @ArgumentsSource(VehicleListSupplier.class)
+    void shouldOrderByDesc(List<Vehicle> vehicles) {
+        template.insert(vehicles);
+        var result = template.query("FROM Vehicle ORDER BY color DESC").result();
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .hasSize(vehicles.size())
+                .containsExactly(vehicles.stream()
+                        .sorted(Comparator.comparing(Vehicle::getColor).reversed())
+                        .toList());
+    }
+
 }
