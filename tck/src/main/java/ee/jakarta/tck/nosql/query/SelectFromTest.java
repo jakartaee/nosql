@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Comparator;
 import java.util.List;
 
 @DisplayName("The Jakarta Query integration test using select without where clause")
@@ -83,5 +84,16 @@ public class SelectFromTest extends AbstractTemplateTest {
                 .containsAll(vehicles);
     }
 
+    @ParameterizedTest
+    @DisplayName("should order by ascending")
+    @ArgumentsSource(VehicleListSupplier.class)
+    void shouldOrderByAsc(List<Vehicle> vehicles) {
+        template.insert(vehicles);
+        var result = template.query("FROM Vehicle ORDER BY color ASC").result();
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .hasSize(vehicles.size())
+                .containsExactly(vehicles.stream().sorted(Comparator.comparing(Vehicle::getColor)).toList());
+    }
 
 }
