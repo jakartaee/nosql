@@ -42,11 +42,7 @@ public class SelectFromTest extends AbstractTemplateTest {
 
     @AfterEach
     void afterEach() {
-        try {
-            template.delete(Vehicle.class).execute();
-        } catch (UnsupportedOperationException e) {
-            //ignore
-        }
+        template.delete(Vehicle.class).execute();
     }
 
     @Test
@@ -56,10 +52,29 @@ public class SelectFromTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @DisplayName("should find all entities")
+    @DisplayName("should find all entities as stream")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldFindAllEntities(List<Vehicle> vehicles) {
+        template.insert(vehicles);
+        var result = template.query("FROM Vehicle").stream();
 
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .hasSize(vehicles.size())
+                .containsAll(vehicles);
+    }
+
+    @ParameterizedTest
+    @DisplayName("should find all using class as list")
+    @ArgumentsSource(VehicleListSupplier.class)
+    void shouldFindAllUsingList(List<Vehicle> vehicles) {
+        template.insert(vehicles);
+        var result = template.query("FROM Vehicle").result();
+
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .hasSize(vehicles.size())
+                .containsAll(vehicles);
     }
 
 
