@@ -15,10 +15,32 @@
  */
 package ee.jakarta.tck.nosql.query;
 
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 
 @DisplayName("The Jakarta Query integration test using select where clause")
-public class SelectFromWhereTest {
+public class SelectFromWhereTest extends AbstractTemplateTest {
+
+    @Nested
+    @DisplayName("When there is param binder")
+    class WhenThereIsParamBinder{
+        //should query with only where
+        //should return error when where there is no projection
+        //should eq
+        //should net
+        //should gt
+        //should gte
+        //should lt
+        //should lte
+        //should like
+        //should in
+    }
+
+    @Nested
+    @DisplayName("When there is no param binder")
+    class WhenThereIsNoParamBinder{
+    }
 
     //should query with only where
     //should return error when where there is no projection
