@@ -124,10 +124,24 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                     .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
         }
 
-        //should lt
-        //should lte
-        //should like
-        //should in
+        @ParameterizedTest
+        @DisplayName("should test in")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldIn(List<Fruit> fruits){
+            template.insert(fruits);
+            var sample1 = fruits.getFirst();
+            var sample2 = fruits.get(1);
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name IN (:name1, :name2)", Fruit.class)
+                    .bind("name1", sample1.getName())
+                    .bind("name2", sample2.getName())
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample1.getName())
+                            || fruit.getName().equals(sample2.getName()));
+        }
+
     }
 
     @Nested
