@@ -176,6 +176,21 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                     .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
         }
 
+        @ParameterizedTest
+        @DisplayName("should test in")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldIn(List<Fruit> fruits){
+            template.insert(fruits);
+            var sample1 = fruits.getFirst();
+            var sample2 = fruits.get(1);
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name IN ('" + sample1.getName() + "', '" + sample2.getName() + "')", Fruit.class)
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample1.getName())
+                            || fruit.getName().equals(sample2.getName()));
+        }
 
 
 
