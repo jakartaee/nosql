@@ -41,6 +41,8 @@ public class SelectFromTest extends AbstractTemplateTest {
     void shouldReturnErrorWhenQueryIsNull() {
         Assertions.assertThatThrownBy(() -> this.template.query(null))
                 .isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> this.template.typedQuery(null, null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
