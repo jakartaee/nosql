@@ -16,8 +16,16 @@
 package ee.jakarta.tck.nosql.query;
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Fruit;
+import ee.jakarta.tck.nosql.factories.FruitListSupplier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @DisplayName("The Jakarta Query integration test using select where clause")
 public class SelectFromWhereTest extends AbstractTemplateTest {
@@ -25,10 +33,54 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
     @Nested
     @DisplayName("When there is param binder")
     class WhenThereIsParamBinder {
-        //should query with only where
-        //should return error when where there is no projection
-        //should eq
-        //should net
+
+        @ParameterizedTest
+        @DisplayName("should test eq")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldEq(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name", Fruit.class)
+                    .bind("name", sample.getName())
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample.getName()));
+        }
+
+        @ParameterizedTest
+        @DisplayName("should test eq")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldNEq(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> :name", Fruit.class)
+                    .bind("name", sample.getName())
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
+        }
+
+        @ParameterizedTest
+        @DisplayName("should test gt")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldGt(List<Fruit> fruits){
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity > :quantity", Fruit.class)
+                    .bind("quantity", sample.getQuantity())
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
+        }
+
+
+
         //should gt
         //should gte
         //should lt
