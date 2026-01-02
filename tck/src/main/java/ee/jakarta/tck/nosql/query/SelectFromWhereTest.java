@@ -162,14 +162,25 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                     .allMatch(fruit -> fruit.getName().equals(sample.getName()));
         }
 
+        @ParameterizedTest
+        @DisplayName("should test neq")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldNEq(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> '" + sample.getName() + "'", Fruit.class)
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
+        }
+
+
 
 
     }
 
-    //should query with only where
-    //should return error when where there is no projection
-    //should eq
-    //should net
     //should gt
     //should gte
     //should lt
