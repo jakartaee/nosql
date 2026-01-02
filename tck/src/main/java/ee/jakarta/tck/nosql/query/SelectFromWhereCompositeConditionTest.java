@@ -15,10 +15,25 @@
  */
 package ee.jakarta.tck.nosql.query;
 
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 
 @DisplayName("The Jakarta Query integration test using select with where composite condition (AND, OR)")
-public class SelectFromWhereCompositeConditionTest {
+public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest {
+
+
+    @Nested
+    @DisplayName("When there is param binder")
+    class WhenThereIsParamBinder {
+
+    }
+
+    @Nested
+    @DisplayName("When there is no param binder")
+    class WhenThereIsNoParamBinder {
+
+    }
 
     //should have query with AND
     //should have query with OR
