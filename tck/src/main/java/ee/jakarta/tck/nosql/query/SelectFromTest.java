@@ -29,10 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @DisplayName("The Jakarta Query integration test using select without where clause")
-public class SelectFromTest extends AbstractTemplateTest {
-
-    //empty with Projection [class]
-    //should return error, when empty and there is no projection
+class SelectFromTest extends AbstractTemplateTest {
 
     @Test
     void shouldReturnErrorWhenQueryIsNull() {
