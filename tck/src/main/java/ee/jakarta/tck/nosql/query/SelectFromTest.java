@@ -93,7 +93,8 @@ public class SelectFromTest extends AbstractTemplateTest {
         Assertions.assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
-                .containsExactly(vehicles.stream().sorted(Comparator.comparing(Vehicle::getColor)).toList());
+                .containsExactly(vehicles.stream()
+                        .sorted(Comparator.comparing(Vehicle::getColor)).toList());
     }
 
 }
