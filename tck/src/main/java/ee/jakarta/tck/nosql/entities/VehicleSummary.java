@@ -19,4 +19,8 @@ import jakarta.nosql.Projection;
 
 @Projection
 public record VehicleSummary(String id, String model, String make) {
+
+    public static VehicleSummary of(Vehicle vehicle) {
+        return new VehicleSummary(vehicle.getId(), vehicle.getModel(), vehicle.getMake());
+    }
 }

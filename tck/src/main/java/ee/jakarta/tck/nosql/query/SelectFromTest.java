@@ -115,7 +115,7 @@ class SelectFromTest extends AbstractTemplateTest {
         var result = template.typedQuery("FROM Vehicle", VehicleSummary.class).result();
 
         var expected = vehicles.stream()
-                .map(v -> new VehicleSummary(v.getId(), v.getModel(), v.getMake()))
+                .map(VehicleSummary::of)
                 .toList();
 
         assertThat(result)
