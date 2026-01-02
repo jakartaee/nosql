@@ -17,6 +17,7 @@ package ee.jakarta.tck.nosql.query;
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Vehicle;
+import ee.jakarta.tck.nosql.entities.VehicleSummary;
 import ee.jakarta.tck.nosql.factories.VehicleListSupplier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -104,6 +105,23 @@ public class SelectFromTest extends AbstractTemplateTest {
                 .containsExactly(vehicles.stream()
                         .sorted(Comparator.comparing(Vehicle::getColor).reversed())
                         .toList());
+    }
+
+    @ParameterizedTest
+    @DisplayName("should find all by projection")
+    @ArgumentsSource(VehicleListSupplier.class)
+    void shouldFindAllByProjection(List<Vehicle> vehicles) {
+        template.insert(vehicles);
+        var result = template.typedQuery("FROM Vehicle", VehicleSummary.class).result();
+
+        var expected = vehicles.stream()
+                .map(v -> new VehicleSummary(v.getId(), v.getModel(), v.getMake()))
+                .toList();
+
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .hasSize(vehicles.size())
+                .containsAll(expected);
     }
 
 }
