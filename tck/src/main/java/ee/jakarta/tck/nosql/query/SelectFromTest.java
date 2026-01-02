@@ -30,8 +30,6 @@ import java.util.List;
 @DisplayName("The Jakarta Query integration test using select without where clause")
 public class SelectFromTest extends AbstractTemplateTest {
 
-    //FROM
-    //empty with class
     //empty with Projection [class]
     //with entity class
     //should return error, when empty and there is no projection
@@ -71,6 +69,18 @@ public class SelectFromTest extends AbstractTemplateTest {
         template.insert(vehicles);
         var result = template.query("FROM Vehicle").result();
 
+        Assertions.assertThat(result)
+                .isNotEmpty()
+                .hasSize(vehicles.size())
+                .containsAll(vehicles);
+    }
+
+    @ParameterizedTest
+    @DisplayName("should use typed class to select entities")
+    @ArgumentsSource(VehicleListSupplier.class)
+    void shouldUseTypedClass(List<Vehicle> vehicles) {
+        template.insert(vehicles);
+        var result = template.typedQuery("", Vehicle.class).result();
         Assertions.assertThat(result)
                 .isNotEmpty()
                 .hasSize(vehicles.size())
