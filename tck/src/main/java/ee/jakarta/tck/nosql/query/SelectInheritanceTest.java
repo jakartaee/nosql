@@ -20,5 +20,5 @@ class SelectInheritanceTest {
     //should select super mapped class
     //should select mapper class
     //should use specialization class
-    
+
 }
