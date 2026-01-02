@@ -36,7 +36,7 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
     class WhenThereIsParamBinder {
 
         @ParameterizedTest
-        @DisplayName("should test and")
+        @DisplayName("should test AND")
         @ArgumentsSource(FruitListSupplier.class)
         void shouldAnd(List<Fruit> fruits) {
             template.insert(fruits);
@@ -50,6 +50,24 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getName().equals(sample.getName())
                             && fruit.getQuantity().equals(sample.getQuantity()));
+        }
+
+        @ParameterizedTest
+        @DisplayName("should test OR")
+        @ArgumentsSource(FruitListSupplier.class)
+        void shouldOr(List<Fruit> fruits) {
+            template.insert(fruits);
+            Fruit sample1 = fruits.get(0);
+            Fruit sample2 = fruits.get(1);
+            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name1 OR name = :name2", Fruit.class)
+                    .bind("name1", sample1.getName())
+                    .bind("name2", sample2.getName())
+                    .result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(fruit -> fruit.getName().equals(sample1.getName())
+                            || fruit.getName().equals(sample2.getName()));
         }
 
     }
