@@ -19,7 +19,6 @@ import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Vehicle;
 import ee.jakarta.tck.nosql.factories.VehicleListSupplier;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,11 +36,6 @@ public class SelectFromTest extends AbstractTemplateTest {
     //should order by desc
     //should return error when select has update
     //should return error when select has delete
-
-    @AfterEach
-    void afterEach() {
-        template.delete(Vehicle.class).execute();
-    }
 
     @Test
     void shouldReturnErrorWhenQueryIsNull() {
