@@ -238,10 +238,10 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     @DisplayName("Should find the mobile: {0}")
     void shouldFindMapWithEmbeddableRecordValueMap(MobileSystem entity) {
         var inserted = template.insert(entity);
-        var found = template.find(Computer.class, inserted.id());
+        var found = template.find(MobileSystem.class, inserted.id());
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(found).isPresent();
-            soft.assertThat(found.orElseThrow().getId()).isEqualTo(inserted.id());
+            soft.assertThat(found.orElseThrow().id()).isEqualTo(inserted.id());
         });
     }
 }
