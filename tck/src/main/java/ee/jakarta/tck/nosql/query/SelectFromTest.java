@@ -97,13 +97,13 @@ class SelectFromTest extends AbstractTemplateTest {
             template.insert(vehicles);
             List<Vehicle> result = template.query("FROM Vehicle ORDER BY color ASC").result();
 
-            List<String> expectedColor = vehicles.stream()
-                    .map(Vehicle::getColor)
-                    .toList();
-
-            List<String>  colors = result.stream()
+            var expectedColor = vehicles.stream()
                     .map(Vehicle::getColor)
                     .sorted()
+                    .toList();
+
+            var colors = result.stream()
+                    .map(Vehicle::getColor)
                     .toList();
 
             Assertions.assertThat(expectedColor)
