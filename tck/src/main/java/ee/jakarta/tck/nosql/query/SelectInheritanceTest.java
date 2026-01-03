@@ -15,7 +15,12 @@
  */
 package ee.jakarta.tck.nosql.query;
 
-class SelectInheritanceTest {
+
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import org.junit.jupiter.api.DisplayName;
+
+@DisplayName("The Jakarta Query integration test using select with inheritance")
+class SelectInheritanceTest extends AbstractTemplateTest {
 
     //should select super mapped class
     //should select mapper class
