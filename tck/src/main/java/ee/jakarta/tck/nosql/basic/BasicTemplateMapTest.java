@@ -230,9 +230,9 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     void shouldDeleteMapWithEmbeddableRecordValueMap(MobileSystem entity) {
         var insert = template.insert(entity);
 
-        template.delete(Contact.class, insert.id());
+        template.delete(MobileSystem.class, insert.id());
 
-        var deleted = template.find(Contact.class, insert.id());
+        var deleted = template.find(MobileSystem.class, insert.id());
         SoftAssertions.assertSoftly(soft -> soft.assertThat(deleted).isEmpty());
     }
 
