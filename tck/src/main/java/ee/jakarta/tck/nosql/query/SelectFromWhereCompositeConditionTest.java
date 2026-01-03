@@ -40,7 +40,7 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
         @ArgumentsSource(FruitListSupplier.class)
         void shouldAnd(List<Fruit> fruits) {
             template.insert(fruits);
-            Fruit sample = fruits.get(0);
+            Fruit sample = fruits.getFirst();
             List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name AND quantity = :quantity", Fruit.class)
                     .bind("name", sample.getName())
                     .bind("quantity", sample.getQuantity())
