@@ -19,7 +19,6 @@ import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Computer;
 import ee.jakarta.tck.nosql.entities.Contact;
 import ee.jakarta.tck.nosql.entities.MobileSystem;
-import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.entities.Profile;
 import ee.jakarta.tck.nosql.entities.Program;
 import ee.jakarta.tck.nosql.factories.ComputerSupplier;
