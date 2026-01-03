@@ -22,13 +22,12 @@ import ee.jakarta.tck.nosql.entities.Coffee;
 import ee.jakarta.tck.nosql.entities.Drink;
 import ee.jakarta.tck.nosql.factories.AnimalListSupplier;
 import ee.jakarta.tck.nosql.factories.DrinkListSupplier;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("The Jakarta Query integration test using select with inheritance")
 class SelectInheritanceTest extends AbstractTemplateTest {
@@ -41,11 +40,11 @@ class SelectInheritanceTest extends AbstractTemplateTest {
         try {
             List<Drink> result = this.template.query("FROM Drink").result();
 
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(entities.size());
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
@@ -57,11 +56,11 @@ class SelectInheritanceTest extends AbstractTemplateTest {
         try {
             List<Drink> result = this.template.query("FROM Coffee").result();
 
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(entity -> entity instanceof Coffee);
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
@@ -74,11 +73,11 @@ class SelectInheritanceTest extends AbstractTemplateTest {
         try {
             List<Animal> result = this.template.query("FROM Animal").result();
 
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(entities.size());
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 

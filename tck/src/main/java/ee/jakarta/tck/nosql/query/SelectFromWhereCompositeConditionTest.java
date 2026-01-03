@@ -19,14 +19,13 @@ import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
 import ee.jakarta.tck.nosql.factories.FruitListSupplier;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.AssertionsForInterfaceTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @DisplayName("The Jakarta Query integration test using select with where composite condition (AND, OR)")
 public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest {
@@ -50,7 +49,7 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
                         .bind("quantity", sample.getQuantity())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample.getName())
                                 && fruit.getQuantity().equals(sample.getQuantity()));
@@ -73,7 +72,7 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
                         .bind("name2", sample2.getName())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample1.getName())
                                 || fruit.getName().equals(sample2.getName()));
@@ -102,7 +101,7 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
                                 Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample.getName())
                                 && fruit.getQuantity().equals(sample.getQuantity()));
@@ -126,7 +125,7 @@ public class SelectFromWhereCompositeConditionTest extends AbstractTemplateTest 
                                 Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample1.getName())
                                 || fruit.getName().equals(sample2.getName()));

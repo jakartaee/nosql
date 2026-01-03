@@ -25,10 +25,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.Comparator;
 import java.util.List;
-
-import static java.util.Comparator.comparing;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("The Jakarta Query integration test using select without where clause")
 class SelectFromTest extends AbstractTemplateTest {
@@ -49,12 +47,12 @@ class SelectFromTest extends AbstractTemplateTest {
             template.insert(vehicles);
             var result = template.query("FROM Vehicle").stream();
 
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
                     .containsAll(vehicles);
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
@@ -66,12 +64,12 @@ class SelectFromTest extends AbstractTemplateTest {
             template.insert(vehicles);
             var result = template.query("FROM Vehicle").result();
 
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
                     .containsAll(vehicles);
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
@@ -82,12 +80,12 @@ class SelectFromTest extends AbstractTemplateTest {
         try {
             template.insert(vehicles);
             var result = template.typedQuery("", Vehicle.class).result();
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
                     .containsAll(vehicles);
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
@@ -98,14 +96,14 @@ class SelectFromTest extends AbstractTemplateTest {
         try {
             template.insert(vehicles);
             var result = template.query("FROM Vehicle ORDER BY color ASC").result();
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
                     .containsExactly(vehicles.stream()
-                            .sorted(comparing(Vehicle::getColor))
+                            .sorted(Comparator.comparing(Vehicle::getColor))
                             .toList());
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
@@ -116,14 +114,14 @@ class SelectFromTest extends AbstractTemplateTest {
         try {
             template.insert(vehicles);
             var result = template.query("FROM Vehicle ORDER BY color DESC").result();
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
                     .containsExactly(vehicles.stream()
-                            .sorted(comparing(Vehicle::getColor).reversed())
+                            .sorted(Comparator.comparing(Vehicle::getColor).reversed())
                             .toList());
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
@@ -139,12 +137,12 @@ class SelectFromTest extends AbstractTemplateTest {
                     .map(VehicleSummary::of)
                     .toList();
 
-            assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
                     .containsAll(expected);
         } catch (UnsupportedOperationException exp) {
-            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 

@@ -19,14 +19,13 @@ import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
 import ee.jakarta.tck.nosql.factories.FruitListSupplier;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.AssertionsForInterfaceTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @DisplayName("The Jakarta Query integration test using select where clause")
 public class SelectFromWhereTest extends AbstractTemplateTest {
@@ -46,7 +45,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                         .bind("name", sample.getName())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample.getName()));
             } catch (UnsupportedOperationException exp) {
@@ -65,7 +64,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                         .bind("name", sample.getName())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
             } catch (UnsupportedOperationException exp) {
@@ -84,7 +83,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                         .bind("quantity", sample.getQuantity())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
             } catch (UnsupportedOperationException exp) {
@@ -103,7 +102,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                         .bind("quantity", sample.getQuantity())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
             } catch (UnsupportedOperationException exp) {
@@ -122,7 +121,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                         .bind("quantity", sample.getQuantity())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
             } catch (UnsupportedOperationException exp) {
@@ -141,7 +140,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                         .bind("quantity", sample.getQuantity())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
             } catch (UnsupportedOperationException exp) {
@@ -162,7 +161,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                         .bind("name2", sample2.getName())
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample1.getName())
                                 || fruit.getName().equals(sample2.getName()));
@@ -189,7 +188,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                                 + sample.getName() + "'", Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample.getName()));
 
@@ -208,7 +207,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                 List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> '" + sample.getName() + "'", Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
             } catch (UnsupportedOperationException exp) {
@@ -229,7 +228,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                                 + "', '" + sample2.getName() + "')", Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getName().equals(sample1.getName())
                                 || fruit.getName().equals(sample2.getName()));
@@ -250,7 +249,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                                 sample.getQuantity(), Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
             } catch (UnsupportedOperationException exp) {
@@ -270,7 +269,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                                 + sample.getQuantity(), Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
             } catch (UnsupportedOperationException exp) {
@@ -289,7 +288,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                                 Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
             } catch (UnsupportedOperationException exp) {
@@ -308,7 +307,7 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
                 List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity <= " + sample.getQuantity(), Fruit.class)
                         .result();
 
-                assertThat(result)
+                AssertionsForInterfaceTypes.assertThat(result)
                         .isNotEmpty()
                         .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
 
