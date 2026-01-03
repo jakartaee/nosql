@@ -17,8 +17,10 @@ package ee.jakarta.tck.nosql.query;
 
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Animal;
 import ee.jakarta.tck.nosql.entities.Coffee;
 import ee.jakarta.tck.nosql.entities.Drink;
+import ee.jakarta.tck.nosql.factories.AnimalListSupplier;
 import ee.jakarta.tck.nosql.factories.DrinkListSupplier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -58,6 +60,23 @@ class SelectInheritanceTest extends AbstractTemplateTest {
             assertThat(result)
                     .isNotEmpty()
                     .allMatch(entity -> entity instanceof Coffee);
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(AnimalListSupplier.class)
+    @DisplayName("Should select all entities from supper mapped class")
+    void shouldSelectSupperMappedClass(List<Animal> entities) {
+        this.template.insert(entities);
+
+        try {
+            List<Animal> result = this.template.query("FROM Animal").result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(entities.size());
         } catch (UnsupportedOperationException exp) {
             assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
