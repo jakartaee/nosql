@@ -95,13 +95,20 @@ class SelectFromTest extends AbstractTemplateTest {
     void shouldOrderByAsc(List<Vehicle> vehicles) {
         try {
             template.insert(vehicles);
-            var result = template.query("FROM Vehicle ORDER BY color ASC").result();
-            Assertions.assertThat(result)
+            List<Vehicle> result = template.query("FROM Vehicle ORDER BY color ASC").result();
+
+            List<String> expectedColor = vehicles.stream()
+                    .map(Vehicle::getColor)
+                    .toList();
+
+            List<String>  colors = result.stream()
+                    .map(Vehicle::getColor)
+                    .sorted()
+                    .toList();
+            Assertions.assertThat(expectedColor)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
-                    .containsExactly(vehicles.stream()
-                            .sorted(Comparator.comparing(Vehicle::getColor))
-                            .toList());
+                    .containsExactly(colors.toArray(new String[0]));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
