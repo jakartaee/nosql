@@ -113,7 +113,7 @@ public class SelectBasicOperationsCountTemplateTest extends AbstractTemplateTest
         try {
             var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
             var count = template.select(Person.class)
-                    .where("age").gte(age)
+                    .where("age").lte(age)
                     .count();
             var expected = entities.stream().filter(person -> person.getAge() <= age).count();
 
