@@ -32,7 +32,8 @@ import java.util.List;
 class SelectFromTest extends AbstractTemplateTest {
 
     @Test
-    void shouldReturnErrorWhenQueryIsNull() {
+    @DisplayName("should thrown NPE when parameter is null")
+    void shouldThrownNPEWhenParameterIsNull() {
         Assertions.assertThatThrownBy(() -> this.template.query(null))
                 .isInstanceOf(NullPointerException.class);
         Assertions.assertThatThrownBy(() -> this.template.typedQuery(null, null))
