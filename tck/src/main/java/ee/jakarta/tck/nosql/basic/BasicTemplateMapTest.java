@@ -194,7 +194,7 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
 //
 
     @ParameterizedTest
-    @ArgumentsSource(ComputerSupplier.class)
+    @ArgumentsSource(MobileSystemSupplier.class)
     @DisplayName("Should insert the mobile: {0}")
     void shouldInsertMapWithEmbeddableRecordValueMap(MobileSystem entity) {
         var contact = template.insert(entity);
@@ -235,7 +235,7 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(ComputerSupplier.class)
+    @ArgumentsSource(MobileSystemSupplier.class)
     @DisplayName("Should find the mobile: {0}")
     void shouldFindMapWithEmbeddableRecordValueMap(MobileSystem entity) {
         var inserted = template.insert(entity);
