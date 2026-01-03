@@ -24,6 +24,7 @@ import ee.jakarta.tck.nosql.entities.Profile;
 import ee.jakarta.tck.nosql.entities.Program;
 import ee.jakarta.tck.nosql.factories.ComputerSupplier;
 import ee.jakarta.tck.nosql.factories.ContactSupplier;
+import ee.jakarta.tck.nosql.factories.MobileSystemSupplier;
 import ee.jakarta.tck.nosql.factories.ProfileSupplier;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -225,7 +226,7 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(ComputerSupplier.class)
+    @ArgumentsSource(MobileSystemSupplier.class)
     @DisplayName("Should delete the mobile: {0}")
     void shouldDeleteMapWithEmbeddableRecordValueMap(MobileSystem entity) {
         var insert = template.insert(entity);
