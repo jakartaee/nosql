@@ -25,6 +25,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @DisplayName("The Jakarta Query integration test using select with inheritance")
 class SelectInheritanceTest extends AbstractTemplateTest {
 
@@ -40,11 +42,11 @@ class SelectInheritanceTest extends AbstractTemplateTest {
         try {
             List<Drink> result = this.template.select(Drink.class).result();
 
-            org.assertj.core.api.Assertions.assertThat(result)
+            assertThat(result)
                     .isNotEmpty()
                     .hasSize(entities.size());
         } catch (UnsupportedOperationException exp) {
-            org.assertj.core.api.Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
