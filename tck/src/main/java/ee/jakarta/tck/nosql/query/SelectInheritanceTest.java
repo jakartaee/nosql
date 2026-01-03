@@ -17,6 +17,7 @@ package ee.jakarta.tck.nosql.query;
 
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Coffee;
 import ee.jakarta.tck.nosql.entities.Drink;
 import ee.jakarta.tck.nosql.factories.DrinkListSupplier;
 import org.junit.jupiter.api.DisplayName;
@@ -56,11 +57,11 @@ class SelectInheritanceTest extends AbstractTemplateTest {
     void shouldSelectSpecializedEntities(List<Drink> entities) {
         this.template.insert(entities);
         try {
-            List<Drink> result = this.template.select(Drink.class).result();
+            List<Drink> result = this.template.query("FROM Coffee").result();
 
             assertThat(result)
                     .isNotEmpty()
-                    .hasSize(entities.size());
+                    .allMatch(entity -> entity instanceof Coffee);
         } catch (UnsupportedOperationException exp) {
             assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
