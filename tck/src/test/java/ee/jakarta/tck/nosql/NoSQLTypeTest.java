@@ -15,12 +15,11 @@
  */
 package ee.jakarta.tck.nosql;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class NoSQLTypeTest {
 
@@ -33,7 +32,7 @@ class NoSQLTypeTest {
             "OTHER, 0"
     })
     public void shouldReturnCorrectFlexibility(String type, int expectedFlexibility) {
-        assertThat(NoSQLType.valueOf(type).getFlexibility()).isEqualTo(expectedFlexibility);
+        Assertions.assertThat(NoSQLType.valueOf(type).getFlexibility()).isEqualTo(expectedFlexibility);
     }
 
     @ParameterizedTest(name = "get({0}) should return {1}")
@@ -43,32 +42,32 @@ class NoSQLTypeTest {
             "KEY_VALUE, KEY_VALUE"
     })
     public void shouldReturnTypeFromValidString(String input, String expectedType) {
-        assertThat(NoSQLType.get(input)).isEqualTo(NoSQLType.valueOf(expectedType));
+        Assertions.assertThat(NoSQLType.get(input)).isEqualTo(NoSQLType.valueOf(expectedType));
     }
 
     @ParameterizedTest(name = "get({0}) should return the default type KEY_VALUE for invalid input")
     @ValueSource(strings = {"INVALID_TYPE", "UNKNOWN", ""})
     public void shouldReturnDefaultTypeForInvalidString(String input) {
-        assertThat(NoSQLType.get(input)).isEqualTo(NoSQLType.KEY_VALUE);
+        Assertions.assertThat(NoSQLType.get(input)).isEqualTo(NoSQLType.KEY_VALUE);
     }
 
     @Test
     public void shouldReturnTypeFromValidSystemProperty() {
         System.setProperty(NoSQLType.DATABASE_TYPE_PROPERTY, "COLUMN");
-        assertThat(NoSQLType.get()).isEqualTo(NoSQLType.COLUMN);
+        Assertions.assertThat(NoSQLType.get()).isEqualTo(NoSQLType.COLUMN);
         System.clearProperty(NoSQLType.DATABASE_TYPE_PROPERTY);
     }
 
     @Test
     public void shouldReturnDefaultTypeForInvalidSystemProperty() {
         System.setProperty(NoSQLType.DATABASE_TYPE_PROPERTY, "INVALID_TYPE");
-        assertThat(NoSQLType.get()).isEqualTo(NoSQLType.KEY_VALUE);
+        Assertions.assertThat(NoSQLType.get()).isEqualTo(NoSQLType.KEY_VALUE);
         System.clearProperty(NoSQLType.DATABASE_TYPE_PROPERTY);
     }
 
     @Test
     public void shouldReturnDefaultTypeWhenNoSystemPropertyIsSet() {
         System.clearProperty(NoSQLType.DATABASE_TYPE_PROPERTY);
-        assertThat(NoSQLType.get()).isEqualTo(NoSQLType.KEY_VALUE);
+        Assertions.assertThat(NoSQLType.get()).isEqualTo(NoSQLType.KEY_VALUE);
     }
 }
