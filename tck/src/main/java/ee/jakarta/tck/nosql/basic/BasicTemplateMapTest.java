@@ -133,10 +133,10 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     @DisplayName("Should find the profile: {0}")
     void shouldFindMapWithBasicValueMapOnRecord(Profile entity) {
         var inserted = template.insert(entity);
-        var found = template.find(Person.class, inserted.name());
+        var found = template.find(Profile.class, inserted.name());
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(found).isPresent();
-            soft.assertThat(found.orElseThrow().getName()).isEqualTo(inserted.name());
+            soft.assertThat(found.orElseThrow().name()).isEqualTo(inserted.name());
         });
     }
 
@@ -209,7 +209,7 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(ComputerSupplier.class)
+    @ArgumentsSource(MobileSystemSupplier.class)
     @DisplayName("Should update the mobile: {0}")
     void shouldUpdateMapWithEmbeddableRecordValueMap(MobileSystem entity) {
         var insert = template.insert(entity);
