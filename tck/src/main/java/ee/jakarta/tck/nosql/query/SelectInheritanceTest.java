@@ -31,10 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("The Jakarta Query integration test using select with inheritance")
 class SelectInheritanceTest extends AbstractTemplateTest {
 
-    //should select super mapped class
-    //should select mapper class
-    //should use specialization class
-
     @ParameterizedTest
     @ArgumentsSource(DrinkListSupplier.class)
     @DisplayName("Should select all entities from inherited hierarchy")
