@@ -191,7 +191,6 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
             soft.assertThat(found.orElseThrow().getId()).isEqualTo(inserted.getId());
         });
     }
-//
 
     @ParameterizedTest
     @ArgumentsSource(MobileSystemSupplier.class)
