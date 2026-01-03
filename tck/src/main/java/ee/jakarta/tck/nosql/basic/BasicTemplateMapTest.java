@@ -140,8 +140,6 @@ class BasicTemplateMapTest extends AbstractTemplateTest {
         });
     }
 
-
-
     @ParameterizedTest
     @ArgumentsSource(ComputerSupplier.class)
     @DisplayName("Should insert the computer: {0}")
