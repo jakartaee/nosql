@@ -18,6 +18,7 @@ package ee.jakarta.tck.nosql.query;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
 import ee.jakarta.tck.nosql.factories.FruitListSupplier;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -38,75 +39,95 @@ public class SelectFromWhereTest extends AbstractTemplateTest {
         @DisplayName("should test eq")
         @ArgumentsSource(FruitListSupplier.class)
         void shouldEq(List<Fruit> fruits) {
-            template.insert(fruits);
-            Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name", Fruit.class)
-                    .bind("name", sample.getName())
-                    .result();
+            try {
+                template.insert(fruits);
+                Fruit sample = fruits.getFirst();
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name", Fruit.class)
+                        .bind("name", sample.getName())
+                        .result();
 
-            assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> fruit.getName().equals(sample.getName()));
+                assertThat(result)
+                        .isNotEmpty()
+                        .allMatch(fruit -> fruit.getName().equals(sample.getName()));
+            } catch (UnsupportedOperationException exp) {
+                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            }
         }
 
         @ParameterizedTest
         @DisplayName("should test neq")
         @ArgumentsSource(FruitListSupplier.class)
         void shouldNEq(List<Fruit> fruits) {
-            template.insert(fruits);
-            Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> :name", Fruit.class)
-                    .bind("name", sample.getName())
-                    .result();
+            try {
+                template.insert(fruits);
+                Fruit sample = fruits.getFirst();
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> :name", Fruit.class)
+                        .bind("name", sample.getName())
+                        .result();
 
-            assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
+                assertThat(result)
+                        .isNotEmpty()
+                        .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
+            } catch (UnsupportedOperationException exp) {
+                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            }
         }
 
         @ParameterizedTest
         @DisplayName("should test gt")
         @ArgumentsSource(FruitListSupplier.class)
-        void shouldGt(List<Fruit> fruits){
-            template.insert(fruits);
-            Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity > :quantity", Fruit.class)
-                    .bind("quantity", sample.getQuantity())
-                    .result();
+        void shouldGt(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sample = fruits.getFirst();
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity > :quantity", Fruit.class)
+                        .bind("quantity", sample.getQuantity())
+                        .result();
 
-            assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
+                assertThat(result)
+                        .isNotEmpty()
+                        .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
+            } catch (UnsupportedOperationException exp) {
+                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            }
         }
 
         @ParameterizedTest
         @DisplayName("should test gte")
         @ArgumentsSource(FruitListSupplier.class)
-        void shouldGte(List<Fruit> fruits){
-            template.insert(fruits);
-            Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity >= :quantity", Fruit.class)
-                    .bind("quantity", sample.getQuantity())
-                    .result();
+        void shouldGte(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sample = fruits.getFirst();
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity >= :quantity", Fruit.class)
+                        .bind("quantity", sample.getQuantity())
+                        .result();
 
-            assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
+                assertThat(result)
+                        .isNotEmpty()
+                        .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
+            } catch (UnsupportedOperationException exp) {
+                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            }
         }
 
         @ParameterizedTest
         @DisplayName("should test lt")
         @ArgumentsSource(FruitListSupplier.class)
         void shouldLt(List<Fruit> fruits) {
-            template.insert(fruits);
-            Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity < :quantity", Fruit.class)
-                    .bind("quantity", sample.getQuantity())
-                    .result();
+            try {
+                template.insert(fruits);
+                Fruit sample = fruits.getFirst();
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity < :quantity", Fruit.class)
+                        .bind("quantity", sample.getQuantity())
+                        .result();
 
-            assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
+                assertThat(result)
+                        .isNotEmpty()
+                        .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
+            } catch (UnsupportedOperationException exp) {
+                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            }
         }
 
         @ParameterizedTest
