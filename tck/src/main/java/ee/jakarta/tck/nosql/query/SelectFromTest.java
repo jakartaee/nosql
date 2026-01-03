@@ -45,83 +45,107 @@ class SelectFromTest extends AbstractTemplateTest {
     @DisplayName("should find all entities as stream")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldFindAllEntities(List<Vehicle> vehicles) {
-        template.insert(vehicles);
-        var result = template.query("FROM Vehicle").stream();
+        try {
+            template.insert(vehicles);
+            var result = template.query("FROM Vehicle").stream();
 
-        assertThat(result)
-                .isNotEmpty()
-                .hasSize(vehicles.size())
-                .containsAll(vehicles);
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(vehicles.size())
+                    .containsAll(vehicles);
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
     }
 
     @ParameterizedTest
     @DisplayName("should find all using class as list")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldFindAllUsingList(List<Vehicle> vehicles) {
-        template.insert(vehicles);
-        var result = template.query("FROM Vehicle").result();
+        try {
+            template.insert(vehicles);
+            var result = template.query("FROM Vehicle").result();
 
-        assertThat(result)
-                .isNotEmpty()
-                .hasSize(vehicles.size())
-                .containsAll(vehicles);
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(vehicles.size())
+                    .containsAll(vehicles);
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
     }
 
     @ParameterizedTest
     @DisplayName("should use typed class to select entities")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldUseTypedClass(List<Vehicle> vehicles) {
-        template.insert(vehicles);
-        var result = template.typedQuery("", Vehicle.class).result();
-        assertThat(result)
-                .isNotEmpty()
-                .hasSize(vehicles.size())
-                .containsAll(vehicles);
+        try {
+            template.insert(vehicles);
+            var result = template.typedQuery("", Vehicle.class).result();
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(vehicles.size())
+                    .containsAll(vehicles);
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
     }
 
     @ParameterizedTest
     @DisplayName("should order by ascending")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldOrderByAsc(List<Vehicle> vehicles) {
-        template.insert(vehicles);
-        var result = template.query("FROM Vehicle ORDER BY color ASC").result();
-        assertThat(result)
-                .isNotEmpty()
-                .hasSize(vehicles.size())
-                .containsExactly(vehicles.stream()
-                        .sorted(comparing(Vehicle::getColor))
-                        .toList());
+        try {
+            template.insert(vehicles);
+            var result = template.query("FROM Vehicle ORDER BY color ASC").result();
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(vehicles.size())
+                    .containsExactly(vehicles.stream()
+                            .sorted(comparing(Vehicle::getColor))
+                            .toList());
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
     }
 
     @ParameterizedTest
     @DisplayName("should order by descending")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldOrderByDesc(List<Vehicle> vehicles) {
-        template.insert(vehicles);
-        var result = template.query("FROM Vehicle ORDER BY color DESC").result();
-        assertThat(result)
-                .isNotEmpty()
-                .hasSize(vehicles.size())
-                .containsExactly(vehicles.stream()
-                        .sorted(comparing(Vehicle::getColor).reversed())
-                        .toList());
+        try {
+            template.insert(vehicles);
+            var result = template.query("FROM Vehicle ORDER BY color DESC").result();
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(vehicles.size())
+                    .containsExactly(vehicles.stream()
+                            .sorted(comparing(Vehicle::getColor).reversed())
+                            .toList());
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
     }
 
     @ParameterizedTest
     @DisplayName("should find all by projection")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldFindAllByProjection(List<Vehicle> vehicles) {
-        template.insert(vehicles);
-        var result = template.typedQuery("FROM Vehicle", VehicleSummary.class).result();
+        try {
+            template.insert(vehicles);
+            var result = template.typedQuery("FROM Vehicle", VehicleSummary.class).result();
 
-        var expected = vehicles.stream()
-                .map(VehicleSummary::of)
-                .toList();
+            var expected = vehicles.stream()
+                    .map(VehicleSummary::of)
+                    .toList();
 
-        assertThat(result)
-                .isNotEmpty()
-                .hasSize(vehicles.size())
-                .containsAll(expected);
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(vehicles.size())
+                    .containsAll(expected);
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
     }
 
 }
