@@ -11,13 +11,11 @@
 /**
  * Provides Technology Compatibility Kit (TCK) tests for validating the
  * integration between Jakarta Query and Jakarta NoSQL.
- *
  *  This package focuses on verifying that Jakarta NoSQL implementations
  * correctly interpret and execute Jakarta Query constructs when mapped
  * to NoSQL data stores. The tests exercise the core query semantics,
  * ensuring that query parsing, mapping, parameter binding, and execution
  * behave consistently with the Jakarta Query specification.
- *
  * The tests in this package are intentionally database-agnostic and do
  * not assume support for advanced or vendor-specific query capabilities.
  * Instead, they validate the common contract defined by Jakarta Query
