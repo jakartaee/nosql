@@ -17,7 +17,13 @@ package ee.jakarta.tck.nosql.query;
 
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Drink;
+import ee.jakarta.tck.nosql.factories.DrinkListSupplier;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.util.List;
 
 @DisplayName("The Jakarta Query integration test using select with inheritance")
 class SelectInheritanceTest extends AbstractTemplateTest {
@@ -25,5 +31,21 @@ class SelectInheritanceTest extends AbstractTemplateTest {
     //should select super mapped class
     //should select mapper class
     //should use specialization class
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkListSupplier.class)
+    @DisplayName("Should select all entities from inherited hierarchy")
+    void shouldSelectAllEntities(List<Drink> entities) {
+        this.template.insert(entities);
+        try {
+            List<Drink> result = this.template.select(Drink.class).result();
+
+            org.assertj.core.api.Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(entities.size());
+        } catch (UnsupportedOperationException exp) {
+            org.assertj.core.api.Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
 
 }
