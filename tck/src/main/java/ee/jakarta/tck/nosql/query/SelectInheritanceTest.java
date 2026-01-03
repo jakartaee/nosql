@@ -40,6 +40,22 @@ class SelectInheritanceTest extends AbstractTemplateTest {
     void shouldSelectAllEntities(List<Drink> entities) {
         this.template.insert(entities);
         try {
+            List<Drink> result = this.template.query("FROM Drink").result();
+
+            assertThat(result)
+                    .isNotEmpty()
+                    .hasSize(entities.size());
+        } catch (UnsupportedOperationException exp) {
+            assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DrinkListSupplier.class)
+    @DisplayName("Should select specialized entities from inherited hierarchy")
+    void shouldSelectSpecializedEntities(List<Drink> entities) {
+        this.template.insert(entities);
+        try {
             List<Drink> result = this.template.select(Drink.class).result();
 
             assertThat(result)
