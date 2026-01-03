@@ -105,6 +105,7 @@ class SelectFromTest extends AbstractTemplateTest {
                     .map(Vehicle::getColor)
                     .sorted()
                     .toList();
+
             Assertions.assertThat(expectedColor)
                     .isNotEmpty()
                     .hasSize(vehicles.size())
