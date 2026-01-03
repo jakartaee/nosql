@@ -16,14 +16,14 @@
 package ee.jakarta.tck.nosql.entities;
 
 import jakarta.nosql.Column;
-import jakarta.nosql.Embeddable;
+import jakarta.nosql.Entity;
 import jakarta.nosql.Id;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
-@Embeddable
+@Entity
 public class Computer {
 
     @Id
