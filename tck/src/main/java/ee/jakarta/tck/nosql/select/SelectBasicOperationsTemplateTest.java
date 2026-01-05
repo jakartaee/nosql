@@ -117,7 +117,7 @@ public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
         try {
             var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
             List<Person> result = template.select(Person.class)
-                    .where("age").gte(age)
+                    .where("age").lte(age)
                     .result();
 
             Assertions.assertThat(result)
