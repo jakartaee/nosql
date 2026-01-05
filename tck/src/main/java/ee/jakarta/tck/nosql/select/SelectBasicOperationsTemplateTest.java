@@ -236,14 +236,15 @@ public class SelectBasicOperationsTemplateTest extends AbstractTemplateTest {
         entities.forEach(entity -> template.insert(entity));
 
         try {
-            var startsWith =  entities.getFirst().getName().substring(0, 1);
+            var endsWith = entities.getFirst().getName()
+                    .substring(entities.getFirst().getName().length() -1);
             List<Person> result = template.select(Person.class)
-                    .where("name").endsWith(startsWith)
+                    .where("name").endsWith(endsWith)
                     .result();
 
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> person.getName().startsWith(startsWith));
+                    .allMatch(person -> person.getName().endsWith(endsWith));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
