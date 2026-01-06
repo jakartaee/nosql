@@ -112,6 +112,4 @@ public class Vehicle {
         vehicle.transmission = faker.number().positive() % 2 == 0 ? Transmission.MANUAL : Transmission.AUTOMATIC;
         return vehicle;
     }
-
-
 }
