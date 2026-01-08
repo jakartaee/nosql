@@ -117,7 +117,7 @@ This style promotes type safety and cleaner code, especially in dynamic or reusa
 
 ==== Typed Queries and Projections
 
-Jakarta NoSQL supports string-based queries using the Jakarta Query Core language. There are two main methods for executing these queries:
+Jakarta NoSQL supports string-based queries using the Jakarta Common Query Language (JCQL). There are two main methods for executing these queries:
 
 * `query(String)` — executes a generic query that always returns entities and *requires* an explicit `FROM` clause.
 * `typedQuery(String, Class<T>)` — maps results to either an entity or a projection class. Supports *omitting* the `FROM` clause when used with `@Projection(from = ...)`.
