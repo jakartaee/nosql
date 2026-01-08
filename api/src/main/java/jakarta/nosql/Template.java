@@ -448,7 +448,8 @@ public interface Template {
      * List<Person> people = query.bind("name", "Ada").result();
      * }</pre>
      *
-     * @param query the Jakarta Query string to execute (e.g., {@code SELECT * FROM Person WHERE active = true})
+     * @param query the Jakarta Common Query Language (JCQL) string to execute (e.g., {@code SELECT * FROM Person
+     * WHERE active = true})
      * @return a new {@link Query} instance bound to this query string
      * @throws NullPointerException if the query string is {@code null}
      * @throws UnsupportedOperationException if the database does not support dynamic queries
