@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * <em>column family</em>, or <em>edge label</em>, depending on the type of NoSQL database.
  * By default, the entity structure name is inferred from the class name, but you can customize it using {@link #value()}.</p>
  *
- * <p>When writing queries using Jakarta Query, the name used in the `FROM` clause is inferred from the class name or
+ * <p>When writing queries using Jakarta Common Query Language (JCQL), the name used in the `FROM` clause is inferred from the class name or
  * explicitly defined using the {@link #name()} attribute. This is useful when multiple classes share the same simple name
  * or when you want a more semantic alias for the query layer.</p>
  *
