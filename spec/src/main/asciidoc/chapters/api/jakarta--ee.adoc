@@ -213,7 +213,7 @@ Document databases typically offer full query capabilities:
 - Support a broad set of operators such as `=`, `>`, `<`, `IN`, `AND`, `OR`, etc.
 - SELECT operations may include ordering (`ORDER BY`) and pagination features.
 - Full UPDATE and DELETE support.
-- Suitable for expressive queries using Jakarta Query Core.
+- Suitable for expressive queries using Jakarta Common Query Language (JCQL).
 
 ===== Graph Databases
 
