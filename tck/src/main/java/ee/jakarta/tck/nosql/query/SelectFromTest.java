@@ -162,4 +162,23 @@ class SelectFromTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @DisplayName("should count by")
+    @ArgumentsSource(VehicleListSupplier.class)
+    void shouldFindCount(List<Vehicle> vehicles) {
+        try {
+            template.insert(vehicles);
+            var result = template.query("SELECT count(this) FROM Vehicle").singleResult();
+
+            var expected = vehicles.stream()
+                    .map(VehicleSummary::of)
+                    .toList();
+
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .isEqualTo(expected.size());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
 }
