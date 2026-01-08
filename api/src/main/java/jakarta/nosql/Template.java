@@ -490,7 +490,7 @@ public interface Template {
      *     .singleResult();
      * }</pre>
      *
-     * @param query the query string using Jakarta Query Core language
+     * @param query the query string using Jakarta Common Query Language (JCQL)
      * @param type  the expected result type (entity or projection class)
      * @param <T>   the type of the result
      * @return a {@link TypedQuery} instance to bind parameters and fetch results
