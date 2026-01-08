@@ -173,7 +173,7 @@ class SelectFromTest extends AbstractTemplateTest {
             Assertions.assertThat(result)
                     .isNotEmpty()
                     .get()
-                    .isEqualTo(vehicles.size());
+                    .isEqualTo((long) vehicles.size());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
