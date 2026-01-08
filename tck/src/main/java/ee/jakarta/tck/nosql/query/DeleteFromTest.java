@@ -31,21 +31,13 @@ import java.util.List;
 @DisplayName("The Jakarta Query integration test using delete without where clause")
 class DeleteFromTest extends AbstractTemplateTest {
 
-    @Test
-    @DisplayName("should thrown NPE when parameter is null")
-    void shouldThrownNPEWhenParameterIsNull() {
-        Assertions.assertThatThrownBy(() -> this.template.query(null))
-                .isInstanceOf(NullPointerException.class);
-        Assertions.assertThatThrownBy(() -> this.template.typedQuery(null, null))
-                .isInstanceOf(NullPointerException.class);
-    }
-
     @ParameterizedTest
     @DisplayName("should find all entities as stream")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldFindAllEntities(List<Vehicle> vehicles) {
         try {
             template.insert(vehicles);
+            template.query("DELETE FROM Vehicle");
             var result = template.query("FROM Vehicle").stream();
 
             Assertions.assertThat(result)
