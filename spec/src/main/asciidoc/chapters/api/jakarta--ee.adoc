@@ -229,7 +229,7 @@ If a NoSQL database does not fit into the categories above, it **must** support 
 
 - SELECT and DELETE queries using equality (`=`) on `@jakarta.nosql.Id`.
 
-Additional features — such as filtering, sorting, or update operations — are allowed if they respect Jakarta Query Core semantics.
+Additional features — such as filtering, sorting, or update operations — are allowed if they respect Jakarta Common Query Language (JCQL) semantics.
 
 ===== Function and Time Expression Limitations
 
