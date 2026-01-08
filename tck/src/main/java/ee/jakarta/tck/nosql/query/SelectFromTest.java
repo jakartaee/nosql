@@ -170,13 +170,10 @@ class SelectFromTest extends AbstractTemplateTest {
             template.insert(vehicles);
             var result = template.query("SELECT count(this) FROM Vehicle").singleResult();
 
-            var expected = vehicles.stream()
-                    .map(VehicleSummary::of)
-                    .toList();
-
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .isEqualTo(expected.size());
+                    .get()
+                    .isEqualTo(vehicles.size());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
