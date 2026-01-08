@@ -121,7 +121,7 @@ public @interface Entity {
 
 
     /**
-     * Defines the logical name used to reference this entity in Jakarta Query language.
+     * Defines the logical name used to reference this entity in  Jakarta Common Query Language (JCQL).
      * <p>This is useful when multiple entity classes share the same simple name in different packages,
      * or when you want a custom name for use in queries.</p>
      * <p>If not specified, it defaults to the simple class name.</p>
