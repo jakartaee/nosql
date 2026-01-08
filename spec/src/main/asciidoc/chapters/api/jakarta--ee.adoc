@@ -242,7 +242,7 @@ Since these are generally evaluated at the database level, behavior is not guara
 
 ==== Object Mapping Integration
 
-Jakarta NoSQL integrates query execution with Jakarta Mapping metadata. This integration allows Jakarta Query Core to resolve attribute names and types based on the annotated Java class structure.
+Jakarta NoSQL integrates query execution with Jakarta Mapping metadata. This integration allows Jakarta Common Query Language (JCQL) to resolve attribute names and types based on the annotated Java class structure.
 
 Only classes explicitly annotated with `@jakarta.nosql.Entity` are eligible for use in queries. Fields or constructor parameters must be annotated with either `@jakarta.nosql.Id` or `@jakarta.nosql.Column` to be considered queryable.
 
