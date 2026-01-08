@@ -17,15 +17,12 @@ package ee.jakarta.tck.nosql.query;
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Vehicle;
-import ee.jakarta.tck.nosql.entities.VehicleSummary;
 import ee.jakarta.tck.nosql.factories.VehicleListSupplier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import java.util.Comparator;
 import java.util.List;
 
 @DisplayName("The Jakarta Query integration test using delete without where clause")
@@ -41,79 +38,6 @@ class DeleteFromTest extends AbstractTemplateTest {
             var result = template.query("FROM Vehicle").stream();
 
             Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-
-    @ParameterizedTest
-    @DisplayName("should order by ascending")
-    @ArgumentsSource(VehicleListSupplier.class)
-    void shouldOrderByAsc(List<Vehicle> vehicles) {
-        try {
-            template.insert(vehicles);
-            List<Vehicle> result = template.query("FROM Vehicle ORDER BY color ASC").result();
-
-            var expectedColor = vehicles.stream()
-                    .map(Vehicle::getColor)
-                    .sorted()
-                    .toList();
-
-            var colors = result.stream()
-                    .map(Vehicle::getColor)
-                    .toList();
-
-            Assertions.assertThat(expectedColor)
-                    .isNotEmpty()
-                    .hasSize(vehicles.size())
-                    .containsExactly(colors.toArray(new String[0]));
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @DisplayName("should order by descending")
-    @ArgumentsSource(VehicleListSupplier.class)
-    void shouldOrderByDesc(List<Vehicle> vehicles) {
-        try {
-            template.insert(vehicles);
-            List<Vehicle> result = template.query("FROM Vehicle ORDER BY color DESC").result();
-            var colors = result.stream()
-                    .map(Vehicle::getColor)
-                    .toList();
-
-            var expectedColor = vehicles.stream()
-                    .map(Vehicle::getColor)
-                    .sorted(Comparator.reverseOrder())
-                    .toList();
-
-            Assertions.assertThat(expectedColor)
-                    .isNotEmpty()
-                    .hasSize(vehicles.size())
-                    .containsExactly(colors.toArray(new String[0]));
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @DisplayName("should find all by projection")
-    @ArgumentsSource(VehicleListSupplier.class)
-    void shouldFindAllByProjection(List<Vehicle> vehicles) {
-        try {
-            template.insert(vehicles);
-            var result = template.typedQuery("FROM Vehicle", VehicleSummary.class).result();
-
-            var expected = vehicles.stream()
-                    .map(VehicleSummary::of)
-                    .toList();
-
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .hasSize(vehicles.size())
-                    .containsAll(expected);
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
