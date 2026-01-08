@@ -32,7 +32,7 @@ import java.util.List;
 class DeleteFromTest extends AbstractTemplateTest {
 
     @ParameterizedTest
-    @DisplayName("should find all entities as stream")
+    @DisplayName("should delete all entities")
     @ArgumentsSource(VehicleListSupplier.class)
     void shouldFindAllEntities(List<Vehicle> vehicles) {
         try {
@@ -40,47 +40,12 @@ class DeleteFromTest extends AbstractTemplateTest {
             template.query("DELETE FROM Vehicle");
             var result = template.query("FROM Vehicle").stream();
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .hasSize(vehicles.size())
-                    .containsAll(vehicles);
+            Assertions.assertThat(result).isEmpty();
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
 
-    @ParameterizedTest
-    @DisplayName("should find all using class as list")
-    @ArgumentsSource(VehicleListSupplier.class)
-    void shouldFindAllUsingList(List<Vehicle> vehicles) {
-        try {
-            template.insert(vehicles);
-            var result = template.query("FROM Vehicle").result();
-
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .hasSize(vehicles.size())
-                    .containsAll(vehicles);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @DisplayName("should use typed class to select entities")
-    @ArgumentsSource(VehicleListSupplier.class)
-    void shouldUseTypedClass(List<Vehicle> vehicles) {
-        try {
-            template.insert(vehicles);
-            var result = template.typedQuery("", Vehicle.class).result();
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .hasSize(vehicles.size())
-                    .containsAll(vehicles);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
 
     @ParameterizedTest
     @DisplayName("should order by ascending")
