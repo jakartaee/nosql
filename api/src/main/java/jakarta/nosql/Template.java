@@ -435,7 +435,7 @@ public interface Template {
 
 
     /**
-     * Creates a query from a raw string using Jakarta Query language (core grammar).
+     * Creates a query from a raw string using Jakarta Common Query Language (JCQL).
      * <p>
      * The entity type is inferred from the query string (e.g., {@code FROM Person}),
      * so no result class needs to be explicitly passed.
