@@ -17,9 +17,7 @@ package ee.jakarta.tck.nosql.query;
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
-import ee.jakarta.tck.nosql.entities.Vehicle;
 import ee.jakarta.tck.nosql.factories.FruitListSupplier;
-import ee.jakarta.tck.nosql.factories.VehicleListSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.AssertionsForInterfaceTypes;
 import org.junit.jupiter.api.DisplayName;
@@ -58,7 +56,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                     .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
-            AssertionsForInterfaceTypes.assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
         } catch (UnsupportedOperationException exp) {
@@ -78,7 +76,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                     .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
-            AssertionsForInterfaceTypes.assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getName().equals(sample.getName()));
         } catch (UnsupportedOperationException exp) {
@@ -98,7 +96,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                     .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
-            AssertionsForInterfaceTypes.assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
@@ -118,7 +116,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                     .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
-            AssertionsForInterfaceTypes.assertThat(result)
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
@@ -133,11 +131,12 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity < :quantity", Fruit.class)
+            template.typedQuery("FROM Fruit WHERE quantity < :quantity", Fruit.class)
                     .bind("quantity", sample.getQuantity())
                     .result();
 
-            AssertionsForInterfaceTypes.assertThat(result)
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
