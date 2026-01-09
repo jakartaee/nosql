@@ -131,14 +131,14 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            template.typedQuery("FROM Fruit WHERE quantity < :quantity", Fruit.class)
+            template.typedQuery("DELETE FROM Fruit WHERE quantity < :quantity", Fruit.class)
                     .bind("quantity", sample.getQuantity())
-                    .result();
+                    .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
+                    .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -151,13 +151,14 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity <= :quantity", Fruit.class)
+            template.typedQuery("DELETE FROM Fruit WHERE quantity <= :quantity", Fruit.class)
                     .bind("quantity", sample.getQuantity())
-                    .result();
+                    .executeUpdate();
 
+            List<Fruit> result = template.query("FROM Fruit").result();
             AssertionsForInterfaceTypes.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
+                    .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -171,11 +172,12 @@ class DeleteFromTest extends AbstractTemplateTest {
             template.insert(fruits);
             var sample1 = fruits.getFirst();
             var sample2 = fruits.get(1);
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name IN (:name1, :name2)", Fruit.class)
+            template.typedQuery("DELETE FROM Fruit WHERE name IN (:name1, :name2)", Fruit.class)
                     .bind("name1", sample1.getName())
                     .bind("name2", sample2.getName())
-                    .result();
+                    .executeUpdate();
 
+            List<Fruit> result = template.query("FROM Fruit").result();
             AssertionsForInterfaceTypes.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getName().equals(sample1.getName())
