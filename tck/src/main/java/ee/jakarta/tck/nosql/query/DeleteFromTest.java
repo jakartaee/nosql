@@ -37,7 +37,7 @@ class DeleteFromTest extends AbstractTemplateTest {
     void shouldFindAllEntities(List<Fruit> fruits) {
         try {
             template.insert(fruits);
-            template.query("DELETE FROM Fruit");
+            template.query("DELETE FROM Fruit").executeUpdate();
             var result = template.query("FROM Fruit").stream();
 
             Assertions.assertThat(result).isEmpty();
@@ -53,9 +53,9 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            template.query("FROM Fruit WHERE name = :name")
+            template.query("DELETE FROM Fruit WHERE name = :name")
                     .bind("name", sample.getName())
-                    .result();
+                    .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
             AssertionsForInterfaceTypes.assertThat(result)
@@ -73,10 +73,11 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> :name", Fruit.class)
+            template.typedQuery("DELETE FROM Fruit WHERE name <> :name", Fruit.class)
                     .bind("name", sample.getName())
-                    .result();
+                    .executeUpdate();
 
+            List<Fruit> result = template.query("FROM Fruit").result();
             AssertionsForInterfaceTypes.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
