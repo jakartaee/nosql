@@ -80,7 +80,7 @@ class DeleteFromTest extends AbstractTemplateTest {
             List<Fruit> result = template.query("FROM Fruit").result();
             AssertionsForInterfaceTypes.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
+                    .allMatch(fruit -> fruit.getName().equals(sample.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -93,13 +93,14 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity > :quantity", Fruit.class)
+            template.typedQuery("DELETE FROM Fruit WHERE quantity > :quantity", Fruit.class)
                     .bind("quantity", sample.getQuantity())
-                    .result();
+                    .executeUpdate();
 
+            List<Fruit> result = template.query("FROM Fruit").result();
             AssertionsForInterfaceTypes.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
+                    .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -112,13 +113,14 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity >= :quantity", Fruit.class)
+            template.typedQuery("DELETE FROM Fruit WHERE quantity >= :quantity", Fruit.class)
                     .bind("quantity", sample.getQuantity())
-                    .result();
+                    .executeUpdate();
 
+            List<Fruit> result = template.query("FROM Fruit").result();
             AssertionsForInterfaceTypes.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
+                    .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
