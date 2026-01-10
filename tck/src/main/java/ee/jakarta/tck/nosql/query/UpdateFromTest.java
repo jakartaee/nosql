@@ -30,7 +30,7 @@ import java.util.List;
 class UpdateFromTest extends AbstractTemplateTest {
 
     @ParameterizedTest
-    @DisplayName("should delete all entities")
+    @DisplayName("should update all entities")
     @ArgumentsSource(FruitListSupplier.class)
     void shouldUpdateEntities(List<Fruit> fruits) {
         try {
