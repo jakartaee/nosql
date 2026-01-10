@@ -35,5 +35,6 @@
  * @see jakarta.nosql.Query
  * @see jakarta.nosql.TypedQuery
  * @see jakarta.nosql.Projection
+ * @since 1.1.0
  */
 package ee.jakarta.tck.nosql.query;
