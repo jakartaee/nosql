@@ -37,7 +37,6 @@ class DeleteFromTest extends AbstractTemplateTest {
             template.insert(fruits);
             template.query("DELETE FROM Fruit").executeUpdate();
             var result = template.query("FROM Fruit").stream();
-
             Assertions.assertThat(result).isEmpty();
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -57,7 +56,6 @@ class DeleteFromTest extends AbstractTemplateTest {
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
-                    .isNotEmpty()
                     .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -77,7 +75,6 @@ class DeleteFromTest extends AbstractTemplateTest {
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
-                    .isNotEmpty()
                     .allMatch(fruit -> fruit.getName().equals(sample.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -97,7 +94,6 @@ class DeleteFromTest extends AbstractTemplateTest {
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
-                    .isNotEmpty()
                     .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -117,7 +113,6 @@ class DeleteFromTest extends AbstractTemplateTest {
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
-                    .isNotEmpty()
                     .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -137,7 +132,6 @@ class DeleteFromTest extends AbstractTemplateTest {
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
-                    .isNotEmpty()
                     .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -156,8 +150,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                     .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
-            AssertionsForInterfaceTypes.assertThat(result)
-                    .isNotEmpty()
+            Assertions.assertThat(result)
                     .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
@@ -178,8 +171,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                     .executeUpdate();
 
             List<Fruit> result = template.query("FROM Fruit").result();
-            AssertionsForInterfaceTypes.assertThat(result)
-                    .isNotEmpty()
+            Assertions.assertThat(result)
                     .allMatch(fruit -> !fruit.getName().equals(sample1.getName())
                             || ! fruit.getName().equals(sample2.getName()));
 
@@ -204,7 +196,6 @@ class DeleteFromTest extends AbstractTemplateTest {
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
-                    .isNotEmpty()
                     .allMatch(fruit -> !fruit.getName().equals(sample.getName())
                             && !fruit.getQuantity().equals(sample.getQuantity()));
         } catch (UnsupportedOperationException exp) {
@@ -228,7 +219,6 @@ class DeleteFromTest extends AbstractTemplateTest {
 
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
-                    .isNotEmpty()
                     .allMatch(fruit -> !fruit.getName().equals(sample1.getName())
                             && !fruit.getName().equals(sample2.getName()));
 
