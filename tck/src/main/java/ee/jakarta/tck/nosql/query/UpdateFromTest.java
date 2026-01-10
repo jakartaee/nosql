@@ -124,4 +124,149 @@ class UpdateFromTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @DisplayName("should test gt")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldGt(List<Fruit> fruits) {
+        try {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            template.typedQuery("DELETE FROM Fruit WHERE quantity > :quantity", Fruit.class)
+                    .bind("quantity", sample.getQuantity())
+                    .executeUpdate();
+
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
+                    .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @DisplayName("should test gte")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldGte(List<Fruit> fruits) {
+        try {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            template.typedQuery("DELETE FROM Fruit WHERE quantity >= :quantity", Fruit.class)
+                    .bind("quantity", sample.getQuantity())
+                    .executeUpdate();
+
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
+                    .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @DisplayName("should test lt")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldLt(List<Fruit> fruits) {
+        try {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            template.typedQuery("DELETE FROM Fruit WHERE quantity < :quantity", Fruit.class)
+                    .bind("quantity", sample.getQuantity())
+                    .executeUpdate();
+
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
+                    .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @DisplayName("should test lte")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldLte(List<Fruit> fruits) {
+        try {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            template.typedQuery("DELETE FROM Fruit WHERE quantity <= :quantity", Fruit.class)
+                    .bind("quantity", sample.getQuantity())
+                    .executeUpdate();
+
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
+                    .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @DisplayName("should test in")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldIn(List<Fruit> fruits) {
+        try {
+            template.insert(fruits);
+            var sample1 = fruits.getFirst();
+            var sample2 = fruits.get(1);
+            template.typedQuery("DELETE FROM Fruit WHERE name IN (:name1, :name2)", Fruit.class)
+                    .bind("name1", sample1.getName())
+                    .bind("name2", sample2.getName())
+                    .executeUpdate();
+
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
+                    .allMatch(fruit -> !fruit.getName().equals(sample1.getName())
+                            || !fruit.getName().equals(sample2.getName()));
+
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @DisplayName("should test AND")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldAnd(List<Fruit> fruits) {
+
+        try {
+            template.insert(fruits);
+            Fruit sample = fruits.getFirst();
+            template.typedQuery("DELETE FROM Fruit WHERE name = :name AND quantity " +
+                            "= :quantity", Fruit.class)
+                    .bind("name", sample.getName())
+                    .bind("quantity", sample.getQuantity())
+                    .executeUpdate();
+
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
+                    .allMatch(fruit -> !fruit.getName().equals(sample.getName())
+                            && !fruit.getQuantity().equals(sample.getQuantity()));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
+    @ParameterizedTest
+    @DisplayName("should test OR")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldOr(List<Fruit> fruits) {
+
+        try {
+            template.insert(fruits);
+            Fruit sample1 = fruits.get(0);
+            Fruit sample2 = fruits.get(1);
+            template.typedQuery("FROM Fruit WHERE name = :name1 OR name = :name2", Fruit.class)
+                    .bind("name1", sample1.getName())
+                    .bind("name2", sample2.getName())
+                    .executeUpdate();
+
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
+                    .allMatch(fruit -> !fruit.getName().equals(sample1.getName())
+                            && !fruit.getName().equals(sample2.getName()));
+
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
 }
