@@ -82,4 +82,26 @@ class UpdateFromTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @DisplayName("should update entity by neq")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldNEq(List<Fruit> fruits) {
+        try {
+            template.insert(fruits);
+            template.query("UPDATE Fruit SET quantity = :quantity WHERE id <> :id")
+                    .bind("quantity", 19)
+                    .bind("id", fruits.getFirst().getId())
+                    .executeUpdate();
+            Optional<Fruit> result = template.query("FROM Fruit where id <> :id")
+                    .bind("id", fruits.getFirst().getId())
+                    .singleResult();
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .get()
+                    .matches(fruit -> fruit.getQuantity() == 19);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
