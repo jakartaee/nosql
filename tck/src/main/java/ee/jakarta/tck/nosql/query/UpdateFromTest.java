@@ -61,9 +61,9 @@ class UpdateFromTest extends AbstractTemplateTest {
     }
 
     @ParameterizedTest
-    @DisplayName("should update entity by id")
+    @DisplayName("should update entity by eq")
     @ArgumentsSource(FruitListSupplier.class)
-    void shouldUpdateEntityById(List<Fruit> fruits) {
+    void shouldEq(List<Fruit> fruits) {
         try {
             template.insert(fruits);
             template.query("UPDATE Fruit SET quantity = :quantity WHERE id = :id")
