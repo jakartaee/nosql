@@ -16,8 +16,10 @@
 package ee.jakarta.tck.nosql.query;
 
 
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("The Jakarta Query integration test using update")
-class UpdateFromTest {
+class UpdateFromTest extends AbstractTemplateTest {
+
 }
