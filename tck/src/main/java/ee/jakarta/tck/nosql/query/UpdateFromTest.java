@@ -104,4 +104,26 @@ class UpdateFromTest extends AbstractTemplateTest {
         }
     }
 
+    @ParameterizedTest
+    @DisplayName("should update entity by in")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldIn(List<Fruit> fruits){
+        try {
+            template.insert(fruits);
+            template.query("UPDATE Fruit SET quantity = :quantity WHERE id IN (:ids)")
+                    .bind("quantity", 19)
+                    .bind("ids", fruits.stream().map(Fruit::getId).toList())
+                    .executeUpdate();
+            Optional<Fruit> result = template.query("FROM Fruit where id IN (:ids)")
+                    .bind("ids", fruits.stream().map(Fruit::getId).toList())
+                    .singleResult();
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .get()
+                    .matches(fruit -> fruit.getQuantity() == 19);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
