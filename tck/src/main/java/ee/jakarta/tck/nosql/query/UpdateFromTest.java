@@ -42,4 +42,20 @@ class UpdateFromTest extends AbstractTemplateTest {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
     }
+
+    @ParameterizedTest
+    @DisplayName("should update all entities by params")
+    @ArgumentsSource(FruitListSupplier.class)
+    void shouldUpdateEntitiesByParams(List<Fruit> fruits) {
+        try {
+            template.insert(fruits);
+            template.query("UPDATE Fruit SET quantity = :quantity")
+                    .bind("quantity", 19)
+                    .executeUpdate();
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result).isNotEmpty().allMatch(fruit -> fruit.getQuantity() == 19);
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
 }
