@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-@DisplayName("The Jakarta Query integration test using delete without where clause")
+@DisplayName("The Jakarta Query integration test using delete")
 class DeleteFromTest extends AbstractTemplateTest {
 
     @ParameterizedTest
