@@ -54,6 +54,7 @@ import java.util.stream.Stream;
  * template.query("UPDATE Person SET active = true WHERE name = 'Ada'")
  *         .executeUpdate();
  * }</pre>
+ * @since 1.1.0
  */
 public interface Query {
 
