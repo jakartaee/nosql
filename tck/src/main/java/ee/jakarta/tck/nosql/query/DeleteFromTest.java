@@ -196,13 +196,14 @@ class DeleteFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name AND quantity " +
+            template.typedQuery("DELETE FROM Fruit WHERE name = :name AND quantity " +
                             "= :quantity", Fruit.class)
                     .bind("name", sample.getName())
                     .bind("quantity", sample.getQuantity())
-                    .result();
+                    .executeUpdate();
 
-            AssertionsForInterfaceTypes.assertThat(result)
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getName().equals(sample.getName())
                             && fruit.getQuantity().equals(sample.getQuantity()));
@@ -220,12 +221,13 @@ class DeleteFromTest extends AbstractTemplateTest {
             template.insert(fruits);
             Fruit sample1 = fruits.get(0);
             Fruit sample2 = fruits.get(1);
-            List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name1 OR name = :name2", Fruit.class)
+            template.typedQuery("FROM Fruit WHERE name = :name1 OR name = :name2", Fruit.class)
                     .bind("name1", sample1.getName())
                     .bind("name2", sample2.getName())
-                    .result();
+                    .executeUpdate();
 
-            AssertionsForInterfaceTypes.assertThat(result)
+            List<Fruit> result = template.query("FROM Fruit").result();
+            Assertions.assertThat(result)
                     .isNotEmpty()
                     .allMatch(fruit -> fruit.getName().equals(sample1.getName())
                             || fruit.getName().equals(sample2.getName()));
