@@ -172,7 +172,7 @@ class DeleteFromTest extends AbstractTemplateTest {
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
                     .allMatch(fruit -> !fruit.getName().equals(sample1.getName())
-                            || ! fruit.getName().equals(sample2.getName()));
+                            || !fruit.getName().equals(sample2.getName()));
 
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
