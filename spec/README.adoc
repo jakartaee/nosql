@@ -17,10 +17,10 @@ From the `spec` directory, execute `mvn install`
 Maven will generate the final documentation in HTML and PDF format in `target` directory with the default license (ASL2).
 
 The HTML version of the document may be found in:
-- `target/generated-docs/jakarta-nosql-1.0.0-<version>.html`
+- `target/generated-docs/jakarta-nosql-1.0.1-<version>.html`
 
 The PDF version of the document may be found in:
-- `target/generated-docs/jakarta-nosql-1.0.0-<version>.pdf`
+- `target/generated-docs/jakarta-nosql-1.0.1-<version>.pdf`
 
 == License in Documentation
 
