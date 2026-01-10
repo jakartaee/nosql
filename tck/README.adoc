@@ -22,7 +22,7 @@ You must add the appropriate TCK module dependency for the Jakarta NoSQL impleme
 [source,xml]
 ----
 <properties>
-    <jakarta.nosql.version>1.0.0</jakarta.nosql.version>
+    <jakarta.nosql.version>1.0.1</jakarta.nosql.version>
 </properties>
 
 <dependency>
