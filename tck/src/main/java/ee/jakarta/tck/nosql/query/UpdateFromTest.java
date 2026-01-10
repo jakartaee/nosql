@@ -131,13 +131,15 @@ class UpdateFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            template.typedQuery("DELETE FROM Fruit WHERE quantity > :quantity", Fruit.class)
+            template.query("UPDATE Fruit SET name = 'Fruit Updated' WHERE quantity > :quantity")
                     .bind("quantity", sample.getQuantity())
                     .executeUpdate();
 
-            List<Fruit> result = template.query("FROM Fruit").result();
+            List<Fruit> result = template.query("FROM Fruit WHERE quantity > :quantity")
+                    .bind("quantity", sample.getQuantity())
+                    .result();
             Assertions.assertThat(result)
-                    .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
+                    .allMatch(fruit -> fruit.getName().equals("Fruit Updated"));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -150,13 +152,15 @@ class UpdateFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            template.typedQuery("DELETE FROM Fruit WHERE quantity >= :quantity", Fruit.class)
+            template.query("UPDATE Fruit SET name = 'Fruit Updated' WHERE quantity >= :quantity")
                     .bind("quantity", sample.getQuantity())
                     .executeUpdate();
 
-            List<Fruit> result = template.query("FROM Fruit").result();
+            List<Fruit> result = template.query("FROM Fruit WHERE quantity >= :quantity")
+                    .bind("quantity", sample.getQuantity())
+                    .result();
             Assertions.assertThat(result)
-                    .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
+                    .allMatch(fruit -> fruit.getName().equals("Fruit Updated"));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -195,29 +199,6 @@ class UpdateFromTest extends AbstractTemplateTest {
             List<Fruit> result = template.query("FROM Fruit").result();
             Assertions.assertThat(result)
                     .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @DisplayName("should test in")
-    @ArgumentsSource(FruitListSupplier.class)
-    void shouldIn(List<Fruit> fruits) {
-        try {
-            template.insert(fruits);
-            var sample1 = fruits.getFirst();
-            var sample2 = fruits.get(1);
-            template.typedQuery("DELETE FROM Fruit WHERE name IN (:name1, :name2)", Fruit.class)
-                    .bind("name1", sample1.getName())
-                    .bind("name2", sample2.getName())
-                    .executeUpdate();
-
-            List<Fruit> result = template.query("FROM Fruit").result();
-            Assertions.assertThat(result)
-                    .allMatch(fruit -> !fruit.getName().equals(sample1.getName())
-                            || !fruit.getName().equals(sample2.getName()));
-
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
