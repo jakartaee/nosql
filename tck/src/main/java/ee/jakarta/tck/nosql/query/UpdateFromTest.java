@@ -173,13 +173,15 @@ class UpdateFromTest extends AbstractTemplateTest {
         try {
             template.insert(fruits);
             Fruit sample = fruits.getFirst();
-            template.typedQuery("DELETE FROM Fruit WHERE quantity < :quantity", Fruit.class)
+            template.query("UPDATE Fruit SET name = 'Fruit Updated' WHERE quantity < :quantity")
                     .bind("quantity", sample.getQuantity())
                     .executeUpdate();
 
-            List<Fruit> result = template.query("FROM Fruit").result();
+            List<Fruit> result = template.query("FROM Fruit WHERE quantity < :quantity")
+                    .bind("quantity", sample.getQuantity())
+                    .result();
             Assertions.assertThat(result)
-                    .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
+                    .allMatch(fruit -> fruit.getName().equals("Fruit Updated"));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
