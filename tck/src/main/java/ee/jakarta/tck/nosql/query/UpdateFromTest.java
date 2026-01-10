@@ -92,13 +92,12 @@ class UpdateFromTest extends AbstractTemplateTest {
                     .bind("quantity", 19)
                     .bind("id", fruits.getFirst().getId())
                     .executeUpdate();
-            Optional<Fruit> result = template.query("FROM Fruit where id <> :id")
+            List<Fruit> result = template.query("FROM Fruit where id <> :id")
                     .bind("id", fruits.getFirst().getId())
-                    .singleResult();
+                    .result();
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .get()
-                    .matches(fruit -> fruit.getQuantity() == 19);
+                    .allMatch(fruit -> fruit.getQuantity() == 19);
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
