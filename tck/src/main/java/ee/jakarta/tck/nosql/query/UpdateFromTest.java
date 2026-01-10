@@ -106,7 +106,7 @@ class UpdateFromTest extends AbstractTemplateTest {
     @ParameterizedTest
     @DisplayName("should update entity by in")
     @ArgumentsSource(FruitListSupplier.class)
-    void shouldIn(List<Fruit> fruits){
+    void shouldIn(List<Fruit> fruits) {
         try {
             template.insert(fruits);
             template.query("UPDATE Fruit SET quantity = :quantity WHERE id IN (:ids)")
