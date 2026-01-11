@@ -139,7 +139,7 @@ class UpdateFromTest extends AbstractTemplateTest {
                     .bind("quantity", sample.getQuantity())
                     .result();
             Assertions.assertThat(result)
-                    .allMatch(fruit -> fruit.getName().equals("Fruit Updated"));
+                    .allMatch(fruit -> "Fruit Updated".equals(fruit.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -160,7 +160,7 @@ class UpdateFromTest extends AbstractTemplateTest {
                     .bind("quantity", sample.getQuantity())
                     .result();
             Assertions.assertThat(result)
-                    .allMatch(fruit -> fruit.getName().equals("Fruit Updated"));
+                    .allMatch(fruit -> "Fruit Updated".equals(fruit.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -181,7 +181,7 @@ class UpdateFromTest extends AbstractTemplateTest {
                     .bind("quantity", sample.getQuantity())
                     .result();
             Assertions.assertThat(result)
-                    .allMatch(fruit -> fruit.getName().equals("Fruit Updated"));
+                    .allMatch(fruit -> "Fruit Updated".equals(fruit.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
@@ -202,7 +202,7 @@ class UpdateFromTest extends AbstractTemplateTest {
                     .bind("quantity", sample.getQuantity())
                     .result();
             Assertions.assertThat(result)
-                    .allMatch(fruit -> fruit.getName().equals("Fruit Updated"));
+                    .allMatch(fruit -> "Fruit Updated".equals(fruit.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
