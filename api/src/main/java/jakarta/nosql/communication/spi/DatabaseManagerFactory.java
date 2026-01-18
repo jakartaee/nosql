@@ -20,31 +20,37 @@ package jakarta.nosql.communication.spi;
  * a logical database identifier.
  *
  * <p>The interpretation of the {@code databaseName} parameter is entirely
- * provider-defined. It typically represents a logical name, alias, or configuration
- * key resolved by the underlying NoSQL provider. The specification intentionally
+ * provider-defined. It typically represents a logical name, alias, or
+ * configuration key resolved by the underlying NoSQL provider. The specification
  * does not mandate how this value is mapped to physical databases, clusters,
- * or endpoints.</p>
+ * endpoints, or client instances.</p>
  *
- * <p>The lifecycle semantics of this factory are also provider-specific. While
- * this type implements {@link AutoCloseable}, providers may associate different
- * behaviors with the {@link #close()} operation. Some providers may release
- * shared resources, invalidate previously created managers, or perform cleanup
- * operations, while others may treat this method as a no-op.</p>
+ * <p>This factory does not expose any lifecycle management contract. Resource
+ * allocation, reuse, pooling, and cleanup are considered implementation details
+ * of the provider and are typically managed by the runtime environment rather
+ * than application code.</p>
  *
- * <p>Applications should not assume that invoking {@link #close()} has a direct
- * impact on existing {@link DatabaseManager} instances, nor should they rely on
- * any specific resource management strategy. Such concerns are considered an
- * implementation detail of the provider.</p>
+ * <p>Providers may return new {@link DatabaseManager} instances, cached
+ * instances, or proxies, and may choose to share resources across multiple
+ * managers. Applications must not assume any specific lifecycle or resource
+ * ownership semantics.</p>
  *
- * <p>This factory is intended to act as an infrastructure-level entry point and
- * does not define or expose any configuration model. All configuration aspects,
- * including connection handling, authentication, pooling, and resource management,
- * are delegated to the provider.</p>
+ * <p>This type is intended to serve as an infrastructure-level entry point and
+ * deliberately avoids defining configuration or connection semantics. All
+ * configuration aspects, including authentication, connectivity, and resource
+ * management, are delegated to the provider.</p>
  */
-public interface DatabaseManagerFactory extends AutoCloseable {
+public interface DatabaseManagerFactory  {
 
+    /**
+     * Creates or resolves a {@link DatabaseManager} associated with the given
+     * logical database name.
+     *
+     * @param databaseName a provider-defined logical identifier used to resolve
+     *                     a database or configuration
+     * @return a {@link DatabaseManager} instance associated with the given name
+     * @throws NullPointerException if {@code databaseName} is null
+     */
     DatabaseManager create(String databaseName);
 
-    @Override
-    void close();
 }
