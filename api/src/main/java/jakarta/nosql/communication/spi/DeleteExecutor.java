@@ -26,6 +26,10 @@ package jakarta.nosql.communication.spi;
  * <p>Condition tokens are opaque to this specification and must be
  * created by the underlying provider.</p>
  *
+ * <p>Providers are not required to support conditional delete operations.
+ * If conditional deletes are not supported, implementations may throw
+ * {@link UnsupportedOperationException} during execution.</p>
+ *
  * <h3>Example</h3>
  *
  * <pre>{@code
@@ -47,6 +51,11 @@ public interface DeleteExecutor {
     /**
      * Applies an initial provider-defined condition token.
      *
+     * <p>Support for conditional delete operations is provider-defined.
+     * If conditions are not supported by the underlying database,
+     * execution of the delete operation may result in
+     * {@link UnsupportedOperationException}.</p>
+     *
      * @param condition provider-defined condition token
      * @return the next step in the delete operation
      * @throws NullPointerException if {@code condition} is {@code null}
@@ -58,6 +67,9 @@ public interface DeleteExecutor {
      *
      * <p>The behavior of unconditional delete operations is provider-defined
      * and may be restricted or unsupported.</p>
+     *
+     * @throws UnsupportedOperationException if the provider
+     * does not support unconditional delete operations
      */
     void execute();
 
@@ -70,6 +82,9 @@ public interface DeleteExecutor {
         /**
          * Applies a logical AND with another provider-defined condition.
          *
+         * <p>Logical composition of conditions is provider-defined and
+         * may not be supported by all implementations.</p>
+         *
          * @param condition provider-defined condition token
          * @return the next junction
          * @throws NullPointerException if {@code condition} is {@code null}
@@ -78,6 +93,9 @@ public interface DeleteExecutor {
 
         /**
          * Applies a logical OR with another provider-defined condition.
+         *
+         * <p>Logical composition of conditions is provider-defined and
+         * may not be supported by all implementations.</p>
          *
          * @param condition provider-defined condition token
          * @return the next junction
@@ -96,7 +114,8 @@ public interface DeleteExecutor {
          * Limits the maximum number of structures affected by the delete
          * operation.
          *
-         * <p>Support for limiting delete operations is provider-defined.</p>
+         * <p>Support for limiting delete operations is provider-defined
+         * and may not be available in all databases.</p>
          *
          * @param limit maximum number of structures to delete
          * @return pagination step
@@ -106,6 +125,12 @@ public interface DeleteExecutor {
 
         /**
          * Executes the delete operation.
+         *
+         * <p>If the underlying database does not support conditional deletes,
+         * logical condition composition, or delete limits, this method may
+         * throw {@link UnsupportedOperationException}.</p>
+         *
+         * @throws UnsupportedOperationException if the provider does not support the delete operation
          */
         void execute();
     }
@@ -117,6 +142,12 @@ public interface DeleteExecutor {
 
         /**
          * Executes the delete operation.
+         *
+         * <p>If delete limits or conditional deletes are not supported by
+         * the underlying provider, this method may throw
+         * {@link UnsupportedOperationException}.</p>
+         *
+         * @throws UnsupportedOperationException if the provider does not support the delete operation
          */
         void execute();
     }
