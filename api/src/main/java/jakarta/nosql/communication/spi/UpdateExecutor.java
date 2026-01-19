@@ -63,8 +63,6 @@ public interface UpdateExecutor {
      * @param name provider-defined logical identifier
      * @return the next step in the update operation
      * @throws NullPointerException if {@code name} is {@code null}
-     * @throws UnsupportedOperationException if the provider
-     * does not support scoped updates
      */
     From from(String name);
 
@@ -89,8 +87,6 @@ public interface UpdateExecutor {
          * @param update provider-defined update token
          * @return the current update operation
          * @throws NullPointerException if {@code update} is {@code null}
-         * @throws UnsupportedOperationException if the provider
-         * does not support update tokens
          */
         From set(Update update);
 
@@ -109,8 +105,6 @@ public interface UpdateExecutor {
          * @param condition provider-defined condition token
          * @return the current update operation
          * @throws NullPointerException if {@code condition} is {@code null}
-         * @throws UnsupportedOperationException if the provider
-         * does not support conditional updates
          */
         From where(Condition condition);
 
@@ -125,7 +119,7 @@ public interface UpdateExecutor {
          * }</pre>
          *
          * @throws UnsupportedOperationException if the provider
-         * does not support the update operation
+         * does not support the update operation or it contains any condition not supported by the provider
          */
         void execute();
     }
