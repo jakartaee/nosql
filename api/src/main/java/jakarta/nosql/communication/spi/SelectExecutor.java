@@ -24,10 +24,32 @@ import java.util.stream.Stream;
  *
  * <p>This API defines the structural flow of a select operation without
  * standardizing query semantics, operators, or evaluation behavior.
- * All condition semantics are provider-defined.</p>
+ * All condition and ordering semantics are provider-defined.</p>
  *
- * <p>Condition tokens are opaque to this specification and must be
- * created by the provider.</p>
+ * <p>Condition and ordering tokens are opaque to this specification and
+ * must be created by the underlying provider.</p>
+ *
+ * <h3>Example</h3>
+ *
+ * <pre>{@code
+ * Condition active =
+ *         provider.condition("status", "ACTIVE");
+ *
+ * Condition highValue =
+ *         provider.condition("total", 100);
+ *
+ * Order byCreated =
+ *         provider.order("createdAt");
+ *
+ * Stream<ProviderStructure> result =
+ *         manager.select()
+ *                .where(active)
+ *                .and(highValue)
+ *                .orderBy(byCreated)
+ *                .limit(10)
+ *                .skip(5)
+ *                .fetch();
+ * }</pre>
  *
  * @param <T> the provider-specific structure returned by the operation
  */
