@@ -45,11 +45,39 @@ public interface DatabaseManagerFactory  {
      * Creates or resolves a {@link DatabaseManager} associated with the given
      * logical database name.
      *
+     * <p>The returned {@link DatabaseManager} provides access to provider-defined
+     * data structures and operations. The factory does not guarantee whether
+     * a new instance, a cached instance, or a proxy is returned.</p>
+     *
+     * <pre>{@code
+     * DatabaseManagerFactory factory = obtainFactory();
+     *
+     * // The database name is a logical identifier interpreted by the provider
+     * DatabaseManager<Document> manager =
+     *         factory.create("orders");
+     *
+     * Document order = new Document()
+     *         .put("_id", "A123")
+     *         .put("total", 150);
+     *
+     * manager.insert(order);
+     *
+     * Optional<Document> loaded =
+     *         manager.findById("A123");
+     *
+     * loaded.ifPresent(doc -> {
+     *     doc.put("total", 180);
+     *     manager.update(doc);
+     * });
+     *
+     * manager.deleteById("A123");
+     * }</pre>
+     *
      * @param databaseName a provider-defined logical identifier used to resolve
      *                     a database or configuration
-     * @param <T> the database structure type
+     * @param <T> the provider-specific database structure type
      * @return a {@link DatabaseManager} instance associated with the given name
-     * @throws NullPointerException if {@code databaseName} is null
+     * @throws NullPointerException if {@code databaseName} is {@code null}
      */
     <T>DatabaseManager<T> create(String databaseName);
 
