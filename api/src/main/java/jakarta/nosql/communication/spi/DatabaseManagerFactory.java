@@ -57,16 +57,16 @@ public interface DatabaseManagerFactory  {
      * // The type parameter T represents a provider-specific data structure
      * // (for example, a document, record, or native representation),
      * // not a domain entity or a portable model.
-     * DatabaseManager<Document> manager =
+     * DatabaseManager<ProviderStructure> manager =
      *         factory.create("orders");
      *
-     * Document order = new Document()
+     * ProviderStructure order = new ProviderStructure()
      *         .put("_id", "A123")
      *         .put("total", 150);
      *
      * manager.insert(order);
      *
-     * Optional<Document> loaded =
+     * Optional<ProviderStructure> loaded =
      *         manager.findById("A123");
      *
      * loaded.ifPresent(doc -> {
