@@ -170,4 +170,14 @@ public interface DatabaseManager<T> {
      * @throws NullPointerException if the identifier is null
      */
     <K> void deleteById(K id);
+
+    SelectExecutor<T> select();
+
+    SelectExecutor<T> select(String... names);
+
+    DeleteExecutor delete();
+
+    DeleteExecutor delete(String... names);
+
+    UpdateExecutor update();
 }
