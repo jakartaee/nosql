@@ -16,19 +16,17 @@
 package jakarta.nosql.communication.spi;
 
 /**
- * Represents a fluent, provider-defined update operation based on
- * opaque update and condition tokens.
+ * Represents a fluent, provider-defined update operation.
  *
  * <p>This API defines the structural flow of an update operation without
- * standardizing update semantics, operators, matching rules, or evaluation
- * behavior. All update and condition semantics are provider-defined.</p>
+ * standardizing update semantics, mutation models, matching rules, or
+ * execution guarantees. All semantics are provider-defined.</p>
  *
- * <p>Update tokens are scoped to this executor and have no meaning
- * outside an update operation.</p>
+ * <p>Update and condition tokens are opaque to this specification and must
+ * be created by the underlying provider.</p>
  *
- * <p>Providers are not required to support conditional updates or bulk
- * updates. If a requested capability is not supported, implementations may
- * throw {@link UnsupportedOperationException} during execution.</p>
+ * <p>An update target must be specified via {@link #from(String)} before
+ * applying update tokens or executing the operation.</p>
  *
  * <h3>Example</h3>
  *
@@ -39,55 +37,98 @@ package jakarta.nosql.communication.spi;
  * UpdateExecutor.Update markReviewed =
  *         provider.update("reviewed", true);
  *
- * Condition active =
- *         provider.condition("status", "ACTIVE");
- *
  * manager.update()
+ *        .from("orders")
  *        .set(promote)
  *        .set(markReviewed)
- *        .where(active)
+ *        .where(provider.condition("status", "ACTIVE"))
  *        .execute();
  * }</pre>
  */
 public interface UpdateExecutor {
 
     /**
-     * Applies a provider-defined update token.
+     * Defines the logical update target for the operation.
      *
-     * <p>This method may be called multiple times to apply more than one
-     * update token, depending on provider capabilities.</p>
+     * <p>The interpretation of {@code name} is provider-defined. It may
+     * represent a collection, container, table, bucket, or any other
+     * logical structure supported by the underlying database.</p>
      *
-     * @param update provider-defined update token
-     * @return the current update operation
-     * @throws NullPointerException if {@code update} is {@code null}
-     */
-    UpdateExecutor set(Update update);
-
-    /**
-     * Applies a provider-defined condition token used to restrict
-     * which structures are updated.
+     * <pre>{@code
+     * manager.update()
+     *        .from("orders")
+     *        .execute();
+     * }</pre>
      *
-     * <p>Support for conditional updates is provider-defined.
-     * If conditions are not supported by the underlying database,
-     * execution of the update operation may result in
-     * {@link UnsupportedOperationException}.</p>
-     *
-     * @param condition provider-defined condition token
-     * @return the current update operation
-     * @throws NullPointerException if {@code condition} is {@code null}
-     */
-    UpdateExecutor where(Condition condition);
-
-    /**
-     * Executes the update operation.
-     *
-     * <p>The behavior of update execution, including atomicity,
-     * matching rules, and consistency guarantees, is provider-defined.</p>
-     *
+     * @param name provider-defined logical identifier
+     * @return the next step in the update operation
+     * @throws NullPointerException if {@code name} is {@code null}
      * @throws UnsupportedOperationException if the provider
-     * does not support the update operation
+     * does not support scoped updates
      */
-    void execute();
+    From from(String name);
+
+    /**
+     * Represents an update operation after a target has been defined.
+     */
+    interface From {
+
+        /**
+         * Applies a provider-defined update token.
+         *
+         * <p>This method may be called multiple times to apply more than one
+         * update token, depending on provider capabilities.</p>
+         *
+         * <pre>{@code
+         * manager.update()
+         *        .from("orders")
+         *        .set(provider.update("priority", "HIGH"))
+         *        .execute();
+         * }</pre>
+         *
+         * @param update provider-defined update token
+         * @return the current update operation
+         * @throws NullPointerException if {@code update} is {@code null}
+         * @throws UnsupportedOperationException if the provider
+         * does not support update tokens
+         */
+        From set(Update update);
+
+        /**
+         * Applies a provider-defined condition token used to restrict
+         * which structures are updated.
+         *
+         * <pre>{@code
+         * manager.update()
+         *        .from("orders")
+         *        .set(provider.update("priority", "HIGH"))
+         *        .where(provider.condition("status", "ACTIVE"))
+         *        .execute();
+         * }</pre>
+         *
+         * @param condition provider-defined condition token
+         * @return the current update operation
+         * @throws NullPointerException if {@code condition} is {@code null}
+         * @throws UnsupportedOperationException if the provider
+         * does not support conditional updates
+         */
+        From where(Condition condition);
+
+        /**
+         * Executes the update operation.
+         *
+         * <pre>{@code
+         * manager.update()
+         *        .from("orders")
+         *        .set(provider.update("archived", true))
+         *        .execute();
+         * }</pre>
+         *
+         * @throws UnsupportedOperationException if the provider
+         * does not support the update operation
+         */
+        void execute();
+    }
 
     /**
      * Represents a provider-defined update token.
