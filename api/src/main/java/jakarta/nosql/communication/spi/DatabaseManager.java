@@ -62,11 +62,11 @@ public interface DatabaseManager<T> {
      * include generated or updated values.</p>
      *
      * <pre>{@code
-     * Document order = new Document()
+     * ProviderStructure order = new ProviderStructure()
      *         .put("_id", "A1")
      *         .put("total", 100);
      *
-     * Document persisted = manager.insert(order);
+     * ProviderStructure persisted = manager.insert(order);
      * }</pre>
      *
      * @param entity the structure to insert
@@ -79,12 +79,12 @@ public interface DatabaseManager<T> {
      * Inserts multiple structures into the database.
      *
      * <pre>{@code
-     * List<Document> orders = List.of(
-     *     new Document().put("_id", "A1"),
-     *     new Document().put("_id", "A2")
+     * List<ProviderStructure> orders = List.of(
+     *     new ProviderStructure().put("_id", "A1"),
+     *     new ProviderStructure().put("_id", "A2")
      * );
      *
-     * Iterable<Document> persisted = manager.insert(orders);
+     * Iterable<ProviderStructure> persisted = manager.insert(orders);
      * }</pre>
      *
      * @param entities structures to insert
@@ -100,10 +100,10 @@ public interface DatabaseManager<T> {
      * Some providers may treat this operation as an insert.</p>
      *
      * <pre>{@code
-     * Document order = manager.findById("A1").orElseThrow();
+     * ProviderStructure order = manager.findById("A1").orElseThrow();
      * order.put("total", 200);
      *
-     * Document updated = manager.update(order);
+     * ProviderStructure updated = manager.update(order);
      * }</pre>
      *
      * @param entity the structure to update
@@ -116,7 +116,7 @@ public interface DatabaseManager<T> {
      * Updates multiple structures.
      *
      * <pre>{@code
-     * Iterable<Document> updated =
+     * Iterable<ProviderStructure> updated =
      *         manager.update(List.of(order1, order2));
      * }</pre>
      *
@@ -145,7 +145,7 @@ public interface DatabaseManager<T> {
      * and may represent a simple value or a composite structure.</p>
      *
      * <pre>{@code
-     * Optional<Document> order =
+     * Optional<ProviderStructure> order =
      *         manager.findById("A1");
      * }</pre>
      *
