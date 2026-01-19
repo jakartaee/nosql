@@ -56,8 +56,6 @@ public interface DeleteExecutor {
      * @param name provider-defined logical identifier
      * @return the next step in the delete operation
      * @throws NullPointerException if {@code name} is {@code null}
-     * @throws UnsupportedOperationException if the provider
-     * does not support scoped deletes
      */
     From from(String name);
 
@@ -79,8 +77,6 @@ public interface DeleteExecutor {
          * @param condition provider-defined condition token
          * @return the next step in the delete operation
          * @throws NullPointerException if {@code condition} is {@code null}
-         * @throws UnsupportedOperationException if the provider
-         * does not support conditional deletes
          */
         Junction where(Condition condition);
 
@@ -93,8 +89,8 @@ public interface DeleteExecutor {
          *        .execute();
          * }</pre>
          *
-         * @throws UnsupportedOperationException if the provider
-         * does not support unconditional deletes
+         * @throws UnsupportedOperationException if the provider does not support the deleter operation
+         * or it contains any condition that is not provided.
          */
         void execute();
     }
@@ -153,8 +149,8 @@ public interface DeleteExecutor {
          *        .execute();
          * }</pre>
          *
-         * @throws UnsupportedOperationException if the provider
-         * does not support the delete operation
+         * @throws UnsupportedOperationException if the provider does not support the deleter operation
+         * or it contains any condition that is not provided.
          */
         void execute();
     }
