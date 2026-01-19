@@ -53,6 +53,10 @@ public interface DatabaseManagerFactory  {
      * DatabaseManagerFactory factory = obtainFactory();
      *
      * // The database name is a logical identifier interpreted by the provider
+     *
+     * // The type parameter T represents a provider-specific data structure
+     * // (for example, a document, record, or native representation),
+     * // not a domain entity or a portable model.
      * DatabaseManager<Document> manager =
      *         factory.create("orders");
      *
