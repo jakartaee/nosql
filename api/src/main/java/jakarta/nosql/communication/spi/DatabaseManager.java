@@ -49,8 +49,11 @@ public interface DatabaseManager<T> {
 
     Iterable<T> insert(Iterable<T> entities);
 
-
     T update(T entity);
 
     void delete(T entity);
+
+    <K> T findById(K id);
+
+    <K> void deleteById(K id);
 }
