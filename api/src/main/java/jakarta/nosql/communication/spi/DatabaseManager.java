@@ -171,13 +171,96 @@ public interface DatabaseManager<T> {
      */
     <K> void deleteById(K id);
 
+    /**
+     * Creates a provider-defined select operation for this database.
+     *
+     * <p>This method returns a {@link SelectExecutor} that defines the
+     * structural flow of a select operation. Query semantics, filtering,
+     * projection, ordering, pagination, and execution behavior are entirely
+     * provider-defined.</p>
+     *
+     * <p>The returned executor may support conditional selection, ordering,
+     * pagination, or streaming depending on the underlying database.
+     * Unsupported features may result in {@link UnsupportedOperationException}
+     * during execution.</p>
+     *
+     * @return a provider-defined select executor
+     * @throws UnsupportedOperationException if select operations
+     * are not supported by the provider
+     */
     SelectExecutor<T> select();
 
+    /**
+     * Creates a provider-defined select operation scoped to the given
+     * logical names.
+     *
+     * <p>The interpretation of {@code names} is provider-defined. They may
+     * represent collections, containers, tables, buckets, graphs, or any
+     * other logical structures supported by the underlying database.</p>
+     *
+     * <p>This specification does not define how multiple names are resolved
+     * or combined. Providers may ignore, restrict, or reject multiple names.</p>
+     *
+     * @param names provider-defined logical identifiers
+     * @return a provider-defined select executor scoped to the given names
+     * @throws NullPointerException if {@code names} is null or contains null
+     * @throws UnsupportedOperationException if the provider
+     * does not support named select operations
+     */
     SelectExecutor<T> select(String... names);
 
+    /**
+     * Creates a provider-defined delete operation for this database.
+     *
+     * <p>This method returns a {@link DeleteExecutor} that defines the
+     * structural flow of a delete operation. Delete semantics, conditional
+     * support, and execution behavior are entirely provider-defined.</p>
+     *
+     * <p>Providers are not required to support conditional or unconditional
+     * delete operations. Unsupported delete capabilities may result in
+     * {@link UnsupportedOperationException} during execution.</p>
+     *
+     * @return a provider-defined delete executor
+     * @throws UnsupportedOperationException if the provider
+     * does not support delete operations
+     */
     DeleteExecutor delete();
 
+    /**
+     * Creates a provider-defined delete operation scoped to the given
+     * logical names.
+     *
+     * <p>The interpretation of {@code names} is provider-defined. They may
+     * represent collections, containers, tables, buckets, graphs, or other
+     * logical delete targets.</p>
+     *
+     * <p>This specification does not mandate support for scoped deletes.
+     * Providers may ignore, restrict, or reject the supplied names.</p>
+     *
+     * @param names provider-defined logical identifiers
+     * @return a provider-defined delete executor scoped to the given names
+     * @throws NullPointerException if {@code names} is null or contains null
+     * @throws UnsupportedOperationException if the provider
+     * does not support named delete operations
+     */
     DeleteExecutor delete(String... names);
 
+    /**
+     * Creates a provider-defined update operation for this database.
+     *
+     * <p>This method returns an {@link UpdateExecutor} that defines the
+     * structural flow of an update operation. Update semantics, mutation
+     * models, conditional support, and execution guarantees are entirely
+     * provider-defined.</p>
+     *
+     * <p>The returned executor supports applying one or more provider-defined
+     * update tokens followed by optional conditions. Unsupported update
+     * capabilities may result in {@link UnsupportedOperationException}
+     * during execution.</p>
+     *
+     * @return a provider-defined update executor
+     * @throws UnsupportedOperationException if the provider
+     * does not support update operations
+     */
     UpdateExecutor update();
 }
