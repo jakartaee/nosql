@@ -33,76 +33,142 @@ import java.util.stream.Stream;
  */
 public interface SelectExecutor<T> {
 
-
     /**
-     * Applies a provider-defined condition token.
+     * Applies an initial provider-defined condition token.
      *
      * <pre>{@code
-     * Condition condition = provider.eq("status", "ACTIVE");
+     * Condition active =
+     *         provider.condition("status", "ACTIVE");
      *
-     * manager.select()
-     *        .where(condition)
-     *        .fetch();
+     * Stream<ProviderStructure> result =
+     *         manager.select()
+     *                .where(active)
+     *                .fetch();
      * }</pre>
      *
      * @param condition provider-defined condition token
      * @return the next step in the select operation
-     * @throws NullPointerException if {@code condition} is null
+     * @throws NullPointerException if {@code condition} is {@code null}
      */
     Junction<T> where(Condition condition);
 
     /**
-     * Executes the select operation.
+     * Executes the select operation without applying any conditions.
+     *
+     * <pre>{@code
+     * Stream<ProviderStructure> result =
+     *         manager.select().fetch();
+     * }</pre>
      *
      * @return a stream of provider-specific structures
      */
     Stream<T> fetch();
 
     /**
-     * Represents a logical junction after at least one condition.
+     * Represents a logical junction after at least one condition
+     * has been applied.
      */
     interface Junction<T> extends FinalStep<T> {
 
         /**
          * Applies a logical AND with another provider-defined condition.
          *
+         * <pre>{@code
+         * Condition active =
+         *         provider.condition("status", "ACTIVE");
+         *
+         * Condition highValue =
+         *         provider.condition("total", 100);
+         *
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(active)
+         *                .and(highValue)
+         *                .fetch();
+         * }</pre>
+         *
          * @param condition provider-defined condition token
          * @return the next junction
+         * @throws NullPointerException if {@code condition} is {@code null}
          */
         Junction<T> and(Condition condition);
 
         /**
          * Applies a logical OR with another provider-defined condition.
          *
+         * <pre>{@code
+         * Condition pending =
+         *         provider.condition("status", "PENDING");
+         *
+         * Condition failed =
+         *         provider.condition("status", "FAILED");
+         *
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(pending)
+         *                .or(failed)
+         *                .fetch();
+         * }</pre>
+         *
          * @param condition provider-defined condition token
          * @return the next junction
+         * @throws NullPointerException if {@code condition} is {@code null}
          */
         Junction<T> or(Condition condition);
     }
 
     /**
-     * Final selectable steps.
+     * Final selectable steps available after at least one condition
+     * has been applied.
      */
     interface FinalStep<T> {
 
         /**
-         * Applies provider-defined ordering.
+         * Applies provider-defined ordering to the select operation.
+         *
+         * <pre>{@code
+         * Order byCreated =
+         *         provider.order("createdAt");
+         *
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(provider.condition("status", "ACTIVE"))
+         *                .orderBy(byCreated)
+         *                .fetch();
+         * }</pre>
          *
          * @param order provider-defined order token
          * @return the ordering step
+         * @throws NullPointerException if {@code order} is {@code null}
          */
         Ordering<T> orderBy(Order order);
 
         /**
-         * Limits the number of results.
+         * Limits the maximum number of results returned.
+         *
+         * <pre>{@code
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(provider.condition("status", "ACTIVE"))
+         *                .limit(10)
+         *                .fetch();
+         * }</pre>
          *
          * @param limit maximum number of results
          * @return pagination step
+         * @throws IllegalArgumentException if {@code limit} is negative
          */
         Pagination<T> limit(long limit);
 
         /**
          * Executes the select operation.
+         *
+         * <pre>{@code
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(provider.condition("status", "ACTIVE"))
+         *                .fetch();
+         * }</pre>
          *
          * @return a stream of provider-specific structures
          */
@@ -110,15 +176,31 @@ public interface SelectExecutor<T> {
     }
 
     /**
-     * Ordering step.
+     * Ordering step allowing multiple provider-defined order tokens.
      */
     interface Ordering<T> extends FinalStep<T> {
 
         /**
-         * Applies additional ordering.
+         * Applies an additional provider-defined ordering.
+         *
+         * <pre>{@code
+         * Order byCreated =
+         *         provider.order("createdAt");
+         *
+         * Order byPriority =
+         *         provider.order("priority");
+         *
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(provider.condition("status", "ACTIVE"))
+         *                .orderBy(byCreated)
+         *                .then(byPriority)
+         *                .fetch();
+         * }</pre>
          *
          * @param order provider-defined order token
          * @return ordering step
+         * @throws NullPointerException if {@code order} is {@code null}
          */
         Ordering<T> then(Order order);
     }
@@ -131,13 +213,31 @@ public interface SelectExecutor<T> {
         /**
          * Skips a number of results.
          *
+         * <pre>{@code
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(provider.condition("status", "ACTIVE"))
+         *                .limit(20)
+         *                .skip(5)
+         *                .fetch();
+         * }</pre>
+         *
          * @param skip number of results to skip
          * @return final step
+         * @throws IllegalArgumentException if {@code skip} is negative
          */
         FinalStep<T> skip(long skip);
 
         /**
          * Executes the select operation.
+         *
+         * <pre>{@code
+         * Stream<ProviderStructure> result =
+         *         manager.select()
+         *                .where(provider.condition("status", "ACTIVE"))
+         *                .limit(10)
+         *                .fetch();
+         * }</pre>
          *
          * @return a stream of provider-specific structures
          */
