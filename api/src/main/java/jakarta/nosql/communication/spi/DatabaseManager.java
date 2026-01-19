@@ -41,112 +41,133 @@ import java.util.Optional;
 public interface DatabaseManager<T> {
 
     /**
-     * Returns the name of the managed database.
+     * Returns the logical name of the managed database.
+     *
+     * <pre>{@code
+     * String name = manager.name();
+     * }</pre>
      *
      * @return the name of the database
      */
     String name();
 
     /**
-     * Inserts an entity into the database.
+     * Inserts a structure into the database.
      *
-     * <p>If an entity with the same unique identifier already exists in the database and the database
-     * supports ACID transactions, this method throws an exception. In databases following the BASE model
-     * or using an append model to write data, no exception is thrown.</p>
+     * <p>If a matching structure already exists and the database enforces
+     * transactional or consistency constraints, an exception may be raised.
+     * Otherwise, behavior is provider-defined.</p>
      *
-     * <p>The returned entity includes all values written to the database, including automatically generated
-     * or incremented values. After calling this method, avoid using the supplied entity instance, as this
-     * method makes no guarantees about its state.</p>
+     * <p>The returned structure represents the persisted form, which may
+     * include generated or updated values.</p>
      *
-     * @param entity the entity to be saved
-     * @return the saved entity
-     * @throws NullPointerException when the provided entity is null
+     * <pre>{@code
+     * Document order = new Document()
+     *         .put("_id", "A1")
+     *         .put("total", 100);
+     *
+     * Document persisted = manager.insert(order);
+     * }</pre>
+     *
+     * @param entity the structure to insert
+     * @return the persisted structure
+     * @throws NullPointerException if the structure is null
      */
     T insert(T entity);
 
     /**
-     * Inserts multiple entities into the database.
+     * Inserts multiple structures into the database.
      *
-     * <p>If any entity with the same unique identifier as any of the given entities already exists in the database
-     * and the database supports ACID transactions, this method raises an error. In databases following the BASE model
-     * or using an append model to write data, no exception is thrown.</p>
+     * <pre>{@code
+     * List<Document> orders = List.of(
+     *     new Document().put("_id", "A1"),
+     *     new Document().put("_id", "A2")
+     * );
      *
-     * <p>The returned iterable contains all inserted entities, including all automatically generated or incremented
-     * values. After calling this method, avoid using the supplied entity instances, as this method makes no guarantees
-     * about their state.</p>
+     * Iterable<Document> persisted = manager.insert(orders);
+     * }</pre>
      *
-     * @param entities entities to insert
-     * @return an iterable containing the inserted entities
-     * @throws NullPointerException if the iterable is null or any element is null
+     * @param entities structures to insert
+     * @return the persisted structures
+     * @throws NullPointerException if the iterable or any element is null
      */
     Iterable<T> insert(Iterable<T> entities);
 
     /**
-     * Modifies an existing entity in the database.
+     * Updates an existing structure.
      *
-     * <p>To perform an update, a matching entity with the same unique identifier must exist in the database.
-     * In databases using an append model to write data or following the BASE model, this method behaves
-     * the same as the {@link #insert} method.</p>
+     * <p>If no matching structure exists, behavior is provider-defined.
+     * Some providers may treat this operation as an insert.</p>
      *
-     * <p>If the entity is versioned (e.g., with an annotation or by convention from the entity model),
-     * the version must also match. The version is automatically incremented during the update.</p>
+     * <pre>{@code
+     * Document order = manager.findById("A1").orElseThrow();
+     * order.put("total", 200);
      *
-     * <p>Non-matching entities are ignored and do not cause an error.</p>
+     * Document updated = manager.update(order);
+     * }</pre>
      *
-     * @param entity the entity to update
-     * @return the updated entity
-     * @throws NullPointerException if the entity is null
+     * @param entity the structure to update
+     * @return the updated structure
+     * @throws NullPointerException if the structure is null
      */
     T update(T entity);
 
     /**
-     * Modifies multiple entities that already exist in the database.
+     * Updates multiple structures.
      *
-     * <p>To perform an update to an entity, a matching entity with the same unique identifier must exist
-     * in the database. In databases using an append model to write data or following the BASE model,
-     * this method behaves the same as the {@link #insert(Iterable)} method.</p>
+     * <pre>{@code
+     * Iterable<Document> updated =
+     *         manager.update(List.of(order1, order2));
+     * }</pre>
      *
-     * <p>If the entity is versioned (e.g., with an annotation or by convention from the entity model),
-     * the version must also match. The version is automatically incremented during the update.</p>
-     *
-     * <p>Non-matching entities are ignored and do not cause an error.</p>
-     *
-     * @param entities entities to update
-     * @return the number of matching entities that were found in the database and updated
-     * @throws NullPointerException if the iterable is null or any element is null
+     * @param entities structures to update
+     * @return the updated structures
+     * @throws NullPointerException if the iterable or any element is null
      */
     Iterable<T> update(Iterable<T> entities);
 
-
     /**
-     * Deletes a given entity. Deletion is performed by matching the Id, and if
-     * the entity is versioned (for example, with
-     * {@code jakarta.persistence.Version}), then also the version. Other
-     * attributes of the entity do not need to match.
+     * Deletes a structure from the database.
      *
-     * @param entity must not be {@code null}.
-     * @throws NullPointerException              when the entity is null
+     * <pre>{@code
+     * manager.delete(order);
+     * }</pre>
+     *
+     * @param entity the structure to delete
+     * @throws NullPointerException if the structure is null
      */
     void delete(T entity);
 
     /**
-     * Retrieves an entity by its Id.
+     * Retrieves a structure by a provider-defined identifier.
      *
-     * @param id must not be {@code null}.
-     * @return the entity with the given Id or {@link Optional#empty()} if none
-     * is found.
-     * @throws NullPointerException when the Id is {@code null}.
+     * <p>The identifier type and lookup semantics are entirely provider-defined
+     * and may represent a simple value or a composite structure.</p>
+     *
+     * <pre>{@code
+     * Optional<Document> order =
+     *         manager.findById("A1");
+     * }</pre>
+     *
+     * @param id provider-defined identifier
+     * @param <K> identifier type
+     * @return the matching structure, if found
+     * @throws NullPointerException if the identifier is null
      */
     <K> Optional<T> findById(K id);
 
     /**
-     * Deletes the entity with the given Id.
-     * <p>
-     * If the entity is not found in the persistence store it is silently
-     * ignored.
+     * Deletes a structure by a provider-defined identifier.
      *
-     * @param id must not be {@code null}.
-     * @throws NullPointerException when the Id is {@code null}.
+     * <p>If no matching structure exists, the operation is silently ignored.</p>
+     *
+     * <pre>{@code
+     * manager.deleteById("A1");
+     * }</pre>
+     *
+     * @param id provider-defined identifier
+     * @param <K> identifier type
+     * @throws NullPointerException if the identifier is null
      */
     <K> void deleteById(K id);
 }
