@@ -19,40 +19,27 @@ package jakarta.nosql.communication.spi;
 import java.util.stream.Stream;
 
 /**
- * Represents a fluent, provider-defined select operation based on
- * opaque condition tokens.
+ * Represents a fluent, provider-defined select operation.
  *
  * <p>This API defines the structural flow of a select operation without
- * standardizing query semantics, operators, ordering rules, or evaluation
- * behavior. All semantics are provider-defined.</p>
+ * standardizing query semantics, operators, ordering rules, pagination
+ * behavior, or evaluation guarantees. All semantics are provider-defined.</p>
  *
  * <p>Condition and ordering tokens are opaque to this specification and must
  * be created by the underlying provider.</p>
  *
- * <p>Providers are not required to support conditional selection, ordering,
- * pagination, or streaming. If a requested capability is not supported,
- * implementations may throw {@link UnsupportedOperationException} during
- * execution.</p>
+ * <p>A selection target must be specified via {@link #from(String)} before
+ * applying conditions or executing the operation.</p>
  *
  * <h3>Example</h3>
  *
  * <pre>{@code
- * Condition active =
- *         provider.condition("status", "ACTIVE");
- *
- * Condition highValue =
- *         provider.condition("total", 100);
- *
- * Order byCreated =
- *         provider.order("createdAt");
- *
  * Stream<ProviderStructure> result =
  *         manager.select()
- *                .where(active)
- *                .and(highValue)
- *                .orderBy(byCreated)
+ *                .from("orders")
+ *                .where(provider.condition("status", "ACTIVE"))
+ *                .orderBy(provider.order("createdAt"))
  *                .limit(10)
- *                .skip(5)
  *                .fetch();
  * }</pre>
  *
@@ -61,29 +48,49 @@ import java.util.stream.Stream;
 public interface SelectExecutor<T> {
 
     /**
-     * Applies an initial provider-defined condition token.
+     * Defines the logical selection target for the operation.
      *
-     * <p>Support for conditional select operations is provider-defined.
-     * If conditions are not supported by the underlying database,
-     * execution of the select operation may result in
-     * {@link UnsupportedOperationException}.</p>
+     * <p>The interpretation of {@code name} is provider-defined. It may
+     * represent a collection, container, table, bucket, graph, or any other
+     * logical structure supported by the underlying database.</p>
      *
-     * @param condition provider-defined condition token
+     * <pre>{@code
+     * manager.select()
+     *        .from("orders")
+     *        .fetch();
+     * }</pre>
+     *
+     * @param name provider-defined logical identifier
      * @return the next step in the select operation
-     * @throws NullPointerException if {@code condition} is {@code null}
+     * @throws NullPointerException if {@code name} is {@code null}
+     * @throws UnsupportedOperationException if the provider
+     * does not support scoped selection
      */
-    Junction<T> where(Condition condition);
+    From<T> from(String name);
 
     /**
-     * Executes the select operation without applying any conditions.
-     *
-     * <p>Unconditional selection may not be supported by all providers
-     * and may result in {@link UnsupportedOperationException}.</p>
-     *
-     * @return a stream of provider-specific structures
-     * @throws UnsupportedOperationException if selection is not supported
+     * Represents a select operation after a target has been defined.
      */
-    Stream<T> fetch();
+    interface From<T> extends FinalStep<T> {
+
+        /**
+         * Applies an initial provider-defined condition token.
+         *
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .where(provider.condition("status", "ACTIVE"))
+         *        .fetch();
+         * }</pre>
+         *
+         * @param condition provider-defined condition token
+         * @return the next step in the select operation
+         * @throws NullPointerException if {@code condition} is {@code null}
+         * @throws UnsupportedOperationException if the provider
+         * does not support conditional selection
+         */
+        Junction<T> where(Condition condition);
+    }
 
     /**
      * Represents a logical junction after at least one condition
@@ -94,68 +101,95 @@ public interface SelectExecutor<T> {
         /**
          * Applies a logical AND with another provider-defined condition.
          *
-         * <p>Logical composition of conditions is provider-defined and
-         * may not be supported by all implementations.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .where(active)
+         *        .and(highPriority)
+         *        .fetch();
+         * }</pre>
          *
          * @param condition provider-defined condition token
          * @return the next junction
          * @throws NullPointerException if {@code condition} is {@code null}
+         * @throws UnsupportedOperationException if the provider
+         * does not support logical composition
          */
         Junction<T> and(Condition condition);
 
         /**
          * Applies a logical OR with another provider-defined condition.
          *
-         * <p>Logical composition of conditions is provider-defined and
-         * may not be supported by all implementations.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .where(active)
+         *        .or(pending)
+         *        .fetch();
+         * }</pre>
          *
          * @param condition provider-defined condition token
          * @return the next junction
          * @throws NullPointerException if {@code condition} is {@code null}
+         * @throws UnsupportedOperationException if the provider
+         * does not support logical composition
          */
         Junction<T> or(Condition condition);
     }
 
     /**
-     * Final selectable steps available after at least one condition
-     * has been applied.
+     * Final selectable steps available after a target has been defined.
      */
     interface FinalStep<T> {
 
         /**
          * Applies provider-defined ordering to the select operation.
          *
-         * <p>Support for ordering is provider-defined and may not be
-         * available in all databases.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .orderBy(provider.order("createdAt"))
+         *        .fetch();
+         * }</pre>
          *
          * @param order provider-defined order token
          * @return the ordering step
          * @throws NullPointerException if {@code order} is {@code null}
+         * @throws UnsupportedOperationException if ordering
+         * is not supported by the provider
          */
         Ordering<T> orderBy(Order order);
 
         /**
          * Limits the maximum number of results returned.
          *
-         * <p>Support for limiting select operations is provider-defined
-         * and may not be available in all databases.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .limit(10)
+         *        .fetch();
+         * }</pre>
          *
          * @param limit maximum number of results
          * @return pagination step
          * @throws IllegalArgumentException if {@code limit} is negative
+         * @throws UnsupportedOperationException if pagination
+         * is not supported by the provider
          */
         Pagination<T> limit(long limit);
 
         /**
          * Executes the select operation.
          *
-         * <p>If the underlying database does not support conditional selection,
-         * logical condition composition, ordering, pagination, or streaming,
-         * this method may throw {@link UnsupportedOperationException}.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .fetch();
+         * }</pre>
          *
          * @return a stream of provider-specific structures
          * @throws UnsupportedOperationException if the provider
-         * does not support the select operation
+         * does not support select execution
          */
         Stream<T> fetch();
     }
@@ -168,11 +202,19 @@ public interface SelectExecutor<T> {
         /**
          * Applies an additional provider-defined ordering.
          *
-         * <p>All providers may not support multiple ordering tokens.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .orderBy(created)
+         *        .then(priority)
+         *        .fetch();
+         * }</pre>
          *
          * @param order provider-defined order token
          * @return ordering step
          * @throws NullPointerException if {@code order} is {@code null}
+         * @throws UnsupportedOperationException if the provider
+         * does not support multiple ordering
          */
         Ordering<T> then(Order order);
     }
@@ -185,25 +227,35 @@ public interface SelectExecutor<T> {
         /**
          * Skips a number of results.
          *
-         * <p>Support for skipping results is provider-defined and may not
-         * be available in all databases.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .limit(10)
+         *        .skip(5)
+         *        .fetch();
+         * }</pre>
          *
          * @param skip number of results to skip
          * @return final step
          * @throws IllegalArgumentException if {@code skip} is negative
+         * @throws UnsupportedOperationException if skipping
+         * is not supported by the provider
          */
         FinalStep<T> skip(long skip);
 
         /**
          * Executes the select operation.
          *
-         * <p>If the underlying database does not support pagination or
-         * streaming, this method may throw
-         * {@link UnsupportedOperationException}.</p>
+         * <pre>{@code
+         * manager.select()
+         *        .from("orders")
+         *        .limit(10)
+         *        .fetch();
+         * }</pre>
          *
          * @return a stream of provider-specific structures
          * @throws UnsupportedOperationException if the provider
-         * does not support the select operation
+         * does not support select execution
          */
         Stream<T> fetch();
     }
