@@ -154,8 +154,8 @@ public interface SelectExecutor<T> {
          * this method may throw {@link UnsupportedOperationException}.</p>
          *
          * @return a stream of provider-specific structures
-         * @throws UnsupportedOperationException if the select operation
-         * is not supported by the provider
+         * @throws UnsupportedOperationException if the provider
+         * does not support the select operation
          */
         Stream<T> fetch();
     }
@@ -168,7 +168,7 @@ public interface SelectExecutor<T> {
         /**
          * Applies an additional provider-defined ordering.
          *
-         * <p>Multiple ordering tokens may not be supported by all providers.</p>
+         * <p>All providers may not support multiple ordering tokens.</p>
          *
          * @param order provider-defined order token
          * @return ordering step
@@ -202,8 +202,8 @@ public interface SelectExecutor<T> {
          * {@link UnsupportedOperationException}.</p>
          *
          * @return a stream of provider-specific structures
-         * @throws UnsupportedOperationException if the select operation
-         * is not supported by the provider
+         * @throws UnsupportedOperationException if the provider
+         * does not support the select operation
          */
         Stream<T> fetch();
     }
