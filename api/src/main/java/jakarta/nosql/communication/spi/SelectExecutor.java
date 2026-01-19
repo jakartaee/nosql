@@ -23,11 +23,16 @@ import java.util.stream.Stream;
  * opaque condition tokens.
  *
  * <p>This API defines the structural flow of a select operation without
- * standardizing query semantics, operators, or evaluation behavior.
- * All condition and ordering semantics are provider-defined.</p>
+ * standardizing query semantics, operators, ordering rules, or evaluation
+ * behavior. All semantics are provider-defined.</p>
  *
- * <p>Condition and ordering tokens are opaque to this specification and
- * must be created by the underlying provider.</p>
+ * <p>Condition and ordering tokens are opaque to this specification and must
+ * be created by the underlying provider.</p>
+ *
+ * <p>Providers are not required to support conditional selection, ordering,
+ * pagination, or streaming. If a requested capability is not supported,
+ * implementations may throw {@link UnsupportedOperationException} during
+ * execution.</p>
  *
  * <h3>Example</h3>
  *
@@ -58,15 +63,10 @@ public interface SelectExecutor<T> {
     /**
      * Applies an initial provider-defined condition token.
      *
-     * <pre>{@code
-     * Condition active =
-     *         provider.condition("status", "ACTIVE");
-     *
-     * Stream<ProviderStructure> result =
-     *         manager.select()
-     *                .where(active)
-     *                .fetch();
-     * }</pre>
+     * <p>Support for conditional select operations is provider-defined.
+     * If conditions are not supported by the underlying database,
+     * execution of the select operation may result in
+     * {@link UnsupportedOperationException}.</p>
      *
      * @param condition provider-defined condition token
      * @return the next step in the select operation
@@ -77,12 +77,11 @@ public interface SelectExecutor<T> {
     /**
      * Executes the select operation without applying any conditions.
      *
-     * <pre>{@code
-     * Stream<ProviderStructure> result =
-     *         manager.select().fetch();
-     * }</pre>
+     * <p>Unconditional selection may not be supported by all providers
+     * and may result in {@link UnsupportedOperationException}.</p>
      *
      * @return a stream of provider-specific structures
+     * @throws UnsupportedOperationException if selection is not supported
      */
     Stream<T> fetch();
 
@@ -95,19 +94,8 @@ public interface SelectExecutor<T> {
         /**
          * Applies a logical AND with another provider-defined condition.
          *
-         * <pre>{@code
-         * Condition active =
-         *         provider.condition("status", "ACTIVE");
-         *
-         * Condition highValue =
-         *         provider.condition("total", 100);
-         *
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(active)
-         *                .and(highValue)
-         *                .fetch();
-         * }</pre>
+         * <p>Logical composition of conditions is provider-defined and
+         * may not be supported by all implementations.</p>
          *
          * @param condition provider-defined condition token
          * @return the next junction
@@ -118,19 +106,8 @@ public interface SelectExecutor<T> {
         /**
          * Applies a logical OR with another provider-defined condition.
          *
-         * <pre>{@code
-         * Condition pending =
-         *         provider.condition("status", "PENDING");
-         *
-         * Condition failed =
-         *         provider.condition("status", "FAILED");
-         *
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(pending)
-         *                .or(failed)
-         *                .fetch();
-         * }</pre>
+         * <p>Logical composition of conditions is provider-defined and
+         * may not be supported by all implementations.</p>
          *
          * @param condition provider-defined condition token
          * @return the next junction
@@ -148,16 +125,8 @@ public interface SelectExecutor<T> {
         /**
          * Applies provider-defined ordering to the select operation.
          *
-         * <pre>{@code
-         * Order byCreated =
-         *         provider.order("createdAt");
-         *
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(provider.condition("status", "ACTIVE"))
-         *                .orderBy(byCreated)
-         *                .fetch();
-         * }</pre>
+         * <p>Support for ordering is provider-defined and may not be
+         * available in all databases.</p>
          *
          * @param order provider-defined order token
          * @return the ordering step
@@ -168,13 +137,8 @@ public interface SelectExecutor<T> {
         /**
          * Limits the maximum number of results returned.
          *
-         * <pre>{@code
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(provider.condition("status", "ACTIVE"))
-         *                .limit(10)
-         *                .fetch();
-         * }</pre>
+         * <p>Support for limiting select operations is provider-defined
+         * and may not be available in all databases.</p>
          *
          * @param limit maximum number of results
          * @return pagination step
@@ -185,14 +149,13 @@ public interface SelectExecutor<T> {
         /**
          * Executes the select operation.
          *
-         * <pre>{@code
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(provider.condition("status", "ACTIVE"))
-         *                .fetch();
-         * }</pre>
+         * <p>If the underlying database does not support conditional selection,
+         * logical condition composition, ordering, pagination, or streaming,
+         * this method may throw {@link UnsupportedOperationException}.</p>
          *
          * @return a stream of provider-specific structures
+         * @throws UnsupportedOperationException if the select operation
+         * is not supported by the provider
          */
         Stream<T> fetch();
     }
@@ -205,20 +168,7 @@ public interface SelectExecutor<T> {
         /**
          * Applies an additional provider-defined ordering.
          *
-         * <pre>{@code
-         * Order byCreated =
-         *         provider.order("createdAt");
-         *
-         * Order byPriority =
-         *         provider.order("priority");
-         *
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(provider.condition("status", "ACTIVE"))
-         *                .orderBy(byCreated)
-         *                .then(byPriority)
-         *                .fetch();
-         * }</pre>
+         * <p>Multiple ordering tokens may not be supported by all providers.</p>
          *
          * @param order provider-defined order token
          * @return ordering step
@@ -235,14 +185,8 @@ public interface SelectExecutor<T> {
         /**
          * Skips a number of results.
          *
-         * <pre>{@code
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(provider.condition("status", "ACTIVE"))
-         *                .limit(20)
-         *                .skip(5)
-         *                .fetch();
-         * }</pre>
+         * <p>Support for skipping results is provider-defined and may not
+         * be available in all databases.</p>
          *
          * @param skip number of results to skip
          * @return final step
@@ -253,15 +197,13 @@ public interface SelectExecutor<T> {
         /**
          * Executes the select operation.
          *
-         * <pre>{@code
-         * Stream<ProviderStructure> result =
-         *         manager.select()
-         *                .where(provider.condition("status", "ACTIVE"))
-         *                .limit(10)
-         *                .fetch();
-         * }</pre>
+         * <p>If the underlying database does not support pagination or
+         * streaming, this method may throw
+         * {@link UnsupportedOperationException}.</p>
          *
          * @return a stream of provider-specific structures
+         * @throws UnsupportedOperationException if the select operation
+         * is not supported by the provider
          */
         Stream<T> fetch();
     }
