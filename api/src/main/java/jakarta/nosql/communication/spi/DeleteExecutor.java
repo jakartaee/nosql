@@ -42,7 +42,6 @@ package jakarta.nosql.communication.spi;
  * manager.delete()
  *        .where(expired)
  *        .and(lowPriority)
- *        .limit(100)
  *        .execute();
  * }</pre>
  */
@@ -111,43 +110,14 @@ public interface DeleteExecutor {
     interface FinalStep {
 
         /**
-         * Limits the maximum number of structures affected by the delete
-         * operation.
-         *
-         * <p>Support for limiting delete operations is provider-defined
-         * and may not be available in all databases.</p>
-         *
-         * @param limit maximum number of structures to delete
-         * @return pagination step
-         * @throws IllegalArgumentException if {@code limit} is negative
-         */
-        Pagination limit(long limit);
-
-        /**
          * Executes the delete operation.
          *
-         * <p>If the underlying database does not support conditional deletes,
-         * logical condition composition, or delete limits, this method may
-         * throw {@link UnsupportedOperationException}.</p>
-         *
-         * @throws UnsupportedOperationException if the provider does not support the delete operation
-         */
-        void execute();
-    }
-
-    /**
-     * Pagination step where limit is non-repeatable.
-     */
-    interface Pagination {
-
-        /**
-         * Executes the delete operation.
-         *
-         * <p>If delete limits or conditional deletes are not supported by
-         * the underlying provider, this method may throw
+         * <p>If the underlying database does not support conditional deletes
+         * or logical condition composition, this method may throw
          * {@link UnsupportedOperationException}.</p>
          *
-         * @throws UnsupportedOperationException if the provider does not support the delete operation
+         * @throws UnsupportedOperationException if the provider
+         * does not support the delete operation
          */
         void execute();
     }
