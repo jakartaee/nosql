@@ -1,551 +1,131 @@
 package jakarta.nosql.communication.spi;
 
-import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Stream;
 
+/**
+ * Represents a fluent, provider-defined select operation based on
+ * opaque condition tokens.
+ *
+ * <p>This API defines the structural flow of a select operation without
+ * standardizing query semantics, operators, or evaluation behavior.
+ * All condition semantics are provider-defined.</p>
+ *
+ * <p>Condition tokens are opaque to this specification and must be
+ * created by the provider.</p>
+ *
+ * @param <T> the provider-specific structure returned by the operation
+ */
 public interface SelectExecutor<T> {
 
 
     /**
-     * Represents the first step in the query fluent API.
+     * Applies a provider-defined condition token.
+     *
+     * <pre>{@code
+     * Condition condition = provider.eq("status", "ACTIVE");
+     *
+     * manager.select()
+     *        .where(condition)
+     *        .fetch();
+     * }</pre>
+     *
+     * @param condition provider-defined condition token
+     * @return the next step in the select operation
+     * @throws NullPointerException if {@code condition} is null
      */
-    interface MapperFrom<T> extends MapperQueryBuild<T> {
+    Junction<T> where(Condition condition);
+
+    /**
+     * Executes the select operation.
+     *
+     * @return a stream of provider-specific structures
+     */
+    Stream<T> fetch();
+
+    /**
+     * Represents a logical junction after at least one condition.
+     */
+    interface Junction<T> extends FinalStep<T> {
 
         /**
-         * Starts a new condition by specifying a column name.
-         *Use this method to initiate a condition chain for filtering the query.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("title").eq("Domain-Driven Design");
-         * }</pre>
-         * @param name the column name
-         * @return a new {@link MapperNameCondition}
-         * @throws NullPointerException when name is null
-         */
-        MapperNameCondition<T> where(String name);
-
-        /**
-         * Defines the position of the first result to retrieve (pagination offset).
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .skip(10);
-         * }</pre>
-         * @param skip the first result to retrieve
-         * @return a query with the first result defined
-         * @throws IllegalArgumentException when skip is negative
-         */
-        MapperSkip<T> skip(long skip);
-
-
-        /**
-         * Defines the maximum number of results to retrieve (pagination limit).
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .limit(5);
-         * }</pre>
-         * @param limit the limit
-         * @return a query with the limit defined
-         * @throws IllegalArgumentException when limit is negative
-         */
-        MapperLimit<T> limit(long limit);
-
-        /**
-         * Add the order how the result will return based on a given column name.
-         * Use this method to specify sorting criteria for query results.
+         * Applies a logical AND with another provider-defined condition.
          *
-         * <p>Example:
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .orderBy("title").asc();
-         * }</pre>
-         * @param name the column name to be ordered
-         * @return a query with the sort defined
-         * @throws NullPointerException when name is null
+         * @param condition provider-defined condition token
+         * @return the next junction
          */
-        MapperOrder<T> orderBy(String name);
+        Junction<T> and(Condition condition);
+
+        /**
+         * Applies a logical OR with another provider-defined condition.
+         *
+         * @param condition provider-defined condition token
+         * @return the next junction
+         */
+        Junction<T> or(Condition condition);
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the maximum number of results to retrieve or to perform the query execution.
+     * Final selectable steps.
      */
-    interface MapperLimit<T> extends MapperQueryBuild {
+    interface FinalStep<T> {
 
         /**
-         * Defines the position of the first result to retrieve (pagination offset).
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .skip(10);
-         * }</pre>
-         * @param skip the first result to retrieve
-         * @return a query with the first result defined
-         * @throws IllegalArgumentException when skip is negative
+         * Applies provider-defined ordering.
+         *
+         * @param order provider-defined order token
+         * @return the ordering step
          */
-        MapperSkip<T> skip(long skip);
+        Ordering<T> orderBy(Order order);
+
+        /**
+         * Limits the number of results.
+         *
+         * @param limit maximum number of results
+         * @return pagination step
+         */
+        Pagination<T> limit(long limit);
+
+        /**
+         * Executes the select operation.
+         *
+         * @return a stream of provider-specific structures
+         */
+        Stream<T> fetch();
     }
 
     /**
-     * Represents a condition based on a column name.
+     * Ordering step.
      */
-    interface MapperNameCondition<T> {
-
-
-        /**
-         * Creates a condition where the specified column value equals the given value.
-         * Example:
-         * <pre>{@code
-         * template.select(User.class)
-         *         .where("username").eq("alice")
-         *         .result();
-         * }</pre>
-         *
-         * @param value the value for the comparison
-         * @param <V>   the type of the value to compare with the column value
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if value is null
-         */
-        <V> MapperWhere<T> eq(V value);
+    interface Ordering<T> extends FinalStep<T> {
 
         /**
-         * Creates a condition where the specified column value is greater than the given value.
-         * Example:
-         * <pre>{@code
-         * template.select(Product.class)
-         *         .where("price").gt(50)
-         *         .result();
-         * }</pre>
+         * Applies additional ordering.
          *
-         * @param value the value for the comparison
-         * @param <V>   the type of the value to compare with the column value
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if value is null
+         * @param order provider-defined order token
+         * @return ordering step
          */
-        <V> MapperWhere<T> gt(V value);
-
-        /**
-         * Creates a condition where the specified column value is greater than or equal to the given value.
-         * <pre>{@code
-         * template.select(Product.class)
-         *         .where("stock").gte(10)
-         *         .result();
-         * }</pre>
-         *
-         * @param value the value for the comparison
-         * @param <V>   the type of the value to compare with the column value
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if value is null
-         */
-        <V> MapperWhere<V> gte(V value);
-
-        /**
-         * Creates a condition where the specified column value is less than the given value.
-         * <pre>{@code
-         * template.select(Order.class)
-         *         .where("totalAmount").lt(500)
-         *         .result();
-         * }</pre>
-         *
-         * @param value the value for the comparison
-         * @param <V>   the type of the value to compare with the column value
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if value is null
-         */
-        <V> MapperWhere<T> lt(V value);
-
-        /**
-         * Creates a condition where the specified column value is less than or equal to the given value.
-         * <pre>{@code
-         * template.select(Customer.class)
-         *         .where("age").lte(30)
-         *         .result();
-         * }</pre>
-         *
-         * @param value the value for the comparison
-         * @param <T>   the type of the value to compare with the column value
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if value is null
-         */
-        <V> MapperWhere<T> lte(V value);
-
-        /**
-         * Creates a condition where the specified column value matches the provided pattern.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("title").like("Java")
-         *         .result();
-         * }</pre>
-         *
-         * @param value the pattern value to match
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if value is null
-         */
-        MapperWhere<T> like(String value);
-
-        /**
-         * Creates a condition where the specified column contains the given substring.
-         * This is useful for filtering results where a column includes the given text fragment anywhere within its value.
-         *
-         * @param value the substring to search for within the column
-         * @return the {@link MapperWhere} instance for further condition chaining
-         * @throws NullPointerException if {@code value} is {@code null}
-         *
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("title").contains("Java")
-         *         .result();
-         * }</pre>
-         */
-        MapperWhere<T> contains(String value);
-
-        /**
-         * Creates a condition where the specified column starts with the given prefix.
-         * This is useful for filtering results where a column begins with a specific value.
-         *
-         * @param value the prefix to match at the beginning of the column
-         * @return the {@link MapperWhere} instance for further condition chaining
-         * @throws NullPointerException if {@code value} is {@code null}
-         *
-         * <p><b>Example:</b></p>
-         * <pre>{@code
-         * template.select(User.class)
-         *         .where("username").startsWith("admin")
-         *         .result();
-         * }</pre>
-         */
-        MapperWhere<T> startsWith(String value);
-
-        /**
-         * Creates a condition where the specified column ends with the given suffix.
-         * This is useful for filtering results where a column ends with a specific value.
-         *
-         * @param value the suffix to match at the end of the column
-         * @return the {@link MapperWhere} instance for further condition chaining
-         * @throws NullPointerException if {@code value} is {@code null}
-         *
-         * <p><b>Example:</b></p>
-         * <pre>{@code
-         * template.select(Document.class)
-         *         .where("filename").endsWith(".pdf")
-         *         .result();
-         * }</pre>
-         */
-        MapperWhere<T> endsWith(String value);
-
-
-        /**
-         * Creates a condition where the specified column value is between the two provided bounds.
-         * <pre>{@code
-         * template.select(Product.class)
-         *         .where("price").between(10, 100)
-         *         .result();
-         * }</pre>
-         *
-         * @param valueA the lower bound
-         * @param valueB the upper bound
-         * @param <T>   the type of the value to compare with the column value
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if either valueA or valueB is null
-         */
-        <T> MapperWhere<T> between(T valueA, T valueB);
-
-        /**
-         * Creates a condition where the specified column value exists within the given collection.
-         * <pre>{@code
-         * template.select(Product.class)
-         *         .where("category").in(List.of("book", "electronics"))
-         *         .result();
-         * }</pre>
-         *
-         * @param values the collection of values to match
-         * @param <T>   the type of the value to compare with the column value
-         * @return the {@link MapperWhere} instance for chaining
-         * @throws NullPointerException if values is null
-         */
-        <T> MapperWhere<T> in(Iterable<T> values);
-
-        /**
-         * Creates a negated condition for the current column, allowing inverse logic.
-         * <pre>{@code
-         * template.select(User.class)
-         *         .where("active").not().eq(true)
-         *         .result();
-         * }</pre>
-         *
-         * @return the {@link MapperNotCondition} to continue building a negated expression
-         */
-        MapperNotCondition<T> not();
+        Ordering<T> then(Order order);
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the order of the results or to perform the query execution.
+     * Pagination step where limit and skip are non-repeatable.
      */
-    interface MapperNameOrder<T> extends MapperQueryBuild<T> {
+    interface Pagination<T> {
 
         /**
-         * Adds an ordering rule based on the specified column name.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .orderBy("title").asc()
-         *         .result();
-         * }</pre>
+         * Skips a number of results.
          *
-         * @param name the column name to order by
-         * @return the {@link MapperOrder} instance for defining the sort direction
-         * @throws NullPointerException if name is null
+         * @param skip number of results to skip
+         * @return final step
          */
-        MapperOrder<T> orderBy(String name);
-
+        FinalStep<T> skip(long skip);
 
         /**
-         * Sets the number of results to skip before starting to return results.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("category").eq("Science")
-         *         .skip(10)
-         *         .result();
-         * }</pre>
+         * Executes the select operation.
          *
-         * @param skip the number of results to skip
-         * @return the {@link MapperSkip} instance for chaining
+         * @return a stream of provider-specific structures
          */
-        MapperSkip<T> skip(long skip);
-
-
-
-        /**
-         * Sets the maximum number of results to return.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .limit(5)
-         *         .result();
-         * }</pre>
-         *
-         * @param limit the maximum number of results to retrieve
-         * @return the {@link MapperLimit} instance for chaining
-         * @throws IllegalArgumentException if limit is negative
-         */
-        MapperLimit<T> limit(long limit);
-    }
-
-    /**
-     * Represents a NOT condition in the delete query fluent API.
-     */
-    interface MapperNotCondition<T> extends MapperNameCondition<T> {
-    }
-
-    /**
-     * Represents the step in the query fluent API where it's possible to define the order of the results or to perform the query execution.
-     */
-    interface MapperOrder<T> {
-
-
-        /**
-         * Defines the sorting direction as ascending for the previously specified column.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .orderBy("title").asc()
-         *         .result();
-         * }</pre>
-         *
-         * @return the {@link MapperNameOrder} instance for further chaining
-         */
-        MapperNameOrder<T> asc();
-
-        /**
-         * Defines the sorting direction as descending for the previously specified column.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .orderBy("title").desc()
-         *         .result();
-         * }</pre>
-         *
-         * @return the {@link MapperNameOrder} instance for further chaining
-         */
-        MapperNameOrder<T> desc();
-    }
-
-    /**
-     * Represents the last step of the query fluent API execution.
-     */
-    interface MapperQueryBuild<T> {
-
-        /**
-         * Executes the query and returns the number of entities that match the current filter conditions.
-         *
-         * <p>This is a terminal operation. Unlike {@code result()} which returns the list of matching
-         * entities, {@code count()} returns the total number of matching records.
-         *
-         * <pre>{@code
-         * long count = template.select(Person.class)
-         *                      .where("active").eq(true)
-         *                      .count();
-         * }</pre>
-         *
-         * @return the number of records that match the filter criteria
-         */
-        long count();
-
-        /**
-         * Executes the query and returns the result as a {@link List}.
-         * <pre>{@code
-         * List<Book> books = template.select(Book.class)
-         *                            .where("author").eq("Ada")
-         *                            .result();
-         * }</pre>
-         * @return the result of the query
-         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
-         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
-         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
-         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
-         */
-        List<T> result();
-
-        /**
-         * Executes the query and returns the result as a {@link Stream}.
-         * <pre>{@code
-         * Stream<Book> books = template.select(Book.class)
-         *                                   .where("author")
-         *                                   .eq("Ada")
-         *                                   .stream();
-         *     books.forEach(System.out::println);
-         * }</pre>
-         * @return the result of the query
-         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
-         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
-         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
-         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
-         */
-        Stream<T> stream();
-
-        /**
-         * Executes the query and returns the result as a single element, wrapped in an {@link Optional}.
-         * If the query returns exactly one result, that result is returned in the Optional.
-         * If no result is found, {@link Optional#empty()} is returned.
-         * If more than one result is found, an exception specific to the Jakarta NoSQL provider may be thrown.
-         * <pre>{@code
-         * Optional<Book> book = template.select(Book.class)
-         *                               .where("isbn").eq("978-1234567890")
-         *                               .singleResult();
-         * }</pre>
-         * <p>Use this method when expecting a single result from a query. It provides a safe way to handle the case
-         * where zero or one result is expected, while also allowing for exceptional cases where multiple results are returned.</p>
-         *
-         * @return an Optional containing the single result of the query, if present, or empty if no result is found
-         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
-         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
-         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
-         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
-         */
-        Optional<T> singleResult();
-
-    }
-
-    /**
-     * Represents the step in the query fluent API where it's possible to define the position of the first result to retrieve or to perform the query execution.
-     */
-    interface MapperSkip<T> extends MapperQueryBuild<T> {
-
-
-        /**
-         * Defines the maximum number of results to retrieve (pagination limit).
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .limit(5);
-         * }</pre>
-         * @param limit the limit
-         * @return a query with the limit defined
-         * @throws IllegalArgumentException when limit is negative
-         */
-        MapperLimit<T> limit(long limit);
-    }
-
-    /**
-     * Represents a step where it's possible to:
-     * <ul>
-     *     <li>Create a new condition performing logical conjunction (AND) by specifying a column name</li>
-     *     <li>Create a new condition performing logical disjunction (OR) by specifying a column name</li>
-     *     <li>Define the position of the first result</li>
-     *     <li>Define the maximum number of results to retrieve</li>
-     *     <li>Define the order of the results</li>
-     *     <li>Perform the query execution</li>
-     * </ul>
-     */
-    interface MapperWhere<T> extends MapperQueryBuild<T> {
-
-
-        /**
-         * Create a new condition performing logical conjunction (AND) by specifying a column name.
-         * Use this method to combine multiple conditions where all must be satisfied.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .and("publishedYear").gte(2020)
-         *         .result();
-         * }</pre>
-         * @param name the column name
-         * @return the same {@link MapperNameCondition} with the condition appended
-         * @throws NullPointerException when name is null
-         */
-        MapperNameCondition<T> and(String name);
-
-        /**
-         * Create a new condition performing logical disjunction (OR) by specifying a column name.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .or("author").eq("Otavio")
-         *         .result();
-         * }</pre>
-         * @param name the column name
-         * @return the same {@link MapperNameCondition} with the condition appended
-         * @throws NullPointerException when name is null
-         */
-        MapperNameCondition<T> or(String name);
-
-        /**
-         * Sets the number of results to skip before starting to return results.
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("category").eq("Science")
-         *         .skip(10)
-         *         .result();
-         * }</pre>
-         *
-         * @param skip the number of results to skip
-         * @return the {@link MapperSkip} instance for chaining
-         */
-        MapperSkip<T> skip(long skip);
-
-
-        /**
-         * Defines the maximum number of results to retrieve (pagination limit).
-         * <pre>{@code
-         * template.select(Book.class)
-         *         .where("author").eq("Ada")
-         *         .limit(5);
-         * }</pre>
-         * @param limit the limit
-         * @return a query with the limit defined
-         * @throws IllegalArgumentException when limit is negative
-         */
-        MapperLimit<T> limit(long limit);
-
-        /**
-         * Add the order how the result will return.
-         *
-         * @param name the name to order
-         * @return a query with the sort defined
-         * @throws NullPointerException when name is null
-         */
-        MapperOrder<T> orderBy(String name);
+        Stream<T> fetch();
     }
 }
