@@ -20,15 +20,14 @@ package jakarta.nosql.communication.spi;
  * a logical database identifier.
  *
  * <p>The interpretation of the {@code databaseName} parameter is entirely
- * provider-defined. It typically represents a logical name, alias, or
- * configuration key resolved by the underlying NoSQL provider. The specification
- * does not mandate how this value is mapped to physical databases, clusters,
- * endpoints, or client instances.</p>
+ * provider-defined. It may represent a logical name, alias, or configuration
+ * key resolved by the underlying NoSQL provider. The specification does not
+ * mandate how this value is mapped to physical databases, clusters, endpoints,
+ * or client instances.</p>
  *
  * <p>This factory does not expose any lifecycle management contract. Resource
  * allocation, reuse, pooling, and cleanup are considered implementation details
- * of the provider and are typically managed by the runtime environment rather
- * than application code.</p>
+ * of the provider and/or the runtime environment, rather than application code.</p>
  *
  * <p>Providers may return new {@link DatabaseManager} instances, cached
  * instances, or proxies, and may choose to share resources across multiple
