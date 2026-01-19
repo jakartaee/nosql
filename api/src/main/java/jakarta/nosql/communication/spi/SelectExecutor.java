@@ -63,8 +63,6 @@ public interface SelectExecutor<T> {
      * @param name provider-defined logical identifier
      * @return the next step in the select operation
      * @throws NullPointerException if {@code name} is {@code null}
-     * @throws UnsupportedOperationException if the provider
-     * does not support scoped selection
      */
     From<T> from(String name);
 
@@ -86,8 +84,6 @@ public interface SelectExecutor<T> {
          * @param condition provider-defined condition token
          * @return the next step in the select operation
          * @throws NullPointerException if {@code condition} is {@code null}
-         * @throws UnsupportedOperationException if the provider
-         * does not support conditional selection
          */
         Junction<T> where(Condition condition);
     }
@@ -112,8 +108,6 @@ public interface SelectExecutor<T> {
          * @param condition provider-defined condition token
          * @return the next junction
          * @throws NullPointerException if {@code condition} is {@code null}
-         * @throws UnsupportedOperationException if the provider
-         * does not support logical composition
          */
         Junction<T> and(Condition condition);
 
@@ -131,8 +125,6 @@ public interface SelectExecutor<T> {
          * @param condition provider-defined condition token
          * @return the next junction
          * @throws NullPointerException if {@code condition} is {@code null}
-         * @throws UnsupportedOperationException if the provider
-         * does not support logical composition
          */
         Junction<T> or(Condition condition);
     }
@@ -155,8 +147,6 @@ public interface SelectExecutor<T> {
          * @param order provider-defined order token
          * @return the ordering step
          * @throws NullPointerException if {@code order} is {@code null}
-         * @throws UnsupportedOperationException if ordering
-         * is not supported by the provider
          */
         Ordering<T> orderBy(Order order);
 
@@ -173,8 +163,6 @@ public interface SelectExecutor<T> {
          * @param limit maximum number of results
          * @return pagination step
          * @throws IllegalArgumentException if {@code limit} is negative
-         * @throws UnsupportedOperationException if pagination
-         * is not supported by the provider
          */
         Pagination<T> limit(long limit);
 
@@ -189,7 +177,8 @@ public interface SelectExecutor<T> {
          *
          * @return a stream of provider-specific structures
          * @throws UnsupportedOperationException if the provider
-         * does not support select execution
+         * does not support select execution or the provider does not support the
+         * operation or any condition applied is not supported by the provider.
          */
         Stream<T> fetch();
     }
@@ -255,7 +244,8 @@ public interface SelectExecutor<T> {
          *
          * @return a stream of provider-specific structures
          * @throws UnsupportedOperationException if the provider
-         * does not support select execution
+         * does not support select execution or the provider does not support the
+         * operation or any condition applied is not supported by the provider.
          */
         Stream<T> fetch();
     }
