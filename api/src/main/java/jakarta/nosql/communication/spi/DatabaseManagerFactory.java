@@ -48,9 +48,10 @@ public interface DatabaseManagerFactory  {
      *
      * @param databaseName a provider-defined logical identifier used to resolve
      *                     a database or configuration
+     * @param <T> the database structure type
      * @return a {@link DatabaseManager} instance associated with the given name
      * @throws NullPointerException if {@code databaseName} is null
      */
-    DatabaseManager create(String databaseName);
+    <T>DatabaseManager<T> create(String databaseName);
 
 }
