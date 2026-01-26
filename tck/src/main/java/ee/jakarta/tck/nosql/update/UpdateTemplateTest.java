@@ -27,16 +27,20 @@ import java.util.List;
 
 public class UpdateTemplateTest extends AbstractTemplateTest {
 
+
     @ParameterizedTest
     @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert Iterable and update with no conditions")
-    void shouldInsertIterableAndDeleteNoCondition(List<Person> entities) {
+    @DisplayName("Should insert Iterable and update all entities with no conditions")
+    void shouldInsertIterableAndUpdateNoCondition(List<Person> entities) {
         entities.forEach(entity -> template.insert(entity));
-
         try {
-            template.update(Person.class).set("name").to("Updated name").execute();
+            template.update(Person.class)
+                    .set("name").to("Updated name")
+                    .execute();
             List<Person> result = template.select(Person.class).result();
-            Assertions.assertThat(result).allMatch(person -> person.getName().equals("Updated name"));
+            Assertions.assertThat(result)
+                    .isNotEmpty()
+                    .allMatch(person -> person.getName().equals("Updated name"));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
