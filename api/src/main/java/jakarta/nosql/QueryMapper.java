@@ -291,7 +291,7 @@ public interface QueryMapper {
      * @Inject
      * Template template;
      *
-     * template.from(Book.class)
+     * template.update(Book.class)
      *     .set("title").to("Domain-Driven Design with Java")
      *     .set("publishedYear").to(2025)
      *     .where("author").eq("Ada")
@@ -307,7 +307,7 @@ public interface QueryMapper {
         /**
          * Defines an update assignment for the specified field.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *     .set("title").to("Domain-Driven Design with Java")
          *     .execute();
          * }</pre>
@@ -332,7 +332,7 @@ public interface QueryMapper {
      * @Inject
      * Template template;
      *
-     * template.from(Book.class)
+     * template.update(Book.class)
      *     .set("title").to("Domain-Driven Design with Java")
      *     .set("publishedYear").to(2025)
      *     .where("author").eq("Ada")
@@ -368,7 +368,7 @@ public interface QueryMapper {
      * @Inject
      * Template template;
      *
-     * template.from(Book.class)
+     * template.update(Book.class)
      *     .set("title").to("Domain-Driven Design with Java")
      *     .set("publishedYear").to(2025)
      *     .where("author").eq("Ada")
@@ -421,7 +421,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column name equals the provided value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("published").to(true)
          *         .where("author").eq("Ada")
          *         .execute();
@@ -437,7 +437,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column matches the given pattern.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("category").to("classic")
          *         .where("title").like("%Design%")
          *         .execute();
@@ -452,7 +452,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column contains the given value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("highlighted").to(true)
          *         .where("description").contains("DDD")
          *         .execute();
@@ -467,7 +467,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column starts with the given value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("featured").to(true)
          *         .where("title").startsWith("Domain")
          *         .execute();
@@ -482,7 +482,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column ends with the given value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("archived").to(true)
          *         .where("title").endsWith("Java")
          *         .execute();
@@ -497,7 +497,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column is greater than the provided value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("discounted").to(true)
          *         .where("price").gt(50)
          *         .execute();
@@ -513,7 +513,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column is greater than or equal to the provided value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("discounted").to(true)
          *         .where("price").gte(30)
          *         .execute();
@@ -529,7 +529,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column is less than the provided value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("featured").to(true)
          *         .where("rating").lt(5)
          *         .execute();
@@ -545,7 +545,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column is less than or equal to the provided value.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("featured").to(true)
          *         .where("rating").lte(4)
          *         .execute();
@@ -561,7 +561,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column is between the provided values.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("recommended").to(true)
          *         .where("publishedYear").between(2015, 2025)
          *         .execute();
@@ -578,7 +578,7 @@ public interface QueryMapper {
         /**
          * Creates an update condition where the specified column value is contained in the provided values.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("available").to(false)
          *         .where("category").in(List.of("legacy", "outdated"))
          *         .execute();
@@ -594,7 +594,7 @@ public interface QueryMapper {
         /**
          * Negates the next update condition.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("archived").to(true)
          *         .where("author").not().eq("Ada")
          *         .execute();
@@ -617,7 +617,7 @@ public interface QueryMapper {
         /**
          * Adds an AND condition using the specified column name.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("published").to(true)
          *         .where("author").eq("Ada")
          *         .and("publishedYear").gte(2020)
@@ -633,7 +633,7 @@ public interface QueryMapper {
         /**
          * Adds an OR condition using the specified column name.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *         .set("featured").to(true)
          *         .where("author").eq("Ada")
          *         .or("author").eq("Hermann")
@@ -657,7 +657,7 @@ public interface QueryMapper {
          * Executes the update query based on the specified assignments and conditions.
          * Use this method to update entities in the database that match the defined criteria.
          * <pre>{@code
-         * template.from(Book.class)
+         * template.update(Book.class)
          *     .set("title").to("Domain-Driven Design with Java")
          *     .set("publishedYear").to(2025)
          *     .where("author").eq("Ada")
