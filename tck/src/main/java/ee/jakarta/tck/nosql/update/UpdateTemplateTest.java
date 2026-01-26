@@ -15,5 +15,31 @@
  */
 package ee.jakarta.tck.nosql.update;
 
-public class UpdateTemplateTest {
+import ee.jakarta.tck.nosql.AbstractTemplateTest;
+import ee.jakarta.tck.nosql.entities.Person;
+import ee.jakarta.tck.nosql.factories.PersonListSupplier;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import java.util.List;
+
+public class UpdateTemplateTest extends AbstractTemplateTest {
+
+    @ParameterizedTest
+    @ArgumentsSource(PersonListSupplier.class)
+    @DisplayName("Should insert Iterable and update with no conditions")
+    void shouldInsertIterableAndDeleteNoCondition(List<Person> entities) {
+        entities.forEach(entity -> template.insert(entity));
+
+        try {
+            template.update(Person.class).set("name").to("Updated name").execute();
+            List<Person> result = template.select(Person.class).result();
+            Assertions.assertThat(result).allMatch(person -> person.getName().equals("Updated name"));
+        } catch (UnsupportedOperationException exp) {
+            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
+
 }
