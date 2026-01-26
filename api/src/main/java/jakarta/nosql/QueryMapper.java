@@ -306,9 +306,14 @@ public interface QueryMapper {
 
         /**
          * Defines an update assignment for the specified field.
+         * <pre>{@code
+         * template.from(Book.class)
+         *     .set("title").to("Domain-Driven Design with Java")
+         *     .execute();
+         * }</pre>
          *
          * @param name the field name to be updated
-         * @return a step that allows assigning a value to the field
+         * @return the {@link MapperUpdateSetTo}
          * @throws NullPointerException when the field name is {@code null}
          */
         MapperUpdateSetTo set(String name);
