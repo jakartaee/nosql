@@ -293,14 +293,52 @@ public interface QueryMapper {
 
     interface MapperUpdateSetTo {
 
-        <T> MapperUpdateQueryBuild to(T value);
+        <T> MapperUpdateSetStep to(T value);
     }
 
     interface MapperUpdateSetStep extends  MapperUpdateQueryBuild {
 
-        MapperUpdateSetStep set(String name);
+        MapperUpdateSetTo set(String name);
 
         MapperUpdateWhereStep where(String name);
+    }
+
+    interface MapperUpdateWhereStep {
+
+        <T> MapperDeleteWhere eq(T value);
+
+         MapperDeleteWhere like(String value);
+
+        MapperDeleteWhere contains(String value);
+
+        MapperDeleteWhere startsWith(String value);
+
+        MapperDeleteWhere endsWith(String value);
+
+        <T> MapperDeleteWhere gt(T value);
+
+        <T> MapperDeleteWhere gte(T value);
+
+        <T> MapperDeleteWhere lt(T value);
+
+
+        <T> MapperDeleteWhere lte(T value);
+
+
+        <T> MapperDeleteWhere between(T valueA, T valueB);
+
+
+        <T> MapperDeleteWhere in(Iterable<T> values);
+
+        MapperUpdateWhereStep not();
+    }
+
+    interface MapperUpdateConditionStep extends MapperUpdateQueryBuild {
+
+        MapperUpdateWhereStep and(String name);
+
+        MapperUpdateWhereStep or(String name);
+
     }
 
     /**
