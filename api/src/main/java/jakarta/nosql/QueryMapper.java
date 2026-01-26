@@ -314,8 +314,39 @@ public interface QueryMapper {
         MapperUpdateSetTo set(String name);
     }
 
+    /**
+     * Represents the value assignment step of the update fluent API.
+     * <p>
+     * This step completes a field assignment started with {@code set(String)}
+     * by defining the value to be applied. After the value is assigned, the
+     * update query may define additional assignments, specify conditions,
+     * or be executed.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.from(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * The behavior of the update operation depends on the capabilities of the
+     * underlying database.
+     */
     interface MapperUpdateSetTo {
 
+        /**
+         * Assigns the given value to the previously defined field.
+         *
+         * @param value the value to assign
+         * @param <T>   the value type
+         * @return the next step of the update fluent API
+         */
         <T> MapperUpdateSetStep to(T value);
     }
 
