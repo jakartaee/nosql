@@ -602,8 +602,36 @@ public interface QueryMapper {
 
     interface MapperUpdateConditionStep extends MapperUpdateQueryBuild {
 
+        /**
+         * Adds an AND condition using the specified column name.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("published").to(true)
+         *         .where("author").eq("Ada")
+         *         .and("publishedYear").gte(2020)
+         *         .execute();
+         * }</pre>
+         *
+         * @param name the column name for the condition
+         * @return the {@link MapperUpdateWhereStep}
+         * @throws NullPointerException when name is null
+         */
         MapperUpdateWhereStep and(String name);
 
+        /**
+         * Adds an OR condition using the specified column name.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("featured").to(true)
+         *         .where("author").eq("Ada")
+         *         .or("author").eq("Hermann")
+         *         .execute();
+         * }</pre>
+         *
+         * @param name the column name for the condition
+         * @return the {@link MapperUpdateWhereStep}
+         * @throws NullPointerException when name is null
+         */
         MapperUpdateWhereStep or(String name);
 
     }
