@@ -438,7 +438,7 @@ public interface Template {
      * @Inject
      * Template template;
      *
-     * template.from(Book.class)
+     * template.update(Book.class)
      *     .set("title").to("Domain-Driven Design with Java")
      *     .set("publishedYear").to(2025)
      *     .where("author").eq("Ada")
