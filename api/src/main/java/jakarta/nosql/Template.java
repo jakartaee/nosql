@@ -432,6 +432,7 @@ public interface Template {
      */
     <T> QueryMapper.MapperDeleteFrom delete(Class<T> type);
 
+    <T> QueryMapper.MapperUpdateFrom from(Class<T> type);
 
 
     /**
