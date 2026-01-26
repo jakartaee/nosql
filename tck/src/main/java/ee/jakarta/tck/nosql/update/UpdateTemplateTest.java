@@ -40,7 +40,7 @@ public class UpdateTemplateTest extends AbstractTemplateTest {
             List<Person> result = template.select(Person.class).result();
             Assertions.assertThat(result)
                     .isNotEmpty()
-                    .allMatch(person -> person.getName().equals("Updated name"));
+                    .allMatch(person -> "Updated name".equals(person.getName()));
         } catch (UnsupportedOperationException exp) {
             Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
         }
