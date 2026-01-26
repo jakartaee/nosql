@@ -350,10 +350,46 @@ public interface QueryMapper {
         <T> MapperUpdateSetStep to(T value);
     }
 
-    interface MapperUpdateSetStep extends  MapperUpdateQueryBuild {
+    /**
+     * Represents the update assignment step of the fluent update API.
+     * <p>
+     * This step allows defining one or more field assignments for an update
+     * operation. From this point, additional assignments may be added, the
+     * update scope may be restricted using {@code where(...)}, or the
+     * operation may be executed.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.from(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     */
+    interface MapperUpdateSetStep extends MapperUpdateQueryBuild {
 
+        /**
+         * Starts a new field assignment for the update operation.
+         *
+         * @param name the field name to be updated
+         * @return a step that allows assigning a value to the field
+         * @throws NullPointerException when the field name is {@code null}
+         */
         MapperUpdateSetTo set(String name);
 
+        /**
+         * Defines a condition to restrict which entities will be updated.
+         *
+         * @param name the field name used in the condition
+         * @return the conditional step of the update fluent API
+         * @throws NullPointerException when the field name is {@code null}
+         */
         MapperUpdateWhereStep where(String name);
     }
 
