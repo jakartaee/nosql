@@ -644,14 +644,13 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the last step of the delete query fluent API execution.
+     * Represents the final execution step of the update query fluent API.
      */
     interface MapperUpdateQueryBuild {
 
-
         /**
-         *  Executes the update query based on the specified conditions.
-         *  Use this method to remove entities from the database that match the defined criteria.
+         * Executes the update query based on the specified assignments and conditions.
+         * Use this method to update entities in the database that match the defined criteria.
          * <pre>{@code
          * template.from(Book.class)
          *     .set("title").to("Domain-Driven Design with Java")
@@ -660,13 +659,13 @@ public interface QueryMapper {
          *     .execute();
          * }</pre>
          *
-         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
-         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
-         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
-         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
+         * @throws UnsupportedOperationException if the underlying NoSQL database does not support
+         *         a specific update operation or query condition. For example, a wide-column
+         *         database may not support the OR operator, or a document database may not
+         *         support the BETWEEN operator. Support for update operations and conditions
+         *         varies depending on the database provider.
          */
         void execute();
-
     }
 
     /**
