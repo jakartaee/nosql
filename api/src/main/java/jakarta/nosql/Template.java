@@ -455,7 +455,7 @@ public interface Template {
      * @throws UnsupportedOperationException when the database cannot operate,
      *                                       such as key-value stores that only support key-based updates.
      */
-    <T> QueryMapper.MapperUpdateFrom from(Class<T> type);
+    <T> QueryMapper.MapperUpdateFrom update(Class<T> type);
 
 
     /**
