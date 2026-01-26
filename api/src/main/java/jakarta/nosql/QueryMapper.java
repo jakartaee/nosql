@@ -393,33 +393,210 @@ public interface QueryMapper {
         MapperUpdateWhereStep where(String name);
     }
 
+    /**
+     * Represents the predicate definition step of the fluent update API.
+     * <p>
+     * This step defines conditional expressions used to restrict which entities
+     * will be affected by an update operation. Each method adds a comparison
+     * predicate for the previously defined field.
+     * </p>
+     *
+     * <p>
+     * Predicate support and evaluation semantics depend on the capabilities of
+     * the underlying database. Unsupported predicates may result in an
+     * {@link UnsupportedOperationException}.
+     * </p>
+     *
+     * <p>
+     * This step is mutable and not thread-safe.
+     * </p>
+     */
     interface MapperUpdateWhereStep {
 
+        /**
+         * Creates an update condition where the specified column name equals the provided value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("published").to(true)
+         *         .where("author").eq("Ada")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         <T> MapperDeleteWhere eq(T value);
 
-         MapperDeleteWhere like(String value);
+        /**
+         * Creates an update condition where the specified column matches the given pattern.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("category").to("classic")
+         *         .where("title").like("%Design%")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the pattern value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere like(String value);
 
+        /**
+         * Creates an update condition where the specified column contains the given value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("highlighted").to(true)
+         *         .where("description").contains("DDD")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         MapperDeleteWhere contains(String value);
 
+        /**
+         * Creates an update condition where the specified column starts with the given value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("featured").to(true)
+         *         .where("title").startsWith("Domain")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the prefix value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         MapperDeleteWhere startsWith(String value);
 
+        /**
+         * Creates an update condition where the specified column ends with the given value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("archived").to(true)
+         *         .where("title").endsWith("Java")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the suffix value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         MapperDeleteWhere endsWith(String value);
 
+        /**
+         * Creates an update condition where the specified column is greater than the provided value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("discounted").to(true)
+         *         .where("price").gt(50)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         <T> MapperDeleteWhere gt(T value);
 
+        /**
+         * Creates an update condition where the specified column is greater than or equal to the provided value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("discounted").to(true)
+         *         .where("price").gte(30)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         <T> MapperDeleteWhere gte(T value);
 
+        /**
+         * Creates an update condition where the specified column is less than the provided value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("featured").to(true)
+         *         .where("rating").lt(5)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         <T> MapperDeleteWhere lt(T value);
 
-
+        /**
+         * Creates an update condition where the specified column is less than or equal to the provided value.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("featured").to(true)
+         *         .where("rating").lte(4)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
         <T> MapperDeleteWhere lte(T value);
 
-
+        /**
+         * Creates an update condition where the specified column is between the provided values.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("recommended").to(true)
+         *         .where("publishedYear").between(2015, 2025)
+         *         .execute();
+         * }</pre>
+         *
+         * @param valueA the lower bound value
+         * @param valueB the upper bound value
+         * @param <T>    the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when any value is null
+         */
         <T> MapperDeleteWhere between(T valueA, T valueB);
 
-
+        /**
+         * Creates an update condition where the specified column value is contained in the provided values.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("available").to(false)
+         *         .where("category").in(List.of("legacy", "outdated"))
+         *         .execute();
+         * }</pre>
+         *
+         * @param values the values for the condition
+         * @param <T>    the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when values is null
+         */
         <T> MapperDeleteWhere in(Iterable<T> values);
 
+        /**
+         * Negates the next update condition.
+         * <pre>{@code
+         * template.from(Book.class)
+         *         .set("archived").to(true)
+         *         .where("author").not().eq("Ada")
+         *         .execute();
+         * }</pre>
+         *
+         * @return the {@link MapperUpdateWhereStep}
+         */
         MapperUpdateWhereStep not();
     }
 
