@@ -432,6 +432,29 @@ public interface Template {
      */
     <T> QueryMapper.MapperDeleteFrom delete(Class<T> type);
 
+    /**
+     * Start an update builder using the fluent API. The returned value is a mutable and non-thread-safe instance.
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.from(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * This operation updates matching entities based on the defined predicates.
+     * The update semantics and supported operations depend on the underlying database.
+     *
+     * @param type the entity class
+     * @param <T>  the entity type
+     * @return a {@link QueryMapper.MapperUpdateFrom} instance
+     * @throws NullPointerException          when type is null
+     * @throws UnsupportedOperationException when the database cannot operate,
+     *                                       such as key-value stores that only support key-based updates.
+     */
     <T> QueryMapper.MapperUpdateFrom from(Class<T> type);
 
 
