@@ -600,6 +600,13 @@ public interface QueryMapper {
         MapperUpdateWhereStep not();
     }
 
+    /**
+     * Represents the conditional composition step of the fluent update API.
+     * <p>
+     * This step allows combining multiple update conditions using logical
+     * operators before executing the update operation.
+     * </p>
+     */
     interface MapperUpdateConditionStep extends MapperUpdateQueryBuild {
 
         /**
