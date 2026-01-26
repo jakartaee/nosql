@@ -279,16 +279,39 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the first step in the delete query fluent API.
+     * Represents the first step in the update query fluent API.
+     * <p>
+     * This step defines the entity type to be updated and starts the construction
+     * of an update operation. From this point, one or more update assignments
+     * must be defined using {@code set(...).to(...)} before the operation
+     * can be executed.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.from(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for update operations depends on the underlying database.
+     *
      */
     interface MapperUpdateFrom {
 
-
+        /**
+         * Defines an update assignment for the specified field.
+         *
+         * @param name the field name to be updated
+         * @return a step that allows assigning a value to the field
+         * @throws NullPointerException when the field name is {@code null}
+         */
         MapperUpdateSetTo set(String name);
-    }
-
-    interface MapperUpdateSet {
-
     }
 
     interface MapperUpdateSetTo {
