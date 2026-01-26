@@ -279,6 +279,45 @@ public interface QueryMapper {
     }
 
     /**
+     * Represents the first step in the delete query fluent API.
+     */
+    interface MapperUpdateFrom {
+
+
+        <T> MapperUpdateSet set(String name, T value);
+    }
+
+    interface MapperUpdateSet {
+
+    }
+
+    /**
+     * Represents the last step of the delete query fluent API execution.
+     */
+    interface MapperUpdateQueryBuild {
+
+
+        /**
+         *  Executes the delete query based on the specified conditions.
+         *  Use this method to remove entities from the database that match the defined criteria.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("publishedYear", 2021)
+         *         .where("author").eq("Ada")
+         *         .and("publishedYear").gte(2020)
+         *         .execute();
+         * }</pre>
+         *
+         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
+         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
+         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
+         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
+         */
+        void execute();
+
+    }
+
+    /**
      * Represents the first step in the query fluent API.
      */
     interface MapperFrom extends MapperQueryBuild {
