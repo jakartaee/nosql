@@ -92,7 +92,11 @@ Jakarta NoSQL provides a unified API with specialized support for a wide range o
 
 ==== Fluent API
 
-Jakarta NoSQL provides a fluent API for dynamic query construction, enabling you to perform more expressive filtering and deletion operations programmatically — without writing string-based queries.
+Jakarta NoSQL provides a fluent API for dynamic query construction, enabling expressive selection, update, and deletion operations without relying on string-based queries.
+
+This API is designed for scenarios where queries must be built programmatically,
+such as dynamic filters, reusable query logic, or conditional operations, while
+remaining database-agnostic.
 
 *Select example:*
 
@@ -104,6 +108,16 @@ List<Car> sportsCars = template.select(Car.class)
     .result();
 ----
 
+*Update example:*
+
+[source,java]
+----
+template.update(Car.class)
+    .set("available").to(false)
+    .where("type").eq(CarType.CLASSIC)
+    .execute();
+----
+
 *Delete example:*
 
 [source,java]
@@ -113,7 +127,9 @@ template.delete(Car.class)
     .execute();
 ----
 
-This style promotes type safety and cleaner code, especially in dynamic or reusable query scenarios.
+This fluent style makes query intent explicit (`select`, `update`, `delete`),
+reduces the risk of errors common in string-based queries, and adapts naturally
+to the capabilities of different NoSQL databases.
 
 ==== Typed Queries and Projections
 
