@@ -284,11 +284,23 @@ public interface QueryMapper {
     interface MapperUpdateFrom {
 
 
-        <T> MapperUpdateSet set(String name, T value);
+        MapperUpdateSetTo set(String name);
     }
 
     interface MapperUpdateSet {
 
+    }
+
+    interface MapperUpdateSetTo {
+
+        <T> MapperUpdateQueryBuild to(T value);
+    }
+
+    interface MapperUpdateSetStep extends  MapperUpdateQueryBuild {
+
+        MapperUpdateSetStep set(String name);
+
+        MapperUpdateWhereStep where(String name);
     }
 
     /**
@@ -298,14 +310,14 @@ public interface QueryMapper {
 
 
         /**
-         *  Executes the delete query based on the specified conditions.
+         *  Executes the update query based on the specified conditions.
          *  Use this method to remove entities from the database that match the defined criteria.
          * <pre>{@code
-         * template.update(Book.class)
-         *         .set("publishedYear", 2021)
-         *         .where("author").eq("Ada")
-         *         .and("publishedYear").gte(2020)
-         *         .execute();
+         * template.from(Book.class)
+         *     .set("title").to("Domain-Driven Design with Java")
+         *     .set("publishedYear").to(2025)
+         *     .where("author").eq("Ada")
+         *     .execute();
          * }</pre>
          *
          * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
