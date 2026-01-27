@@ -37,11 +37,24 @@ public interface QueryMapper {
 
     /**
      * Represents the first step in the delete query fluent API.
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
      */
     interface MapperDeleteFrom extends MapperDeleteQueryBuild {
 
         /**
          * Starts a new delete condition by specifying a column name.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *     .where("author").eq("Ada")
+         *     .execute();
+         * }</pre>
          *
          * @param name the column name
          * @return a new {@link MapperDeleteNameCondition}
