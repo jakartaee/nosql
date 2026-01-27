@@ -320,8 +320,27 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a step where it's possible to perform a logical conjunction or disjunction,
-     * add one more delete condition, or end up performing the built query.
+     * Represents a step where it is possible to compose delete conditions using
+     * logical conjunctions or disjunctions, or execute the built delete query.
+     * <p>
+     * This step is reached after a delete condition has been defined and allows
+     * combining additional conditions using {@code and(...)} or {@code or(...)},
+     * or finalizing the operation by executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for logical operators depends on the capabilities of the underlying
+     * NoSQL database.
      */
     interface MapperDeleteWhere extends MapperDeleteQueryBuild {
 
