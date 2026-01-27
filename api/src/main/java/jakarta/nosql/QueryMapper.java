@@ -1279,7 +1279,27 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the order of the results or to perform the query execution.
+     * Represents the step in the fluent query API where the sort direction
+     * for a previously specified column is defined.
+     * <p>
+     * This interface is reached after calling {@code orderBy(String)} and
+     * allows selecting the ordering direction (ascending or descending)
+     * before continuing query composition or executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for ordering operations depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperOrder {
 
