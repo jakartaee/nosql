@@ -1257,6 +1257,23 @@ public interface QueryMapper {
 
     /**
      * Represents a NOT condition in the delete query fluent API.
+     * <p>
+     * This interface is used to negate the next condition applied to a column,
+     * enabling inverse logic when building delete queries.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").not().eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for negated conditions depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperNotCondition extends MapperNameCondition {
     }
