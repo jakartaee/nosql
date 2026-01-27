@@ -1559,10 +1559,22 @@ public interface QueryMapper {
         MapperLimit limit(long limit);
 
         /**
-         * Add the order how the result will return.
+         * Adds an ordering rule based on the specified column name.
+         * <p>
+         * Use this method to define how query results should be sorted.
+         * The sort direction (ascending or descending) is specified in
+         * the subsequent step.
+         * </p>
          *
-         * @param name the name to order
-         * @return a query with the sort defined
+         * <pre>{@code
+         * template.select(Book.class)
+         *     .where("author").eq("Ada")
+         *     .orderBy("title").asc()
+         *     .result();
+         * }</pre>
+         *
+         * @param name the column name to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
          * @throws NullPointerException when name is null
          */
         MapperOrder orderBy(String name);
