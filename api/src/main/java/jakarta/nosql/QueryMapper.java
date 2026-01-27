@@ -1474,15 +1474,29 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a step where it's possible to:
-     * <ul>
-     *     <li>Create a new condition performing logical conjunction (AND) by specifying a column name</li>
-     *     <li>Create a new condition performing logical disjunction (OR) by specifying a column name</li>
-     *     <li>Define the position of the first result</li>
-     *     <li>Define the maximum number of results to retrieve</li>
-     *     <li>Define the order of the results</li>
-     *     <li>Perform the query execution</li>
-     * </ul>
+     * Represents the step in the fluent query API where conditional composition,
+     * pagination, ordering, or query execution can be defined.
+     * <p>
+     * This interface is reached after an initial predicate has been applied and
+     * allows combining additional conditions using logical operators, configuring
+     * pagination parameters, defining result ordering, or executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for conditional composition, pagination, and ordering depends on
+     * the capabilities of the underlying NoSQL database.
      */
     interface MapperWhere extends MapperQueryBuild {
 
