@@ -20,6 +20,7 @@ and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Version
 - Include support to Projectors
 - Include Query interface
 - include TypedQuery interface
+- Include Fluent API to Update operations
 
 == [1.0.1] - 2025-07-01
 

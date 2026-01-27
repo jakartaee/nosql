@@ -17,6 +17,7 @@ package ee.jakarta.tck.nosql.basic;
 
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Drink;
+import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.factories.DrinkSupplier;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -112,7 +113,7 @@ public class BasicTemplateInheritanceTest extends AbstractTemplateTest {
     @Test
     @DisplayName("Should throw exception when null entity is updated")
     void shouldThrowExceptionWhenNullEntityUpdated() {
-        Assertions.assertThatThrownBy(() -> template.update(null))
+        Assertions.assertThatThrownBy(() -> template.update((Person) null))
                 .isInstanceOf(NullPointerException.class);
     }
 }

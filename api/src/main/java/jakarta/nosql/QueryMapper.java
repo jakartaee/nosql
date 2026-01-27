@@ -37,11 +37,24 @@ public interface QueryMapper {
 
     /**
      * Represents the first step in the delete query fluent API.
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
      */
     interface MapperDeleteFrom extends MapperDeleteQueryBuild {
 
         /**
          * Starts a new delete condition by specifying a column name.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *     .where("author").eq("Ada")
+         *     .execute();
+         * }</pre>
          *
          * @param name the column name
          * @return a new {@link MapperDeleteNameCondition}
@@ -51,7 +64,26 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a delete condition based on a column name.
+     * Represents a delete condition based on a column name in the fluent delete API.
+     * <p>
+     * This interface defines the available comparison operations that can be applied
+     * to a column when building a delete query. It is reached after specifying a
+     * column name using {@code where(String)} and allows defining predicates such as
+     * equality, pattern matching, range comparisons, and negation.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instances are mutable and not thread-safe.
+     * Support for specific comparison operations depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperDeleteNameCondition {
 
@@ -224,19 +256,52 @@ public interface QueryMapper {
 
     /**
      * Represents a NOT delete condition in the delete query fluent API.
+     * <p>
+     * This interface is used to negate the next delete condition applied to a
+     * column. It is typically reached by invoking {@code not()} after specifying
+     * a column name and allows composing negated predicates.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").not().eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for negated conditions depends on the capabilities of the underlying
+     * NoSQL database.
      */
     interface MapperDeleteNotCondition extends MapperDeleteNameCondition {
     }
 
     /**
-     * Represents the last step of the delete query fluent API execution.
+     * Represents the final execution step of the delete query fluent API.
+     * <p>
+     * This interface defines the terminal operation used to execute a delete
+     * query after all conditions have been specified.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
      */
     interface MapperDeleteQueryBuild {
 
-
         /**
-         *  Executes the delete query based on the specified conditions.
-         *  Use this method to remove entities from the database that match the defined criteria.
+         * Executes the delete query based on the specified conditions.
+         * Use this method to remove entities from the database that match the
+         * defined criteria.
+         *
          * <pre>{@code
          * template.delete(Book.class)
          *         .where("author").eq("Ada")
@@ -244,42 +309,557 @@ public interface QueryMapper {
          *         .execute();
          * }</pre>
          *
-         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
-         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
-         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
-         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
+         * @throws UnsupportedOperationException if the underlying NoSQL database
+         *         does not support a specific delete operation or query condition.
+         *         For example, a wide-column database may not support the OR
+         *         operator, or a document database may not support the BETWEEN
+         *         operator. Support for delete operations and conditions varies
+         *         depending on the database provider.
          */
         void execute();
-
     }
 
     /**
-     * Represents a step where it's possible to perform a logical conjunction or disjunction,
-     * add one more delete condition, or end up performing the built query.
+     * Represents a step where it is possible to compose delete conditions using
+     * logical conjunctions or disjunctions, or execute the built delete query.
+     * <p>
+     * This step is reached after a delete condition has been defined and allows
+     * combining additional conditions using {@code and(...)} or {@code or(...)},
+     * or finalizing the operation by executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for logical operators depends on the capabilities of the underlying
+     * NoSQL database.
      */
     interface MapperDeleteWhere extends MapperDeleteQueryBuild {
 
         /**
-         * Create a new delete condition performing logical conjunction (AND) by specifying a column name.
+         * Creates a new delete condition using logical conjunction (AND) by
+         * specifying a column name.
+         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *     .where("author").eq("Ada")
+         *     .and("publishedYear").gte(2020)
+         *     .execute();
+         * }</pre>
          *
          * @param name the column name
-         * @return the same {@link MapperDeleteNameCondition} with the delete condition appended
+         * @return the {@link MapperDeleteNameCondition} with the delete condition appended
          * @throws NullPointerException when name is null
          */
         MapperDeleteNameCondition and(String name);
 
         /**
-         * Create a new delete condition performing logical disjunction (OR) by specifying a column name.
+         * Creates a new delete condition using logical disjunction (OR) by
+         * specifying a column name.
+         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *     .where("author").eq("Ada")
+         *     .or("author").eq("Hermann")
+         *     .execute();
+         * }</pre>
          *
          * @param name the column name
-         * @return the same {@link MapperDeleteNameCondition} with the delete condition appended
+         * @return the {@link MapperDeleteNameCondition} with the delete condition appended
          * @throws NullPointerException when name is null
          */
         MapperDeleteNameCondition or(String name);
     }
 
     /**
-     * Represents the first step in the query fluent API.
+     * Represents the first step in the update query fluent API.
+     * <p>
+     * This step defines the entity type to be updated and starts the construction
+     * of an update operation. From this point, one or more update assignments
+     * must be defined using {@code set(...).to(...)} before the operation
+     * can be executed.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for update operations depends on the underlying database.
+     *
+     */
+    interface MapperUpdateFrom {
+
+        /**
+         * Defines an update assignment for the specified field.
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("title").to("Domain-Driven Design with Java")
+         *     .execute();
+         * }</pre>
+         *
+         * @param name the field name to be updated
+         * @return the {@link MapperUpdateSetTo}
+         * @throws NullPointerException when the field name is {@code null}
+         */
+        MapperUpdateSetTo set(String name);
+    }
+
+    /**
+     * Represents the value assignment step of the update fluent API.
+     * <p>
+     * This step completes a field assignment started with {@code set(String)}
+     * by defining the value to be applied. After the value is assigned, the
+     * update query may define additional assignments, specify conditions,
+     * or be executed.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * The behavior of the update operation depends on the capabilities of the
+     * underlying database.
+     */
+    interface MapperUpdateSetTo {
+
+        /**
+         * Assigns the given value to the previously defined field.
+         *
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("publishedYear").to(2025)
+         *     .where("author").eq("Ada")
+         *     .execute();
+         * }</pre>
+         *
+         * @param value the value to assign
+         * @param <T>   the value type
+         * @return the next step of the update fluent API
+         * @throws NullPointerException when value is null
+         */
+        <T> MapperUpdateSetStep to(T value);
+    }
+
+    /**
+     * Represents the update assignment step of the fluent update API.
+     * <p>
+     * This step allows defining one or more field assignments for an update
+     * operation. From this point, additional assignments may be added, the
+     * update scope may be restricted using {@code where(...)}, or the
+     * operation may be executed.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     */
+    interface MapperUpdateSetStep extends MapperUpdateQueryBuild {
+
+        /**
+         * Starts a new field assignment for the update operation.
+         *
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("title").to("Domain-Driven Design with Java")
+         *     .execute();
+         * }</pre>
+         *
+         * @param name the field name to be updated
+         * @return a step that allows assigning a value to the field
+         * @throws NullPointerException when the field name is {@code null}
+         */
+        MapperUpdateSetTo set(String name);
+
+        /**
+         * Defines a condition to restrict which entities will be updated.
+         *
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("available").to(false)
+         *     .where("category").eq("CLASSIC")
+         *     .execute();
+         * }</pre>
+         *
+         * @param name the field name used in the condition
+         * @return the conditional step of the update fluent API
+         * @throws NullPointerException when the field name is {@code null}
+         */
+        MapperUpdateWhereStep where(String name);
+    }
+
+    /**
+     * Represents the predicate definition step of the fluent update API.
+     * <p>
+     * This step defines conditional expressions used to restrict which entities
+     * will be affected by an update operation. Each predicate applies to the
+     * previously specified field.
+     * </p>
+     *
+     * <p>
+     * Predicate support and evaluation semantics depend on the capabilities of
+     * the underlying database. Unsupported predicates may result in an
+     * {@link UnsupportedOperationException}.
+     * </p>
+     *
+     * <p>
+     * This step is mutable and not thread-safe.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("published").to(true)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     */
+    interface MapperUpdateWhereStep {
+
+        /**
+         * Creates an update condition where the specified column name equals the provided value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("published").to(true)
+         *         .where("author").eq("Ada")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        <T> MapperDeleteWhere eq(T value);
+
+        /**
+         * Creates an update condition where the specified column matches the given pattern.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("category").to("classic")
+         *         .where("title").like("%Design%")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the pattern value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere like(String value);
+
+        /**
+         * Creates an update condition where the specified column contains the given value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("highlighted").to(true)
+         *         .where("description").contains("DDD")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere contains(String value);
+
+        /**
+         * Creates an update condition where the specified column starts with the given value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("featured").to(true)
+         *         .where("title").startsWith("Domain")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the prefix value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere startsWith(String value);
+
+        /**
+         * Creates an update condition where the specified column ends with the given value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("archived").to(true)
+         *         .where("title").endsWith("Java")
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the suffix value for the condition
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        MapperDeleteWhere endsWith(String value);
+
+        /**
+         * Creates an update condition where the specified column is greater than the provided value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("discounted").to(true)
+         *         .where("price").gt(50)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        <T> MapperDeleteWhere gt(T value);
+
+        /**
+         * Creates an update condition where the specified column is greater than or equal to the provided value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("discounted").to(true)
+         *         .where("price").gte(30)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        <T> MapperDeleteWhere gte(T value);
+
+        /**
+         * Creates an update condition where the specified column is less than the provided value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("featured").to(true)
+         *         .where("rating").lt(5)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        <T> MapperDeleteWhere lt(T value);
+
+        /**
+         * Creates an update condition where the specified column is less than or equal to the provided value.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("featured").to(true)
+         *         .where("rating").lte(4)
+         *         .execute();
+         * }</pre>
+         *
+         * @param value the value for the condition
+         * @param <T>   the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when value is null
+         */
+        <T> MapperDeleteWhere lte(T value);
+
+        /**
+         * Creates an update condition where the specified column is between the provided values.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("recommended").to(true)
+         *         .where("publishedYear").between(2015, 2025)
+         *         .execute();
+         * }</pre>
+         *
+         * @param valueA the lower bound value
+         * @param valueB the upper bound value
+         * @param <T>    the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when any value is null
+         */
+        <T> MapperDeleteWhere between(T valueA, T valueB);
+
+        /**
+         * Creates an update condition where the specified column value is contained in the provided values.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("available").to(false)
+         *         .where("category").in(List.of("legacy", "outdated"))
+         *         .execute();
+         * }</pre>
+         *
+         * @param values the values for the condition
+         * @param <T>    the type
+         * @return the {@link MapperDeleteWhere}
+         * @throws NullPointerException when values is null
+         */
+        <T> MapperDeleteWhere in(Iterable<T> values);
+
+        /**
+         * Negates the next update condition.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("archived").to(true)
+         *         .where("author").not().eq("Ada")
+         *         .execute();
+         * }</pre>
+         *
+         * @return the {@link MapperUpdateWhereStep}
+         */
+        MapperUpdateWhereStep not();
+    }
+
+    /**
+     * Represents the conditional composition step of the fluent update API.
+     * <p>
+     * This step allows combining multiple update conditions using logical
+     * operators before executing the update operation.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("published").to(true)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for logical operators depends on the capabilities of the
+     * underlying NoSQL database.
+     */
+    interface MapperUpdateConditionStep extends MapperUpdateQueryBuild {
+
+        /**
+         * Adds an AND condition using the specified column name.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("published").to(true)
+         *         .where("author").eq("Ada")
+         *         .and("publishedYear").gte(2020)
+         *         .execute();
+         * }</pre>
+         *
+         * @param name the column name for the condition
+         * @return the {@link MapperUpdateWhereStep}
+         * @throws NullPointerException when name is null
+         */
+        MapperUpdateWhereStep and(String name);
+
+        /**
+         * Adds an OR condition using the specified column name.
+         * <pre>{@code
+         * template.update(Book.class)
+         *         .set("featured").to(true)
+         *         .where("author").eq("Ada")
+         *         .or("author").eq("Hermann")
+         *         .execute();
+         * }</pre>
+         *
+         * @param name the column name for the condition
+         * @return the {@link MapperUpdateWhereStep}
+         * @throws NullPointerException when name is null
+         */
+        MapperUpdateWhereStep or(String name);
+
+    }
+
+    /**
+     * Represents the final execution step of the update query fluent API.
+     * <p>
+     * This interface defines the terminal operation used to execute an update
+     * query after all assignments and conditions have been specified.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * Support for update operations and conditional execution depends on the
+     * capabilities of the underlying NoSQL database.
+     */
+    interface MapperUpdateQueryBuild {
+
+        /**
+         * Executes the update query based on the specified assignments and conditions.
+         * Use this method to update entities in the database that match the defined criteria.
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("title").to("Domain-Driven Design with Java")
+         *     .set("publishedYear").to(2025)
+         *     .where("author").eq("Ada")
+         *     .execute();
+         * }</pre>
+         *
+         * @throws UnsupportedOperationException if the underlying NoSQL database does not support
+         *         a specific update operation or query condition. For example, a wide-column
+         *         database may not support the OR operator, or a document database may not
+         *         support the BETWEEN operator. Support for update operations and conditions
+         *         varies depending on the database provider.
+         */
+        void execute();
+    }
+
+    /**
+     * Represents the initial step of the fluent query API.
+     * <p>
+     * This interface is the entry point for building selection queries and
+     * provides operations to define filtering conditions, pagination, and
+     * result ordering before executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instances are mutable and not thread-safe.
+     * Support for query features depends on the capabilities of the underlying
+     * NoSQL database.
      */
     interface MapperFrom extends MapperQueryBuild {
 
@@ -341,7 +921,29 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the maximum number of results to retrieve or to perform the query execution.
+     * Represents the step in the fluent query API where the maximum number of
+     * results has been defined and it is still possible to further refine
+     * pagination or execute the query.
+     * <p>
+     * This step is typically reached after invoking {@code limit(long)} and
+     * allows specifying an optional offset or proceeding directly to query
+     * execution.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .limit(10)
+     *     .skip(5)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for pagination features depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperLimit extends MapperQueryBuild {
 
@@ -360,7 +962,35 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a condition based on a column name.
+     * Represents a predicate definition step based on a column name in the fluent query API.
+     * <p>
+     * This interface is reached after specifying a column name using {@code where(String)}
+     * and defines the set of comparison and matching operations that can be applied
+     * to that column to filter query results.
+     * </p>
+     *
+     * <p>
+     * Each predicate method produces a conditional expression and returns a
+     * {@link MapperWhere} instance, allowing further condition composition,
+     * ordering, pagination, or query execution.
+     * </p>
+     *
+     * <p>
+     * Support for specific predicate operations depends on the capabilities of
+     * the underlying NoSQL database. Unsupported predicates may result in an
+     * {@link UnsupportedOperationException}.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .result();
+     * }</pre>
+     *
+     * This step is mutable and not thread-safe.
      */
     interface MapperNameCondition {
 
@@ -552,7 +1182,28 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the order of the results or to perform the query execution.
+     * Represents the step in the fluent query API where result ordering, pagination,
+     * or query execution can be defined.
+     * <p>
+     * This interface is reached after filtering conditions have been specified and
+     * allows configuring the sort order of results, defining pagination parameters,
+     * or directly executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for ordering and pagination features depends on the capabilities of
+     * the underlying NoSQL database.
      */
     interface MapperNameOrder extends MapperQueryBuild {
 
@@ -606,12 +1257,49 @@ public interface QueryMapper {
 
     /**
      * Represents a NOT condition in the delete query fluent API.
+     * <p>
+     * This interface is used to negate the next condition applied to a column,
+     * enabling inverse logic when building delete queries.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").not().eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for negated conditions depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperNotCondition extends MapperNameCondition {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the order of the results or to perform the query execution.
+     * Represents the step in the fluent query API where the sort direction
+     * for a previously specified column is defined.
+     * <p>
+     * This interface is reached after calling {@code orderBy(String)} and
+     * allows selecting the ordering direction (ascending or descending)
+     * before continuing query composition or executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for ordering operations depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperOrder {
 
@@ -644,7 +1332,28 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the last step of the query fluent API execution.
+     * Represents the final execution step of the fluent query API.
+     * <p>
+     * This interface defines terminal operations used to execute a query after
+     * all filtering, ordering, and pagination steps have been specified.
+     * It allows retrieving query results in different forms, such as a count,
+     * a list, a stream, or a single optional result.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * List<Book> books = template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instances are mutable and not thread-safe.
+     * Support for execution operations depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperQueryBuild {
 
@@ -723,7 +1432,29 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the position of the first result to retrieve or to perform the query execution.
+     * Represents the step in the fluent query API where the position of the first
+     * result to retrieve has been defined and it is still possible to further
+     * refine pagination or execute the query.
+     * <p>
+     * This interface is typically reached after invoking {@code skip(long)} and
+     * allows specifying a maximum number of results or proceeding directly to
+     * query execution.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .skip(10)
+     *     .limit(5)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for pagination features depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperSkip extends MapperQueryBuild {
 
@@ -743,15 +1474,29 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a step where it's possible to:
-     * <ul>
-     *     <li>Create a new condition performing logical conjunction (AND) by specifying a column name</li>
-     *     <li>Create a new condition performing logical disjunction (OR) by specifying a column name</li>
-     *     <li>Define the position of the first result</li>
-     *     <li>Define the maximum number of results to retrieve</li>
-     *     <li>Define the order of the results</li>
-     *     <li>Perform the query execution</li>
-     * </ul>
+     * Represents the step in the fluent query API where conditional composition,
+     * pagination, ordering, or query execution can be defined.
+     * <p>
+     * This interface is reached after an initial predicate has been applied and
+     * allows combining additional conditions using logical operators, configuring
+     * pagination parameters, defining result ordering, or executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for conditional composition, pagination, and ordering depends on
+     * the capabilities of the underlying NoSQL database.
      */
     interface MapperWhere extends MapperQueryBuild {
 
@@ -814,10 +1559,22 @@ public interface QueryMapper {
         MapperLimit limit(long limit);
 
         /**
-         * Add the order how the result will return.
+         * Adds an ordering rule based on the specified column name.
+         * <p>
+         * Use this method to define how query results should be sorted.
+         * The sort direction (ascending or descending) is specified in
+         * the subsequent step.
+         * </p>
          *
-         * @param name the name to order
-         * @return a query with the sort defined
+         * <pre>{@code
+         * template.select(Book.class)
+         *     .where("author").eq("Ada")
+         *     .orderBy("title").asc()
+         *     .result();
+         * }</pre>
+         *
+         * @param name the column name to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
          * @throws NullPointerException when name is null
          */
         MapperOrder orderBy(String name);
