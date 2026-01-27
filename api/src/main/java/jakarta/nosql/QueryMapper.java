@@ -35,7 +35,6 @@ import java.util.stream.Stream;
  */
 public interface QueryMapper {
 
-
     /**
      * Represents the first step in the delete query fluent API.
      * <pre>{@code
