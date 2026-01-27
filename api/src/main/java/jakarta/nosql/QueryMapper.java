@@ -1332,7 +1332,28 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the last step of the query fluent API execution.
+     * Represents the final execution step of the fluent query API.
+     * <p>
+     * This interface defines terminal operations used to execute a query after
+     * all filtering, ordering, and pagination steps have been specified.
+     * It allows retrieving query results in different forms, such as a count,
+     * a list, a stream, or a single optional result.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * List<Book> books = template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instances are mutable and not thread-safe.
+     * Support for execution operations depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperQueryBuild {
 
