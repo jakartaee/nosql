@@ -564,7 +564,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperDeleteWhere eq(T value);
+        <T> MapperUpdateConditionStep eq(T value);
 
         /**
          * Creates an update condition where the specified column matches the given pattern.
@@ -579,7 +579,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        MapperDeleteWhere like(String value);
+        MapperUpdateConditionStep like(String value);
 
         /**
          * Creates an update condition where the specified column contains the given value.
@@ -594,7 +594,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        MapperDeleteWhere contains(String value);
+        MapperUpdateConditionStep contains(String value);
 
         /**
          * Creates an update condition where the specified column starts with the given value.
@@ -609,7 +609,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        MapperDeleteWhere startsWith(String value);
+        MapperUpdateConditionStep startsWith(String value);
 
         /**
          * Creates an update condition where the specified column ends with the given value.
@@ -624,7 +624,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        MapperDeleteWhere endsWith(String value);
+        MapperUpdateConditionStep endsWith(String value);
 
         /**
          * Creates an update condition where the specified column is greater than the provided value.
@@ -640,7 +640,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperDeleteWhere gt(T value);
+        <T> MapperUpdateConditionStep gt(T value);
 
         /**
          * Creates an update condition where the specified column is greater than or equal to the provided value.
@@ -656,7 +656,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperDeleteWhere gte(T value);
+        <T> MapperUpdateConditionStep gte(T value);
 
         /**
          * Creates an update condition where the specified column is less than the provided value.
@@ -672,7 +672,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperDeleteWhere lt(T value);
+        <T> MapperUpdateConditionStep lt(T value);
 
         /**
          * Creates an update condition where the specified column is less than or equal to the provided value.
@@ -688,7 +688,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperDeleteWhere lte(T value);
+        <T> MapperUpdateConditionStep lte(T value);
 
         /**
          * Creates an update condition where the specified column is between the provided values.
@@ -705,7 +705,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when any value is null
          */
-        <T> MapperDeleteWhere between(T valueA, T valueB);
+        <T> MapperUpdateConditionStep between(T valueA, T valueB);
 
         /**
          * Creates an update condition where the specified column value is contained in the provided values.
@@ -721,7 +721,7 @@ public interface QueryMapper {
          * @return the {@link MapperDeleteWhere}
          * @throws NullPointerException when values is null
          */
-        <T> MapperDeleteWhere in(Iterable<T> values);
+        <T> MapperUpdateConditionStep in(Iterable<T> values);
 
         /**
          * Negates the next update condition.
