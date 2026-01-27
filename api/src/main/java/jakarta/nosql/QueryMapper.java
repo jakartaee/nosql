@@ -921,7 +921,29 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the maximum number of results to retrieve or to perform the query execution.
+     * Represents the step in the fluent query API where the maximum number of
+     * results has been defined and it is still possible to further refine
+     * pagination or execute the query.
+     * <p>
+     * This step is typically reached after invoking {@code limit(long)} and
+     * allows specifying an optional offset or proceeding directly to query
+     * execution.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .limit(10)
+     *     .skip(5)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for pagination features depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperLimit extends MapperQueryBuild {
 
