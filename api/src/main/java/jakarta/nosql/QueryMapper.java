@@ -962,7 +962,35 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a condition based on a column name.
+     * Represents a predicate definition step based on a column name in the fluent query API.
+     * <p>
+     * This interface is reached after specifying a column name using {@code where(String)}
+     * and defines the set of comparison and matching operations that can be applied
+     * to that column to filter query results.
+     * </p>
+     *
+     * <p>
+     * Each predicate method produces a conditional expression and returns a
+     * {@link MapperWhere} instance, allowing further condition composition,
+     * ordering, pagination, or query execution.
+     * </p>
+     *
+     * <p>
+     * Support for specific predicate operations depends on the capabilities of
+     * the underlying NoSQL database. Unsupported predicates may result in an
+     * {@link UnsupportedOperationException}.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .result();
+     * }</pre>
+     *
+     * This step is mutable and not thread-safe.
      */
     interface MapperNameCondition {
 
