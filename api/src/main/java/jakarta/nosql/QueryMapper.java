@@ -64,7 +64,26 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents a delete condition based on a column name.
+     * Represents a delete condition based on a column name in the fluent delete API.
+     * <p>
+     * This interface defines the available comparison operations that can be applied
+     * to a column when building a delete query. It is reached after specifying a
+     * column name using {@code where(String)} and allows defining predicates such as
+     * equality, pattern matching, range comparisons, and negation.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instances are mutable and not thread-safe.
+     * Support for specific comparison operations depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperDeleteNameCondition {
 
