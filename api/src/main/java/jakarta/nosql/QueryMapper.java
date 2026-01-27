@@ -491,6 +491,12 @@ public interface QueryMapper {
         /**
          * Starts a new field assignment for the update operation.
          *
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("title").to("Domain-Driven Design with Java")
+         *     .execute();
+         * }</pre>
+         *
          * @param name the field name to be updated
          * @return a step that allows assigning a value to the field
          * @throws NullPointerException when the field name is {@code null}
@@ -499,6 +505,13 @@ public interface QueryMapper {
 
         /**
          * Defines a condition to restrict which entities will be updated.
+         *
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("available").to(false)
+         *     .where("category").eq("CLASSIC")
+         *     .execute();
+         * }</pre>
          *
          * @param name the field name used in the condition
          * @return the conditional step of the update fluent API
