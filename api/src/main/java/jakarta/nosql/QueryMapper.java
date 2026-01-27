@@ -1182,7 +1182,28 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the order of the results or to perform the query execution.
+     * Represents the step in the fluent query API where result ordering, pagination,
+     * or query execution can be defined.
+     * <p>
+     * This interface is reached after filtering conditions have been specified and
+     * allows configuring the sort order of results, defining pagination parameters,
+     * or directly executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for ordering and pagination features depends on the capabilities of
+     * the underlying NoSQL database.
      */
     interface MapperNameOrder extends MapperQueryBuild {
 
