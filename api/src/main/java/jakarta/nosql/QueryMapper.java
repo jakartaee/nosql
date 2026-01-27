@@ -797,6 +797,24 @@ public interface QueryMapper {
 
     /**
      * Represents the final execution step of the update query fluent API.
+     * <p>
+     * This interface defines the terminal operation used to execute an update
+     * query after all assignments and conditions have been specified.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("title").to("Domain-Driven Design with Java")
+     *     .set("publishedYear").to(2025)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
+     *
+     * Support for update operations and conditional execution depends on the
+     * capabilities of the underlying NoSQL database.
      */
     interface MapperUpdateQueryBuild {
 
