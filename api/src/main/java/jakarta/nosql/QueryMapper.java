@@ -345,19 +345,35 @@ public interface QueryMapper {
     interface MapperDeleteWhere extends MapperDeleteQueryBuild {
 
         /**
-         * Create a new delete condition performing logical conjunction (AND) by specifying a column name.
+         * Creates a new delete condition using logical conjunction (AND) by
+         * specifying a column name.
+         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *     .where("author").eq("Ada")
+         *     .and("publishedYear").gte(2020)
+         *     .execute();
+         * }</pre>
          *
          * @param name the column name
-         * @return the same {@link MapperDeleteNameCondition} with the delete condition appended
+         * @return the {@link MapperDeleteNameCondition} with the delete condition appended
          * @throws NullPointerException when name is null
          */
         MapperDeleteNameCondition and(String name);
 
         /**
-         * Create a new delete condition performing logical disjunction (OR) by specifying a column name.
+         * Creates a new delete condition using logical disjunction (OR) by
+         * specifying a column name.
+         *
+         * <pre>{@code
+         * template.delete(Book.class)
+         *     .where("author").eq("Ada")
+         *     .or("author").eq("Hermann")
+         *     .execute();
+         * }</pre>
          *
          * @param name the column name
-         * @return the same {@link MapperDeleteNameCondition} with the delete condition appended
+         * @return the {@link MapperDeleteNameCondition} with the delete condition appended
          * @throws NullPointerException when name is null
          */
         MapperDeleteNameCondition or(String name);
