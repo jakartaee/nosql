@@ -1432,7 +1432,29 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the step in the query fluent API where it's possible to define the position of the first result to retrieve or to perform the query execution.
+     * Represents the step in the fluent query API where the position of the first
+     * result to retrieve has been defined and it is still possible to further
+     * refine pagination or execute the query.
+     * <p>
+     * This interface is typically reached after invoking {@code skip(long)} and
+     * allows specifying a maximum number of results or proceeding directly to
+     * query execution.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .skip(10)
+     *     .limit(5)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for pagination features depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperSkip extends MapperQueryBuild {
 
