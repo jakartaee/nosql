@@ -279,14 +279,29 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the last step of the delete query fluent API execution.
+     * Represents the final execution step of the delete query fluent API.
+     * <p>
+     * This interface defines the terminal operation used to execute a delete
+     * query after all conditions have been specified.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.delete(Book.class)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
      */
     interface MapperDeleteQueryBuild {
 
-
         /**
-         *  Executes the delete query based on the specified conditions.
-         *  Use this method to remove entities from the database that match the defined criteria.
+         * Executes the delete query based on the specified conditions.
+         * Use this method to remove entities from the database that match the
+         * defined criteria.
+         *
          * <pre>{@code
          * template.delete(Book.class)
          *         .where("author").eq("Ada")
@@ -294,13 +309,14 @@ public interface QueryMapper {
          *         .execute();
          * }</pre>
          *
-         * @throws UnsupportedOperationException If a NoSQL database does not support a specific operation or if the
-         *                                       database does not support certain query conditions, an exception will be raised. For example, a wide-column
-         *                                       may not support the OR operator, or a document database may not support the BETWEEN operator.
-         *                                       The level of NoSQL database support for various conditions may vary depending on the database provider.
+         * @throws UnsupportedOperationException if the underlying NoSQL database
+         *         does not support a specific delete operation or query condition.
+         *         For example, a wide-column database may not support the OR
+         *         operator, or a document database may not support the BETWEEN
+         *         operator. Support for delete operations and conditions varies
+         *         depending on the database provider.
          */
         void execute();
-
     }
 
     /**
