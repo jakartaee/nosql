@@ -524,8 +524,8 @@ public interface QueryMapper {
      * Represents the predicate definition step of the fluent update API.
      * <p>
      * This step defines conditional expressions used to restrict which entities
-     * will be affected by an update operation. Each method adds a comparison
-     * predicate for the previously defined field.
+     * will be affected by an update operation. Each predicate applies to the
+     * previously specified field.
      * </p>
      *
      * <p>
@@ -537,6 +537,16 @@ public interface QueryMapper {
      * <p>
      * This step is mutable and not thread-safe.
      * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("published").to(true)
+     *     .where("author").eq("Ada")
+     *     .execute();
+     * }</pre>
      */
     interface MapperUpdateWhereStep {
 
