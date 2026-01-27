@@ -449,9 +449,17 @@ public interface QueryMapper {
         /**
          * Assigns the given value to the previously defined field.
          *
+         * <pre>{@code
+         * template.update(Book.class)
+         *     .set("publishedYear").to(2025)
+         *     .where("author").eq("Ada")
+         *     .execute();
+         * }</pre>
+         *
          * @param value the value to assign
          * @param <T>   the value type
          * @return the next step of the update fluent API
+         * @throws NullPointerException when value is null
          */
         <T> MapperUpdateSetStep to(T value);
     }
