@@ -733,6 +733,21 @@ public interface QueryMapper {
      * This step allows combining multiple update conditions using logical
      * operators before executing the update operation.
      * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.update(Book.class)
+     *     .set("published").to(true)
+     *     .where("author").eq("Ada")
+     *     .and("publishedYear").gte(2020)
+     *     .execute();
+     * }</pre>
+     *
+     * The returned instance is mutable and not thread-safe.
+     * Support for logical operators depends on the capabilities of the
+     * underlying NoSQL database.
      */
     interface MapperUpdateConditionStep extends MapperUpdateQueryBuild {
 
