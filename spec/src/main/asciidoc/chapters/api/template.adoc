@@ -48,7 +48,7 @@ System.out.println("The result " + optional);
 template.delete(Book.class, id);
 ----
 
-The `Template` class in Jakarta NoSQL simplifies CRUD (Create, Read, Update, Delete) operations by providing a fluent API for interacting with the underlying NoSQL database. This API allows developers to perform advanced queries and deletion operations beyond the basic ID attribute.
+The `Template` class in Jakarta NoSQL simplifies CRUD (Create, Read, Update, Delete) operations by providing a fluent API for interacting with the underlying NoSQL database. This API allows developers to perform advanced queries, update and deletion operations beyond the basic ID attribute.
 
 [source,java]
 ----
@@ -61,6 +61,15 @@ List<Book> books = template.select(Book.class)
         .and("edition")
         .gt(3)
         .result();
+
+template.update(Book.class)
+        .set("title")
+        .to("Efective Java - Third Edition")
+        .where("author")
+        .eq("Joshua Bloch")
+        .and("edition")
+        .gt(3)
+        .execute();
 
 template.delete(Book.class)
         .where("author")

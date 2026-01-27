@@ -30,7 +30,7 @@ import java.util.stream.Stream;
  *
  * @see jakarta.nosql.Template#select(Class)
  * @see jakarta.nosql.Template#delete(Class)
- * @see jakarta.nosql.Template#update(Class) 
+ * @see jakarta.nosql.Template#update(Class)
  * @since 1.0.0
  */
 public interface QueryMapper {
@@ -517,7 +517,7 @@ public interface QueryMapper {
          * @return the conditional step of the update fluent API
          * @throws NullPointerException when the field name is {@code null}
          */
-        MapperUpdateWhereStep where(String name);
+        MapperUpdateNameCondition where(String name);
     }
 
     /**
@@ -548,7 +548,7 @@ public interface QueryMapper {
      *     .execute();
      * }</pre>
      */
-    interface MapperUpdateWhereStep {
+    interface MapperUpdateNameCondition {
 
         /**
          * Creates an update condition where the specified column name equals the provided value.
@@ -561,10 +561,10 @@ public interface QueryMapper {
          *
          * @param value the value for the condition
          * @param <T>   the type
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperUpdateConditionStep eq(T value);
+        <T> MapperUpdateWhere eq(T value);
 
         /**
          * Creates an update condition where the specified column matches the given pattern.
@@ -576,10 +576,10 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param value the pattern value for the condition
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        MapperUpdateConditionStep like(String value);
+        MapperUpdateWhere like(String value);
 
         /**
          * Creates an update condition where the specified column contains the given value.
@@ -591,10 +591,10 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param value the value for the condition
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        MapperUpdateConditionStep contains(String value);
+        MapperUpdateWhere contains(String value);
 
         /**
          * Creates an update condition where the specified column starts with the given value.
@@ -606,10 +606,10 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param value the prefix value for the condition
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        MapperUpdateConditionStep startsWith(String value);
+        MapperUpdateWhere startsWith(String value);
 
         /**
          * Creates an update condition where the specified column ends with the given value.
@@ -621,10 +621,10 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param value the suffix value for the condition
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        MapperUpdateConditionStep endsWith(String value);
+        MapperUpdateWhere endsWith(String value);
 
         /**
          * Creates an update condition where the specified column is greater than the provided value.
@@ -637,10 +637,10 @@ public interface QueryMapper {
          *
          * @param value the value for the condition
          * @param <T>   the type
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperUpdateConditionStep gt(T value);
+        <T> MapperUpdateWhere gt(T value);
 
         /**
          * Creates an update condition where the specified column is greater than or equal to the provided value.
@@ -653,10 +653,10 @@ public interface QueryMapper {
          *
          * @param value the value for the condition
          * @param <T>   the type
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperUpdateConditionStep gte(T value);
+        <T> MapperUpdateWhere gte(T value);
 
         /**
          * Creates an update condition where the specified column is less than the provided value.
@@ -669,10 +669,10 @@ public interface QueryMapper {
          *
          * @param value the value for the condition
          * @param <T>   the type
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperUpdateConditionStep lt(T value);
+        <T> MapperUpdateWhere lt(T value);
 
         /**
          * Creates an update condition where the specified column is less than or equal to the provided value.
@@ -685,10 +685,10 @@ public interface QueryMapper {
          *
          * @param value the value for the condition
          * @param <T>   the type
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when value is null
          */
-        <T> MapperUpdateConditionStep lte(T value);
+        <T> MapperUpdateWhere lte(T value);
 
         /**
          * Creates an update condition where the specified column is between the provided values.
@@ -702,10 +702,10 @@ public interface QueryMapper {
          * @param valueA the lower bound value
          * @param valueB the upper bound value
          * @param <T>    the type
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when any value is null
          */
-        <T> MapperUpdateConditionStep between(T valueA, T valueB);
+        <T> MapperUpdateWhere between(T valueA, T valueB);
 
         /**
          * Creates an update condition where the specified column value is contained in the provided values.
@@ -718,10 +718,10 @@ public interface QueryMapper {
          *
          * @param values the values for the condition
          * @param <T>    the type
-         * @return the {@link MapperDeleteWhere}
+         * @return the {@link MapperUpdateWhere}
          * @throws NullPointerException when values is null
          */
-        <T> MapperUpdateConditionStep in(Iterable<T> values);
+        <T> MapperUpdateWhere in(Iterable<T> values);
 
         /**
          * Negates the next update condition.
@@ -732,9 +732,15 @@ public interface QueryMapper {
          *         .execute();
          * }</pre>
          *
-         * @return the {@link MapperUpdateWhereStep}
+         * @return the {@link MapperUpdateNotCondition}
          */
-        MapperUpdateWhereStep not();
+        MapperUpdateNotCondition not();
+    }
+
+    /**
+        * Represents a NOT update condition in the fluent update API.
+     */
+    interface MapperUpdateNotCondition extends MapperUpdateNameCondition {
     }
 
     /**
@@ -759,7 +765,7 @@ public interface QueryMapper {
      * Support for logical operators depends on the capabilities of the
      * underlying NoSQL database.
      */
-    interface MapperUpdateConditionStep extends MapperUpdateQueryBuild {
+    interface MapperUpdateWhere extends MapperUpdateQueryBuild {
 
         /**
          * Adds an AND condition using the specified column name.
@@ -772,10 +778,10 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param name the column name for the condition
-         * @return the {@link MapperUpdateWhereStep}
+         * @return the {@link MapperUpdateNameCondition}
          * @throws NullPointerException when name is null
          */
-        MapperUpdateWhereStep and(String name);
+        MapperUpdateNameCondition and(String name);
 
         /**
          * Adds an OR condition using the specified column name.
@@ -788,10 +794,10 @@ public interface QueryMapper {
          * }</pre>
          *
          * @param name the column name for the condition
-         * @return the {@link MapperUpdateWhereStep}
+         * @return the {@link MapperUpdateNameCondition}
          * @throws NullPointerException when name is null
          */
-        MapperUpdateWhereStep or(String name);
+        MapperUpdateNameCondition or(String name);
 
     }
 

@@ -20,7 +20,7 @@ of the project committers and various contributors.
 
 ==== Project Lead
 
-* https://projects.eclipse.org/content/otavio-santana-project-lead-jakarta-nosql[Otavio Santana,windows=\_blank]
+* https://accounts.eclipse.org/users/osantanatrg[Otavio Santana,windows=\_blank]
 
 ==== Contributors
 
@@ -30,23 +30,24 @@ of the project committers and various contributors.
 
 ==== Committers
 
-* https://projects.eclipse.org/content/andres-galante-committer-jakarta-nosql[Andres Galante,windows=\_blank]
-* https://projects.eclipse.org/content/fred-rowe-committer-jakarta-nosql[Fred Rowe,windows=\_blank]
-* https://projects.eclipse.org/content/gaurav-gupta-committer-jakarta-nosql[Gaurav Gupta,windows=\_blank]
-* https://projects.eclipse.org/content/ivan-junckes-filho-committer-jakarta-nosql[Ivan Junckes Filho,windows=\_blank]
-* https://projects.eclipse.org/content/jesse-gallagher-committer-jakarta-nosql[Jesse Gallagher,windows=\_blank]
-* https://projects.eclipse.org/content/michael-redlich-committer-jakarta-nosql[Michael Redlich,windows=\_blank]
-* https://projects.eclipse.org/content/nathan-rauh-committer-jakarta-nosql[Nathan Rauh,windows=\_blank]
-* https://projects.eclipse.org/content/otavio-santana-committer-jakarta-nosql[Otavio Santana,windows=\_blank]
-* https://projects.eclipse.org/content/werner-keil-committer-jakarta-nosql[Werner Keil,windows=\_blank]
+* https://accounts.eclipse.org/users/agalante[Andres Galante,windows=\_blank]
+* https://accounts.eclipse.org/users/[Fred Rowe,windows=\_blank]
+* https://accounts.eclipse.org/users/gguptael7[Gaurav Gupta,windows=\_blank]
+* https://accounts.eclipse.org/users/ijunckesfilho[Ivan Junckes Filho,windows=\_blank]
+* https://accounts.eclipse.org/users/jgallagher6v3[Jesse Gallagher,windows=\_blank]
+* https://accounts.eclipse.org/users/maxdearruda[Maximillian Arruda,windows=\_blank]
+* https://accounts.eclipse.org/users/mredlich[Michael Redlich,windows=\_blank]
+* https://accounts.eclipse.org/users/nrauhi2d[Nathan Rauh,windows=\_blank]
+* https://accounts.eclipse.org/users/osantanatrg[Otavio Santana,windows=\_blank]
+* https://accounts.eclipse.org/users/wkeil[Werner Keil,windows=\_blank]
 
 ==== Historical Committer
 
-* https://projects.eclipse.org/content/leonardo-lima-committer-jakarta-nosql[Leonardo Lima,windows=\_blank]
+* https://accounts.eclipse.org/users/llima4n3[Leonardo Lima,windows=\_blank]
 
 ==== Mentor
 
-* https://projects.eclipse.org/content/wayne-beaton-mentor-jakarta-nosql[Wayne Beaton,windows=\_blank]
+* https://accounts.eclipse.org/users/wbeaton[Wayne Beaton,windows=\_blank]
 
 ==== Full List of Contributors
 
