@@ -839,7 +839,27 @@ public interface QueryMapper {
     }
 
     /**
-     * Represents the first step in the query fluent API.
+     * Represents the initial step of the fluent query API.
+     * <p>
+     * This interface is the entry point for building selection queries and
+     * provides operations to define filtering conditions, pagination, and
+     * result ordering before executing the query.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * Template template;
+     *
+     * template.select(Book.class)
+     *     .where("author").eq("Ada")
+     *     .orderBy("title").asc()
+     *     .limit(10)
+     *     .result();
+     * }</pre>
+     *
+     * The returned instances are mutable and not thread-safe.
+     * Support for query features depends on the capabilities of the underlying
+     * NoSQL database.
      */
     interface MapperFrom extends MapperQueryBuild {
 
