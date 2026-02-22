@@ -117,14 +117,14 @@ public interface Function {
      *
      * @return the function name, never {@code null}
      */
-    String getFunctionName();
+    String name();
 
     /**
      * Returns the field name this function operates on.
      *
      * @return the field name, never {@code null}
      */
-    String getField();
+    String field();
 
     /**
      * Returns the arguments passed to this function.
@@ -132,7 +132,7 @@ public interface Function {
      *
      * @return an array of function arguments, never {@code null}
      */
-    Object[] getArguments();
+    Object[] arguments();
 
     /**
      * Creates a {@code LEFT} function expression that extracts the leftmost characters from a string field.
@@ -287,12 +287,12 @@ public interface Function {
      * This implementation provides thread-safe, immutable function expressions
      * with automatic implementation of {@code equals}, {@code hashCode}, and {@code toString}.
      *
-     * @param functionName the name of the function
+     * @param name the name of the function
      * @param field the field name the function operates on
      * @param arguments optional arguments for the function
      */
     record DefaultFunction(
-            String functionName,
+            String name,
             String field,
             Object... arguments
     ) implements Function {
@@ -300,32 +300,22 @@ public interface Function {
         /**
          * Compact constructor that validates the function expression and creates defensive copies.
          *
-         * @throws NullPointerException if {@code functionName} or {@code field} is {@code null}
+         * @throws NullPointerException if {@code name} or {@code field} is {@code null}
          */
         public DefaultFunction {
-            Objects.requireNonNull(functionName, "functionName is required");
+            Objects.requireNonNull(name, "name is required");
             Objects.requireNonNull(field, "field is required");
             arguments = arguments == null ? new Object[0] : arguments.clone();
         }
 
         @Override
-        public String getFunctionName() {
-            return functionName;
-        }
-
-        @Override
-        public String getField() {
-            return field;
-        }
-
-        @Override
-        public Object[] getArguments() {
+        public Object[] arguments() {
             return arguments.clone();
         }
 
         @Override
         public String toString() {
-            var sb = new StringBuilder(functionName).append('(').append(field);
+            var sb = new StringBuilder(name).append('(').append(field);
             for (var arg : arguments) {
                 sb.append(", ").append(arg);
             }

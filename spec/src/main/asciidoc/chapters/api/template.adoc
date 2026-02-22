@@ -240,6 +240,20 @@ List<Word> results = template.select(Word.class)
         .result();
 ----
 
+==== Ordering by Function
+
+Jakarta NoSQL also supports ordering results by function expressions:
+
+[source,java]
+----
+List<Word> words = template.select(Word.class)
+        .where("language")
+        .eq("en")
+        .orderBy(Function.length("term"))
+        .asc()
+        .result();
+----
+
 ==== Database Support for Functions
 
 IMPORTANT: Function support varies significantly across NoSQL databases. Most NoSQL databases do not natively support scalar functions.

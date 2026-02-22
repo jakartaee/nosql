@@ -1008,6 +1008,22 @@ public interface QueryMapper {
          * @throws NullPointerException when name is null
          */
         MapperOrder orderBy(String name);
+
+        /**
+         * Adds an ordering rule based on a function expression.
+         * <pre>{@code
+         * template.select(Word.class)
+         *         .where("language").eq("en")
+         *         .orderBy(Function.length("term")).asc()
+         *         .result();
+         * }</pre>
+         *
+         * @param function the function expression to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperOrder orderBy(Function function);
     }
 
     /**
@@ -1311,6 +1327,16 @@ public interface QueryMapper {
          * @throws NullPointerException if name is null
          */
         MapperOrder orderBy(String name);
+
+        /**
+         * Adds an ordering rule based on a function expression.
+         *
+         * @param function the function expression to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException if function is null
+         * @since 1.1.0
+         */
+        MapperOrder orderBy(Function function);
 
 
         /**
@@ -1702,6 +1728,16 @@ public interface QueryMapper {
          * @throws NullPointerException when name is null
          */
         MapperOrder orderBy(String name);
+
+        /**
+         * Adds an ordering rule based on a function expression.
+         *
+         * @param function the function expression to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperOrder orderBy(Function function);
     }
 
 }
