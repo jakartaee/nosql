@@ -47,6 +47,28 @@
  * <li><b>Productivity</b>: Reduce boilerplate code and simplify common operations like queries, updates, and object mapping.</li>
  * </ol>
  *
+ * <b>Function Expressions</b>
+ * <p>Jakarta NoSQL supports function expressions in queries, aligned with Jakarta Query specification.
+ * Functions allow scalar operations on entity fields:</p>
+ * <ul>
+ *   <li>{@link jakarta.nosql.Function#left(String, int)}: Extract leftmost characters</li>
+ *   <li>{@link jakarta.nosql.Function#right(String, int)}: Extract rightmost characters</li>
+ *   <li>{@link jakarta.nosql.Function#upper(String)}: Convert to uppercase</li>
+ *   <li>{@link jakarta.nosql.Function#lower(String)}: Convert to lowercase</li>
+ *   <li>{@link jakarta.nosql.Function#length(String)}: Get string length</li>
+ *   <li>{@link jakarta.nosql.Function#abs(String)}: Absolute value</li>
+ * </ul>
+ *
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * template.select(Word.class)
+ *     .where(Function.upper("term"))
+ *     .eq("JAVA")
+ *     .result();
+ * }</pre>
+ *
+ * <p><strong>Note:</strong> Function support varies by database. See {@link jakarta.nosql.UnsupportedFunctionException}.</p>
+ *
  * <b>Features</b>
  * <ul>
  * <li><b>Object Mapping</b>: Define how Java objects map to NoSQL database structures using annotations like {@code @Entity}, {@code @Column}, and {@code @Id}.</li>
