@@ -50,7 +50,7 @@
     </developers>
 
     <properties>
-        <spec.version>1.0</spec.version>
+        <spec.version>1.1</spec.version>
         <apache.rat.version>0.15</apache.rat.version>
         <checkstyle.excludes></checkstyle.excludes>
         <jacoco.maven.version>0.8.14</jacoco.maven.version>
