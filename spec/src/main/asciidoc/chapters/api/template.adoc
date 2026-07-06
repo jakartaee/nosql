@@ -174,6 +174,156 @@ In the above example, the fluent API query navigates through the properties of t
 
 This query navigation hierarchy enables developers to construct complex queries traverse multiple levels of entity properties, facilitating flexible and precise data retrieval and manipulation in Jakarta NoSQL.
 
+=== Query Function Expressions
+
+Jakarta NoSQL supports function expressions in query conditions, aligning with the Jakarta Query specification. Function expressions allow scalar operations to be performed on entity fields within the fluent API.
+
+==== Scalar Functions
+
+Jakarta NoSQL provides several scalar functions for string and numeric operations:
+
+===== String Functions
+
+Example using the `UPPER` function for case-insensitive matching:
+
+[source,java]
+----
+List<Word> words = template.select(Word.class)
+        .where(Function.upper("meaning"))
+        .eq("COFFEE")
+        .result();
+----
+
+Example using the `LEFT` function to match the first characters:
+
+[source,java]
+----
+List<Word> jaWords = template.select(Word.class)
+        .where(Function.left("term", 2))
+        .eq("Ja")
+        .result();
+----
+
+Example using the `LENGTH` function to filter by string size:
+
+[source,java]
+----
+List<Word> longWords = template.select(Word.class)
+        .where(Function.length("term"))
+        .gt(5)
+        .result();
+----
+
+===== Numeric Functions
+
+Example using the `ABS` function for absolute value comparison:
+
+[source,java]
+----
+List<Word> words = template.select(Word.class)
+        .where(Function.abs("score"))
+        .gt(10)
+        .result();
+----
+
+==== Combining Functions with Logical Operators
+
+Functions can be combined with logical operators such as `and` and `or` to create complex query conditions:
+
+[source,java]
+----
+List<Word> results = template.select(Word.class)
+        .where(Function.upper("language"))
+        .eq("EN")
+        .and(Function.length("term"))
+        .gt(5)
+        .result();
+----
+
+==== Ordering by Function
+
+Jakarta NoSQL also supports ordering results by function expressions:
+
+[source,java]
+----
+List<Word> words = template.select(Word.class)
+        .where("language")
+        .eq("en")
+        .orderBy(Function.length("term"))
+        .asc()
+        .result();
+----
+
+==== Database Support for Functions
+
+IMPORTANT: Function support varies significantly across NoSQL databases. Most NoSQL databases do not natively support scalar functions.
+
+.Function Support by Database
+[cols="1,1,1,1,1,1"]
+|===
+|Database |ABS |LENGTH |LOWER |UPPER |LEFT/RIGHT
+
+|Couchbase (N1QL)
+|✅
+|✅
+|✅
+|✅
+|✅
+
+|Oracle NoSQL
+|✅
+|✅
+|✅
+|✅
+|✅
+
+|Neo4j (Cypher)
+|✅
+|✅
+|✅
+|✅
+|✅
+
+|MongoDB
+|❌
+|❌
+|❌
+|❌
+|❌
+
+|Cassandra
+|❌
+|❌
+|❌
+|❌
+|❌
+
+|Redis
+|❌
+|❌
+|❌
+|❌
+|❌
+|===
+
+When a function is not supported by the underlying database, an `UnsupportedFunctionException` will be thrown at query execution time:
+
+[source,java]
+----
+try {
+    List<Word> words = template.select(Word.class)
+        .where(Function.upper("term"))
+        .eq("JAVA")
+        .result();
+} catch (UnsupportedFunctionException e) {
+    // Fallback: fetch all and filter in application
+    List<Word> allWords = template.select(Word.class).result();
+    List<Word> filtered = allWords.stream()
+        .filter(w -> w.getTerm().equalsIgnoreCase("JAVA"))
+        .toList();
+}
+----
+
 === TTL (Time-To-Live) Support
 
 TTL (Time-To-Live) is a feature provided by many NoSQL databases that allows developers to set an expiration time for data stored in the database. When data reaches its TTL, it is automatically removed from the database, freeing up resources and ensuring that it remains efficient and clutter-free.
