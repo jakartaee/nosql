@@ -18,256 +18,361 @@ package ee.jakarta.tck.nosql.delete;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.factories.PersonListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.Comparator;
 import java.util.List;
 
-@DisplayName("The query execution delete with the basic operations on the fluent API")
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DisplayName("Deleting entities with fluent template operations")
 public class DeleteBasicOperationsTemplateTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with Equals")
-    void shouldExecuteEq(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting entities through fluent identifier equality")
+    class WhenTheDeletionUsesIdentifierEqualityCondition {
 
-        try {
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities matching the selected identifier")
+        void shouldDeleteEntitiesMatchingTheSelectedIdentifier(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var id = entities.getFirst().getId();
 
-            String id = entities.getFirst().getId();
-            template.delete(Person.class)
-                    .where("id").eq(id).execute();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("id")
+                        .eq(id)
+                        .execute();
 
-            List<Person> result = template.select(Person.class)
-                    .where("id").eq(id)
-                    .result();
-
-            Assertions.assertThat(result.stream()).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("id")
+                        .eq(id)
+                        .result())
+                        .as("entities matching the deleted identifier")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with GT")
-    void shouldExecuteGt(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting entities through fluent comparison conditions")
+    class WhenTheDeletionUsesComparisonCondition {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities greater than the reference value")
+        void shouldDeleteEntitiesGreaterThanTheReferenceValue(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var age = entities.stream()
+                    .sorted(Comparator.comparing(Person::getAge))
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow()
+                    .getAge();
 
-            template.delete(Person.class)
-                    .where("age")
-                    .gt(age)
-                    .execute();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("age")
+                        .gt(age)
+                        .execute();
 
-            List<Person> result = template.select(Person.class)
-                    .where("age").gt(age)
-                    .result();
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("age")
+                        .gt(age)
+                        .result())
+                        .as("entities greater than the deleted comparison value")
+                        .isEmpty();
+            });
+        }
 
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities greater than or equal to the reference value")
+        void shouldDeleteEntitiesGreaterThanOrEqualToTheReferenceValue(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var age = entities.stream()
+                    .sorted(Comparator.comparing(Person::getAge))
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow()
+                    .getAge();
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("age")
+                        .gte(age)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("age")
+                        .gte(age)
+                        .result())
+                        .as("entities greater than or equal to the deleted comparison value")
+                        .isEmpty();
+            });
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities less than the reference value")
+        void shouldDeleteEntitiesLessThanTheReferenceValue(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var age = entities.stream()
+                    .sorted(Comparator.comparing(Person::getAge).reversed())
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow()
+                    .getAge();
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("age")
+                        .lt(age)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("age")
+                        .lt(age)
+                        .result())
+                        .as("entities less than the deleted comparison value")
+                        .isEmpty();
+            });
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities less than or equal to the reference value")
+        void shouldDeleteEntitiesLessThanOrEqualToTheReferenceValue(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var age = entities.stream()
+                    .sorted(Comparator.comparing(Person::getAge).reversed())
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow()
+                    .getAge();
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("age")
+                        .lte(age)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("age")
+                        .lte(age)
+                        .result())
+                        .as("entities less than or equal to the deleted comparison value")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with GTE")
-    void shouldExecuteGte(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting entities through fluent membership conditions")
+    class WhenTheDeletionUsesMembershipCondition {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities matching the selected identifiers")
+        void shouldDeleteEntitiesMatchingTheSelectedIdentifiers(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var ids = entities.stream()
+                    .map(Person::getId)
+                    .limit(3)
+                    .toList();
 
-            template.delete(Person.class)
-                    .where("age").gte(age)
-                    .execute();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("id")
+                        .in(ids)
+                        .execute();
 
-            List<Person> result = template.select(Person.class)
-                    .where("age").gte(age)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("id")
+                        .in(ids)
+                        .result())
+                        .as("entities matching the deleted identifiers")
+                        .isEmpty();
+            });
         }
     }
 
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with LT")
-    void shouldExecuteLt(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting entities through fluent range conditions")
+    class WhenTheDeletionUsesRangeCondition {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities within the selected range")
+        void shouldDeleteEntitiesWithinTheSelectedRange(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var startAge = entities.stream()
+                    .sorted(Comparator.comparing(Person::getAge))
+                    .skip(1)
+                    .findFirst()
+                    .orElseThrow()
+                    .getAge();
+            var endAge = entities.stream()
+                    .sorted(Comparator.comparing(Person::getAge))
+                    .skip(3)
+                    .findFirst()
+                    .orElseThrow()
+                    .getAge();
 
-            template.delete(Person.class)
-                    .where("age").lt(age)
-                    .execute();
-            List<Person> result = template.select(Person.class)
-                    .where("age").lt(age)
-                    .result();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("age")
+                        .between(startAge, endAge)
+                        .execute();
 
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("age")
+                        .between(startAge, endAge)
+                        .result())
+                        .as("entities within the deleted range")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with LTE")
-    void shouldExecuteLte(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting entities through fluent text conditions")
+    class WhenTheDeletionUsesTextSearchCondition {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities matching the contained text")
+        void shouldDeleteEntitiesMatchingTheContainedText(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var nameFragment = entities.getFirst().getName().substring(1, 3);
 
-            template.delete(Person.class).where("age").gte(age).execute();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("name")
+                        .contains(nameFragment)
+                        .execute();
 
-            List<Person> result = template.select(Person.class)
-                    .where("age").gte(age)
-                    .result();
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("name")
+                        .contains(nameFragment)
+                        .result())
+                        .as("entities matching the deleted contained text")
+                        .isEmpty();
+            });
+        }
 
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities matching the selected pattern")
+        void shouldDeleteEntitiesMatchingTheSelectedPattern(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var nameFragment = entities.getFirst().getName().substring(1, 3);
+            var pattern = "%" + nameFragment + "%";
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("name")
+                        .like(pattern)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("name")
+                        .like(pattern)
+                        .result())
+                        .as("entities matching the deleted pattern")
+                        .isEmpty();
+            });
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities matching the selected prefix")
+        void shouldDeleteEntitiesMatchingTheSelectedPrefix(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var prefix = entities.getFirst().getName().substring(0, 1);
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("name")
+                        .startsWith(prefix)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("name")
+                        .startsWith(prefix)
+                        .result())
+                        .as("entities matching the deleted prefix")
+                        .isEmpty();
+            });
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should delete entities matching the selected suffix")
+        void shouldDeleteEntitiesMatchingTheSelectedSuffix(List<Person> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var suffix = entities.getFirst().getName().substring(0, 1);
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Person.class)
+                        .where("name")
+                        .endsWith(suffix)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Person.class)
+                        .where("name")
+                        .endsWith(suffix)
+                        .result())
+                        .as("entities matching the deleted suffix")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with In")
-    void shouldExecuteIn(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
+    private void assertDeleteOrUnsupported(Runnable scenario) {
         try {
-            var ids = entities.stream().map(Person::getId).limit(3).toList();
-
-            template.delete(Person.class).where("id").in(ids).execute();
-
-            List<Person> result = template.select(Person.class)
-                    .where("id").in(ids)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            scenario.run();
+        } catch (UnsupportedOperationException exception) {
+            assertThat(exception)
+                    .as("delete operations may be unsupported by the provider")
+                    .isInstanceOf(UnsupportedOperationException.class);
         }
     }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with between")
-    void shouldExecuteBetween(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-            var ageA = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
-            var ageB = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(3).findFirst().orElseThrow().getAge();
-
-            template.delete(Person.class).where("age").between(ageA, ageB).execute();
-
-            List<Person> result = template.select(Person.class)
-                    .where("age").between(ageA, ageB)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with contains")
-    void shouldExecuteContains(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-          var namePart =  entities.getFirst().getName().substring(1, 3);
-
-            template.delete(Person.class).where("name").contains(namePart).execute();
-
-            List<Person> result = template.select(Person.class)
-                    .where("name").contains(namePart)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with Like")
-    void shouldExecuteLike(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-            var namePart =  entities.getFirst().getName().substring(1, 3);
-            template.delete(Person.class)
-                    .where("name").like("%" + namePart + "%")
-                    .execute();
-            List<Person> result = template.select(Person.class)
-                    .where("name").like("%" + namePart + "%")
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with startsWith")
-    void shouldExecuteStartsWith(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-            var startsWith =  entities.getFirst().getName().substring(0, 1);
-
-            template.delete(Person.class)
-                    .where("name").startsWith(startsWith)
-                    .execute();
-
-            List<Person> result = template.select(Person.class)
-                    .where("name").startsWith(startsWith)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with startsWith")
-    void shouldExecuteEndsWith(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-
-        try {
-            var startsWith =  entities.getFirst().getName().substring(0, 1);
-
-            template.delete(Person.class).where("name").endsWith(startsWith).execute();
-
-            List<Person> result = template.select(Person.class)
-                    .where("name").endsWith(startsWith)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
-    }
-
 }
