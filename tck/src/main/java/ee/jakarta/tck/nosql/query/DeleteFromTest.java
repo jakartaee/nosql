@@ -224,7 +224,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                 assertThat(result)
                         .as("remaining entities after the membership condition")
                         .allMatch(fruit -> !fruit.getName().equals(sample1.getName())
-                                || !fruit.getName().equals(sample2.getName()));
+                                && !fruit.getName().equals(sample2.getName()));
             } catch (UnsupportedOperationException exception) {
                 assertUnsupportedOperation(exception);
             }
