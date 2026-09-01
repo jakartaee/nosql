@@ -18,227 +18,377 @@ package ee.jakarta.tck.nosql.select;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.factories.PersonListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.Comparator;
 import java.util.List;
 
-@DisplayName("The query execution select with the basic operations on the fluent API with count")
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DisplayName("The query execution of fluent select basic operations with count")
 public class SelectBasicOperationsCountTemplateTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with Equals")
-    void shouldExecuteEq(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities by identifier equality")
+    class WhenTheIdentifierEqualityCount {
 
-        try {
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities with the requested identifier")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
+
+            // Given
+            insertPeople(entities);
             String id = entities.getFirst().getId();
-            var count = template.select(Person.class)
-                    .where("id").eq(id)
-                    .count();
+            long expected = entities.stream().filter(person -> person.getId().equals(id)).count();
 
-            var expected = entities.stream().filter(person -> person.getId().equals(id)).count();
-            Assertions.assertThat(expected).isEqualTo(count);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("id").eq(id)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the identifier equality filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with GT")
-    void shouldExecuteGt(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities older than a threshold")
+    class WhenTheAgeGreaterThanCount {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
-            var count = template.select(Person.class)
-                    .where("age").gt(age)
-                    .count();
-            var expected = entities.stream().filter(person -> person.getAge() > age).count();
-            Assertions.assertThat(count).isEqualTo(expected);
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities older than the requested age")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            // Given
+            insertPeople(entities);
+            int age = sortedAgeAt(entities, 1);
+            long expected = entities.stream().filter(person -> person.getAge() > age).count();
+
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("age").gt(age)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the greater-than filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with GTE")
-    void shouldExecuteGte(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities at least as old as a threshold")
+    class WhenTheAgeGreaterThanOrEqualToCount {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
-            var count = template.select(Person.class)
-                    .where("age").gte(age)
-                    .count();
-            var expected = entities.stream().filter(person -> person.getAge() >= age).count();
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities at least as old as the requested age")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
+
+            // Given
+            insertPeople(entities);
+            int age = sortedAgeAt(entities, 1);
+            long expected = entities.stream().filter(person -> person.getAge() >= age).count();
+
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("age").gte(age)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the greater-than-or-equal filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with LT")
-    void shouldExecuteLt(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities younger than a threshold")
+    class WhenTheAgeLessThanCount {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
-            var count = template.select(Person.class)
-                    .where("age").lt(age)
-                    .count();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities younger than the requested age")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-            var expected = entities.stream().filter(person -> person.getAge() < age).count();
+            // Given
+            insertPeople(entities);
+            int age = reversedSortedAgeAt(entities, 1);
+            long expected = entities.stream().filter(person -> person.getAge() < age).count();
 
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("age").lt(age)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the less-than filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with LTE")
-    void shouldExecuteLte(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities no older than a threshold")
+    class WhenTheAgeLessThanOrEqualToCount {
 
-        try {
-            var age = entities.stream().sorted(Comparator.comparing(Person::getAge).reversed()).skip(1).findFirst().orElseThrow().getAge();
-            var count = template.select(Person.class)
-                    .where("age").lte(age)
-                    .count();
-            var expected = entities.stream().filter(person -> person.getAge() <= age).count();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities no older than the requested age")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            // Given
+            insertPeople(entities);
+            int age = reversedSortedAgeAt(entities, 1);
+            long expected = entities.stream().filter(person -> person.getAge() <= age).count();
+
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("age").lte(age)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the less-than-or-equal filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with In")
-    void shouldExecuteIn(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities by identifier membership")
+    class WhenTheIdentifierMembershipCount {
 
-        try {
-            var ids = entities.stream().map(Person::getId).limit(3).toList();
-            var count = template.select(Person.class)
-                    .where("id").in(ids)
-                    .count();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities whose identifiers are in the requested set")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-            var expected = entities.stream().filter(person -> ids.contains(person.getId())).count();
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            // Given
+            insertPeople(entities);
+            List<String> ids = entities.stream().map(Person::getId).limit(3).toList();
+            long expected = entities.stream().filter(person -> ids.contains(person.getId())).count();
+
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("id").in(ids)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the in filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with between")
-    void shouldExecuteBetween(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities by an age range")
+    class WhenTheAgeRangeCount {
 
-        try {
-            var ageA = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(1).findFirst().orElseThrow().getAge();
-            var ageB = entities.stream().sorted(Comparator.comparing(Person::getAge)).skip(3).findFirst().orElseThrow().getAge();
-            var count = template.select(Person.class)
-                    .where("age").between(ageA, ageB)
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities whose age falls within the requested range")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
+
+            // Given
+            insertPeople(entities);
+            int lowerBound = sortedAgeAt(entities, 1);
+            int upperBound = sortedAgeAt(entities, 3);
+            long expected = entities.stream()
+                    .filter(person -> person.getAge() <= upperBound && person.getAge() >= lowerBound)
                     .count();
 
-            var expected = entities.stream().filter(person -> person.getAge() <= ageB && person.getAge() >= ageA).count();
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("age").between(lowerBound, upperBound)
+                        .count();
 
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(count)
+                        .as("number of people matching the between filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with contains")
-    void shouldExecuteContains(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities by a contained name fragment")
+    class WhenTheNameContainsCount {
 
-        try {
-          var namePart =  entities.getFirst().getName().substring(1, 3);
-            var count = template.select(Person.class)
-                    .where("name").contains(namePart)
-                    .count();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities whose names contain the requested fragment")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-            var expected = entities.stream().filter(person -> person.getName().contains(namePart)).count();
+            // Given
+            insertPeople(entities);
+            String namePart = entities.getFirst().getName().substring(1, 3);
+            long expected = entities.stream().filter(person -> person.getName().contains(namePart)).count();
 
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("name").contains(namePart)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the contains filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with Like")
-    void shouldExecuteLike(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities with a name LIKE pattern")
+    class WhenTheNameLikeCount {
 
-        try {
-            var namePart =  entities.getFirst().getName().substring(1, 3);
-            var count = template.select(Person.class)
-                    .where("name").like("%" + namePart + "%")
-                    .count();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities whose names match the requested pattern")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-            var expected = entities.stream().filter(person -> person.getName().contains(namePart)).count();
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            // Given
+            insertPeople(entities);
+            String namePart = entities.getFirst().getName().substring(1, 3);
+            long expected = entities.stream().filter(person -> person.getName().contains(namePart)).count();
+
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("name").like("%" + namePart + "%")
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the LIKE filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with startsWith")
-    void shouldExecuteStartsWith(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities by a name prefix")
+    class WhenTheNamePrefixCount {
 
-        try {
-            var startsWith =  entities.getFirst().getName().substring(0, 1);
-            var count = template.select(Person.class)
-                    .where("name").startsWith(startsWith)
-                    .count();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities whose names start with the requested prefix")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-            var expected = entities.stream().filter(person -> person.getName().startsWith(startsWith)).count();
+            // Given
+            insertPeople(entities);
+            String prefix = entities.getFirst().getName().substring(0, 1);
+            long expected = entities.stream().filter(person -> person.getName().startsWith(prefix)).count();
 
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("name").startsWith(prefix)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the starts-with filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should execute basic operation with startsWith")
-    void shouldExecuteEndsWith(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When counting entities by a name suffix")
+    class WhenTheNameSuffixCount {
 
-        try {
-            var startsWith =  entities.getFirst().getName().substring(0, 1);
-            var count = template.select(Person.class)
-                    .where("name").endsWith(startsWith)
-                    .count();
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should return the number of entities whose names end with the requested suffix")
+        void shouldReturnTheMatchingCount(List<Person> entities) {
 
-            var expected = entities.stream().filter(person -> person.getName().endsWith(startsWith)).count();
-            Assertions.assertThat(count).isEqualTo(expected);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            // Given
+            insertPeople(entities);
+            String suffix = entities.getFirst().getName().substring(0, 1);
+            long expected = entities.stream().filter(person -> person.getName().endsWith(suffix)).count();
+
+            try {
+                // When
+                long count = template.select(Person.class)
+                        .where("name").endsWith(suffix)
+                        .count();
+
+                // Then
+                assertThat(count)
+                        .as("number of people matching the ends-with filter")
+                        .isEqualTo(expected);
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
+    private void insertPeople(List<Person> entities) {
+        entities.forEach(template::insert);
+    }
+
+    private int sortedAgeAt(List<Person> entities, long index) {
+        return entities.stream()
+                .sorted(Comparator.comparing(Person::getAge))
+                .skip(index)
+                .findFirst()
+                .orElseThrow()
+                .getAge();
+    }
+
+    private int reversedSortedAgeAt(List<Person> entities, long index) {
+        return entities.stream()
+                .sorted(Comparator.comparing(Person::getAge).reversed())
+                .skip(index)
+                .findFirst()
+                .orElseThrow()
+                .getAge();
+    }
+
+    private void assertOperationIsUnsupported(UnsupportedOperationException exception) {
+        assertThat(exception)
+                .as("providers may report unsupported select count operations")
+                .isInstanceOf(UnsupportedOperationException.class);
+    }
 }

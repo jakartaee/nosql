@@ -18,132 +18,176 @@ package ee.jakarta.tck.nosql.delete;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Animal;
 import ee.jakarta.tck.nosql.factories.AnimalListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DisplayName("Deleting mapped superclass entities through the template")
 public class DeleteTemplateMappedSuperclassTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(AnimalListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with no conditions")
-    void shouldInsertIterableAndDeleteNoCondition(List<Animal> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting mapped superclass entities without conditions")
+    class WhenTheDeletionHasNoCondition {
 
-        try {
-            template.delete(Animal.class).execute();
+        @ParameterizedTest
+        @ArgumentsSource(AnimalListSupplier.class)
+        @DisplayName("Should delete all persisted mapped superclass entities")
+        void shouldDeleteAllPersistedMappedSuperclassEntities(List<Animal> entities) {
+            // Given
+            entities.forEach(template::insert);
 
-            List<Animal> result = template.select(Animal.class).result();
-            Assertions.assertThat(result).isEmpty();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Animal.class)
+                        .execute();
 
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Animal.class)
+                        .result())
+                        .as("all persisted mapped superclass entities after deleting without conditions")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(AnimalListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with simple condition")
-    void shouldInsertIterableAndDeleteWithSimpleCondition(List<Animal> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting mapped superclass entities through an equality condition")
+    class WhenTheDeletionUsesEqualityCondition {
 
-        try {
-            template.delete(Animal.class)
-                    .where("name")
-                    .eq(entities.getFirst().getName())
-                    .execute();
+        @ParameterizedTest
+        @ArgumentsSource(AnimalListSupplier.class)
+        @DisplayName("Should delete mapped superclass entities matching the selected value")
+        void shouldDeleteMappedSuperclassEntitiesMatchingTheSelectedValue(List<Animal> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var name = entities.getFirst().getName();
 
-            List<Animal> result = template.select(Animal.class)
-                    .where("name")
-                    .eq(entities.getFirst().getName())
-                    .result();
-            Assertions.assertThat(result).isEmpty();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Animal.class)
+                        .where("name")
+                        .eq(name)
+                        .execute();
 
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Animal.class)
+                        .where("name")
+                        .eq(name)
+                        .result())
+                        .as("mapped superclass entities matching the deleted equality value")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(AnimalListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with 'in' condition")
-    void shouldInsertIterableAndDeleteWithInCondition(List<Animal> entities) {
-        // Insert the entities
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting mapped superclass entities through membership conditions")
+    class WhenTheDeletionUsesMembershipCondition {
 
-        try {
-            // Delete based on the 'name' field (in a list of values)
-            template.delete(Animal.class)
-                    .where("name")
-                    .in(List.of(entities.getFirst().getName()))
-                    .execute();
+        @ParameterizedTest
+        @ArgumentsSource(AnimalListSupplier.class)
+        @DisplayName("Should delete mapped superclass entities matching the selected values")
+        void shouldDeleteMappedSuperclassEntitiesMatchingTheSelectedValues(List<Animal> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var names = List.of(entities.getFirst().getName());
 
-            // Verify that no animals with the given names exist
-            List<Animal> result = template.select(Animal.class)
-                    .where("name")
-                    .in(List.of(entities.getFirst().getName()))
-                    .result();
-            Assertions.assertThat(result).isEmpty();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Animal.class)
+                        .where("name")
+                        .in(names)
+                        .execute();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Animal.class)
+                        .where("name")
+                        .in(names)
+                        .result())
+                        .as("mapped superclass entities matching the deleted membership values")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(AnimalListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with 'between' condition")
-    void shouldInsertIterableAndDeleteWithBetweenCondition(List<Animal> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting mapped superclass entities through range conditions")
+    class WhenTheDeletionUsesRangeCondition {
 
-        try {
-            template.delete(Animal.class)
-                    .where("species")
-                    .between(entities.getFirst().getSpecies(), "Zebra") // Example condition
-                    .execute();
+        @ParameterizedTest
+        @ArgumentsSource(AnimalListSupplier.class)
+        @DisplayName("Should delete mapped superclass entities within the selected range")
+        void shouldDeleteMappedSuperclassEntitiesWithinTheSelectedRange(List<Animal> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var startSpecies = entities.getFirst().getSpecies();
+            var endSpecies = "Zebra";
 
-            List<Animal> result = template.select(Animal.class)
-                    .where("species")
-                    .between(entities.getFirst().getSpecies(), "Zebra") // Example condition
-                    .result();
-            Assertions.assertThat(result).isEmpty();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Animal.class)
+                        .where("species")
+                        .between(startSpecies, endSpecies)
+                        .execute();
 
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Animal.class)
+                        .where("species")
+                        .between(startSpecies, endSpecies)
+                        .result())
+                        .as("mapped superclass entities within the deleted range")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(AnimalListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with 'complex' query")
-    void shouldInsertIterableAndDeleteWithComplexQuery(List<Animal> entities) {
-        // Insert the entities
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting mapped superclass entities through combined conditions")
+    class WhenTheDeletionUsesCompositeCondition {
 
+        @ParameterizedTest
+        @ArgumentsSource(AnimalListSupplier.class)
+        @DisplayName("Should delete mapped superclass entities matching every selected condition")
+        void shouldDeleteMappedSuperclassEntitiesMatchingEverySelectedCondition(List<Animal> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var genus = entities.getFirst().getGenus();
+            var species = entities.getFirst().getSpecies();
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Animal.class)
+                        .where("genus")
+                        .eq(genus)
+                        .and("species")
+                        .eq(species)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Animal.class)
+                        .where("genus")
+                        .eq(genus)
+                        .and("species")
+                        .eq(species)
+                        .result())
+                        .as("mapped superclass entities matching the deleted combined conditions")
+                        .isEmpty();
+            });
+        }
+    }
+
+    private void assertDeleteOrUnsupported(Runnable scenario) {
         try {
-            template.delete(Animal.class)
-                    .where("genus")
-                    .eq(entities.getFirst().getGenus())
-                    .and("species")
-                    .eq(entities.getFirst().getSpecies())
-                    .execute();
-
-            List<Animal> result = template.select(Animal.class)
-                    .where("genus")
-                    .eq(entities.getFirst().getGenus())
-                    .and("species")
-                    .eq(entities.getFirst().getSpecies())
-                    .result();
-            Assertions.assertThat(result).isEmpty();
-
-        } catch (UnsupportedOperationException exp) {
-            // Expected for key-value or unsupported NoSQL databases
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            scenario.run();
+        } catch (UnsupportedOperationException exception) {
+            assertThat(exception)
+                    .as("delete operations may be unsupported by the provider")
+                    .isInstanceOf(UnsupportedOperationException.class);
         }
     }
 }

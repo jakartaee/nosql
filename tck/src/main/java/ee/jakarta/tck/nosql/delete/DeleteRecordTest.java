@@ -12,63 +12,95 @@ package ee.jakarta.tck.nosql.delete;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Book;
 import ee.jakarta.tck.nosql.factories.BookListSupplier;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+@DisplayName("Deleting record entities through the template")
 public class DeleteRecordTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(BookListSupplier.class)
-    @DisplayName("Should insert and delete the book")
-    void shouldInsertAndDeleteBook(List<Book> books) {
-        books.forEach(book -> template.insert(book));
+    @Nested
+    @DisplayName("When deleting record entities through an equality condition")
+    class WhenTheRecordDeletionUsesEqualityCondition {
 
-        try {
-            template.delete(Book.class)
-                    .where("title")
-                    .eq(books.getFirst().title())
-                    .execute();
+        @ParameterizedTest
+        @ArgumentsSource(BookListSupplier.class)
+        @DisplayName("Should delete record entities matching the selected value")
+        void shouldDeleteRecordEntitiesMatchingTheSelectedValue(List<Book> books) {
+            // Given
+            books.forEach(template::insert);
+            var title = books.getFirst().title();
 
-            var deletedBook = template.select(Book.class)
-                    .where("title")
-                    .eq(books.getFirst().title())
-                    .result();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Book.class)
+                        .where("title")
+                        .eq(title)
+                        .execute();
 
-            SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBook).isEmpty());
-        } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
+                // Then
+                var deletedBooks = template.select(Book.class)
+                        .where("title")
+                        .eq(title)
+                        .result();
+
+                assertSoftly(softly -> softly.assertThat(deletedBooks)
+                        .as("record entities matching the deleted equality value")
+                        .isEmpty());
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(BookListSupplier.class)
-    @DisplayName("Should delete book with complex condition")
-    void shouldDeleteBookWithComplexCondition(List<Book> books) {
-        books.forEach(book -> template.insert(book));
+    @Nested
+    @DisplayName("When deleting record entities through combined conditions")
+    class WhenTheRecordDeletionUsesCompositeCondition {
 
-        try {
-            template.delete(Book.class)
-                    .where("genre")
-                    .eq(books.getFirst().genre())
-                    .and("author")
-                    .eq(books.getFirst().author())
-                    .execute();
+        @ParameterizedTest
+        @ArgumentsSource(BookListSupplier.class)
+        @DisplayName("Should delete record entities matching every selected condition")
+        void shouldDeleteRecordEntitiesMatchingEverySelectedCondition(List<Book> books) {
+            // Given
+            books.forEach(template::insert);
+            var genre = books.getFirst().genre();
+            var author = books.getFirst().author();
 
-            var deletedBooks = template.select(Book.class)
-                    .where("genre")
-                    .eq(books.getFirst().genre())
-                    .and("author")
-                    .eq(books.getFirst().author())
-                    .result();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Book.class)
+                        .where("genre")
+                        .eq(genre)
+                        .and("author")
+                        .eq(author)
+                        .execute();
 
-            SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBooks).isEmpty());
-        } catch (UnsupportedOperationException exp) {
-            SoftAssertions.assertSoftly(soft -> soft.assertThat(exp).isInstanceOf(UnsupportedOperationException.class));
+                // Then
+                var deletedBooks = template.select(Book.class)
+                        .where("genre")
+                        .eq(genre)
+                        .and("author")
+                        .eq(author)
+                        .result();
+
+                assertSoftly(softly -> softly.assertThat(deletedBooks)
+                        .as("record entities matching the deleted combined conditions")
+                        .isEmpty());
+            });
         }
     }
 
+    private void assertDeleteOrUnsupported(Runnable scenario) {
+        try {
+            scenario.run();
+        } catch (UnsupportedOperationException exception) {
+            assertThat(exception)
+                    .as("delete operations may be unsupported by the provider")
+                    .isInstanceOf(UnsupportedOperationException.class);
+        }
+    }
 }

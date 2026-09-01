@@ -18,104 +18,171 @@ package ee.jakarta.tck.nosql.select;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
 import ee.jakarta.tck.nosql.factories.FruitListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-@DisplayName("Query execution with @Convert annotated fields in Fruit entity")
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+@DisplayName("The query execution exploring a converted attribute")
 public class SelectFieldConvertTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and select with converted quantity equals condition")
-    void shouldInsertIterableAndSelectWithQuantityEqualsCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
+    @Nested
+    @DisplayName("When selecting entities by converted attribute equality")
+    class WhenTheConvertedAttributeEqualitySelection {
 
-        try {
-            var targetQuantity = entities.getFirst().getQuantity();
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return only entities with the requested converted attribute value")
+        void shouldReturnOnlyMatchingEntities(List<Fruit> entities) {
 
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .eq(targetQuantity)
-                    .result();
+            // Given
+            insertFruits(entities);
+            Long targetQuantity = entities.getFirst().getQuantity();
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity().equals(targetQuantity));
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                List<Fruit> result = template.select(Fruit.class)
+                        .where("quantity")
+                        .eq(targetQuantity)
+                        .result();
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("fruits returned for the converted quantity equality filter")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("fruits matching the requested quantity")
+                            .allMatch(fruit -> fruit.getQuantity().equals(targetQuantity));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and select with quantity greater-than condition")
-    void shouldInsertIterableAndSelectWithQuantityGreaterThanCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
+    @Nested
+    @DisplayName("When selecting entities by converted attribute greater than a threshold")
+    class WhenTheConvertedAttributeGreaterThanSelection {
 
-        try {
-            var targetQuantity = entities.getFirst().getQuantity() - 1;
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return only entities whose converted attribute is greater than the requested value")
+        void shouldReturnOnlyMatchingEntities(List<Fruit> entities) {
 
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .gt(targetQuantity)
-                    .result();
+            // Given
+            insertFruits(entities);
+            long targetQuantity = entities.getFirst().getQuantity() - 1;
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() > targetQuantity);
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                List<Fruit> result = template.select(Fruit.class)
+                        .where("quantity")
+                        .gt(targetQuantity)
+                        .result();
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("fruits returned for the converted quantity greater-than filter")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("fruits with quantity greater than the requested value")
+                            .allMatch(fruit -> fruit.getQuantity() > targetQuantity);
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and select with quantity less-than condition")
-    void shouldInsertIterableAndSelectWithQuantityLessThanCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
+    @Nested
+    @DisplayName("When selecting entities by converted attribute less than a threshold")
+    class WhenTheConvertedAttributeLessThanSelection {
 
-        try {
-            var targetQuantity = entities.getFirst().getQuantity() + 10;
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return only entities whose converted attribute is less than the requested value")
+        void shouldReturnOnlyMatchingEntities(List<Fruit> entities) {
 
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .lt(targetQuantity)
-                    .result();
+            // Given
+            insertFruits(entities);
+            long targetQuantity = entities.getFirst().getQuantity() + 10;
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> fruit.getQuantity() < targetQuantity);
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                List<Fruit> result = template.select(Fruit.class)
+                        .where("quantity")
+                        .lt(targetQuantity)
+                        .result();
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("fruits returned for the converted quantity less-than filter")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("fruits with quantity less than the requested value")
+                            .allMatch(fruit -> fruit.getQuantity() < targetQuantity);
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and select with quantity between condition")
-    void shouldInsertIterableAndSelectWithQuantityBetweenCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
+    @Nested
+    @DisplayName("When selecting entities by a converted attribute range")
+    class WhenTheConvertedAttributeRangeSelection {
 
-        try {
-            var targetQuantity = entities.getFirst().getQuantity();
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return only entities whose converted attribute falls within the requested range")
+        void shouldReturnOnlyMatchingEntities(List<Fruit> entities) {
 
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .between(targetQuantity - 5, targetQuantity + 5)
-                    .result();
+            // Given
+            insertFruits(entities);
+            long targetQuantity = entities.getFirst().getQuantity();
+            long lowerBound = targetQuantity - 5;
+            long upperBound = targetQuantity + 5;
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(fruit -> {
-                        var quantity = fruit.getQuantity();
-                        return quantity >= (targetQuantity - 5) && quantity <= (targetQuantity + 5);
-                    });
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                List<Fruit> result = template.select(Fruit.class)
+                        .where("quantity")
+                        .between(lowerBound, upperBound)
+                        .result();
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("fruits returned for the converted quantity range filter")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("fruits whose quantity falls within the requested range")
+                            .allMatch(fruit -> {
+                                long quantity = fruit.getQuantity();
+                                return quantity >= lowerBound && quantity <= upperBound;
+                            });
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
+    }
+
+    private void insertFruits(List<Fruit> entities) {
+        entities.forEach(template::insert);
+    }
+
+    private void assertOperationIsUnsupported(UnsupportedOperationException exception) {
+        assertThat(exception)
+                .as("providers may report unsupported converted field select operations")
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }

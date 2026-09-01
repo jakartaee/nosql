@@ -19,61 +19,129 @@ import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
 import ee.jakarta.tck.nosql.entities.Money;
 import ee.jakarta.tck.nosql.factories.FruitSupplier;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.math.BigDecimal;
 
-@DisplayName("The basic template operations with entity that contains a converter field")
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+@DisplayName("The basic template operations for entities with converted attributes")
 public class BasicConverterFieldTemplateTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitSupplier.class)
-    @DisplayName("Should insert fruit with converted field: {0}")
-    void shouldInsert(Fruit entity) {
-        var fruit = template.insert(entity);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(fruit).isNotNull();
-            soft.assertThat(fruit.getId()).isNotNull();
-            soft.assertThat(fruit.getName()).isEqualTo(entity.getName());
-            soft.assertThat(fruit.getPrice()).isEqualTo(entity.getPrice());
-        });
+    @Nested
+    @DisplayName("When inserting an entity with a converted attribute")
+    class WhenTheInsertion {
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitSupplier.class)
+        @DisplayName("Should persist the entity with the converted attribute: {0}")
+        void shouldInsert(Fruit entity) {
+
+            // Given
+
+            // When
+            var fruit = template.insert(entity);
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(fruit)
+                        .as("inserted fruit")
+                        .isNotNull();
+                softly.assertThat(fruit.getId())
+                        .as("inserted fruit id")
+                        .isNotNull();
+                softly.assertThat(fruit.getName())
+                        .as("inserted fruit name")
+                        .isEqualTo(entity.getName());
+                softly.assertThat(fruit.getPrice())
+                        .as("inserted fruit price")
+                        .isEqualTo(entity.getPrice());
+            });
+        }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitSupplier.class)
-    @DisplayName("Should update fruit with converted field: {0}")
-    void shouldUpdate(Fruit entity) {
-        var insertedFruit = template.insert(entity);
-        insertedFruit.setPrice(new Money(insertedFruit.getPrice().currency(), insertedFruit.getPrice().value().add(BigDecimal.TEN)));
-        var updatedFruit = template.update(insertedFruit);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(updatedFruit).isNotNull();
-            soft.assertThat(updatedFruit.getPrice().value()).isEqualTo(insertedFruit.getPrice().value());
-        });
+    @Nested
+    @DisplayName("When updating an entity with a converted attribute")
+    class WhenTheUpdate {
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitSupplier.class)
+        @DisplayName("Should update the converted attribute: {0}")
+        void shouldUpdate(Fruit entity) {
+
+            // Given
+            var insertedFruit = template.insert(entity);
+            insertedFruit.setPrice(new Money(
+                    insertedFruit.getPrice().currency(),
+                    insertedFruit.getPrice().value().add(BigDecimal.TEN)
+            ));
+
+            // When
+            var updatedFruit = template.update(insertedFruit);
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(updatedFruit)
+                        .as("updated fruit")
+                        .isNotNull();
+                softly.assertThat(updatedFruit.getPrice().value())
+                        .as("updated fruit price value")
+                        .isEqualTo(insertedFruit.getPrice().value());
+            });
+        }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitSupplier.class)
-    @DisplayName("Should delete fruit with converted field: {0}")
-    void shouldDelete(Fruit entity) {
-        var insertedFruit = template.insert(entity);
-        template.delete(Fruit.class, insertedFruit.getId());
-        var deletedFruit = template.find(Fruit.class, insertedFruit.getId());
-        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedFruit).isEmpty());
+    @Nested
+    @DisplayName("When removing an entity with a converted attribute")
+    class WhenTheRemoval {
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitSupplier.class)
+        @DisplayName("Should remove the entity with the converted attribute: {0}")
+        void shouldDelete(Fruit entity) {
+
+            // Given
+            var insertedFruit = template.insert(entity);
+
+            // When
+            template.delete(Fruit.class, insertedFruit.getId());
+            var deletedFruit = template.find(Fruit.class, insertedFruit.getId());
+
+            // Then
+            assertThat(deletedFruit)
+                    .as("fruit after deletion")
+                    .isEmpty();
+        }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitSupplier.class)
-    @DisplayName("Should find fruit with converted field: {0}")
-    void shouldFind(Fruit entity) {
-        var insertedFruit = template.insert(entity);
-        var foundFruit = template.find(Fruit.class, insertedFruit.getId());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(foundFruit).isPresent();
-            soft.assertThat(foundFruit.orElseThrow().getPrice()).isEqualTo(insertedFruit.getPrice());
-        });
+    @Nested
+    @DisplayName("When searching for an entity with a converted attribute")
+    class WhenTheSearch {
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitSupplier.class)
+        @DisplayName("Should return the entity with the converted attribute: {0}")
+        void shouldFind(Fruit entity) {
+
+            // Given
+            var insertedFruit = template.insert(entity);
+
+            // When
+            var foundFruit = template.find(Fruit.class, insertedFruit.getId());
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(foundFruit)
+                        .as("found fruit optional")
+                        .isPresent();
+                foundFruit.ifPresent(fruit -> softly.assertThat(fruit.getPrice())
+                        .as("found fruit price")
+                        .isEqualTo(insertedFruit.getPrice()));
+            });
+        }
     }
 }

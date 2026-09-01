@@ -20,89 +20,170 @@ import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.entities.Vehicle;
 import ee.jakarta.tck.nosql.factories.PersonListSupplier;
 import ee.jakarta.tck.nosql.factories.VehicleListSupplier;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-@DisplayName("The iterable template operations")
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+@DisplayName("The template operations for iterable entities")
 public class BasicIterableEntityTemplateTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert a list of persons")
-    void shouldInsertIterablePerson(List<Person> entities) {
-        Iterable<Person> result = template.insert(entities);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(result).hasSize(entities.size());
-            result.forEach(person -> {
-                soft.assertThat(person).isNotNull();
-                soft.assertThat(person.getId()).isNotNull();
-                soft.assertThat(person.getName()).isNotNull();
-                soft.assertThat(person.getAge()).isNotNull();
+    @Nested
+    @DisplayName("When inserting iterable entities")
+    class WhenTheInsertion {
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should persist an iterable of mutable entities")
+        void shouldInsertMutableEntities(List<Person> entities) {
+
+            // Given
+
+            // When
+            var result = StreamSupport.stream(template.insert(entities).spliterator(), false)
+                    .toList();
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(result)
+                        .as("inserted people")
+                        .hasSize(entities.size());
+                result.forEach(person -> {
+                    softly.assertThat(person)
+                            .as("inserted person")
+                            .isNotNull();
+                    softly.assertThat(person.getId())
+                            .as("inserted person id")
+                            .isNotNull();
+                    softly.assertThat(person.getName())
+                            .as("inserted person name")
+                            .isNotNull();
+                    softly.assertThat(person.getAge())
+                            .as("inserted person age")
+                            .isNotNull();
+                });
             });
-        });
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(VehicleListSupplier.class)
+        @DisplayName("Should persist an iterable of entities with enum attributes")
+        void shouldInsertEntitiesWithEnumAttribute(List<Vehicle> entities) {
+
+            // Given
+
+            // When
+            var result = StreamSupport.stream(template.insert(entities).spliterator(), false)
+                    .toList();
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(result)
+                        .as("inserted vehicles")
+                        .hasSize(entities.size());
+                result.forEach(vehicle -> {
+                    softly.assertThat(vehicle)
+                            .as("inserted vehicle")
+                            .isNotNull();
+                    softly.assertThat(vehicle.getId())
+                            .as("inserted vehicle id")
+                            .isNotNull();
+                    softly.assertThat(vehicle.getModel())
+                            .as("inserted vehicle model")
+                            .isNotNull();
+                    softly.assertThat(vehicle.getMake())
+                            .as("inserted vehicle make")
+                            .isNotNull();
+                });
+            });
+        }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleListSupplier.class)
-    @DisplayName("Should insert a list of vehicles")
-    void shouldInsertIterableVehicle(List<Vehicle> entities) {
-        Iterable<Vehicle> result = template.insert(entities);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(result).hasSize(entities.size());
-            result.forEach(vehicle -> {
-                soft.assertThat(vehicle).isNotNull();
-                soft.assertThat(vehicle.getId()).isNotNull();
-                soft.assertThat(vehicle.getModel()).isNotNull();
-                soft.assertThat(vehicle.getMake()).isNotNull();
+    @Nested
+    @DisplayName("When updating iterable entities")
+    class WhenTheUpdate {
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should update an iterable of mutable entities")
+        void shouldUpdateMutableEntities(List<Person> entities) {
+
+            // Given
+            var insertedPeople = StreamSupport.stream(template.insert(entities).spliterator(), false)
+                    .toList();
+            var updatedEntities = insertedPeople.stream()
+                    .peek(person -> person.setName(person.getName() + "updated"))
+                    .toList();
+
+            // When
+            var result = StreamSupport.stream(template.update(updatedEntities).spliterator(), false)
+                    .toList();
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(result)
+                        .as("updated people")
+                        .hasSize(entities.size());
+                result.forEach(person -> {
+                    softly.assertThat(person)
+                            .as("updated person")
+                            .isNotNull();
+                    softly.assertThat(person.getId())
+                            .as("updated person id")
+                            .isNotNull();
+                    softly.assertThat(person.getName())
+                            .as("updated person name")
+                            .isNotNull()
+                            .contains("updated");
+                    softly.assertThat(person.getAge())
+                            .as("updated person age")
+                            .isNotNull();
+                });
             });
-        });
-    }
+        }
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should update a list of persons")
-    void shouldUpdateIterablePerson(List<Person> entities) {
+        @ParameterizedTest
+        @ArgumentsSource(VehicleListSupplier.class)
+        @DisplayName("Should update an iterable of entities with enum attributes")
+        void shouldUpdateEntitiesWithEnumAttribute(List<Vehicle> entities) {
 
-        Iterable<Person> people = template.insert(entities);
-        var updatedEntities = StreamSupport.stream(people.spliterator(), false)
-                .peek(p -> p.setName(p.getName() + "updated")).toList();
-        Iterable<Person> result = template.update(updatedEntities);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(result).hasSize(entities.size());
-            result.forEach(person -> {
-                soft.assertThat(person).isNotNull();
-                soft.assertThat(person.getId()).isNotNull();
-                soft.assertThat(person.getName()).isNotNull();
-                soft.assertThat(person.getAge()).isNotNull();
-                soft.assertThat(person.getName()).contains("updated");
+            // Given
+            var insertedVehicles = StreamSupport.stream(template.insert(entities).spliterator(), false)
+                    .toList();
+            var updatedEntities = insertedVehicles.stream()
+                    .peek(vehicle -> vehicle.setModel(vehicle.getModel() + "updated"))
+                    .toList();
+
+            // When
+            var result = StreamSupport.stream(template.update(updatedEntities).spliterator(), false)
+                    .toList();
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(result)
+                        .as("updated vehicles")
+                        .hasSize(entities.size());
+                result.forEach(vehicle -> {
+                    softly.assertThat(vehicle)
+                            .as("updated vehicle")
+                            .isNotNull();
+                    softly.assertThat(vehicle.getId())
+                            .as("updated vehicle id")
+                            .isNotNull();
+                    softly.assertThat(vehicle.getModel())
+                            .as("updated vehicle model")
+                            .isNotNull()
+                            .contains("updated");
+                    softly.assertThat(vehicle.getMake())
+                            .as("updated vehicle make")
+                            .isNotNull();
+                });
             });
-        });
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(VehicleListSupplier.class)
-    @DisplayName("Should update a list of vehicles")
-    void shouldUpdateIterableVehicle(List<Vehicle> entities) {
-
-        Iterable<Vehicle> vehicles = template.insert(entities);
-        var updatedEntities = StreamSupport.stream(vehicles.spliterator(), false)
-                .peek(v -> v.setModel(v.getModel() + "updated")).toList();
-
-        Iterable<Vehicle> result = template.update(updatedEntities);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(result).hasSize(entities.size());
-            result.forEach(vehicle -> {
-                soft.assertThat(vehicle).isNotNull();
-                soft.assertThat(vehicle.getId()).isNotNull();
-                soft.assertThat(vehicle.getModel()).isNotNull();
-                soft.assertThat(vehicle.getMake()).isNotNull();
-                soft.assertThat(vehicle.getModel()).contains("updated");
-            });
-        });
+        }
     }
 }

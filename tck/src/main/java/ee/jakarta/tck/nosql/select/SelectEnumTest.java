@@ -15,61 +15,99 @@
  */
 package ee.jakarta.tck.nosql.select;
 
-
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Vehicle;
 import ee.jakarta.tck.nosql.factories.VehicleListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-@DisplayName("The query execution exploring filters with enum")
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+@DisplayName("The query execution exploring enum attribute filters")
 public class SelectEnumTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleListSupplier.class)
-    @DisplayName("Should insert Iterable and select with equals enum value")
-    void shouldInsertIterableAndSelectWithEnumCondition(List<Vehicle> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When selecting entities by enum attribute equality")
+    class WhenTheEnumAttributeEqualitySelection {
 
-        try {
-            List<Vehicle> result = template.select(Vehicle.class)
-                    .where("transmission")
-                    .eq(entities.getFirst().getTransmission())
-                    .result();
+        @ParameterizedTest
+        @ArgumentsSource(VehicleListSupplier.class)
+        @DisplayName("Should return only entities with the requested enum attribute")
+        void shouldReturnOnlyMatchingEntities(List<Vehicle> entities) {
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(vehicle -> vehicle.getTransmission().equals(entities.getFirst().getTransmission()));
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            // Given
+            insertVehicles(entities);
+            var transmission = entities.getFirst().getTransmission();
+
+            try {
+                // When
+                List<Vehicle> result = template.select(Vehicle.class)
+                        .where("transmission")
+                        .eq(transmission)
+                        .result();
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("vehicles returned for the transmission filter")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("vehicles matching the requested transmission")
+                            .allMatch(vehicle -> vehicle.getTransmission().equals(transmission));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with equals enum value")
-    void shouldInsertIterableAndDeleteWithEnumCondition(List<Vehicle> entities) {
-        entities.forEach(entity -> template.insert(entity));
+    @Nested
+    @DisplayName("When deleting entities by enum attribute equality")
+    class WhenTheEnumAttributeEqualityDeletion {
 
-        try {
-            template.delete(Vehicle.class)
-                    .where("transmission")
-                    .eq(entities.getFirst().getTransmission())
-                    .execute();
+        @ParameterizedTest
+        @ArgumentsSource(VehicleListSupplier.class)
+        @DisplayName("Should remove every entity with the requested enum attribute")
+        void shouldRemoveMatchingEntities(List<Vehicle> entities) {
 
-            var result = template.select(Vehicle.class)
-                    .where("transmission")
-                    .eq(entities.getFirst().getTransmission())
-                    .result();
+            // Given
+            insertVehicles(entities);
+            var transmission = entities.getFirst().getTransmission();
 
-            Assertions.assertThat(result)
-                    .isEmpty();
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+            try {
+                // When
+                template.delete(Vehicle.class)
+                        .where("transmission")
+                        .eq(transmission)
+                        .execute();
+
+                List<Vehicle> result = template.select(Vehicle.class)
+                        .where("transmission")
+                        .eq(transmission)
+                        .result();
+
+                // Then
+                assertThat(result)
+                        .as("vehicles remaining after deleting by transmission")
+                        .isEmpty();
+            } catch (UnsupportedOperationException exception) {
+                assertOperationIsUnsupported(exception);
+            }
         }
+    }
+
+    private void insertVehicles(List<Vehicle> entities) {
+        entities.forEach(template::insert);
+    }
+
+    private void assertOperationIsUnsupported(UnsupportedOperationException exception) {
+        assertThat(exception)
+                .as("providers may report unsupported enum-based select operations")
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }

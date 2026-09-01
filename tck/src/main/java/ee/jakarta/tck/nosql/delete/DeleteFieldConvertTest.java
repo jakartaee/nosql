@@ -18,113 +18,142 @@ package ee.jakarta.tck.nosql.delete;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
 import ee.jakarta.tck.nosql.factories.FruitListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
-@DisplayName("Delete execution with @Convert annotated fields in the entity")
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DisplayName("Deleting entities through converted attributes")
 public class DeleteFieldConvertTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with converted quantity equals condition")
-    void shouldInsertIterableAndDeleteWithQuantityEqualsCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
+    @Nested
+    @DisplayName("When deleting entities through converted attribute equality")
+    class WhenTheDeletionUsesConvertedAttributeEqualityCondition {
 
-        try {
-            var targetQuantity = entities.getFirst().getQuantity();
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should delete entities matching the selected converted value")
+        void shouldDeleteEntitiesMatchingTheSelectedConvertedValue(List<Fruit> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var quantity = entities.getFirst().getQuantity();
 
-            template.delete(Fruit.class)
-                    .where("quantity")
-                    .eq(targetQuantity)
-                    .execute();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Fruit.class)
+                        .where("quantity")
+                        .eq(quantity)
+                        .execute();
 
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .eq(targetQuantity)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Fruit.class)
+                        .where("quantity")
+                        .eq(quantity)
+                        .result())
+                        .as("entities matching the deleted converted value")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with quantity greater-than condition")
-    void shouldInsertIterableAndDeleteWithQuantityGreaterThanCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
+    @Nested
+    @DisplayName("When deleting entities through converted attribute comparison")
+    class WhenTheDeletionUsesConvertedAttributeComparisonCondition {
 
-        try {
-            var targetQuantity = entities.getFirst().getQuantity() - 1;
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should delete entities greater than the converted reference value")
+        void shouldDeleteEntitiesGreaterThanTheConvertedReferenceValue(List<Fruit> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var quantity = entities.getFirst().getQuantity() - 1;
 
-            template.delete(Fruit.class)
-                    .where("quantity")
-                    .gt(targetQuantity)
-                    .execute();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Fruit.class)
+                        .where("quantity")
+                        .gt(quantity)
+                        .execute();
 
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .gt(targetQuantity)
-                    .result();
+                // Then
+                assertThat(template.select(Fruit.class)
+                        .where("quantity")
+                        .gt(quantity)
+                        .result())
+                        .as("entities greater than the deleted converted value")
+                        .isEmpty();
+            });
+        }
 
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should delete entities less than the converted reference value")
+        void shouldDeleteEntitiesLessThanTheConvertedReferenceValue(List<Fruit> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var quantity = entities.getFirst().getQuantity() + 10;
+
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Fruit.class)
+                        .where("quantity")
+                        .lt(quantity)
+                        .execute();
+
+                // Then
+                assertThat(template.select(Fruit.class)
+                        .where("quantity")
+                        .lt(quantity)
+                        .result())
+                        .as("entities less than the deleted converted value")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with quantity less-than condition")
-    void shouldInsertIterableAndDeleteWithQuantityLessThanCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
+    @Nested
+    @DisplayName("When deleting entities through converted attribute ranges")
+    class WhenTheDeletionUsesConvertedAttributeRangeCondition {
 
-        try {
-            var targetQuantity = entities.getFirst().getQuantity() + 10;
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should delete entities within the selected converted range")
+        void shouldDeleteEntitiesWithinTheSelectedConvertedRange(List<Fruit> entities) {
+            // Given
+            entities.forEach(template::insert);
+            var quantity = entities.getFirst().getQuantity();
+            var minimum = quantity - 5;
+            var maximum = quantity + 5;
 
-            template.delete(Fruit.class)
-                    .where("quantity")
-                    .lt(targetQuantity)
-                    .execute();
+            assertDeleteOrUnsupported(() -> {
+                // When
+                template.delete(Fruit.class)
+                        .where("quantity")
+                        .between(minimum, maximum)
+                        .execute();
 
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .lt(targetQuantity)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+                // Then
+                assertThat(template.select(Fruit.class)
+                        .where("quantity")
+                        .between(minimum, maximum)
+                        .result())
+                        .as("entities within the deleted converted range")
+                        .isEmpty();
+            });
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(FruitListSupplier.class)
-    @DisplayName("Should insert Iterable and delete with quantity between condition")
-    void shouldInsertIterableAndDeleteWithQuantityBetweenCondition(List<Fruit> entities) {
-        entities.forEach(template::insert);
-
+    private void assertDeleteOrUnsupported(Runnable scenario) {
         try {
-            var targetQuantity = entities.getFirst().getQuantity();
-
-            template.delete(Fruit.class)
-                    .where("quantity")
-                    .between(targetQuantity - 5, targetQuantity + 5)
-                    .execute();
-
-            List<Fruit> result = template.select(Fruit.class)
-                    .where("quantity")
-                    .between(targetQuantity - 5, targetQuantity + 5)
-                    .result();
-
-            Assertions.assertThat(result).isEmpty();
-        } catch (UnsupportedOperationException e) {
-            Assertions.assertThat(e).isInstanceOf(UnsupportedOperationException.class);
+            scenario.run();
+        } catch (UnsupportedOperationException exception) {
+            assertThat(exception)
+                    .as("delete operations may be unsupported by the provider")
+                    .isInstanceOf(UnsupportedOperationException.class);
         }
     }
 }
