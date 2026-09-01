@@ -70,7 +70,7 @@ public class BasicConverterFieldTemplateTest extends AbstractTemplateTest {
 
         @ParameterizedTest
         @ArgumentsSource(FruitSupplier.class)
-        @DisplayName("Should update the converted price: {0}")
+        @DisplayName("Should update the converted attribute: {0}")
         void shouldUpdate(Fruit entity) {
 
             // Given
