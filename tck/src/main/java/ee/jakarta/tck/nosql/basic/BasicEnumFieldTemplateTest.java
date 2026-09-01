@@ -19,82 +19,156 @@ import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Transmission;
 import ee.jakarta.tck.nosql.entities.Vehicle;
 import ee.jakarta.tck.nosql.factories.VehicleSupplier;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Duration;
 import java.util.logging.Logger;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-@DisplayName("The basic template operations with entity that contains enum")
+@DisplayName("The basic template operations for entities with enum attributes")
 public class BasicEnumFieldTemplateTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicEnumFieldTemplateTest.class.getName());
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleSupplier.class)
-    @DisplayName("Should insert vehicle with enum: {0}")
-    void shouldInsert(Vehicle entity) {
-        var vehicle = template.insert(entity);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(vehicle).isNotNull();
-            soft.assertThat(vehicle.getId()).isNotNull();
-            soft.assertThat(vehicle.getModel()).isEqualTo(entity.getModel());
-            soft.assertThat(vehicle.getTransmission()).isEqualTo(entity.getTransmission());
-        });
-    }
+    @Nested
+    @DisplayName("When inserting an entity with an enum attribute")
+    class WhenTheInsertion {
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleSupplier.class)
-    @DisplayName("Should update vehicle with enum: {0}")
-    void shouldUpdate(Vehicle entity) {
-        var insertedVehicle = template.insert(entity);
-        insertedVehicle.setTransmission(Transmission.AUTOMATIC);
-        var updatedVehicle = template.update(insertedVehicle);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(updatedVehicle).isNotNull();
-            soft.assertThat(updatedVehicle.getTransmission()).isEqualTo(Transmission.AUTOMATIC);
-        });
-    }
+        @ParameterizedTest
+        @ArgumentsSource(VehicleSupplier.class)
+        @DisplayName("Should persist the entity with the enum attribute: {0}")
+        void shouldInsert(Vehicle entity) {
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleSupplier.class)
-    @DisplayName("Should delete vehicle with enum: {0}")
-    void shouldDelete(Vehicle entity) {
-        var insertedVehicle = template.insert(entity);
-        template.delete(Vehicle.class, insertedVehicle.getId());
-        var deletedVehicle = template.find(Vehicle.class, insertedVehicle.getId());
-        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedVehicle).isEmpty());
-    }
+            // Given
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleSupplier.class)
-    @DisplayName("Should find vehicle with enum: {0}")
-    void shouldFind(Vehicle entity) {
-        var insertedVehicle = template.insert(entity);
-        var foundVehicle = template.find(Vehicle.class, insertedVehicle.getId());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(foundVehicle).isPresent();
-            soft.assertThat(foundVehicle.orElseThrow().getTransmission()).isEqualTo(insertedVehicle.getTransmission());
-        });
-    }
+            // When
+            var vehicle = template.insert(entity);
 
-    @ParameterizedTest
-    @ArgumentsSource(VehicleSupplier.class)
-    @DisplayName("Should insert vehicle with TTL")
-    void shouldInsertWithTTL(Vehicle entity) {
-        try {
-            Vehicle insertedVehicle = template.insert(entity, Duration.ofMinutes(10));
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(insertedVehicle).isNotNull();
-                soft.assertThat(insertedVehicle.getId()).isNotNull();
-                soft.assertThat(insertedVehicle.getModel()).isEqualTo(entity.getModel());
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(vehicle)
+                        .as("inserted vehicle")
+                        .isNotNull();
+                softly.assertThat(vehicle.getId())
+                        .as("inserted vehicle id")
+                        .isNotNull();
+                softly.assertThat(vehicle.getModel())
+                        .as("inserted vehicle model")
+                        .isEqualTo(entity.getModel());
+                softly.assertThat(vehicle.getTransmission())
+                        .as("inserted vehicle transmission")
+                        .isEqualTo(entity.getTransmission());
             });
-        } catch (UnsupportedOperationException e) {
-            LOGGER.info("TTL operation not supported by this database: " + e.getMessage());
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(VehicleSupplier.class)
+        @DisplayName("Should persist the entity with TTL when supported: {0}")
+        void shouldInsertWithTtl(Vehicle entity) {
+            try {
+                // Given
+
+                // When
+                var insertedVehicle = template.insert(entity, Duration.ofMinutes(10));
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(insertedVehicle)
+                            .as("inserted vehicle with ttl")
+                            .isNotNull();
+                    softly.assertThat(insertedVehicle.getId())
+                            .as("inserted vehicle with ttl id")
+                            .isNotNull();
+                    softly.assertThat(insertedVehicle.getModel())
+                            .as("inserted vehicle with ttl model")
+                            .isEqualTo(entity.getModel());
+                });
+            } catch (UnsupportedOperationException exception) {
+                LOGGER.info("TTL operation not supported by this database: " + exception.getMessage());
+            }
         }
     }
 
+    @Nested
+    @DisplayName("When updating an entity with an enum attribute")
+    class WhenTheUpdate {
+
+        @ParameterizedTest
+        @ArgumentsSource(VehicleSupplier.class)
+        @DisplayName("Should update the transmission: {0}")
+        void shouldUpdate(Vehicle entity) {
+
+            // Given
+            var insertedVehicle = template.insert(entity);
+            insertedVehicle.setTransmission(Transmission.AUTOMATIC);
+
+            // When
+            var updatedVehicle = template.update(insertedVehicle);
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(updatedVehicle)
+                        .as("updated vehicle")
+                        .isNotNull();
+                softly.assertThat(updatedVehicle.getTransmission())
+                        .as("updated vehicle transmission")
+                        .isEqualTo(Transmission.AUTOMATIC);
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("When removing an entity with an enum attribute")
+    class WhenTheRemoval {
+
+        @ParameterizedTest
+        @ArgumentsSource(VehicleSupplier.class)
+        @DisplayName("Should remove the entity with the enum attribute: {0}")
+        void shouldDelete(Vehicle entity) {
+
+            // Given
+            var insertedVehicle = template.insert(entity);
+
+            // When
+            template.delete(Vehicle.class, insertedVehicle.getId());
+            var deletedVehicle = template.find(Vehicle.class, insertedVehicle.getId());
+
+            // Then
+            assertThat(deletedVehicle)
+                    .as("vehicle after deletion")
+                    .isEmpty();
+        }
+    }
+
+    @Nested
+    @DisplayName("When searching for an entity with an enum attribute")
+    class WhenTheSearch {
+
+        @ParameterizedTest
+        @ArgumentsSource(VehicleSupplier.class)
+        @DisplayName("Should return the entity with the enum attribute: {0}")
+        void shouldFind(Vehicle entity) {
+
+            // Given
+            var insertedVehicle = template.insert(entity);
+
+            // When
+            var foundVehicle = template.find(Vehicle.class, insertedVehicle.getId());
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(foundVehicle)
+                        .as("found vehicle optional")
+                        .isPresent();
+                foundVehicle.ifPresent(vehicle -> softly.assertThat(vehicle.getTransmission())
+                        .as("found vehicle transmission")
+                        .isEqualTo(insertedVehicle.getTransmission()));
+            });
+        }
+    }
 }
