@@ -19,9 +19,8 @@ import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Book;
 import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.factories.BookSupplier;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -29,93 +28,191 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import java.time.Duration;
 import java.util.logging.Logger;
 
-@DisplayName("The basic template operations with Record as entity")
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+@DisplayName("The basic template operations using a record entity")
 public class BasicTemplateRecordTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateRecordTest.class.getName());
 
-    @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
-    @DisplayName("Should insert the book: {0}")
-    void shouldInsert(Book entity) {
-        var book = template.insert(entity);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(book).isNotNull();
-            soft.assertThat(book.id()).isNotNull();
-            soft.assertThat(book.title()).isEqualTo(entity.title());
-            soft.assertThat(book.author()).isEqualTo(entity.author());
-            soft.assertThat(book.publisher()).isEqualTo(entity.publisher());
-            soft.assertThat(book.genre()).isEqualTo(entity.genre());
-        });
-    }
+    @Nested
+    @DisplayName("When inserting a record entity")
+    class WhenTheInsertion {
 
-    @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
-    @DisplayName("Should update the book: {0}")
-    void shouldUpdate(Book entity) {
-        var insertedBook = template.insert(entity);
+        @ParameterizedTest
+        @ArgumentsSource(BookSupplier.class)
+        @DisplayName("Should persist the record entity: {0}")
+        void shouldInsert(Book entity) {
 
-        var updatedBook = template.update(insertedBook);
+            // Given
 
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(updatedBook).isNotNull();
-            soft.assertThat(updatedBook.id()).isEqualTo(insertedBook.id());
-            soft.assertThat(updatedBook.title()).isEqualTo(insertedBook.title());
-        });
-    }
+            // When
+            var book = template.insert(entity);
 
-    @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
-    @DisplayName("Should delete the book: {0}")
-    void shouldDelete(Book entity) {
-        var insertedBook = template.insert(entity);
-
-        template.delete(Book.class, insertedBook.id());
-
-        var deletedBook = template.find(Book.class, insertedBook.id());
-        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedBook).isEmpty());
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
-    @DisplayName("Should find the book: {0}")
-    void shouldFind(Book entity) {
-        var insertedBook = template.insert(entity);
-        var foundBook = template.find(Book.class, insertedBook.id());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(foundBook).isPresent();
-            soft.assertThat(foundBook.orElseThrow().id()).isEqualTo(insertedBook.id());
-            soft.assertThat(foundBook.orElseThrow().title()).isEqualTo(insertedBook.title());
-        });
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(BookSupplier.class)
-    @DisplayName("Should insert book with TTL")
-    void shouldInsertWithTTL(Book book) {
-        try {
-            var insertedBook = template.insert(book, Duration.ofMinutes(10));
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(insertedBook).isNotNull();
-                soft.assertThat(insertedBook.id()).isNotNull();
-                soft.assertThat(insertedBook.title()).isEqualTo(book.title());
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(book)
+                        .as("inserted book")
+                        .isNotNull();
+                softly.assertThat(book.id())
+                        .as("inserted book id")
+                        .isNotNull();
+                softly.assertThat(book.title())
+                        .as("inserted book title")
+                        .isEqualTo(entity.title());
+                softly.assertThat(book.author())
+                        .as("inserted book author")
+                        .isEqualTo(entity.author());
+                softly.assertThat(book.publisher())
+                        .as("inserted book publisher")
+                        .isEqualTo(entity.publisher());
+                softly.assertThat(book.genre())
+                        .as("inserted book genre")
+                        .isEqualTo(entity.genre());
             });
-        } catch (UnsupportedOperationException e) {
-            LOGGER.info("TTL operation not supported by this database: " + e.getMessage());
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(BookSupplier.class)
+        @DisplayName("Should persist the record entity with TTL when supported: {0}")
+        void shouldInsertWithTtl(Book book) {
+            try {
+                // Given
+
+                // When
+                var insertedBook = template.insert(book, Duration.ofMinutes(10));
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(insertedBook)
+                            .as("inserted book with ttl")
+                            .isNotNull();
+                    softly.assertThat(insertedBook.id())
+                            .as("inserted book with ttl id")
+                            .isNotNull();
+                    softly.assertThat(insertedBook.title())
+                            .as("inserted book with ttl title")
+                            .isEqualTo(book.title());
+                });
+            } catch (UnsupportedOperationException exception) {
+                LOGGER.info("TTL operation not supported by this database: " + exception.getMessage());
+            }
         }
     }
 
-    @Test
-    @DisplayName("Should throw exception when null entity is inserted")
-    void shouldThrowExceptionWhenNullEntityInserted() {
-        Assertions.assertThatThrownBy(() -> template.insert(null))
-                .isInstanceOf(NullPointerException.class);
+    @Nested
+    @DisplayName("When updating a record entity")
+    class WhenTheUpdate {
+
+        @ParameterizedTest
+        @ArgumentsSource(BookSupplier.class)
+        @DisplayName("Should update the record entity: {0}")
+        void shouldUpdate(Book entity) {
+
+            // Given
+            var insertedBook = template.insert(entity);
+
+            // When
+            var updatedBook = template.update(insertedBook);
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(updatedBook)
+                        .as("updated book")
+                        .isNotNull();
+                softly.assertThat(updatedBook.id())
+                        .as("updated book id")
+                        .isEqualTo(insertedBook.id());
+                softly.assertThat(updatedBook.title())
+                        .as("updated book title")
+                        .isEqualTo(insertedBook.title());
+            });
+        }
     }
 
-    @Test
-    @DisplayName("Should throw exception when null entity is updated")
-    void shouldThrowExceptionWhenNullEntityUpdated() {
-        Assertions.assertThatThrownBy(() -> template.update((Person)null))
-                .isInstanceOf(NullPointerException.class);
+    @Nested
+    @DisplayName("When removing a record entity")
+    class WhenTheRemoval {
+
+        @ParameterizedTest
+        @ArgumentsSource(BookSupplier.class)
+        @DisplayName("Should remove the record entity: {0}")
+        void shouldDelete(Book entity) {
+
+            // Given
+            var insertedBook = template.insert(entity);
+
+            // When
+            template.delete(Book.class, insertedBook.id());
+            var deletedBook = template.find(Book.class, insertedBook.id());
+
+            // Then
+            assertThat(deletedBook)
+                    .as("book after deletion")
+                    .isEmpty();
+        }
+    }
+
+    @Nested
+    @DisplayName("When searching for a record entity")
+    class WhenTheSearch {
+
+        @ParameterizedTest
+        @ArgumentsSource(BookSupplier.class)
+        @DisplayName("Should return the record entity: {0}")
+        void shouldFind(Book entity) {
+
+            // Given
+            var insertedBook = template.insert(entity);
+
+            // When
+            var foundBook = template.find(Book.class, insertedBook.id());
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(foundBook)
+                        .as("found book optional")
+                        .isPresent();
+                foundBook.ifPresent(book -> {
+                    softly.assertThat(book.id())
+                            .as("found book id")
+                            .isEqualTo(insertedBook.id());
+                    softly.assertThat(book.title())
+                            .as("found book title")
+                            .isEqualTo(insertedBook.title());
+                });
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("When validating record entities")
+    class WhenTheValidation {
+
+        @Test
+        @DisplayName("Should reject a null entity during insertion")
+        void shouldRejectNullEntityOnInsert() {
+
+            // Given
+
+            // When / Then
+            assertThatThrownBy(() -> template.insert(null))
+                    .as("null entity insertion")
+                    .isInstanceOf(NullPointerException.class);
+        }
+
+        @Test
+        @DisplayName("Should reject a null entity during update")
+        void shouldRejectNullEntityOnUpdate() {
+
+            // Given
+
+            // When / Then
+            assertThatThrownBy(() -> template.update((Person) null))
+                    .as("null entity update")
+                    .isInstanceOf(NullPointerException.class);
+        }
     }
 }
