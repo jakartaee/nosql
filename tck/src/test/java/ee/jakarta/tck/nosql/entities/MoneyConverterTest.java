@@ -16,30 +16,87 @@
 package ee.jakarta.tck.nosql.entities;
 
 import jakarta.nosql.AttributeConverter;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 class MoneyConverterTest {
 
     private final AttributeConverter<Money, String> converter = new MoneyConverter();
 
-    @Test
-    public void shouldConvertToDatabaseColumn() {
-        Money money = new Money(Currency.getInstance("USD"), BigDecimal.valueOf(10));
-        String convert = converter.convertToDatabaseColumn(money);
-        Assertions.assertThat(convert).isEqualTo("USD 10");
+    @Nested
+    @DisplayName("When converting money to a database value")
+    class WhenTheDatabaseValueIsCreated {
+
+        @Test
+        @DisplayName("Should return the currency and amount")
+        void shouldReturnTheCurrencyAndAmount() {
+
+            // Given
+            var money = new Money(Currency.getInstance("USD"), BigDecimal.valueOf(10));
+
+            // When
+            var databaseValue = converter.convertToDatabaseColumn(money);
+
+            // Then
+            assertThat(databaseValue)
+                    .as("serialized money")
+                    .isEqualTo("USD 10");
+        }
+
+        @Test
+        @DisplayName("Should return null when money is null")
+        void shouldReturnNullWhenMoneyIsNull() {
+
+            // When
+            var databaseValue = converter.convertToDatabaseColumn(null);
+
+            // Then
+            assertThat(databaseValue)
+                    .as("serialized null money")
+                    .isNull();
+        }
     }
 
-    @Test
-    public void shouldConvertToEntityAttribute() {
-        Money money = converter.convertToEntityAttribute("USD 10");
-        SoftAssertions.assertSoftly(a -> {
-            a.assertThat(money.currency().getCurrencyCode()).isEqualTo("USD");
-            a.assertThat(money.value()).isEqualByComparingTo(BigDecimal.valueOf(10));
-        });
+    @Nested
+    @DisplayName("When converting a database value to money")
+    class WhenTheMoneyIsCreated {
+
+        @Test
+        @DisplayName("Should return the currency and amount")
+        void shouldReturnTheCurrencyAndAmount() {
+
+            // When
+            var money = converter.convertToEntityAttribute("USD 10");
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(money.currency().getCurrencyCode())
+                        .as("currency code")
+                        .isEqualTo("USD");
+                softly.assertThat(money.value())
+                        .as("money amount")
+                        .isEqualByComparingTo(BigDecimal.valueOf(10));
+            });
+        }
+
+        @Test
+        @DisplayName("Should return null when the database value is null")
+        void shouldReturnNullWhenTheDatabaseValueIsNull() {
+
+            // When
+            var money = converter.convertToEntityAttribute(null);
+
+            // Then
+            assertThat(money)
+                    .as("money converted from a null database value")
+                    .isNull();
+        }
     }
 }
