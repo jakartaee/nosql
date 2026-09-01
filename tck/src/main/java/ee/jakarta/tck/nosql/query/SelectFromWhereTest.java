@@ -18,7 +18,6 @@ package ee.jakarta.tck.nosql.query;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Fruit;
 import ee.jakarta.tck.nosql.factories.FruitListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,293 +25,397 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 @DisplayName("The Jakarta Query integration test using select where clause")
 public class SelectFromWhereTest extends AbstractTemplateTest {
 
     @Nested
-    @DisplayName("When there is param binder")
-    class WhenThereIsParamBinder {
+    @DisplayName("When an equality condition is used")
+    class WhenTheEqualityConditionIsUsed {
 
         @ParameterizedTest
-        @DisplayName("should test eq")
         @ArgumentsSource(FruitListSupplier.class)
-        void shouldEq(List<Fruit> fruits) {
+        @DisplayName("Should return matching entities using parameters")
+        void shouldReturnMatchingEntitiesUsingParameters(List<Fruit> fruits) {
             try {
                 template.insert(fruits);
-                Fruit sample = fruits.getFirst();
+                Fruit sampleFruit = fruits.getFirst();
+
                 List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = :name", Fruit.class)
-                        .bind("name", sample.getName())
+                        .bind("name", sampleFruit.getName())
                         .result();
 
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getName().equals(sample.getName()));
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the equality condition with parameters")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("matched values returned by the equality condition with parameters")
+                            .allMatch(fruit -> fruit.getName().equals(sampleFruit.getName()));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
             }
         }
 
         @ParameterizedTest
-        @DisplayName("should test neq")
         @ArgumentsSource(FruitListSupplier.class)
-        void shouldNEq(List<Fruit> fruits) {
+        @DisplayName("Should return matching entities using literal values")
+        void shouldReturnMatchingEntitiesUsingLiteralValues(List<Fruit> fruits) {
             try {
                 template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> :name", Fruit.class)
-                        .bind("name", sample.getName())
-                        .result();
+                Fruit sampleFruit = fruits.getFirst();
 
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test gt")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldGt(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity > :quantity", Fruit.class)
-                        .bind("quantity", sample.getQuantity())
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test gte")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldGte(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity >= :quantity", Fruit.class)
-                        .bind("quantity", sample.getQuantity())
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test lt")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldLt(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity < :quantity", Fruit.class)
-                        .bind("quantity", sample.getQuantity())
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test lte")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldLte(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity <= :quantity", Fruit.class)
-                        .bind("quantity", sample.getQuantity())
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test in")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldIn(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                var sample1 = fruits.getFirst();
-                var sample2 = fruits.get(1);
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name IN (:name1, :name2)", Fruit.class)
-                        .bind("name1", sample1.getName())
-                        .bind("name2", sample2.getName())
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getName().equals(sample1.getName())
-                                || fruit.getName().equals(sample2.getName()));
-
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-    }
-
-    @Nested
-    @DisplayName("When there is no param binder")
-    class WhenThereIsNoParamBinder {
-
-        @ParameterizedTest
-        @DisplayName("should test eq")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldEq(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = '"
-                                + sample.getName() + "'", Fruit.class)
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getName().equals(sample.getName()));
-
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test neq")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldNEq(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> '" + sample.getName() + "'", Fruit.class)
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> !fruit.getName().equals(sample.getName()));
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test in")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldIn(List<Fruit> fruits) {
-
-            try {
-                template.insert(fruits);
-                var sample1 = fruits.getFirst();
-                var sample2 = fruits.get(1);
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name IN ('" + sample1.getName()
-                                + "', '" + sample2.getName() + "')", Fruit.class)
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getName().equals(sample1.getName())
-                                || fruit.getName().equals(sample2.getName()));
-
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test gt")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldGt(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity > " +
-                                sample.getQuantity(), Fruit.class)
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() > sample.getQuantity());
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test gte")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldGte(List<Fruit> fruits) {
-
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity >= "
-                                + sample.getQuantity(), Fruit.class)
-                        .result();
-
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() >= sample.getQuantity());
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-            }
-        }
-
-        @ParameterizedTest
-        @DisplayName("should test lt")
-        @ArgumentsSource(FruitListSupplier.class)
-        void shouldLt(List<Fruit> fruits) {
-            try {
-                template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity < " + sample.getQuantity(),
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name = '" + sampleFruit.getName() + "'",
                                 Fruit.class)
                         .result();
 
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() < sample.getQuantity());
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the equality condition with literal values")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("matched values returned by the equality condition with literal values")
+                            .allMatch(fruit -> fruit.getName().equals(sampleFruit.getName()));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("When an inequality condition is used")
+    class WhenTheInequalityConditionIsUsed {
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return non-matching entities using parameters")
+        void shouldReturnNonMatchingEntitiesUsingParameters(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name <> :name", Fruit.class)
+                        .bind("name", sampleFruit.getName())
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the inequality condition with parameters")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the inequality condition with parameters")
+                            .allMatch(fruit -> !fruit.getName().equals(sampleFruit.getName()));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
             }
         }
 
         @ParameterizedTest
-        @DisplayName("should test lte")
         @ArgumentsSource(FruitListSupplier.class)
-        void shouldLte(List<Fruit> fruits) {
-
+        @DisplayName("Should return non-matching entities using literal values")
+        void shouldReturnNonMatchingEntitiesUsingLiteralValues(List<Fruit> fruits) {
             try {
                 template.insert(fruits);
-                Fruit sample = fruits.getFirst();
-                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity <= " + sample.getQuantity(), Fruit.class)
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery(
+                                "FROM Fruit WHERE name <> '" + sampleFruit.getName() + "'",
+                                Fruit.class)
                         .result();
 
-                Assertions.assertThat(result)
-                        .isNotEmpty()
-                        .allMatch(fruit -> fruit.getQuantity() <= sample.getQuantity());
-
-            } catch (UnsupportedOperationException exp) {
-                Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the inequality condition with literal values")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the inequality condition with literal values")
+                            .allMatch(fruit -> !fruit.getName().equals(sampleFruit.getName()));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
             }
         }
+    }
+
+    @Nested
+    @DisplayName("When a range condition is used")
+    class WhenTheRangeConditionIsUsed {
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities greater than the bound value using parameters")
+        void shouldReturnEntitiesGreaterThanTheBoundValueUsingParameters(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity > :quantity", Fruit.class)
+                        .bind("quantity", sampleFruit.getQuantity())
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the greater-than condition with parameters")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the greater-than condition with parameters")
+                            .allMatch(fruit -> fruit.getQuantity() > sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities greater than or equal to the bound value using parameters")
+        void shouldReturnEntitiesGreaterThanOrEqualToTheBoundValueUsingParameters(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity >= :quantity", Fruit.class)
+                        .bind("quantity", sampleFruit.getQuantity())
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the greater-than-or-equal condition with parameters")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the greater-than-or-equal condition with parameters")
+                            .allMatch(fruit -> fruit.getQuantity() >= sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities less than the bound value using parameters")
+        void shouldReturnEntitiesLessThanTheBoundValueUsingParameters(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity < :quantity", Fruit.class)
+                        .bind("quantity", sampleFruit.getQuantity())
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the less-than condition with parameters")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the less-than condition with parameters")
+                            .allMatch(fruit -> fruit.getQuantity() < sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities less than or equal to the bound value using parameters")
+        void shouldReturnEntitiesLessThanOrEqualToTheBoundValueUsingParameters(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE quantity <= :quantity", Fruit.class)
+                        .bind("quantity", sampleFruit.getQuantity())
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the less-than-or-equal condition with parameters")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the less-than-or-equal condition with parameters")
+                            .allMatch(fruit -> fruit.getQuantity() <= sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities greater than the bound value using literal values")
+        void shouldReturnEntitiesGreaterThanTheBoundValueUsingLiteralValues(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery(
+                                "FROM Fruit WHERE quantity > " + sampleFruit.getQuantity(),
+                                Fruit.class)
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the greater-than condition with literal values")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the greater-than condition with literal values")
+                            .allMatch(fruit -> fruit.getQuantity() > sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities greater than or equal to the bound value using literal values")
+        void shouldReturnEntitiesGreaterThanOrEqualToTheBoundValueUsingLiteralValues(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery(
+                                "FROM Fruit WHERE quantity >= " + sampleFruit.getQuantity(),
+                                Fruit.class)
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the greater-than-or-equal condition with literal values")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the greater-than-or-equal condition with literal values")
+                            .allMatch(fruit -> fruit.getQuantity() >= sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities less than the bound value using literal values")
+        void shouldReturnEntitiesLessThanTheBoundValueUsingLiteralValues(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery(
+                                "FROM Fruit WHERE quantity < " + sampleFruit.getQuantity(),
+                                Fruit.class)
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the less-than condition with literal values")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the less-than condition with literal values")
+                            .allMatch(fruit -> fruit.getQuantity() < sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return entities less than or equal to the bound value using literal values")
+        void shouldReturnEntitiesLessThanOrEqualToTheBoundValueUsingLiteralValues(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                Fruit sampleFruit = fruits.getFirst();
+
+                List<Fruit> result = template.typedQuery(
+                                "FROM Fruit WHERE quantity <= " + sampleFruit.getQuantity(),
+                                Fruit.class)
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the less-than-or-equal condition with literal values")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the less-than-or-equal condition with literal values")
+                            .allMatch(fruit -> fruit.getQuantity() <= sampleFruit.getQuantity());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("When a membership condition is used")
+    class WhenTheMembershipConditionIsUsed {
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return matching entities using parameters")
+        void shouldReturnMatchingEntitiesUsingParameters(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                var sampleFruit = fruits.getFirst();
+                var anotherSampleFruit = fruits.get(1);
+
+                List<Fruit> result = template.typedQuery("FROM Fruit WHERE name IN (:name1, :name2)", Fruit.class)
+                        .bind("name1", sampleFruit.getName())
+                        .bind("name2", anotherSampleFruit.getName())
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the membership condition with parameters")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the membership condition with parameters")
+                            .allMatch(fruit -> fruit.getName().equals(sampleFruit.getName())
+                                    || fruit.getName().equals(anotherSampleFruit.getName()));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(FruitListSupplier.class)
+        @DisplayName("Should return matching entities using literal values")
+        void shouldReturnMatchingEntitiesUsingLiteralValues(List<Fruit> fruits) {
+            try {
+                template.insert(fruits);
+                var sampleFruit = fruits.getFirst();
+                var anotherSampleFruit = fruits.get(1);
+
+                List<Fruit> result = template.typedQuery(
+                                "FROM Fruit WHERE name IN ('" + sampleFruit.getName()
+                                        + "', '" + anotherSampleFruit.getName() + "')",
+                                Fruit.class)
+                        .result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned by the membership condition with literal values")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("returned values from the membership condition with literal values")
+                            .allMatch(fruit -> fruit.getName().equals(sampleFruit.getName())
+                                    || fruit.getName().equals(anotherSampleFruit.getName()));
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+    }
+
+    private void assertUnsupportedOperation(UnsupportedOperationException exception) {
+        assertThat(exception)
+                .as("unsupported select query portability handling")
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }
