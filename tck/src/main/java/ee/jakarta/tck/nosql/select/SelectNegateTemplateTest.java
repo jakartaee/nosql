@@ -218,11 +218,7 @@ public class SelectNegateTemplateTest extends AbstractTemplateTest {
 
             // Given
             insertPeople(entities);
-            int secondElder = entities.stream()
-                    .mapToInt(Person::getAge)
-                    .skip(1)
-                    .findFirst()
-                    .orElseThrow();
+            int secondElder = sortedAgeAt(entities, 1);
             int upperBound = secondElder + 5;
 
             try {
