@@ -100,7 +100,7 @@ public class BasicEnumFieldTemplateTest extends AbstractTemplateTest {
 
         @ParameterizedTest
         @ArgumentsSource(VehicleSupplier.class)
-        @DisplayName("Should update the transmission: {0}")
+        @DisplayName("Should update the enum attribute: {0}")
         void shouldUpdate(Vehicle entity) {
 
             // Given
