@@ -24,7 +24,7 @@ Jakarta NoSQL introduces a comprehensive set of annotations tailored to streamli
 * Abstraction of common properties and behaviors across multiple entity classes through the `@MappedSuperclass` annotation, promoting code reusability and maintainability.
 * Specifying inheritance strategies using the `@Inheritance`, `@DiscriminatorValue`, and `@DiscriminatorColumn` annotations facilitates polymorphic data modeling within the NoSQL environment.
 
-Jakarta NoSQL has support for those nine types:
+Jakarta NoSQL has support for those ten types:
 
 1. @Entity
 2. @Embeddable
