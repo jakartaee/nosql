@@ -20,123 +20,229 @@ import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.entities.RecentSearches;
 import ee.jakarta.tck.nosql.factories.PersonSupplier;
 import ee.jakarta.tck.nosql.factories.RecentSearchesSupplier;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Duration;
-import java.util.Optional;
 import java.util.logging.Logger;
 
-@DisplayName("The basic template operations using a POJO entity")
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
+@DisplayName("The basic template operations for POJO entities")
 class BasicTemplateTest extends AbstractTemplateTest {
 
     private static final Logger LOGGER = Logger.getLogger(BasicTemplateTest.class.getName());
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should insert the person: {0}")
-    void shouldInsert(Person entity) {
-        var person = template.insert(entity);
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(person).isNotNull();
-            soft.assertThat(person.getId()).isNotNull();
-            soft.assertThat(person.getName()).isEqualTo(entity.getName());
-            soft.assertThat(person.getAge()).isEqualTo(entity.getAge());
-        });
-    }
+    @Nested
+    @DisplayName("When inserting a POJO entity")
+    class WhenTheInsertion {
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should update the person: {0}")
-    void shouldUpdate(Person entity) {
-        var insertedPerson = template.insert(entity);
+        @ParameterizedTest
+        @ArgumentsSource(PersonSupplier.class)
+        @DisplayName("Should persist the POJO entity: {0}")
+        void shouldInsert(Person entity) {
 
-        insertedPerson.setAge(insertedPerson.getAge() + 1);
-        var updatedPerson = template.update(insertedPerson);
+            // Given
 
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(updatedPerson).isNotNull();
-            soft.assertThat(updatedPerson.getId()).isEqualTo(insertedPerson.getId());
-            soft.assertThat(updatedPerson.getAge()).isEqualTo(insertedPerson.getAge());
-        });
-    }
+            // When
+            var person = template.insert(entity);
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should delete the person: {0}")
-    void shouldDelete(Person entity) {
-        var insertedPerson = template.insert(entity);
-
-        template.delete(Person.class, insertedPerson.getId());
-
-        var deletedPerson = template.find(Person.class, insertedPerson.getId());
-        SoftAssertions.assertSoftly(soft -> soft.assertThat(deletedPerson).isEmpty());
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should find the person: {0}")
-    void shouldFind(Person entity) {
-        var insertedPerson = template.insert(entity);
-        var foundPerson = template.find(Person.class, insertedPerson.getId());
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(foundPerson).isPresent();
-            soft.assertThat(foundPerson.orElseThrow().getId()).isEqualTo(insertedPerson.getId());
-            soft.assertThat(foundPerson.orElseThrow().getName()).isEqualTo(insertedPerson.getName());
-            soft.assertThat(foundPerson.orElseThrow().getAge()).isEqualTo(insertedPerson.getAge());
-        });
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(PersonSupplier.class)
-    @DisplayName("Should insert vehicle with TTL")
-    void shouldInsertWithTTL(Person person) {
-        try {
-            var insertedPerson = template.insert(person, Duration.ofMinutes(10));
-            SoftAssertions.assertSoftly(soft -> {
-                soft.assertThat(insertedPerson).isNotNull();
-                soft.assertThat(insertedPerson.getId()).isNotNull();
-                soft.assertThat(insertedPerson.getName()).isEqualTo(person.getName());
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(person)
+                        .as("inserted person")
+                        .isNotNull();
+                softly.assertThat(person.getId())
+                        .as("inserted person id")
+                        .isNotNull();
+                softly.assertThat(person.getName())
+                        .as("inserted person name")
+                        .isEqualTo(entity.getName());
+                softly.assertThat(person.getAge())
+                        .as("inserted person age")
+                        .isEqualTo(entity.getAge());
             });
-        } catch (UnsupportedOperationException e) {
-            LOGGER.info("TTL operation not supported by this database: " + e.getMessage());
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonSupplier.class)
+        @DisplayName("Should persist the POJO entity with TTL when supported: {0}")
+        void shouldInsertWithTtl(Person person) {
+            try {
+                // Given
+
+                // When
+                var insertedPerson = template.insert(person, Duration.ofMinutes(10));
+
+                // Then
+                assertSoftly(softly -> {
+                    softly.assertThat(insertedPerson)
+                            .as("inserted person with ttl")
+                            .isNotNull();
+                    softly.assertThat(insertedPerson.getId())
+                            .as("inserted person with ttl id")
+                            .isNotNull();
+                    softly.assertThat(insertedPerson.getName())
+                            .as("inserted person with ttl name")
+                            .isEqualTo(person.getName());
+                });
+            } catch (UnsupportedOperationException exception) {
+                LOGGER.info("TTL operation not supported by this database: " + exception.getMessage());
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(RecentSearchesSupplier.class)
+        @DisplayName("Should persist the entity with a sequenced collection attribute")
+        void shouldInsertSequencedCollectionEntity(RecentSearches entity) {
+
+            // Given
+            template.insert(entity);
+
+            // When
+            var recentSearches = template.find(RecentSearches.class, entity.getUserId());
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(recentSearches)
+                        .as("recent searches optional")
+                        .isPresent();
+                recentSearches.ifPresent(searches -> {
+                    softly.assertThat(searches)
+                            .as("recent searches entity")
+                            .isNotNull();
+                    softly.assertThat(searches.getUserId())
+                            .as("recent searches user id")
+                            .isNotNull();
+                    softly.assertThat(searches.getKeywords())
+                            .as("recent searches keywords")
+                            .isNotNull()
+                            .isNotEmpty();
+                });
+            });
         }
     }
 
-    @Test
-    @DisplayName("Should throw exception when null entity is inserted")
-    void shouldThrowExceptionWhenNullEntityInserted() {
-        Assertions.assertThatThrownBy(() -> template.insert(null))
-                .isInstanceOf(NullPointerException.class);
+    @Nested
+    @DisplayName("When updating a POJO entity")
+    class WhenTheUpdate {
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonSupplier.class)
+        @DisplayName("Should update the POJO entity: {0}")
+        void shouldUpdate(Person entity) {
+
+            // Given
+            var insertedPerson = template.insert(entity);
+            insertedPerson.setAge(insertedPerson.getAge() + 1);
+
+            // When
+            var updatedPerson = template.update(insertedPerson);
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(updatedPerson)
+                        .as("updated person")
+                        .isNotNull();
+                softly.assertThat(updatedPerson.getId())
+                        .as("updated person id")
+                        .isEqualTo(insertedPerson.getId());
+                softly.assertThat(updatedPerson.getAge())
+                        .as("updated person age")
+                        .isEqualTo(insertedPerson.getAge());
+            });
+        }
     }
 
-    @Test
-    @DisplayName("Should throw exception when null entity is updated")
-    void shouldThrowExceptionWhenNullEntityUpdated() {
-        Assertions.assertThatThrownBy(() -> template.update((Person)null))
-                .isInstanceOf(NullPointerException.class);
+    @Nested
+    @DisplayName("When removing a POJO entity")
+    class WhenTheRemoval {
+
+        @ParameterizedTest
+        @ArgumentsSource(PersonSupplier.class)
+        @DisplayName("Should remove the POJO entity: {0}")
+        void shouldDelete(Person entity) {
+
+            // Given
+            var insertedPerson = template.insert(entity);
+
+            // When
+            template.delete(Person.class, insertedPerson.getId());
+            var deletedPerson = template.find(Person.class, insertedPerson.getId());
+
+            // Then
+            assertThat(deletedPerson)
+                    .as("person after deletion")
+                    .isEmpty();
+        }
     }
 
-    @DisplayName("Should insert and update a collection of entities")
-    @ParameterizedTest
-    @ArgumentsSource(RecentSearchesSupplier.class)
-    void shouldInsertAndUpdateSequencedCollection(RecentSearches entity){
-        template.insert(entity);
+    @Nested
+    @DisplayName("When searching for a POJO entity")
+    class WhenTheSearch {
 
-        Optional<RecentSearches> optional = template.find(RecentSearches.class, entity.getUserId());
+        @ParameterizedTest
+        @ArgumentsSource(PersonSupplier.class)
+        @DisplayName("Should return the POJO entity: {0}")
+        void shouldFind(Person entity) {
 
-        SoftAssertions.assertSoftly(soft -> {
-           soft.assertThat(optional).isPresent();
-           var recentSearches = optional.orElseThrow();
-           soft.assertThat(recentSearches).isNotNull();
-           soft.assertThat(recentSearches.getUserId()).isNotNull();
-            soft.assertThat(recentSearches.getKeywords()).isNotNull().isNotEmpty();
-        });
+            // Given
+            var insertedPerson = template.insert(entity);
 
+            // When
+            var foundPerson = template.find(Person.class, insertedPerson.getId());
+
+            // Then
+            assertSoftly(softly -> {
+                softly.assertThat(foundPerson)
+                        .as("found person optional")
+                        .isPresent();
+                foundPerson.ifPresent(person -> {
+                    softly.assertThat(person.getId())
+                            .as("found person id")
+                            .isEqualTo(insertedPerson.getId());
+                    softly.assertThat(person.getName())
+                            .as("found person name")
+                            .isEqualTo(insertedPerson.getName());
+                    softly.assertThat(person.getAge())
+                            .as("found person age")
+                            .isEqualTo(insertedPerson.getAge());
+                });
+            });
+        }
     }
 
+    @Nested
+    @DisplayName("When validating POJO entities")
+    class WhenTheValidation {
+
+        @Test
+        @DisplayName("Should reject a null entity during insertion")
+        void shouldRejectNullEntityOnInsert() {
+
+            // Given
+
+            // When / Then
+            assertThatThrownBy(() -> template.insert(null))
+                    .as("null entity insertion")
+                    .isInstanceOf(NullPointerException.class);
+        }
+
+        @Test
+        @DisplayName("Should reject a null entity during update")
+        void shouldRejectNullEntityOnUpdate() {
+
+            // Given
+
+            // When / Then
+            assertThatThrownBy(() -> template.update((Person) null))
+                    .as("null entity update")
+                    .isInstanceOf(NullPointerException.class);
+        }
+    }
 }
