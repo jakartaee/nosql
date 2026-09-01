@@ -18,32 +18,47 @@ package ee.jakarta.tck.nosql.update;
 import ee.jakarta.tck.nosql.AbstractTemplateTest;
 import ee.jakarta.tck.nosql.entities.Person;
 import ee.jakarta.tck.nosql.factories.PersonListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DisplayName("The template update operations")
 public class UpdateTemplateTest extends AbstractTemplateTest {
 
+    @Nested
+    @DisplayName("When updating all entities without a condition")
+    class WhenTheUpdateHasNoCondition {
 
-    @ParameterizedTest
-    @ArgumentsSource(PersonListSupplier.class)
-    @DisplayName("Should insert Iterable and update all entities with no conditions")
-    void shouldInsertIterableAndUpdateNoCondition(List<Person> entities) {
-        entities.forEach(entity -> template.insert(entity));
-        try {
-            template.update(Person.class)
-                    .set("name").to("Updated name")
-                    .execute();
-            List<Person> result = template.select(Person.class).result();
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(person -> "Updated name".equals(person.getName()));
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        @ParameterizedTest
+        @ArgumentsSource(PersonListSupplier.class)
+        @DisplayName("Should update the selected attribute on every entity")
+        void shouldUpdateTheAttributeOnEveryEntity(List<Person> entities) {
+
+            // Given
+            entities.forEach(template::insert);
+
+            try {
+                // When
+                template.update(Person.class)
+                        .set("name").to("Updated name")
+                        .execute();
+                List<Person> result = template.select(Person.class).result();
+
+                // Then
+                assertThat(result)
+                        .as("entities after the unconditional update")
+                        .isNotEmpty()
+                        .allMatch(person -> "Updated name".equals(person.getName()));
+            } catch (UnsupportedOperationException exception) {
+                assertThat(exception)
+                        .as("unsupported unconditional update")
+                        .isInstanceOf(UnsupportedOperationException.class);
+            }
         }
     }
-
 }
