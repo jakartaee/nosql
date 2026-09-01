@@ -275,7 +275,7 @@ class DeleteFromTest extends AbstractTemplateTest {
                 Fruit sample1 = fruits.get(0);
                 Fruit sample2 = fruits.get(1);
 
-                template.typedQuery("FROM Fruit WHERE name = :name1 OR name = :name2", Fruit.class)
+                template.typedQuery("DELETE FROM Fruit WHERE name = :name1 OR name = :name2", Fruit.class)
                         .bind("name1", sample1.getName())
                         .bind("name2", sample2.getName())
                         .executeUpdate();
