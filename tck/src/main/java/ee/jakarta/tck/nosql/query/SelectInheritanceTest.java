@@ -22,63 +22,98 @@ import ee.jakarta.tck.nosql.entities.Coffee;
 import ee.jakarta.tck.nosql.entities.Drink;
 import ee.jakarta.tck.nosql.factories.AnimalListSupplier;
 import ee.jakarta.tck.nosql.factories.DrinkListSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 @DisplayName("The Jakarta Query integration test using select with inheritance")
 class SelectInheritanceTest extends AbstractTemplateTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should select all entities from inherited hierarchy")
-    void shouldSelectAllEntities(List<Drink> entities) {
-        this.template.insert(entities);
-        try {
-            List<Drink> result = this.template.query("FROM Drink").result();
+    @Nested
+    @DisplayName("When inheritance selection is executed")
+    class WhenTheInheritanceSelectionIsExecuted {
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .hasSize(entities.size());
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        @ParameterizedTest
+        @ArgumentsSource(DrinkListSupplier.class)
+        @DisplayName("Should return all entities from the hierarchy")
+        void shouldReturnAllEntitiesFromTheHierarchy(List<Drink> entities) {
+            template.insert(entities);
+
+            try {
+                List<Drink> result = template.query("FROM Drink").result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned from the hierarchy query")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("entity count returned from the hierarchy query")
+                            .hasSize(entities.size());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
+        }
+
+        @ParameterizedTest
+        @ArgumentsSource(DrinkListSupplier.class)
+        @DisplayName("Should return only entities from the requested subtype")
+        void shouldReturnOnlyEntitiesFromTheRequestedSubtype(List<Drink> entities) {
+            template.insert(entities);
+
+            try {
+                List<Drink> result = template.query("FROM Coffee").result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned from the subtype query")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("entity types returned from the subtype query")
+                            .allMatch(entity -> entity instanceof Coffee);
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(DrinkListSupplier.class)
-    @DisplayName("Should select specialized entities from inherited hierarchy")
-    void shouldSelectSpecializedEntities(List<Drink> entities) {
-        this.template.insert(entities);
-        try {
-            List<Drink> result = this.template.query("FROM Coffee").result();
+    @Nested
+    @DisplayName("When mapped-superclass selection is executed")
+    class WhenTheMappedSuperclassSelectionIsExecuted {
 
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .allMatch(entity -> entity instanceof Coffee);
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
+        @ParameterizedTest
+        @ArgumentsSource(AnimalListSupplier.class)
+        @DisplayName("Should return all entities from the mapped superclass")
+        void shouldReturnAllEntitiesFromTheMappedSuperclass(List<Animal> entities) {
+            template.insert(entities);
+
+            try {
+                List<Animal> result = template.query("FROM Animal").result();
+
+                assertSoftly(softly -> {
+                    softly.assertThat(result)
+                            .as("entities returned from the mapped-superclass query")
+                            .isNotEmpty();
+                    softly.assertThat(result)
+                            .as("entity count returned from the mapped-superclass query")
+                            .hasSize(entities.size());
+                });
+            } catch (UnsupportedOperationException exception) {
+                assertUnsupportedOperation(exception);
+            }
         }
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(AnimalListSupplier.class)
-    @DisplayName("Should select all entities from supper mapped class")
-    void shouldSelectSupperMappedClass(List<Animal> entities) {
-        this.template.insert(entities);
-
-        try {
-            List<Animal> result = this.template.query("FROM Animal").result();
-
-            Assertions.assertThat(result)
-                    .isNotEmpty()
-                    .hasSize(entities.size());
-        } catch (UnsupportedOperationException exp) {
-            Assertions.assertThat(exp).isInstanceOf(UnsupportedOperationException.class);
-        }
+    private void assertUnsupportedOperation(UnsupportedOperationException exception) {
+        assertThat(exception)
+                .as("unsupported inheritance query portability handling")
+                .isInstanceOf(UnsupportedOperationException.class);
     }
-
 }
