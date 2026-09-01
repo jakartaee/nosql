@@ -254,8 +254,8 @@ class DeleteFromTest extends AbstractTemplateTest {
 
                 assertThat(result)
                         .as("remaining entities after the conjunction condition")
-                        .allMatch(fruit -> !fruit.getName().equals(sample.getName())
-                                && !fruit.getQuantity().equals(sample.getQuantity()));
+                        .allMatch(fruit -> !(fruit.getName().equals(sample.getName())
+                                && fruit.getQuantity().equals(sample.getQuantity())));
             } catch (UnsupportedOperationException exception) {
                 assertUnsupportedOperation(exception);
             }
