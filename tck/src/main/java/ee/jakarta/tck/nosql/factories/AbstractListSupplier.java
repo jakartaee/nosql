@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 abstract class AbstractListSupplier<T> extends AbstractSupplier<List<T>> {
 
-    private static final int SIZE = 6;
+    static final int SIZE = 6;
 
 
     @Override
