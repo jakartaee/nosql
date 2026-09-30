@@ -17,7 +17,21 @@ package ee.jakarta.tck.nosql.factories;
 
 import ee.jakarta.tck.nosql.entities.Person;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
 public class PersonListSupplier extends AbstractListSupplier<Person> {
+
+    @Override
+    public List<Person> get() {
+        Set<Integer> ages = new HashSet<>();
+        return Stream.generate(this::getEntity)
+                .filter(person -> ages.add(person.getAge()))
+                .limit(SIZE)
+                .toList();
+    }
 
     @Override
     Person getEntity() {
