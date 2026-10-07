@@ -61,6 +61,23 @@ public interface QueryMapper {
          * @throws NullPointerException when name is null
          */
         MapperDeleteNameCondition where(String name);
+
+        /**
+         * Starts a new delete condition using a function expression.
+         * <pre>{@code
+         * template.delete(Book.class)
+         *     .where(Function.upper("title"))
+         *     .eq("CLEAN CODE")
+         *     .execute();
+         * }</pre>
+         *
+         * @param function the function expression
+         * @return a new {@link MapperDeleteNameCondition}
+         * @throws NullPointerException when function is null
+         * @throws UnsupportedFunctionException when the database does not support the function
+         * @since 1.1.0
+         */
+        MapperDeleteNameCondition where(Function function);
     }
 
     /**
@@ -377,6 +394,26 @@ public interface QueryMapper {
          * @throws NullPointerException when name is null
          */
         MapperDeleteNameCondition or(String name);
+
+        /**
+         * Adds an AND condition using a function expression.
+         *
+         * @param function the function expression
+         * @return the {@link MapperDeleteNameCondition}
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperDeleteNameCondition and(Function function);
+
+        /**
+         * Adds an OR condition using a function expression.
+         *
+         * @param function the function expression
+         * @return the {@link MapperDeleteNameCondition}
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperDeleteNameCondition or(Function function);
     }
 
     /**
@@ -518,6 +555,16 @@ public interface QueryMapper {
          * @throws NullPointerException when the field name is {@code null}
          */
         MapperUpdateNameCondition where(String name);
+
+        /**
+         * Defines a condition to restrict which entities will be updated using a function expression.
+         *
+         * @param function the function expression
+         * @return the conditional step of the update fluent API
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperUpdateNameCondition where(Function function);
     }
 
     /**
@@ -799,6 +846,26 @@ public interface QueryMapper {
          */
         MapperUpdateNameCondition or(String name);
 
+        /**
+         * Adds an AND condition using a function expression.
+         *
+         * @param function the function expression
+         * @return the {@link MapperUpdateNameCondition}
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperUpdateNameCondition and(Function function);
+
+        /**
+         * Adds an OR condition using a function expression.
+         *
+         * @param function the function expression
+         * @return the {@link MapperUpdateNameCondition}
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperUpdateNameCondition or(Function function);
+
     }
 
     /**
@@ -883,6 +950,23 @@ public interface QueryMapper {
         MapperNameCondition where(String name);
 
         /**
+         * Starts a new condition using a function expression.
+         * <pre>{@code
+         * template.select(Word.class)
+         *     .where(Function.left("term", 2))
+         *     .eq("Ja")
+         *     .result();
+         * }</pre>
+         *
+         * @param function the function expression
+         * @return a new {@link MapperNameCondition}
+         * @throws NullPointerException when function is null
+         * @throws UnsupportedFunctionException when the database does not support the function
+         * @since 1.1.0
+         */
+        MapperNameCondition where(Function function);
+
+        /**
          * Defines the position of the first result to retrieve (pagination offset).
          * <pre>{@code
          * template.select(Book.class)
@@ -924,6 +1008,22 @@ public interface QueryMapper {
          * @throws NullPointerException when name is null
          */
         MapperOrder orderBy(String name);
+
+        /**
+         * Adds an ordering rule based on a function expression.
+         * <pre>{@code
+         * template.select(Word.class)
+         *         .where("language").eq("en")
+         *         .orderBy(Function.length("term")).asc()
+         *         .result();
+         * }</pre>
+         *
+         * @param function the function expression to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperOrder orderBy(Function function);
     }
 
     /**
@@ -1228,6 +1328,16 @@ public interface QueryMapper {
          */
         MapperOrder orderBy(String name);
 
+        /**
+         * Adds an ordering rule based on a function expression.
+         *
+         * @param function the function expression to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException if function is null
+         * @since 1.1.0
+         */
+        MapperOrder orderBy(Function function);
+
 
         /**
          * Sets the number of results to skip before starting to return results.
@@ -1523,6 +1633,23 @@ public interface QueryMapper {
         MapperNameCondition and(String name);
 
         /**
+         * Combines the current condition with a new one using logical AND with a function expression.
+         * <pre>{@code
+         * template.select(Word.class)
+         *         .where("language").eq("en")
+         *         .and(Function.length("term"))
+         *         .gt(5)
+         *         .result();
+         * }</pre>
+         *
+         * @param function the function expression
+         * @return a new {@link MapperNameCondition}
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperNameCondition and(Function function);
+
+        /**
          * Create a new condition performing logical disjunction (OR) by specifying a column name.
          * <pre>{@code
          * template.select(Book.class)
@@ -1535,6 +1662,23 @@ public interface QueryMapper {
          * @throws NullPointerException when name is null
          */
         MapperNameCondition or(String name);
+
+        /**
+         * Combines the current condition with a new one using logical OR with a function expression.
+         * <pre>{@code
+         * template.select(Word.class)
+         *         .where("language").eq("en")
+         *         .or(Function.upper("meaning"))
+         *         .eq("COFFEE")
+         *         .result();
+         * }</pre>
+         *
+         * @param function the function expression
+         * @return a new {@link MapperNameCondition}
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperNameCondition or(Function function);
 
         /**
          * Sets the number of results to skip before starting to return results.
@@ -1584,6 +1728,16 @@ public interface QueryMapper {
          * @throws NullPointerException when name is null
          */
         MapperOrder orderBy(String name);
+
+        /**
+         * Adds an ordering rule based on a function expression.
+         *
+         * @param function the function expression to order by
+         * @return the {@link MapperOrder} instance for defining the sort direction
+         * @throws NullPointerException when function is null
+         * @since 1.1.0
+         */
+        MapperOrder orderBy(Function function);
     }
 
 }
