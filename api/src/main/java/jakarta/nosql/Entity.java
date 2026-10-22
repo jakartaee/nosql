@@ -41,9 +41,11 @@ import java.lang.annotation.Target;
  *   or package-private.</li>
  *   <li>If a constructor is annotated with {@link jakarta.nosql.Column} or {@link jakarta.nosql.Id}, it will be used to instantiate the entity.</li>
  *   <li>If both a no-arg constructor and an annotated constructor are present, the annotated one is preferred.</li>
- *   <li>Parameters without annotations in constructors are ignored.</li>
+ *   <li>If no constructor has mapping annotations, the no-arg constructor is used.</li>
+ *   <li>The behavior for a constructor that mixes annotated and unannotated parameters is not defined by this specification.</li>
  *   <li>Only one constructor should contain mapping annotations.</li>
- *   <li>Records may also be annotated as entities, with {@link jakarta.nosql.Id} on the record component that holds the identifier.</li>
+ *   <li>Records may also be annotated as entities. The record components are annotated with {@link jakarta.nosql.Id} or
+ *   {@link jakarta.nosql.Column}, and the record must have an {@code @Id} mapping.</li>
  * </ul>
  *
  * <p>Interfaces and enums cannot be used as entities.</p>
