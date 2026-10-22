@@ -27,6 +27,16 @@
  * and removing data structures according to the semantics
  * and capabilities of the target database.</p>
  *
+ * <p>The Communication API is organized in two foundational models:</p>
+ * <ul>
+ * <li>{@link jakarta.nosql.communication.keyvalue} for key-based persistence of values;</li>
+ * <li>{@link jakarta.nosql.communication.record} for database-neutral record
+ * operations, supporting column, document, graph, time-series, and vector
+ * databases.</li>
+ * </ul>
+ *
+ * <p>Specialized communication models may be introduced in future versions.</p>
+ *
  * <p>The Communication API is intentionally designed to
  * support extensibility according to the capabilities,
  * consistency models, serialization strategies,
