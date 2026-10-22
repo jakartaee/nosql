@@ -34,6 +34,9 @@ import java.lang.annotation.Target;
  * @Entity
  * public class Product {
  *
+ *     @Id
+ *     private Long id;
+ *
  *     @Column(name = "DESC")
  *     private String description;
  * }
@@ -63,6 +66,8 @@ public @interface Column {
      * <pre>{@code
      * @Entity
      * public class Person {
+     *     @Id
+     *     private Long id;
      *     @Column
      *     private String name;
      * }
@@ -75,6 +80,8 @@ public @interface Column {
      * <pre>{@code
      * @Entity
      * public class Person {
+     *     @Id
+     *     private Long id;
      *     @Column("personName")
      *     private String name;
      * }
