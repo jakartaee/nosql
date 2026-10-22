@@ -52,8 +52,10 @@ To ensure compatibility with Jakarta NoSQL, an entity programming model must adh
 - An entity must declare either a constructor with no parameters or a constructor whose parameters are annotated with `jakarta.nosql.Id` or `jakarta.nosql.Column`. A constructor with no parameters may be `public`, `protected`, or package-private; the specification does not limit entity constructors to `public` or `protected` visibility.
 - Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.
 - If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
-- Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.
+- If no constructor has parameters annotated with `jakarta.nosql.Id` or `jakarta.nosql.Column`, the constructor with no parameters is used.
+- This specification does not define the behavior of a constructor that mixes annotated and unannotated parameters.
 - Entities should not have multiple constructors using `jakarta.nosql.Id` or `jakarta.nosql.Column` annotations.
+- For a Java `record`, the annotations are placed on the record components and apply to the canonical constructor parameters; the exact propagation to fields and accessors follows the Java language rules for the annotation's targets.
 - Regardless of how the entity is constructed, the entity must have an identifier mapped with `jakarta.nosql.Id`, on a field or on an annotated constructor parameter.
 
 ==== Persistent Fields
@@ -211,7 +213,8 @@ To ensure compatibility with Jakarta NoSQL, an embeddable class must adhere to t
 - An embeddable class must declare either a constructor with no parameters, which may be `public`, `protected`, or package-private, or a constructor whose parameters are annotated with `jakarta.nosql.Column`. Embeddable classes have no identifier, so `jakarta.nosql.Id` is not required.
 - Annotations at the constructor will build the entity and read information from the database, while field annotations are required to write information to the database.
 - If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.
-- Constructor parameters without annotations will be ignored, utilizing a non-arg constructor instead.
+- If no constructor has parameters annotated with `jakarta.nosql.Column`, the constructor with no parameters is used.
+- This specification does not define the behavior of a constructor that mixes annotated and unannotated parameters.
 - Embeddable classes should not have multiple constructors using  `jakarta.nosql.Column` annotations.
 
 For example, consider the following Java classes:
