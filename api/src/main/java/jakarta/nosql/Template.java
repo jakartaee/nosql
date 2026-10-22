@@ -69,7 +69,7 @@ import java.util.Optional;
  *         .eq("Joshua Bloch")
  *         .and("edition")
  *         .gt(3)
- *         .results();
+ *         .result();
  *
  * Stream<Book> books = template.select(Book.class)
  *         .where("author")
@@ -141,8 +141,8 @@ public interface Template {
      *
      * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
      * database after a specified duration. When inserting an entity with a TTL, the entity will be automatically deleted
-     * from the database after the specified duration has passed since its insertion. If the database does not support TTL
-     * or if the TTL feature is not enabled, this operation will not have any effect on the entity's expiration.</p>
+     * from the database after the specified duration has passed since its insertion. If the database does not support TTL,
+     * the provider may throw an {@link UnsupportedOperationException}.</p>
      * <pre>{@code
      *
      * @Inject
@@ -159,7 +159,7 @@ public interface Template {
      * @return the inserted entity, which may or may not be a different instance depending on whether the insert caused
      * values to be generated or automatically incremented.
      * @throws NullPointerException          if the entity is null.
-     * @throws UnsupportedOperationException when the database does not provide TTL
+     * @throws UnsupportedOperationException if the database does not provide TTL
      */
     <T> T insert(T entity, Duration ttl);
 
@@ -203,8 +203,8 @@ public interface Template {
      *
      * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
      * database after a specified duration. When inserting entities with a TTL, the entities will be automatically deleted
-     * from the database after the specified duration has passed since their insertion. If the database does not support TTL
-     * or if the TTL feature is not enabled, this operation will not have any effect on the expiration of the entities.</p>
+     * from the database after the specified duration has passed since their insertion. If the database does not support TTL,
+     * the provider may throw an {@link UnsupportedOperationException}.</p>
      * <pre>{@code
      * @Inject
      * Template template;
@@ -223,7 +223,9 @@ public interface Template {
      *         .build()
      * );
      *
-     * Iterable<SessionToken> insertedTokens = template.insert(tokens);
+     * Duration ttl = Duration.ofMinutes(30);
+     *
+     * Iterable<SessionToken> insertedTokens = template.insert(tokens, ttl);
      * }</pre>
      *
      * @param entities entities to insert.
@@ -232,7 +234,7 @@ public interface Template {
      * @return an iterable containing the inserted entities, which may or may not be different instances depending
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
-     * @throws UnsupportedOperationException if the database does not provide time-to-live for insert operations.
+     * @throws UnsupportedOperationException if the database does not provide TTL
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
@@ -295,7 +297,8 @@ public interface Template {
      * }</pre>
      * @param entities entities to update.
      * @param <T>      the entity class type
-     * @return the number of matching entities that were found in the database to update.
+     * @return an iterable containing the updated entities, which may or may not be different instances depending
+     * on whether the update caused values to be generated or automatically incremented.
      * @throws NullPointerException if either the iterable is null or any element is null.
      */
     <T> Iterable<T> update(Iterable<T> entities);
@@ -488,15 +491,15 @@ public interface Template {
      * result type. The provided {@code type} must be one of the following:
      * <ul>
      *  <li>An entity class annotated with {@code @Entity}. The query may explicitly include a {@code FROM} clause,
-     *   or omit it if the entity can be inferred from the {@code type} parameter.</li>
+     *   or omit it, in which case the entity is inferred from the {@code type} parameter.</li>
      *   <li>A Java {@code record} annotated with {@code @Projection}, which maps partial or flattened results based on the query output.</li>
      * </ul>
      *
      * <p>When using a projection, the query can omit the {@code SELECT} clause entirely if the record component names match
-     * the entity’s attributes. The {@code FROM} clause can also be omitted if the {@link jakarta.nosql.Projection#from()} attribute is specified.</p>
+     * the entity’s attributes. The {@code FROM} clause can only be omitted if the {@link jakarta.nosql.Projection#from()} attribute is specified.</p>
      *
      * <p>If the query references a different entity than the one implied by the {@code type} argument,
-     * an {@link IllegalArgumentException} may be thrown by the provider to indicate a mismatch.</p>
+     * the provider may throw an {@link IllegalArgumentException} to indicate a mismatch.</p>
      *
      * <p>This method returns a {@link TypedQuery}, which improves safety and readability by:
      * <ul>
@@ -520,7 +523,8 @@ public interface Template {
      * @param <T>   the type of the result
      * @return a {@link TypedQuery} instance to bind parameters and fetch results
      * @throws NullPointerException     if the query or type is {@code null}
-     * @throws IllegalArgumentException if the provided {@code type} is incompatible with the entity in the query
+     * @throws IllegalArgumentException if the provider detects that the provided {@code type} is incompatible with the
+     *                                  entity in the query
      * @throws UnsupportedOperationException if the query is not supported by the underlying provider
      * @since 1.1.0
      */
