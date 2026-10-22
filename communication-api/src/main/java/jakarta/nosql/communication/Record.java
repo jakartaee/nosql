@@ -25,9 +25,8 @@ package jakarta.nosql.communication;
  *
  * <p>This abstraction is intentionally minimal and does not impose assumptions
  * about the internal structure, schema, or semantics of the stored data.
- * Specialized NoSQL models such as key-value, document, graph, column-family,
- * time-series, and vector databases may extend this interface according to
- * their specific capabilities and behaviors.</p>
+ * It is shared by the key-value and record communication models, and
+ * providers may implement their own record representations.</p>
  *
  * <p>The type and semantics of the key are determined by the underlying
  * database and provider implementation.</p>
