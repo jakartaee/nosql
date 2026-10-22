@@ -141,13 +141,13 @@ public interface Template {
      *  supplied as a parameter. This method makes no guarantees about the state of the
      * instance that is supplied as a parameter.</p>
      *
-     * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
-     * database after a specified duration. When inserting an entity with a TTL, the entity will be automatically deleted
-     * from the database after the specified duration has passed since its insertion. TTL is an optional capability: some databases support per-entity expiration, others only
-     * offer retention policies configured at the database or collection level, which are not equivalent to a TTL
-     * supplied for a single insert, and others offer no expiration at all. If the database or provider does not support
-     * TTL, the provider may throw an {@link UnsupportedOperationException}. A provider that supports TTL but only
-     * with a coarser granularity may round the duration to a supported unit instead.</p>
+     * <p>Time-To-Live (TTL) is an optional capability. In databases that support per-entity expiration, the entity may be
+     * removed automatically once the given duration has passed since its insertion. Databases that only offer retention
+     * policies configured at the database or collection level do not provide an equivalent per-entity TTL, and other
+     * databases offer no expiration at all. If the database or provider does not support TTL, the provider may throw an
+     * {@link UnsupportedOperationException}. Providers may also support TTL only with a coarser granularity, in which
+     * case the duration may be rounded to a supported unit or the TTL may not be applied. Expiration is therefore
+     * not guaranteed by this method; consult the provider documentation.</p>
      * <pre>{@code
      *
      * @Inject
@@ -208,13 +208,13 @@ public interface Template {
      * The position of entities within the {@code Iterable} return value must correspond to the
      * position of entities in the parameter based on the unique identifier of the entity.</p>
      *
-     * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
-     * database after a specified duration. When inserting entities with a TTL, the entities will be automatically deleted
-     * from the database after the specified duration has passed since their insertion. TTL is an optional capability: some databases support per-entity expiration, others only
-     * offer retention policies configured at the database or collection level, which are not equivalent to a TTL
-     * supplied for a single insert, and others offer no expiration at all. If the database or provider does not support
-     * TTL, the provider may throw an {@link UnsupportedOperationException}. A provider that supports TTL but only
-     * with a coarser granularity may round the duration to a supported unit instead.</p>
+     * <p>Time-To-Live (TTL) is an optional capability. In databases that support per-entity expiration, the entities may be
+     * removed automatically once the given duration has passed since their insertion. Databases that only offer retention
+     * policies configured at the database or collection level do not provide an equivalent per-entity TTL, and other
+     * databases offer no expiration at all. If the database or provider does not support TTL, the provider may throw an
+     * {@link UnsupportedOperationException}. Providers may also support TTL only with a coarser granularity, in which
+     * case the duration may be rounded to a supported unit or the TTL may not be applied. Expiration is therefore
+     * not guaranteed by this method; consult the provider documentation.</p>
      * <pre>{@code
      * @Inject
      * Template template;
@@ -252,18 +252,19 @@ public interface Template {
      * Modifies an entity that already exists in the database.
      *
      * <p>For an update to be made, a matching entity with the same unique identifier
-     * must be present in the database. This method is an update, not an upsert: it does not guarantee that a
-     * missing entity is created. Some databases do not distinguish between inserting and updating, for example
-     * those that use an append or overwrite write model. In those databases, the behavior of this method is
-     * provider-specific and may be the same as the {@link #insert} method.</p>
+     * must be present in the database. The intent of this method is to modify existing data, not to upsert:
+     * portable applications should not rely on a missing entity being created or on any particular result for it.
+     * As a provider-specific limitation, databases that do not distinguish between inserting and updating, such as
+     * those that use an append or overwrite write model, may write the entity as the {@link #insert} method would.</p>
      *
      * <p>If the entity is versioned (for example, with an annotation or by
      * another convention from the entity model such as having an attribute named {@code version}),
-     * and the provider supports optimistic versioning, then the version must also match. The version is
-     * automatically incremented when making the update. Optimistic versioning depends on the capabilities
-     * of the database and provider, since not every database offers native conditional writes.</p>
+     * the version is entity metadata. When the provider supports optimistic versioning, for example through
+     * provider-supported conditional updates, the version must also match and is automatically incremented when
+     * making the update. Not every database offers native conditional writes or atomic operations, so optimistic
+     * locking is not a guarantee across all database models.</p>
      *
-     * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     * <p>When the database distinguishes updates from inserts, non-matching entities are ignored and do not cause an error to be raised.</p>
      * <pre>{@code
      * @Inject
      * Template template;
@@ -288,18 +289,19 @@ public interface Template {
      * Modifies entities that already exist in the database.
      *
      * <p>For an update to be made to an entity, a matching entity with the same unique identifier
-     * must be present in the database. This method is an update, not an upsert: it does not guarantee that a
-     * missing entity is created. Some databases do not distinguish between inserting and updating, for example
-     * those that use an append or overwrite write model. In those databases, the behavior of this method is
-     * provider-specific and may be the same as the {@link #insert(Iterable)} method.</p>
+     * must be present in the database. The intent of this method is to modify existing data, not to upsert:
+     * portable applications should not rely on a missing entity being created or on any particular result for it.
+     * As a provider-specific limitation, databases that do not distinguish between inserting and updating, such as
+     * those that use an append or overwrite write model, may write the entity as the {@link #insert(Iterable)} method would.</p>
      *
      * <p>If the entity is versioned (for example, with an annotation or by
      * another convention from the entity model such as having an attribute named {@code version}),
-     * and the provider supports optimistic versioning, then the version must also match. The version is
-     * automatically incremented when making the update. Optimistic versioning depends on the capabilities
-     * of the database and provider, since not every database offers native conditional writes.</p>
+     * the version is entity metadata. When the provider supports optimistic versioning, for example through
+     * provider-supported conditional updates, the version must also match and is automatically incremented when
+     * making the update. Not every database offers native conditional writes or atomic operations, so optimistic
+     * locking is not a guarantee across all database models.</p>
      *
-     * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
+     * <p>When the database distinguishes updates from inserts, non-matching entities are ignored and do not cause an error to be raised.</p>
      * <pre>{@code
      * @Inject
      * Template template;
