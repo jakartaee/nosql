@@ -102,10 +102,11 @@ public interface Template {
 
     /**
      * Inserts an entity into the database. If an entity of this type with the same
-     * unique identifier already exists in the database and the database rejects duplicate identifiers
-     * (as is typical of databases that support ACID transactions), then this method raises an error.
-     * Databases that use an append or overwrite write model (as is common in databases that follow the BASE model)
-     * may not reject duplicates, in which case this exception is not thrown.
+     * unique identifier already exists in the database, the outcome is provider-specific.
+     * This specification does not require duplicate-identifier detection or rejection and does not define
+     * a standard exception for such conflicts. Depending on the capabilities and insertion semantics of the
+     * underlying database, a provider may reject the insertion, overwrite, append, or perform an upsert.
+     * Providers are responsible for reporting database-specific failures.
      *
      * <p>The entity instance returned as a result of this method must include all values
      * written to the database, including all automatically generated values and incremented values
@@ -130,10 +131,11 @@ public interface Template {
 
     /**
      * Inserts an entity into the database with an expiration to the entity. If an entity of this type with the same
-     * unique identifier already exists in the database and the database rejects duplicate identifiers
-     * (as is typical of databases that support ACID transactions), then this method raises an error.
-     * Databases that use an append or overwrite write model (as is common in databases that follow the BASE model)
-     * may not reject duplicates, in which case this exception is not thrown.
+     * unique identifier already exists in the database, the outcome is provider-specific.
+     * This specification does not require duplicate-identifier detection or rejection and does not define
+     * a standard exception for such conflicts. Depending on the capabilities and insertion semantics of the
+     * underlying database, a provider may reject the insertion, overwrite, append, or perform an upsert.
+     * Providers are responsible for reporting database-specific failures.
      *
      * <p>The entity instance returned as a result of this method must include all values
      * written to the database, including all automatically generated values and incremented values
@@ -170,11 +172,11 @@ public interface Template {
 
     /**
      * Inserts multiple entities into the database. If any entity of this type with the same
-     * unique identifier as any of the given entities already exists in the database and the database
-     * rejects duplicate identifiers (as is typical of databases that support ACID transactions),
-     * then this method raises an error. Databases that use an append or overwrite write model
-     * (as is common in databases that follow the BASE model) may not reject duplicates, in which case
-     * this exception is not thrown.
+     * unique identifier as any of the given entities already exists in the database, the outcome is
+     * provider-specific. This specification does not require duplicate-identifier detection or rejection and does
+     * not define a standard exception for such conflicts. Depending on the capabilities and insertion semantics
+     * of the underlying database, a provider may reject the insertion, overwrite, append, or perform an upsert.
+     * Providers are responsible for reporting database-specific failures.
      *
      * <p>The entities within the returned {@link Iterable} must include all values
      * written to the database, including all automatically generated values and incremented values
@@ -194,11 +196,11 @@ public interface Template {
 
     /**
      * Inserts multiple entities into the database with the expiration date. If any entity of this type with the same
-     * unique identifier as any of the given entities already exists in the database and the database
-     * rejects duplicate identifiers (as is typical of databases that support ACID transactions),
-     * then this method raises an error. Databases that use an append or overwrite write model
-     * (as is common in databases that follow the BASE model) may not reject duplicates, in which case
-     * this exception is not thrown.
+     * unique identifier as any of the given entities already exists in the database, the outcome is
+     * provider-specific. This specification does not require duplicate-identifier detection or rejection and does
+     * not define a standard exception for such conflicts. Depending on the capabilities and insertion semantics
+     * of the underlying database, a provider may reject the insertion, overwrite, append, or perform an upsert.
+     * Providers are responsible for reporting database-specific failures.
      *
      * <p>The entities within the returned {@link Iterable} must include all values
      * written to the database, including all automatically generated values and incremented values
