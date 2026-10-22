@@ -190,9 +190,9 @@ An entity may carry version metadata, for example an attribute named `version`. 
 
 TTL (Time-To-Live) is a feature provided by some NoSQL databases that allows developers to set an expiration time for data stored in the database. In databases that support it, data is removed automatically once its TTL is reached.
 
-For Java developers, TTL support is useful for managing data lifecycle and optimizing resource usage. It enables developers to implement caching strategies, manage temporary data, and enforce data retention policies effectively.
+For Java developers, TTL support is useful for managing data lifecycle and optimizing resource usage. It enables developers to implement caching strategies, manage temporary data, and implement data expiration where the database supports it.
 
-TTL is an optional capability. Some databases support per-entity expiration, others only offer retention policies configured at the database or collection level, which are not equivalent to a TTL supplied for a single insert, and others do not support expiration at all. In cases where TTL is not supported, attempting to set a TTL on data may result in an `UnsupportedOperationException` being thrown by the Jakarta NoSQL provider. The specification does not guarantee that a provider that does not throw this exception applies the expiration, so applications must not assume that data inserted with a TTL will expire.
+TTL is an optional capability. Some databases support per-entity expiration, others only offer retention policies configured at the database or collection level, which are not equivalent to a TTL supplied for a single insert, and others do not support expiration at all. In cases where TTL is not supported, attempting to set a TTL on data may result in an `UnsupportedOperationException` being thrown by the Jakarta NoSQL provider. The specification does not guarantee that a provider that does not throw this exception applies the expiration, so a requested TTL is not a guarantee of expiration, and applications must not assume that data inserted with a TTL will expire.
 
 Per-entity TTL is distinct from retention policies configured at the database or collection level, such as those of time series databases, which are not controlled by `Template` and are not equivalent to a TTL passed to an insert operation.
 
