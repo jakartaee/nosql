@@ -17,9 +17,9 @@ package jakarta.nosql.communication.keyvalue;
 
 
 /**
- * Creates {@link BucketManager} instances for key-value communication.
+ * Creates {@link KeyValueManager} instances for key-value communication.
  *
- * <p>A {@code BucketManagerFactory} is an entry point to the key-value
+ * <p>A {@code KeyValueManagerFactory} is an entry point to the key-value
  * portion of the Jakarta NoSQL Communication API. It provides access to
  * managers associated with bucket names according to the behavior of the
  * underlying database implementation.</p>
@@ -32,28 +32,28 @@ package jakarta.nosql.communication.keyvalue;
  * visibility guarantees, and creation semantics of managers are determined
  * by the provider implementation.</p>
  */
-public interface BucketManagerFactory {
+public interface KeyValueManagerFactory {
 
     /**
-     * Returns a {@link BucketManager} associated with the provided bucket name.
+     * Returns a {@link KeyValueManager} associated with the provided bucket name.
      *
      * <p>The interpretation and semantics of the bucket name are determined
      * by the underlying database implementation.</p>
      *
      * <pre>{@code
-     * BucketManagerFactory factory = ...
+     * KeyValueManagerFactory factory = ...
      *
-     * BucketManager users = factory.get("users");
+     * KeyValueManager users = factory.get("users");
      * }</pre>
      *
      * @param bucket the bucket name
      * @return the bucket manager associated with the bucket
      * @throws NullPointerException when the bucket is {@code null}
      */
-    BucketManager get(String bucket);
+    KeyValueManager get(String bucket);
 
     /**
-     * Returns a {@link BucketManager} associated with the
+     * Returns a {@link KeyValueManager} associated with the
      * provider-defined communication context.
      *
      * <p>The underlying database implementation determines
@@ -67,9 +67,9 @@ public interface BucketManagerFactory {
      * key-value structures.</p>
      *
      * <pre>{@code
-     * BucketManagerFactory factory = ...
+     * KeyValueManagerFactory factory = ...
      *
-     * BucketManager manager = factory.get();
+     * KeyValueManager manager = factory.get();
      * }</pre>
      *
      * @return the bucket manager associated with the
@@ -79,5 +79,5 @@ public interface BucketManagerFactory {
      * the underlying configuration is incomplete
      * or invalid
      */
-    BucketManager get();
+    KeyValueManager get();
 }
