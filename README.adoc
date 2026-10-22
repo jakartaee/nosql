@@ -135,7 +135,7 @@ This fluent style makes query intent explicit (`select`, `update`, `delete`), re
 Jakarta NoSQL supports string-based queries using the Jakarta Common Query Language (JCQL). There are two main methods for executing these queries:
 
 * `query(String)` — executes a generic query that always returns entities and *requires* an explicit `FROM` clause.
-* `typedQuery(String, Class<T>)` — maps results to either an entity or a projection class. Supports *omitting* the `FROM` clause when used with `@Projection(from = ...)`.
+* `typedQuery(String, Class<T>)` — maps results to either an entity or a projection class. The `FROM` clause may be *omitted* when the entity can be inferred: from the entity class passed as the type, or from `@Projection(from = ...)` for projections.
 
 ===== Using `query(String)` – entity results only
 
@@ -159,7 +159,7 @@ IMPORTANT: You cannot use projections with `query(String)` — only entity class
 Use `typedQuery(...)` when you want to:
 
 * Retrieve data as a projection (using `record` and `@Projection`)
-* Omit the `FROM` clause when using `@Projection(from = ...)`
+* Omit the `FROM` clause, either by passing an entity class or by using `@Projection(from = ...)` on a projection (a projection without `from` still requires an explicit `FROM` clause)
 
 This method supports the full query API — `result()`, `stream()`, and `singleResult()`:
 
