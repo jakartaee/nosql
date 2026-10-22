@@ -164,7 +164,7 @@ public interface Template {
      * @return the inserted entity, which may or may not be a different instance depending on whether the insert caused
      * values to be generated or automatically incremented.
      * @throws NullPointerException          if the entity is null.
-     * @throws UnsupportedOperationException if the database does not provide TTL
+     * @throws UnsupportedOperationException if the provider rejects the requested TTL because it is unsupported
      */
     <T> T insert(T entity, Duration ttl);
 
@@ -244,7 +244,7 @@ public interface Template {
      * @return an iterable containing the inserted entities, which may or may not be different instances depending
      * on whether the insert caused values to be generated or automatically incremented.
      * @throws NullPointerException if the iterable is null or any element is null.
-     * @throws UnsupportedOperationException if the database does not provide TTL
+     * @throws UnsupportedOperationException if the provider rejects the requested TTL because it is unsupported
      */
     <T> Iterable<T> insert(Iterable<T> entities, Duration ttl);
 
