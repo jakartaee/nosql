@@ -208,6 +208,17 @@ Optional<BudgetCar> result = template.typedQuery("WHERE price < 100", BudgetCar.
 === Communication API
 
 The Communication API provides a low-level interface for interacting with NoSQL databases, allowing developers to perform operations directly on the underlying data structures.
+It defines two foundational models: Key-Value (`jakarta.nosql.communication.keyvalue`), based on keys and values with optional TTL, and Record (`jakarta.nosql.communication.record`), a database-neutral model for column, document, graph, time-series, and vector databases. Specialized capabilities may be introduced in future versions.
+
+[source,java]
+----
+KeyValueManager keyValue = factory.get("users");
+keyValue.put(keyValueRecord, Duration.ofMinutes(10));
+
+RecordManager<MyRecord> records = ...
+Optional<MyRecord> found = records.findByKey("user:10");
+----
+
 To get more information about the Communication API, please refer to the link:COMMUNICATION.adoc[Communication API] document.
 
 === More Information
