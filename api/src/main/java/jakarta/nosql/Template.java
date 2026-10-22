@@ -102,9 +102,10 @@ public interface Template {
 
     /**
      * Inserts an entity into the database. If an entity of this type with the same
-     * unique identifier already exists in the database and the database supports ACID transactions,
-     * then this method raises an error. In databases that follow the BASE model
-     * or use an append model to write data, this exception is not thrown.
+     * unique identifier already exists in the database and the database rejects duplicate identifiers
+     * (as is typical of databases that support ACID transactions), then this method raises an error.
+     * Databases that use an append or overwrite write model (as is common in databases that follow the BASE model)
+     * may not reject duplicates, in which case this exception is not thrown.
      *
      * <p>The entity instance returned as a result of this method must include all values
      * written to the database, including all automatically generated values and incremented values
@@ -129,9 +130,10 @@ public interface Template {
 
     /**
      * Inserts an entity into the database with an expiration to the entity. If an entity of this type with the same
-     * unique identifier already exists in the database and the database supports ACID transactions,
-     * then this method raises an error. In databases that follow the BASE model
-     * or use an append model to write data, this exception is not thrown.
+     * unique identifier already exists in the database and the database rejects duplicate identifiers
+     * (as is typical of databases that support ACID transactions), then this method raises an error.
+     * Databases that use an append or overwrite write model (as is common in databases that follow the BASE model)
+     * may not reject duplicates, in which case this exception is not thrown.
      *
      * <p>The entity instance returned as a result of this method must include all values
      * written to the database, including all automatically generated values and incremented values
@@ -141,8 +143,11 @@ public interface Template {
      *
      * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
      * database after a specified duration. When inserting an entity with a TTL, the entity will be automatically deleted
-     * from the database after the specified duration has passed since its insertion. If the database does not support TTL,
-     * the provider may throw an {@link UnsupportedOperationException}.</p>
+     * from the database after the specified duration has passed since its insertion. TTL is an optional capability: some databases support per-entity expiration, others only
+     * offer retention policies configured at the database or collection level, which are not equivalent to a TTL
+     * supplied for a single insert, and others offer no expiration at all. If the database or provider does not support
+     * TTL, the provider may throw an {@link UnsupportedOperationException}. A provider that supports TTL but only
+     * with a coarser granularity may round the duration to a supported unit instead.</p>
      * <pre>{@code
      *
      * @Inject
@@ -166,9 +171,10 @@ public interface Template {
     /**
      * Inserts multiple entities into the database. If any entity of this type with the same
      * unique identifier as any of the given entities already exists in the database and the database
-     * supports ACID transactions, then this method raises an error.
-     * In databases that follow the BASE model or use an append model to write data, this exception
-     * is not thrown.
+     * rejects duplicate identifiers (as is typical of databases that support ACID transactions),
+     * then this method raises an error. Databases that use an append or overwrite write model
+     * (as is common in databases that follow the BASE model) may not reject duplicates, in which case
+     * this exception is not thrown.
      *
      * <p>The entities within the returned {@link Iterable} must include all values
      * written to the database, including all automatically generated values and incremented values
@@ -189,9 +195,10 @@ public interface Template {
     /**
      * Inserts multiple entities into the database with the expiration date. If any entity of this type with the same
      * unique identifier as any of the given entities already exists in the database and the database
-     * supports ACID transactions, then this method raises an error.
-     * In databases that follow the BASE model or use an append model to write data, this exception
-     * is not thrown.
+     * rejects duplicate identifiers (as is typical of databases that support ACID transactions),
+     * then this method raises an error. Databases that use an append or overwrite write model
+     * (as is common in databases that follow the BASE model) may not reject duplicates, in which case
+     * this exception is not thrown.
      *
      * <p>The entities within the returned {@link Iterable} must include all values
      * written to the database, including all automatically generated values and incremented values
@@ -203,8 +210,11 @@ public interface Template {
      *
      * <p>Time-To-Live (TTL) is a feature provided by some NoSQL databases where data is automatically removed from the
      * database after a specified duration. When inserting entities with a TTL, the entities will be automatically deleted
-     * from the database after the specified duration has passed since their insertion. If the database does not support TTL,
-     * the provider may throw an {@link UnsupportedOperationException}.</p>
+     * from the database after the specified duration has passed since their insertion. TTL is an optional capability: some databases support per-entity expiration, others only
+     * offer retention policies configured at the database or collection level, which are not equivalent to a TTL
+     * supplied for a single insert, and others offer no expiration at all. If the database or provider does not support
+     * TTL, the provider may throw an {@link UnsupportedOperationException}. A provider that supports TTL but only
+     * with a coarser granularity may round the duration to a supported unit instead.</p>
      * <pre>{@code
      * @Inject
      * Template template;
@@ -242,13 +252,16 @@ public interface Template {
      * Modifies an entity that already exists in the database.
      *
      * <p>For an update to be made, a matching entity with the same unique identifier
-     * must be present in the database. In databases that use an append model to write data or
-     * follow the BASE model, this method behaves the same as the {@link #insert} method.</p>
+     * must be present in the database. This method is an update, not an upsert: it does not guarantee that a
+     * missing entity is created. Some databases do not distinguish between inserting and updating, for example
+     * those that use an append or overwrite write model. In those databases, the behavior of this method is
+     * provider-specific and may be the same as the {@link #insert} method.</p>
      *
      * <p>If the entity is versioned (for example, with an annotation or by
      * another convention from the entity model such as having an attribute named {@code version}),
-     * then the version must also match. The version is automatically incremented when making
-     * the update.</p>
+     * and the provider supports optimistic versioning, then the version must also match. The version is
+     * automatically incremented when making the update. Optimistic versioning depends on the capabilities
+     * of the database and provider, since not every database offers native conditional writes.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
      * <pre>{@code
@@ -275,13 +288,16 @@ public interface Template {
      * Modifies entities that already exist in the database.
      *
      * <p>For an update to be made to an entity, a matching entity with the same unique identifier
-     * must be present in the database. In databases that use an append model to write data or
-     * follow the BASE model, this method behaves the same as the {@link #insert(Iterable)} method.</p>
+     * must be present in the database. This method is an update, not an upsert: it does not guarantee that a
+     * missing entity is created. Some databases do not distinguish between inserting and updating, for example
+     * those that use an append or overwrite write model. In those databases, the behavior of this method is
+     * provider-specific and may be the same as the {@link #insert(Iterable)} method.</p>
      *
      * <p>If the entity is versioned (for example, with an annotation or by
      * another convention from the entity model such as having an attribute named {@code version}),
-     * then the version must also match. The version is automatically incremented when making
-     * the update.</p>
+     * and the provider supports optimistic versioning, then the version must also match. The version is
+     * automatically incremented when making the update. Optimistic versioning depends on the capabilities
+     * of the database and provider, since not every database offers native conditional writes.</p>
      *
      * <p>Non-matching entities are ignored and do not cause an error to be raised.</p>
      * <pre>{@code
@@ -305,9 +321,9 @@ public interface Template {
 
     /**
      * Deletes a given entity. Deletion is performed by matching the Id, and if
-     * the entity is versioned (for example, with
-     * {@code jakarta.persistence.Version}), then also the version. Other
-     * attributes of the entity do not need to match.
+     * the entity is versioned (for example, with a provider-supported version annotation or by
+     * a convention of the entity model) and the provider supports optimistic versioning, then also the
+     * version. Other attributes of the entity do not need to match.
      * <pre>{@code
      * @Inject
      * Template template;
@@ -329,8 +345,9 @@ public interface Template {
     /**
      * Deletes the given entities. Deletion of each entity is performed by
      * matching the unique identifier, and if the entity is versioned (for
-     * example, with {@code jakarta.persistence.Version}), then also the
-     * version. Other attributes of the entity do not need to match.
+     * example, with a provider-supported version annotation or by a convention of the entity model)
+     * and the provider supports optimistic versioning, then also the version.
+     * Other attributes of the entity do not need to match.
      * <pre>{@code
      * @Inject
      * Template template;
