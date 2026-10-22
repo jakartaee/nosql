@@ -46,7 +46,7 @@ In the realm of Jakarta NoSQL, developers wield a powerful arsenal of annotation
 * **@Convert**: With the `@Convert` annotation, developers can seamlessly transform entity attribute values between Java and database types. This annotation offers flexibility in data representation, allowing developers to adapt entity properties to suit the requirements of different database systems.
 * **@Converter**: The `@Converter` annotation identifies a class as an attribute converter, enabling the transformation of values between Java types and their database representations. Converter classes implement `AttributeConverter` and provide the logic required to convert application-specific types into forms that can be persisted by the underlying NoSQL database and reconstructed when retrieved. Converters may be applied explicitly using the `@Convert` annotation or automatically to all compatible attributes when `autoApply=true`, promoting consistency and reducing repetitive mapping configuration.
 * **@MappedSuperclass**: The `@MappedSuperclass` annotation is used to define shared attributes and behaviors across multiple entity classes by denoting a superclass whose mappings are applied to its subclasses.
-* **@Inheritance**: The @Inheritance annotation facilitates modeling inheritance hierarchies within entity classes. By default, Jakarta NoSQL supports a single inheritance strategy where subclass information is incorporated into the data structure as a field within the parent entity. In this default strategy, attributes of subclasses are represented as fields within the parent entity, maintaining a denormalized data structure. However, Jakarta NoSQL allows Jakarta Data providers to offer alternative inheritance strategies beyond the default specification.
+* **@Inheritance**: The @Inheritance annotation facilitates modeling inheritance hierarchies within entity classes. By default, Jakarta NoSQL supports a single inheritance strategy where subclass information is incorporated into the data structure as a field within the parent entity. In this default strategy, attributes of subclasses are represented as fields within the parent entity, maintaining a denormalized data structure. However, Jakarta NoSQL allows Jakarta NoSQL providers to offer alternative inheritance strategies beyond the default specification.
 * **@DiscriminatorColumn**: The `@DiscriminatorColumn` annotation configures the discriminator column used in single table inheritance mappings. By annotating a field with `@DiscriminatorColumn`, developers control the storage of discriminator values, ensuring accurate and efficient retrieval of entity subclasses.
 * **@DiscriminatorValue**: When using inheritance strategies, the `@DiscriminatorValue` annotation specifies the discriminator value for entities in a single table inheritance hierarchy. This annotation enables database systems to differentiate between subclasses based on a discriminator column value.
 
@@ -81,11 +81,11 @@ One of the notable features of Jakarta NoSQL is its support for immutable and mu
 [source,java]
 ----
 @Entity
-public record Person(@Id private UUID id, @Column private String name) {
+public record Person(@Id UUID id, @Column String name) {
 }
 ----
 
-In this sample, the `Person` class is defined as a record, capturing its immutable nature. The `@Id` and `@Column` annotations are applied directly to the constructor parameters, indicating the primary key and persistent attributes.
+In this sample, the `Person` class is defined as a record, capturing its immutable nature. The `@Id` and `@Column` annotations are applied directly to the constructor parameters, indicating the primary key and persistent attributes. A record follows the same constructor rules as other entities: the annotated components map to the annotated parameters of its canonical constructor, and the identifier must be mapped with `@Id`. Mutable entity classes can instead be instantiated through a constructor with no parameters, which may be `public`, `protected`, or package-private.
 
 The serialization method of entity classes may vary depending on the NoSQL vendor and configuration. Here's a sample JSON structure representing a `Person` entity:
 
@@ -120,6 +120,9 @@ public class Person {
 
 @Entity
 public class Address {
+
+    @Id
+    private Long id;
 
     @Column
     private String street;
@@ -161,6 +164,8 @@ public class Owner {
 
 @Entity
 public class Car {
+    @Id
+    private Long id;
     @Column
     private String make;
     @Column
@@ -310,6 +315,8 @@ In the example below:
 ----
 @Entity
 public class Person {
+    @Id
+    private Long id;
     @Column
     private String nickname;
 
@@ -360,6 +367,9 @@ For example, consider the following entity class `Employee`:
 ----
 @Entity
 public class Employee {
+
+    @Id
+    private Long id;
 
     @Column
     private String name;
@@ -469,6 +479,9 @@ public class EmailConverter implements AttributeConverter<Email, String> {
 @Entity
 public class Customer {
 
+    @Id
+    private Long id;
+
     @Convert(EmailConverter.class)
     private Email email;
 }
@@ -478,17 +491,19 @@ Converters help keep domain models expressive by allowing applications to work w
 
 === Inheritance
 
-In Jakarta NoSQL, entities support inheritance, enabling the creation of hierarchies of classes where subclasses inherit attributes and behaviors from their superclass. This feature allows for the modeling of complex data structures and relationships within NoSQL databases.
+Jakarta NoSQL distinguishes between Java class inheritance and persistence inheritance strategies. Java class inheritance, such as extending a `@MappedSuperclass` or a non-entity class, is a language feature that applies to any entity. Persistence inheritance strategies, configured with `@Inheritance`, `@DiscriminatorColumn`, and `@DiscriminatorValue`, define how a class hierarchy is stored and queried; their support depends on the database model and on the capabilities of the provider.
+
+When a provider supports inheritance strategies, entities support inheritance, enabling the creation of hierarchies of classes where subclasses inherit attributes and behaviors from their superclass. This feature allows for the modeling of complex data structures and relationships within NoSQL databases.
 
 Entities in Jakarta NoSQL can be both abstract and concrete classes. Abstract classes can be annotated with the `@Entity` annotation and mapped as entities, allowing them to participate in entity inheritance hierarchies and be queried for as entities. Similarly, concrete classes can also be annotated with `@Entity` and serve as entities in the inheritance hierarchy.
 
 It's important to note that entities can extend both entity and non-entity classes. This flexibility allows for the construction of diverse inheritance structures, accommodating various data modeling requirements.
 
-Inheritance in Jakarta NoSQL facilitates polymorphic associations and queries, allowing for more flexible and expressive data manipulation and retrieval operations. Subclasses inherit attributes and behaviors from their superclass, providing a mechanism for code reuse and organizational structuring within the data model.
+Where supported by the provider, inheritance in Jakarta NoSQL facilitates polymorphic associations and queries, allowing for more flexible and expressive data manipulation and retrieval operations. Subclasses inherit attributes and behaviors from their superclass, providing a mechanism for code reuse and organizational structuring within the data model.
 
 Overall, the support for inheritance in Jakarta NoSQL contributes to the creation of robust and adaptable data models, empowering developers to effectively represent complex domain structures in NoSQL databases.
 
-WARNING: Some NoSQL databases, particularly key-value databases, might not fully support inheritance due to their schemaless nature and limited querying capabilities. Developers should carefully consider the compatibility of their chosen database with inheritance features when designing their data models.
+WARNING: Inheritance support depends on the database model and on the provider. Key-value databases are primarily focused on identifier-based access, so Jakarta NoSQL does not require key-value providers to implement inheritance strategies or polymorphic queries. Providers for other database models (column, document, graph, time series, and vector) are not required to implement inheritance capabilities that their database cannot offer, but providers that do support inheritance must honor the rules described in this specification. Developers should carefully consider the compatibility of their chosen database with inheritance features when designing their data models.
 
 ==== Abstract Entity Classes
 
@@ -496,7 +511,7 @@ In Jakarta NoSQL, an abstract class can be specified as an entity, providing a m
 
 Abstract entity classes in Jakarta NoSQL differ from concrete entities primarily in their inability to be directly instantiated. Instead, abstract entities serve as templates or blueprints for concrete subclasses, encapsulating shared functionality and defining a common interface for their subclasses to implement.
 
-Despite being abstract, abstract entity classes are fully mapped as entities and can participate in data manipulation operations such as queries. Queries targeting abstract entity classes will operate over and/or retrieve instances of their concrete subclasses, allowing for polymorphic queries that span the entire inheritance hierarchy.
+Despite being abstract, abstract entity classes are fully mapped as entities and can participate in data manipulation operations such as queries. When the provider supports inheritance strategies, queries targeting abstract entity classes will operate over and/or retrieve instances of their concrete subclasses, allowing for polymorphic queries that span the entire inheritance hierarchy.
 
 By leveraging abstract entity classes, developers can effectively organize and structure their data model, promoting code reuse, maintainability, and scalability. Abstract entities encapsulate common attributes and behaviors, fostering a modular and extensible design approach within Jakarta NoSQL applications.
 
@@ -520,6 +535,9 @@ public class Dog extends Animal {
 @MappedSuperclass
 public class Animal {
 
+    @Id
+    private Long id;
+
     @Column
     private String breed;
 
@@ -535,13 +553,14 @@ Here's a JSON sample demonstrating the usage of `Animal` in a subclass `Dog`:
 [source,json]
 ----
 {
+   "id": 1,
    "breed": "Golden Retriever",
    "age": 3,
    "name": "Buddy"
 }
 ----
 
-In this JSON representation, the attributes `breed` and `age` from the `Animal` superclass are inherited by the `Dog` entity, showcasing the application of mapped superclass mappings to its subclasses.
+In this JSON representation, the attributes `id`, `breed`, and `age` from the `Animal` superclass are inherited by the `Dog` entity, showcasing the application of mapped superclass mappings to its subclasses.
 
 ==== @Inheritance [[inheritance_definition]]
 
@@ -567,7 +586,7 @@ public abstract class Notification {
 }
 ----
 
-In Jakarta NoSQL, a unique strategy is employed where a single data structure per class hierarchy is utilized. In this strategy, all classes in the hierarchy are mapped to a single data structure in the database. The structure includes a "discriminator column," which serves to identify the specific subclass to which each instance belongs. This approach facilitates polymorphic relationships between entities and enables queries that span the entire class hierarchy.
+For providers that support inheritance strategies, Jakarta NoSQL defines a default strategy where a single data structure per class hierarchy is utilized. In this strategy, all classes in the hierarchy are mapped to a single data structure in the database. The structure includes a "discriminator column," which serves to identify the specific subclass to which each instance belongs. This approach facilitates polymorphic relationships between entities and enables queries that span the entire class hierarchy.
 
 However, this strategy does have a drawback: it requires that fields corresponding to subclass-specific state be nullable. Despite this limitation, the `@Inheritance` annotation provides a powerful mechanism for organizing and structuring data within Jakarta NoSQL applications, supporting code reuse, maintainability, and flexibility in data modeling.
 
@@ -575,7 +594,7 @@ It's important to note that the `@Inheritance` annotation works in conjunction w
 
 [WARNING]
 ====
-It's crucial to note that the `@Inheritance` annotation may not be fully supported in all NoSQL databases, particularly in Key-value databases. Due to the schemaless nature of these databases, the concept of class inheritance and table inheritance, as seen in traditional relational databases, may not apply. Therefore, the use of `@Inheritance` in such environments might lead to unexpected behavior or errors, and the Key-value database may outright ignore this annotation.
+Support for the `@Inheritance` annotation depends on the database model and the provider. Key-value providers are not required to support inheritance strategies or polymorphic queries, and may ignore this annotation. Providers that do support inheritance must apply the behavior described in this specification, including the discriminator conditions described by <<template_inheritance>> when inheritance mapping is used.
 
 Additionally, in cases where serialization is performed via JSON, certain NoSQL databases may not inherently support polymorphism and inheritance. However, Jakarta NoSQL providers may implement solutions using features from Jakarta JSON Binding to handle polymorphic entities effectively. Developers should be aware of these limitations and ensure compatibility with their chosen NoSQL database and serialization mechanisms when employing the `@Inheritance` annotation.
 ====
