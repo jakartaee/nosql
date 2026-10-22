@@ -23,6 +23,8 @@ The provided code snippet demonstrates the usage of the `Template` class in Jaka
 
 5. **Delete Operation**: Finally, the `delete` method of the `Template` class is used to delete the `Book` entity from the database based on its ID. This method removes the entity from the database.
 
+NOTE: Handling of existing entity identifiers is provider-specific. This specification does not require duplicate-identifier detection or rejection and does not define a standard exception for such conflicts. Providers follow the capabilities and insertion semantics of their underlying databases and may reject the insertion, overwrite, append, or perform an upsert. This applies to single-entity, bulk, and TTL insertions. The mandatory `@Id` mapping identifies an entity but does not imply that the database enforces uniqueness on insertion. This specification does not define atomicity or partial-failure guarantees for bulk insertions beyond those of the underlying database.
+
 Overall, this code snippet demonstrates how to use the `Template` class in Jakarta NoSQL to interact with the database, abstracting away the low-level details of database operations and providing a simplified interface for performing CRUD operations on entities.
 
 [source,java]
