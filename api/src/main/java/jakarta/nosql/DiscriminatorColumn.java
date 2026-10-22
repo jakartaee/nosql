@@ -31,6 +31,8 @@ import java.lang.annotation.Target;
  * @Entity
  * @DiscriminatorColumn("dtype")
  * public class Animal {
+ *     @Id
+ *     private Long id;
  *     // Common fields and methods for all animals
  * }
  *

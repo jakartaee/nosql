@@ -18,7 +18,7 @@ Jakarta NoSQL is a comprehensive framework designed to simplify the integration 
 
 == One Mapping API to Multiples NoSQL Databases
 
-Jakarta NoSQL provides one API for each NoSQL database type. However, it incorporates the same annotations from the Jakarta Persistence specification and heritage Java Persistence Architecture (JPA) to map Java objects. Therefore, with just these annotations that look like Jakarta Persistence, there is support for more than twenty NoSQL databases.
+Jakarta NoSQL provides a common Mapping API for the key-value, column, time series, vector, document, and graph database models. It incorporates the same annotations from the Jakarta Persistence specification and heritage Java Persistence Architecture (JPA) to map Java objects. Therefore, with just these annotations that look like Jakarta Persistence, there is support for more than twenty NoSQL databases. The capabilities available at runtime, such as querying, inheritance, or time-to-live, vary by database model and provider.
 
 [source,java]
 ----
@@ -43,11 +43,11 @@ The annotations from the Mapping API will look familiar to Jakarta Persistence d
 |===
 | Annotation | Description
 | `@Entity` | Specifies that the class is an entity. This annotation is applied to the entity class.
-| `@Id` | Specifies the primary key of an entity.
+| `@Id` | Specifies the primary key of an entity. Every entity must have an identifier mapped with `@Id`.
 | `@Column` | Specifies the mapped column for a persistent property or field.
 | `@MappedSuperclass` | Specifies a class whose mapping information is applied to entities that inherit from it.
 | `@Embeddable` | Declares a class whose instances are stored as an intrinsic part of an owning entity, sharing the identity of the entity.
-| `@Inheritance` | Specifies the inheritance mapping strategy for the entity class hierarchy.
+| `@Inheritance` | Specifies the inheritance mapping strategy for the entity class hierarchy. Support depends on the database model and provider.
 | `@DiscriminatorColumn` | Specifies the discriminator column for the mapping strategy.
 | `@DiscriminatorValue` | Specifies the value of the discriminator column for the annotated entity type.
 | `@Convert` | Specifies how the values of a field or property are converted to a basic type or a type that can be persisted by a persistence provider.

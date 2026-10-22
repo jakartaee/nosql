@@ -29,7 +29,9 @@ import java.lang.annotation.Target;
  * <ul>
  *     <li>Be a non-abstract, non-final top-level class or static inner class.</li>
  *     <li>Have at least one field annotated with {@link Column}.</li>
- *     <li>Have a public or protected constructor with no parameters or a constructor parameter annotated with {@link Column}.</li>
+ *     <li>Have a constructor with no parameters, which may be {@code public}, {@code protected} or package-private,
+ *     or a constructor whose parameters are annotated with {@link Column}. An embeddable has no identifier of its own,
+ *     so {@link Id} is not required.</li>
  *     <li>Annotations at the constructor will build the entity and read information from the database, while
  *     field annotations are required to write information to the database.</li>
  *     <li>If both a non-args constructor and a constructor with annotated parameters exist, the constructor with annotations will be used to create the entity.</li>

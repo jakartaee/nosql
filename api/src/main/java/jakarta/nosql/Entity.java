@@ -34,13 +34,16 @@ import java.lang.annotation.Target;
  *
  * <p>Entity classes must follow these rules:</p>
  * <ul>
- *   <li>Must include at least one field annotated with {@link jakarta.nosql.Id} or {@link jakarta.nosql.Column}.</li>
+ *   <li>Must have an identifier mapped with {@link jakarta.nosql.Id}, on a field or on a constructor parameter.
+ *   {@link jakarta.nosql.Column} alone does not establish the identity of an entity.</li>
  *   <li>Can use either fields or constructors to define persistence mappings.</li>
+ *   <li>Can be instantiated through a no-arg constructor, which may be {@code public}, {@code protected}
+ *   or package-private.</li>
  *   <li>If a constructor is annotated with {@link jakarta.nosql.Column} or {@link jakarta.nosql.Id}, it will be used to instantiate the entity.</li>
  *   <li>If both a no-arg constructor and an annotated constructor are present, the annotated one is preferred.</li>
  *   <li>Parameters without annotations in constructors are ignored.</li>
  *   <li>Only one constructor should contain mapping annotations.</li>
- *   <li>Records may also be annotated as entities.</li>
+ *   <li>Records may also be annotated as entities, with {@link jakarta.nosql.Id} on the record component that holds the identifier.</li>
  * </ul>
  *
  * <p>Interfaces and enums cannot be used as entities.</p>

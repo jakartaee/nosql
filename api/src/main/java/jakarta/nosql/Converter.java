@@ -53,6 +53,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @Entity
  * public class Customer {
  *
+ *     @Id
+ *     private Long id;
+ *
  *     // EmailConverter is applied automatically
  *     private Email email;
  * }
@@ -80,6 +83,9 @@ public @interface Converter {
      * @Entity
      * public class Person {
      *
+     *     @Id
+     *     private Long id;
+     *
      *     // UUIDConverter is applied automatically
      *     private UUID identifier;
      * }
@@ -97,6 +103,9 @@ public @interface Converter {
      *
      * @Entity
      * public class Person {
+     *
+     *     @Id
+     *     private Long id;
      *
      *     @Convert(UUIDConverter.class)
      *     private UUID identifier;

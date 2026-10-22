@@ -37,6 +37,8 @@ import java.lang.annotation.Target;
  * @Entity
  * @DiscriminatorValue("Mammal")
  * public class Animal {
+ *     @Id
+ *     private Long id;
  *     // Animal-specific fields and methods
  * }
  *

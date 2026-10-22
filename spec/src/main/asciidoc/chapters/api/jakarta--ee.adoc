@@ -7,7 +7,7 @@ Jakarta NoSQL providers play a crucial role in the ecosystem by interpreting the
 
 By adhering to these rules, Jakarta NoSQL providers ensure seamless integration with the application via dependency injection. This integration allows developers to access the functionality provided by the Template interfaces without concerning themselves with the underlying database implementation details.
 
-The Jakarta NoSQL specification sets clear guidelines for Jakarta NoSQL providers, ensuring consistency and compatibility across different providers. These rules enable multiple Jakarta Data providers to coexist within a system without interfering or overlapping at the same injection points. This level of standardization fosters interoperability and flexibility, empowering developers to choose the provider that best suits their project requirements.
+The Jakarta NoSQL specification sets clear guidelines for Jakarta NoSQL providers, ensuring consistency and compatibility across different providers. These rules enable multiple Jakarta NoSQL providers to coexist within a system without interfering or overlapping at the same injection points. This level of standardization fosters interoperability and flexibility, empowering developers to choose the provider that best suits their project requirements.
 
 === Configuration and Credentials
 
@@ -98,7 +98,7 @@ Thus, the implementation is eligible for injection to unqualified injection poin
 
 NOTE: This specification does not restrict the scope of the template implementation bean.
 
-==== CDI Extensions for Jakarta Data Providers
+==== CDI Extensions for Jakarta NoSQL Providers
 
 In environments where CDI Full or CDI Lite is available, Jakarta NoSQL providers can leverage CDI extensions to enhance the integration and discovery of entities or implementations. While Jakarta NoSQL does not prescribe a specific type of CDI extension, it does require Jakarta NoSQL providers to ensure that template implementations are injected into appropriate injection points, typically interfaces, without additional qualifiers.
 
@@ -184,21 +184,23 @@ By integrating Jakarta Query, Jakarta NoSQL enables expressive, declarative, and
 
 While Jakarta NoSQL offers a unified query interface based on Jakarta Common Query Language (JCQL), the actual query behavior and supported operations may vary across NoSQL database types. These limitations reflect fundamental differences in how each data model handles access, indexing, and consistency.
 
-The following guidelines describe expected behaviors by NoSQL category:
+Jakarta NoSQL targets six database models: key-value, column, time series, vector, document, and graph. The following guidelines describe expected behaviors by NoSQL category. They are not exhaustive, and the capabilities of a specific database or provider may differ from what is described for its category.
+
+Entity updates performed with `Template.update(T)` and `Template.update(Iterable<T>)` operate on entity instances identified by their `@jakarta.nosql.Id`. They are distinct from query-based bulk updates, such as the `UPDATE` statements of Jakarta Common Query Language (JCQL) or the fluent `Template.update(Class)` API, which modify the entities matched by filtering conditions.
 
 ===== Key-Value Databases
 
-Key-Value stores provide the most limited query capabilities:
+Key-Value stores are primarily focused on identifier-based access and provide the most limited query capabilities:
 
 - Only equality (`=`) comparisons are typically supported, and only on the primary key (`@jakarta.nosql.Id`).
 - Queries like `FROM Entity WHERE id = :id` are supported.
 - DELETE operations follow the same constraints — only by `@jakarta.nosql.Id`.
-- UPDATE operations are not supported.
-- No filtering is allowed on other fields or attributes.
+- Key-value providers are not required to implement advanced filtering or query-based updates, so these operations may result in an `UnsupportedOperationException`. This does not mean that key-value databases cannot modify existing data; entity-level operations such as `Template.update(T)` are subject to the capabilities of the provider.
+- Filtering on other fields or attributes is typically not available.
 
-===== Wide-Column Databases
+===== Column Databases
 
-Wide-Column stores may offer slightly more flexibility:
+Column (wide-column) stores may offer slightly more flexibility:
 
 - Equality (`=`) on `@jakarta.nosql.Id` is generally supported.
 - Additional filtering on non-ID fields (e.g., `>`, `<`, `IN`) is *optional* and often requires secondary indexes, which may affect performance.
@@ -223,6 +225,10 @@ Graph databases support advanced query patterns and filtering:
 - Support for SELECT, UPDATE, and DELETE varies by provider.
 - Often comparable in flexibility to document databases.
 
+===== Time Series and Vector Databases
+
+Time series and vector databases vary widely in how they store and retrieve data. Jakarta NoSQL does not standardize specialized operations for these models, such as temporal aggregation, downsampling, or similarity search. Providers may offer such capabilities as extensions, and the support for filtering, UPDATE, and DELETE operations is provider-specific.
+
 ===== Other or Custom NoSQL Providers
 
 If a NoSQL database does not fit into the categories above, it **must** support at minimum:
@@ -244,7 +250,7 @@ Since these are generally evaluated at the database level, behavior is not guara
 
 Jakarta NoSQL integrates query execution with Jakarta Mapping metadata. This integration allows Jakarta Common Query Language (JCQL) to resolve attribute names and types based on the annotated Java class structure.
 
-Only classes explicitly annotated with `@jakarta.nosql.Entity` are eligible for use in queries. Fields or constructor parameters must be annotated with either `@jakarta.nosql.Id` or `@jakarta.nosql.Column` to be considered queryable.
+Only classes explicitly annotated with `@jakarta.nosql.Entity` are eligible for use in queries. Every entity must have an identifier mapped with `@jakarta.nosql.Id`. Fields or constructor parameters must be annotated with either `@jakarta.nosql.Id` or `@jakarta.nosql.Column` to be considered queryable.
 
 - Fields or parameters *without* these annotations are ignored during both query parsing and result mapping.
 - This mapping model applies consistently to both traditional classes and Java `record` types.
