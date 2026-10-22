@@ -30,6 +30,18 @@
  * manager.deleteByKey("user:10");
  * }</pre>
  *
+ * <p>A {@link jakarta.nosql.communication.record.RecordManagerFactory} is the
+ * entry point to obtain {@code RecordManager} instances:</p>
+ *
+ * <pre>{@code
+ * RecordManagerFactory factory = ...;
+ *
+ * RecordManager<MyRecord> manager =
+ *         factory.get("products");
+ *
+ * MyRecord persisted = manager.insert(record);
+ * }</pre>
+ *
  * <p>This model intentionally avoids queries, graph traversal, similarity
  * search, time-series range operations, and other database-specific
  * capabilities. Providers define their own record representations and may
