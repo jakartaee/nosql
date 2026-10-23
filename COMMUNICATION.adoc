@@ -23,8 +23,8 @@ The key-value communication model represents interaction with NoSQL databases ba
 
 [source,java]
 ----
-BucketManagerFactory factory = ...
-BucketManager manager = factory.get("users");
+KeyValueManagerFactory factory = ...
+KeyValueManager manager = factory.get("users");
 KeyValueRecord record = ...
 
 manager.put(record);
@@ -32,86 +32,18 @@ Optional<KeyValueRecord> result = manager.findByKey("user:10");
 manager.deleteByKey("user:10");
 ----
 
-== Document
+== Record
 
-The document communication model represents interaction with NoSQL databases based on hierarchical and nested document structures.
+The record communication model is a database-neutral foundation for record-oriented databases, such as column, document, graph, time-series, and vector databases. It provides insertion, update, lookup, and deletion by key. Providers define their own record representations.
 
 [source,java]
 ----
-DocumentManagerFactory factory = ...
-DocumentManager manager = factory.get("users");
-DocumentRecord record = ...
+RecordManager<MyRecord> manager = ...
+MyRecord record = ...
 
-manager.put(record);
-Optional<DocumentRecord> result = manager.findByKey("user:10");
+manager.insert(record);
+Optional<MyRecord> result = manager.findByKey("user:10");
 manager.deleteByKey("user:10");
 ----
 
-
-Document records expose document elements through named structures.
-
-[source,java]
-----
-DocumentRecord record = ...
-Optional<String> name = record.get("name");
-----
-
-== Column
-
-The column-family communication model represents interaction with NoSQL databases based on sparse and partition-oriented column structures.
-
-[source,java]
-----
-ColumnManagerFactory factory = ...
-ColumnManager manager = factory.get("users");
-ColumnRecord record = ...
-
-manager.put(record);
-Optional<ColumnRecord> result = manager.findByKey("user:10");
-manager.deleteByKey("user:10");
-----
-
-Column records expose sparse collections of columns associated with a logical record structure.
-
-[source,java]
-----
-ColumnRecord record = ...
-Optional<String> name = record.get("name");
-----
-
-== Graph
-
-The graph communication model represents interaction with graph-oriented NoSQL databases based on connected structures composed of vertices, edges, and properties.
-
-[source,java]
-----
-GraphManagerFactory factory = ...
-GraphManager manager = factory.get("social");
-Vertex vertex = ...
-
-manager.put(vertex);
-Optional<Vertex> result = manager.findVertexById("user:10");
-manager.deleteVertexById("user:10");
-----
-
-Edges represent relationships between vertices according to the semantics of the underlying database implementation.
-
-[source,java]
-----
-Edge edge = ...
-
-String type = edge.type();
-String source = edge.source();
-String target = edge.target();
-----
-
-=== Maven dependency
-
-[source,xml]
-----
-<dependency>
-    <groupId>jakarta.nosql</groupId>
-    <artifactId>jakarta.nosql.communication-api</artifactId>
-    <version>1.1.0-M3</version>
-</dependency>
-----
+Specialized communication models may be introduced in future versions.

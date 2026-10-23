@@ -15,7 +15,7 @@
  */
 package jakarta.nosql.communication.keyvalue;
 
-import jakarta.nosql.communication.RecordManager;
+import jakarta.nosql.communication.record.RecordManager;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -24,7 +24,7 @@ import java.util.Optional;
  * Defines the communication contract for interacting with
  * key-value databases.
  *
- * <p>A {@code BucketManager} specializes {@link RecordManager}
+ * <p>A {@code KeyValueManager} specializes {@link RecordManager}
  * for {@link KeyValueRecord} instances, providing lifecycle
  * operations aligned with key-value storage semantics.</p>
  *
@@ -42,7 +42,7 @@ import java.util.Optional;
  * provider-specific serialization strategies, or eventual consistency
  * models.</p>
  */
-public interface BucketManager extends RecordManager<KeyValueRecord> {
+public interface KeyValueManager extends RecordManager<KeyValueRecord> {
 
     /**
      * Returns the bucket associated with this manager when supported
@@ -59,7 +59,7 @@ public interface BucketManager extends RecordManager<KeyValueRecord> {
      * by the underlying database implementation.</p>
      *
      * <pre>{@code
-     * BucketManager manager = ...
+     * KeyValueManager manager = ...
      *
      * manager.bucket()
      *         .ifPresent(System.out::println);
@@ -94,7 +94,7 @@ public interface BucketManager extends RecordManager<KeyValueRecord> {
      * <pre>{@code
      * KeyValueRecord record = ...
      *
-     * BucketManager manager = ...
+     * KeyValueManager manager = ...
      * KeyValueRecord stored = manager.put(record);
      * }</pre>
      *
@@ -134,7 +134,7 @@ public interface BucketManager extends RecordManager<KeyValueRecord> {
      * <pre>{@code
      * KeyValueRecord record = ...
      *
-     * BucketManager manager = ...
+     * KeyValueManager manager = ...
      *
      * KeyValueRecord stored =
      *         manager.put(record, Duration.ofMinutes(10));

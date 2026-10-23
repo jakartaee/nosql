@@ -13,7 +13,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-package jakarta.nosql.communication;
+package jakarta.nosql.communication.record;
+
+import jakarta.nosql.communication.Record;
 
 import java.util.Optional;
 
@@ -23,18 +25,23 @@ import java.util.Optional;
  *
  * <p>A {@code RecordManager} provides basic lifecycle operations for
  * interacting with records, including insertion, update, retrieval,
- * and deletion. This interface represents the common operational
- * foundation shared across NoSQL database models.</p>
+ * and deletion. It is the database-neutral foundation for record-oriented
+ * databases such as column, document, graph, time-series, and vector
+ * databases.</p>
  *
  * <p>The visibility, durability, consistency, and execution timing of
  * operations defined by this interface are determined by the underlying
  * database implementation.</p>
  *
  * <p>The Communication API is intentionally minimal and does not define
- * query languages, traversal semantics, aggregation models, or other
- * database-specific capabilities. Specialized communication models may
- * extend this interface to provide additional behaviors according to
- * the characteristics of the underlying database.</p>
+ * query languages, traversal semantics, similarity search, range queries,
+ * aggregation models, or other database-specific capabilities. Providers may
+ * expose such capabilities through their own extensions.</p>
+ *
+ * <p>This interface does not define a {@code put} operation, because
+ * replace-or-insert semantics cannot be defined consistently across
+ * record-oriented databases. Key-value databases define it in
+ * {@link jakarta.nosql.communication.keyvalue.KeyValueManager}.</p>
  *
  * <p>Implementations are expected to preserve the native behavior and
  * semantics of the target NoSQL database.</p>
