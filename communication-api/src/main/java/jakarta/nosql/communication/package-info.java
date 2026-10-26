@@ -17,6 +17,12 @@
 /**
  * Provides the Communication API for Jakarta NoSQL.
  *
+ * <p>The Communication API provides optional contracts for NoSQL database
+ * integration, intended primarily for database providers. Jakarta NoSQL
+ * implementations are not required to provide Communication API support to
+ * achieve specification compatibility; the Mapping API is the primary
+ * programming model.</p>
+ *
  * <p>The Communication API defines a minimal and extensible
  * foundation for interacting with NoSQL databases while
  * preserving the native semantics and operational behavior
