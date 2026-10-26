@@ -28,9 +28,9 @@
  * behavior of key-value databases:</p>
  *
  * <pre>{@code
- * BucketManagerFactory factory = ...
+ * KeyValueManagerFactory factory = ...
  *
- * BucketManager manager = factory.get("users");
+ * KeyValueManager manager = factory.get("users");
  *
  * KeyValueRecord record = ...
  *

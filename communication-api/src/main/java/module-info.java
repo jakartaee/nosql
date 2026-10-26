@@ -30,19 +30,17 @@
  *
  * <p>The APIs exposed by this module are designed to support
  * extensibility, provider neutrality, and interoperability
- * across different NoSQL communication models.</p>
+ * across the key-value and record communication models.</p>
  *
  * <p>Provider implementations may support capabilities such
  * as distributed replication, eventual consistency,
  * partitioning, batching optimizations,
  * provider-defined serialization strategies,
- * graph connectivity semantics, or provider-specific
+ * or provider-specific
  * communication behaviors.</p>
  */
 module jakarta.nosql.communication {
     exports jakarta.nosql.communication;
-    exports jakarta.nosql.communication.document;
     exports jakarta.nosql.communication.keyvalue;
-    exports jakarta.nosql.communication.column;
-    exports jakarta.nosql.communication.graph;
+    exports jakarta.nosql.communication.record;
 }
