@@ -3,6 +3,8 @@
 
 == Communication API
 
+The Communication API is optional and intended primarily for database-provider integration. Jakarta NoSQL implementations are not required to provide it to achieve specification compatibility; the Mapping API remains the primary programming model.
+
 The Communication API defines a minimal and extensible foundation for interacting with NoSQL databases while preserving the native semantics and operational behavior of the underlying database implementation.
 
 The API focuses on low-level lifecycle operations such as storing, retrieving, replacing, and removing data structures according to the capabilities and characteristics of the target database.
