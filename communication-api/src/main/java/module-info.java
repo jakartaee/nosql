@@ -17,6 +17,10 @@
 /**
  * Defines the Jakarta NoSQL Communication API module.
  *
+ * <p>This module is optional: Jakarta NoSQL implementations are not required
+ * to provide Communication API support to achieve specification
+ * compatibility.</p>
+ *
  * <p>This module provides a minimal and extensible
  * communication foundation for interacting with NoSQL
  * databases while preserving the native semantics and

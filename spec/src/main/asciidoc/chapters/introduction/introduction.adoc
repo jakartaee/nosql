@@ -38,6 +38,18 @@ While Jakarta NoSQL aims to enhance productivity and simplify integration with N
 
 3. **Replacing Database-specific Features**: Jakarta NoSQL does not intend to remove all database-specific features provided by individual NoSQL databases. While it offers a standard set of APIs and annotations, developers may still need to leverage database-specific features directly for certain advanced use cases.
 
+=== Optional Communication API
+
+The Jakarta NoSQL Mapping API (entities, annotations, and `Template`) is the primary and required programming model of this specification.
+
+The Jakarta NoSQL Communication API defines optional contracts intended primarily for database-provider integration. Jakarta NoSQL implementations are not required to implement or expose the Communication API to achieve specification compatibility. Implementations may provide Communication API support according to their capabilities, and its absence does not affect compliance with the required Mapping API contracts.
+
+=== Compatibility Testing
+
+The Jakarta NoSQL 1.1 TCK focuses on the required Mapping API contracts. Dedicated compatibility tests for the optional Communication API are not planned for this release. Implementations must not be considered incompatible solely because they do not support the Communication API.
+
+NOTE: The absence of dedicated Communication API tests is a proposed TCK coverage policy. It remains subject to the applicable Eclipse Foundation Specification Process and Jakarta EE Specification Committee approval, and is distinct from the optionality of the Communication API stated above.
+
 === Conventions
 
 Throughout the Jakarta NoSQL specification, the terms "entity attribute" and "entity property" are used interchangeably to refer to the fields or properties defined within an entity class.

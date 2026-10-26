@@ -207,7 +207,7 @@ Optional<BudgetCar> result = template.typedQuery("WHERE price < 100", BudgetCar.
 
 === Communication API
 
-The Communication API provides a low-level interface for interacting with NoSQL databases, allowing developers to perform operations directly on the underlying data structures.
+The Mapping API (entities, annotations, and `Template`) is the primary Jakarta NoSQL programming model. The Communication API is optional and intended primarily for database-provider integration; implementations are not required to provide it to be compatible with the specification. It provides a low-level interface for interacting with NoSQL databases, allowing operations directly on the underlying data structures.
 It defines two foundational models: Key-Value (`jakarta.nosql.communication.keyvalue`), based on keys and values with optional TTL, and Record (`jakarta.nosql.communication.record`), a database-neutral model for column, document, graph, time-series, and vector databases. Specialized capabilities may be introduced in future versions.
 
 [source,java]
