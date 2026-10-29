@@ -184,7 +184,7 @@ By integrating Jakarta Query, Jakarta NoSQL enables expressive, declarative, and
 
 While Jakarta NoSQL offers a unified query interface based on Jakarta Common Query Language (JCQL), the actual query behavior and supported operations may vary across NoSQL database types. These limitations reflect fundamental differences in how each data model handles access, indexing, and consistency.
 
-Jakarta NoSQL targets six database models: key-value, column, time series, vector, document, and graph. The following guidelines describe expected behaviors by NoSQL category. They are not exhaustive, and the capabilities of a specific database or provider may differ from what is described for its category.
+The database models addressed by Jakarta NoSQL, which are not an exhaustive list, are introduced in <<NoSQL Database Models>>. The following guidelines describe expected query behaviors for the models currently addressed. They are not exhaustive, and the capabilities of a specific database or provider may differ from what is described for its category.
 
 Entity updates performed with `Template.update(T)` and `Template.update(Iterable<T>)` operate on entity instances identified by their `@jakarta.nosql.Id`. They are distinct from query-based bulk updates, such as the `UPDATE` statements of Jakarta Common Query Language (JCQL) or the fluent `Template.update(Class)` API, which modify the entities matched by filtering conditions.
 
@@ -225,9 +225,17 @@ Graph databases support advanced query patterns and filtering:
 - Support for SELECT, UPDATE, and DELETE varies by provider.
 - Often comparable in flexibility to document databases.
 
-===== Time Series and Vector Databases
+===== Time Series Databases
 
-Time series and vector databases vary widely in how they store and retrieve data. Jakarta NoSQL does not standardize specialized operations for these models, such as temporal aggregation, downsampling, or similarity search. Providers may offer such capabilities as extensions, and the support for filtering, UPDATE, and DELETE operations is provider-specific.
+Time series databases are designed to store and retrieve data associated with time. Providers may impose additional constraints on entity identifiers, such as requiring the attribute annotated with `@Id` to use a supported temporal type from the Java Date and Time API.
+
+Jakarta NoSQL does not standardize specialized temporal operations, such as retrieving the latest observations, temporal aggregation, or downsampling. Providers may expose these capabilities through extensions. Support for filtering, UPDATE, and DELETE operations is provider-specific.
+
+===== Vector Databases
+
+Vector databases support the storage and retrieval of vector-based data. Providers may define their own vector representations, including dense, sparse, and multi-vector structures, according to their underlying database capabilities.
+
+Jakarta NoSQL does not standardize vector representations or specialized operations such as similarity search and nearest-neighbor retrieval. Providers may expose these capabilities through extensions. Support for filtering, UPDATE, and DELETE operations is provider-specific.
 
 ===== Other or Custom NoSQL Providers
 

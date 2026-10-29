@@ -70,7 +70,7 @@ A programming model might place constraints on the visibility of persistent fiel
 
 Jakarta NoSQL distinguishes three kinds of persistent field within entity classes.
 
-- A _basic field_ holds a value belonging to some fundamental data type supported natively by the Jakarta NoSQL Provider. Support for the set of basic types enumerated in the next section below is mandatory for all Jakarta NoSQL providers.
+- A _basic field_ holds a value belonging to some fundamental data type supported by the Jakarta NoSQL Provider. Support for the set of basic types enumerated in the next section below is mandatory for all Jakarta NoSQL providers, either through native database types or through conversion performed by the provider's mapping layer.
 - An _embedded field_ allows the inclusion of the state of a finer-grained Java class within the state of an entity. The type of an embedded field is often a user-written Java class. Support for embedded fields varies depending on the Jakarta NoSQL provider and the database type.
 - An _association field_ implements an association between entity types. Support for association fields varies depending on the Jakarta NoSQL provider and the database type.
 
@@ -505,7 +505,7 @@ public class BucketList {
 
 The entity class will behave as an embeddable *grouping* class. This support may vary among NoSQL providers and might require a UDT name presentation in the case of embeddable or entity.
 
-For key-value databases, the serialization will occur through a unique blob, a process outside the scope of the Jakarta NoSQL specification.
+For key-value databases, a provider may serialize the whole entity as a single value; this mechanism is provider-defined and outside the scope of the Jakarta NoSQL specification.
 
 [source,java]
 ----
