@@ -6,7 +6,7 @@ image::jakarta_ee_logo_schooner_color_stacked_default.png[Jakarta NoSQL logo,ali
 
 == Introduction
 
-Jakarta NoSQL is a comprehensive framework designed to simplify the integration of Java applications with various NoSQL databases. By providing a unified API and a set of powerful annotations, Jakarta NoSQL enables developers to seamlessly work with different NoSQL data stores while maintaining flexibility and productivity.
+Jakarta NoSQL is a Jakarta EE specification that defines APIs and contracts to simplify the integration of Java applications with various NoSQL databases. By providing a unified API and a set of powerful annotations, Jakarta NoSQL enables developers to seamlessly work with different NoSQL data stores while maintaining flexibility and productivity.
 
 == Goals
 
@@ -16,9 +16,9 @@ Jakarta NoSQL is a comprehensive framework designed to simplify the integration 
 * It is designed to work with various NoSQL databases and can quickly adapt to support new types and behaviors through extensions.
 * Annotation-oriented using Jakarta Persistence-like naming when it makes sense.
 
-== One Mapping API to Multiples NoSQL Databases
+== One Mapping API to Multiple NoSQL Databases
 
-Jakarta NoSQL provides a common Mapping API for the key-value, column, time series, vector, document, and graph database models. It incorporates the same annotations from the Jakarta Persistence specification and heritage Java Persistence Architecture (JPA) to map Java objects. Therefore, with just these annotations that look like Jakarta Persistence, there is support for more than twenty NoSQL databases. The capabilities available at runtime, such as querying, inheritance, or time-to-live, vary by database model and provider.
+Jakarta NoSQL provides a common Mapping API for different NoSQL database models, including key-value, column, document, graph, time series, and vector databases. It incorporates the same annotations from the Jakarta Persistence specification and heritage Java Persistence Architecture (JPA) to map Java objects. Therefore, with just these annotations that look like Jakarta Persistence, implementations such as Eclipse JNoSQL support more than twenty NoSQL databases. The capabilities available at runtime, such as querying, inheritance, or time-to-live, vary by database model and provider.
 
 [source,java]
 ----
