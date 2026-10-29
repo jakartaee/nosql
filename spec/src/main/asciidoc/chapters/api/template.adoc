@@ -127,7 +127,7 @@ The fluent API query offers a wide range of supported methods through the `Query
 
 However, it's essential to consider that the availability of certain query methods may vary depending on the specific NoSQL database being used. NoSQL databases that do not support certain operations can raise `UnsupportedOperationException`.
 
-Attempting to use unsupported operations with the fluent API query may result in runtime exceptions or unexpected behavior. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
+An operation that the provider does not support is reported with an `UnsupportedOperationException`, as specified by the corresponding `Template` and `QueryMapper` methods. This is distinct from a supported query that matches no entities, which returns an empty result. An unsupported operation is not a valid query that matches no entities, and an empty result is not a substitute for reporting it. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
 
 ==== Query Navigation Hierarchy
 
@@ -186,7 +186,7 @@ This query navigation hierarchy enables developers to construct complex queries 
 
 `Template.update(T)` and `Template.update(Iterable<T>)` are intended to modify entities that already exist in the database. They are not upserts: portable applications should not rely on a missing entity being created or on any particular result for it. Databases that do not distinguish between inserting and updating, such as those that use an append or overwrite write model, may write the entity as `insert` would; this is a provider-specific limitation. When the database distinguishes updates from inserts, non-matching entities are ignored without raising an error.
 
-An entity may carry version metadata, for example an attribute named `version`. When the provider supports optimistic versioning, for example through provider-supported conditional updates, the version must also match and is incremented automatically on update. Not every database offers native conditional writes or atomic operations, so optimistic locking is not a guarantee across all database models. This specification does not define a version annotation.
+Optimistic versioning is provider-dependent. This specification does not define a version annotation, and an attribute named `version` does not by itself enable optimistic locking in every provider. A provider may detect version metadata through its own annotation or entity-model convention. When the provider supports optimistic versioning, for example through provider-supported conditional updates, it may require the version to match and may increment it on update. Not every database offers native conditional writes or atomic operations, so optimistic locking is not a guarantee across all database models.
 
 === TTL (Time-To-Live) Support
 
