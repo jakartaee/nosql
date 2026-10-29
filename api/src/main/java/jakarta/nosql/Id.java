@@ -24,19 +24,13 @@ import java.lang.annotation.Target;
 /**
  * Identifies the primary key of an entity.
  * Specifies the mapped field of an entity as the entity’s ID, or the Key in Key-Value databases.
- * The supported identifier types and any additional constraints depend on the database model and the provider.
- * For example, a time-series provider may require a temporal identifier using a supported Java date/time type,
- * and a vector provider may impose its own restrictions. No particular identifier type is universally required.
- * Identifiers are expected to use the basic types defined by the Jakarta NoSQL specification, for example:
- * <ul>
- * <li>any Java primitive type;</li>
- * <li>any primitive wrapper type;</li>
- * <li>{@link String};</li>
- * <li>{@link java.util.UUID};</li>
- * <li>{@link java.math.BigDecimal};</li>
- * <li>{@link java.math.BigInteger}.</li>
- * </ul>
- * Or it uses the {@link Convert} to convert the type to a supported type.
+ * <p>
+ * The identifier type should be one of the basic types defined by the Jakarta NoSQL specification, or
+ * a type converted through {@link Convert}. Supported identifier types and any additional constraints
+ * depend on the database model and the provider. For example, a time-series provider may require a temporal
+ * identifier using a supported Java date/time type, and a vector provider may impose its own restrictions.
+ * No particular identifier type is universally required.
+ * </p>
  * <p>
  * The mapped column for the primary key of the entity is assumed
  * to be the primary key of the database structure.
