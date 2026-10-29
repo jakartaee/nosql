@@ -247,12 +247,12 @@ public interface Template {
      * As a provider-specific limitation, databases that do not distinguish between inserting and updating, such as
      * those that use an append or overwrite write model, may write the entity as the {@link #insert} method would.</p>
      *
-     * <p>If the entity is versioned (for example, with an annotation or by
-     * another convention from the entity model such as having an attribute named {@code version}),
-     * the version is entity metadata. When the provider supports optimistic versioning, for example through
-     * provider-supported conditional updates, the version must also match and is automatically incremented when
-     * making the update. Not every database offers native conditional writes or atomic operations, so optimistic
-     * locking is not a guarantee across all database models.</p>
+     * <p>Optimistic versioning is provider-dependent. Jakarta NoSQL does not define a version annotation, and
+     * an attribute named {@code version} does not by itself enable optimistic locking. A provider may detect
+     * version metadata through its own annotation or entity-model convention. When the provider supports optimistic
+     * versioning, for example through provider-supported conditional updates, it may require the version to match
+     * and may increment it when making the update. Not every database offers native conditional writes or atomic
+     * operations, so optimistic locking is not a guarantee across all database models.</p>
      *
      * <p>When the database distinguishes updates from inserts, non-matching entities are ignored and do not cause an error to be raised.</p>
      * <pre>{@code
@@ -284,12 +284,12 @@ public interface Template {
      * As a provider-specific limitation, databases that do not distinguish between inserting and updating, such as
      * those that use an append or overwrite write model, may write the entity as the {@link #insert(Iterable)} method would.</p>
      *
-     * <p>If the entity is versioned (for example, with an annotation or by
-     * another convention from the entity model such as having an attribute named {@code version}),
-     * the version is entity metadata. When the provider supports optimistic versioning, for example through
-     * provider-supported conditional updates, the version must also match and is automatically incremented when
-     * making the update. Not every database offers native conditional writes or atomic operations, so optimistic
-     * locking is not a guarantee across all database models.</p>
+     * <p>Optimistic versioning is provider-dependent. Jakarta NoSQL does not define a version annotation, and
+     * an attribute named {@code version} does not by itself enable optimistic locking. A provider may detect
+     * version metadata through its own annotation or entity-model convention. When the provider supports optimistic
+     * versioning, for example through provider-supported conditional updates, it may require the version to match
+     * and may increment it when making the update. Not every database offers native conditional writes or atomic
+     * operations, so optimistic locking is not a guarantee across all database models.</p>
      *
      * <p>When the database distinguishes updates from inserts, non-matching entities are ignored and do not cause an error to be raised.</p>
      * <pre>{@code
@@ -313,9 +313,9 @@ public interface Template {
 
     /**
      * Deletes a given entity. Deletion is performed by matching the Id, and if
-     * the entity is versioned (for example, with a provider-supported version annotation or by
-     * a convention of the entity model) and the provider supports optimistic versioning, then also the
-     * version. Other attributes of the entity do not need to match.
+     * the provider detects version metadata (for example, through a provider-supported annotation or
+     * convention) and supports optimistic versioning, then the provider may also require the
+     * version to match. Other attributes of the entity do not need to match.
      * <pre>{@code
      * @Inject
      * Template template;
