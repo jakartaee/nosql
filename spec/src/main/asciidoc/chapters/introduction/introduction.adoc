@@ -38,6 +38,121 @@ While Jakarta NoSQL aims to enhance productivity and simplify integration with N
 
 3. **Replacing Database-specific Features**: Jakarta NoSQL does not intend to remove all database-specific features provided by individual NoSQL databases. While it offers a standard set of APIs and annotations, developers may still need to leverage database-specific features directly for certain advanced use cases.
 
+=== NoSQL Database Models
+
+Jakarta NoSQL provides common Mapping abstractions for different NoSQL database models, including key-value, column, document, graph, time series, and vector databases.
+
+These models do not constitute an exhaustive list. Providers may support additional database models and expose specialized capabilities beyond the common Mapping API. A provider is not required to support every model, and not every operation applies to every model.
+
+The following examples illustrate possible entity mappings. Database-specific capabilities and restrictions may vary according to the provider.
+
+==== Key-Value Databases
+
+Key-value databases access entities through keys and may serialize the entire entity as a value. The serialization mechanism is provider-defined, so `@Column` is not required on every serialized attribute and no particular format is prescribed.
+
+[source,java]
+----
+@Entity
+public class Session {
+
+    @Id
+    private String id;
+
+    private String username;
+}
+----
+
+==== Column Databases
+
+Column databases organize data using column-oriented structures. The availability of filtering, ordering, and other query capabilities depends on the database and provider.
+
+[source,java]
+----
+@Entity
+public class Customer {
+
+    @Id
+    private String id;
+
+    @Column
+    private String name;
+}
+----
+
+==== Document Databases
+
+Document databases store structured or semi-structured documents, which may include nested attributes and collections.
+
+[source,java]
+----
+@Entity
+public class Customer {
+
+    @Id
+    private String id;
+
+    @Column
+    private Address address;
+}
+----
+
+Here `Address` is an embeddable class, as described in the entity mapping chapter.
+
+==== Graph Databases
+
+Graph databases model data through entities and relationships. Relationship management and traversal are not standardized by Jakarta NoSQL and may be exposed through provider extensions.
+
+[source,java]
+----
+@Entity
+public class Person {
+
+    @Id
+    private String id;
+
+    @Column
+    private String name;
+}
+----
+
+==== Time Series Databases
+
+Time series databases store and retrieve observations associated with time. Providers may impose additional restrictions on identifier types, including temporal representations.
+
+[source,java]
+----
+@Entity
+public class SensorReading {
+
+    @Id
+    private Instant timestamp;
+
+    @Column
+    private double temperature;
+}
+----
+
+`Instant` is illustrative and is not a mandatory identifier type. Specialized temporal operations are not standardized in Jakarta NoSQL 1.1 and may be offered by providers.
+
+==== Vector Databases
+
+Vector databases store numerical representations of data for similarity-based retrieval. Providers may define supported vector representations, including dense, sparse, and multi-vector structures.
+
+[source,java]
+----
+@Entity
+public class Article {
+
+    @Id
+    private String id;
+
+    @Column
+    private Vector embedding;
+}
+----
+
+`Vector` in this example is a provider-defined type, not a Jakarta NoSQL interface. Vector representations and specialized operations such as similarity search are not standardized in Jakarta NoSQL 1.1; providers may offer them through extensions.
+
 === Optional Communication API
 
 The Jakarta NoSQL Mapping API (entities, annotations, and `Template`) is the primary and required programming model of this specification.
