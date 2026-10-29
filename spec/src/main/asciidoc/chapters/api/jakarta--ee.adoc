@@ -227,7 +227,7 @@ Graph databases support advanced query patterns and filtering:
 
 ===== Time Series and Vector Databases
 
-Time series and vector databases vary widely in how they store and retrieve data. Jakarta NoSQL does not standardize specialized operations for these models, such as temporal aggregation, downsampling, or similarity search. Providers may offer such capabilities as extensions, and the support for filtering, UPDATE, and DELETE operations is provider-specific.
+Time series and vector databases vary widely in how they store and retrieve data. Jakarta NoSQL does not standardize specialized operations for these models, such as temporal aggregation, downsampling, or similarity search. Vector providers may support dense, sparse, multi-vector, or other provider-defined representations, and Jakarta NoSQL does not standardize any of them. Providers may offer such capabilities as extensions, and the support for filtering, UPDATE, and DELETE operations is provider-specific.
 
 ===== Other or Custom NoSQL Providers
 
