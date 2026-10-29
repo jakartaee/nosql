@@ -25,7 +25,12 @@ import java.lang.annotation.Target;
  * Declares that the annotated attribute is persistable and maps to a database column or key.
  *
  * <p>This annotation is required to make fields persistable in Jakarta NoSQL.
- * Only attributes explicitly annotated with {@code @Column} will be included in persistence operations.</p>
+ * For database models that map entities attribute by attribute, only attributes explicitly annotated
+ * with {@code @Column} are included in persistence operations.</p>
+ *
+ * <p>Key-value providers may instead serialize the whole entity as a single value. That serialization
+ * mechanism is provider-defined and outside the scope of this specification, so {@code @Column}
+ * does not necessarily control which fields are serialized in that case.</p>
  *
  * <p>If the {@code name} attribute is omitted, the Java attribute name is used as the default mapping target.</p>
  *
@@ -95,7 +100,9 @@ public @interface Column {
      * (Optional) Defines the name of the user-defined type (UDT) used by the NoSQL database for this field.
      * <p>
      * If a NoSQL database supports UDTs, this attribute allows specifying the name of the UDT to be used
-     * for serializing this field. If the database does not support UDTs, this field will be skipped during serialization.
+     * for serializing this field. UDT support, and the behavior when a database or provider does not support UDTs,
+     * are provider-specific; this attribute does not require providers to emulate UDTs, and it does not guarantee
+     * that the field is ignored when UDTs are unsupported. Consult the provider documentation.
      * </p>
      *
      * @return the user-defined type (UDT) name
