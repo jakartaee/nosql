@@ -127,15 +127,13 @@ The fluent API query offers a wide range of supported methods through the `Query
 
 However, it's essential to consider that the availability of certain query methods may vary depending on the specific NoSQL database being used. NoSQL databases that do not support certain operations can raise `UnsupportedOperationException`.
 
-An operation that the provider does not support is reported with an `UnsupportedOperationException`, as specified by the corresponding `Template` and `QueryMapper` methods. This is distinct from a supported query that matches no entities, which returns an empty result. An unsupported operation is not a valid query that matches no entities, and an empty result is not a substitute for reporting it. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
+Providers may reject query operations that the underlying database does not support, with an `UnsupportedOperationException` where the corresponding `Template` and `QueryMapper` methods specify it. A rejected operation is distinct from a supported query that matches no entities, which returns an empty result. Portable applications must account for the capabilities of the chosen provider. Developers should consult the documentation of their chosen NoSQL database to understand its query capabilities and limitations and adjust their application logic accordingly.
 
 ==== Query Navigation Hierarchy
 
-In Jakarta NoSQL, the query navigation hierarchy refers to navigating through the properties of entities and their associated classes when constructing queries. Within an entity, property names must be unique, ignoring cases. For simple entity properties, the field or accessor method name serves as the entity property name. In the case of embedded and association classes, entity property names are computed by concatenating the field or accessor method names at each level, optionally joined by a dot or period, `.`, delimiter.
+In Jakarta NoSQL, the query navigation hierarchy refers to navigating through the properties of entities and their associated classes when constructing queries. Within a given entity or embeddable class, the names of persistent fields must be unique, ignoring cases. For simple entity properties, the field or accessor method name serves as the entity property name.
 
-Within a given entity or embeddable class, names assigned to persistent fields must be unique, ignoring cases.
-
-Furthermore, within the context of a given entity, each persistent field of an embeddable class reachable by navigation from the entity class may be assigned a compound name. The compound name is obtained by concatenating the names assigned to each field traversed by navigation from the entity class to the persistent field of the embedded class, optionally joined by a delimiter.
+For embedded and association classes, each persistent field reachable by navigation from the entity class may be assigned a compound name, obtained by concatenating the field or accessor method names traversed at each level, optionally joined by a dot or period, `.`, delimiter.
 
 For example, consider the following data model:
 
@@ -198,21 +196,21 @@ TTL is an optional capability. Some databases support per-entity expiration, oth
 
 Per-entity TTL is distinct from retention policies configured at the database or collection level, such as those of time series databases, which are not controlled by `Template` and are not equivalent to a TTL passed to an insert operation.
 
-Additionally, some NoSQL providers may have limitations on the granularity of TTL values, such as supporting only TTL values specified in certain units (e.g., hours) or rounding TTL values to the nearest supported unit. In such cases, attempting to set a TTL value that does not align with the provider's limitations may result in unexpected behavior or no TTL being applied.
+Additionally, some NoSQL providers may have limitations on the granularity of TTL values, such as supporting only TTL values specified in certain units (e.g., hours) or rounding TTL values to the nearest supported unit. When a requested TTL does not align with these limitations, the provider may reject the request, round the duration to a supported value, or not apply the TTL.
 
-For example, suppose a NoSQL database only supports TTL values specified in hours. If a developer attempts to set a TTL of 10 seconds, the Jakarta NoSQL provider may throw an UnsupportedOperationException. Similarly, if the developer attempts to set a TTL of 3660 seconds (which is more than one hour), the TTL value may be rounded to the nearest supported unit (i.e., one hour) by the provider.
+For example, suppose a NoSQL database only supports TTL values specified in hours. A provider may throw an `UnsupportedOperationException` for a TTL of 10 seconds. For a TTL of 3660 seconds (slightly more than one hour), a provider may round the value to a supported unit, such as one hour. These outcomes are provider-specific and are not guaranteed.
 
 [source,java]
 ----
 @Inject
 Template template;
 
-// UnsupportedOperationException: TTL granularity not supported
+// A provider that only supports hours may reject this TTL, for example with an UnsupportedOperationException
 template.insert(entity, Duration.ofSeconds(10L));
 
-// Inserting data with a TTL of one hour
+// A TTL of one hour, which a provider that only supports hours can represent
 template.insert(entity, Duration.ofSeconds(3600));
 
-// Inserting data with a TTL of one hour (rounded from 3660 seconds)
+// A provider may round this TTL to a supported unit, such as one hour
 template.insert(entity, Duration.ofSeconds(3660));
 ----
